@@ -1,0 +1,21 @@
+# 依赖与构建产物（clone 后 npm install && npm run build 可重新生成）
+node_modules/
+dist/
+
+# 交付件（Word/PDF）生成过程中的临时目录
+.tmpdoc/
+.docxbuild/
+
+# TypeScript 增量缓存
+*.tsbuildinfo
+
+# 编辑器与系统文件
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# 本地环境变量（不放仓库）
+.env
+.env.local

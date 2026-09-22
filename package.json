@@ -1,0 +1,30 @@
+{
+  "name": "zhutong-demo",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "description": "筑瞳 · 校园建筑健康监测与预警系统 纯前端演示（V0.3 开发中；V0.2 预警事件闭环版已冻结）",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit -p tsconfig.app.json && vite build",
+    "preview": "vite preview --port 4173",
+    "serve": "vite preview --port 4173",
+    "typecheck": "vue-tsc --noEmit -p tsconfig.app.json",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "dexie": "^4.0.11",
+    "pinia": "^2.3.1",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.1",
+    "fake-indexeddb": "^6.2.5",
+    "typescript": "~5.7.3",
+    "vite": "^6.1.0",
+    "vitest": "^5.0.1",
+    "vue-tsc": "^2.2.0"
+  }
+}

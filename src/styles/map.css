@@ -1,0 +1,84 @@
+/**
+ * 平面图公共样式：画布容器、缩放控件、图例、占位框。
+ * 校园图与楼层图共用，避免两套重复的 scoped 样式；各图特有的标记样式留在各自组件内。
+ */
+.map {
+  position: relative;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  background: #fbfcfc;
+  overflow: hidden;
+}
+
+.sheet {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  cursor: grab;
+}
+
+.sheet--panning {
+  cursor: grabbing;
+}
+
+.draft {
+  cursor: move;
+}
+
+.controls {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.controls button {
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-sm);
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--text-2);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.controls button:hover {
+  border-color: var(--brand-500);
+  color: var(--brand-700);
+}
+
+.controls .ctl-reset {
+  height: auto;
+  padding: 4px 0;
+  font-size: 10px;
+  line-height: 1.2;
+}
+
+.legend {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 6px 10px;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  font-size: 11.5px;
+  color: var(--text-2);
+}
+
+.lg {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.lg--hint {
+  color: var(--brand-700);
+}

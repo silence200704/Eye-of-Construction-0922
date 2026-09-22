@@ -1,0 +1,380 @@
+/* 基础样式与共享组件类：表单控件、表格、卡片、标签、布局原语 */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--canvas);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+p {
+  margin: 0;
+}
+
+a {
+  color: var(--brand-600);
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-2);
+  letter-spacing: 0.02em;
+}
+
+.muted {
+  color: var(--text-3);
+}
+
+.dim {
+  color: var(--text-2);
+}
+
+/* ---------- 布局原语 ---------- */
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.row-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.wrap {
+  flex-wrap: wrap;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.spacer {
+  flex: 1;
+}
+
+/* ---------- 卡片 ---------- */
+.card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 18px 20px;
+}
+
+.card--flush {
+  padding: 0;
+  overflow: hidden;
+}
+
+.card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 14px;
+}
+
+.card-title {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+/* 工程图纸感的角标 */
+.card--marked {
+  position: relative;
+}
+
+.card--marked::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 18px;
+  width: 34px;
+  height: 3px;
+  background: var(--brand-600);
+}
+
+/* ---------- KPI ---------- */
+.kpi {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 14px 16px;
+}
+
+.kpi-label {
+  font-size: 12px;
+  color: var(--text-3);
+  letter-spacing: 0.04em;
+}
+
+.kpi-value {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 26px;
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.kpi-foot {
+  font-size: 12px;
+  color: var(--text-2);
+}
+
+/* ---------- 表格 ---------- */
+.tbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.tbl th {
+  text-align: left;
+  font-weight: 500;
+  font-size: 12px;
+  color: var(--text-3);
+  letter-spacing: 0.04em;
+  background: #f7f9fa;
+  border-bottom: 1px solid var(--line);
+  padding: 9px 12px;
+  white-space: nowrap;
+}
+
+.tbl td {
+  border-bottom: 1px solid var(--line);
+  padding: 9px 12px;
+  vertical-align: middle;
+}
+
+.tbl tbody tr:hover {
+  background: var(--brand-050);
+}
+
+.tbl .ta-r {
+  text-align: right;
+}
+
+.tbl .ta-c {
+  text-align: center;
+}
+
+/* 名称类列：给出下限，避免固定列宽合计超出容器时被压成逐字竖排 */
+.tbl .col-main {
+  min-width: 150px;
+}
+
+.tbl-empty {
+  padding: 28px 12px;
+  text-align: center;
+  color: var(--text-3);
+  font-size: 13px;
+}
+
+/* ---------- 标签 ---------- */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 20px;
+  padding: 0 8px;
+  border-radius: 10px;
+  font-size: 11px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.tag-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex: none;
+}
+
+.tag--gray {
+  color: var(--st-gray);
+  background: var(--st-gray-bg);
+}
+
+.tag--brand {
+  color: var(--brand-700);
+  background: var(--brand-050);
+}
+
+.tag--red {
+  color: var(--st-red);
+  background: var(--st-red-bg);
+}
+
+.tag--orange {
+  color: var(--st-orange);
+  background: var(--st-orange-bg);
+}
+
+.tag--yellow {
+  color: var(--st-yellow);
+  background: var(--st-yellow-bg);
+}
+
+.tag--green {
+  color: var(--st-green);
+  background: var(--st-green-bg);
+}
+
+.tag--line {
+  color: var(--text-3);
+  background: transparent;
+  border: 1px solid var(--line-strong);
+}
+
+/* ---------- 说明条 ---------- */
+.notice {
+  display: flex;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--line);
+  background: var(--canvas);
+  font-size: 12.5px;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+
+.notice--brand {
+  border-color: var(--brand-200);
+  background: var(--brand-050);
+  color: var(--brand-700);
+}
+
+.notice--warn {
+  border-color: #f0d9b5;
+  background: var(--st-orange-bg);
+  color: #8a4a04;
+}
+
+.link {
+  color: var(--brand-700);
+  text-decoration: underline;
+  margin-left: 8px;
+}
+
+.notice-title {
+  font-weight: 600;
+  color: inherit;
+}
+
+/* 弹窗内提交失败提示：写库异常必须让用户看见 */
+.submit-error {
+  margin-top: 14px;
+}
+
+/* ---------- 分隔与骨架 ---------- */
+.hr {
+  height: 1px;
+  background: var(--line);
+  border: 0;
+  margin: 0;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 34px 16px;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--r-md);
+  color: var(--text-3);
+  text-align: center;
+}
+
+.empty-title {
+  color: var(--text-2);
+  font-size: 13.5px;
+}
+
+.empty-sub {
+  font-size: 12px;
+}
+
+.scroll-y {
+  overflow-y: auto;
+}
+
+@media (max-width: 1180px) {
+  .grid-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .grid-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 860px) {
+  .grid-2,
+  .grid-3,
+  .grid-4,
+  .form-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

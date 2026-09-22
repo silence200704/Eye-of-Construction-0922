@@ -1,0 +1,100 @@
+/* 表单控件与字段布局：由 FormGrid 与各页面共用 */
+/* ---------- 表单控件 ---------- */
+.ctl {
+  width: 100%;
+  height: var(--h-control);
+  padding: 0 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-sm);
+  background: var(--paper);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 14px;
+  transition: border-color 0.12s ease, box-shadow 0.12s ease;
+}
+
+.ctl:hover:not(:disabled) {
+  border-color: var(--brand-500);
+}
+
+.ctl:focus {
+  outline: none;
+  border-color: var(--brand-600);
+  box-shadow: var(--focus-ring);
+}
+
+.ctl:disabled {
+  background: var(--canvas-deep);
+  color: var(--text-3);
+  cursor: not-allowed;
+}
+
+textarea.ctl {
+  height: auto;
+  padding: 8px 10px;
+  line-height: 1.55;
+  resize: vertical;
+}
+
+select.ctl {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--text-3) 50%),
+    linear-gradient(135deg, var(--text-3) 50%, transparent 50%);
+  background-position: calc(100% - 14px) 14px, calc(100% - 9px) 14px;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 28px;
+}
+
+.ctl--invalid {
+  border-color: var(--st-red);
+}
+
+.ctl--invalid:focus {
+  box-shadow: 0 0 0 3px rgba(192, 54, 44, 0.14);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.field-label {
+  font-size: 12px;
+  color: var(--text-2);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.field-req {
+  color: var(--st-red);
+}
+
+.field-unit {
+  color: var(--text-3);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.field-hint {
+  font-size: 11px;
+  color: var(--text-3);
+  line-height: 1.5;
+}
+
+.field-error {
+  font-size: 12px;
+  color: var(--st-red);
+}
+
+.field--wide {
+  grid-column: 1 / -1;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 16px;
+}

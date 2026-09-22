@@ -1,0 +1,60 @@
+/**
+ * 设计令牌：工程图纸 + 管理控制台。
+ * 状态色严格按方案定义：红=高优先级待处置，橙=其他待核查，黄=关注，
+ * 灰=未接入/数据不可用，绿=正常在线；且所有状态同时配文字与图标，兼顾色弱用户。
+ */
+:root {
+  /* 墨色层：侧栏与深色底 */
+  --ink-950: #091217;
+  --ink-900: #0e1a1f;
+  --ink-800: #152630;
+  --ink-700: #1e333d;
+
+  /* 纸面层 */
+  --paper: #ffffff;
+  --canvas: #f2f5f6;
+  --canvas-deep: #e9eef0;
+
+  /* 品牌青（仪器感，非通用后台蓝） */
+  --brand-700: #0b5762;
+  --brand-600: #0f6e7c;
+  --brand-500: #148695;
+  --brand-200: #b6dbe0;
+  --brand-050: #eaf5f7;
+
+  /* 描边与文字 */
+  --line: #dfe5e8;
+  --line-strong: #c6d1d6;
+  --text: #16232a;
+  --text-2: #5a6b73;
+  --text-3: #8b9aa1;
+
+  /* 业务状态色 */
+  --st-red: #c0362c;
+  --st-red-bg: #fbeceb;
+  --st-orange: #c96a06;
+  --st-orange-bg: #fdf1e3;
+  --st-yellow: #96760c;
+  --st-yellow-bg: #fbf5df;
+  --st-green: #1e7a54;
+  --st-green-bg: #e7f4ee;
+  --st-gray: #6e7d85;
+  --st-gray-bg: #eef1f3;
+
+  /* 尺寸 */
+  --r-sm: 4px;
+  --r-md: 6px;
+  --r-lg: 10px;
+  --h-control: 34px;
+  --h-control-sm: 28px;
+  --sidebar-w: 216px;
+  --topbar-h: 56px;
+
+  /* 字体 */
+  --font-sans: "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei UI", "Microsoft YaHei",
+    "Source Han Sans SC", "Noto Sans CJK SC", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "Cascadia Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+
+  --shadow-pop: 0 12px 32px rgba(9, 18, 23, 0.16);
+  --focus-ring: 0 0 0 3px rgba(20, 134, 149, 0.18);
+}
