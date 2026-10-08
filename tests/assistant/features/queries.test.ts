@@ -40,7 +40,7 @@ describe('比较、时间范围与只读试算', () => {
     expect(result.intent).toBe('rule_simulate')
     expect(result.status).toBe('answered')
     expect(result.facts.some(f => f.label === '等级变化' && Number(f.value) >= 1)).toBe(true)
-    expect(JSON.stringify(await Promise.all(tables.map(t => t.toArray()))))).toBe(before)
+    expect(JSON.stringify(await Promise.all(tables.map(t => t.toArray())))).toBe(before)
     expect(h.clock.nowKey).toBe(NOW)
   })
 })
