@@ -2,9 +2,16 @@
  * V0.3 编号规则测试：ISS/WO/TK/PLAN 按本地日期 + 当日序号递增，作废不复用。
  */
 import { describe, expect, it } from 'vitest'
-import { nfcLabelOf, nextDatedNo, nextIssueNo, nextPlanCode, nextTaskNo, nextWorkOrderNo } from '@/core/id'
+import { isoDayKey, nfcLabelOf, nextDatedNo, nextIssueNo, nextPlanCode, nextTaskNo, nextWorkOrderNo } from '@/core/id'
+import { dayKey } from '@/core/time'
 
 describe('业务编号按日期递增', () => {
+  it('UTC 跨日输入仍按本地当天编号，不与界面当天口径分叉', () => {
+    for (const at of ['2026-09-29T16:30:00.000Z', '2026-09-30T00:30:00.000Z']) {
+      expect(isoDayKey(at)).toBe(dayKey(at))
+    }
+  })
+
   it('当天没有编号时从 001 开始', () => {
     expect(nextIssueNo('20260920', [])).toBe('ISS-20260920-001')
     expect(nextWorkOrderNo('20260920', [])).toBe('WO-20260920-001')

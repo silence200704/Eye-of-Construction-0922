@@ -1,6 +1,6 @@
 /** 内部主键与业务编号生成，保证刷新后不重复、可读可追溯。 */
 import type { Building, Device, MonitorRecord, Point, PointType } from '@/types/domain'
-import { nowIso } from './time'
+import { dayKey, nowIso } from './time'
 
 let seq = 0
 
@@ -74,15 +74,13 @@ export function nextRecordNo(dayKey: string, existing: MonitorRecord[]): string 
 }
 
 /**
- * 业务编号用的日期键（YYYYMMDD）：取 ISO 串的日期部分，不按浏览器时区换算。
- *
- * 与 `core/time.dayKey()` 的区别是刻意的：dayKey 按本地时区解释采样时刻，用于"当天"这类业务判断；
- * 编号前缀取记录自带的日期字段，同一份数据换个时区打开算出的编号不会变，也就不会出现
- * "同一份备份在两台机器上算出不同编号"。空值回退到当前时刻，避免生成 "ISS--001" 这种残号。
+ * 业务编号用的日期键（YYYYMMDD）。历史函数名保留兼容调用方；
+ * 输入虽然是 UTC ISO，编号的“当天”必须与界面 `todayInput()` 一样按本地日期解释。
+ * 否则上海时间 00:00–08:00 会把新建计划/工单编成前一天。
+ * 空值回退到当前时刻，避免生成 "ISS--001" 这种残号。
  */
 export function isoDayKey(at: string): string {
-  const key = at.slice(0, 10).replace(/-/g, '')
-  return key === '' ? nowIso().slice(0, 10).replace(/-/g, '') : key
+  return dayKey(at === '' ? nowIso() : at)
 }
 
 /**
@@ -107,6 +105,18 @@ export function nextWorkOrderNo(dayKey: string, existing: string[]): string {
 /** 巡检任务编号 TK-YYYYMMDD-001 */
 export function nextTaskNo(dayKey: string, existing: string[]): string {
   return nextDatedNo('TK', dayKey, existing)
+}
+
+/**
+ * 保养计划编号 MP-YYYYMMDD-001 与保养任务编号 MT-YYYYMMDD-001。
+ * 与巡检同一条规则：序号取当日最大值 +1，作废不复用。
+ */
+export function nextMaintenancePlanCode(dayKey: string, existing: string[]): string {
+  return nextDatedNo('MP', dayKey, existing)
+}
+
+export function nextMaintenanceTaskNo(dayKey: string, existing: string[]): string {
+  return nextDatedNo('MT', dayKey, existing)
 }
 
 /** 计划编号 PLAN-YYYYMMDD-001 */

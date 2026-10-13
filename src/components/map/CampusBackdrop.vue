@@ -4,22 +4,10 @@
  * 明确标注为示意图，不代表真实坐标；接真实校园图时直接替换底图与档案。
  */
 import { VIEW_H, VIEW_W } from '@/core/map/viewport'
+import { CAMPUS_GREENS, CAMPUS_ROADS } from '@/core/map/campusDecor'
 
 const W = VIEW_W
 const H = VIEW_H
-
-const roads = [
-  { x: 0.06, y: 0.425, w: 0.88, h: 0.03 },
-  { x: 0.33, y: 0.06, w: 0.022, h: 0.86 },
-  { x: 0.655, y: 0.06, w: 0.022, h: 0.86 },
-  { x: 0.06, y: 0.84, w: 0.88, h: 0.026 },
-]
-
-const greens = [
-  { x: 0.075, y: 0.49, w: 0.15, h: 0.3 },
-  { x: 0.515, y: 0.53, w: 0.11, h: 0.27 },
-  { x: 0.7, y: 0.11, w: 0.19, h: 0.24 },
-]
 </script>
 
 <template>
@@ -48,7 +36,7 @@ const greens = [
 
     <g class="greens">
       <rect
-        v-for="(green, index) in greens"
+        v-for="(green, index) in CAMPUS_GREENS"
         :key="`g${index}`"
         :x="green.x * W"
         :y="green.y * H"
@@ -62,7 +50,7 @@ const greens = [
     </g>
 
     <g class="roads">
-      <template v-for="(road, index) in roads" :key="`r${index}`">
+      <template v-for="(road, index) in CAMPUS_ROADS" :key="`r${index}`">
         <rect
           :x="road.x * W"
           :y="road.y * H"

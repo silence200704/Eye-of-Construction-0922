@@ -12,8 +12,6 @@ import { useArchiveStore } from '@/stores/archive'
 import { useSessionStore } from '@/stores/session'
 import { useTaskStore } from '@/stores/inspection/tasks'
 import { useIssueStore } from '@/stores/inspection/issues'
-import { useAttachmentStore } from '@/stores/inspection/attachments'
-import { planPhotoSync } from '@/db/inspection/attachments'
 import { formatDateTime } from '@/core/time'
 import { ROLES } from '@/types/catalog'
 import AppButton from '@/components/ui/AppButton.vue'
@@ -28,15 +26,12 @@ const archive = useArchiveStore()
 const session = useSessionStore()
 const tasks = useTaskStore()
 const issues = useIssueStore()
-const attachments = useAttachmentStore()
 
 const message = ref('')
 const tone = ref<'ok' | 'bad'>('ok')
 const activePointId = ref('')
 const issueForPointId = ref('')
 const submitting = ref(false)
-/** 草稿与"已成功入库"的对应：重试时据此只补缺失的照片 */
-const uploadedByDraft = ref<Record<string, string>>({})
 const issueDrafts = ref<PhotoDraft[]>([])
 
 const snapshot = computed(() => props.task.planSnapshot)
@@ -101,66 +96,27 @@ async function submitIssue(payload: { anomalyType: string; description: string; 
   submitting.value = true
   try {
     /*
-     * 问题先建、照片逐张挂：
-     * 每存成功一张就立刻同步到问题的 photos —— 中途失败时已成功的照片可见、不会丢；
-     * 重试命中同一次提交时复用已有问题（不提前退出），只补还没存上的那几张。
-     */
-    /*
-     * 上报走仓储唯一入口（内部校验执行角色），不再由页面直接建问题。
-     * 该点之前关联过问题（上次照片中途失败）时复用那条：补传不该受"同一次提交"10 分钟窗口限制。
+     * 上报走仓储唯一入口（内部校验执行角色）。问题、任务关联、照片、时间线与日志同事务提交；
+     * 本点已有问题时复用它，补传不受"同一次提交"10 分钟窗口限制。
      */
     const linkedId = liveResults.value.find((row) => row.pointId === point.id)?.abnormalHandling.linkedIssueId ?? null
-    const reused = linkedId === null ? undefined : issues.byId(linkedId)
-    const outcome =
-      reused === undefined
-        ? await tasks.reportInspectionIssue(props.task.id, point.id, {
-            anomalyType: payload.anomalyType,
-            description: payload.description,
-            photos: [],
-          })
-        : { ok: true, error: '', issue: reused, duplicated: true }
+    const outcome = await tasks.reportInspectionIssue(props.task.id, point.id, {
+      anomalyType: payload.anomalyType,
+      description: payload.description,
+      photoDrafts: payload.photos,
+      reuseIssueId: linkedId,
+    })
     if (!outcome.ok || outcome.issue === null) {
       notify(outcome.error, false)
       return
     }
     const issue = outcome.issue
-
-    /*
-     * 先补关联、再补上传：附件可能已经入库（上次关联失败），
-     * 那就只把关联补上，绝不再存一遍 —— 否则会留下两条一模一样的附件。
-     */
-    const plan = planPhotoSync(payload.photos, attachments.ofIssue(issue.id), photoIdsOfIssue(issue.id))
-    for (const item of plan.toLink) {
-      const linked = await issues.attachPhotos(issue.id, [item.attachmentId])
-      if (linked === null) {
-        // 问题在库中找不到（缓存失效等）：算失败，草稿留着让用户重试，不能提示成功
-        notify(`照片关联失败：问题 ${issue.issueNo} 已不在本机数据中，请把草稿重新提交（草稿已保留）`, false)
-        return
-      }
-      uploadedByDraft.value = { ...uploadedByDraft.value, [item.draft.id]: item.attachmentId }
-    }
-    const pending = plan.toUpload
-    if (pending.length === 0) {
-      notify(
-        outcome.duplicated || plan.toLink.length > 0
-          ? `问题 ${issue.issueNo}：照片 ${photoIdsOfIssue(issue.id).length} 张已全部关联（补关联 ${plan.toLink.length} 张，未重复上传）`
-          : `已提交问题 ${issue.issueNo}（照片 ${payload.photos.length} 张），待安全管理人员审核`,
-        true,
-      )
-      clearDrafts()
-      return
-    }
-
-    const { uploaded, failure } = await uploadDrafts(issue.id, pending)
-
-    if (failure !== '') {
-      notify(
-        `问题 ${issue.issueNo} 已建立：照片成功 ${uploaded + plan.toLink.length} 张、失败 ${pending.length - uploaded} 张（${failure}）。已成功的已关联，点「补传照片」只补缺的几张`,
-        false,
-      )
-      return
-    }
-    notify(`已提交问题 ${issue.issueNo}（照片 ${uploaded + plan.toLink.length} 张），待安全管理人员审核`, true)
+    notify(
+      outcome.duplicated
+        ? `问题 ${issue.issueNo} 已复用，照片 ${issue.photos.length} 张已原子补齐`
+        : `已提交问题 ${issue.issueNo}（照片 ${issue.photos.length} 张），待安全管理人员审核`,
+      true,
+    )
     clearDrafts()
   } catch (cause) {
     notify(`提交失败：${(cause as Error).message}（已保留草稿，可重试）`, false)
@@ -169,45 +125,8 @@ async function submitIssue(payload: { anomalyType: string; description: string; 
   }
 }
 
-/**
- * 逐张上传并按张同步关联。
- * 每成功一张就写进 uploadedByDraft 并挂到问题上：中途失败时已成功的照片可见，
- * 重试只补缺失的那几张，不会因为一次失败把整批照片丢掉。
- */
-async function uploadDrafts(issueId: string, drafts: PhotoDraft[]): Promise<{ uploaded: number; failure: string }> {
-  let uploaded = 0
-  for (const draft of drafts) {
-    try {
-      const saved = await attachments.add({
-        file: new File([draft.blob], draft.fileName, { type: 'image/jpeg' }),
-        kind: 'scene',
-        issueId,
-        workOrderId: null,
-        actor: session.name,
-        capturedAt: draft.capturedAt,
-        draftId: draft.id,
-      })
-      const linked = await issues.attachPhotos(issueId, [saved.id])
-      if (linked === null) {
-        // 附件已入库但关联失败：如实报错，重试时会走"补关联"而不是再传一遍
-        return { uploaded, failure: `附件已保存但关联到问题失败（问题 ${issueId} 不在本机数据中）` }
-      }
-      uploadedByDraft.value = { ...uploadedByDraft.value, [draft.id]: saved.id }
-      uploaded += 1
-    } catch (cause) {
-      return { uploaded, failure: (cause as Error).message }
-    }
-  }
-  return { uploaded, failure: '' }
-}
-
-function photoIdsOfIssue(issueId: string): string[] {
-  return issues.byId(issueId)?.photos ?? []
-}
-
 function clearDrafts(): void {
   issueDrafts.value = []
-  uploadedByDraft.value = {}
   issueForPointId.value = ''
 }
 
@@ -251,7 +170,7 @@ const abnormalOf = (pointId: string): ChecklistAnswer[] => {
     </div>
 
     <p class="muted">
-      到点进度 {{ progress.completed }} / {{ progress.total }}｜检查项 {{ snapshot.checklist.length }} 项｜
+      检查完成进度 {{ progress.completed }} / {{ progress.total }}｜检查项 {{ snapshot.checklist.length }} 项｜
       任务范围与执行角色取自生成时的计划快照，计划后续调整不影响本任务
     </p>
 

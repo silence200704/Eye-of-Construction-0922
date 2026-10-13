@@ -3,7 +3,7 @@
  *
  * 裂缝测点只写入方案 §13.2 数据脚本的「初始 0.52 mm」一条，用于显示基准与正常状态；
  * 0.62 / 0.73 / 0.82 与复测值由演示人员按脚本现场录入，这样升级过程才能在演示中真实发生。
- * 另外保留一条历史补录记录，用于验证方案 §13.3「补录数据必须标记，不得伪装成实时预警」。
+ * 另外保留一条模拟历史补录记录，用于验证「补录数据必须标记，不得伪装成实时预警」。
  */
 import type { AuditLog, MonitorRecord } from '@/types/domain'
 import {
@@ -36,7 +36,7 @@ function baselinePointRecords(): MonitorRecord[] {
       unit: 'mm',
       sampleTime: '2026-09-15T10:05',
       baselineValues: CRACK_BASE,
-      note: '按方案 §13.2 数据脚本录入的初始值，相对基准 0.50 mm 变化 +0.02 mm',
+      note: '演示传感器历史采样：初始值相对基准 0.50 mm 变化 +0.02 mm',
     }),
     record({
       id: 'rec_seed_02',
@@ -60,7 +60,7 @@ function baselinePointRecords(): MonitorRecord[] {
       sampleTime: '2026-09-17T09:10',
       baselineValues: TILT_BASE,
       enteredDelayMinutes: 3000,
-      note: '现场量测记录补录：当日检查终端故障未能即时录入，按原始记录时间补录',
+      note: '演示传感器历史采样补录：模拟终端延迟入库，按原始采样时间保留',
     }),
     record({
       id: 'rec_seed_04',

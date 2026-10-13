@@ -9,9 +9,12 @@ import { useTaskStore } from '@/stores/inspection/tasks'
 import { useIssueStore } from '@/stores/inspection/issues'
 import { useWorkOrderStore } from '@/stores/inspection/workOrders'
 import { useAttachmentStore } from '@/stores/inspection/attachments'
+import { useMaintenancePlanStore } from '@/stores/maintenance/plans'
+import { useMaintenanceTaskStore } from '@/stores/maintenance/tasks'
 import AppShell from '@/components/AppShell.vue'
 import EmptyState from '@/components/ui/EmptyState.vue'
 import AppButton from '@/components/ui/AppButton.vue'
+import { startApplication } from '@/core/app/startup'
 
 const archive = useArchiveStore()
 const records = useRecordsStore()
@@ -21,24 +24,20 @@ const tasks = useTaskStore()
 const issues = useIssueStore()
 const workOrders = useWorkOrderStore()
 const attachments = useAttachmentStore()
+const maintenancePlans = useMaintenancePlanStore()
+const maintenanceTasks = useMaintenanceTaskStore()
 const ready = ref(false)
 const error = ref('')
 
 async function boot(): Promise<void> {
   error.value = ''
   try {
-    await archive.bootstrap()
-    await records.load()
-    await events.load()
-    // 浏览器关闭期间不执行后台任务，重新打开时补查超时升级
-    await events.catchUpEscalations()
-    await Promise.all([
-      plans.reload(),
-      tasks.reload(),
-      issues.reload(),
-      workOrders.reload(),
-      attachments.reload(),
-    ])
+    await startApplication({
+      archive,
+      records,
+      events,
+      reloaders: [plans, tasks, issues, workOrders, attachments, maintenancePlans, maintenanceTasks],
+    })
     ready.value = true
   } catch (cause) {
     error.value = cause instanceof Error ? cause.message : String(cause)

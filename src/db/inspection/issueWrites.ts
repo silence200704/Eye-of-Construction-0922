@@ -13,7 +13,7 @@ import { toPlain } from '@/core/plain'
 import { allocateIssueNo } from './numbering'
 import type { AuditLog } from '@/types/domain'
 import type { AlarmEvent } from '@/types/events'
-import type { InspectionIssue, InspectionTask, IssueSource } from '@/types/inspection'
+import type { InspectionIssue, InspectionTask, IssueAttachment, IssueSource } from '@/types/inspection'
 
 /**
  * 提交标识 → 问题主键：**完整标识的 base64url 编码**。
@@ -48,6 +48,8 @@ export interface IssueRowDraft {
   zoneId: string
   eventId: string | null
   taskId: string | null
+  /** 来源是保养任务时填任务 ID（其余来源不传，构造时会补 null） */
+  maintenanceTaskId?: string | null
   anomalyType: string
   description: string
   photos: string[]
@@ -67,6 +69,7 @@ export function planIssueRow(draft: IssueRowDraft, meta: IssueRowMeta): Inspecti
     zoneId: draft.zoneId,
     eventId: draft.eventId,
     taskId: draft.taskId,
+    maintenanceTaskId: draft.maintenanceTaskId ?? null,
     anomalyType: draft.anomalyType,
     description: draft.description,
     photos: [...draft.photos],
@@ -80,6 +83,7 @@ export function planIssueRow(draft: IssueRowDraft, meta: IssueRowMeta): Inspecti
     linkedEventId: null,
     linkedFrom: [],
     workOrderIds: [],
+    rechecks: [],
     timeline: [{ at: meta.at, by: meta.actor, byRole: meta.actorRole, action: '提交问题', detail: draft.detail }],
     createdAt: meta.at,
     createdBy: meta.actor,
@@ -92,6 +96,16 @@ export interface CreateIssueInput {
   issue: InspectionIssue
   /** 与问题一起提交的任务（带关联结果）；只建问题不关联任务时传 null */
   task: InspectionTask | null
+  /**
+   * 随问题一起落库的附件（草稿已压缩，不写库只构造）。
+   *
+   * 附件**不先单独入库**：先写照片再建问题，第二步失败会留下"照片已在库、问题却没有"的
+   * 半成品 —— 或者反过来，问题建好了照片没挂上。两者都必须同生共死。
+   * 附件主键由草稿标识确定性推出，所以同一批草稿重复提交只会覆盖同一行，不会重复新增。
+   */
+  attachments?: IssueAttachment[]
+  /** 重试命中已存在的问题、且这次带了新照片时，用它写一条"补充照片"时间线（不静默新增） */
+  photoTrace?: { at: string; by: string; byRole: string }
   /** 预警转问题时，同一事务把事件时间线一并写入；其他来源留空。 */
   eventId?: string | null
   buildEvent?: (event: AlarmEvent, issue: InspectionIssue) => AlarmEvent
@@ -101,12 +115,13 @@ export interface CreateIssueInput {
 
 export interface CreateIssueResult {
   created: boolean
-  /** created=false 时是已存在的那条（并发或重试命中） */
+  /** created=false 时是已存在的那条（并发或重试命中），照片可能已被补关联 */
   issue: InspectionIssue
 }
 
 export async function createIssueAtomic(input: CreateIssueInput): Promise<CreateIssueResult> {
-  return db.transaction('rw', db.issues, db.tasks, db.events, db.audits, async () => {
+  const photos = input.attachments ?? []
+  return db.transaction('rw', db.issues, db.tasks, db.events, db.attachments, db.audits, async () => {
     const existing = await db.issues.get(input.issue.id)
     if (existing !== undefined) {
       /*
@@ -119,18 +134,87 @@ export async function createIssueAtomic(input: CreateIssueInput): Promise<Create
           `问题主键冲突：${input.issue.id} 已属于另一条提交（${existing.submissionKey}），本次为 ${input.issue.submissionKey}`,
         )
       }
-      return { created: false, issue: existing }
+      const issue = await mergeRetryPhotos(input, existing, photos)
+      await mergeTaskIssueLink(input.task, issue)
+      return { created: false, issue }
     }
 
     const issue: InspectionIssue =
       input.issue.issueNo === '' ? { ...input.issue, issueNo: await allocateIssueNo(input.issue.createdAt) } : input.issue
     await db.issues.add(toPlain(issue))
-    if (input.task !== null) await db.tasks.put(toPlain(input.task))
+    await mergeTaskIssueLink(input.task, issue)
+    if (photos.length > 0) await db.attachments.bulkPut(toPlain(photos))
     await appendEventTimeline(input, issue)
     const logs = input.buildLogs(issue)
     if (logs.length > 0) await db.audits.bulkPut(toPlain(logs))
     return { created: true, issue }
   })
+}
+
+/**
+ * 将本次问题关联合并到事务内刚读取的任务行。
+ *
+ * 不能直接写调用方在事务外拼出的任务快照：并行到点或补充检查时，旧快照可能覆盖别人的
+ * 到点尝试、清单答案。这里仅合并问题关联字段，其他逐点检查事实保持数据库当前值。
+ */
+async function mergeTaskIssueLink(candidate: InspectionTask | null, issue: InspectionIssue): Promise<void> {
+  if (candidate === null) return
+  const stored = await db.tasks.get(candidate.id)
+  if (stored === undefined) throw new Error('巡检任务不存在，不能提交关联问题')
+  const expected = candidate.results.find((row) => row.issueIds.includes(issue.id))
+  if (expected === undefined) return
+  const results = stored.results.map((row) => {
+    if (row.pointId !== expected.pointId) return row
+    const issueIds = [...new Set([...row.issueIds, issue.id])]
+    const linkedIssueId = row.abnormalHandling.linkedIssueId ?? issue.id
+    if (issueIds.length === row.issueIds.length && linkedIssueId === row.abnormalHandling.linkedIssueId) return row
+    return { ...row, issueIds, abnormalHandling: { ...row.abnormalHandling, linkedIssueId } }
+  })
+  const taskIssueIds = [...new Set([...stored.issueIds, issue.id])]
+  const unchanged = results.every((row, index) => row === stored.results[index]) && taskIssueIds.length === stored.issueIds.length
+  if (unchanged) return
+  await db.tasks.put(
+    toPlain({ ...stored, results, issueIds: taskIssueIds, updatedAt: candidate.updatedAt, updatedBy: candidate.updatedBy }),
+  )
+}
+
+/**
+ * 重试命中已存在的问题时，把这次带来的**新**照片补进问题行。
+ *
+ * "新"是相对问题行已有的照片 ID 而言：同一张草稿的主键是确定的，重复提交不会新增附件行；
+ * 但如果这次是**另一批**照片（用户重试时又补了两张），就必须写进问题并留一条时间线，
+ * 不能让它们静默躺在附件表里。没有新照片时原样返回，不写库也不留痕。
+ */
+async function mergeRetryPhotos(
+  input: CreateIssueInput,
+  existing: InspectionIssue,
+  photos: IssueAttachment[],
+): Promise<InspectionIssue> {
+  const added = photos.filter((row) => !existing.photos.includes(row.id))
+  if (added.length === 0) return existing
+  const trace = input.photoTrace
+  const merged: InspectionIssue = {
+    ...existing,
+    photos: [...existing.photos, ...added.map((row) => row.id)],
+    updatedAt: trace?.at ?? existing.updatedAt,
+    updatedBy: trace?.by ?? existing.updatedBy,
+    timeline:
+      trace === undefined
+        ? existing.timeline
+        : [
+            ...existing.timeline,
+            {
+              at: trace.at,
+              by: trace.by,
+              byRole: trace.byRole,
+              action: '补充照片',
+              detail: `同一次上报重试补入 ${added.length} 张现场照片`,
+            },
+          ],
+  }
+  await db.attachments.bulkPut(toPlain(added))
+  await db.issues.put(toPlain(merged))
+  return merged
 }
 
 async function appendEventTimeline(input: CreateIssueInput, issue: InspectionIssue): Promise<void> {

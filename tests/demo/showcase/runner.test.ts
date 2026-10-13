@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import { createRunner } from '@/core/demo/showcase/runner'
 import { resolveWorkspace, workspaceStorageKey } from '@/core/demo/workspace'
+import { ZhutongDatabase } from '@/db/database'
+import { makeBuilding } from '../../fixtures'
 
 describe('独立演示与事务边界', () => {
   it('只有明确的演示参数选择独立库，主库偏好键保持兼容', () => {
@@ -58,4 +60,27 @@ describe('独立演示与事务边界', () => {
     expect(resumed.state.status).toBe('paused')
     expect(count).toBe(1)
   })
+})
+it('演示已完成后的提问暂停保留完成状态', async () => {
+  const runner = createRunner({ steps: [{ id: 'done', run: async () => {} }] })
+  await runner.start()
+  await runner.pause()
+  expect(runner.state.status).toBe('completed')
+})
+it('演示库复位的真实清表事务不会修改主库中的同编号档案', async () => {
+  const main = new ZhutongDatabase('showcase-isolation-main-test')
+  const demo = new ZhutongDatabase('showcase-isolation-demo-test')
+  const marker = makeBuilding({ id: 'same-id', name: '主库保留档案' })
+  try {
+    await main.buildings.put(marker)
+    await demo.buildings.put({ ...marker, name: '演示档案' })
+    await demo.transaction('rw',demo.tables,async () => {
+      for (const table of demo.tables) await table.clear()
+    })
+    expect(await main.buildings.get(marker.id)).toEqual(marker)
+    expect(await demo.buildings.count()).toBe(0)
+  } finally {
+    await main.delete()
+    await demo.delete()
+  }
 })

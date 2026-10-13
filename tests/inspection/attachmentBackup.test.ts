@@ -60,6 +60,8 @@ function datasetWith(attachments: IssueAttachment[]): Dataset {
     issues: [],
     workOrders: [],
     attachments,
+    maintenancePlans: [],
+    maintenanceTasks: [],
   }
 }
 
@@ -93,6 +95,20 @@ describe('照片随备份往返', () => {
     expect(roundTrip.length).toBe(original.length)
     expect([...roundTrip]).toEqual([...original])
     expect(after.thumb.size).toBe(before.thumb.size)
+  })
+
+  it('保养现场照片随备份往返：归属字段与字节都不丢', async () => {
+    const before = attachment({ id: 'att_m1', issueId: null, workOrderId: null, maintenanceTaskId: 'plan_m1@2026-09-20T01:00:00.000Z' })
+    const pkg = await buildBackup(datasetWith([before]), '演示操作员')
+    const parsed = parseBackup(JSON.stringify(pkg))
+    expect(parsed.ok).toBe(true)
+    const after = toDataset(parsed.data!).attachments[0]
+    // 归属写在保养任务上：恢复后一致性检查还能认领这张照片
+    expect(after.maintenanceTaskId).toBe('plan_m1@2026-09-20T01:00:00.000Z')
+    expect(after.issueId).toBeNull()
+    expect(after.workOrderId).toBeNull()
+    const original = new Uint8Array(await before.blob.arrayBuffer())
+    expect([...new Uint8Array(await after.blob.arrayBuffer())]).toEqual([...original])
   })
 
   it('关联到工单的照片同样保留关联编号与用途', async () => {

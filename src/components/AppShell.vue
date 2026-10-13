@@ -11,27 +11,42 @@ import AppButton from '@/components/ui/AppButton.vue'
 import FormGrid from '@/components/ui/FormGrid.vue'
 import StatusTag from '@/components/ui/StatusTag.vue'
 import AlertCenter from '@/components/ui/overlay/AlertCenter.vue'
+import AssistantPanel from '@/components/assistant/AssistantPanel.vue'
+import NavGroups from '@/components/shell/NavGroups.vue'
+import FeatureLinks from '@/components/shell/FeatureLinks.vue'
+import PageStage from '@/components/shell/PageStage.vue'
+import FloatingXiaotong from '@/components/assistant/FloatingXiaotong.vue'
+import { useAssistantStore } from '@/assistant/session'
+import { useAlertStore } from '@/stores/alerts'
+import { isShowcase } from '@/core/demo/workspace'
+import ShowcaseControls from '@/components/demo/ShowcaseControls.vue'
+import OperationReceipt from '@/components/demo/OperationReceipt.vue'
+import { useShowcaseStore } from '@/stores/demo/showcase/session'
+const showcase = useShowcaseStore()
 
 const route = useRoute()
 const archive = useArchiveStore()
 const session = useSessionStore()
+const alerts = useAlertStore()
+/** 红色预警弹窗出现时，悬浮小瞳的装饰动画要让位 */
+const alertStrongVisible = computed(() => alerts.activeStrong !== null)
 
 const pageTitle = computed(() => String(route.meta.title ?? ''))
 const pageSub = computed(() => String(route.meta.sub ?? ''))
 const mode = computed(() => archive.dataMode)
 
-const NAV = [
-  { to: '/', label: '校园总览', d: 'M3 10.5 12 4l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z' },
-  { to: '/campus', label: '校园地图', d: 'M9 3 3 5.5v15L9 18l6 3 6-2.5v-15L15 6zM9 3v15M15 6v15' },
-  { to: '/archive', label: '建筑与设备', d: 'M4 21V6l8-3 8 3v15M9 21v-5h6v5M9 10h.01M15 10h.01M9 13.5h.01M15 13.5h.01' },
-  { to: '/monitor', label: '监测数据', d: 'M3 17l4-6 4 3 3-5 4 4h3M3 21h18' },
-  { to: '/trend', label: '监测趋势', d: 'M3 20h18M6 16l4-8 4 5 3-6 4 9' },
-  { to: '/inspection', label: '点检巡检', d: 'M9 11l2 2 4-4M5 4h14v16H5zM9 3v3M15 3v3' },
-  { to: '/issues', label: '问题与工单', d: 'M8 5h8M8 12h8M8 19h5M4 4h16v16H4z' },
-  { to: '/alarms', label: '预警中心', d: 'M12 3l9 16H3zM12 9v5M12 17h.01' },
-  { to: '/standards', label: '预警标准', d: 'M4 5h16M4 12h16M4 19h10M8 3v4M15 10v4M11 17v4' },
-  { to: '/settings', label: '系统设置', d: 'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 1 1-4 0v-.1A1.6 1.6 0 0 0 7.5 19l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.6 1.6 0 0 0 3 13.6H3a2 2 0 1 1 0-4h.1A1.6 1.6 0 0 0 4.7 7l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 2.7 1.1l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z' },
-]
+/**
+ * 问筑瞳半屏面板的开关与焦点回位。
+ * 入口是可拖动的悬浮小瞳（FloatingXiaotong），面板不做焦点陷阱（桌面端左侧页面仍要能用），
+ * 所以"从哪开、回哪去"由壳层负责：关闭后把焦点交回悬浮入口。
+ */
+const assistant = useAssistantStore()
+const floatingEntry = ref<{ focus: () => void } | null>(null)
+
+function closeAssistant(): void {
+  assistant.close()
+  floatingEntry.value?.focus()
+}
 
 const identityOpen = ref(false)
 
@@ -95,14 +110,7 @@ function reloadPage(): void {
         </div>
       </div>
 
-      <nav class="nav">
-        <RouterLink v-for="item in NAV" :key="item.to" :to="item.to" class="nav-item">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path :d="item.d" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-          <span>{{ item.label }}</span>
-        </RouterLink>
-      </nav>
+      <NavGroups />
 
       <div class="side-foot">
         <div class="side-note">
@@ -131,7 +139,7 @@ function reloadPage(): void {
             <b class="num">{{ archive.stats.devices }}</b>
           </div>
           <AlertCenter />
-          <button class="identity" type="button" @click="openIdentity">
+          <button class="identity" type="button" :disabled="showcase.running" @click="openIdentity">
             <span class="id-avatar">{{ session.name.slice(0, 1) }}</span>
             <span class="id-text">
               <b>{{ session.name }}</b>
@@ -141,15 +149,30 @@ function reloadPage(): void {
         </div>
       </header>
 
+      <NavGroups compact class="mobile-nav" />
+
       <div v-if="externalChange" class="tab-warning">
         <span>检测到另一个标签页修改了本机数据。本版本不做跨标签页同步，继续在本页操作可能覆盖对方的改动。</span>
         <AppButton size="sm" @click="reloadPage">刷新页面</AppButton>
       </div>
 
       <main class="content">
-        <RouterView />
+        <ShowcaseControls v-if="isShowcase" compact />
+        <OperationReceipt />
+        <FeatureLinks />
+        <div :inert="showcase.running"><PageStage /></div>
       </main>
     </div>
+
+    <FloatingXiaotong
+      v-show="!assistant.open"
+      ref="floatingEntry"
+      :state="assistant.entryState"
+      :paused="alertStrongVisible"
+      @activate="assistant.toggle()"
+    />
+
+    <AssistantPanel :open="assistant.open" @close="closeAssistant" />
 
     <AppModal :open="identityOpen" title="切换演示身份" sub="操作留痕使用当前身份，请按演示角色切换" :width="520" @close="identityOpen = false">
       <FormGrid v-model="identityModel" :fields="identityFields" :columns="1" />
@@ -166,15 +189,16 @@ function reloadPage(): void {
 .shell {
   display: grid;
   grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
   height: 100%;
 }
 
 .side {
   display: flex;
   flex-direction: column;
-  background:
-    repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.028) 0 1px, transparent 1px 9px),
-    linear-gradient(180deg, var(--ink-900) 0%, var(--ink-950) 100%);
+  min-height: 0;
+  overflow-y: auto;
+  background: var(--ink-900);
   color: #cfd9de;
   padding: 18px 14px;
 }
@@ -211,42 +235,13 @@ function reloadPage(): void {
   color: #7f929b;
 }
 
-.nav {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  margin-top: 14px;
-}
-
-.nav-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  height: 38px;
-  padding: 0 10px;
-  border-radius: var(--r-sm);
-  color: #b3c2c9;
-  font-size: 13.5px;
-  border-left: 2px solid transparent;
-}
-
-.nav-item:hover {
-  background: rgba(255, 255, 255, 0.05);
-  color: #fff;
-}
-
-.nav-item.router-link-exact-active {
-  background: rgba(20, 134, 149, 0.16);
-  border-left-color: var(--brand-500);
-  color: #fff;
-  font-weight: 600;
-}
-
 .side-foot {
   margin-top: auto;
   padding-top: 16px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
+
+.main > .mobile-nav { display: none; }
 
 .side-note {
   margin-bottom: 8px;
@@ -270,6 +265,10 @@ function reloadPage(): void {
   flex-direction: column;
   min-width: 0;
   height: 100%;
+  /* 关键：没有 min-height:0 时，内容再高也压不住 flex 子项的最小高度，
+     `.content` 会被顶开、整页（含左侧导航）一起滚动，看起来像"侧栏空白" */
+  min-height: 0;
+  overflow: hidden;
 }
 
 .top {
@@ -285,8 +284,9 @@ function reloadPage(): void {
 }
 
 .page-title {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
 }
 
 .page-sub {
@@ -383,5 +383,16 @@ function reloadPage(): void {
   .side {
     display: none;
   }
+
+  .main > .mobile-nav { display: flex; }
+}
+
+@media (max-width: 600px) {
+  .top { padding: 0 12px; gap: 10px; }
+  .top > div:first-child { min-width: 0; }
+  .top > .row { flex: none; gap: 8px; }
+  .page-title, .id-text b, .id-text i { white-space: nowrap; }
+  .page-sub, .stat-mini { display: none; }
+  .content { padding: 14px 12px 24px; }
 }
 </style>

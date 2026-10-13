@@ -7,13 +7,15 @@
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import type { AuditLog } from '@/types/domain'
-import type { InspectionIssue, WorkOrder, WorkOrderStatus } from '@/types/inspection'
+import type { InspectionIssue, IssueAttachment, WorkOrder, WorkOrderStatus } from '@/types/inspection'
 import { advance, closeBasis, issueAfterVerify } from '@/core/inspection/workOrderFlow'
 import { uid } from '@/core/id'
 import { nowIso } from '@/core/time'
 import { buildAuditLog } from '@/db/repo'
 import { commitVerifyWithIssue, commitWorkOrderWrite } from '@/db/inspection/disposal'
+import { buildDraftPhoto, type DraftPhotoInput } from '@/db/inspection/attachments'
 import { db } from '@/db/database'
+import { useAttachmentStore } from './attachments'
 import { useSessionStore } from '../session'
 
 /** 一次流转可以附带的字段：派工带人、接单带期限、完工带措施与照片 */
@@ -24,6 +26,8 @@ export interface OrderAction {
   measures?: string
   materials?: string
   photos?: string[]
+  /** 安全管理人员在验收时选取的本地压缩照片；与验收结论同事务提交。 */
+  acceptancePhotos?: DraftPhotoInput[]
 }
 
 export interface OrderResult {
@@ -121,13 +125,17 @@ export const useWorkOrderStore = defineStore('inspectionWorkOrders', () => {
       photos: payload.photos === undefined ? order.photos : [...new Set([...order.photos, ...payload.photos])],
     }
 
+    const acceptanceAttachments = isAcceptanceAction(to)
+      ? buildAcceptancePhotos(order.id, payload.acceptancePhotos, session.name)
+      : []
+    const actionNote = withAcceptancePhotoCount(payload.note ?? '', acceptanceAttachments.length)
     const out = advance({
       order: candidate,
       to,
       at,
       by: session.name,
       byRole: session.role,
-      note: payload.note ?? '',
+      note: actionNote,
     })
     if (!out.ok || out.next === null) return { ok: false, error: out.error, order: null }
     const next = out.next
@@ -135,18 +143,33 @@ export const useWorkOrderStore = defineStore('inspectionWorkOrders', () => {
     const actor = { name: session.name, roleLabel: session.roleLabel }
 
     if (to === 'verified') {
-      const done = await commitVerify(next, actor, payload.note ?? '')
+      const done = await commitVerify(next, actor, actionNote, acceptanceAttachments)
       if (!done.ok) return { ok: false, error: done.error, order: null }
       await reload()
+      await reloadAttachments(acceptanceAttachments)
       return { ok: true, error: '', order: next }
     }
 
     await commitWorkOrderWrite({
       workOrder: next,
-      logs: [logOf({ id: next.id, label: `${next.orderNo} ${next.title}` }, actor, `工单 ${next.orderNo}：${action}`, payload.note ?? '')],
+      attachments: acceptanceAttachments,
+      logs: [logOf({ id: next.id, label: `${next.orderNo} ${next.title}` }, actor, `工单 ${next.orderNo}：${action}`, actionNote)],
     })
     await reload()
+    await reloadAttachments(acceptanceAttachments)
     return { ok: true, error: '', order: next }
+  }
+
+  /**
+   * 附件只做两件事：有照片时刷新附件 store，没有照片时不动。
+   *
+   * 验收照片是在工单事务里写进 attachments 表的，**不经过** `attachments.add()`；
+   * 只刷新工单的话，工单详情会一直显示"验收照片 0 张"，得手动刷新页面才对
+   * —— 库里数据是对的，错的只是内存里的那份列表。
+   */
+  async function reloadAttachments(written: IssueAttachment[]): Promise<void> {
+    if (written.length === 0) return
+    await useAttachmentStore().reload()
   }
 
   /**
@@ -159,10 +182,11 @@ export const useWorkOrderStore = defineStore('inspectionWorkOrders', () => {
     order: WorkOrder,
     actor: { name: string; roleLabel: string },
     note: string,
+    acceptancePhotos: IssueAttachment[],
   ): Promise<{ ok: boolean; error: string }> {
     const logs = [logOf({ id: order.id, label: `${order.orderNo} ${order.title}` }, actor, `工单 ${order.orderNo}：验收通过`, note)]
     if (order.issueId === null) {
-      await commitWorkOrderWrite({ workOrder: order, logs })
+      await commitWorkOrderWrite({ workOrder: order, attachments: acceptancePhotos, logs })
       return { ok: true, error: '' }
     }
     const issue = await db.issues.get(order.issueId)
@@ -176,12 +200,13 @@ export const useWorkOrderStore = defineStore('inspectionWorkOrders', () => {
       byRole: actor.roleLabel,
     })
     if (nextIssue === issue) {
-      await commitWorkOrderWrite({ workOrder: order, logs })
+      await commitWorkOrderWrite({ workOrder: order, attachments: acceptancePhotos, logs })
       return { ok: true, error: '' }
     }
     await commitVerifyWithIssue({
       workOrder: order,
       issue: nextIssue,
+      attachments: acceptancePhotos,
       logs: [
         ...logs,
         logOf(
@@ -193,6 +218,22 @@ export const useWorkOrderStore = defineStore('inspectionWorkOrders', () => {
       ],
     })
     return { ok: true, error: '' }
+  }
+
+
+  function isAcceptanceAction(to: WorkOrderStatus): boolean {
+    return to === 'verified' || to === 'returned'
+  }
+
+  function withAcceptancePhotoCount(note: string, count: number): string {
+    return count === 0 ? note : `${note}｜验收照片 ${count} 张`
+  }
+
+  /** 验收照片只构造、不提前写库；最终由验收事务与状态、日志一起落盘。 */
+  function buildAcceptancePhotos(orderId: string, drafts: DraftPhotoInput[] | undefined, actor: string): IssueAttachment[] {
+    return (drafts ?? []).map((draft) => buildDraftPhoto(draft, {
+      kind: 'acceptance', issueId: null, workOrderId: orderId, actor,
+    }))
   }
 
   /** 一条操作日志：点名对象与业务编号，事后可倒查。 */

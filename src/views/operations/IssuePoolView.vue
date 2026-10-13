@@ -6,7 +6,7 @@
  * 人工上报在这里提交；审核由安全管理人员在详情里按"六个一级出口 + 二级分类"处理。
  * 工单部分随第四步后续接上（工单面板会挂在本页的详情里）。
  */
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useArchiveStore } from '@/stores/archive'
 import { useSessionStore } from '@/stores/session'
 import { useIssueStore } from '@/stores/inspection/issues'
@@ -18,12 +18,16 @@ import type { InspectionIssue } from '@/types/inspection'
 import SectionCard from '@/components/ui/SectionCard.vue'
 import StatusTag from '@/components/ui/StatusTag.vue'
 import AppButton from '@/components/ui/AppButton.vue'
-import DataTable from '@/components/ui/DataTable.vue'
 import EmptyState from '@/components/ui/EmptyState.vue'
 import ManualIssueForm from '@/components/inspection/issue/ManualIssueForm.vue'
 import IssueDetail from '@/components/inspection/issue/IssueDetail.vue'
+import IssueTable from '@/components/inspection/issue/IssueTable.vue'
 import AppDrawer from '@/components/ui/overlay/AppDrawer.vue'
 import AppModal from '@/components/ui/AppModal.vue'
+import { recheckState } from '@/core/inspection/recheck'
+import { resolveWorkOrderTarget } from '@/assistant/deepLink'
+import { useRoute } from 'vue-router'
+import { useClockStore } from '@/stores/clock'
 
 const archive = useArchiveStore()
 const session = useSessionStore()
@@ -32,13 +36,32 @@ const tasks = useTaskStore()
 const workOrders = useWorkOrderStore()
 const attachments = useAttachmentStore()
 
+const route = useRoute()
+const clock = useClockStore()
+/** 共享刻度：逾期按“今天”算，跨天或页面久放时靠「刷新复查状态」推进（不引定时器）。 */
+const today = computed(() => clock.todayKey)
 const statusFilter = ref('')
 const sourceFilter = ref('')
 const buildingFilter = ref('')
 const anomalyFilter = ref('')
+/**
+ * 保养页"故障工单"分区跳来时的范围：只看还没验收通过的工单。
+ * 值来自路由 query（`?workOrder=open`），不读它就会出现"卡片写 N 张、进来看到全部"的错位。
+ */
+const workOrderOpenOnly = ref(false)
 const formOpen = ref(false)
 const activeId = ref('')
 const highlightId = ref('')
+/** 深链 `?workOrder=<工单ID>` 指向的那张工单：传给详情面板做定位高亮 */
+const focusOrderId = ref('')
+/**
+ * 演示链的问题 id。
+ * 演示场景生成的问题在描述里带「演示场景[...]」标记，据此把它们挑出来重点标注 ——
+ * 演示时评审要能一眼找到"这条是刚才那个红色预警转下来的"。
+ */
+const demoIssueIds = computed(() =>
+  issues.issues.filter((row) => row.description.includes('演示场景[')).map((row) => row.id),
+)
 /** 审核面板里是否有"填了一半没提交"的内容（由面板上报） */
 const reviewDirty = ref(false)
 /** 待执行的离开动作：null=不离开，''=关闭详情，其它=切换到该问题 */
@@ -70,7 +93,9 @@ function matchesStatus(issue: InspectionIssue, key: string): boolean {
 
 const filtered = computed(() =>
   issues.issues
+    .filter((row) => !workOrderOpenOnly.value || rowWorkOrderOpen(row))
     .filter((row) => matchesStatus(row, statusFilter.value))
+    .filter((row) => !onlyOverdue.value || recheckState(row, today.value).state === 'overdue')
     .filter((row) => sourceFilter.value === '' || row.source === sourceFilter.value)
     .filter((row) => buildingFilter.value === '' || row.buildingId === buildingFilter.value)
     .filter((row) => anomalyFilter.value === '' || row.anomalyType === anomalyFilter.value)
@@ -94,8 +119,17 @@ const statusCards = computed(() => [
   { key: 'closed', tone: 'gray' as const, label: '已关闭', count: summary.value.closed },
 ])
 
+/** 只看复查逾期的开关：这是安全管理人员每天要清的队列，单独一个筛选比塞进状态下拉更直观。 */
+const onlyOverdue = ref(false)
+const overdueRows = computed(() => issues.issues.filter((row) => recheckState(row, today.value).state === 'overdue'))
+
 const hasFilter = computed(
-  () => statusFilter.value !== '' || sourceFilter.value !== '' || buildingFilter.value !== '' || anomalyFilter.value !== '',
+  () =>
+    onlyOverdue.value ||
+    statusFilter.value !== '' ||
+    sourceFilter.value !== '' ||
+    buildingFilter.value !== '' ||
+    anomalyFilter.value !== '',
 )
 
 function toggleStatus(key: string): void {
@@ -103,6 +137,7 @@ function toggleStatus(key: string): void {
 }
 
 function clearFilters(): void {
+  onlyOverdue.value = false
   statusFilter.value = ''
   sourceFilter.value = ''
   buildingFilter.value = ''
@@ -112,31 +147,6 @@ function clearFilters(): void {
 function notify(text: string, ok = true): void {
   tone.value = ok ? 'ok' : 'bad'
   message.value = text
-}
-
-function sourceName(key: string): string {
-  return ISSUE_SOURCES.find((row) => row.key === key)?.name ?? key
-}
-
-function statusName(key: string): string {
-  return ISSUE_STATUSES.find((row) => row.key === key)?.name ?? key
-}
-
-function statusTone(issue: InspectionIssue): 'orange' | 'brand' | 'green' | 'gray' {
-  if (issue.status === 'pending_review') return 'orange'
-  if (issue.status === 'closed') return 'gray'
-  if (issue.status === 'pending_recheck') return 'green'
-  return 'brand'
-}
-
-function locationOf(issue: InspectionIssue): string {
-  const floor = archive.floorById(issue.floorId)?.name ?? issue.floorId
-  return `${archive.buildingName(issue.buildingId)} ${floor} ${issue.zoneId}`
-}
-
-function taskLabelOf(issue: InspectionIssue): string {
-  if (issue.taskId === null) return '—'
-  return tasks.byId(issue.taskId)?.taskNo ?? '（任务已删除）'
 }
 
 /**
@@ -181,6 +191,12 @@ function applyLeave(nextId: string): void {
   activeId.value = nextId
 }
 
+/** 按当前日期重算复查逾期：跨天或长时间停留后点一下即可。 */
+function refreshRecheck(): void {
+  clock.refresh()
+  notify(`已按当前日期刷新复查状态：复查逾期 ${overdueRows.value.length} 条`)
+}
+
 function requestClose(): void {
   requestLeave('')
 }
@@ -208,6 +224,50 @@ onMounted(async () => {
   if (!workOrders.loaded) await workOrders.reload()
   if (!attachments.loaded) await attachments.reload()
 })
+
+/**
+ * 深链参数（一个 watch 读同一处路由状态）：
+ * - `?issue=<id>` 直接展开那条问题；
+ * - `?workOrder=open` 只看名下还有未验收通过工单的问题 —— 与保养页「故障工单」卡片的条数口径一致；
+ * - `?workOrder=<工单ID>` 展开该工单所属问题并定位到这张工单（助手回答里的"打开工单"走这条）。
+ */
+watch(
+  [() => route.query.issue, () => route.query.workOrder],
+  async ([issue, workOrder]) => {
+    workOrderOpenOnly.value = workOrder === 'open'
+    await focusWorkOrderLink(workOrder)
+    if (typeof issue !== 'string' || issue === '') return
+    activeId.value = issue
+    highlightId.value = issue
+  },
+  { immediate: true },
+)
+
+/**
+ * 按深链定位工单：先把工单与问题读进来再判定"找不到"，
+ * 因为 watch 的 immediate 首次执行早于 onMounted，那时仓储还空着。
+ */
+async function focusWorkOrderLink(value: unknown): Promise<void> {
+  if (value === undefined || value === '' || value === 'open') return
+  if (!issues.loaded) await issues.reload()
+  if (!workOrders.loaded) await workOrders.reload()
+  const target = resolveWorkOrderTarget(value, (id) => {
+    const row = workOrders.byId(id)
+    return row === undefined ? undefined : { id: row.id, issueId: row.issueId, orderNo: row.orderNo }
+  })
+  focusOrderId.value = target.id
+  if (target.reason !== '') return notify(target.reason, false)
+  activeId.value = target.issueId
+  highlightId.value = target.issueId
+}
+
+/** 该问题名下是否还有未验收通过的工单。 */
+function rowWorkOrderOpen(row: InspectionIssue): boolean {
+  return row.workOrderIds.some((id) => {
+    const order = workOrders.byId(id)
+    return order !== undefined && order.status !== 'verified'
+  })
+}
 </script>
 
 <template>
@@ -267,7 +327,19 @@ onMounted(async () => {
         <span class="muted">
           当前匹配 {{ filtered.length }} 条 / 共 {{ issues.issues.length }} 条<span v-if="hasFilter">（已筛选）</span>
         </span>
-        <button v-if="hasFilter" class="link" type="button" @click="clearFilters">清除全部筛选</button>
+        <span class="row">
+          <button
+            class="link"
+            :class="{ 'link--on': onlyOverdue }"
+            type="button"
+            :aria-pressed="onlyOverdue"
+            @click="onlyOverdue = !onlyOverdue"
+          >
+            只看复查逾期（{{ overdueRows.length }}）
+          </button>
+          <button class="link" type="button" @click="refreshRecheck">刷新复查状态</button>
+          <button v-if="hasFilter" class="link" type="button" @click="clearFilters">清除全部筛选</button>
+        </span>
       </div>
 
       <div v-if="formOpen" class="form-wrap">
@@ -280,40 +352,13 @@ onMounted(async () => {
         sub="三类来源都会进这里：传感器预警转单、巡检发现问题、人工上报。也可以点上面的「人工上报问题」先建一条"
       />
       <template v-else>
-        <DataTable
-          :columns="[
-            { key: 'no', label: '问题编号', width: '168px' },
-            { key: 'source', label: '来源', width: '96px' },
-            { key: 'place', label: '位置' },
-            { key: 'type', label: '异常类型', width: '110px' },
-            { key: 'task', label: '关联任务', width: '150px' },
-            { key: 'status', label: '状态', width: '92px' },
-            { key: 'act', label: '操作', width: '78px' },
-          ]"
-          :row-count="filtered.length"
-          empty="当前筛选条件下没有问题"
-        >
-          <tr
-            v-for="row in filtered"
-            :key="row.id"
-            :class="{ 'row--active': activeId === row.id, 'row--flash': highlightId === row.id }"
-          >
-            <td class="mono">{{ row.issueNo }}</td>
-            <td>{{ sourceName(row.source) }}</td>
-            <td>
-              {{ locationOf(row) }}
-              <div class="muted">{{ row.description.slice(0, 40) }}</div>
-            </td>
-            <td>{{ row.anomalyType }}</td>
-            <td class="mono">{{ taskLabelOf(row) }}</td>
-            <td><StatusTag :tone="statusTone(row)" :text="statusName(row.status)" /></td>
-            <td>
-              <button class="link" type="button" @click="requestOpen(row.id)">
-                {{ activeId === row.id ? '收起' : '详情' }}
-              </button>
-            </td>
-          </tr>
-        </DataTable>
+        <IssueTable
+          :rows="filtered"
+          :active-id="activeId"
+          :highlight-id="highlightId"
+          :demo-ids="demoIssueIds"
+          @open="requestOpen"
+        />
       </template>
 
       <p class="field-hint">
@@ -329,7 +374,6 @@ onMounted(async () => {
     <AppDrawer
       :open="active !== null"
       :title="active === null ? '' : `问题 ${active.issueNo}`"
-      :sub="active === null ? '' : `${sourceName(active.source)}｜${locationOf(active)}`"
       :width="560"
       @close="requestClose"
     >
@@ -338,6 +382,7 @@ onMounted(async () => {
         v-if="active !== null"
         :key="active.id"
         :issue="active"
+        :focus-order-id="focusOrderId"
         @changed="onChanged"
         @review-dirty="reviewDirty = $event"
         @close="requestClose"
@@ -362,88 +407,4 @@ onMounted(async () => {
   </div>
 </template>
 
-<style scoped>
-.summary {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-/* 状态统计卡做成按钮：整块可点、键盘可聚焦，选中的那张加外圈 */
-.card-btn {
-  border: 0;
-  background: none;
-  padding: 0;
-  cursor: pointer;
-  border-radius: 999px;
-  line-height: 0;
-}
-
-.card-btn:focus-visible,
-.card-btn--on {
-  outline: 2px solid var(--brand-700, #0b5762);
-  outline-offset: 2px;
-}
-
-.match-row {
-  gap: 10px;
-  align-items: center;
-  margin-bottom: 8px;
-  font-size: 12px;
-}
-
-/* 抽屉正看着的那一行：底色标出来，关了抽屉就恢复 */
-tr.row--active > td {
-  background: var(--bg-2, #f6f8f8);
-}
-
-/* 刚新建/刚被定位的那一行：短暂高亮后自动淡回，配合提示文案说明"就是这条" */
-tr.row--flash > td {
-  background: #fff3cd;
-  transition: background 0.5s ease;
-}
-
-.filters {
-  gap: 10px;
-  align-items: flex-end;
-  margin-bottom: 12px;
-}
-
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  font-size: 11.5px;
-  color: var(--text-3);
-}
-
-.field .ctl {
-  min-width: 140px;
-}
-
-.form-wrap {
-  border: 1px solid var(--brand-300, #9dc6cd);
-  border-radius: var(--r-sm);
-  padding: 14px;
-  margin-bottom: 14px;
-  background: var(--bg-2, #f6f8f8);
-}
-
-.detail-wrap {
-  margin-top: 14px;
-  border: 1px solid var(--brand-300, #9dc6cd);
-  border-radius: var(--r-sm);
-  padding: 14px;  background: var(--paper);
-}
-
-.link {
-  border: 0;
-  background: none;
-  color: var(--brand-700);
-  font-size: 12px;
-  cursor: pointer;
-  padding: 2px 0;
-}
-</style>
+<style scoped src="./styles/IssuePoolView.css"></style>

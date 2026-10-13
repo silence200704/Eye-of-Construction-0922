@@ -15,8 +15,14 @@ import PointDialog from '@/components/dialogs/PointDialog.vue'
 import DeviceDialog from '@/components/dialogs/DeviceDialog.vue'
 import BaselineDialog from '@/components/dialogs/BaselineDialog.vue'
 import ArchiveDialog from '@/components/dialogs/ArchiveDialog.vue'
+import DeviceMaintenancePanel from '@/components/maintenance/DeviceMaintenancePanel.vue'
 
-const props = defineProps<{ buildingId: string; floorId: string | null }>()
+const props = defineProps<{
+  buildingId: string
+  floorId: string | null
+  /** 只看离线设备（来自保养页「设备离线」分区的深链），默认不筛 */
+  offlineOnly?: boolean
+}>()
 
 const archive = useArchiveStore()
 const records = useRecordsStore()
@@ -24,6 +30,8 @@ const records = useRecordsStore()
 const includeArchived = ref(false)
 const message = ref('')
 const messageTone = ref<'ok' | 'bad'>('ok')
+/** 展开保养信息的设备（V1-D：设备一档的保养块只读，写入在「设备保养」页） */
+const maintenanceDeviceId = ref('')
 
 const pointOpen = ref(false)
 const pointEditing = ref<Point | null>(null)
@@ -39,7 +47,10 @@ const points = computed(() =>
     : archive.pointsOfFloor(props.floorId, includeArchived.value),
 )
 
-const devices = computed(() => points.value.flatMap((point) => archive.devicesOfPoint(point.id, includeArchived.value)))
+const devices = computed(() => {
+  const rows = points.value.flatMap((point) => archive.devicesOfPoint(point.id, includeArchived.value))
+  return props.offlineOnly === true ? rows.filter((row) => row.health === 'offline') : rows
+})
 
 function notify(text: string, tone: 'ok' | 'bad'): void {
   message.value = text
@@ -167,29 +178,43 @@ function healthTone(device: Device): 'gray' | 'green' | 'orange' {
           { key: 'point', label: '绑定测点', width: '146px' },
           { key: 'range', label: '量程 / 单位', width: '132px' },
           { key: 'health', label: '状态', width: '88px' },
-          { key: 'ops', label: '操作', width: '132px' },
+          { key: 'ops', label: '操作', width: '200px' },
         ]"
         :row-count="devices.length"
         empty="暂无设备记录"
       >
-        <tr v-for="device in devices" :key="device.id">
-          <td class="code">{{ device.code }}</td>
-          <td class="col-main">
-            <div>{{ device.name }}</div>
-            <div class="code">{{ fillGaps(device.model) }}<span v-if="device.serial">｜{{ device.serial }}</span></div>
-          </td>
-          <td class="code">{{ archive.pointById(device.pointId)?.code ?? '—' }}</td>
-          <td>{{ fillGaps(device.rangeText) }}<span v-if="device.unit" class="muted"> / {{ device.unit }}</span></td>
-          <td><StatusTag :tone="healthTone(device)" :text="deviceHealthLabel(device)" /></td>
-          <td>
-            <div class="ops">
-              <AppButton size="sm" variant="ghost" @click="openDevice(device)">编辑</AppButton>
-              <AppButton size="sm" variant="ghost" @click="askArchive('device', device.id, `${device.code} ${device.name}`)">
-                {{ device.status === 'active' ? '归档' : '恢复' }}
-              </AppButton>
-            </div>
-          </td>
-        </tr>
+        <template v-for="device in devices" :key="device.id">
+          <tr>
+            <td class="code">{{ device.code }}</td>
+            <td class="col-main">
+              <div>{{ device.name }}</div>
+              <div class="code">{{ fillGaps(device.model) }}<span v-if="device.serial">｜{{ device.serial }}</span></div>
+            </td>
+            <td class="code">{{ archive.pointById(device.pointId)?.code ?? '—' }}</td>
+            <td>{{ fillGaps(device.rangeText) }}<span v-if="device.unit" class="muted"> / {{ device.unit }}</span></td>
+            <td><StatusTag :tone="healthTone(device)" :text="deviceHealthLabel(device)" /></td>
+            <td>
+              <div class="ops">
+                <AppButton size="sm" variant="ghost" @click="openDevice(device)">编辑</AppButton>
+                <AppButton size="sm" variant="ghost" @click="askArchive('device', device.id, `${device.code} ${device.name}`)">
+                  {{ device.status === 'active' ? '归档' : '恢复' }}
+                </AppButton>
+                <AppButton size="sm" variant="ghost" @click="maintenanceDeviceId = maintenanceDeviceId === device.id ? '' : device.id">
+                  {{ maintenanceDeviceId === device.id ? '收起保养' : '保养' }}
+                </AppButton>
+              </div>
+            </td>
+          </tr>
+          <!--
+            设备一档的保养信息只读展开：数据现算自保养仓储，没有计划/记录就显示"暂无"。
+            建档与归档在这张表里，保养的写入统一在「设备保养」页 —— 同一份数据只留一个写入口。
+          -->
+          <tr v-if="maintenanceDeviceId === device.id" class="maint-row">
+            <td colspan="6">
+              <DeviceMaintenancePanel :device="device" />
+            </td>
+          </tr>
+        </template>
       </DataTable>
     </SectionCard>
 

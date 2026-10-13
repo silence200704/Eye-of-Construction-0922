@@ -71,6 +71,20 @@ describe('裂缝分级（对应项目组提供的演示数据脚本）', () => {
 })
 
 describe('数据质量分流', () => {
+  it.each(['suspect', 'invalid'] as const)('质量为 %s 的越限值，完整判定和列表分级都不生成等级', (quality) => {
+    expect(assessRecord(crackInput(0.82, { quality })).state).toBe('excluded')
+    expect(levelOfRecord(makeRule(), makeRecord({ quality, values: { width: 0.82 } }))).toBe('excluded')
+  })
+
+  it('存疑和无效历史不能凑满连续异常条数', () => {
+    const history = [
+      makeRecord({ quality: 'suspect', sampleTime: '2026-09-15T08:50:00Z', values: { width: 0.62 } }),
+      makeRecord({ quality: 'invalid', sampleTime: '2026-09-15T08:55:00Z', values: { width: 0.62 } }),
+      makeRecord({ sampleTime: AT, values: { width: 0.62 } }),
+    ]
+    expect(assessRecord(crackInput(0.62, { history })).state).toBe('yellow')
+  })
+
   it('质量标记为无效时不参与判定', () => {
     const result = assessRecord(crackInput(0.82, { quality: 'invalid' }))
     expect(result.state).toBe('excluded')

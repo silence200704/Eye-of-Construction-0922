@@ -9,7 +9,6 @@
 import { computed, ref } from 'vue'
 import { useArchiveStore } from '@/stores/archive'
 import { useIssueStore } from '@/stores/inspection/issues'
-import { useAttachmentStore } from '@/stores/inspection/attachments'
 import { useSessionStore } from '@/stores/session'
 import { ANOMALY_TYPES, type PhotoDraftLike } from '@/config/issueOptions'
 import PhotoUploader from '@/components/inspection/PhotoUploader.vue'
@@ -19,7 +18,6 @@ const emit = defineEmits<{ done: [{ issueNo: string; note: string }]; cancel: []
 
 const archive = useArchiveStore()
 const issues = useIssueStore()
-const attachments = useAttachmentStore()
 const session = useSessionStore()
 
 const buildingId = ref('')
@@ -78,6 +76,11 @@ async function submit(): Promise<void> {
   error.value = ''
   busy.value = true
   try {
+    /*
+     * 只有一个受控入口：照片草稿随问题上报表一起提交，
+     * 问题、附件、时间线、审计日志在同一个事务里落库 —— 不再"先建问题、再逐张传照片、再关联"。
+     * 提交失败时页面上什么都不用清理：库里也没有半成品，草稿仍在，改完直接重试。
+     */
     const outcome = await issues.reportManualIssue({
       pointId: pointId.value === '' ? null : pointId.value,
       buildingId: buildingId.value,
@@ -86,31 +89,14 @@ async function submit(): Promise<void> {
       anomalyType: anomalyType.value,
       description: description.value.trim(),
       photos: [],
+      photoDrafts: photos.value,
       detail: `${session.roleLabel}现场上报：${description.value.trim()}`,
     })
-    // 照片先入库、再挂到问题上；每张成功即关联，失败留草稿可重试
-    let uploaded = 0
-    for (const draft of photos.value) {
-      const saved = await attachments.add({
-        file: new File([draft.blob], draft.fileName, { type: 'image/jpeg' }),
-        kind: 'scene',
-        issueId: outcome.issue.id,
-        workOrderId: null,
-        actor: session.name,
-        capturedAt: draft.capturedAt,
-        draftId: draft.id,
-      })
-      const linked = await issues.attachPhotos(outcome.issue.id, [saved.id])
-      if (linked === null) {
-        error.value = '照片已保存但关联失败，草稿已保留，可重试'
-        return
-      }
-      uploaded += 1
-    }
+    const uploaded = outcome.issue.photos.length
     // 编号与说明分开回给父组件：父组件要用纯编号去列表里定位这一条，不能从拼接串里反解
     emit('done', {
       issueNo: outcome.issue.issueNo,
-      note: outcome.duplicated ? '（同一次提交已存在，未重复建单）' : `（照片 ${uploaded} 张）`,
+      note: outcome.duplicated ? `（同一次提交已存在，未重复建单；照片 ${uploaded} 张）` : `（照片 ${uploaded} 张）`,
     })
   } catch (cause) {
     error.value = `提交失败：${(cause as Error).message}（草稿已保留，可重试）`

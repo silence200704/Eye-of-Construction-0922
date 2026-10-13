@@ -8,6 +8,7 @@ import { nowIso } from '@/core/time'
 import { putRule } from '@/db/repo'
 import { useArchiveStore } from '../archive'
 import { useSessionStore } from '../session'
+import { validateThresholds } from '@/core/assess/thresholds'
 
 export interface RuleDraft {
   code: string
@@ -49,9 +50,8 @@ export async function saveRule(id: string, draft: RuleDraft): Promise<{ version:
   const existing = store.ruleById(id)
   if (existing === undefined) throw new Error('规则不存在')
   if (draft.yellow !== null && draft.orange !== null && draft.red !== null) {
-    if (!(draft.yellow <= draft.orange && draft.orange <= draft.red)) {
-      throw new Error('阈值必须满足 黄色 ≤ 橙色 ≤ 红色')
-    }
+    const error = validateThresholds({ yellow: draft.yellow, orange: draft.orange, red: draft.red })
+    if (error) throw new Error(error)
   }
   const at = nowIso()
   const typed = draft.version.trim()

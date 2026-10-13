@@ -55,5 +55,18 @@ export const useAlertStore = defineStore('alerts', () => {
     }
   }
 
-  return { items, unreadCount, activeStrong, newest, enqueueEvent, enqueueBatch, markSeen, dismiss, markAllSeen }
+  /**
+   * 把一条提醒重新置为未读、未忽略。
+   *
+   * 给"重复点击载入演示数据"用：收件箱里同一条提醒不重复堆，但演示要能重复演示 ——
+   * 否则第二次点「载入演示数据」时红色强提醒弹窗永远不会再出现（本收件箱只记本会话）。
+   */
+  function reopen(key: string): void {
+    const item = items.value.find((row) => row.key === key)
+    if (item === undefined) return
+    item.seenAt = null
+    item.dismissedAt = null
+  }
+
+  return { items, unreadCount, activeStrong, newest, enqueueEvent, enqueueBatch, markSeen, dismiss, markAllSeen, reopen }
 })

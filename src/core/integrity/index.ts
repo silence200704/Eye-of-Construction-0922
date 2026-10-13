@@ -6,6 +6,8 @@ import { hasNumericReadings } from '@/types/catalog'
 import type { Baseline, Building, Device, Floor, MonitorRecord, Point } from '@/types/domain'
 import type { AlarmEvent } from '@/types/events'
 import type { InspectionIssue, InspectionPlan, InspectionTask, IssueAttachment, WorkOrder } from '@/types/inspection'
+import type { MaintenancePlan, MaintenanceTask } from '@/types/maintenance'
+import { checkMaintenanceIssueLinks, checkMaintenanceLinks } from './maintenance'
 
 export interface IntegrityIssue {
   level: 'error' | 'warn'
@@ -30,6 +32,9 @@ export interface IntegrityInput {
   issues?: InspectionIssue[]
   workOrders?: WorkOrder[]
   attachments?: IssueAttachment[]
+  /** V1-D 起纳入：保养计划与任务（含执行照片的归属校验） */
+  maintenancePlans?: MaintenancePlan[]
+  maintenanceTasks?: MaintenanceTask[]
 }
 
 /** 只有相对基准指标才要求先设基准；振动按绝对值判定、温湿度为环境辅助。 */
@@ -225,14 +230,12 @@ function checkInspectionLinks(data: IntegrityInput, issues: IntegrityIssue[]): v
   }
 }
 
-/** 问题、工单与附件：引用是否有效、照片 ID 是否真的存在、附件是否挂在了对象上。 */
+/** 问题、工单与附件：引用是否有效、照片 ID 是否真的存在、附件是否挂在了对象上（含保养任务）。 */
 function checkDisposalLinks(data: IntegrityInput, issues: IntegrityIssue[]): void {
   const pointIds = new Set(data.points.map((row) => row.id))
   const taskIds = new Set((data.tasks ?? []).map((row) => row.id))
   const eventIds = new Set((data.events ?? []).map((row: AlarmEvent) => row.id))
   const issueById = new Map((data.issues ?? []).map((row) => [row.id, row]))
-  const attachmentIds = new Set((data.attachments ?? []).map((row) => row.id))
-  const orderIds = new Set((data.workOrders ?? []).map((row) => row.id))
 
   for (const issue of data.issues ?? []) {
     const label = `${issue.issueNo} ${issue.anomalyType}`
@@ -248,11 +251,6 @@ function checkDisposalLinks(data: IntegrityInput, issues: IntegrityIssue[]): voi
     if (issue.duplicateOf !== null && !issueById.has(issue.duplicateOf)) {
       issues.push({ level: 'error', kind: '重复关联失效', objectId: issue.id, label, message: '问题关联的原记录已不存在' })
     }
-    for (const photoId of issue.photos) {
-      if (!attachmentIds.has(photoId)) {
-        issues.push({ level: 'error', kind: '问题照片丢失', objectId: issue.id, label, message: `照片 ${photoId} 在附件表中不存在` })
-      }
-    }
   }
 
   for (const order of data.workOrders ?? []) {
@@ -266,30 +264,92 @@ function checkDisposalLinks(data: IntegrityInput, issues: IntegrityIssue[]): voi
     if (order.pointId !== null && !pointIds.has(order.pointId)) {
       issues.push({ level: 'error', kind: '工单测点引用失效', objectId: order.id, label, message: '工单指向的测点已不存在' })
     }
+  }
+}
+
+/**
+ * 附件的双向校验：照片必须**有且只有一个归属**（问题 / 工单 / 保养任务），
+ * 而且**归属它的对象列出的每一张照片，附件的归属字段必须真的是它**。
+ *
+ * 只查"照片存在"是不够的：一张挂在别的问题下的照片被列进本条问题的照片列表里，
+ * 界面上看着有图、出处却是另一条记录 —— 这种错必须能自己查出来，而不是等人工发现。
+ */
+function checkAttachmentOwners(data: IntegrityInput, issues: IntegrityIssue[]): void {
+  const attachmentById = new Map((data.attachments ?? []).map((row) => [row.id, row]))
+  const issueById = new Map((data.issues ?? []).map((row) => [row.id, row]))
+  const orderIds = new Set((data.workOrders ?? []).map((row) => row.id))
+  const maintenanceIds = new Set((data.maintenanceTasks ?? []).map((row) => row.id))
+
+  for (const issue of data.issues ?? []) {
+    const label = `${issue.issueNo} ${issue.anomalyType}`
+    for (const photoId of issue.photos) {
+      const found = attachmentById.get(photoId)
+      if (found === undefined) {
+        issues.push({ level: 'error', kind: '问题照片丢失', objectId: issue.id, label, message: `照片 ${photoId} 在附件表中不存在` })
+      } else if (found.issueId !== issue.id) {
+        issues.push({ level: 'error', kind: '问题照片归属不符', objectId: issue.id, label, message: `照片 ${photoId} 的归属不是本条问题（归属 ${found.issueId ?? '其他对象'}）` })
+      }
+    }
+  }
+
+  for (const order of data.workOrders ?? []) {
+    const label = `${order.orderNo} ${order.title}`
     for (const photoId of order.photos) {
-      if (!attachmentIds.has(photoId)) {
+      const found = attachmentById.get(photoId)
+      if (found === undefined) {
         issues.push({ level: 'error', kind: '工单照片丢失', objectId: order.id, label, message: `照片 ${photoId} 在附件表中不存在` })
+      } else if (found.workOrderId !== order.id) {
+        issues.push({ level: 'error', kind: '工单照片归属不符', objectId: order.id, label, message: `照片 ${photoId} 的归属不是本工单（归属 ${found.workOrderId ?? '其他对象'}）` })
+      }
+    }
+  }
+
+  for (const task of data.maintenanceTasks ?? []) {
+    const label = `${task.taskNo} ${task.snapshot.deviceName}`.trim()
+    for (const photoId of task.execution?.photos ?? []) {
+      const found = attachmentById.get(photoId)
+      if (found === undefined) {
+        issues.push({ level: 'error', kind: '保养照片丢失', objectId: task.id, label, message: `照片 ${photoId} 在附件表中不存在` })
+      } else if ((found.maintenanceTaskId ?? null) !== task.id) {
+        issues.push({ level: 'error', kind: '保养照片归属不符', objectId: task.id, label, message: `照片 ${photoId} 的归属不是本条保养任务（归属 ${found.maintenanceTaskId ?? '其他对象'}）` })
       }
     }
   }
 
   for (const row of data.attachments ?? []) {
-    // 附件必须挂在问题或工单上，两者都空就是孤儿数据，谁也看不到它
-    if (row.issueId === null && row.workOrderId === null) {
+    /*
+     * 附件必须**有且只有一个归属**（问题 / 工单 / 保养任务），一个都没有就是孤儿数据，谁也看不到它；
+     * 挂多个也同样有问题 —— 同一张照片同时属于两处，删除任一处时到底该不该删就说不清了。
+     */
+    const owners = [row.issueId, row.workOrderId, row.maintenanceTaskId ?? null].filter((value) => value !== null)
+    if (owners.length === 0) {
       issues.push({
         level: 'error',
         kind: '附件未关联对象',
         objectId: row.id,
         label: row.fileName,
-        message: '照片既没关联问题也没关联工单，属于游离数据',
+        message: '照片既没关联问题、工单，也没关联保养任务，属于游离数据',
       })
       continue
+    }
+    if (owners.length > 1) {
+      // 不 continue：归属不唯一本身要报，它挂的每个引用是否存在也要各自核一遍（两个问题都要能修）
+      issues.push({
+        level: 'error',
+        kind: '附件归属不唯一',
+        objectId: row.id,
+        label: row.fileName,
+        message: '照片同时关联了多个对象，归属必须唯一',
+      })
     }
     if (row.issueId !== null && !issueById.has(row.issueId)) {
       issues.push({ level: 'error', kind: '附件问题引用失效', objectId: row.id, label: row.fileName, message: '照片关联的问题已不存在' })
     }
     if (row.workOrderId !== null && !orderIds.has(row.workOrderId)) {
       issues.push({ level: 'error', kind: '附件工单引用失效', objectId: row.id, label: row.fileName, message: '照片关联的工单已不存在' })
+    }
+    if ((row.maintenanceTaskId ?? null) !== null && !maintenanceIds.has(row.maintenanceTaskId as string)) {
+      issues.push({ level: 'error', kind: '附件保养任务引用失效', objectId: row.id, label: row.fileName, message: '照片关联的保养任务已不存在' })
     }
   }
 }
@@ -303,5 +363,9 @@ export function scanIntegrity(data: IntegrityInput): IntegrityIssue[] {
   checkLabelUnique(data, issues)
   checkInspectionLinks(data, issues)
   checkDisposalLinks(data, issues)
+  checkAttachmentOwners(data, issues)
+  // 保养相关的两类检查在 ./maintenance：文件超过 450 行后按主题拆开
+  checkMaintenanceLinks(data, issues)
+  checkMaintenanceIssueLinks(data, issues)
   return issues.sort((a, b) => (a.level === b.level ? 0 : a.level === 'error' ? -1 : 1))
 }

@@ -56,7 +56,10 @@ export function hitDayOfMonth(startDay: number, day: Date): number {
 }
 
 /** 计划在某一天应生成的任务时刻；不命中返回 null。 */
-export function plannedAtOf(plan: InspectionPlan, day: Date): Date | null {
+export function plannedAtOf(
+  plan: Pick<InspectionPlan, 'startDate' | 'endDate' | 'cycle'>,
+  day: Date,
+): Date | null {
   const start = new Date(`${plan.startDate}T00:00:00`)
   if (!Number.isFinite(start.getTime())) return null
   const end = plan.endDate === null ? null : new Date(`${plan.endDate}T23:59:59`)

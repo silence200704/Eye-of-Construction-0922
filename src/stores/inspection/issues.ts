@@ -5,21 +5,25 @@
  * 跨来源的疑似重复用 candidateDuplicates() 提示，由审核人员选择关联，不静默合并。
  */
 import { computed, ref } from 'vue'
+import { publishReuse } from '@/core/operations/receipts'
 import { defineStore } from 'pinia'
-import type { InspectionIssue, IssueSource, ReviewAction } from '@/types/inspection'
+import type { InspectionIssue, IssueSource, RecheckOutcome, ReviewAction } from '@/types/inspection'
 import type { AlarmEvent } from '@/types/events'
 import { candidateDuplicates, submissionKeyOf } from '@/core/inspection/issueMerge'
 import type { DraftPhotoInput } from '@/db/inspection/attachments'
+import { buildDraftPhoto } from '@/db/inspection/attachments'
 import { nowIso } from '@/core/time'
 import { toPlain } from '@/core/plain'
 import { db } from '@/db/database'
 import { buildAuditLog, putIssue } from '@/db/repo'
 import {
   createIssueAtomic,
+  issueIdOf,
   planIssueRow,
   type IssueRowDraft,
 } from '@/db/inspection/issueWrites'
 import { performReview } from './issueReview'
+import { commitRecheckOutcome, commitRecheckRegister } from './issueRecheck'
 import { useArchiveStore } from '../archive'
 import { useWorkOrderStore } from './workOrders'
 import { useSessionStore } from '../session'
@@ -33,6 +37,11 @@ export interface IssueDraft {
   anomalyType: string
   description: string
   photos: string[]
+  /**
+   * 随问题一起落库的现场照片草稿（页面已压缩）。
+   * 附件不先单独入库：与问题、时间线、审计日志在同一个事务里提交。
+   */
+  photoDrafts?: DraftPhotoInput[]
   eventId?: string | null
   taskId?: string | null
   windowMinutes?: number
@@ -63,7 +72,7 @@ export interface ReviewPayload {
   noPhotoReason?: string
 }
 
-export interface ReviewResult {
+export interface IssueActionResult {
   ok: boolean
   error: string
   issue: InspectionIssue | null
@@ -121,6 +130,8 @@ export const useIssueStore = defineStore('inspectionIssues', () => {
     reportManualIssue,
     reviewIssue,
     createIssueFromEvent,
+    registerRecheck,
+    recordRecheckOutcome,
     attachPhotos,
     reload,
     reset,
@@ -177,11 +188,24 @@ export const useIssueStore = defineStore('inspectionIssues', () => {
   async function writeIssue(draft: IssueDraft, eventForTimeline: AlarmEvent | null = null): Promise<SubmitOutcome> {
     const session = useSessionStore()
     const at = nowIso()
-    const row = planIssueRow(draftWithKey(draft), { actor: session.name, actorRole: session.roleLabel, at })
+    const keyed = draftWithKey(draft)
+    /*
+     * 照片在这里**只构造不写库**：附件与问题、任务、事件时间线、审计日志在同一个事务里提交。
+     * 先写照片再建问题（或反之）都会留下半成品；附件主键由草稿标识推出，重试不会重复新增。
+     */
+    const attachments = (draft.photoDrafts ?? []).map((item) =>
+      buildDraftPhoto(item, { kind: 'scene', issueId: issueIdOf(keyed.submissionKey), workOrderId: null, actor: session.name }),
+    )
+    const row = planIssueRow(
+      { ...keyed, photos: [...keyed.photos, ...attachments.map((item) => item.id)] },
+      { actor: session.name, actorRole: session.roleLabel, at },
+    )
     const position = await labelOf(row)
     const result = await createIssueAtomic({
       issue: row,
       task: null,
+      attachments,
+      photoTrace: { at, by: session.name, byRole: session.roleLabel },
       eventId: eventForTimeline?.id ?? null,
       buildEvent:
         eventForTimeline === null
@@ -214,6 +238,7 @@ export const useIssueStore = defineStore('inspectionIssues', () => {
       ],
     })
     await reload()
+    if (!result.created) await publishReuse({ db, id: result.issue.id, actor: session.name, at })
     return { issue: result.issue, duplicated: !result.created, candidates: [] }
   }
 
@@ -245,7 +270,7 @@ export const useIssueStore = defineStore('inspectionIssues', () => {
    * 审核：一级出口 + 二级分类 + 审核意见，判定在 core 里做，写库与日志同事务。
    * 关联既有对象时一并记下关联到的问题或事件，保证"两次发现"都留得住。
    */
-  async function reviewIssue(issueId: string, input: ReviewPayload): Promise<ReviewResult> {
+  async function reviewIssue(issueId: string, input: ReviewPayload): Promise<IssueActionResult> {
     const session = useSessionStore()
 
     /*
@@ -284,6 +309,42 @@ export const useIssueStore = defineStore('inspectionIssues', () => {
     await reload()
     if (input.action === 'to_repair') await workOrders.reload()
     return { ok: true, error: '', issue: out.issue }
+  }
+
+  /**
+   * 登记复查：写入在 issueRecheck 模块（含权限与留痕），这里只负责重载。
+   *
+   * 事务失败（写库或日志写入抛错）在这里**转成失败结果**而不是继续往外抛：
+   * 页面只写了 try/finally 时，抛出去的异常就只剩一条控制台错误，用户看不到任何提示。
+   * 事务性写入失败必然整笔回滚，所以文案可以明确说"未写入数据"，不需要用户去猜。
+   */
+  async function registerRecheck(
+    issueId: string,
+    input: { subject: string; owner: string; dueDate: string },
+  ): Promise<IssueActionResult> {
+    let out: IssueActionResult
+    try {
+      out = await commitRecheckRegister(issueId, input)
+    } catch (cause) {
+      return { ok: false, error: `保存失败，未写入数据：${(cause as Error).message}（可重试）`, issue: null }
+    }
+    if (out.ok) await reload()
+    return out
+  }
+
+  /** 记录复查结论：同上（含异常转失败结果）。 */
+  async function recordRecheckOutcome(
+    issueId: string,
+    input: { outcome: RecheckOutcome; note: string; nextDueDate?: string },
+  ): Promise<IssueActionResult> {
+    let out: IssueActionResult
+    try {
+      out = await commitRecheckOutcome(issueId, input)
+    } catch (cause) {
+      return { ok: false, error: `保存失败，未写入数据：${(cause as Error).message}（可重试）`, issue: null }
+    }
+    if (out.ok) await reload()
+    return out
   }
 
   /**

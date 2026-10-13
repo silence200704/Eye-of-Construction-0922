@@ -5,7 +5,8 @@
  * 三个页签对应现场的三件事：定计划、看今天要做什么、看我要做什么。
  * 任务状态一律由逐点检查结果推导，页面不提供"直接标记完成"的入口（方案 §3）。
  */
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import { useArchiveStore } from '@/stores/archive'
 import { useSessionStore } from '@/stores/session'
 import { usePlanStore } from '@/stores/inspection/plans'
@@ -26,6 +27,7 @@ const archive = useArchiveStore()
 const session = useSessionStore()
 const plans = usePlanStore()
 const tasks = useTaskStore()
+const route = useRoute()
 
 type TabKey = 'plans' | 'today' | 'mine'
 const tab = ref<TabKey>('plans')
@@ -36,6 +38,23 @@ const tone = ref<'ok' | 'bad'>('ok')
 
 const openTaskId = ref('')
 const openTask = computed(() => (openTaskId.value === '' ? null : tasks.byId(openTaskId.value) ?? null))
+
+// 只在目标/加载状态/目标存在性变化时定位；刷新仓储不能重开人刚关闭的详情。
+watch([
+  () => route.query.task,
+  () => tasks.loaded,
+  () => tasks.byId(typeof route.query.task === 'string' ? route.query.task : '')?.id,
+], ([id, loaded]) => {
+  if (!loaded || typeof id !== 'string' || id === '') return
+  const task = tasks.byId(id)
+  if (task === undefined) {
+    openTaskId.value = ''
+    notify('深链中的巡检任务不存在，请重新选择任务。', false)
+    return
+  }
+  tab.value = 'today'
+  openTaskId.value = task.id
+}, { immediate: true })
 
 function openTaskDetail(taskId: string): void {
   openTaskId.value = taskId
@@ -303,7 +322,7 @@ onMounted(async () => {
 
 .cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr));
   gap: 12px;
 }
 
@@ -322,5 +341,9 @@ onMounted(async () => {
   font-size: 12px;
   cursor: pointer;
   padding: 2px 0;
+}
+@media (max-width: 600px) {
+  .actions { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .tabs { gap: 6px; }.tab { flex: 1; min-width: 0; padding: 8px 10px; }
 }
 </style>

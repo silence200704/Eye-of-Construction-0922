@@ -3,6 +3,7 @@ import { db } from './database'
 import type { MonitoringRule } from '@/types/rules'
 import type { AlarmEvent, AlarmNotification } from '@/types/events'
 import type { InspectionIssue, InspectionPlan, InspectionTask, IssueAttachment, WorkOrder } from '@/types/inspection'
+import type { MaintenancePlan, MaintenanceTask } from '@/types/maintenance'
 import type {
   AuditAction,
   AuditLog,
@@ -36,6 +37,9 @@ export interface Dataset {
   issues: InspectionIssue[]
   workOrders: WorkOrder[]
   attachments: IssueAttachment[]
+  /** V1-D 起纳入（旧备份没有这些字段，读取时按空数组处理） */
+  maintenancePlans: MaintenancePlan[]
+  maintenanceTasks: MaintenanceTask[]
 }
 
 export interface AuditInput {
@@ -50,7 +54,7 @@ export interface AuditInput {
 }
 
 export async function readDataset(): Promise<Dataset> {
-  const [buildings, floors, points, devices, baselines, records, audits, rules, events, notifications, plans, tasks, issues, workOrders, attachments] =
+  const [buildings, floors, points, devices, baselines, records, audits, rules, events, notifications, plans, tasks, issues, workOrders, attachments, maintenancePlans, maintenanceTasks] =
     await Promise.all([
       db.buildings.toArray(),
       db.floors.toArray(),
@@ -67,8 +71,28 @@ export async function readDataset(): Promise<Dataset> {
       db.issues.toArray(),
       db.workOrders.toArray(),
       db.attachments.toArray(),
+      db.maintenancePlans.toArray(),
+      db.maintenanceTasks.toArray(),
     ])
-  return { buildings, floors, points, devices, baselines, records, audits, rules, events, notifications, plans, tasks, issues, workOrders, attachments }
+  return {
+    buildings,
+    floors,
+    points,
+    devices,
+    baselines,
+    records,
+    audits,
+    rules,
+    events,
+    notifications,
+    plans,
+    tasks,
+    issues,
+    workOrders,
+    attachments,
+    maintenancePlans,
+    maintenanceTasks,
+  }
 }
 
 export async function clearDataset(): Promise<void> {
@@ -97,6 +121,8 @@ export async function writeDataset(data: Dataset): Promise<void> {
     await db.workOrders.bulkPut(toPlain(data.workOrders))
     // 附件含 Blob：toPlain 对 Blob 原样返回（交给结构化克隆），这里不能换成 JSON 深拷贝
     await db.attachments.bulkPut(toPlain(data.attachments))
+    await db.maintenancePlans.bulkPut(toPlain(data.maintenancePlans))
+    await db.maintenanceTasks.bulkPut(toPlain(data.maintenanceTasks))
   })
   announceChange()
 }

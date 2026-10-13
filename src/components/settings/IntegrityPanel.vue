@@ -16,6 +16,8 @@ import { useTaskStore } from '@/stores/inspection/tasks'
 import { useIssueStore } from '@/stores/inspection/issues'
 import { useWorkOrderStore } from '@/stores/inspection/workOrders'
 import { useAttachmentStore } from '@/stores/inspection/attachments'
+import { useMaintenancePlanStore } from '@/stores/maintenance/plans'
+import { useMaintenanceTaskStore } from '@/stores/maintenance/tasks'
 import SectionCard from '@/components/ui/SectionCard.vue'
 import DataTable from '@/components/ui/DataTable.vue'
 import StatusTag from '@/components/ui/StatusTag.vue'
@@ -28,6 +30,8 @@ const tasks = useTaskStore()
 const issues = useIssueStore()
 const workOrders = useWorkOrderStore()
 const attachments = useAttachmentStore()
+const maintenancePlans = useMaintenancePlanStore()
+const maintenanceTasks = useMaintenanceTaskStore()
 
 /** 关联编号与位置引用的体检：让"看起来完整"和"真的对得上"分开呈现。 */
 const rows = computed(() =>
@@ -44,6 +48,8 @@ const rows = computed(() =>
     issues: issues.issues,
     workOrders: workOrders.orders,
     attachments: attachments.attachments,
+    maintenancePlans: maintenancePlans.plans,
+    maintenanceTasks: maintenanceTasks.tasks,
   }),
 )
 
@@ -79,7 +85,8 @@ const columns = [
     <p v-else class="hint">
       检查内容：测点的楼栋、楼层与区域引用是否仍然有效；设备绑定的测点是否存在；监测记录指向的测点是否存在；
       相对基准指标是否已设基准；同一测点是否存在多条"当前生效"基准；设备量程上下限是否合法；
-      NFC 标签编号是否重复；巡检计划与任务的引用是否有效；问题、工单与照片的关联是否完整。
+      NFC 标签编号是否重复；巡检计划与任务的引用是否有效；问题、工单与照片的关联是否完整；
+      保养计划与保养任务的引用是否有效；每张照片（问题 / 工单 / 保养）的归属是否唯一且指向真实存在的对象； 保养任务与它转出的问题是否双向对应（断链或指向不一致都会报出来）。
     </p>
   </SectionCard>
 </template>

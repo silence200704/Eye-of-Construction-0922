@@ -2,7 +2,7 @@
 /** 系统设置：演示身份、数据模式、备份恢复、本地存储与操作日志。 */
 import { computed, onMounted, ref } from 'vue'
 import { APP_STAGE, DEMO_ROLES, ROLES, SCHEMA_VERSION, APP_VERSION } from '@/types/catalog'
-import { DB_NAME, estimateStorage } from '@/db/database'
+import { db, estimateStorage } from '@/db/database'
 import { readDataset } from '@/db/repo'
 import { buildBackup, downloadBackup, estimateBackup, parseBackup, readFileText, toDataset } from '@/db/backup'
 import { useArchiveStore } from '@/stores/archive'
@@ -13,6 +13,8 @@ import { useTaskStore } from '@/stores/inspection/tasks'
 import { useIssueStore } from '@/stores/inspection/issues'
 import { useWorkOrderStore } from '@/stores/inspection/workOrders'
 import { useAttachmentStore } from '@/stores/inspection/attachments'
+import { useMaintenancePlanStore } from '@/stores/maintenance/plans'
+import { useMaintenanceTaskStore } from '@/stores/maintenance/tasks'
 import { useSessionStore } from '@/stores/session'
 import { formatBytes } from '@/core/format'
 import { formatDateTime } from '@/core/time'
@@ -23,6 +25,7 @@ import AppModal from '@/components/ui/AppModal.vue'
 import FormGrid from '@/components/ui/FormGrid.vue'
 import StatusTag from '@/components/ui/StatusTag.vue'
 import IntegrityPanel from '@/components/settings/IntegrityPanel.vue'
+import DemoChainPanel from '@/components/demo/DemoChainPanel.vue'
 
 const archive = useArchiveStore()
 const plans = usePlanStore()
@@ -30,6 +33,8 @@ const tasks = useTaskStore()
 const issues = useIssueStore()
 const workOrders = useWorkOrderStore()
 const attachments = useAttachmentStore()
+const maintenancePlans = useMaintenancePlanStore()
+const maintenanceTasks = useMaintenanceTaskStore()
 const records = useRecordsStore()
 const events = useEventsStore()
 const session = useSessionStore()
@@ -109,13 +114,18 @@ async function reloadAllStores(): Promise<void> {
   await issues.reset()
   await workOrders.reset()
   await attachments.reset()
-  await Promise.all([plans.reload(), tasks.reload(), issues.reload(), workOrders.reload(), attachments.reload()])
-}
-
-async function loadSeed(): Promise<void> {
-  await archive.loadSeed()
-  await reloadAllStores()
-  notify('已载入示例校区数据（明确标识为示例，可随时清空重来）')
+  // 保养数据同样要一起重载：设置页的一致性检查要覆盖它，否则换数据集后还在检查旧数据
+  await maintenancePlans.reset()
+  await maintenanceTasks.reset()
+  await Promise.all([
+    plans.reload(),
+    tasks.reload(),
+    issues.reload(),
+    workOrders.reload(),
+    attachments.reload(),
+    maintenancePlans.reload(),
+    maintenanceTasks.reload(),
+  ])
 }
 
 async function confirmClear(): Promise<void> {
@@ -198,10 +208,10 @@ const scope = [
 ]
 
 const notYet = [
-  '点检巡检、问题审核、维修工单与验收：属 V0.3 / V1.0',
-  '观察期复查、周期保养、台账统计与可打印报告：属 V1.0',
   '账号鉴权、跨设备协同、照片云端上传：属 V2.0（当前角色切换不等于真实鉴权）',
-  '传感器自动采集、NFC 读卡、声光控制：属 V3.0（当前数据由人工录入）',
+  '真实传感器自动采集、NFC 读卡、声光控制：本机未接入（当前传感器读数为预设模拟数据，NFC 为编号校验模拟）',
+  '真实外部通知渠道（短信 / 电话 / 推送）：只做本机站内提醒，不声称已送达',
+  '后台定时任务与自动刷新：任务生成与状态刷新由人手动触发（共享演示时钟 + 刷新按钮）',
 ]
 </script>
 
@@ -210,6 +220,8 @@ const notYet = [
     <p v-if="message !== ''" class="notice" :class="tone === 'ok' ? 'notice--brand' : 'notice--warn'">
       {{ message }}
     </p>
+
+    <DemoChainPanel />
 
     <div class="two">
       <SectionCard title="演示身份" sub="V0.2 用身份切换区分操作留痕与关闭权限；切换仍不等于真实鉴权" marked>
@@ -220,7 +232,7 @@ const notYet = [
         </template>
       </SectionCard>
 
-      <SectionCard title="数据模式与初始化" sub="必须能够清空示例后重新建档并走通流程">
+      <SectionCard title="数据模式与重置" sub="清空后可从上方唯一入口重新载入全链演示数据">
         <div class="row wrap">
           <span class="muted">当前模式</span>
           <StatusTag :tone="mode === 'seed' ? 'brand' : 'gray'" :text="mode === 'seed' ? '示例数据模式' : '空白建档模式'" />
@@ -229,7 +241,6 @@ const notYet = [
           示例校区数据在图上与档案中均标注为“示例数据”，与实测建档分开显示。空白模式下所有楼栋、测点与记录都需要自行建档录入。
         </p>
         <div class="row">
-          <AppButton size="sm" @click="loadSeed">重新载入示例校区</AppButton>
           <AppButton size="sm" variant="danger" @click="clearOpen = true">清空并转为空白模式</AppButton>
         </div>
       </SectionCard>
@@ -253,7 +264,7 @@ const notYet = [
 
       <SectionCard title="本地存储" sub="浏览器本地数据库">
         <dl class="kv">
-          <div class="kv-item"><dt>数据库名</dt><dd class="num">{{ DB_NAME }}</dd></div>
+          <div class="kv-item"><dt>数据库名</dt><dd class="num">{{ db.name }}</dd></div>
           <div class="kv-item"><dt>数据结构版本</dt><dd class="num">v{{ SCHEMA_VERSION }}</dd></div>
           <div class="kv-item"><dt>当前占用</dt><dd class="num">{{ usage === null ? '浏览器未提供' : formatBytes(usage.usage) }}</dd></div>
           <div class="kv-item">
@@ -307,7 +318,7 @@ const notYet = [
     </SectionCard>
 
     <div class="two">
-      <SectionCard title="V0.2 已实现范围" sub="当前版本可验证的能力">
+      <SectionCard title="V0.2 冻结能力（历史基线）" sub="V0.2 当时可验证的能力；V1 新增的巡检、问题池、复查、保养台账与管理报表在各自工作台">
         <ul class="list list--ok">
           <li v-for="item in scope" :key="item">{{ item }}</li>
         </ul>

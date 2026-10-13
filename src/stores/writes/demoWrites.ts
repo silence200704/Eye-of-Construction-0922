@@ -15,6 +15,7 @@ import { useArchiveStore } from '../archive'
 import { useEventsStore } from '../events'
 import { useRecordsStore } from '../records'
 import { CRACK_SAMPLES, DEMO_SCRIPT_LABEL, demoScriptBase, demoSampleTime } from '@/config/demoScript'
+import { D_CRACK } from '@/db/seedFactories'
 
 export interface DemoRunResult {
   created: number
@@ -30,8 +31,10 @@ export interface DemoRunResult {
 /**
  * 推导演示基准时刻：既要晚于规则生效时间，又要让整段脚本（含最后一条）落在过去。
  * 两个条件无法同时满足时直接报错，不静默把数据写成"规则未生效"或"未来时间"。
+ *
+ * 导出给演示场景用：它要按同一基准复算采样时刻，才能分辨"已存在的是上次载入还是手工录入"。
  */
-function resolveDemoBase(effectiveFrom: string, pointId: string): Date {
+export function resolveDemoBase(effectiveFrom: string, pointId: string): Date {
   const preferred = demoScriptBase()
   const ruleStart = effectiveFrom === '' ? 0 : new Date(effectiveFrom).getTime()
   const span = 11 * 1440 * 60_000
@@ -41,7 +44,7 @@ function resolveDemoBase(effectiveFrom: string, pointId: string): Date {
     const rule = archive.ruleFor(pointId, nowIso())
     throw new Error(
       `演示脚本需要 12 天跨度，但规则 ${rule?.code ?? ''} 的生效时间是 ${rule?.effectiveFrom.slice(0, 10) ?? '未知'}，` +
-        '窗口不够。请把规则生效时间改到更早，或改用「重新载入示例校区」恢复示例规则。',
+        '窗口不够。请把规则生效时间改到更早，或到系统设置清空本机数据后用唯一入口重新载入全链演示数据。',
     )
   }
   return base
@@ -80,12 +83,12 @@ export async function runDemoScript(): Promise<DemoRunResult> {
     }
     await records.addRecord({
       pointId,
-      deviceId: null,
+      deviceId: D_CRACK,
       values: sample.values,
       unit: 'mm',
       sampleTime,
       sampleWindow: '',
-      source: 'manual',
+      source: 'device',
       quality: 'valid',
       qualityNote: '',
       note: `${DEMO_SCRIPT_LABEL}：${sample.label}`,
@@ -110,7 +113,7 @@ export async function runDemoScript(): Promise<DemoRunResult> {
     'demo-script',
     '演示脚本',
     `一键生成演示数据：新增 ${created} 条记录，跳过 ${skipped} 条`,
-    '用于答辩演示；数据标注为演示脚本导入，采样时间早于当前时间，按历史补录标记',
+    '用于答辩演示；来源为预设传感器模拟采样，采样时间早于当前时间，按历史补录标记；未接入真实设备',
   )
 
   return {

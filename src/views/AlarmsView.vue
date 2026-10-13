@@ -16,7 +16,6 @@ import StatusTag from '@/components/ui/StatusTag.vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import EmptyState from '@/components/ui/EmptyState.vue'
 import EventDetailPanel from '@/components/panels/EventDetailPanel.vue'
-import DemoScriptPanel from '@/components/panels/DemoScriptPanel.vue'
 
 const archive = useArchiveStore()
 const events = useEventsStore()
@@ -27,6 +26,8 @@ const filterStatus = ref<EventStatus | ''>('')
 const filterLevel = ref<EventLevel | ''>('')
 const filterPoint = ref('')
 const keyword = ref('')
+/** 保养页"结构预警"分区跳来时的范围：只看未关闭事件 */
+const unclosedOnly = ref(false)
 const detailId = ref('')
 const detailOpen = ref(false)
 const caughtUp = ref(0)
@@ -39,6 +40,18 @@ onMounted(async () => {
 
 watch(() => route.query.event, syncDetailFromRoute)
 
+/*
+ * 分区卡片跳转带 `scope=unclosed` 时才筛未关闭。
+ * 不读这个参数的话，从"结构预警 N 条"点进来看到的是全部事件（含已关闭），条数与卡片对不上。
+ */
+watch(
+  () => route.query.scope,
+  (value) => {
+    unclosedOnly.value = value === 'unclosed'
+  },
+  { immediate: true },
+)
+
 const pointOptions = computed(() =>
   archive.activePoints.map((row) => ({ value: row.id, label: `${row.code} ${row.name}` })),
 )
@@ -46,6 +59,7 @@ const pointOptions = computed(() =>
 const rows = computed(() => {
   const text = keyword.value.trim().toLowerCase()
   return events.sorted
+    .filter((row) => (unclosedOnly.value ? row.status !== 'closed' : true))
     .filter((row) => (filterStatus.value === '' ? true : row.status === filterStatus.value))
     .filter((row) => (filterLevel.value === '' ? true : row.level === filterLevel.value || row.peakLevel === filterLevel.value))
     .filter((row) => (filterPoint.value === '' ? true : row.pointId === filterPoint.value))
@@ -236,7 +250,6 @@ const sortedRows = computed(() =>
       sub="到「监测数据」录入一条越限数据（例如裂缝测点 0.62 mm），系统会按规则自动生成事件"
     />
 
-    <DemoScriptPanel />
 
     <EventDetailPanel :open="detailOpen" :event-id="detailId" @close="closeDetail" />
   </div>

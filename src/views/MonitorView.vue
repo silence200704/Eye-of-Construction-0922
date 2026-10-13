@@ -2,12 +2,12 @@
 /** 监测数据：单条录入、条件查询、记录详情与修订留痕。 */
 import { computed, ref } from 'vue'
 import type { MetricValues, MonitorRecord } from '@/types/domain'
-import { QUALITY_OPTIONS, metricDef, qualityLabel, sourceLabel } from '@/types/catalog'
+import { QUALITY_OPTIONS, metricDef, qualityLabel, recordSourceLabel } from '@/types/catalog'
 import { useArchiveStore } from '@/stores/archive'
 import { useRecordsStore } from '@/stores/records'
 import { levelOfRecord, stateLabel, stateTone } from '@/core/rules'
 import { fmtDelta, fmtNumber } from '@/core/format'
-import { formatDateTime } from '@/core/time'
+import { formatDateTime, nowIso } from '@/core/time'
 import SectionCard from '@/components/ui/SectionCard.vue'
 import DataTable from '@/components/ui/DataTable.vue'
 import StatusTag from '@/components/ui/StatusTag.vue'
@@ -215,7 +215,7 @@ function qualityTone(record: MonitorRecord): 'green' | 'orange' | 'red' {
           <td>
             <div>{{ pointName(record.pointId) }}</div>
             <div class="code">
-              {{ sourceLabel(record.source) }}{{ record.isBackfill ? '｜历史补录' : ''
+              {{ recordSourceLabel(record, nowIso()) }}{{ record.isBackfill ? '｜历史补录' : ''
               }}{{ record.revision > 0 ? `｜已修订 ${record.revision} 次` : '' }}
             </div>
           </td>

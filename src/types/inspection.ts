@@ -78,6 +78,7 @@ export const ISSUE_SOURCES = [
   { key: 'sensor', name: '传感器预警' },
   { key: 'inspection', name: '巡检发现' },
   { key: 'report', name: '人工上报' },
+  { key: 'maintenance', name: '保养发现' },
 ] as const
 export type IssueSource = (typeof ISSUE_SOURCES)[number]['key']
 
@@ -91,6 +92,36 @@ export const ISSUE_STATUSES = [
   { key: 'closed', name: '已关闭' },
 ] as const
 export type IssueStatus = (typeof ISSUE_STATUSES)[number]['key']
+
+/** 复查结论三态（方案 §4）。系统不替人下结论 —— 三种都由复查人明确选择，逾期也不会自动关问题。 */
+export const RECHECK_OUTCOMES = [
+  { key: 'recovered', name: '确认恢复', hint: '复查确认已恢复：问题关闭，原工单与预警事件仍可回看' },
+  { key: 'observing', name: '继续观察', hint: '尚未稳定：延长观察期，必须登记下一次复查的目标日期' },
+  { key: 'recurred', name: '复发转处置', hint: '问题再次出现：退回待审核重新安排处置，不新建无关问题' },
+] as const
+export type RecheckOutcome = (typeof RECHECK_OUTCOMES)[number]['key']
+
+/**
+ * 一轮复查登记。
+ *
+ * 工单验收通过只把问题推进到"待复查"，**必须有人登记复查事项、责任人与目标日期**；
+ * 到期后由责任人给出结论；结论若是"继续观察"，就再登记一轮，历史轮次全部保留。
+ */
+export interface RecheckRound {
+  /** 复查事项：要复查什么 */
+  subject: string
+  /** 责任人 */
+  owner: string
+  /** 目标日期（YYYY-MM-DD，本地日期） */
+  dueDate: string
+  at: string
+  by: string
+  /** 本轮结论；null = 尚未复查 */
+  outcome: RecheckOutcome | null
+  outcomeAt: string | null
+  outcomeBy: string
+  outcomeNote: string
+}
 
 /** 审核出口六种（方案 §3）：原始报告一律保留，不做覆盖式编辑。 */
 export const REVIEW_ACTIONS = [
@@ -295,6 +326,12 @@ export interface InspectionIssue extends AuditFields {
   /** 关联预警事件（来源为传感器预警时） */
   eventId: string | null
   taskId: string | null
+  /**
+   * 由哪条保养任务转出的问题（来源为「保养发现」时非空）。
+   * 与 `MaintenanceExecution.issueId` 互为反向：任务详情能跳到问题，问题也能回到任务，
+   * 一致性检查按这一对字段报「保养转问题断链」。
+   */
+  maintenanceTaskId: string | null
   anomalyType: string
   description: string
   photos: string[]
@@ -312,6 +349,11 @@ export interface InspectionIssue extends AuditFields {
   /** 反向关系：有哪些问题关联到了本条（目标问题保留"关联来源"清单） */
   linkedFrom: string[]
   workOrderIds: string[]
+  /**
+   * 复查轮次，最近一轮在最后。
+   * 可选：V1-C 之前写入的问题行没有这个字段，读取时按空数组处理（见 core/inspection/recheck.roundsOf）。
+   */
+  rechecks?: RecheckRound[]
   timeline: IssueTimelineEntry[]
 }
 
@@ -328,6 +370,12 @@ export interface IssueAttachment {
   id: string
   issueId: string | null
   workOrderId: string | null
+  /**
+   * 归属的保养任务（V1-D 起）。
+   * 照片必须**有且只有一个归属**（问题 / 工单 / 保养任务），否则会变成查不到出处的游离附件；
+   * 旧行没有这个字段，读取时按 null 处理。
+   */
+  maintenanceTaskId?: string | null
   kind: AttachmentKind
   /**
    * 上传时草稿的标识。

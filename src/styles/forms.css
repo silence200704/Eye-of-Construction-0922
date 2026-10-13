@@ -3,7 +3,7 @@
 .ctl {
   width: 100%;
   height: var(--h-control);
-  padding: 0 10px;
+  padding: 0 12px;
   border: 1px solid var(--line-strong);
   border-radius: var(--r-sm);
   background: var(--paper);
@@ -40,7 +40,7 @@ select.ctl {
   appearance: none;
   background-image: linear-gradient(45deg, transparent 50%, var(--text-3) 50%),
     linear-gradient(135deg, var(--text-3) 50%, transparent 50%);
-  background-position: calc(100% - 14px) 14px, calc(100% - 9px) 14px;
+  background-position: calc(100% - 14px) 50%, calc(100% - 9px) 50%;
   background-size: 5px 5px, 5px 5px;
   background-repeat: no-repeat;
   padding-right: 28px;
@@ -62,6 +62,7 @@ select.ctl {
 
 .field-label {
   font-size: 12px;
+  font-weight: 600;
   color: var(--text-2);
   display: flex;
   align-items: center;
@@ -98,3 +99,7 @@ select.ctl {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px 16px;
 }
+@media (max-width: 600px) {
+  .ctl { min-height: 44px; font-size: 16px; }
+}
+@media (prefers-reduced-motion: reduce) { .ctl { transition: none; } }

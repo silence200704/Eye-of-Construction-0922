@@ -62,7 +62,7 @@ const pointCodes = computed(() =>
     <dl class="meta">
       <div><dt>计划时刻</dt><dd class="num">{{ formatDateTime(task.plannedAt) }}</dd></div>
       <div><dt>当日截止</dt><dd class="num">{{ formatDateTime(task.dueAt) }}</dd></div>
-      <div><dt>到点进度</dt><dd class="num">{{ progress.completed }} / {{ progress.total }}</dd></div>
+      <div><dt>检查完成进度</dt><dd class="num">{{ progress.completed }} / {{ progress.total }}</dd></div>
       <div><dt>执行角色 / 检查项</dt><dd>{{ roleName }}｜{{ snapshot.checklist.length }} 项</dd></div>
     </dl>
 
@@ -88,9 +88,9 @@ const pointCodes = computed(() =>
 <style scoped>
 .task-card {
   border: 1px solid var(--line);
-  border-radius: var(--r-sm);
+  border-radius: var(--r-md);
   background: var(--paper);
-  padding: 12px 14px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -108,7 +108,7 @@ const pointCodes = computed(() =>
   flex-direction: column;
   gap: 3px;
   font-size: 13px;
-  color: var(--text-1);
+  color: var(--text);
 }
 
 .title .muted {
@@ -130,7 +130,7 @@ const pointCodes = computed(() =>
 
 .meta dd {
   margin: 2px 0 0;
-  color: var(--text-1);
+  color: var(--text);
 }
 
 .points {
@@ -162,4 +162,5 @@ const pointCodes = computed(() =>
   display: flex;
   justify-content: flex-end;
 }
+@media (max-width: 600px) { .meta { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }.title { min-width: 0; }.title b { overflow-wrap: anywhere; } }
 </style>

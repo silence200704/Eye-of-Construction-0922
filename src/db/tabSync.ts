@@ -4,8 +4,9 @@
  * 因此检测到其它标签页写入时提示刷新，避免演示中数据莫名错乱。
  */
 import { uid } from '@/core/id'
+import { workspaceStorageKey } from '@/core/demo/workspace'
 
-const CHANNEL = 'zhutong-demo/tab'
+const CHANNEL = workspaceStorageKey('zhutong-demo/tab')
 const TAB_ID = uid('tab')
 
 let channel: BroadcastChannel | null = null

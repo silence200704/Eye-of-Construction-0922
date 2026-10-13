@@ -39,7 +39,8 @@ button {
 }
 
 :focus-visible {
-  outline: none;
+  outline: 2px solid var(--brand-500);
+  outline-offset: 2px;
   box-shadow: var(--focus-ring);
 }
 
@@ -114,7 +115,8 @@ button {
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: var(--r-md);
-  padding: 18px 20px;
+  padding: 22px 24px;
+  box-shadow: var(--shadow-card);
 }
 
 .card--flush {
@@ -124,18 +126,18 @@ button {
 
 .card-head {
   display: flex;
-  align-items: baseline;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: 12px;
-  padding-bottom: 12px;
+  gap: 16px;
+  padding-bottom: 16px;
   border-bottom: 1px solid var(--line);
-  margin-bottom: 14px;
+  margin-bottom: 18px;
 }
 
 .card-title {
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 /* 工程图纸感的角标 */
@@ -158,7 +160,7 @@ button {
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: var(--r-md);
-  padding: 14px 16px;
+  padding: 18px 20px;
 }
 
 .kpi-label {
@@ -170,7 +172,7 @@ button {
 .kpi-value {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
-  font-size: 26px;
+  font-size: 32px;
   line-height: 1.2;
   font-weight: 600;
   letter-spacing: -0.01em;
@@ -190,19 +192,19 @@ button {
 
 .tbl th {
   text-align: left;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 12px;
   color: var(--text-3);
   letter-spacing: 0.04em;
-  background: #f7f9fa;
+  background: var(--canvas);
   border-bottom: 1px solid var(--line);
-  padding: 9px 12px;
+  padding: 12px 14px;
   white-space: nowrap;
 }
 
 .tbl td {
   border-bottom: 1px solid var(--line);
-  padding: 9px 12px;
+  padding: 12px 14px;
   vertical-align: middle;
 }
 
@@ -341,7 +343,7 @@ button {
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  padding: 34px 16px;
+  padding: 28px 20px;
   border: 1px dashed var(--line-strong);
   border-radius: var(--r-md);
   color: var(--text-3);
@@ -377,4 +379,8 @@ button {
   .form-grid {
     grid-template-columns: minmax(0, 1fr);
   }
+}
+@media (max-width: 600px) {
+  .notice { display: block; }
+  .row-between { flex-wrap: wrap; }
 }

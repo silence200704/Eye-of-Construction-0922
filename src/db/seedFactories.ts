@@ -79,6 +79,7 @@ export function floor(input: {
   floorNo: number
   name: string
   zones: string[]
+  remark?: string
 }): Floor {
   return { ...base(), planVersion: 1, remark: '', ...input }
 }
@@ -197,9 +198,9 @@ export function record(input: RecordInput): MonitorRecord {
     sampleTime,
     sampleWindow: input.sampleWindow ?? '',
     enteredAt,
-    enteredBy: '物业值班 · 张工',
-    enteredByRole: 'property',
-    source: 'manual',
+    enteredBy: '演示传感器模拟器',
+    enteredByRole: 'system',
+    source: 'device',
     quality: 'valid',
     qualityNote: '',
     note: input.note ?? '',
@@ -223,6 +224,9 @@ export const F0302 = 'flr_b03_02'
 export const F0303 = 'flr_b03_03'
 export const F0101 = 'flr_b01_01'
 export const F0201 = 'flr_b02_01'
+/** B01 / B02 的第二层：楼栋档案声明 2 层，原先只有 1 层记录，按声明补的**演示示意**层 */
+export const F0102 = 'flr_b01_02'
+export const F0202 = 'flr_b02_02'
 
 export const P_CRACK = 'pnt_b03_f2_crack01'
 export const P_TILT = 'pnt_b03_f2_tilt01'

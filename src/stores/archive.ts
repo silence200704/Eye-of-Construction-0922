@@ -14,8 +14,10 @@ import { migrateLegacyPoints } from '@/db/inspection/migrate'
 import { seedDataset } from '@/db/seed'
 import { seedRules } from '@/config/ruleSeed'
 import { useSessionStore } from './session'
+import { markDatasetReset } from './demo/registry'
+import { workspaceStorageKey } from '@/core/demo/workspace'
 
-const MODE_KEY = 'zhutong-demo/data-mode'
+const MODE_KEY = workspaceStorageKey('zhutong-demo/data-mode')
 export type DataMode = 'seed' | 'blank'
 
 function readDataMode(): DataMode {
@@ -134,6 +136,8 @@ export const useArchiveStore = defineStore('archive', () => {
     try {
       await writeDataset(seedDataset())
       setMode('seed')
+      // 数据集整体替换后，演示场景登记的那份数据已经不在了 —— 给界面留一个重置时刻
+      markDatasetReset(nowIso())
       await reload()
     } finally {
       busy.value = false
@@ -145,6 +149,7 @@ export const useArchiveStore = defineStore('archive', () => {
     try {
       await clearDataset()
       setMode('blank')
+      markDatasetReset(nowIso())
       await log('clear', 'system', 'all', '全部业务数据', '清空本地数据，转为空白模式', reason)
       await reload()
     } finally {
@@ -159,6 +164,8 @@ export const useArchiveStore = defineStore('archive', () => {
   async function restoreDataset(data: Dataset): Promise<void> {
     await writeDataset(data)
     setMode(data.buildings.length > 0 ? 'seed' : 'blank')
+    // 导入的是另一份数据集，演示场景登记过的对象未必还在
+    markDatasetReset(nowIso())
     await reload()
     await migrateLegacyRulesInPlace()
     migratedRules.value = lastMigrationCount

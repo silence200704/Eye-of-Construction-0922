@@ -5,8 +5,9 @@
 import { computed, ref, watch } from 'vue'
 import { defineStore } from 'pinia'
 import { roleName } from '@/types/catalog'
+import { workspaceStorageKey } from '@/core/demo/workspace'
 
-const KEY = 'zhutong-demo/session'
+const KEY = workspaceStorageKey('zhutong-demo/session')
 
 interface StoredSession {
   name: string

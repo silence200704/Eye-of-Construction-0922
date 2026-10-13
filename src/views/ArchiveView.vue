@@ -13,6 +13,7 @@ import EmptyState from '@/components/ui/EmptyState.vue'
 import StatusTag from '@/components/ui/StatusTag.vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import FloorMap from '@/components/map/FloorMap.vue'
+import { useRoute } from 'vue-router'
 import PointDevicePanel from '@/components/panels/PointDevicePanel.vue'
 import BuildingDialog from '@/components/dialogs/BuildingDialog.vue'
 import FloorDialog from '@/components/dialogs/FloorDialog.vue'
@@ -21,6 +22,9 @@ import ArchiveDialog from '@/components/dialogs/ArchiveDialog.vue'
 const archive = useArchiveStore()
 
 const keyword = ref('')
+const route = useRoute()
+/** 保养页「设备离线」分区深链过来时只看离线设备 */
+const offlineOnly = computed(() => route.query.health === 'offline')
 const includeArchived = ref(false)
 const selectedId = ref('')
 const selectedFloorId = ref('')
@@ -242,7 +246,16 @@ async function confirmArchive(reason: string): Promise<void> {
           <EmptyState v-else title="尚未选择楼栋" sub="选择楼栋后可查看楼层平面图" />
         </SectionCard>
 
-        <PointDevicePanel v-if="building !== null" :building-id="building.id" :floor-id="floor?.id ?? null" />
+        <p v-if="offlineOnly" class="notice notice--brand">
+          只看离线设备（来自「设备离线」分区的深链）：设备表只列出健康状况为「离线 / 待排查」的在册设备，
+          已归档设备不计入。先选楼栋，再按需选楼层。
+        </p>
+        <PointDevicePanel
+          v-if="building !== null"
+          :building-id="building.id"
+          :floor-id="floor?.id ?? null"
+          :offline-only="offlineOnly"
+        />
         <EmptyState v-else title="测点与设备" sub="选择楼栋后管理该楼栋的测点与设备档案" />
       </div>
     </div>

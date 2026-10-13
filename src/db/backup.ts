@@ -1,10 +1,14 @@
 /**
- * 本地备份与恢复（V0.1 基础版：业务数据与日志，附件在 V1.0 纳入）。
- * 恢复前校验格式并自动保留当前数据快照，避免误导入覆盖。
+ * 本地备份与恢复。
+ *
+ * 备份内容随库版本扩展：V0.1 起含业务数据与日志，V0.2 起含预警规则与事件，
+ * **v4 起含照片附件**（Blob → base64 data URL，导出时显示"含照片 N 张，约 X MB"），
+ * V0.3 起含巡检计划/任务/问题/工单。恢复前校验格式并自动保留当前数据快照，避免误导入覆盖。
  */
 import { APP_VERSION, BACKUP_FORMAT, SCHEMA_VERSION } from '@/types/catalog'
 import type { BackupAttachment, BackupPackage, MonitorRecord } from '@/types/domain'
 import type { IssueAttachment } from '@/types/inspection'
+import type { MaintenancePlan, MaintenanceTask } from '@/types/maintenance'
 import type { Dataset } from './repo'
 
 export interface ParseResult {
@@ -65,6 +69,8 @@ export async function buildBackup(data: Dataset, actor: string): Promise<BackupP
       issues: data.issues.length,
       workOrders: data.workOrders.length,
       attachments: data.attachments.length,
+      maintenancePlans: data.maintenancePlans.length,
+      maintenanceTasks: data.maintenanceTasks.length,
     },
     data: {
       buildings: data.buildings,
@@ -82,6 +88,8 @@ export async function buildBackup(data: Dataset, actor: string): Promise<BackupP
       issues: data.issues,
       workOrders: data.workOrders,
       attachments,
+      maintenancePlans: data.maintenancePlans,
+      maintenanceTasks: data.maintenanceTasks,
     },
     brokenPhotos: broken,
   }
@@ -188,6 +196,8 @@ export function toDataset(pkg: BackupPackage): Dataset {
     issues: Array.isArray(pkg.data.issues) ? pkg.data.issues : [],
     workOrders: Array.isArray(pkg.data.workOrders) ? pkg.data.workOrders : [],
     attachments: decodeAttachments(pkg.data.attachments),
+    maintenancePlans: Array.isArray(pkg.data.maintenancePlans) ? (pkg.data.maintenancePlans as MaintenancePlan[]) : [],
+    maintenanceTasks: Array.isArray(pkg.data.maintenanceTasks) ? (pkg.data.maintenanceTasks as MaintenanceTask[]) : [],
   }
 }
 

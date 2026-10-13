@@ -7,6 +7,7 @@
 import 'fake-indexeddb/auto'
 import { describe, expect, it } from 'vitest'
 import { db } from '@/db/database'
+import { useAttachmentStore } from '@/stores/inspection/attachments'
 import { useWorkOrderStore } from '@/stores/inspection/workOrders'
 import type { DraftPhotoInput } from '@/db/inspection/attachments'
 import { act, setupRepairOrder } from './harness'
@@ -56,7 +57,9 @@ describe('验收照片与验收结论同事务', () => {
       workOrderId: orderId,
       fileName: '验收现场.jpg',
     })
-    expect((await db.workOrders.get(orderId))?.status).toBe('verified')
+    const order = await db.workOrders.get(orderId)
+    expect(order?.status).toBe('verified')
+    expect(order?.timeline.at(-1)?.detail).toContain('验收照片 1 张')
     expect((await db.issues.get(issueId))?.status).toBe('pending_recheck')
   })
 
@@ -85,5 +88,28 @@ describe('验收照片与验收结论同事务', () => {
     })
     expect(retry.ok).toBe(true)
     expect(await db.attachments.count()).toBe(1)
+  })
+
+  /**
+   * 回归：验收照片走的是工单事务，不经过 `attachments.add()`。
+   * 只刷新工单、不刷新附件 store 的话，工单详情会一直显示"验收照片 0 张"，
+   * 必须刷新页面才出现 —— 库里一直是对的，错的只是内存列表。
+   */
+  it('验收通过后，附件 store 的内存列表立即含这张验收照片（不需要手动刷新页面）', async () => {
+    const { orderId } = await submittedOrder()
+    const orders = useWorkOrderStore()
+    const attachments = useAttachmentStore()
+    await attachments.reload()
+    expect(attachments.ofOrder(orderId).filter((row) => row.kind === 'acceptance')).toHaveLength(0)
+
+    const out = await orders.advanceOrder(orderId, 'verified', {
+      note: '验收通过，支架稳定且现场复核无松动',
+      acceptancePhotos: [draft()],
+    })
+
+    expect(out.ok).toBe(true)
+    const acceptance = attachments.ofOrder(orderId).filter((row) => row.kind === 'acceptance')
+    expect(acceptance).toHaveLength(1)
+    expect(acceptance[0]?.fileName).toBe('验收现场.jpg')
   })
 })

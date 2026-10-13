@@ -9,6 +9,7 @@
  * Esc 关闭；打开时记住焦点来源、关闭后还回去，键盘用户不会掉到页面开头。
  */
 import { nextTick, onBeforeUnmount, ref, watch } from 'vue'
+import { demoActivity } from '@/core/demo/workspace'
 
 const props = withDefaults(defineProps<{ open: boolean; title: string; sub?: string; width?: number }>(), {
   sub: '',
@@ -21,6 +22,7 @@ const panelRef = ref<HTMLElement | null>(null)
 let previouslyFocused: HTMLElement | null = null
 
 function onKey(event: KeyboardEvent): void {
+  if (demoActivity.value) return
   if (event.key === 'Escape') emit('close')
 }
 
@@ -50,6 +52,7 @@ onBeforeUnmount(() => document.removeEventListener('keydown', onKey))
       v-if="open"
       ref="panelRef"
       class="drawer"
+      :inert="demoActivity"
       :style="{ '--drawer-w': `${width}px` }"
       role="dialog"
       aria-modal="false"
@@ -98,13 +101,13 @@ onBeforeUnmount(() => document.removeEventListener('keydown', onKey))
   align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
-  padding: 16px 20px 12px;
+  padding: 20px 24px 18px;
   border-bottom: 1px solid var(--line);
 }
 
 .drawer-title {
-  font-size: 15px;
-  font-weight: 600;
+  font-size: 20px;
+  font-weight: 700;
 }
 
 .drawer-sub {
@@ -116,12 +119,15 @@ onBeforeUnmount(() => document.removeEventListener('keydown', onKey))
 
 .drawer-close {
   border: 0;
-  background: transparent;
+  background: var(--canvas);
   font-size: 22px;
   line-height: 1;
   color: var(--text-3);
   cursor: pointer;
-  padding: 0 2px;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--r-sm);
+  flex: none;
 }
 
 .drawer-close:hover {
@@ -129,7 +135,7 @@ onBeforeUnmount(() => document.removeEventListener('keydown', onKey))
 }
 
 .drawer-body {
-  padding: 16px 20px;
+  padding: 20px 24px;
   overflow-y: auto;
   flex: 1;
 }
@@ -138,7 +144,8 @@ onBeforeUnmount(() => document.removeEventListener('keydown', onKey))
   display: flex;
   justify-content: flex-end;
   gap: 10px;
-  padding: 12px 20px 16px;
+  padding: 16px 24px;
+  background: var(--canvas);
   border-top: 1px solid var(--line);
 }
 
@@ -153,4 +160,9 @@ onBeforeUnmount(() => document.removeEventListener('keydown', onKey))
     transform: translateX(0);
   }
 }
+@media (max-width:600px) {
+  .drawer-head, .drawer-body, .drawer-foot { padding: 16px; }
+  .drawer-close { width: 44px; height: 44px; }
+}
+@media (prefers-reduced-motion:reduce) { .drawer { animation: none; } }
 </style>

@@ -5,7 +5,8 @@
  * 不同单位的指标不共轴，因此先选测点（决定指标与单位），再在同类指标内部按字段出图；
  * 温湿度的温度与湿度单位不同，分开两张图。
  */
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import type { MetricValueKey, MetricValues, Point } from '@/types/domain'
 import { metricDef, pointTypeDef } from '@/types/catalog'
 import { useArchiveStore } from '@/stores/archive'
@@ -15,6 +16,12 @@ import { buildTrendSeries, type TrendSeriesSpec } from '@/core/chart/trend'
 import { fmtNumber } from '@/core/format'
 import { formatDateTime } from '@/core/time'
 import { stateLabel } from '@/core/rules'
+import { useClockStore } from '@/stores/clock'
+import { RANGE_OPTIONS, resolveRange, type RangePreset } from '@/core/chart/range'
+import { buildSnapshot } from '@/assistant/selectors'
+import { answerCompare } from '@/assistant/compare/query'
+import FeatureResult from '@/components/assistant/preview/FeatureResult.vue'
+import { resolvePointTarget } from '@/assistant/deepLink'
 import SectionCard from '@/components/ui/SectionCard.vue'
 import StatusTag from '@/components/ui/StatusTag.vue'
 import AppButton from '@/components/ui/AppButton.vue'
@@ -26,48 +33,93 @@ const archive = useArchiveStore()
 const records = useRecordsStore()
 const events = useEventsStore()
 
-const RANGE_OPTIONS = [
-  { value: '7', label: '近 7 天' },
-  { value: '30', label: '近 30 天' },
-  { value: '90', label: '近 90 天' },
-  { value: '0', label: '全部' },
-]
-
+const clock = useClockStore()
+const customStart = ref('')
+const customEnd = ref('')
 const pointId = ref('')
-const rangeDays = ref('30')
+const rangeDays = ref<RangePreset>('30')
 const onlyValid = ref(false)
 const selectedRecordId = ref('')
 
-onMounted(() => {
-  if (pointId.value === '') {
-    const first = archive.activePoints.find((row) => archive.ruleFor(row.id, new Date().toISOString()) !== undefined)
-    pointId.value = first?.id ?? ''
+const route = useRoute()
+const router = useRouter()
+
+/** 深链 `?point=<测点ID>`：助手回答里的"打开监测趋势"直接落到该测点。 */
+const requestedPointId = computed(() => (typeof route.query.point === 'string' ? route.query.point : ''))
+const deepLink = computed(() =>
+  resolvePointTarget(requestedPointId.value, (id) => {
+    const row = archive.pointById(id)
+    return row === undefined ? undefined : { code: row.code, archived: row.status !== 'active' }
+  }),
+)
+
+/**
+ * 默认选点：深链优先，其次沿用当前选择，最后退到第一个有规则的测点。
+ * 深链无效时**清空选择**并显示原因 —— 不能默默换一个测点，否则页面显示的对象与链接里的不是同一个。
+ */
+function pickPoint(): void {
+  const requested = requestedPointId.value
+  if (requested !== '') {
+    pointId.value = deepLink.value.id
+    return
   }
+  if (pointId.value !== '' && archive.pointById(pointId.value) !== undefined) return
+  const first = archive.activePoints.find((row) => archive.ruleFor(row.id, clock.nowKey) !== undefined)
+  pointId.value = first?.id ?? ''
+}
+
+onMounted(pickPoint)
+watch(requestedPointId, pickPoint)
+
+/** 用户在页面上换测点时同步回 URL：链接与页面始终说的是同一个测点。 */
+watch(pointId, (id) => {
+  if (id === requestedPointId.value) return
+  const second = typeof route.query.points === 'string' ? route.query.points.split(',')[1] : undefined
+  void router.replace({ query: { ...route.query, point: id === '' ? undefined : id, points: second ? `${id},${second}` : undefined } })
 })
 
 const point = computed<Point | undefined>(() => archive.pointById(pointId.value))
 const def = computed(() => (point.value === undefined ? undefined : metricDef(point.value.metric)))
 /** 当前生效的规则：用于页面提示；图上每条记录按自己的采样时间取版本。 */
-const rule = computed(() => (point.value === undefined ? undefined : archive.ruleFor(point.value.id, new Date().toISOString())))
+const rule = computed(() => (point.value === undefined ? undefined : archive.ruleFor(point.value.id, clock.nowKey)))
 
 const pointRecords = computed(() => (point.value === undefined ? [] : records.ofPoint(point.value.id)))
 const pointEvents = computed(() => (point.value === undefined ? [] : events.eventsOfPoint(point.value.id)))
 
 const range = computed(() => {
-  /*
-   * 上界取当前时刻：采样时间不允许晚于当前时间，没有记录落在未来。
-   * 原实现给上界加了一天，横轴因此比"近 30 天"宽出两个多天，标签与刻度对不上。
-   */
-  const to = Date.now()
-  if (rangeDays.value === '0') return { from: 0, to }
-  return { from: to - Number(rangeDays.value) * 86_400_000, to }
+  try {
+    const explicit = Number(route.query.from)
+    const end = Number(route.query.to)
+    const shared = route.query.range === rangeDays.value && Number.isFinite(explicit) && Number.isFinite(end) && end > explicit
+      ? { preset: rangeDays.value, from: explicit, toExclusive: end, label: RANGE_OPTIONS.find(r => r.value === rangeDays.value)!.label }
+      : resolveRange({ preset: rangeDays.value, now: clock.nowKey, start: customStart.value, end: customEnd.value })
+    return { ...shared, to: shared.toExclusive - 1, error: '' }
+  } catch (cause) {
+    return { preset: rangeDays.value, from: 0, to: 0, toExclusive: 0, label: '', error: String(cause instanceof Error ? cause.message : cause) }
+  }
 })
+watch(() => route.query.range, value => {
+  if (typeof value === 'string' && RANGE_OPTIONS.some(r => r.value === value)) rangeDays.value = value as RangePreset
+}, { immediate: true })
+watch(rangeDays, value => {
+  if (value !== route.query.range) void router.replace({ query: { ...route.query, range: value, from: undefined, to: undefined } })
+})
+watch([customStart,customEnd],() => {
+  if (route.query.from !== undefined) void router.replace({ query: { ...route.query, from: undefined, to: undefined } })
+})
+const comparisonIds = computed(() => typeof route.query.points === 'string' ? route.query.points.split(',') : [])
+const comparison = computed(() => comparisonIds.value.length === 2 && !range.value.error
+  ? answerCompare(buildSnapshot(), '', { pointIds: comparisonIds.value, range: range.value }).previews?.[0] : undefined)
+function changeComparison(event: Event): void {
+  const second = (event.target as HTMLSelectElement).value
+  void router.replace({ query: { ...route.query, points: second ? `${pointId.value},${second}` : undefined } })
+}
 
 /** 按字段分图：每个字段一列，单位不同的字段天然分开。 */
 const seriesList = computed<{ spec: TrendSeriesSpec; series: ReturnType<typeof buildTrendSeries> }[]>(() => {
   const target = point.value
   const metric = def.value
-  if (target === undefined || metric === undefined) return []
+  if (target === undefined || metric === undefined || range.value.error) return []
   return metric.fields.map((field) => {
     const spec: TrendSeriesSpec = {
       key: field.key as MetricValueKey,
@@ -151,7 +203,7 @@ function selectRecord(recordId: string): void {
   <div class="stack">
     <p class="notice notice--warn">
       <b>看图口径：</b>一条数据线 + 基准线（按版本分段）+ 三级阈值线 + 事件节点 + 修订标记。
-      不同单位的指标不共轴，请按单测点单指标查看；图上分级与预警中心的事件完全同源。
+      不同单位的指标分卡展示，双点比较共享同一时间范围；图上分级与预警中心的事件完全同源。
     </p>
 
     <SectionCard title="查看条件" sub="选测点后按指标出图" marked>
@@ -171,6 +223,8 @@ function selectRecord(recordId: string): void {
             <option v-for="item in RANGE_OPTIONS" :key="item.value" :value="item.value">{{ item.label }}</option>
           </select>
         </label>
+        <label class="filter"><span>第二测点（可选）</span><select class="ctl" :value="comparisonIds[1] || ''" @change="changeComparison"><option value="">只看一个测点</option><option v-for="item in archive.activePoints.filter(p => p.id !== pointId)" :key="item.id" :value="item.id">{{ item.code }}</option></select></label>
+        <template v-if="rangeDays === 'custom'"><label class="filter"><span>起始日期</span><input v-model="customStart" class="ctl" type="date" /></label><label class="filter"><span>结束日期</span><input v-model="customEnd" class="ctl" type="date" /></label></template>
         <label class="toggle">
           <input v-model="onlyValid" type="checkbox" />
           仅看有记录的指标
@@ -187,9 +241,15 @@ function selectRecord(recordId: string): void {
       </p>
     </SectionCard>
 
-    <EmptyState v-if="point === undefined" title="尚未选择测点" sub="在上方选择一个测点后查看趋势" />
+    <EmptyState
+      v-if="point === undefined"
+      :title="deepLink.reason === '' ? '尚未选择测点' : '深链里的测点打不开'"
+      :sub="deepLink.reason === '' ? '在上方选择一个测点后查看趋势' : deepLink.reason"
+    />
 
+    <FeatureResult v-else-if="comparison" :preview="comparison" />
     <template v-else>
+      <p v-if="range.error" class="notice notice--warn">{{ range.error }}</p>
       <SectionCard
         v-for="item in visibleSeries"
         :key="item.spec.key"

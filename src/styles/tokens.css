@@ -12,8 +12,8 @@
 
   /* 纸面层 */
   --paper: #ffffff;
-  --canvas: #f2f5f6;
-  --canvas-deep: #e9eef0;
+  --canvas: #f5f7f8;
+  --canvas-deep: #edf2f4;
 
   /* 品牌青（仪器感，非通用后台蓝） */
   --brand-700: #0b5762;
@@ -27,7 +27,7 @@
   --line-strong: #c6d1d6;
   --text: #16232a;
   --text-2: #5a6b73;
-  --text-3: #8b9aa1;
+  --text-3: #637780;
 
   /* 业务状态色 */
   --st-red: #c0362c;
@@ -42,19 +42,20 @@
   --st-gray-bg: #eef1f3;
 
   /* 尺寸 */
-  --r-sm: 4px;
-  --r-md: 6px;
-  --r-lg: 10px;
-  --h-control: 34px;
-  --h-control-sm: 28px;
-  --sidebar-w: 216px;
-  --topbar-h: 56px;
+  --r-sm: 8px;
+  --r-md: 14px;
+  --r-lg: 20px;
+  --h-control: 40px;
+  --h-control-sm: 34px;
+  --sidebar-w: 232px;
+  --topbar-h: 64px;
 
   /* 字体 */
   --font-sans: "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei UI", "Microsoft YaHei",
     "Source Han Sans SC", "Noto Sans CJK SC", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "JetBrains Mono", "Cascadia Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 
-  --shadow-pop: 0 12px 32px rgba(9, 18, 23, 0.16);
+  --shadow-pop: 0 16px 48px rgba(9, 18, 23, 0.18);
   --focus-ring: 0 0 0 3px rgba(20, 134, 149, 0.18);
+  --shadow-card: 0 2px 6px rgba(9, 18, 23, 0.025);
 }

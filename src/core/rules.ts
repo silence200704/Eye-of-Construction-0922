@@ -5,8 +5,20 @@
  * 判定时必须按"采样时间"选取当时生效的版本，未来才生效的版本不参与当前判断 ——
  * 否则今天创建一个下周生效的新基准，再补录今天的数据，就会错误地套用未来基准。
  */
-import type { Baseline, MetricKey, Point } from '@/types/domain'
+import type { Baseline, MetricKey } from '@/types/domain'
 import type { AssessmentSnapshot, MonitoringRule, RuleMetric } from '@/types/rules'
+
+/**
+ * 规则匹配只关心"这个点位是谁、属于哪栋楼、测什么指标"。
+ *
+ * 收窄成这三个字段后，完整 `Point` 与看板/问答用的只读投影 `PointRef`
+ * 都能直接传进来 —— 图表与判定共用同一套规则口径，不必为了类型复制一份。
+ */
+export interface PointFacts {
+  id: string
+  metric: MetricKey
+  buildingId: string
+}
 
 export function ruleMetricOf(metric: MetricKey): RuleMetric | null {
   if (metric === 'crack_width') return 'crack_width'
@@ -21,7 +33,7 @@ export function ruleMetricOf(metric: MetricKey): RuleMetric | null {
  * 规则表里四类指标同表存放，只看时间不看范围会取到别条规则的阈值 ——
  * 判定与图表必须共用这一个口径。
  */
-export function ruleAppliesTo(rule: MonitoringRule, point: Point): boolean {
+export function ruleAppliesTo(rule: MonitoringRule, point: PointFacts): boolean {
   const metric = ruleMetricOf(point.metric)
   if (metric === null || !rule.enabled || rule.metric !== metric) return false
   if (rule.buildingIds.length > 0 && !rule.buildingIds.includes(point.buildingId)) return false
@@ -30,13 +42,13 @@ export function ruleAppliesTo(rule: MonitoringRule, point: Point): boolean {
 }
 
 /** 该测点适用的全部规则版本，按生效时间升序；供图表按时间切片。 */
-export function rulesForPoint(rules: MonitoringRule[], point: Point): MonitoringRule[] {
+export function rulesForPoint(rules: MonitoringRule[], point: PointFacts): MonitoringRule[] {
   return rules
     .filter((rule) => ruleAppliesTo(rule, point))
     .sort((a, b) => a.effectiveFrom.localeCompare(b.effectiveFrom))
 }
 
-export function ruleForPoint(rules: MonitoringRule[], point: Point, at: string): MonitoringRule | undefined {
+export function ruleForPoint(rules: MonitoringRule[], point: PointFacts, at: string): MonitoringRule | undefined {
   const time = new Date(at).getTime()
   const applicable = rules.filter(
     (rule) => ruleAppliesTo(rule, point) && new Date(rule.effectiveFrom).getTime() <= time,

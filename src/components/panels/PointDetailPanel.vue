@@ -2,18 +2,19 @@
 /** 点位详情面板：档案、当前基准与历史版本、绑定设备、最近记录。 */
 import { computed } from 'vue'
 import type { Point } from '@/types/domain'
-import { METRICS, hasNumericReadings, metricDef, pointTypeDef, qualityLabel, sourceLabel } from '@/types/catalog'
+import { METRICS, hasNumericReadings, metricDef, pointTypeDef, qualityLabel, recordSourceLabel } from '@/types/catalog'
 import { useArchiveStore } from '@/stores/archive'
 import { useRecordsStore } from '@/stores/records'
 import { levelOfRecord, stateLabel, stateTone } from '@/core/rules'
 import { fillGaps, fmtDelta, fmtNumber } from '@/core/format'
-import { formatDateTime } from '@/core/time'
+import { formatDateTime, nowIso } from '@/core/time'
 import SectionCard from '@/components/ui/SectionCard.vue'
 import DescList from '@/components/ui/info/DescList.vue'
 import StatusTag from '@/components/ui/StatusTag.vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import DataTable from '@/components/ui/DataTable.vue'
 import EmptyState from '@/components/ui/EmptyState.vue'
+import AskXiaotongButton from '@/components/assistant/AskXiaotongButton.vue'
 
 const props = defineProps<{ point: Point | null }>()
 const emit = defineEmits<{ record: [pointId: string]; baseline: [pointId: string] }>()
@@ -95,6 +96,7 @@ const infoItems = computed(() => {
   <SectionCard title="点位详情" :sub="point === null ? '在楼层图上选择测点查看档案' : point.name">
     <template #actions>
       <template v-if="point !== null">
+        <AskXiaotongButton kind="point" :object-id="point.id" :label="`${point.code} ${point.name}`" />
         <AppButton v-if="numeric" size="sm" @click="emit('baseline', point.id)">基准值</AppButton>
         <AppButton v-if="numeric" size="sm" variant="primary" @click="emit('record', point.id)">录入数据</AppButton>
       </template>
@@ -209,7 +211,7 @@ const infoItems = computed(() => {
           </tr>
         </DataTable>
         <p v-if="numeric" class="field-hint">
-          来源标记：{{ recent.length > 0 ? sourceLabel(recent[0].source) : '—' }}；完整历史与修订见「监测数据」页。
+          来源标记：{{ recent.length > 0 ? recordSourceLabel(recent[0], nowIso()) : '—' }}；完整历史与修订见「监测数据」页。
         </p>
       </div>
     </div>

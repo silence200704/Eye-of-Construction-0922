@@ -6,7 +6,7 @@ import { describe, expect, it } from 'vitest'
 import { scanIntegrity } from '@/core/integrity'
 import type { IntegrityInput } from '@/core/integrity'
 import type { InspectionIssue, InspectionPlan, InspectionTask, IssueAttachment, WorkOrder } from '@/types/inspection'
-import { makeBuilding, makeFloor, makePoint } from '../fixtures'
+import { makeBuilding, makeDevice, makeFloor, makePoint } from '../fixtures'
 
 const AT = '2026-09-20T09:00:00.000Z'
 const AUDIT = { createdAt: AT, createdBy: '测试', updatedAt: AT, updatedBy: '测试' }
@@ -25,6 +25,8 @@ function base(): IntegrityInput {
     issues: [],
     workOrders: [],
     attachments: [],
+    maintenancePlans: [],
+    maintenanceTasks: [],
   }
 }
 
@@ -238,10 +240,202 @@ describe('问题、工单与附件的引用', () => {
     const data = base()
     data.plans = [plan()]
     data.tasks = [task({ results: [{ pointId: 'pnt_1' } as never] })]
-    data.issues = [issue({ taskId: 'task_1', photos: ['att_1'] })]
-    data.workOrders = [order({ photos: ['att_1'] })]
-    data.attachments = [attachment()]
+    // 两张照片各自归属：问题照片归问题、工单照片归工单。
+    // 不能再用"同一张照片同时列在问题和工单里"——那正是"归属不唯一"，会被新校验判为错误。
+    data.issues = [issue({ taskId: 'task_1', photos: ['att_issue'] })]
+    data.workOrders = [order({ photos: ['att_order'] })]
+    data.attachments = [
+      attachment({ id: 'att_issue', issueId: 'iss_1', workOrderId: null }),
+      attachment({ id: 'att_order', issueId: null, workOrderId: 'wo_1' }),
+    ]
     const errors = scanIntegrity(data).filter((row) => row.level === 'error')
     expect(errors).toEqual([])
   })
+
+  it('照片存在但归属别的对象时报错（双向校验）', () => {
+    const data = base()
+    data.issues = [issue({ photos: ['att_other'] })]
+    data.attachments = [attachment({ id: 'att_other', issueId: 'iss_9', workOrderId: null })]
+    const kinds = kindsOf(data)
+    expect(kinds).toContain('问题照片归属不符')
+    expect(kinds).not.toContain('问题照片丢失')
+  })
+
+  it('工单列出的照片必须归属本工单', () => {
+    const data = base()
+    data.issues = [issue()]
+    data.workOrders = [order({ photos: ['att_other'] })]
+    data.attachments = [attachment({ id: 'att_other', issueId: 'iss_1', workOrderId: null })]
+    expect(kindsOf(data)).toContain('工单照片归属不符')
+  })
 })
+
+/**
+ * 保养照片的归属校验（V1-D）：照片必须有且只有一个归属，且指向的任务真实存在。
+ */
+describe('保养照片的归属', () => {
+  it('照片挂到保养任务上：任务存在即通过', () => {
+    const data = withMaintenanceTask()
+    data.attachments = [attachment({ id: 'att_m1', issueId: null, workOrderId: null, maintenanceTaskId: 'mt_1' })]
+    const kinds = kindsOf(data)
+    expect(kinds).not.toContain('附件未关联对象')
+    expect(kinds).not.toContain('附件保养任务引用失效')
+  })
+
+  it('指向不存在的保养任务时报错', () => {
+    const data = withMaintenanceTask()
+    data.attachments = [attachment({ id: 'att_m1', issueId: null, workOrderId: null, maintenanceTaskId: 'mt_gone' })]
+    expect(kindsOf(data)).toContain('附件保养任务引用失效')
+  })
+
+  it('同时挂问题与工单属于归属不唯一，两个对象都要各查一遍引用', () => {
+    const data = withMaintenanceTask()
+    data.attachments = [attachment({ id: 'att_m1', issueId: 'iss_1', workOrderId: 'wo_1' })]
+    const kinds = kindsOf(data)
+    expect(kinds).toContain('附件归属不唯一')
+  })
+
+  it('保养照片存在但归属别的任务时报错', () => {
+    const data = withMaintenanceTask()
+    const task = data.maintenanceTasks![0]
+    task.execution = {
+      at: AT,
+      by: '孙老师',
+      byRole: '维修人员',
+      checklist: [],
+      measures: '已紧固',
+      materials: '',
+      photos: ['att_wrong'],
+      nextDueDate: '2026-10-01',
+      note: '',
+    }
+    data.attachments = [attachment({ id: 'att_wrong', issueId: null, workOrderId: null, maintenanceTaskId: 'mt_other' })]
+    expect(kindsOf(data)).toContain('保养照片归属不符')
+  })
+
+  it('任务执行记录里列出的照片必须真的在附件表里', () => {
+    const data = withMaintenanceTask()
+    const task = data.maintenanceTasks![0]
+    task.execution = {
+      at: AT,
+      by: '孙老师',
+      byRole: '维修人员',
+      checklist: [],
+      measures: '已紧固',
+      materials: '',
+      photos: ['att_missing'],
+      nextDueDate: '2026-10-01',
+      note: '',
+    }
+    expect(kindsOf(data)).toContain('保养照片丢失')
+  })
+})
+
+describe('保养数据的引用校验', () => {
+  const baseWithPlan = (): ReturnType<typeof base> => {
+    const data = base()
+    data.devices = [makeDevice({ id: 'dev_1', pointId: 'pnt_1' })]
+    data.maintenancePlans = [maintenancePlan()]
+    return data
+  }
+
+  it('计划与任务引用都完整时不报错', () => {
+    const data = baseWithPlan()
+    data.maintenanceTasks = [maintenanceTask({ status: 'pending', execution: null })]
+    const errors = scanIntegrity(data).filter((row) => row.level === 'error')
+    expect(errors).toEqual([])
+  })
+
+  it('计划指向不存在的设备或测点时报错', () => {
+    const data = baseWithPlan()
+    data.maintenancePlans = [maintenancePlan({ deviceId: 'dev_gone', pointId: 'pnt_gone' })]
+    const kinds = kindsOf(data)
+    expect(kinds).toContain('保养计划设备引用失效')
+    expect(kinds).toContain('保养计划测点引用失效')
+  })
+
+  it('任务指向不存在的计划、或快照位置对不上档案时报错', () => {
+    const data = baseWithPlan()
+    data.maintenanceTasks = [maintenanceTask({ planId: 'plan_m_gone' })]
+    expect(kindsOf(data)).toContain('保养任务计划引用失效')
+
+    // 快照里的楼层指向不存在的档案（设备被调拨、楼层被删后可能出现）
+    const moved = baseWithPlan()
+    moved.maintenanceTasks = [maintenanceTask({ snapshot: { ...maintenanceTask().snapshot, floorId: 'flr_gone' } })]
+    expect(kindsOf(moved)).toContain('保养任务快照楼层失效')
+  })
+
+  it('计划没有检查项、任务标记完成却没有执行记录都报错', () => {
+    const noChecklist = baseWithPlan()
+    noChecklist.maintenancePlans = [maintenancePlan({ checklist: [] })]
+    expect(kindsOf(noChecklist)).toContain('保养计划缺少检查项')
+
+    const doneNoExecution = baseWithPlan()
+    doneNoExecution.maintenanceTasks = [maintenanceTask({ status: 'done', execution: null })]
+    expect(kindsOf(doneNoExecution)).toContain('保养任务缺少执行记录')
+  })
+})
+
+/** 数据集里放一条保养计划（设备 / 测点 / 楼栋都指向 base() 里的档案）。 */
+function maintenancePlan(override: Partial<MaintenancePlan> = {}): MaintenancePlan {
+  return {
+    createdAt: AT,
+    createdBy: '测试',
+    updatedAt: AT,
+    updatedBy: '测试',
+    id: 'plan_m1',
+    code: 'MP-20260920-001',
+    name: '裂缝传感器月度保养',
+    deviceId: 'dev_1',
+    pointId: 'pnt_1',
+    buildingId: 'bld_1',
+    cycle: { unit: 'month', interval: 1, atTime: '09:00' },
+    startDate: '2026-09-01',
+    endDate: null,
+    owner: '孙老师',
+    checklist: [{ key: 'surface', label: '外壳是否完好', required: true, hint: '' }],
+    enabled: true,
+    remark: '',
+    ...override,
+  }
+}
+
+/** 数据集里放一条保养任务（快照位置指向 base() 的楼栋与楼层）。 */
+function maintenanceTask(override: Partial<MaintenanceTask> = {}): MaintenanceTask {
+  return {
+    createdAt: AT,
+    createdBy: '测试',
+    updatedAt: AT,
+    updatedBy: '测试',
+    id: 'mt_1',
+    taskNo: 'MT-20260920-001',
+    planId: 'plan_m1',
+    deviceId: 'dev_1',
+    plannedAt: AT,
+    dueAt: '2026-09-20T15:59:59.000Z',
+    status: 'pending',
+    snapshot: {
+      planCode: 'MP-20260920-001',
+      planName: '裂缝传感器月度保养',
+      deviceCode: 'DEV-1',
+      deviceName: '裂缝计',
+      pointId: 'pnt_1',
+      buildingId: 'bld_1',
+      floorId: 'flr_1',
+      zoneId: '二层走廊',
+      owner: '孙老师',
+      cycle: { unit: 'month', interval: 1, atTime: '09:00' },
+      checklist: [],
+    },
+    execution: null,
+    timeline: [],
+    ...override,
+  }
+}
+
+function withMaintenanceTask(): ReturnType<typeof base> {
+  const data = base()
+  data.devices = [makeDevice({ id: 'dev_1', pointId: 'pnt_1' })]
+  data.maintenanceTasks = [maintenanceTask()]
+  return data
+}

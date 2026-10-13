@@ -6,6 +6,7 @@
 import { computed } from 'vue'
 import type { Floor, NormPoint, Point, PointType } from '@/types/domain'
 import { VIEW_H, VIEW_W } from '@/core/map/viewport'
+import { FLOOR_PLAN as PLAN, floorLayoutOf } from '@/core/spatial/layout'
 import { useMapInteraction } from '@/core/map/useMapInteraction'
 import MapControls from './MapControls.vue'
 
@@ -48,50 +49,14 @@ const {
   onDraftMove: (point) => emit('update:draft', point),
 })
 
-/** 平面几何（内容坐标 0~VIEW_W / 0~VIEW_H）：外轮廓 + 中间走廊 + 三列两排房间 */
-const PLAN = { left: 90, right: 910, top: 110, bottom: 590, corridorTop: 300, corridorBottom: 400 }
-const COLS = [90, 370, 640, 910]
-
-interface Room {
-  x: number
-  y: number
-  w: number
-  h: number
-  label: string
-  stairs: boolean
-}
-
-const rooms = computed<Room[]>(() => {
-  const zones = props.floor?.zones ?? []
-  const label = (index: number) => zones[index] ?? `房间${index}`
-  const list: Room[] = []
-  for (let column = 0; column < 3; column += 1) {
-    list.push({
-      x: COLS[column],
-      y: PLAN.top,
-      w: COLS[column + 1] - COLS[column],
-      h: PLAN.corridorTop - PLAN.top,
-      label: label(column + 1),
-      stairs: column === 1,
-    })
-  }
-  for (let column = 0; column < 3; column += 1) {
-    list.push({
-      x: COLS[column],
-      y: PLAN.corridorBottom,
-      w: COLS[column + 1] - COLS[column],
-      h: PLAN.bottom - PLAN.corridorBottom,
-      label: label(column + 4),
-      stairs: false,
-    })
-  }
-  return list
-})
+/** 楼层几何来自 `core/spatial/layout.ts`（2D 与 3D 的唯一来源），这里只负责画 */
+const layout = computed(() => floorLayoutOf(props.floor?.zones ?? []))
+const rooms = computed(() => layout.value.rooms)
 
 const doors = computed(() =>
   rooms.value.map((room) => {
-    const upper = room.y === PLAN.top
-    return { cx: room.x + room.w / 2, y: upper ? PLAN.corridorTop : PLAN.corridorBottom, swing: upper ? -1 : 1 }
+    const upper = room.box.y === PLAN.top
+    return { cx: room.box.x + room.box.w / 2, y: upper ? PLAN.corridorTop : PLAN.corridorBottom, swing: upper ? -1 : 1 }
   }),
 )
 
@@ -168,18 +133,18 @@ const demoCount = computed(() => props.points.filter((row) => row.dataSource ===
           />
 
           <template v-for="(room, index) in rooms" :key="`room-${index}`">
-            <rect :x="room.x" :y="room.y" :width="room.w" :height="room.h" fill="#ffffff" stroke="#8fa3ac" stroke-width="1.6" />
-            <text :x="room.x + room.w / 2" :y="room.y + 24" text-anchor="middle" font-size="12" fill="#5a6b73">
+            <rect :x="room.box.x" :y="room.box.y" :width="room.box.w" :height="room.box.h" fill="#ffffff" stroke="#8fa3ac" stroke-width="1.6" />
+            <text :x="room.box.x + room.box.w / 2" :y="room.box.y + 24" text-anchor="middle" font-size="12" fill="#5a6b73">
               {{ room.label }}
             </text>
             <g v-if="room.stairs" :stroke="'#a8b8bf'" stroke-width="1.2">
               <line
                 v-for="tread in 6"
                 :key="`t${tread}`"
-                :x1="room.x + 24"
-                :y1="room.y + 44 + tread * 12"
-                :x2="room.x + room.w - 24"
-                :y2="room.y + 44 + tread * 12"
+                :x1="room.box.x + 24"
+                :y1="room.box.y + 44 + tread * 12"
+                :x2="room.box.x + room.box.w - 24"
+                :y2="room.box.y + 44 + tread * 12"
               />
             </g>
           </template>
@@ -194,7 +159,7 @@ const demoCount = computed(() => props.points.filter((row) => row.dataSource ===
             stroke-width="1.6"
           />
           <text :x="PLAN.left + 30" :y="PLAN.corridorTop + 24" font-size="12" fill="#0f6e7c">
-            {{ floor.zones[0] ?? '走廊' }}
+            {{ layout.zones[0].label }}
           </text>
           <line
             :x1="PLAN.left + 120"

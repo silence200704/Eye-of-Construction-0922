@@ -2,13 +2,13 @@
  * 业务字典：演示身份、点位类型、指标定义与录入字段。
  * 规则阈值属于 V0.2，本文件在 V0.1 只描述"录入什么、单位是什么、变化量怎么算"。
  */
-import type { MetricKey, MetricValueKey, MetricValues, PointType, QualityFlag, RecordSource } from './domain'
+import type { MetricKey, MetricValueKey, MetricValues, MonitorRecord, PointType, QualityFlag, RecordSource } from './domain'
 
 export const APP_VERSION = 'V0.3'
 /** 版本阶段：开发中的版本在界面上如实标注，避免把未完成的版本当成交付版 */
 export const APP_STAGE = '开发中'
 /** 数据结构版本：v4 起纳入 V0.3 的巡检计划、任务、问题、照片附件与维修工单 */
-export const SCHEMA_VERSION = 4
+export const SCHEMA_VERSION = 7
 export const BACKUP_FORMAT = 'zhutong-demo-backup'
 
 /**
@@ -16,6 +16,8 @@ export const BACKUP_FORMAT = 'zhutong-demo-backup'
  * 方案 §13.3 要求补录数据标记为历史发现，不得伪装成实时预警；阈值属演示约定。
  */
 export const BACKFILL_THRESHOLD_MINUTES = 30
+export const DEMO_LIVE_SAMPLE_NOTE = '演示模拟实时采样：预设数值，非真实设备上报'
+export const DEMO_LIVE_SOURCE_LABEL = '实时传输（演示数据）'
 
 export interface RoleDef {
   key: string
@@ -233,7 +235,7 @@ export const QUALITY_OPTIONS: Option<QualityFlag>[] = [
 /** 录入表单的可选来源：csv 只能由导入产生，不手工选择。 */
 export const SOURCE_OPTIONS: Option<RecordSource>[] = [
   { value: 'manual', label: '人工录入' },
-  { value: 'device', label: '设备上报（演示补录）' },
+  { value: 'device', label: '传感器数据（演示）' },
 ]
 
 /** 展示用来源标签（含导入产生的 csv）。 */
@@ -272,4 +274,15 @@ export function qualityLabel(value: QualityFlag): string {
 
 export function sourceLabel(value: RecordSource): string {
   return SOURCE_LABELS.find((s) => s.value === value)?.label ?? value
+}
+
+/** 只有确属本次模拟采样、且采样时间仍在窗口内，才在读数旁写“模拟实时”。 */
+export function recordSourceLabel(record: MonitorRecord, now: string): string {
+  if (record.source !== 'device' || record.note !== DEMO_LIVE_SAMPLE_NOTE || record.isBackfill) {
+    return sourceLabel(record.source)
+  }
+  const age = Date.parse(now) - Date.parse(record.sampleTime)
+  return Number.isFinite(age) && age >= 0 && age <= BACKFILL_THRESHOLD_MINUTES * 60_000
+    ? DEMO_LIVE_SOURCE_LABEL
+    : sourceLabel(record.source)
 }

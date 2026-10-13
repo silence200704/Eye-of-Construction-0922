@@ -285,7 +285,7 @@ import type { InspectionIssue, InspectionPlan, InspectionTask, IssueAttachment, 
  */
 export type BackupAttachment = Omit<IssueAttachment, 'blob' | 'thumb'> & { blob: string; thumb: string }
 
-/** 备份包结构；当前含业务数据、日志与预警规则，附件在 V1.0 纳入。 */
+/** 备份包结构；含业务数据、日志、预警规则与照片附件（v4 起附件已纳入）。 */
 export interface BackupPackage {
   format: string
   appVersion: string
@@ -312,6 +312,9 @@ export interface BackupPackage {
     issues?: InspectionIssue[]
     workOrders?: WorkOrder[]
     attachments?: BackupAttachment[]
+    /** V1-D 起纳入；旧备份没有这两个字段，读取时按空数组处理 */
+    maintenancePlans?: unknown[]
+    maintenanceTasks?: unknown[]
   }
   /** 导出时被跳过的损坏附件条数（照片字节已丢失、无法编码）；旧备份没有该字段 */
   brokenPhotos?: number

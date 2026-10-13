@@ -33,7 +33,7 @@ describe('比较、时间范围与只读试算', () => {
     expect(result.links.some(l => l.query.points?.includes('pnt_2'))).toBe(true)
   })
   it('试算改变候选结果但不改规则、记录、事件和审计', async () => {
-    const h = await setupHarness({ records: [makeRecord({ sampleTime: '2026-09-20T10:00:00Z', values: { width: 0.6 } })] })
+    const h = await setupHarness({ records: [makeRecord({ sampleTime: '2026-09-20T10:00:00Z', values: { width: 0.54 } })] })
     const tables = [db.rules, db.records, db.events, db.workOrders, db.audits]
     const before = JSON.stringify(await Promise.all(tables.map(t => t.toArray())))
     const result = await h.ask('试算黄色阈值改为0.01毫米，最近7天哪些记录会改变等级？', { pointId: 'pnt_1' })

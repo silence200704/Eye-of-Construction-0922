@@ -4,12 +4,16 @@
  * 关闭事件必须填写关闭依据，数据恢复不自动关闭。
  */
 import { computed, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import { useArchiveStore } from '@/stores/archive'
 import { useEventsStore } from '@/stores/events'
 import { useIssueStore } from '@/stores/inspection/issues'
 import { useSessionStore } from '@/stores/session'
 import { useWorkOrderStore } from '@/stores/inspection/workOrders'
 import { EVENT_LEVEL_LABEL, EVENT_STATUS_LABEL, type EventLevel, type EventStatus } from '@/types/events'
+import { ISSUE_STATUSES, type InspectionIssue } from '@/types/inspection'
+import { needsRecheck, recheckState } from '@/core/inspection/recheck'
+import { useClockStore } from '@/stores/clock'
 import { closeGuard } from '@/core/event/plan'
 import { fmtNumber } from '@/core/format'
 import { formatDateTime } from '@/core/time'
@@ -19,39 +23,29 @@ import StatusTag from '@/components/ui/StatusTag.vue'
 import DataTable from '@/components/ui/DataTable.vue'
 import FormGrid from '@/components/ui/FormGrid.vue'
 import EventIssueForm from '@/components/inspection/issue/EventIssueForm.vue'
+import AskXiaotongButton from '@/components/assistant/AskXiaotongButton.vue'
+import ResponseJourney from '@/components/demo/ResponseJourney.vue'
+import EventReplay from '@/components/demo/EventReplay.vue'
+import { replayNodes } from '@/assistant/replay/query'
+import { eventCloseFields } from '@/config/fields/eventCloseFields'
 
 const props = defineProps<{ open: boolean; eventId: string }>()
 const emit = defineEmits<{ close: [] }>()
+const router = useRouter()
 
 const archive = useArchiveStore()
 const events = useEventsStore()
 const issues = useIssueStore()
 const session = useSessionStore()
 const workOrders = useWorkOrderStore()
+const clock = useClockStore()
 
 const message = ref('')
 const tone = ref<'ok' | 'bad'>('ok')
 const closeOpen = ref(false)
 const transferOpen = ref(false)
 const closeModel = ref<Record<string, unknown>>({ basis: '', noRepairNote: '' })
-const closeFields = [
-  {
-    key: 'basis',
-    label: '关闭依据（复查结论）',
-    type: 'textarea' as const,
-    required: true,
-    rows: 2,
-    placeholder: '例如 连续三次复测均低于恢复阈值，现场复查无新增裂缝，经安全管理人员确认关闭',
-  },
-  {
-    key: 'noRepairNote',
-    label: '无需维修核查结论',
-    type: 'textarea' as const,
-    rows: 2,
-    placeholder: '仅当没有关联工单时填写：现场核查确认无需维修的理由（不少于 10 字）',
-    hint: '有关联工单且已验收通过时不用填；两者至少要成立一条，否则不能关闭',
-  },
-]
+const closeFields = eventCloseFields
 
 const event = computed(() => events.byId(props.eventId))
 const point = computed(() => (event.value === undefined ? undefined : archive.pointById(event.value.pointId)))
@@ -59,7 +53,21 @@ const notifications = computed(() => (event.value === undefined ? [] : events.no
 const openRelatedIssues = computed(() =>
   event.value === undefined ? [] : issues.issues.filter((row) => row.eventId === event.value?.id && row.status !== 'closed'),
 )
-const canAcknowledge = computed(() => event.value?.status === 'pending')
+/**
+ * 关联问题当前走到哪一步：状态 + 复查到期情况。
+ * 事件关闭后如果问题还停在待复查/观察中，评审最容易追问"到底谁在跟"——这里直接说清。
+ */
+function relatedState(row: InspectionIssue): string {
+  const name = ISSUE_STATUSES.find((item) => item.key === row.status)?.name ?? row.status
+  const state = recheckState(row, clock.todayKey)
+  if (state.state === 'overdue') return `${name}，复查逾期 ${state.overdueDays} 天`
+  if (state.state === 'due') return `${name}，今天到期复查`
+  if (state.state === 'awaiting' && state.round !== undefined) return `${name}，复查目标 ${state.round.dueDate}`
+  if (needsRecheck(row)) return `${name}，未登记复查`
+  return name
+}
+
+const canAcknowledge = computed(() => event.value?.status === 'pending' && session.role === 'safety')
 /** 预警转问题只允许安全管理人员发起；关闭事件后不再新建处置问题。 */
 const canTransfer = computed(() => session.role === 'safety' && event.value !== undefined && event.value.status !== 'closed')
 /** 关闭权限与时机：只有安全管理人员、且事件已进入恢复待确认时才可关闭。 */
@@ -67,6 +75,27 @@ const closePermission = computed(() =>
   event.value === undefined ? { allowed: false, reason: '' } : closeGuard(event.value.status, session.role),
 )
 const canClose = computed(() => closePermission.value.allowed)
+
+/**
+ * 由本事件转出的问题。
+ * 转问题处理之后要能一键过去继续处置（审核 → 工单 → 验收 → 复查），
+ * 否则事件详情这里就断了线，只能靠人自己去问题池里翻。
+ */
+const linkedIssue = computed(() =>
+  event.value === undefined ? undefined : issues.issues.find((row) => row.eventId === event.value?.id),
+)
+const linkedIssueStatus = computed(() => {
+  const target = linkedIssue.value
+  if (target === undefined) return ''
+  return ISSUE_STATUSES.find((row) => row.key === target.status)?.name ?? target.status
+})
+
+function openLinkedIssue(): void {
+  const target = linkedIssue.value
+  if (target === undefined) return
+  emit('close')
+  void router.push({ path: '/issues', query: { issue: target.id } })
+}
 
 /**
  * 处置依据的实时提示：关联工单已验收通过，或安全管理人员写了"无需维修"核查结论。
@@ -176,11 +205,15 @@ function locationText(): string {
         <span class="code">位置：{{ locationText() }}</span>
       </div>
 
+      <ResponseJourney :event-id="event.id" />
+      <details><summary>回放真实事件历史</summary><EventReplay :event-id="event.id" :nodes="replayNodes(event,issues.issues)" /></details>
+
       <p v-if="!canClose && event.status !== 'closed'" class="field-hint close-hint">
         关闭条件：{{ closePermission.reason }}
       </p>
       <p v-if="event.status === 'closed' && openRelatedIssues.length > 0" class="notice notice--warn">
-        本预警事件已关闭，但关联问题仍有 {{ openRelatedIssues.length }} 条未关闭（{{ openRelatedIssues.map((row) => row.issueNo).join('、') }}）。
+        本预警事件已关闭，但关联问题仍有 {{ openRelatedIssues.length }} 条未关闭：
+        <span v-for="row in openRelatedIssues" :key="row.id" class="code">{{ row.issueNo }}（{{ relatedState(row) }}）　</span>
         请在“问题与工单”继续完成复查或问题关闭；事件关闭不等于问题关闭。
       </p>
 
@@ -305,9 +338,13 @@ function locationText(): string {
 
     <template #footer>
       <AppButton @click="emit('close')">关闭窗口</AppButton>
+      <AppButton v-if="linkedIssue !== undefined" variant="primary" @click="openLinkedIssue">
+        打开问题（{{ linkedIssue.issueNo }} · {{ linkedIssueStatus }}）
+      </AppButton>
       <AppButton v-if="canClose" variant="default" @click="closeOpen = true">关闭事件</AppButton>
       <AppButton v-if="canTransfer" variant="default" @click="transferOpen = true">转问题处理</AppButton>
       <AppButton v-if="canAcknowledge" variant="primary" @click="acknowledge">确认事件</AppButton>
+      <AskXiaotongButton v-if="event !== undefined" kind="event" :object-id="event.id" :label="`${event.eventNo}（${EVENT_LEVEL_LABEL[event.level]}）`" text="问小瞳：为什么这条" @opened="emit('close')" />
     </template>
   </AppModal>
 
@@ -346,73 +383,4 @@ function locationText(): string {
   </AppModal>
 </template>
 
-<style scoped>
-.head-row {
-  margin-bottom: 12px;
-}
-
-.kv {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px 20px;
-  margin: 0;
-}
-
-.kv dt {
-  font-size: 12px;
-  color: var(--text-3);
-}
-
-.kv dd {
-  margin: 0;
-  font-size: 13.5px;
-}
-
-.kv .wide {
-  grid-column: 1 / -1;
-}
-
-.block {
-  margin-top: 16px;
-  padding-top: 14px;
-  border-top: 1px solid var(--line);
-}
-
-.block-title {
-  font-size: 13px;
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-
-.line-list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  font-size: 12.5px;
-}
-
-.line-list li {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  padding: 7px 9px;
-  border: 1px solid var(--line);
-  border-radius: var(--r-sm);
-  background: var(--canvas);
-}
-
-.notice {
-  margin-bottom: 12px;
-}
-
-.close-hint {
-  margin-bottom: 10px;
-}
-
-.no-evidence {
-  margin-bottom: 10px;
-}
-</style>
+<style scoped src="./styles/EventDetailPanel.css"></style>

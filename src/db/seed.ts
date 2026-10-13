@@ -24,5 +24,7 @@ export function seedDataset(): Dataset {
     issues: [],
     workOrders: [],
     attachments: [],
+    maintenancePlans: [],
+    maintenanceTasks: [],
   }
 }

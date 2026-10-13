@@ -10,10 +10,10 @@
  * ② 基准线按版本生效时间分段，阈值线随基准分段平移（绝对判定指标不分段）；
  * ③ 已被修订替代的记录单独成组，不混进有效曲线。
  */
-import type { Baseline, MetricValueKey, MonitorRecord, Point } from '@/types/domain'
+import type { Baseline, MetricValueKey, MonitorRecord } from '@/types/domain'
 import type { DataState, MonitoringRule, RuleThresholds } from '@/types/rules'
 import type { AlarmEvent, EventLevel } from '@/types/events'
-import { baselineAtTime, levelOfRecord, ruleForPoint, rulesForPoint } from '@/core/rules'
+import { baselineAtTime, levelOfRecord, ruleForPoint, rulesForPoint, type PointFacts } from '@/core/rules'
 
 export interface TrendSeriesSpec {
   key: MetricValueKey
@@ -99,7 +99,7 @@ export interface TrendSeries {
 }
 
 export interface TrendInput {
-  point: Point
+  point: PointFacts
   records: MonitorRecord[]
   baselines: Baseline[]
   events: AlarmEvent[]
@@ -188,7 +188,7 @@ export function buildBaselineSegments(
 export function buildRuleSegments(input: {
   rules: MonitoringRule[]
   baselines: Baseline[]
-  point: Point
+  point: PointFacts
   key: MetricValueKey
   from: number
   to: number

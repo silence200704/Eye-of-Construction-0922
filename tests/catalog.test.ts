@@ -1,6 +1,6 @@
 /** 业务字典与编号生成测试：变化量计算、指标能力、编号唯一性与格式。 */
 import { describe, expect, it } from 'vitest'
-import { METRICS, SOURCE_OPTIONS, hasNumericReadings, metricDef, pointTypeDef, sourceLabel } from '@/types/catalog'
+import { DEMO_LIVE_SAMPLE_NOTE, DEMO_LIVE_SOURCE_LABEL, METRICS, SOURCE_OPTIONS, hasNumericReadings, metricDef, pointTypeDef, recordSourceLabel, sourceLabel } from '@/types/catalog'
 import { nextBuildingCode, nextDeviceCode, nextPointCode, nextRecordNo, floorName } from '@/core/id'
 import { toPlain } from '@/core/plain'
 import type { MonitorRecord, Point } from '@/types/domain'
@@ -14,7 +14,16 @@ describe('记录来源字典', () => {
 
   it('手工录入与设备上报各自的标签不变', () => {
     expect(sourceLabel('manual')).toBe('人工录入')
-    expect(sourceLabel('device')).toBe('设备上报（演示补录）')
+    expect(sourceLabel('device')).toBe('传感器数据（演示）')
+  })
+
+  it('只有未过 30 分钟的预设传感器样本显示为模拟实时', () => {
+    const now = '2026-09-30T10:00:00.000Z'
+    const row = makeRecord({ source: 'device', sampleTime: '2026-09-30T09:55:00.000Z', note: DEMO_LIVE_SAMPLE_NOTE, isBackfill: false })
+    expect(recordSourceLabel(row, now)).toBe(DEMO_LIVE_SOURCE_LABEL)
+    expect(recordSourceLabel(row, '2026-09-30T11:00:00.000Z')).toBe('传感器数据（演示）')
+    expect(recordSourceLabel({ ...row, isBackfill: true }, now)).toBe('传感器数据（演示）')
+    expect(recordSourceLabel({ ...row, source: 'manual' }, now)).toBe('人工录入')
   })
 })
 

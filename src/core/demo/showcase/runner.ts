@@ -45,6 +45,7 @@ export function createRunner(options: RunnerOptions) {
   }
 
   async function suspend(status: 'paused' | 'stopped'): Promise<void> {
+    if (state.status === 'completed') return
     requested = status
     if (active !== null) await active
     else { state.status = status; publish() }

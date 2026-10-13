@@ -5,7 +5,7 @@
  */
 import { computed } from 'vue'
 import type { MetricValues, MonitorRecord } from '@/types/domain'
-import { metricDef, pointTypeDef, qualityLabel, sourceLabel } from '@/types/catalog'
+import { metricDef, pointTypeDef, qualityLabel, recordSourceLabel } from '@/types/catalog'
 import { useArchiveStore } from '@/stores/archive'
 import { fmtDelta, fmtNumber } from '@/core/format'
 import { formatDateTime } from '@/core/time'
@@ -44,7 +44,7 @@ const items = computed(() => {
     { label: '采样时间', value: formatDateTime(record.sampleTime), mono: true },
     { label: '录入时间', value: formatDateTime(record.enteredAt), mono: true },
     { label: '录入人', value: `${record.enteredBy} · ${record.enteredByRole}` },
-    { label: '数据来源', value: sourceLabel(record.source) },
+    { label: '数据来源', value: recordSourceLabel(record, new Date().toISOString()) },
     { label: '质量标记', value: qualityLabel(record.quality) },
     { label: '数据标记', value: record.isBackfill ? '历史补录' : '常规录入' },
     { label: '单位', value: record.unit, mono: true },

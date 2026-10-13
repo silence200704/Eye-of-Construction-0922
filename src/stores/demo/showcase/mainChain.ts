@@ -97,7 +97,7 @@ async function recovery(refs: ShowcaseRefs): Promise<void> {
 async function register(refs: ShowcaseRefs): Promise<void> {
   await useIssueStore().reload()
   const issue = useIssueStore().byId(refs.issueId)
-  if (issue?.rechecks.length) return
+  if (issue?.rechecks?.length) return
   const out = await withActor('safety', () => useIssueStore().registerRecheck(refs.issueId, {
     subject: `${NOTE}：固定情况与连续恢复复测`, owner: '李老师（后勤保障处）', dueDate: todayInput(),
   }))
@@ -107,7 +107,7 @@ async function register(refs: ShowcaseRefs): Promise<void> {
 async function recheck(refs: ShowcaseRefs): Promise<void> {
   await useIssueStore().reload()
   const issue = useIssueStore().byId(refs.issueId)
-  if (issue?.status === 'closed' && issue.rechecks.some(row => row.outcome === 'recovered')) return
+  if (issue?.status === 'closed' && issue.rechecks?.some(row => row.outcome === 'recovered')) return
   const out = await withActor('safety', () => useIssueStore().recordRecheckOutcome(refs.issueId, {
     outcome: 'recovered', note: `${NOTE}：固定情况已复核，原规则判定连续恢复；预设演示结论。`,
   }))

@@ -13,7 +13,7 @@ function input(action: 'created' | 'appended' | 'upgraded' | 'recovering' | 'non
 describe('预警触发提醒', () => {
   it('只对新建事件与等级升级生成提醒，追加证据不重复打扰', () => {
     expect(eventAlertPrompt(input('created'))?.title).toContain('黄色关注预警已生成')
-    expect(eventAlertPrompt(input('upgraded', 'orange'))?.title).toContain('橙色排查预警已升级为')
+    expect(eventAlertPrompt(input('upgraded', 'orange'))?.title).toContain('预警已升级为橙色排查')
     expect(eventAlertPrompt(input('appended'))).toBeNull()
     expect(eventAlertPrompt(input('recovering'))).toBeNull()
   })

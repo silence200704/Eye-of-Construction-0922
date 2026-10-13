@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>小瞳动效演示</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script defer src="./main.js"></script>
+  </head>
+  <body>
+    <main class="stage">
+      <section class="preview" aria-labelledby="preview-title">
+        <p class="eyebrow">筑瞳 · 视觉形象小项目</p>
+        <h1 id="preview-title">你好，我是小瞳</h1>
+        <p class="intro">陪你查读数、找证据、看现场。每个结论都能回到原始记录。</p>
+
+        <div class="mascot-zone" data-state="idle">
+          <span class="scan-ring" aria-hidden="true"></span>
+          <span class="evidence-spark" aria-hidden="true"></span>
+          <img class="mascot" src="./xiaotong.png" alt="圆润的青色镜头小瞳，带建筑屋顶和两只短侧翼" />
+          <span class="ground-shadow" aria-hidden="true"></span>
+        </div>
+
+        <p class="status" role="status" aria-live="polite">待机：准备查看当前本地数据</p>
+        <div class="controls" role="group" aria-label="切换小瞳动效状态">
+          <button type="button" data-action="idle" aria-pressed="true">待机</button>
+          <button type="button" data-action="searching" aria-pressed="false">检索证据</button>
+          <button type="button" data-action="found" aria-pressed="false">找到证据</button>
+          <button type="button" data-action="empty" aria-pressed="false">暂无数据</button>
+        </div>
+      </section>
+
+      <aside class="notes" aria-label="动效口径">
+        <h2>动效服务于回答</h2>
+        <ol>
+          <li><strong>待机：</strong>轻微悬浮与镜头亮点呼吸，不抢占预警信息。</li>
+          <li><strong>检索：</strong>扫描圈只转一圈，随后进入“找到证据”。</li>
+          <li><strong>找到证据：</strong>小幅点头、短暂亮点；正文必须附原始对象链接。</li>
+          <li><strong>暂无数据：</strong>停止运动，用文字说明缺少什么证据。</li>
+        </ol>
+        <p>系统开启“减少动态效果”时，悬浮、扫描与点头自动停用。红色预警弹窗出现时，集成方应给容器加 <code>data-paused="true"</code>，暂停动效。</p>
+        <p class="demo-note">这是独立的形象与交互演示，不读取项目数据库，不代表已完成 AI 问答接线。</p>
+      </aside>
+    </main>
+  </body>
+</html>

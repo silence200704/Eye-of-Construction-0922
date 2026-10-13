@@ -17,6 +17,7 @@ import type { AuditLog } from '@/types/domain'
 import { closeGuard, planClose } from '@/core/event/plan'
 import { useArchiveStore } from './archive'
 import { useSessionStore } from './session'
+import { useClockStore } from './clock'
 import { useWorkOrderStore } from './inspection/workOrders'
 import { useIssueStore } from './inspection/issues'
 
@@ -35,12 +36,8 @@ export const useEventsStore = defineStore('events', () => {
   const notifications = ref<AlarmNotification[]>([])
   const loaded = ref(false)
 
-  /*
-   * 时钟刻度：通知是否超时由 `Date.now()` 决定，而它不是响应式的 ——
-   * 页面放着不动，"已超时"的条数就永远停在上一次算出来的结果上。
-   * 这里做成可手动推进的依赖：点「立即检查超时通知」先把它推到当前时刻再判定。
-   */
-  const clock = ref(nowIso())
+  /** 共享时钟：通知是否超时按"现在"算，见 stores/clock.ts 的取舍说明。 */
+  const clock = useClockStore()
 
   async function reload(): Promise<void> {
     const [rows, notes] = await Promise.all([
@@ -113,7 +110,7 @@ export const useEventsStore = defineStore('events', () => {
   )
 
   function minutesSince(iso: string): number {
-    return (new Date(clock.value).getTime() - new Date(iso).getTime()) / 60_000
+    return (new Date(clock.nowKey).getTime() - new Date(iso).getTime()) / 60_000
   }
 
   async function markPresented(eventId: string): Promise<void> {
@@ -141,6 +138,7 @@ export const useEventsStore = defineStore('events', () => {
     const session = useSessionStore()
     const event = byId(eventId)
     if (event === undefined || event.status !== 'pending') return
+    if (session.role !== 'safety') throw new Error('预警事件仅由学校安全管理人员确认')
     const at = nowIso()
     // 该事件下所有未确认通知一并标记为已确认，避免重复提醒；两者同事务提交
     const pendingNotes = notifications.value
@@ -262,7 +260,7 @@ export const useEventsStore = defineStore('events', () => {
   async function catchUpEscalations(): Promise<number> {
     const archive = useArchiveStore()
     // 先把时钟推到当前时刻：逾期判定依赖它，否则会复用上一次算出来的缓存结果（"点了没反应"）
-    clock.value = nowIso()
+    clock.refresh()
     const due = overdueNotifications.value
     if (due.length === 0) return 0
     const at = nowIso()

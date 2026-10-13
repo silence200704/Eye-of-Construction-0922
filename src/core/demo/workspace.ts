@@ -1,3 +1,4 @@
+import { ref } from 'vue'
 /** 在数据库实例构造前确定工作区；旧主库及其偏好键保持兼容。 */
 export type Workspace = 'main' | 'showcase'
 export const SHOWCASE_DB_NAME = 'zhutong-showcase'
@@ -22,3 +23,4 @@ export function switchWorkspace(mode: Workspace, start = false): void {
   url.hash = '#/settings'
   location.assign(url.href)
 }
+export const demoActivity = ref(false)

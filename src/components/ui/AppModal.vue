@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { nextTick, onBeforeUnmount, ref, watch } from 'vue'
+import { demoActivity } from '@/core/demo/workspace'
 
 const props = withDefaults(
   defineProps<{
@@ -29,6 +30,7 @@ function focusables(): HTMLElement[] {
 
 /** Esc 关闭，Tab 在弹窗内循环，关闭后把焦点还给打开它的元素。 */
 function onKey(event: KeyboardEvent): void {
+  if (demoActivity.value) return
   if (event.key === 'Escape') {
     emit('close')
     return
@@ -75,7 +77,7 @@ onBeforeUnmount(() => {
 
 <template>
   <Teleport to="body">
-    <div v-if="open" class="overlay" @click.self="closeOnBackdrop && emit('close')">
+    <div v-if="open" class="overlay" :inert="demoActivity" @click.self="closeOnBackdrop && !demoActivity && emit('close')">
       <div
         ref="panelRef"
         class="panel"
@@ -127,7 +129,7 @@ onBeforeUnmount(() => {
   box-shadow: var(--shadow-pop);
   display: flex;
   flex-direction: column;
-  max-height: calc(100vh - 96px);
+  max-height: calc(100dvh - 96px);
   animation: panel-in 0.14s ease;
 }
 
@@ -136,13 +138,13 @@ onBeforeUnmount(() => {
   align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
-  padding: 18px 22px 14px;
+  padding: 20px 24px 18px;
   border-bottom: 1px solid var(--line);
 }
 
 .panel-title {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 20px;
+  font-weight: 700;
 }
 
 .panel-sub {
@@ -154,12 +156,15 @@ onBeforeUnmount(() => {
 
 .panel-close {
   border: 0;
-  background: transparent;
+  background: var(--canvas);
   font-size: 22px;
   line-height: 1;
   color: var(--text-3);
   cursor: pointer;
-  padding: 0 2px;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--r-sm);
+  flex: none;
 }
 
 .panel-close:hover {
@@ -167,7 +172,7 @@ onBeforeUnmount(() => {
 }
 
 .panel-body {
-  padding: 18px 22px;
+  padding: 22px 24px;
   overflow-y: auto;
 }
 
@@ -175,7 +180,9 @@ onBeforeUnmount(() => {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
-  padding: 14px 22px 18px;
+  padding: 16px 24px;
+  background: var(--canvas);
+  border-radius: 0 0 var(--r-lg) var(--r-lg);
   border-top: 1px solid var(--line);
 }
 
@@ -202,4 +209,12 @@ onBeforeUnmount(() => {
     transform: translateY(0);
   }
 }
+@media (max-width:600px) {
+  .overlay { padding: 12px; }
+  .panel { max-height: calc(100dvh - 24px); }
+  .panel-head, .panel-body, .panel-foot { padding: 16px; }
+  .panel-close { width: 44px; height: 44px; }
+  .panel-foot { flex-wrap: wrap; }
+}
+@media (prefers-reduced-motion:reduce) { .overlay, .panel { animation: none; } }
 </style>

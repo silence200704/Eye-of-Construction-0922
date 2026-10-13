@@ -2,6 +2,7 @@
 import type { Baseline, Building, Device, Floor, MetricValues, MonitorRecord, Point } from '@/types/domain'
 import type { MonitoringRule } from '@/types/rules'
 import type { AlarmEvent, EventLevel } from '@/types/events'
+import type { InspectionIssue, WorkOrder } from '@/types/inspection'
 
 const AT = '2026-09-15T01:30:00.000Z'
 
@@ -210,6 +211,7 @@ export function makeEvent(overrides: Partial<AlarmEvent> = {}): AlarmEvent {
     lastTriggerAt: AT,
     lastTriggerValue: 0.12,
     evidences: [],
+    supersededEvidences: [],
     upgrades: [],
     timeline: [],
     acknowledgedAt: null,
@@ -227,3 +229,71 @@ export function makeEvent(overrides: Partial<AlarmEvent> = {}): AlarmEvent {
 }
 
 export const EMPTY_VALUES: MetricValues = {}
+
+/** 一条"待审核"的人工上报问题：契约测试与复查标签用例的基座。 */
+export function makeIssue(overrides: Partial<InspectionIssue> = {}): InspectionIssue {
+  return {
+    id: 'iss_1',
+    issueNo: 'ISS-20260916-001',
+    source: 'report',
+    submissionKey: 'report|pnt_1|设备故障|20260916',
+    pointId: 'pnt_1',
+    buildingId: 'bld_1',
+    floorId: 'flr_1',
+    zoneId: 'zn_1',
+    eventId: null,
+    taskId: null,
+    maintenanceTaskId: null,
+    anomalyType: '设备故障',
+    description: '一层走廊应急指示灯不亮',
+    photos: [],
+    status: 'pending_review',
+    reviewAction: null,
+    reviewCategory: '',
+    reviewedAt: null,
+    reviewedBy: '',
+    reviewNote: '',
+    duplicateOf: null,
+    linkedEventId: null,
+    linkedFrom: [],
+    workOrderIds: [],
+    rechecks: [],
+    timeline: [{ at: AT, by: '测试', byRole: '学校安全管理人员', action: '提交问题', detail: '' }],
+    createdAt: AT,
+    createdBy: '测试',
+    updatedAt: AT,
+    updatedBy: '测试',
+    ...overrides,
+  }
+}
+
+/** 一条"已验收通过"的工单：四个时刻齐全，便于测阶段耗时；缺口场景用 overrides 制造。 */
+export function makeWorkOrder(overrides: Partial<WorkOrder> = {}): WorkOrder {
+  return {
+    id: 'wo_1',
+    orderNo: 'WO-20260916-001',
+    origin: 'event',
+    issueId: 'iss_1',
+    eventId: 'evt_1',
+    pointId: 'pnt_1',
+    title: '裂缝测点维修',
+    status: 'verified',
+    assignee: '维修人员',
+    assignedBy: '学校安全管理人员',
+    assignedAt: '2026-09-16T02:00:00.000Z',
+    dueAt: null,
+    measures: '重新固定支架',
+    materials: '螺栓',
+    photos: [],
+    submittedAt: '2026-09-16T06:00:00.000Z',
+    reviews: [
+      { at: '2026-09-16T10:00:00.000Z', by: '学校安全管理人员', byRole: '学校安全管理人员', action: 'verify', result: 'pass', note: '' },
+    ],
+    timeline: [],
+    createdAt: AT,
+    createdBy: '测试',
+    updatedAt: AT,
+    updatedBy: '测试',
+    ...overrides,
+  }
+}

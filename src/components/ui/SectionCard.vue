@@ -26,12 +26,19 @@ defineProps<{
 .card-sub {
   font-size: 12px;
   color: var(--text-3);
-  margin-top: 3px;
+  margin-top: 5px;
+  line-height: 1.65;
 }
 
 /* flush 模式下表格贴边，标题区仍保留内边距 */
 .card--flush .card-head {
-  padding: 16px 20px 12px;
+  padding: 20px 24px 16px;
   margin-bottom: 0;
+}
+@media (max-width: 600px) {
+  .card { padding: 16px; }
+  .card--flush { padding: 0; }
+  .card-head { flex-wrap: wrap; gap: 10px; }
+  .card--flush .card-head { padding: 16px; }
 }
 </style>

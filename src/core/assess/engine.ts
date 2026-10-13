@@ -302,8 +302,8 @@ export function assessRecord(input: AssessInput): RuleAssessment {
   if (!hasNumericReadings(point.metric)) {
     return { ...base, reason: '人工检查点不产生数值记录，不参与判定' }
   }
-  if (quality === 'invalid') {
-    return { ...base, reason: '质量标记为无效：保存留痕，不参与判定' }
+  if (quality !== 'valid') {
+    return { ...base, reason: quality === 'invalid' ? '质量标记为无效：保存留痕，不参与判定' : '质量标记为存疑：待复核，不参与判定' }
   }
   if (outOfDeviceRange(values, device)) {
     return { ...base, reason: '超出设备量程：标记为无效并进入数据核查，不触发结构预警' }
@@ -314,8 +314,9 @@ export function assessRecord(input: AssessInput): RuleAssessment {
   if (new Date(rule.effectiveFrom).getTime() > new Date(at).getTime()) {
     return { ...base, reason: '规则尚未生效，不参与当前数据判断' }
   }
-  if (rule.metric === 'environment') return assessEnvironment(input)
-  return assessStructure(input, base)
+  const validInput = { ...input, history: input.history.filter((row) => row.quality === 'valid') }
+  if (rule.metric === 'environment') return assessEnvironment(validInput)
+  return assessStructure(validInput, base)
 }
 
 /**
@@ -323,6 +324,7 @@ export function assessRecord(input: AssessInput): RuleAssessment {
  * 用于列表快速标注；完整判定以 assessRecord 为准。
  */
 export function levelOfRecord(rule: MonitoringRule, record: MonitorRecord): DataState | null {
+  if (record.quality !== 'valid') return 'excluded'
   if (rule.metric === 'environment') {
     const condition = rule.environment
     if (condition === null) return null

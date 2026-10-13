@@ -9,6 +9,7 @@ import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import type { ChecklistAnswer, InspectionIssue, InspectionTask, TaskCheckResult } from '@/types/inspection'
 import { applyCheckIn, completeCheck } from '@/core/inspection/checkIn'
+import { buildDraftPhoto, type DraftPhotoInput } from '@/db/inspection/attachments'
 import { createIssueAtomic, planIssueRow } from '@/db/inspection/issueWrites'
 import { commitTaskWrite } from '@/db/inspection/disposal'
 import { buildAuditLog } from '@/db/repo'
@@ -21,6 +22,7 @@ import { toPlain } from '@/core/plain'
 import { db } from '@/db/database'
 import { useArchiveStore } from '../archive'
 import { useSessionStore } from '../session'
+import { useClockStore } from '../clock'
 import { usePlanStore } from './plans'
 
 export interface GenerateResult {
@@ -35,11 +37,13 @@ export interface EntryResult {
   task: InspectionTask | null
 }
 
-/** 上报巡检问题的草稿（照片已入库的 ID 由调用方传入） */
+/** 上报巡检问题的草稿（照片已压缩，但还未写库）。 */
 export interface InspectionDraft {
   anomalyType: string
   description: string
-  photos: string[]
+  photoDrafts?: DraftPhotoInput[]
+  /** 本点已经关联的问题：补传照片时复用它，不受 10 分钟提交窗口限制。 */
+  reuseIssueId?: string | null
 }
 
 export interface IssueEntryResult {
@@ -53,17 +57,12 @@ export const useTaskStore = defineStore('inspectionTasks', () => {
   const tasks = ref<InspectionTask[]>([])
   const loaded = ref(false)
 
-  /*
-   * 时钟刻度：`Date.now()` 不是响应式的，"今天有哪些任务""是否逾期"这类随时间变化的判定
-   * 不会自己刷新（跨零点、页面放着不动都会停在上一次算出来的结果）。
-   * 这里给页面一个可手动推进的依赖：点「刷新状态」就把它推到当前时刻。
-   * 不引后台定时器 —— 纯前端演示不需要，也会让页面上出现说不清来源的自动变化。
-   */
-  const clock = ref(nowIso())
+  /** 共享时钟：今日待办与逾期判定按"现在"算，见 stores/clock.ts 的取舍说明。 */
+  const clock = useClockStore()
 
   /** 立即刷新待办与逾期状态：推进时钟 + 重读任务。 */
   async function refreshNow(): Promise<void> {
-    clock.value = nowIso()
+    clock.refresh()
     await reload()
   }
 
@@ -80,7 +79,7 @@ export const useTaskStore = defineStore('inspectionTasks', () => {
 
   /** 今日待办：计划时刻落在今天的任务（含已完成的，便于回看当天做了哪些）。 */
   const todayTasks = computed<InspectionTask[]>(() => {
-    const key = dayKeyOf(new Date(clock.value))
+    const key = dayKeyOf(new Date(clock.nowKey))
     return tasks.value
       .filter((row) => dayKeyOf(new Date(row.plannedAt)) === key)
       .sort((a, b) => a.plannedAt.localeCompare(b.plannedAt))
@@ -107,14 +106,22 @@ export const useTaskStore = defineStore('inspectionTasks', () => {
    * 也只会产生一条任务（内存里去重挡不住这种事）。
    * 序号也在同一个事务里按当时已有的任务算，避免并发算出同一个编号。
    */
-  async function generateFor(day: Date): Promise<GenerateResult> {
+  async function generateFor(day: Date, options: { planId?: string; beforeWrite?: () => void } = {}): Promise<GenerateResult> {
     const planStore = usePlanStore()
     const session = useSessionStore()
-    const planned = planTasksFor(planStore.plans, day)
+    const planned = planTasksFor(planStore.plans.filter((row) => options.planId === undefined || row.id === options.planId), day)
     const created: InspectionTask[] = []
     let skipped = 0
 
-    await db.transaction('rw', db.tasks, async () => {
+    await db.transaction('rw', db.tasks, db.plans, db.points, async () => {
+      options.beforeWrite?.()
+      if (options.planId !== undefined) {
+        const current = await db.plans.get(options.planId)
+        if (current === undefined || !current.enabled) throw new Error('巡检计划已失效或停用，不生成任务。')
+        const points = await db.points.bulkGet(current.pointIds)
+        if (points.some((row) => row === undefined || row.status !== 'active' || row.buildingId !== current.buildingId || !current.floorIds.includes(row.floorId))) throw new Error('巡检测点归属已改变，请先核对计划。')
+        if (JSON.stringify(current) !== JSON.stringify(planned[0]?.plan)) throw new Error('巡检计划在准备后发生变化，请重读后再试。')
+      }
       const rows = await db.tasks.toArray()
       const existingIds = new Set(rows.map((row) => row.id))
       const taskNos = rows.map((row) => row.taskNo)
@@ -254,17 +261,28 @@ export const useTaskStore = defineStore('inspectionTasks', () => {
       eventId: null,
       anomalyType: draft.anomalyType,
       description: draft.description,
-      photos: draft.photos,
+      photos: [],
       taskId: task.id,
       detail: `${task.taskNo} 巡检发现：${draft.description}`,
     }
     const at = nowIso()
-    const key = issues.submissionKeyFor(issueDraft)
-    const issue = planIssueRow({ ...issueDraft, submissionKey: key }, { actor: session.name, actorRole: session.roleLabel, at })
+    const reused = draft.reuseIssueId === undefined || draft.reuseIssueId === null ? undefined : await db.issues.get(draft.reuseIssueId)
+    if (reused !== undefined && (reused.taskId !== task.id || reused.pointId !== point.id)) {
+      return { ok: false, error: '已关联问题不属于当前任务与点位，不能补传照片', issue: null }
+    }
+    const key = reused?.submissionKey ?? issues.submissionKeyFor(issueDraft)
+    const issue = reused ?? planIssueRow({ ...issueDraft, submissionKey: key }, { actor: session.name, actorRole: session.roleLabel, at })
+    const attachments = (draft.photoDrafts ?? []).map((item) =>
+      buildDraftPhoto(item, { kind: 'scene', issueId: issue.id, workOrderId: null, actor: session.name }),
+    )
+    const issueWithPhotos: InspectionIssue = {
+      ...issue,
+      photos: [...new Set([...issue.photos, ...attachments.map((item) => item.id)])],
+    }
     const next: TaskCheckResult = {
       ...result,
-      issueIds: [...new Set([...result.issueIds, issue.id])],
-      abnormalHandling: { ...result.abnormalHandling, linkedIssueId: issue.id },
+      issueIds: [...new Set([...result.issueIds, issueWithPhotos.id])],
+      abnormalHandling: { ...result.abnormalHandling, linkedIssueId: issueWithPhotos.id },
     }
     const results = task.results.map((row) => (row.pointId === pointId ? next : row))
     const nextTask: InspectionTask = {
@@ -281,8 +299,10 @@ export const useTaskStore = defineStore('inspectionTasks', () => {
      * 窗口一过就会再建一条，任务里却始终没有关联。
      */
     const created = await createIssueAtomic({
-      issue,
+      issue: issueWithPhotos,
       task: nextTask,
+      attachments,
+      photoTrace: { at, by: session.name, byRole: session.roleLabel },
       buildLogs: (row) =>
         buildReportLogs({
           created: row,
@@ -294,18 +314,9 @@ export const useTaskStore = defineStore('inspectionTasks', () => {
         }),
     })
 
-    if (!created.created) {
-      // 并发或重试命中同一条（同提交标识 → 同主键）：只把关联补齐，不再写日志
-      const linked = await linkIssueToPoint(taskId, pointId, created.issue.id)
-      await issues.reload()
-      return linked.ok
-        ? { ok: true, error: '', issue: created.issue, duplicated: true }
-        : { ok: false, error: linked.error, issue: created.issue }
-    }
-
     await reload()
     await issues.reload()
-    return { ok: true, error: '', issue: created.issue, duplicated: false }
+    return { ok: true, error: '', issue: created.issue, duplicated: !created.created }
   }
 
   /** 把已存在的问题关联到本任务与点位（上报问题成功后调用）。 */
@@ -375,7 +386,7 @@ export const useTaskStore = defineStore('inspectionTasks', () => {
 
   /** 任务级备注用不到独立状态字段：进度一并算好给页面用。 */
   function progressOf(task: InspectionTask): { completed: number; total: number; percent: number; overdue: boolean } {
-    return { ...taskProgress(task.results), overdue: isOverdue(task, new Date(clock.value)) }
+    return { ...taskProgress(task.results), overdue: isOverdue(task, new Date(clock.nowKey)) }
   }
 
   async function reset(): Promise<void> {

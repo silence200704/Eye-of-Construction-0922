@@ -1,0 +1,144 @@
+:root {
+  color-scheme: light;
+  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+  background: #f1f7f8;
+  color: #17333e;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; }
+
+.stage {
+  min-height: 100vh;
+  max-width: 1160px;
+  padding: 46px 24px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(260px, .8fr);
+  gap: 26px;
+  align-items: stretch;
+}
+
+.preview, .notes {
+  background: #fff;
+  border: 1px solid #d9e6e8;
+  border-radius: 24px;
+  box-shadow: 0 16px 50px #1438420d;
+}
+
+.preview { text-align: center; padding: 30px 30px 34px; }
+.eyebrow { margin: 0; color: #087d81; font-size: 14px; font-weight: 700; }
+h1 { margin: 9px 0 4px; font-size: clamp(26px, 4vw, 38px); }
+.intro { margin: 0; color: #637b85; font-size: 15px; line-height: 1.7; }
+
+.mascot-zone {
+  width: min(100%, 380px);
+  height: 355px;
+  position: relative;
+  display: grid;
+  place-items: center;
+  margin: 6px auto 0;
+  isolation: isolate;
+}
+
+.mascot {
+  width: min(78%, 280px);
+  height: auto;
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 14px 15px #0b647525);
+  animation: float 4.5s ease-in-out infinite;
+}
+
+.scan-ring {
+  width: 306px;
+  height: 306px;
+  position: absolute;
+  border: 4px solid #b9dedc;
+  border-top-color: #07848a;
+  border-radius: 50%;
+  opacity: 0;
+  z-index: 1;
+}
+
+.evidence-spark {
+  width: 22px;
+  height: 22px;
+  position: absolute;
+  right: 58px;
+  top: 78px;
+  border-radius: 50%;
+  background: #f5b548;
+  box-shadow: 0 0 0 9px #f5b54835;
+  opacity: 0;
+  z-index: 3;
+}
+
+.ground-shadow {
+  width: 150px;
+  height: 17px;
+  position: absolute;
+  bottom: 22px;
+  border-radius: 50%;
+  background: #1b53601a;
+  filter: blur(7px);
+}
+
+.mascot-zone[data-state="searching"] .scan-ring {
+  opacity: 1;
+  animation: scan 1.2s ease-in-out 1;
+}
+
+.mascot-zone[data-state="found"] .mascot { animation: nod .55s ease-in-out 1; }
+.mascot-zone[data-state="found"] .evidence-spark { animation: sparkle .75s ease-out 1; }
+.mascot-zone[data-state="empty"] .mascot { animation: none; opacity: .72; }
+
+.status { min-height: 26px; margin: 0 0 20px; font-size: 17px; font-weight: 700; }
+.controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+button {
+  font: inherit;
+  font-size: 14px;
+  color: #086d73;
+  border: 1px solid #c4dddf;
+  background: #eaf4f4;
+  border-radius: 10px;
+  padding: 10px 16px;
+  cursor: pointer;
+}
+button:hover, button:focus-visible { background: #d9eeee; outline-color: #0a858a; }
+button[aria-pressed="true"] { background: #087d81; color: white; border-color: #087d81; }
+
+.notes { padding: 35px 32px; line-height: 1.75; }
+.notes h2 { margin: 0 0 12px; font-size: 23px; }
+.notes ol { padding-left: 23px; }
+.notes li { margin-bottom: 17px; }
+.notes p { color: #566f79; }
+.demo-note { border-top: 1px solid #dce6e8; padding-top: 19px; font-size: 13px; }
+code { background: #edf3f3; padding: 2px 5px; border-radius: 4px; }
+
+@keyframes float {
+  0%, 100% { transform: translateY(1px) rotate(-1deg); }
+  50% { transform: translateY(-8px) rotate(1deg); }
+}
+@keyframes scan { from { transform: rotate(-70deg) scale(.88); opacity: 0; } 30% { opacity: 1; } to { transform: rotate(300deg) scale(1.03); opacity: 0; } }
+@keyframes nod { 0%, 100% { transform: rotate(0); } 45% { transform: rotate(7deg) translateY(5px); } }
+@keyframes sparkle { 0%, 100% { opacity: 0; transform: scale(.5); } 35% { opacity: 1; transform: scale(1.1); } }
+
+.mascot-zone[data-paused="true"] *,
+.mascot-zone[data-paused="true"] *::before,
+.mascot-zone[data-paused="true"] *::after { animation-play-state: paused !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .mascot-zone *, .mascot-zone *::before, .mascot-zone *::after { animation: none !important; }
+  .mascot-zone[data-state="searching"] .scan-ring { opacity: 1; }
+  .mascot-zone[data-state="found"] .evidence-spark { opacity: 1; }
+}
+
+@media (max-width: 780px) {
+  .stage { grid-template-columns: 1fr; padding: 18px; }
+  .notes { padding: 22px 25px; }
+  .preview { padding: 24px 14px; }
+  .mascot-zone { height: 295px; }
+  .mascot { width: min(72%, 230px); }
+  .scan-ring { width: 250px; height: 250px; }
+}

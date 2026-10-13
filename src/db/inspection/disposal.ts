@@ -80,20 +80,25 @@ export async function commitIssueWithWorkOrder(input: {
 export async function commitVerifyWithIssue(input: {
   workOrder: WorkOrder
   issue: InspectionIssue
+  attachments?: IssueAttachment[]
   logs: AuditLog[]
 }): Promise<void> {
-  await db.transaction('rw', db.workOrders, db.issues, db.audits, async () => {
+  const attachments = input.attachments ?? []
+  await db.transaction('rw', db.workOrders, db.issues, db.attachments, db.audits, async () => {
     await db.workOrders.put(toPlain(input.workOrder))
     await db.issues.put(toPlain(input.issue))
+    if (attachments.length > 0) await db.attachments.bulkPut(toPlain(attachments))
     if (input.logs.length > 0) await db.audits.bulkPut(toPlain(input.logs))
   })
 }
 
 /**
  * 工单状态流转 + 日志的单事务提交（派工、接单、提交待验收、验收）。 */
-export async function commitWorkOrderWrite(input: { workOrder: WorkOrder; logs: AuditLog[] }): Promise<void> {
-  await db.transaction('rw', db.workOrders, db.audits, async () => {
+export async function commitWorkOrderWrite(input: { workOrder: WorkOrder; attachments?: IssueAttachment[]; logs: AuditLog[] }): Promise<void> {
+  const attachments = input.attachments ?? []
+  await db.transaction('rw', db.workOrders, db.attachments, db.audits, async () => {
     await db.workOrders.put(toPlain(input.workOrder))
+    if (attachments.length > 0) await db.attachments.bulkPut(toPlain(attachments))
     if (input.logs.length > 0) await db.audits.bulkPut(toPlain(input.logs))
   })
 }

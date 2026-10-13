@@ -33,6 +33,19 @@ export function dayKey(iso: string): string {
   return `${date.getFullYear()}${pad(date.getMonth() + 1)}${pad(date.getDate())}`
 }
 
+/**
+ * 严格校验 YYYY-MM-DD 且**日历上真实存在**。
+ *
+ * 只判非空不够：`2026-02-31` 会被 Date 自动折算成 3 月 3 日，之后逾期天数、目标日期全都算错。
+ * 这里用「构造回去再比一次」挡住格式与日历两类非法值（允许历史日期 —— 演示逾期要用）。
+ */
+export function isValidDayKey(value: string): boolean {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false
+  const [year, month, day] = value.split('-').map((part) => Number.parseInt(part, 10))
+  const date = new Date(Date.UTC(year, month - 1, day))
+  return date.getUTCFullYear() === year && date.getUTCMonth() === month - 1 && date.getUTCDate() === day
+}
+
 export function formatDateTime(iso: string): string {
   const date = new Date(iso)
   if (Number.isNaN(date.getTime())) return '—'

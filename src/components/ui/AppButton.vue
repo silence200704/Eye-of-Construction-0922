@@ -33,10 +33,10 @@ withDefaults(
   border: 1px solid transparent;
   border-radius: var(--r-sm);
   font-size: 13.5px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
-  transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+  transition: background-color 0.14s ease, border-color 0.14s ease, color 0.14s ease, transform 0.1s ease;
 }
 
 .btn--sm {
@@ -92,4 +92,7 @@ withDefaults(
 .btn--danger:hover:not(:disabled) {
   background: var(--st-red-bg);
 }
+.btn:active:not(:disabled) { transform: translateY(1px); }
+@media (max-width:600px) { .btn { min-height: 44px; } }
+@media (prefers-reduced-motion:reduce) { .btn { transition: none; }.btn:active:not(:disabled) { transform: none; } }
 </style>

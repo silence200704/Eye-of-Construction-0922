@@ -7,6 +7,7 @@
  */
 import { ATTACHMENT_LIMITS, type AttachmentKind, type IssueAttachment } from '@/types/inspection'
 import { uid } from '@/core/id'
+import { imageKindLabel, sniffImageKind } from '@/core/image'
 import { nowIso } from '@/core/time'
 import { putAttachment, deleteAttachment } from '@/db/repo'
 
@@ -63,12 +64,43 @@ export interface CompressedPhoto {
 }
 
 /**
+ * 解码成位图：先试 `createImageBitmap`，失败再用 `<img>` 解一次。
+ *
+ * 两条路都要，是因为两者接受的文件集合并不完全重合（ImageBitmap 对个别 PNG 变体与
+ * 某些浏览器的实现更挑剔），只留一条会把能显示的照片判成"无法解码"。
+ * 两条都失败才算真的解不开，并且先用文件头判断给一句能看懂的话。
+ */
+async function decodePhoto(file: File): Promise<{ width: number; height: number; draw: CanvasImageSource; close: () => void }> {
+  const head = new Uint8Array(await file.slice(0, 8).arrayBuffer())
+  const kind = sniffImageKind(head)
+  if (kind === '') {
+    throw new Error(`图片无法解码：${file.name} 不是有效的 JPG / PNG（可能只是改了扩展名）`)
+  }
+  try {
+    const bitmap = await createImageBitmap(file)
+    return { width: bitmap.width, height: bitmap.height, draw: bitmap, close: () => bitmap.close() }
+  } catch {
+    // 回退：<img> 解码（部分 PNG 变体在 ImageBitmap 上会失败，但 <img> 能显示）
+    const url = URL.createObjectURL(file)
+    try {
+      const image = new Image()
+      image.src = url
+      await image.decode()
+      return { width: image.naturalWidth, height: image.naturalHeight, draw: image, close: () => URL.revokeObjectURL(url) }
+    } catch {
+      URL.revokeObjectURL(url)
+      throw new Error(`图片无法解码：${file.name} 可能已损坏（文件头看起来是 ${imageKindLabel(kind)}，但内容读不出来）`)
+    }
+  }
+}
+
+/**
  * 压缩：先按最长边缩到 maxEdge，再逐步降质量到目标字节数以内。
  * 画布不可用（极少数环境）时直接抛错，由调用方提示"本机浏览器不支持图片压缩"，不静默存原图。
  */
 export async function compressPhoto(file: File, options: Partial<CompressOptions> = {}): Promise<CompressedPhoto> {
   const opts = { ...DEFAULT_OPTIONS, ...options }
-  const bitmap = await createImageBitmap(file)
+  const bitmap = await decodePhoto(file)
   const scale = Math.min(1, opts.maxEdge / Math.max(bitmap.width, bitmap.height))
   const width = Math.max(1, Math.round(bitmap.width * scale))
   const height = Math.max(1, Math.round(bitmap.height * scale))
@@ -78,7 +110,7 @@ export async function compressPhoto(file: File, options: Partial<CompressOptions
   canvas.height = height
   const ctx = canvas.getContext('2d')
   if (ctx === null) throw new Error('本机浏览器不支持图片压缩，无法保存现场照片')
-  ctx.drawImage(bitmap, 0, 0, width, height)
+  ctx.drawImage(bitmap.draw, 0, 0, width, height)
 
   let quality = 0.82
   let blob = await toJpeg(canvas, quality)
@@ -115,6 +147,8 @@ export interface SavePhotoInput {
   kind: AttachmentKind
   issueId: string | null
   workOrderId: string | null
+  /** 保养任务归属（V1-D）：照片必须有归属，否则查不到出处 */
+  maintenanceTaskId?: string | null
   actor: string
   capturedAt: string | null
   /** 来源草稿标识：重试时据此认出"已入库但未关联"的那张 */
@@ -128,6 +162,7 @@ export async function savePhoto(input: SavePhotoInput): Promise<IssueAttachment>
     id: uid('att'),
     issueId: input.issueId,
     workOrderId: input.workOrderId,
+    maintenanceTaskId: input.maintenanceTaskId ?? null,
     kind: input.kind,
     draftId: input.draftId ?? '',
     fileName: input.file.name,
@@ -178,12 +213,20 @@ export function attachmentIdOf(draftId: string): string {
  */
 export function buildDraftPhoto(
   draft: DraftPhotoInput,
-  meta: { kind: AttachmentKind; issueId: string | null; workOrderId: string | null; actor: string },
+  meta: {
+    kind: AttachmentKind
+    issueId: string | null
+    workOrderId: string | null
+    actor: string
+    /** 保养任务归属（V1-D） */
+    maintenanceTaskId?: string | null
+  },
 ): IssueAttachment {
   return {
     id: attachmentIdOf(draft.id),
     issueId: meta.issueId,
     workOrderId: meta.workOrderId,
+    maintenanceTaskId: meta.maintenanceTaskId ?? null,
     kind: meta.kind,
     draftId: draft.id,
     fileName: draft.fileName,

@@ -42,13 +42,17 @@ export function eventAlertPrompt(input: AlertPromptEventInput): AlertPrompt | nu
   if (input.action !== 'created' && input.action !== 'upgraded') return null
   const { event } = input
   const policy = notifyPolicyOf(event.level)
-  const prefix = input.action === 'created' ? '已生成' : '已升级为'
+  // "×预警已生成" / "预警已升级为×"：升级那条不能接"已升级为"结尾，否则句子断在半截
+  const title =
+    input.action === 'created'
+      ? `${EVENT_LEVEL_LABEL[event.level]}预警已生成`
+      : `预警已升级为${EVENT_LEVEL_LABEL[event.level]}`
   return {
     key: alertKey(input),
     kind: 'event',
     level: event.level,
     strong: event.level === 'red',
-    title: `${EVENT_LEVEL_LABEL[event.level]}预警${prefix}`,
+    title,
     detail: `${event.eventNo}｜${input.pointLabel}｜最近触发值 ${event.lastTriggerValue} ${event.unit}`,
     eventId: event.id,
     eventNo: event.eventNo,

@@ -6,7 +6,7 @@
  * 页面只负责收集必要信息：派工选人、接单填期限、完工填措施材料与照片、验收写意见。
  * 关键口径：**验收通过只把问题推进到"待复查"，不自动关闭**。
  */
-import { computed, ref } from 'vue'
+import { computed, onUnmounted, ref, watch } from 'vue'
 import type { WorkOrder, WorkOrderStatus } from '@/types/inspection'
 import { useArchiveStore } from '@/stores/archive'
 import { useSessionStore } from '@/stores/session'
@@ -16,12 +16,15 @@ import { isAssignedTo } from '@/core/inspection/workOrderFlow'
 import { formatDateTime } from '@/core/time'
 import { planPhotoSync } from '@/db/inspection/attachments'
 import type { PhotoDraftLike } from '@/config/issueOptions'
+import { DEMO_PEOPLE } from '@/config/people'
 import { ROLES } from '@/types/catalog'
 import AppButton from '@/components/ui/AppButton.vue'
+import AppModal from '@/components/ui/AppModal.vue'
 import StatusTag from '@/components/ui/StatusTag.vue'
 import PhotoUploader from '@/components/inspection/PhotoUploader.vue'
 
-const props = defineProps<{ issueId: string }>()
+/** focusOrderId：深链指定的那张工单，加一圈高亮表示"就是这条"（滚动定位在 IssueDetail 做） */
+const props = defineProps<{ issueId: string; focusOrderId?: string }>()
 const emit = defineEmits<{ changed: [message: string] }>()
 
 const archive = useArchiveStore()
@@ -35,9 +38,57 @@ const dueAt = ref('')
 const measures = ref('')
 const materials = ref('')
 const photos = ref<PhotoDraftLike[]>([])
+const acceptancePhotos = ref<PhotoDraftLike[]>([])
 const message = ref('')
 const tone = ref<'ok' | 'bad'>('ok')
 const busy = ref(false)
+/** 大图预览：点缩略图看原图（照片存在库里，界面只显示张数的话等于看不到留痕） */
+const zoom = ref<{ url: string; fileName: string } | null>(null)
+const urlMap = ref<Record<string, { thumb: string; full: string }>>({})
+
+/**
+ * 工单照片的缩略图：`order.photos` 存的是附件 ID，这里按 ID 取回并建立对象 URL。
+ * 建立与释放都放在 watch 里（computed 里做副作用会被重复求值），损坏的附件行不给 URL、显示占位。
+ */
+watch(
+  () => `${workOrders.orders.map((row) => row.photos.join(',')).join('|')}|${attachments.attachments.map((row) => `${row.id}:${row.workOrderId}:${row.kind}`).join('|')}`,
+  () => {
+    const next: Record<string, { thumb: string; full: string }> = {}
+    for (const order of workOrders.orders) {
+      for (const id of evidenceIds(order)) {
+        const existing = urlMap.value[id]
+        if (existing !== undefined) {
+          next[id] = existing
+          continue
+        }
+        const row = attachments.attachments.find((item) => item.id === id)
+        if (row !== undefined && row.thumb instanceof Blob && row.blob instanceof Blob) {
+          next[id] = { thumb: URL.createObjectURL(row.thumb), full: URL.createObjectURL(row.blob) }
+        }
+      }
+    }
+    for (const [id, entry] of Object.entries(urlMap.value)) {
+      if (next[id] === undefined) {
+        URL.revokeObjectURL(entry.thumb)
+        URL.revokeObjectURL(entry.full)
+      }
+    }
+    urlMap.value = next
+  },
+  { immediate: true },
+)
+
+onUnmounted(() => {
+  for (const entry of Object.values(urlMap.value)) {
+    URL.revokeObjectURL(entry.thumb)
+    URL.revokeObjectURL(entry.full)
+  }
+})
+
+/** 某张工单照片的缩略图地址；坏行返回空串，由模板显示占位。 */
+function thumbOf(id: string): string {
+  return urlMap.value[id]?.thumb ?? ''
+}
 
 const orders = computed(() => workOrders.ordersOfIssue(props.issueId))
 const repairRoles = ROLES.filter((row) => row.key === 'repair' || row.key === 'property')
@@ -102,6 +153,7 @@ async function run(order: WorkOrder, to: WorkOrderStatus, extra: Parameters<type
     }
     payload.photos = ids
   }
+  if ((to === 'verified' || to === 'returned') && acceptancePhotos.value.length > 0) payload.acceptancePhotos = acceptancePhotos.value
   const out = await workOrders.advanceOrder(order.id, to, payload)
   busy.value = false
   tone.value = out.ok ? 'ok' : 'bad'
@@ -109,6 +161,7 @@ async function run(order: WorkOrder, to: WorkOrderStatus, extra: Parameters<type
   if (out.ok) {
     // 验收通过时问题已随工单在同一事务里进入"待复查"，这里不再单独写问题状态
     photos.value = []
+    acceptancePhotos.value = []
     note.value = ''
     assignee.value = ''
     dueAt.value = ''
@@ -121,10 +174,56 @@ function photoCount(order: WorkOrder): number {
   return order.photos.length
 }
 
+function acceptancePhotoIds(order: WorkOrder): string[] {
+  return attachments.ofOrder(order.id).filter((row) => row.kind === 'acceptance').map((row) => row.id)
+}
+
+function evidenceIds(order: WorkOrder): string[] {
+  return [...new Set([...order.photos, ...acceptancePhotoIds(order)])]
+}
+
 function pointLabel(order: WorkOrder): string {
   if (order.pointId === null) return '未指定测点'
   const point = archive.pointById(order.pointId)
   return point === undefined ? order.pointId : `${point.code} ${point.name}`
+}
+
+/**
+ * 工单四步：面板原来按状态一块一块冒出来，演示时看不出"这是个流程、我在第几步"。
+ * 只在界面上把步骤讲明白，状态机与判定一律不动。
+ */
+const WORK_ORDER_STEPS = ['派工', '接单维修', '提交维修报告', '验收']
+
+/** 当前处在第几步（0 起）；`verified` 已完成四步，返回步数本身。 */
+function stepIndexOf(status: string): number {
+  switch (status) {
+    case 'created':
+      return 0
+    case 'assigned':
+    case 'repairing':
+    case 'returned':
+      return 1
+    case 'submitted':
+      return 2
+    case 'verified':
+      return WORK_ORDER_STEPS.length
+    default:
+      return 0
+  }
+}
+
+/** 审查轮次：退回返工再验收会累积多条，这里把"审了几次、退回几次"摆出来。 */
+function reviewSummary(order: WorkOrder): string {
+  const total = order.reviews.length
+  if (total === 0) return order.status === 'submitted' ? '本次为第 1 次送审' : ''
+  const returned = order.reviews.filter((row) => row.action === 'return').length
+  const extra = order.status === 'submitted' ? '；本次为新一轮送审' : ''
+  return `已审查 ${total} 次（退回 ${returned} 次）${extra}`
+}
+
+/** 人员标签：名单里有的名字已经带了职责（如"李老师（后勤保障处）"），不要再追加一次。 */
+function personLabel(person: { name: string; duty: string }): string {
+  return person.name.includes(person.duty) ? person.name : `${person.name}（${person.duty}）`
 }
 </script>
 
@@ -136,7 +235,12 @@ function pointLabel(order: WorkOrder): string {
       尚未创建工单。审核选择「转维修工单」时会自动生成一张"待派工"的工单。
     </p>
 
-    <div v-for="order in orders" :key="order.id" class="order">
+    <div
+      v-for="order in orders"
+      :key="order.id"
+      class="order"
+      :class="{ 'order--focus': order.id === props.focusOrderId }"
+    >
       <div class="row-between head">
         <div class="title">
           <b class="mono">{{ order.orderNo }}</b>
@@ -145,19 +249,53 @@ function pointLabel(order: WorkOrder): string {
         <StatusTag :tone="toneOf(order.status)" :text="STATUS_TEXT[order.status]" />
       </div>
 
+      <p class="muted steps-line">
+        流程：<template v-for="(step, index) in WORK_ORDER_STEPS" :key="step">
+          <b v-if="stepIndexOf(order.status) === index">{{ index + 1 }}. {{ step }}（当前）</b>
+          <template v-else>{{ index + 1 }}. {{ step }}</template>
+          <template v-if="index < WORK_ORDER_STEPS.length - 1"> → </template>
+        </template>
+      </p>
+      <p v-if="reviewSummary(order) !== ''" class="muted">{{ reviewSummary(order) }}</p>
+
       <dl class="meta">
         <div><dt>维修人</dt><dd>{{ order.assignee === '' ? '待派工' : order.assignee }}</dd></div>
         <div><dt>期限</dt><dd class="mono">{{ order.dueAt === null ? '—' : formatDateTime(order.dueAt) }}</dd></div>
-        <div><dt>完工照片</dt><dd class="num">{{ photoCount(order) }} 张</dd></div>
+        <div>
+          <dt>完工照片</dt>
+          <dd class="num">
+            {{ photoCount(order) }} 张<template v-if="order.photos.length > 0">（点开可看）</template>
+          </dd>
+        </div>
+        <div><dt>验收照片</dt><dd class="num">{{ acceptancePhotoIds(order).length }} 张</dd></div>
         <div><dt>提交待验收</dt><dd class="mono">{{ order.submittedAt === null ? '—' : formatDateTime(order.submittedAt) }}</dd></div>
       </dl>
 
       <p v-if="order.measures !== ''" class="measures">维修措施：{{ order.measures }}</p>
 
+      <div v-if="evidenceIds(order).length > 0" class="order-photos">
+        <button v-for="id in evidenceIds(order)" :key="id" type="button" class="thumb-btn" @click="zoom = urlMap[id] === undefined ? null : { url: urlMap[id].full, fileName: id }">
+          <img v-if="thumbOf(id) !== ''" :src="thumbOf(id)" :alt="`工单照片 ${id}`" />
+          <span v-else class="thumb-broken">照片数据已损坏</span>
+        </button>
+        <span class="muted">工单现场与验收照片（压缩图，原始大图不入库）</span>
+      </div>
+
+      <AppModal :open="zoom !== null" :title="zoom?.fileName ?? '工单照片'" sub="工单留痕照片" :width="720" @close="zoom = null">
+        <img v-if="zoom !== null" class="zoom" :src="zoom.url" alt="工单照片" />
+      </AppModal>
+
       <div v-if="canAssign() && order.status === 'created'" class="row wrap actions">
         <select v-model="assignee" class="ctl">
           <option value="">选择维修人…</option>
-          <option v-for="role in repairRoles" :key="role.key" :value="role.name">{{ role.name }}</option>
+          <optgroup label="按角色指派">
+            <option v-for="role in repairRoles" :key="role.key" :value="role.name">{{ role.name }}</option>
+          </optgroup>
+          <optgroup label="按人指派（该人需具备维修 / 物业角色才能接单）">
+            <option v-for="person in DEMO_PEOPLE" :key="person.name" :value="person.name">
+              {{ personLabel(person) }}
+            </option>
+          </optgroup>
         </select>
         <input v-model="dueAt" class="ctl" type="date" />
         <input v-model="note" class="ctl grow" placeholder="派工说明（写清楚现场情况与要求）" />
@@ -184,6 +322,7 @@ function pointLabel(order: WorkOrder): string {
       </div>
 
       <div v-else-if="canWork() && order.status === 'repairing'" class="col actions">
+        <p><b>维修报告（措施 / 材料 / 完工照片）</b>：提交后进入待验收，由安全管理人员审查</p>
         <input v-model="measures" class="ctl" placeholder="维修措施（必填，例如 重新固定支架并加固螺栓）" />
         <input v-model="materials" class="ctl" placeholder="使用材料（选填）" />
         <PhotoUploader v-model:photos="photos" @error="message = $event; tone = 'bad'" />
@@ -195,10 +334,14 @@ function pointLabel(order: WorkOrder): string {
         </div>
       </div>
 
-      <div v-else-if="canVerify() && order.status === 'submitted'" class="row wrap actions">
+      <div v-else-if="canVerify() && order.status === 'submitted'" class="col actions">
         <input v-model="note" class="ctl grow" placeholder="验收意见（退回必填，说明哪里不合格）" />
+        <PhotoUploader v-model:photos="acceptancePhotos" @error="message = $event; tone = 'bad'" />
+        <p class="muted">验收照片会与验收结论一次写入本地档案；未选照片也可记录文字验收结论。</p>
+        <div class="row wrap">
         <AppButton size="sm" :disabled="busy" @click="run(order, 'returned')">验收退回</AppButton>
         <AppButton size="sm" variant="primary" :disabled="busy" @click="run(order, 'verified')">验收通过</AppButton>
+        </div>
       </div>
 
       <p v-else class="muted">
@@ -234,96 +377,4 @@ function pointLabel(order: WorkOrder): string {
   </div>
 </template>
 
-<style scoped>
-.wo-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  border-top: 1px solid var(--line);
-  padding-top: 10px;
-}
-
-.section {
-  font-size: 12px;
-  color: var(--text-2);
-  margin: 0;
-}
-
-.muted {
-  font-size: 11.5px;
-  color: var(--text-3);
-}
-
-.order {
-  border: 1px solid var(--line);
-  border-radius: var(--r-sm);
-  padding: 10px 12px;
-  background: var(--bg-2, #f6f8f8);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.head {
-  gap: 8px;
-  align-items: flex-start;
-}
-
-.title {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  font-size: 12.5px;
-}
-
-.meta {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 8px;
-  margin: 0;
-  font-size: 11.5px;
-}
-
-.meta dt {
-  color: var(--text-3);
-}
-
-.meta dd {
-  margin: 2px 0 0;
-  color: var(--text-1);
-}
-
-.measures {
-  margin: 0;
-  font-size: 12px;
-  color: var(--text-1);
-}
-
-.actions {
-  gap: 8px;
-  align-items: center;
-}
-
-.actions.col {
-  flex-direction: column;
-  align-items: stretch;
-}
-
-.grow {
-  flex: 1;
-  min-width: 200px;
-}
-
-.timeline ul {
-  margin: 6px 0 0;
-  padding-left: 16px;
-  font-size: 11.5px;
-  line-height: 1.8;
-}
-
-.timeline li {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-</style>
+<style scoped src="./styles/WorkOrderPanel.css"></style>

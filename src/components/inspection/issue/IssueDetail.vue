@@ -7,22 +7,45 @@
  * 审核表单已抽到 IssueReviewPanel（表单、前置条件、结果预览自成一套）；
  * 维修工单面板是 WorkOrderPanel。这里只做信息展示与两个子面板的编排。
  */
-import { computed, onUnmounted, ref, watch } from 'vue'
+import { computed, nextTick, onUnmounted, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import type { InspectionIssue } from '@/types/inspection'
 import { ISSUE_SOURCES, ISSUE_STATUSES } from '@/types/inspection'
 import { useArchiveStore } from '@/stores/archive'
 import { useEventsStore } from '@/stores/events'
 import { useIssueStore } from '@/stores/inspection/issues'
 import { useAttachmentStore } from '@/stores/inspection/attachments'
+import { useMaintenanceTaskStore } from '@/stores/maintenance/tasks'
 import { useTaskStore } from '@/stores/inspection/tasks'
 import { formatDateTime } from '@/core/time'
 import AppButton from '@/components/ui/AppButton.vue'
 import StatusTag from '@/components/ui/StatusTag.vue'
 import WorkOrderPanel from '@/components/inspection/issue/WorkOrderPanel.vue'
 import IssueReviewPanel from '@/components/inspection/issue/IssueReviewPanel.vue'
+import IssueRecheckPanel from '@/components/inspection/issue/IssueRecheckPanel.vue'
+import ResponseJourney from '@/components/demo/ResponseJourney.vue'
 
-const props = defineProps<{ issue: InspectionIssue }>()
+const props = defineProps<{ issue: InspectionIssue; focusOrderId?: string }>()
 const emit = defineEmits<{ changed: [message: string]; close: []; reviewDirty: [flag: boolean] }>()
+
+/**
+ * 深链 `?workOrder=<工单ID>` 的定位：渲染完把高亮的那张工单调进视野。
+ * 面板挂在抽屉里，滚动容器是抽屉，因此用 `block: 'center'` 避免被抽屉头部挡住；
+ * 开了"减少动态效果"就直接跳过去，不做平滑滚动。
+ */
+const orderHostEl = ref<HTMLElement | null>(null)
+watch(
+  () => props.focusOrderId ?? '',
+  async (id) => {
+    if (id === '') return
+    await nextTick()
+    const target = orderHostEl.value?.querySelector<HTMLElement>('.order--focus') ?? null
+    if (target === null) return
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    target.scrollIntoView({ block: 'center', behavior: reduce ? 'auto' : 'smooth' })
+  },
+  { immediate: true },
+)
 
 const archive = useArchiveStore()
 const events = useEventsStore()
@@ -32,7 +55,17 @@ const tasks = useTaskStore()
 
 const message = ref('')
 const tone = ref<'ok' | 'bad'>('ok')
+const router = useRouter()
+
 const sourceName = computed(() => ISSUE_SOURCES.find((row) => row.key === props.issue.source)?.name ?? props.issue.source)
+/**
+ * 来源保养任务（v7 起的双向关联）：问题要知道自己是哪次保养转出来的，
+ * 并能直接跳回那条任务 —— 只看"来源：保养发现"不知道该找哪一条。
+ */
+const maintenanceTasks = useMaintenanceTaskStore()
+const maintenanceTask = computed(() =>
+  props.issue.maintenanceTaskId === null ? undefined : maintenanceTasks.byId(props.issue.maintenanceTaskId),
+)
 const statusName = computed(() => ISSUE_STATUSES.find((row) => row.key === props.issue.status)?.name ?? props.issue.status)
 const pointLabel = computed(() => {
   const point = props.issue.pointId === null ? undefined : archive.pointById(props.issue.pointId)
@@ -119,6 +152,8 @@ function eventStatusName(status: string): string {
       </div>
     </div>
 
+    <ResponseJourney v-if="issue.eventId !== null" :event-id="issue.eventId" />
+
     <p class="desc">{{ issue.description }}</p>
 
     <dl class="meta">
@@ -127,6 +162,15 @@ function eventStatusName(status: string): string {
       <div>
         <dt>关联任务</dt>
         <dd>{{ task === undefined ? '—（非巡检来源）' : `${task.taskNo} ${task.planSnapshot.planName}` }}</dd>
+      </div>
+      <div v-if="issue.maintenanceTaskId !== null">
+        <dt>来源保养任务</dt>
+        <dd>
+          {{ maintenanceTask === undefined ? `${issue.maintenanceTaskId}（任务档案已删除）` : `${maintenanceTask.taskNo} ｜ ${maintenanceTask.snapshot.planName} ｜ ${maintenanceTask.snapshot.deviceName}` }}
+          <AppButton size="sm" variant="ghost" @click="emit('close'); router.push(`/maintenance?task=${issue.maintenanceTaskId}`)">
+            打开保养任务
+          </AppButton>
+        </dd>
       </div>
       <div>
         <dt>关联预警事件</dt>
@@ -153,7 +197,11 @@ function eventStatusName(status: string): string {
       </div>
     </div>
 
-    <WorkOrderPanel :issue-id="issue.id" @changed="emit('changed', $event)" />
+    <div ref="orderHostEl">
+      <WorkOrderPanel :issue-id="issue.id" :focus-order-id="props.focusOrderId ?? ''" @changed="emit('changed', $event)" />
+    </div>
+
+    <IssueRecheckPanel :issue="issue" @changed="emit('changed', $event)" />
 
     <div class="timeline">
       <p class="section">审核记录与时间线</p>
