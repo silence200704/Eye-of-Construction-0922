@@ -1,7 +1,8 @@
 # 筑瞳服务端
 
-当前交付阶段 1：演示身份切换、可撤销会话、健康检查、Alembic 迁移、HTTP 接入。
-17 张业务表、媒体、业务 API 及旧库迁移仍按后续阶段实施，不能将身份落库视为业务数据已迁移。
+当前交付阶段 2：身份切换、业务数据模型、媒体上传关联、数据库和文件备份恢复。
+29 张应用表及 Alembic 版本表已建立，覆盖原 17 张表与新增运行数据。
+旧库导入、业务流程接口和 Web 业务写入切换仍按阶段 3—5 实施，目前不宣称旧业务数据已迁移。
 
 ## 本地启动
 
@@ -48,6 +49,7 @@ Web：http://127.0.0.1:8080；文档：http://127.0.0.1:8000/docs。
 | SECRET_KEY | 可选签名密钥；未设置时生成并持久化 session.key |
 | DEMO_MODE | 是否启用演示身份初始化与切换 |
 | SESSION_TTL_SECONDS | 会话有效期，默认 8 小时 |
+| MEDIA_MAX_BYTES | 单文件上传限制，默认 32 MiB；图片最多 4000 万像素 |
 
 运行数据、密钥及 .env 不进入 Git；备份恢复时应一起保留持久化目录。
 
@@ -63,3 +65,30 @@ uv run ruff format --check src tests migrations
 `uv run alembic upgrade head`；演示身份初始化通过 `python -m zhutong init`。
 0002_identity_only 会删除旧 username/password_hash 字段，保留原身份和会话。
 密码删除无法逆向恢复，回退旧版本需要升级前的数据库备份。
+
+## 媒体与备份
+
+媒体元数据在 SQLite，原文件位于 `RUNTIME_DIR/media/files`，上传暂存位于 `media/.staging`。
+支持 PNG/JPEG/WebP 解码校验、MP4 容器结构校验；MP4 尚不验证视频编解码或提取尺寸。
+原始字节按哈希保留，不在服务端自动压缩；问题/工单/保养照片仍受三张、合计 600 KB 限制。
+媒体内容接口需要内部身份令牌，不提供无鉴权静态目录。
+
+在 backend 目录执行（目标必须为尚不存在的新目录）：
+
+```powershell
+uv run python -m zhutong backup --output .runtime/backups/manual-01
+uv run python -m zhutong verify-backup --source .runtime/backups/manual-01
+uv run python -m zhutong restore-backup --source .runtime/backups/manual-01 --output .runtime-restored
+```
+
+Docker 内将 `uv run python` 换为
+`docker compose -f deploy/compose.yaml exec -T api /app/.venv/bin/python`，后接相同参数；
+目标可使用 `/data/backups/manual-01`。在项目根目录执行 Docker 命令。
+
+备份使用 SQLite 在线快照，包含所有数据集、媒体、会话密钥及哈希清单；不复制未提交的暂存文件。
+恢复先校验所有文件、数据库和引用，再写入新目录，拒绝覆盖已有目录。
+使用恢复目录启动时同时设置 `ZHUTONG_RUNTIME_DIR` 和 `ZHUTONG_DATABASE_URL`；
+不再显式设置 SECRET_KEY 时使用备份中的 session.key。备份含会话密钥，应与运行目录同等保管。
+
+具体字段映射与接口见 [存储设计](../docs/implementation/storage-design.md)
+及 [媒体接口](../docs/implementation/contracts/media-v1.md)。

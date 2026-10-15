@@ -1,0 +1,13 @@
+{
+  "schemaRevision": "0007_media",
+  "tableCount": 30,
+  "mediaId": "748f946354e545a1a21c7cca7d37dda1",
+  "mediaSha256": "c47dd9465c00e9a0c8b85e9ea58d3034a0d23b9cf926113602f3460752a4eb96",
+  "backup": "/data/backups/stage2-5f1fcec4",
+  "restore": "/data/verification/restore-f333abe3",
+  "httpViaNginx": "passed",
+  "backupRestore": "passed",
+  "postRestart": "passed",
+  "foreignKeyErrors": 0,
+  "browserIdentityRestore": "repair identity retained after reload"
+}
