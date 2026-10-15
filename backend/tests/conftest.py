@@ -27,6 +27,6 @@ def client(settings: Settings) -> Iterator[TestClient]:
 
 
 def demo_token(client: TestClient, account: str = "demo-safety") -> str:
-    response = client.post("/api/v1/demo/login", json={"accountId": account})
+    response = client.post("/api/v1/demo/identity", json={"identityId": account})
     assert response.status_code == 200, response.text
     return response.json()["data"]["accessToken"]

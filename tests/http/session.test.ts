@@ -4,7 +4,7 @@ import { useBackendSessionStore } from '@/stores/backend/session'
 import { useSessionStore } from '@/stores/session'
 
 const reply = (data: unknown) => new Response(JSON.stringify({ ok: true, data }))
-const user = (role: string) => ({ id: `demo-${role}`, username: `demo-${role}`, name: `服务端${role}`, role, roleLabel: role, buildingIds: null })
+const user = (role: string) => ({ id: `demo-${role}`, name: `服务端${role}`, role, roleLabel: role, buildingIds: null })
 
 beforeEach(() => {
   setActivePinia(createPinia())
@@ -12,7 +12,53 @@ beforeEach(() => {
   vi.restoreAllMocks()
 })
 
-describe('服务端账号会话', () => {
+describe('服务端演示身份', () => {
+  it('首次打开自动选择默认身份，无需登录', async () => {
+    const fetcher = vi.spyOn(globalThis, 'fetch')
+      .mockResolvedValueOnce(reply([user('inspector'), user('safety')]))
+      .mockResolvedValueOnce(reply({ accessToken: 'default-token', user: user('safety') }))
+    const auth = useBackendSessionStore()
+    await auth.initialize()
+    expect(auth.user?.role).toBe('safety')
+    expect(fetcher.mock.calls[1]?.[0]).toBe('/api/v1/demo/identity')
+    expect(JSON.parse(String(fetcher.mock.calls[1]?.[1]?.body))).toEqual({ identityId: 'demo-safety' })
+  })
+
+  it('会话过期后重新核验并恢复上次选择的身份', async () => {
+    localStorage.setItem('zhutong-api/access-token', 'expired-token')
+    localStorage.setItem('zhutong-api/identity-id', 'demo-repair')
+    vi.spyOn(globalThis, 'fetch')
+      .mockResolvedValueOnce(new Response(JSON.stringify({ ok: false, error: { code: 'AUTH_REQUIRED', message: '身份已失效' } }), { status: 401 }))
+      .mockResolvedValueOnce(reply([user('safety'), user('repair')]))
+      .mockResolvedValueOnce(reply({ accessToken: 'renewed-token', user: user('repair') }))
+    const auth = useBackendSessionStore()
+    await auth.initialize()
+    expect(auth.user?.role).toBe('repair')
+    expect(localStorage.getItem('zhutong-api/access-token')).toBe('renewed-token')
+  })
+
+  it('服务不可用时保留原身份线索，等待手动重试', async () => {
+    localStorage.setItem('zhutong-api/access-token', 'saved-token')
+    localStorage.setItem('zhutong-api/identity-id', 'demo-repair')
+    const fetcher = vi.spyOn(globalThis, 'fetch').mockRejectedValue(new TypeError('offline'))
+    const auth = useBackendSessionStore()
+    await auth.initialize()
+    expect(auth.user).toBeNull()
+    expect(auth.message).toBeTruthy()
+    expect(fetcher).toHaveBeenCalledTimes(1)
+    expect(localStorage.getItem('zhutong-api/access-token')).toBe('saved-token')
+  })
+
+  it('伪造的上次身份必须被服务端名单过滤', async () => {
+    localStorage.setItem('zhutong-api/identity-id', 'invented-admin')
+    vi.spyOn(globalThis, 'fetch')
+      .mockResolvedValueOnce(reply([user('safety')]))
+      .mockResolvedValueOnce(reply({ accessToken: 'safe-token', user: user('safety') }))
+    const auth = useBackendSessionStore()
+    await auth.initialize()
+    expect(auth.user?.id).toBe('demo-safety')
+  })
+
   it('切换时使用服务端返回的身份与令牌', async () => {
     vi.spyOn(globalThis, 'fetch').mockResolvedValue(reply({ accessToken: 'signed-token', user: user('inspector') }))
     const auth = useBackendSessionStore()
@@ -32,10 +78,10 @@ describe('服务端账号会话', () => {
     expect(useSessionStore().name).toBe('服务端repair')
   })
 
-  it('过期令牌不保留登录态', async () => {
+  it('失效会话清除无效令牌', async () => {
     localStorage.setItem('zhutong-api/access-token', 'expired-token')
     vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response(JSON.stringify({
-      ok: false, error: { code: 'AUTH_REQUIRED', message: '请登录', retryable: false },
+      ok: false, error: { code: 'AUTH_REQUIRED', message: '身份已失效', retryable: false },
     }), { status: 401 }))
     const auth = useBackendSessionStore()
     await auth.restore()
@@ -43,7 +89,7 @@ describe('服务端账号会话', () => {
     expect(localStorage.getItem('zhutong-api/access-token')).toBeNull()
   })
 
-  it('切换账号期间，迟到的旧响应不能覆盖新身份', async () => {
+  it('切换身份期间，迟到的旧响应不能覆盖新身份', async () => {
     let finishOld: (value: Response) => void = () => {}
     vi.spyOn(globalThis, 'fetch')
       .mockImplementationOnce(() => new Promise(resolve => { finishOld = resolve }))

@@ -38,7 +38,7 @@ def test_uninitialized_database_is_not_ready(tmp_path: Path) -> None:
 
 
 def test_validation_and_not_found_use_one_envelope(client: TestClient) -> None:
-    response = client.post("/api/v1/auth/login", json={"username": "demo-safety"})
+    response = client.post("/api/v1/demo/identity", json={})
     assert response.status_code == 422
     assert response.json()["error"]["code"] == "VALIDATION_FAILED"
     assert response.json()["meta"]["requestId"]
@@ -49,7 +49,7 @@ def test_persisted_signing_key_and_sessions_survive_restart(settings: Settings) 
     settings.secret_key = ""
     initialize(settings)
     with TestClient(create_app(settings)) as first:
-        token = first.post("/api/v1/demo/login", json={"accountId": "demo-safety"}).json()["data"][
+        token = first.post("/api/v1/demo/identity", json={"identityId": "demo-safety"}).json()["data"][
             "accessToken"
         ]
     with TestClient(create_app(settings)) as second:
