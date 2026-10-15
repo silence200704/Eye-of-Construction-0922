@@ -47,4 +47,15 @@ describe('真实 HTTP 传输', () => {
     const http = createHttpClient({ fetcher: vi.fn().mockResolvedValue(new Response('<html>bad gateway</html>')) })
     await expect(http.request({ path: '/health/live' })).rejects.toMatchObject({ code: 'INVALID_RESPONSE' })
   })
+
+  it('匿名登录失败不携带旧令牌，也不清理已有账号', async () => {
+    const unauthorized = vi.fn()
+    const fetcher = vi.fn().mockResolvedValue(new Response(JSON.stringify({
+      ok: false, error: { code: 'AUTH_REQUIRED', message: '密码错误', retryable: false },
+    }), { status: 401 }))
+    const http = createHttpClient({ fetcher, token: () => 'existing-token', unauthorized })
+    await expect(http.request({ path: '/auth/login', method: 'POST', anonymous: true, body: {} })).rejects.toBeInstanceOf(HttpError)
+    expect(new Headers(fetcher.mock.calls[0][1].headers).has('Authorization')).toBe(false)
+    expect(unauthorized).not.toHaveBeenCalled()
+  })
 })
