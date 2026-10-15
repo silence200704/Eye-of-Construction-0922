@@ -24,6 +24,10 @@ def repository(request: Request) -> Iterator[SqlImportRepository]:
 Repository = Annotated[SqlImportRepository, Depends(repository)]
 
 
+def invalid_number(value: str) -> None:
+    raise ValueError(f"不支持非有限数值 {value}")
+
+
 async def read_package(request: Request) -> dict:
     raw = bytearray()
     async for part in request.stream():
@@ -31,7 +35,7 @@ async def read_package(request: Request) -> dict:
         if len(raw) > request.app.state.settings.import_max_bytes:
             raise AppError("IMPORT_TOO_LARGE", "迁移包超过体积限制", 413)
     try:
-        payload = json.loads(raw)
+        payload = json.loads(raw, parse_constant=invalid_number)
         if not isinstance(payload, dict):
             raise ValueError("迁移包必须是对象")
         return payload
@@ -73,3 +77,10 @@ def snapshot(request: Request, dataset_id: str, actor: Actor, repository: Reposi
     if actor.role != "safety" or actor.building_ids is not None:
         raise AppError("ROLE_FORBIDDEN", "仅安全管理身份可核对迁移快照", 403)
     return ok(request, repository.snapshot(dataset_id))
+
+
+@router.get("")
+def history(request: Request, dataset_id: str, actor: Actor, repository: Repository) -> dict:
+    if actor.role != "safety" or actor.building_ids is not None:
+        raise AppError("ROLE_FORBIDDEN", "仅安全管理身份可读取导入记录", 403)
+    return ok(request, repository.history(dataset_id))

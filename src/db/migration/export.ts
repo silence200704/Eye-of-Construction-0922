@@ -1,8 +1,8 @@
 import Dexie from 'dexie'
-import { ZhutongDatabase } from '@/db/database'
 import { blobToDataUrl } from '@/db/backup'
 import { toPlain } from '@/core/plain'
 import type { LegacyRow, MigrationPackage, MigrationProblem } from './types'
+import { MIGRATION_TABLES } from './types'
 
 export function exportPreferences(sourceName: string): { key: string; value: string }[] {
   const rows = []
@@ -24,15 +24,16 @@ async function encodeAttachments(rows: LegacyRow[], warnings: MigrationProblem[]
 
 export async function exportLegacyDatabase(sourceName: string, runtime: Record<string, unknown> = {}): Promise<MigrationPackage | null> {
   if (!await Dexie.exists(sourceName)) return null
-  const source = new ZhutongDatabase(sourceName)
+  const source = new Dexie(sourceName)
   try {
     await source.open()
     const data: Record<string, LegacyRow[]> = await source.transaction('r', source.tables, async () =>
       Object.fromEntries(await Promise.all(source.tables.map(async table => [table.name, await table.toArray()]))))
     const warnings: MigrationProblem[] = []
+    for (const table of MIGRATION_TABLES) data[table] ??= []
     data.attachments = await encodeAttachments(data.attachments ?? [], warnings)
     return {
-      format: 'zhutong-migration-v1', schemaVersion: 7, sourceName, exportedAt: new Date().toISOString(),
+      format: 'zhutong-migration-v1', schemaVersion: source.verno, sourceName, exportedAt: new Date().toISOString(),
       counts: Object.fromEntries(Object.entries(data).map(([key, rows]) => [key, rows.length])), data,
       runtime: { preferences: exportPreferences(sourceName), ...toPlain(runtime) }, warnings,
     }

@@ -131,3 +131,11 @@ class SqlImportRepository:
             for model in (Preference, SessionState)
         }
         return {"data": data, "runtimeCounts": counts}
+
+    def history(self, dataset_id: str) -> list[dict]:
+        rows = self.db.scalars(
+            select(ImportBatch)
+            .where(ImportBatch.dataset_id == dataset_id)
+            .order_by(ImportBatch.imported_at.desc())
+        )
+        return [row.report for row in rows]

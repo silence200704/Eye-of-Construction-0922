@@ -22,7 +22,7 @@ def test_backup_restore_preserves_database_media_and_identity(
     manifest = create_backup(settings, destination)
     assert manifest["tables"]["media_files"] == 1
     assert manifest["tables"]["users"] == 5
-    assert verify_backup(destination)["schemaRevision"] == "0007_media"
+    assert verify_backup(destination)["schemaRevision"] == "0008_legacy_revision"
     restored = tmp_path / "restored-runtime"
     restore_backup(destination, restored)
     configured = Settings(

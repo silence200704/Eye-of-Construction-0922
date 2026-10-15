@@ -1,7 +1,6 @@
-import hashlib
-import json
-
+from .runtime_validation import runtime_errors
 from .types import ImportPlan
+from .wire import digest, problem
 
 TABLES = (
     "buildings",
@@ -24,17 +23,6 @@ TABLES = (
 )
 
 
-def digest(value: object) -> str:
-    encoded = json.dumps(
-        value, ensure_ascii=False, sort_keys=True, separators=(",", ":"), allow_nan=False
-    )
-    return hashlib.sha256(encoded.encode()).hexdigest()
-
-
-def problem(table: str, identifier: str, message: str) -> dict:
-    return {"table": table, "id": identifier, "message": message}
-
-
 def prepare(payload: dict) -> ImportPlan:
     source = payload.get("sourceName", "legacy-json-backup")
     data, runtime = payload.get("data", {}), payload.get("runtime", {})
@@ -52,6 +40,7 @@ def prepare(payload: dict) -> ImportPlan:
         data, runtime = {}, {}
     if set(data) - set(TABLES):
         errors.append(problem("package", "data", "包含未知业务表，不能静默丢弃"))
+    errors.extend(runtime_errors(runtime))
     counts = payload.get("counts", {})
     if not isinstance(counts, dict):
         errors.append(problem("package", "counts", "数量清单必须为对象"))

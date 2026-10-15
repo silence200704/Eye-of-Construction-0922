@@ -28,6 +28,7 @@ import IntegrityPanel from '@/components/settings/IntegrityPanel.vue'
 import DemoChainPanel from '@/components/demo/DemoChainPanel.vue'
 import { backendEnabled } from '@/api/http/runtime'
 import BackendIdentity from '@/components/session/BackendIdentity.vue'
+import LegacyMigrationPanel from '@/components/settings/LegacyMigrationPanel.vue'
 
 const archive = useArchiveStore()
 const plans = usePlanStore()
@@ -224,6 +225,7 @@ const notYet = [
     </p>
 
     <DemoChainPanel />
+    <LegacyMigrationPanel v-if="backendEnabled" />
 
     <div class="two">
       <SectionCard v-if="backendEnabled" title="演示身份" sub="直接切换演示身份，操作权限由服务端核验" marked>

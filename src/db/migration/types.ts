@@ -1,5 +1,6 @@
 export interface MigrationProblem { table: string; id: string; message: string }
 export type LegacyRow = Record<string, unknown> & { id: string }
+export const MIGRATION_TABLES = ['buildings', 'floors', 'points', 'devices', 'baselines', 'records', 'audits', 'rules', 'events', 'notifications', 'plans', 'tasks', 'issues', 'workOrders', 'attachments', 'maintenancePlans', 'maintenanceTasks'] as const
 export interface MigrationPackage {
   format: 'zhutong-migration-v1'
   schemaVersion: number
