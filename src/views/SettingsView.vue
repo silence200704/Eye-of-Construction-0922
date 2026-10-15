@@ -210,7 +210,7 @@ const scope = [
 ]
 
 const notYet = [
-  '账号鉴权、跨设备协同、照片云端上传：属 V2.0（当前角色切换不等于真实鉴权）',
+  '跨设备业务协同、照片服务端上传：按完整项目后续阶段接入',
   '真实传感器自动采集、NFC 读卡、声光控制：本机未接入（当前传感器读数为预设模拟数据，NFC 为编号校验模拟）',
   '真实外部通知渠道（短信 / 电话 / 推送）：只做本机站内提醒，不声称已送达',
   '后台定时任务与自动刷新：任务生成与状态刷新由人手动触发（共享演示时钟 + 刷新按钮）',
@@ -226,9 +226,9 @@ const notYet = [
     <DemoChainPanel />
 
     <div class="two">
-      <SectionCard v-if="backendEnabled" title="登录账号" sub="测试账号由服务端核验，支持快捷切换" marked>
+      <SectionCard v-if="backendEnabled" title="演示身份" sub="直接切换演示身份，操作权限由服务端核验" marked>
         <BackendIdentity />
-        <p class="duty">当前账号：{{ session.actorLabel }}</p>
+        <p class="duty">当前身份：{{ session.actorLabel }}</p>
       </SectionCard>
       <SectionCard v-else title="演示身份" sub="纯前端基线身份仅用于本地留痕" marked>
         <FormGrid v-model="identityModel" :fields="identityFields" :columns="1" />

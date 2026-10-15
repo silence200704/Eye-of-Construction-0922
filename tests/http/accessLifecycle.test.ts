@@ -2,8 +2,8 @@ import { effectScope, nextTick, ref } from 'vue'
 import { describe, expect, it, vi } from 'vitest'
 import { watchBackendIdentity } from '@/core/app/backendAccess'
 
-describe('登录状态与工作台初始化', () => {
-  it('从登录页切换到工作台时，初始化不依赖已移除子组件的事件', async () => {
+describe('身份状态与工作台初始化', () => {
+  it('进入工作台时，初始化不依赖已移除子组件的事件', async () => {
     const user = ref<{ id: string } | null>(null)
     const boot = vi.fn()
     const scope = effectScope()

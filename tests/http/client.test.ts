@@ -26,10 +26,10 @@ describe('真实 HTTP 传输', () => {
     })
   })
 
-  it('登录失效时清理会话，不静默回到本地写入', async () => {
+  it('身份失效时清理会话，不静默回到本地写入', async () => {
     const unauthorized = vi.fn()
     const fetcher = vi.fn().mockResolvedValue(new Response(JSON.stringify({
-      ok: false, error: { code: 'AUTH_REQUIRED', message: '请登录', retryable: false, details: {} },
+      ok: false, error: { code: 'AUTH_REQUIRED', message: '请重新连接', retryable: false, details: {} },
     }), { status: 401 }))
     const http = createHttpClient({ fetcher, unauthorized })
     await expect(http.request({ path: '/auth/me' })).rejects.toBeInstanceOf(HttpError)
@@ -48,13 +48,13 @@ describe('真实 HTTP 传输', () => {
     await expect(http.request({ path: '/health/live' })).rejects.toMatchObject({ code: 'INVALID_RESPONSE' })
   })
 
-  it('匿名登录失败不携带旧令牌，也不清理已有账号', async () => {
+  it('身份切换失败不携带旧令牌，也不清理当前身份', async () => {
     const unauthorized = vi.fn()
     const fetcher = vi.fn().mockResolvedValue(new Response(JSON.stringify({
-      ok: false, error: { code: 'AUTH_REQUIRED', message: '密码错误', retryable: false },
+      ok: false, error: { code: 'AUTH_REQUIRED', message: '身份不可用', retryable: false },
     }), { status: 401 }))
     const http = createHttpClient({ fetcher, token: () => 'existing-token', unauthorized })
-    await expect(http.request({ path: '/auth/login', method: 'POST', anonymous: true, body: {} })).rejects.toBeInstanceOf(HttpError)
+    await expect(http.request({ path: '/demo/identity', method: 'POST', anonymous: true, body: {} })).rejects.toBeInstanceOf(HttpError)
     expect(new Headers(fetcher.mock.calls[0][1].headers).has('Authorization')).toBe(false)
     expect(unauthorized).not.toHaveBeenCalled()
   })

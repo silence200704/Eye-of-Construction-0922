@@ -20,7 +20,7 @@ export interface ErrorCodeDef {
 }
 
 export const ERROR_CODES: Record<ErrorCode, ErrorCodeDef> = {
-  AUTH_REQUIRED: { http: 401, retryable: false, message: '缺少操作身份，请先登录或选择演示身份' },
+  AUTH_REQUIRED: { http: 401, retryable: false, message: '缺少操作身份，请重新连接或选择演示身份' },
   ROLE_FORBIDDEN: { http: 403, retryable: false, message: '当前角色无权执行该操作' },
   SCOPE_FORBIDDEN: { http: 403, retryable: false, message: '该对象不在当前账号的楼栋范围内' },
   VALIDATION_FAILED: { http: 400, retryable: false, message: '字段校验未通过' },

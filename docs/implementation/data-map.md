@@ -32,7 +32,7 @@
 | --- | --- |
 | stores/media、videoSession 内存 | 保存可获取照片、视频、关键帧、区域与分析结果；重建临时 URL |
 | assistant/session 内存 | 保存会话、回答、上下文与完成结果；恢复不重放写操作 |
-| localStorage/session | 新账号从后端读取；旧身份作为历史快照，不作为登录凭据 |
+| localStorage/session | 当前演示身份从后端核验；旧身份仅作为历史快照，不作为权限凭据 |
 | localStorage/operation-receipts | 迁为历史回执；正式回执由业务事务返回并持久化 |
 | localStorage/scenario、showcase | 保存场景与运行进度；刷新恢复暂停 |
 | 模式与悬浮位置偏好 | 用户/测试集偏好入库；动画与瞬时弹窗留客户端 |

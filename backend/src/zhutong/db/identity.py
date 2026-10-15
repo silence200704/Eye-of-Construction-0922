@@ -12,10 +12,8 @@ def account_of(row: User | None) -> Account | None:
         return None
     return Account(
         id=row.id,
-        username=row.username,
         name=row.name,
         role=row.role,
-        password_hash=row.password_hash,
         enabled=row.enabled,
         is_demo=row.is_demo,
         building_ids=json.loads(row.building_ids_json) if row.building_ids_json else None,
@@ -28,9 +26,6 @@ class SqlIdentityRepository:
 
     def by_id(self, user_id: str) -> Account | None:
         return account_of(self.db.get(User, user_id))
-
-    def by_username(self, username: str) -> Account | None:
-        return account_of(self.db.scalar(select(User).where(User.username == username)))
 
     def demo_accounts(self) -> list[Account]:
         rows = self.db.scalars(select(User).where(User.enabled.is_(True), User.is_demo.is_(True)))

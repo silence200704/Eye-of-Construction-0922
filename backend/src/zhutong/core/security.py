@@ -4,12 +4,9 @@ from pathlib import Path
 from typing import Any
 
 import jwt
-from pwdlib import PasswordHash
 
 from .errors import unauthorized
 from .settings import Settings
-
-passwords = PasswordHash.recommended()
 
 
 def signing_key(settings: Settings) -> str:

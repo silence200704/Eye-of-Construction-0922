@@ -2,7 +2,7 @@ import time
 import uuid
 
 from ..core.errors import AppError, unauthorized
-from ..core.security import TokenCodec, passwords
+from ..core.security import TokenCodec
 from .identity_types import Account, IdentityRepository, SessionRecord
 
 
@@ -18,20 +18,12 @@ class AuthService:
 
     def require_demo(self) -> None:
         if not self.demo_mode:
-            raise AppError("NOT_FOUND", "演示快捷登录未启用", 404)
+            raise AppError("NOT_FOUND", "演示身份切换未启用", 404)
 
     def shortcut(self, account_id: str) -> dict:
         self.require_demo()
         account = self.repository.by_id(account_id)
         if account is None or not account.enabled or not account.is_demo:
-            raise unauthorized()
-        return self.issue(account)
-
-    def login(self, username: str, password: str) -> dict:
-        account = self.repository.by_username(username)
-        if account is None or not account.enabled:
-            raise unauthorized()
-        if not passwords.verify(password, account.password_hash):
             raise unauthorized()
         return self.issue(account)
 

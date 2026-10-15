@@ -9,7 +9,6 @@ dependencies = [
   "sqlalchemy>=2.0,<3",
   "alembic>=1.14,<2",
   "pydantic-settings>=2.6,<3",
-  "pwdlib[argon2]>=0.2,<1",
   "pyjwt>=2.10,<3",
 ]
 

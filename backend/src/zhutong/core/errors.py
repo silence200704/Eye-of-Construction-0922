@@ -12,4 +12,4 @@ class AppError(Exception):
 
 
 def unauthorized() -> AppError:
-    return AppError("AUTH_REQUIRED", "账号、密码或登录状态无效，请重新登录", 401)
+    return AppError("AUTH_REQUIRED", "当前演示身份已失效，请重新连接或切换身份", 401)

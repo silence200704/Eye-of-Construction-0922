@@ -3,7 +3,7 @@ from pathlib import Path
 from alembic import command
 from alembic.config import Config
 
-from .core.security import passwords, signing_key
+from .core.security import signing_key
 from .core.settings import BACKEND_ROOT, Settings
 from .db.database import Database
 from .db.models import User
@@ -21,7 +21,6 @@ def migrate(database: Database) -> None:
 def seed_accounts(database: Database, settings: Settings) -> None:
     if not settings.demo_mode:
         return
-    hashed = passwords.hash(settings.demo_password)
     with database.sessions.begin() as session:
         for role, label in ROLES.items():
             user_id = f"demo-{role}"
@@ -29,10 +28,8 @@ def seed_accounts(database: Database, settings: Settings) -> None:
                 session.add(
                     User(
                         id=user_id,
-                        username=user_id,
                         name=f"演示{label}",
                         role=role,
-                        password_hash=hashed,
                         enabled=True,
                         is_demo=True,
                     )

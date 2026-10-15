@@ -84,6 +84,10 @@ describe('服务端演示身份', () => {
     expect(auth.user?.role).toBe('safety')
   })
 
+})
+
+describe('身份会话核验与切换', () => {
+
   it('切换时使用服务端返回的身份与令牌', async () => {
     vi.spyOn(globalThis, 'fetch').mockResolvedValue(reply({ accessToken: 'signed-token', user: user('inspector') }))
     const auth = useBackendSessionStore()

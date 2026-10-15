@@ -17,14 +17,19 @@ def test_upgrade_removes_credentials_and_preserves_identity_sessions(settings: S
     with engine.begin() as connection:
         config.attributes["connection"] = connection
         command.upgrade(config, "0001_identity")
-        connection.execute(text(
-            "INSERT INTO users (id,username,name,role,password_hash,enabled,is_demo) "
-            "VALUES ('demo-repair','demo-repair','已有维修人员','repair','old-hash',1,1)"
-        ))
-        connection.execute(text(
-            "INSERT INTO login_sessions (id,user_id,expires_at,revoked) "
-            "VALUES ('existing-session','demo-repair',:expires,0)"
-        ), {"expires": expires})
+        connection.execute(
+            text(
+                "INSERT INTO users (id,username,name,role,password_hash,enabled,is_demo) "
+                "VALUES ('demo-repair','demo-repair','已有维修人员','repair','old-hash',1,1)"
+            )
+        )
+        connection.execute(
+            text(
+                "INSERT INTO login_sessions (id,user_id,expires_at,revoked) "
+                "VALUES ('existing-session','demo-repair',:expires,0)"
+            ),
+            {"expires": expires},
+        )
     initialize(settings)
     with engine.connect() as connection:
         columns = {column["name"] for column in inspect(connection).get_columns("users")}

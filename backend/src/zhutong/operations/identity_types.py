@@ -13,10 +13,8 @@ ROLES = {
 @dataclass(frozen=True)
 class Account:
     id: str
-    username: str
     name: str
     role: str
-    password_hash: str
     enabled: bool
     is_demo: bool
     building_ids: list[str] | None
@@ -24,7 +22,6 @@ class Account:
     def public(self) -> dict:
         return {
             "id": self.id,
-            "username": self.username,
             "name": self.name,
             "role": self.role,
             "roleLabel": ROLES.get(self.role, self.role),
@@ -42,7 +39,6 @@ class SessionRecord:
 
 class IdentityRepository(Protocol):
     def by_id(self, user_id: str) -> Account | None: ...
-    def by_username(self, username: str) -> Account | None: ...
     def demo_accounts(self) -> list[Account]: ...
     def session(self, session_id: str) -> SessionRecord | None: ...
     def save_session(self, record: SessionRecord) -> None: ...

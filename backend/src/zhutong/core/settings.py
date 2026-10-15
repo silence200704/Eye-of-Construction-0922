@@ -13,6 +13,5 @@ class Settings(BaseSettings):
     database_url: str = f"sqlite:///{(BACKEND_ROOT / '.runtime/zhutong.sqlite').as_posix()}"
     secret_key: str = ""
     demo_mode: bool = True
-    demo_password: str = "zhutong-demo"
     session_ttl_seconds: int = Field(default=28800, ge=60)
     cors_origins: list[str] = ["http://127.0.0.1:5173", "http://localhost:5173"]

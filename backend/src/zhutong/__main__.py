@@ -10,7 +10,7 @@ def main() -> None:
     parser.parse_args()
     logging.basicConfig(level=logging.INFO)
     initialize()
-    print("数据库迁移与测试账号初始化完成")
+    print("数据库迁移与演示身份初始化完成")
 
 
 if __name__ == "__main__":
