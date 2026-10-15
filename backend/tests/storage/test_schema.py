@@ -3,6 +3,10 @@ from alembic import command
 from alembic.config import Config
 from sqlalchemy import insert, inspect, select, text
 from sqlalchemy.exc import IntegrityError
+from fastapi.testclient import TestClient
+
+from zhutong.app import create_app
+from zhutong.core.settings import Settings
 
 from zhutong.core.settings import BACKEND_ROOT
 from zhutong.db.database import Database
@@ -148,3 +152,15 @@ def test_migrations_match_models_and_can_roll_back_stage2(database: Database) ->
         assert "media_files" not in inspect(connection).get_table_names()
         command.upgrade(config, "head")
         command.check(config)
+
+
+def test_old_identity_schema_is_not_ready_for_stage2(settings: Settings) -> None:
+    config = Config(str(BACKEND_ROOT / "alembic.ini"))
+    config.set_main_option("script_location", str(BACKEND_ROOT / "migrations"))
+    database = Database(settings.database_url)
+    with database.engine.begin() as connection:
+        config.attributes["connection"] = connection
+        command.upgrade(config, "0002_identity_only")
+    with TestClient(create_app(settings)) as client:
+        assert client.get("/api/v1/health/ready").status_code == 503
+    database.close()
