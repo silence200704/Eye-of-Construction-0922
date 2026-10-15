@@ -26,6 +26,21 @@ describe('旧库完整导出', () => {
     expect(await Dexie.exists(name)).toBe(false)
   })
 
+  it('读取旧版本时不升级或回写原数据库', async () => {
+    const old = new Dexie(name)
+    old.version(1).stores({ buildings: 'id' })
+    await old.open()
+    await old.table('buildings').put({ id: 'old-b', original: '原值' })
+    old.close()
+    const result = await exportLegacyDatabase(name)
+    expect(result?.schemaVersion).toBe(1)
+    const checked = new Dexie(name)
+    await checked.open()
+    expect(checked.verno).toBe(1)
+    expect(checked.tables).toHaveLength(1)
+    checked.close()
+  })
+
   it('损坏附件保留元数据并显式报告，不静默跳过', async () => {
     const source = new ZhutongDatabase(name)
     await source.open()
