@@ -100,7 +100,11 @@ def test_preview_import_repeat_and_original_fields(client: TestClient, settings:
     repeated = client.post(path, headers=headers, json={**payload, "exportedAt": "another-time"})
     assert repeated.status_code == 200
     assert repeated.json()["replayed"] is True
-    assert repeated.json()["data"]["tables"]["records"] == {"source": 1, "inserted": 0, "matched": 1}
+    assert repeated.json()["data"]["tables"]["records"] == {
+        "source": 1,
+        "inserted": 0,
+        "matched": 1,
+    }
     snapshot = client.get(path + "/snapshot", headers=headers).json()["data"]
     assert snapshot["data"]["records"] == payload["data"]["records"]
     assert snapshot["data"]["buildings"] == payload["data"]["buildings"]

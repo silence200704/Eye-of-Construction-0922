@@ -98,15 +98,26 @@ class SqlImportRepository:
 
     def copy_rules(self, context: ImportContext, plan: ImportPlan, report: dict) -> None:
         for rule in plan.data["rules"]:
-            identifier = rule.get("ruleId", rule.get("code"))
-            if not identifier:
-                report["errors"].append(problem("rules", rule["id"], "缺少稳定规则标识"))
-                continue
-            if self.db.get(RuleDefinition, (context.dataset_id, identifier)) is None:
-                self.db.execute(
-                    insert(RuleDefinition),
-                    {"dataset_id": context.dataset_id, "id": identifier, "code": rule["code"]},
-                )
+            try:
+                identifier = rule.get("ruleId", rule.get("code"))
+                if not isinstance(identifier, str) or not identifier:
+                    raise ValueError("缺少稳定规则标识")
+                existing = self.db.get(RuleDefinition, (context.dataset_id, identifier))
+                if existing and existing.code != rule["code"]:
+                    raise ValueError("同一规则稳定标识对应不同编号")
+                if existing is None:
+                    with self.db.begin_nested():
+                        self.db.execute(
+                            insert(RuleDefinition),
+                            {
+                                "dataset_id": context.dataset_id,
+                                "id": identifier,
+                                "code": rule["code"],
+                            },
+                        )
+            except (KeyError, ValueError, IntegrityError) as error:
+                message = str(error.orig) if isinstance(error, IntegrityError) else str(error)
+                report["errors"].append(problem("rules", rule["id"], message))
 
     def check_references(self, report: dict) -> None:
         for table, rowid, parent, _ in self.db.execute(text("PRAGMA foreign_key_check")):

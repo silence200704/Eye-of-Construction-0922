@@ -19,6 +19,8 @@ def values_for(model: type, raw: dict, context: ImportContext) -> dict:
         )
     if model.__tablename__ == "records":
         values["record_revision"] = values.pop("revision", 0)
+    if model.__tablename__ == "rules":
+        values["rule_id"] = raw.get("ruleId", raw.get("code"))
     values.update(dataset_id=context.dataset_id, revision=1, legacy_payload=raw)
     if "updated_at" in model.__table__.columns and "updated_at" not in values:
         values["updated_at"] = raw.get("createdAt", "")
