@@ -125,6 +125,16 @@ class SqlMediaRepository:
         count, size = self.db.execute(statement).one()
         return count, size
 
+    def media_attached(self, dataset_id: str, media_id: str) -> bool:
+        return (
+            self.db.scalar(
+                select(Attachment.id)
+                .where(Attachment.dataset_id == dataset_id, Attachment.media_id == media_id)
+                .limit(1)
+            )
+            is not None
+        )
+
     def save_attachment(self, context: MediaContext, spec: AttachmentSpec) -> dict:
         row = Attachment(dataset_id=context.dataset_id, id=uuid.uuid4().hex, **asdict(spec))
         self.db.add(row)

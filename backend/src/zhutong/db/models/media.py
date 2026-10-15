@@ -43,6 +43,7 @@ class Attachment(DatasetRow, Base):
         ),
         choices("kind", "scene before after acceptance"),
         unique("draft_id"),
+        unique("media_id"),
         Index(
             "ix_attachment_owner", "dataset_id", "issue_id", "work_order_id", "maintenance_task_id"
         ),

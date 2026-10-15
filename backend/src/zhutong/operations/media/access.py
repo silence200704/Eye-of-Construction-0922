@@ -19,6 +19,8 @@ def require_file(repository: MediaRepository, context: MediaContext, file_id: st
         raise AppError("NOT_FOUND", "媒体文件不存在", 404)
     if record.point_id:
         require_scope(context, repository.point_building(context.dataset_id, record.point_id))
-    elif record.uploaded_by != context.actor.id and context.actor.role != "safety":
+    elif record.uploaded_by != context.actor.id and (
+        context.actor.role != "safety" or context.actor.building_ids is not None
+    ):
         raise AppError("ROLE_FORBIDDEN", "未关联测点的媒体仅上传人或安全管理人员可读取", 403)
     return record

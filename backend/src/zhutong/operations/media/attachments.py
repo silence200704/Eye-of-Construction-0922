@@ -42,6 +42,8 @@ def link_attachment(
             if any(existing[key] != value for key, value in attachment_fields(spec).items()):
                 raise AppError("IDEMPOTENCY_CONFLICT", "此照片草稿标识已关联其他内容", 409)
             return existing, True
+        if repository.media_attached(context.dataset_id, spec.media_id):
+            raise AppError("STATE_CONFLICT", "此照片已关联业务对象，请复用原关联", 409)
         count, size = repository.owner_totals(context.dataset_id, spec)
         if count >= 3 or size + photo.size > 600 * 1024:
             raise AppError("ATTACHMENT_LIMIT", "每个对象最多三张照片且总计不超过 600 KB", 422)

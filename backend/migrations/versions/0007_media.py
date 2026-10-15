@@ -195,6 +195,7 @@ def _create_attachments() -> None:
         ),
         sa.PrimaryKeyConstraint("dataset_id", "id"),
         sa.UniqueConstraint("dataset_id", "draft_id"),
+        sa.UniqueConstraint("dataset_id", "media_id"),
     )
     op.create_index(
         "ix_attachment_owner",
