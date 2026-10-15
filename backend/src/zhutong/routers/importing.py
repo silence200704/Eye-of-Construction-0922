@@ -8,9 +8,10 @@ from fastapi.responses import JSONResponse
 from ..core.errors import AppError
 from ..core.http import ok
 from ..db.importing.repository import SqlImportRepository
-from ..operations.importing.prepare import prepare
+from ..operations.importing.service import import_legacy
 from ..operations.importing.types import ImportContext
 from .dependencies import Actor
+from .media import binaries
 
 router = APIRouter(prefix="/api/v1/datasets/{dataset_id}/imports", tags=["旧库迁移"])
 
@@ -43,8 +44,9 @@ async def execute(
 ) -> JSONResponse:
     if context.actor.role != "safety" or context.actor.building_ids is not None:
         raise AppError("ROLE_FORBIDDEN", "仅全校范围的安全管理身份可以迁移旧数据", 403)
-    plan = prepare(await read_package(request))
-    report = repository.execute(context, plan, commit) if plan.report["valid"] else plan.report
+    report = await import_legacy(
+        repository, binaries(request), context, await read_package(request), commit
+    )
     if commit and not report["valid"]:
         raise AppError("IMPORT_INVALID", "迁移预检未通过，未提交任何数据", 422, {"report": report})
     envelope = ok(request, report)

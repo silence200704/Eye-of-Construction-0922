@@ -4,10 +4,12 @@ from sqlalchemy import func, insert, select, text
 from sqlalchemy.exc import IntegrityError
 
 from ...core.errors import AppError
+from ...operations.importing.links import validate_links
 from ...operations.importing.prepare import digest, problem
 from ...operations.importing.types import ImportContext, ImportPlan
 from ..models.foundation import Dataset, ImportBatch, Preference, SessionState
 from ..models.monitoring import RuleDefinition
+from .binary_rows import copy_binary_rows
 from .catalog import CATALOG
 from .mapping import equivalent, values_for
 from .runtime import save_runtime
@@ -16,6 +18,7 @@ from .runtime import save_runtime
 class SqlImportRepository:
     def __init__(self, session: object) -> None:
         self.db = session
+        self.retained_keys = []
 
     def execute(self, context: ImportContext, plan: ImportPlan, commit: bool) -> dict:
         report = copy.deepcopy(plan.report)
@@ -32,9 +35,15 @@ class SqlImportRepository:
             if previous:
                 return {**previous.report, "replayed": True}
             self.copy_rows(context, plan, report)
+            copy_binary_rows(self, context, plan, report)
             if not report["errors"]:
                 try:
                     save_runtime(self.db, context, plan)
+                    validate_links(
+                        plan.data,
+                        lambda table, identifier: self.lookup(context, table, identifier),
+                        report["errors"],
+                    )
                     self.check_references(report)
                 except (ValueError, KeyError, TypeError) as error:
                     report["errors"].append(problem("runtime", "", str(error)))
@@ -53,6 +62,10 @@ class SqlImportRepository:
             else:
                 transaction.rollback()
         return report
+
+    def lookup(self, context: ImportContext, table: str, identifier: str) -> dict | None:
+        row = self.db.get(CATALOG[table], (context.dataset_id, identifier))
+        return row.legacy_payload if row else None
 
     def copy_rows(self, context: ImportContext, plan: ImportPlan, report: dict) -> None:
         self.copy_rules(context, plan, report)

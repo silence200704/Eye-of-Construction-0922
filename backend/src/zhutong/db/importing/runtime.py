@@ -1,4 +1,3 @@
-
 from sqlalchemy import insert
 
 from ...operations.importing.prepare import digest
