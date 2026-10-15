@@ -15,6 +15,8 @@ import AppShell from '@/components/AppShell.vue'
 import EmptyState from '@/components/ui/EmptyState.vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import { startApplication } from '@/core/app/startup'
+import { backendEnabled } from '@/api/http/runtime'
+import BackendAccess from '@/components/session/BackendAccess.vue'
 
 const archive = useArchiveStore()
 const records = useRecordsStore()
@@ -44,11 +46,19 @@ async function boot(): Promise<void> {
   }
 }
 
-onMounted(boot)
+onMounted(() => { if (!backendEnabled) void boot() })
 </script>
 
 <template>
-  <AppShell v-if="ready" />
+  <BackendAccess v-if="backendEnabled" @authenticated="boot">
+    <AppShell v-if="ready" />
+    <div v-else class="boot">
+      <EmptyState :title="error === '' ? '正在载入业务资料…' : '业务资料载入失败'" :sub="error">
+        <AppButton v-if="error !== ''" variant="primary" @click="boot">重试</AppButton>
+      </EmptyState>
+    </div>
+  </BackendAccess>
+  <AppShell v-else-if="ready" />
   <div v-else class="boot">
     <EmptyState
       :title="error === '' ? '正在载入本地数据…' : '本地数据库打开失败'"

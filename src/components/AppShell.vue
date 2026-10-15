@@ -21,6 +21,8 @@ import { useAlertStore } from '@/stores/alerts'
 import { isShowcase } from '@/core/demo/workspace'
 import ShowcaseControls from '@/components/demo/ShowcaseControls.vue'
 import OperationReceipt from '@/components/demo/OperationReceipt.vue'
+import { backendEnabled } from '@/api/http/runtime'
+import BackendIdentity from '@/components/session/BackendIdentity.vue'
 import { useShowcaseStore } from '@/stores/demo/showcase/session'
 const showcase = useShowcaseStore()
 
@@ -119,7 +121,7 @@ function reloadPage(): void {
         <p class="side-note-text">
           数据保存在本机浏览器数据库中，清除浏览器数据会丢失内容，请在设置页定期导出备份。
         </p>
-        <p class="side-version">{{ APP_VERSION }} · {{ APP_STAGE }} · 纯前端演示版</p>
+        <p class="side-version">{{ APP_VERSION }} · {{ APP_STAGE }} · {{ backendEnabled ? '完整项目接入中' : '纯前端基线' }}</p>
       </div>
     </aside>
 
@@ -139,7 +141,8 @@ function reloadPage(): void {
             <b class="num">{{ archive.stats.devices }}</b>
           </div>
           <AlertCenter />
-          <button class="identity" type="button" :disabled="showcase.running" @click="openIdentity">
+          <BackendIdentity v-if="backendEnabled" :disabled="showcase.running" />
+          <button v-else class="identity" type="button" :disabled="showcase.running" @click="openIdentity">
             <span class="id-avatar">{{ session.name.slice(0, 1) }}</span>
             <span class="id-text">
               <b>{{ session.name }}</b>
