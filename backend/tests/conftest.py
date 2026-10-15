@@ -3,6 +3,7 @@ from pathlib import Path
 
 import pytest
 from fastapi.testclient import TestClient
+from storage.fixtures import database  # noqa: F401
 
 from zhutong.app import create_app
 from zhutong.bootstrap import initialize

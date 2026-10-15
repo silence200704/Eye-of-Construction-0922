@@ -9,7 +9,7 @@ from .core.http import install_http
 from .core.security import TokenCodec
 from .core.settings import Settings
 from .db.database import Database
-from .routers import auth, health
+from .routers import auth, health, media
 
 
 def create_app(settings: Settings | None = None) -> FastAPI:
@@ -44,4 +44,5 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     )
     app.include_router(health.router)
     app.include_router(auth.router)
+    app.include_router(media.router)
     return app

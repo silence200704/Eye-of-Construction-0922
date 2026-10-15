@@ -7,6 +7,7 @@ from .core.security import signing_key
 from .core.settings import BACKEND_ROOT, Settings
 from .db.database import Database
 from .db.models import User
+from .db.models.foundation import Dataset
 from .operations.identity_types import ROLES
 
 
@@ -22,6 +23,12 @@ def seed_accounts(database: Database, settings: Settings) -> None:
     if not settings.demo_mode:
         return
     with database.sessions.begin() as session:
+        for dataset_id, name in [
+            ("demo-main", "主库测试数据"),
+            ("demo-showcase", "完整演示测试数据"),
+        ]:
+            if session.get(Dataset, dataset_id) is None:
+                session.add(Dataset(id=dataset_id, name=name))
         for role, label in ROLES.items():
             user_id = f"demo-{role}"
             if session.get(User, user_id) is None:

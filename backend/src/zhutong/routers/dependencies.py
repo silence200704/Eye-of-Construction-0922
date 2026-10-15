@@ -7,6 +7,7 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from ..core.errors import unauthorized
 from ..db.identity import SqlIdentityRepository
 from ..operations.auth import AuthService
+from ..operations.identity_types import Account
 
 bearer = HTTPBearer(auto_error=False)
 
@@ -30,3 +31,10 @@ def access_token(
 
 Service = Annotated[AuthService, Depends(auth_service)]
 Token = Annotated[str, Depends(access_token)]
+
+
+def principal(service: Service, token: Token) -> Account:
+    return service.principal(token)
+
+
+Actor = Annotated[Account, Depends(principal)]
