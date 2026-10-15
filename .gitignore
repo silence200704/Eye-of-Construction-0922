@@ -19,3 +19,14 @@ Thumbs.db
 # 本地环境变量（不放仓库）
 .env
 .env.local
+
+# 后端运行数据与工具缓存（业务文件不能提交到 Git）
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+backend/.runtime/
+*.egg-info/
