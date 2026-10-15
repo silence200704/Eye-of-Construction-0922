@@ -33,7 +33,11 @@ class SqlImportRepository:
                 raise AppError("DATASET_EPOCH_CONFLICT", "数据集已变更，请重新预检", 409)
             previous = self.db.get(ImportBatch, (context.dataset_id, plan.source_hash))
             if previous:
-                return {**previous.report, "replayed": True}
+                replay = copy.deepcopy(previous.report)
+                replay["replayed"] = True
+                for counts in replay["tables"].values():
+                    counts.update(inserted=0, matched=counts["source"])
+                return replay
             self.copy_rows(context, plan, report)
             copy_binary_rows(self, context, plan, report)
             if not report["errors"]:
