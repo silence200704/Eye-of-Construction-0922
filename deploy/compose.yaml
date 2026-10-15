@@ -1,0 +1,50 @@
+name: zhutong
+
+x-api: &api
+  image: zhutong-api:stage1
+  build:
+    context: ../backend
+    dockerfile: ../deploy/api.Dockerfile
+  environment:
+    ZHUTONG_DEMO_MODE: "true"
+    ZHUTONG_RUNTIME_DIR: /data
+    ZHUTONG_DATABASE_URL: sqlite:////data/zhutong.sqlite
+  volumes:
+    - runtime:/data
+  security_opt:
+    - no-new-privileges:true
+
+services:
+  migrate:
+    <<: *api
+    command: ["/app/.venv/bin/python", "-m", "zhutong", "init"]
+    restart: "no"
+  api:
+    <<: *api
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    ports:
+      - "127.0.0.1:8000:8000"
+    healthcheck:
+      test: ["CMD", "/app/.venv/bin/python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/v1/health/ready', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+  web:
+    image: zhutong-web:stage1
+    build:
+      context: ..
+      dockerfile: deploy/web.Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      api:
+        condition: service_healthy
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+
+volumes:
+  runtime:
