@@ -59,6 +59,31 @@ describe('服务端演示身份', () => {
     expect(auth.user?.id).toBe('demo-safety')
   })
 
+  it('自动初始化期间的迟到名单不能覆盖手动选择的身份', async () => {
+    let finishDirectory: (value: Response) => void = () => {}
+    vi.spyOn(globalThis, 'fetch')
+      .mockImplementationOnce(() => new Promise(resolve => { finishDirectory = resolve }))
+      .mockResolvedValueOnce(reply({ accessToken: 'manual-token', user: user('repair') }))
+    const auth = useBackendSessionStore()
+    const initialization = auth.initialize()
+    await Promise.resolve()
+    await auth.select('demo-repair')
+    finishDirectory(reply([user('safety'), user('repair')]))
+    await initialization
+    expect(auth.user?.role).toBe('repair')
+    expect(localStorage.getItem('zhutong-api/access-token')).toBe('manual-token')
+  })
+
+  it('并发初始化共用一次连接，不重复签发会话', async () => {
+    const fetcher = vi.spyOn(globalThis, 'fetch')
+      .mockResolvedValueOnce(reply([user('safety')]))
+      .mockResolvedValueOnce(reply({ accessToken: 'default-token', user: user('safety') }))
+    const auth = useBackendSessionStore()
+    await Promise.all([auth.initialize(), auth.initialize()])
+    expect(fetcher).toHaveBeenCalledTimes(2)
+    expect(auth.user?.role).toBe('safety')
+  })
+
   it('切换时使用服务端返回的身份与令牌', async () => {
     vi.spyOn(globalThis, 'fetch').mockResolvedValue(reply({ accessToken: 'signed-token', user: user('inspector') }))
     const auth = useBackendSessionStore()
