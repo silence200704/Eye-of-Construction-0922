@@ -38,7 +38,8 @@ class Attachment(DatasetRow, Base):
         reference("work_orders", "work_order_id"),
         reference("maintenance_tasks", "maintenance_task_id"),
         CheckConstraint(
-            "(issue_id IS NOT NULL) + (work_order_id IS NOT NULL) + (maintenance_task_id IS NOT NULL) = 1"
+            "(issue_id IS NOT NULL) + (work_order_id IS NOT NULL)"
+            " + (maintenance_task_id IS NOT NULL) = 1"
         ),
         choices("kind", "scene before after acceptance"),
         unique("draft_id"),

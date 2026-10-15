@@ -216,7 +216,8 @@ def _create_issues() -> None:
         sa.Column("updated_by", sa.String(), server_default="", nullable=False),
         sa.CheckConstraint("source IN ('sensor','inspection','report','maintenance')"),
         sa.CheckConstraint(
-            "status IN ('pending_review','investigating','repairing','pending_recheck','observing','closed')"
+            "status IN ('pending_review','investigating','repairing',"
+            "'pending_recheck','observing','closed')"
         ),
         sa.CheckConstraint("revision > 0"),
         sa.ForeignKeyConstraint(

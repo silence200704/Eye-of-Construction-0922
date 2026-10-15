@@ -165,7 +165,8 @@ def _create_attachments() -> None:
         sa.Column("legacy_payload", sa.JSON(), server_default="{}", nullable=False),
         sa.CheckConstraint("kind IN ('scene','before','after','acceptance')"),
         sa.CheckConstraint(
-            "(issue_id IS NOT NULL) + (work_order_id IS NOT NULL) + (maintenance_task_id IS NOT NULL) = 1"
+            "(issue_id IS NOT NULL) + (work_order_id IS NOT NULL)"
+            " + (maintenance_task_id IS NOT NULL) = 1"
         ),
         sa.CheckConstraint("revision > 0"),
         sa.ForeignKeyConstraint(
