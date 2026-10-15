@@ -1,14 +1,12 @@
 import pytest
 from alembic import command
 from alembic.config import Config
+from fastapi.testclient import TestClient
 from sqlalchemy import insert, inspect, select, text
 from sqlalchemy.exc import IntegrityError
-from fastapi.testclient import TestClient
 
 from zhutong.app import create_app
-from zhutong.core.settings import Settings
-
-from zhutong.core.settings import BACKEND_ROOT
+from zhutong.core.settings import BACKEND_ROOT, Settings
 from zhutong.db.database import Database
 from zhutong.db.models.archive import Building, Floor, Point
 from zhutong.db.models.monitoring import Baseline

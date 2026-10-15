@@ -37,13 +37,9 @@ def _create_plans() -> None:
         sa.CheckConstraint("kind IN ('inspection','patrol')"),
         sa.CheckConstraint("revision > 0"),
         sa.ForeignKeyConstraint(
-            ["dataset_id", "building_id"],
-            ["buildings.dataset_id", "buildings.id"],
+            ["dataset_id", "building_id"], ["buildings.dataset_id", "buildings.id"]
         ),
-        sa.ForeignKeyConstraint(
-            ["dataset_id"],
-            ["datasets.id"],
-        ),
+        sa.ForeignKeyConstraint(["dataset_id"], ["datasets.id"]),
         sa.PrimaryKeyConstraint("dataset_id", "id"),
         sa.UniqueConstraint("dataset_id", "code"),
     )
@@ -72,17 +68,10 @@ def _create_tasks() -> None:
         sa.CheckConstraint("status IN ('pending','checked','partial','missed')"),
         sa.CheckConstraint("revision > 0"),
         sa.ForeignKeyConstraint(
-            ["dataset_id", "building_id"],
-            ["buildings.dataset_id", "buildings.id"],
+            ["dataset_id", "building_id"], ["buildings.dataset_id", "buildings.id"]
         ),
-        sa.ForeignKeyConstraint(
-            ["dataset_id", "plan_id"],
-            ["plans.dataset_id", "plans.id"],
-        ),
-        sa.ForeignKeyConstraint(
-            ["dataset_id"],
-            ["datasets.id"],
-        ),
+        sa.ForeignKeyConstraint(["dataset_id", "plan_id"], ["plans.dataset_id", "plans.id"]),
+        sa.ForeignKeyConstraint(["dataset_id"], ["datasets.id"]),
         sa.PrimaryKeyConstraint("dataset_id", "id"),
         sa.UniqueConstraint("dataset_id", "plan_id", "planned_at"),
         sa.UniqueConstraint("dataset_id", "task_no"),
@@ -115,21 +104,11 @@ def _create_maintenance_plans() -> None:
         sa.Column("updated_by", sa.String(), server_default="", nullable=False),
         sa.CheckConstraint("revision > 0"),
         sa.ForeignKeyConstraint(
-            ["dataset_id", "building_id"],
-            ["buildings.dataset_id", "buildings.id"],
+            ["dataset_id", "building_id"], ["buildings.dataset_id", "buildings.id"]
         ),
-        sa.ForeignKeyConstraint(
-            ["dataset_id", "device_id"],
-            ["devices.dataset_id", "devices.id"],
-        ),
-        sa.ForeignKeyConstraint(
-            ["dataset_id", "point_id"],
-            ["points.dataset_id", "points.id"],
-        ),
-        sa.ForeignKeyConstraint(
-            ["dataset_id"],
-            ["datasets.id"],
-        ),
+        sa.ForeignKeyConstraint(["dataset_id", "device_id"], ["devices.dataset_id", "devices.id"]),
+        sa.ForeignKeyConstraint(["dataset_id", "point_id"], ["points.dataset_id", "points.id"]),
+        sa.ForeignKeyConstraint(["dataset_id"], ["datasets.id"]),
         sa.PrimaryKeyConstraint("dataset_id", "id"),
         sa.UniqueConstraint("dataset_id", "code"),
     )
@@ -157,24 +136,41 @@ def _create_maintenance_tasks() -> None:
         sa.Column("updated_by", sa.String(), server_default="", nullable=False),
         sa.CheckConstraint("status IN ('pending','done')"),
         sa.CheckConstraint("revision > 0"),
+        sa.ForeignKeyConstraint(["dataset_id", "device_id"], ["devices.dataset_id", "devices.id"]),
         sa.ForeignKeyConstraint(
-            ["dataset_id", "device_id"],
-            ["devices.dataset_id", "devices.id"],
+            ["dataset_id", "plan_id"], ["maintenance_plans.dataset_id", "maintenance_plans.id"]
         ),
-        sa.ForeignKeyConstraint(
-            ["dataset_id", "plan_id"],
-            ["maintenance_plans.dataset_id", "maintenance_plans.id"],
-        ),
-        sa.ForeignKeyConstraint(
-            ["dataset_id"],
-            ["datasets.id"],
-        ),
+        sa.ForeignKeyConstraint(["dataset_id"], ["datasets.id"]),
         sa.PrimaryKeyConstraint("dataset_id", "id"),
         sa.UniqueConstraint("dataset_id", "plan_id", "planned_at"),
         sa.UniqueConstraint("dataset_id", "task_no"),
     )
     op.create_index(
         op.f("ix_maintenance_tasks_planned_at"), "maintenance_tasks", ["planned_at"], unique=False
+    )
+
+
+def _issue_references() -> tuple:
+    return (
+        sa.ForeignKeyConstraint(
+            ["dataset_id", "building_id"], ["buildings.dataset_id", "buildings.id"]
+        ),
+        sa.ForeignKeyConstraint(["dataset_id", "duplicate_of"], ["issues.dataset_id", "issues.id"]),
+        sa.ForeignKeyConstraint(["dataset_id", "event_id"], ["events.dataset_id", "events.id"]),
+        sa.ForeignKeyConstraint(
+            ["dataset_id", "floor_id", "building_id"],
+            ["floors.dataset_id", "floors.id", "floors.building_id"],
+        ),
+        sa.ForeignKeyConstraint(
+            ["dataset_id", "linked_event_id"], ["events.dataset_id", "events.id"]
+        ),
+        sa.ForeignKeyConstraint(
+            ["dataset_id", "maintenance_task_id"],
+            ["maintenance_tasks.dataset_id", "maintenance_tasks.id"],
+        ),
+        sa.ForeignKeyConstraint(["dataset_id", "point_id"], ["points.dataset_id", "points.id"]),
+        sa.ForeignKeyConstraint(["dataset_id", "task_id"], ["tasks.dataset_id", "tasks.id"]),
+        sa.ForeignKeyConstraint(["dataset_id"], ["datasets.id"]),
     )
 
 
@@ -220,45 +216,10 @@ def _create_issues() -> None:
             "'pending_recheck','observing','closed')"
         ),
         sa.CheckConstraint("revision > 0"),
-        sa.ForeignKeyConstraint(
-            ["dataset_id", "building_id"],
-            ["buildings.dataset_id", "buildings.id"],
-        ),
-        sa.ForeignKeyConstraint(
-            ["dataset_id", "duplicate_of"],
-            ["issues.dataset_id", "issues.id"],
-        ),
-        sa.ForeignKeyConstraint(
-            ["dataset_id", "event_id"],
-            ["events.dataset_id", "events.id"],
-        ),
-        sa.ForeignKeyConstraint(
-            ["dataset_id", "floor_id", "building_id"],
-            ["floors.dataset_id", "floors.id", "floors.building_id"],
-        ),
-        sa.ForeignKeyConstraint(
-            ["dataset_id", "linked_event_id"],
-            ["events.dataset_id", "events.id"],
-        ),
-        sa.ForeignKeyConstraint(
-            ["dataset_id", "maintenance_task_id"],
-            ["maintenance_tasks.dataset_id", "maintenance_tasks.id"],
-        ),
-        sa.ForeignKeyConstraint(
-            ["dataset_id", "point_id"],
-            ["points.dataset_id", "points.id"],
-        ),
-        sa.ForeignKeyConstraint(
-            ["dataset_id", "task_id"],
-            ["tasks.dataset_id", "tasks.id"],
-        ),
-        sa.ForeignKeyConstraint(
-            ["dataset_id"],
-            ["datasets.id"],
-        ),
         sa.PrimaryKeyConstraint("dataset_id", "id"),
         sa.UniqueConstraint("dataset_id", "issue_no"),
         sa.UniqueConstraint("dataset_id", "submission_key"),
+        *_issue_references(),
     )
 
 
@@ -295,22 +256,10 @@ def _create_work_orders() -> None:
             "status IN ('created','assigned','repairing','submitted','verified','returned')"
         ),
         sa.CheckConstraint("revision > 0"),
-        sa.ForeignKeyConstraint(
-            ["dataset_id", "event_id"],
-            ["events.dataset_id", "events.id"],
-        ),
-        sa.ForeignKeyConstraint(
-            ["dataset_id", "issue_id"],
-            ["issues.dataset_id", "issues.id"],
-        ),
-        sa.ForeignKeyConstraint(
-            ["dataset_id", "point_id"],
-            ["points.dataset_id", "points.id"],
-        ),
-        sa.ForeignKeyConstraint(
-            ["dataset_id"],
-            ["datasets.id"],
-        ),
+        sa.ForeignKeyConstraint(["dataset_id", "event_id"], ["events.dataset_id", "events.id"]),
+        sa.ForeignKeyConstraint(["dataset_id", "issue_id"], ["issues.dataset_id", "issues.id"]),
+        sa.ForeignKeyConstraint(["dataset_id", "point_id"], ["points.dataset_id", "points.id"]),
+        sa.ForeignKeyConstraint(["dataset_id"], ["datasets.id"]),
         sa.PrimaryKeyConstraint("dataset_id", "id"),
         sa.UniqueConstraint("dataset_id", "order_no"),
     )
@@ -323,11 +272,9 @@ def upgrade() -> None:
     _create_maintenance_tasks()
     _create_issues()
     _create_work_orders()
-    # ### end Alembic commands ###
 
 
 def downgrade() -> None:
-    # ### commands auto generated by Alembic - please adjust! ###
     op.drop_table("work_orders")
     op.drop_table("issues")
     op.drop_index(op.f("ix_maintenance_tasks_planned_at"), table_name="maintenance_tasks")
@@ -336,4 +283,3 @@ def downgrade() -> None:
     op.drop_index(op.f("ix_tasks_planned_at"), table_name="tasks")
     op.drop_table("tasks")
     op.drop_table("plans")
-    # ### end Alembic commands ###

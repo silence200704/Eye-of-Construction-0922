@@ -4,6 +4,7 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from ..core.errors import AppError
 from ..core.http import ok
+from ..db.database import Base
 
 router = APIRouter(prefix="/api/v1/health", tags=["环境"])
 
@@ -21,7 +22,7 @@ def ready(request: Request) -> dict:
     try:
         with request.app.state.database.engine.connect() as connection:
             connection.execute(text("SELECT 1"))
-            if not inspect(connection).has_table("users"):
+            if not set(Base.metadata.tables).issubset(inspect(connection).get_table_names()):
                 raise AppError("STORAGE_UNAVAILABLE", "数据库尚未初始化，请先执行初始化命令", 503)
     except SQLAlchemyError as error:
         raise AppError("STORAGE_UNAVAILABLE", "数据库暂不可用", 503) from error
