@@ -62,6 +62,8 @@ class MonitorRecord(DatasetRow, Base):
     baseline_values: Mapped[dict | None] = mapped_column(JSON, nullable=True)
     revisions: Mapped[list] = mapped_column(JSON, default=list, server_default="[]")
     created_at: Mapped[str]
+    # 旧业务的修订次数从 0 开始，与服务端乐观锁 revision 分开。
+    record_revision: Mapped[int] = mapped_column(default=0, server_default="0")
 
 
 class RuleDefinition(DatasetRow, Base):
