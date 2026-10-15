@@ -30,3 +30,7 @@
 后端、Android 工程和本地向量服务尚未创建。
 Docker 运行问题需要在阶段 1 的容器核验中解决或明确阻塞。
 后续每阶段保存测试证据，不能仅凭文件存在判定完成。
+
+阶段 1 更新：已安装 Python 3.12.13 并启动 Docker Linux 引擎，原引擎阻塞已解除。
+Flutter doctor 检测到 Android SDK 36；部分 Android 许可证未接受，Maven 网络检查超时，
+Android 真机与构建环境在阶段 8 继续处理，不作为阶段 1 已完成内容。

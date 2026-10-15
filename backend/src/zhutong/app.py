@@ -1,3 +1,4 @@
+import logging
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
@@ -12,6 +13,7 @@ from .routers import auth, health
 
 
 def create_app(settings: Settings | None = None) -> FastAPI:
+    logging.basicConfig(level=logging.INFO)
     configured = settings or Settings()
 
     @asynccontextmanager
