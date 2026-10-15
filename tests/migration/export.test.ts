@@ -17,7 +17,7 @@ describe('旧库完整导出', () => {
     const result = await exportLegacyDatabase(name)
     expect(result?.counts.records).toBe(original.records.length)
     expect(result?.data.records).toEqual(original.records)
-    expect(result?.data.buildings).toEqual(original.buildings)
+    expect(result?.data.buildings).toEqual([...original.buildings].sort((a, b) => a.id.localeCompare(b.id)))
     expect(Object.keys(result?.data ?? {})).toHaveLength(17)
   })
 

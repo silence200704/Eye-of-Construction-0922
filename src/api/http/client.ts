@@ -18,6 +18,7 @@ interface RequestOptions {
   body?: unknown
   headers?: Record<string, string>
   anonymous?: boolean
+  timeoutMs?: number
 }
 
 export class HttpError extends Error {
@@ -54,7 +55,7 @@ export function createHttpClient(options: ClientOptions = {}) {
     if (token) headers.set('Authorization', `Bearer ${token}`)
     if (input.body !== undefined) headers.set('Content-Type', 'application/json')
     const abort = new AbortController()
-    const timer = setTimeout(() => abort.abort(), options.timeoutMs ?? 15000)
+    const timer = setTimeout(() => abort.abort(), input.timeoutMs ?? options.timeoutMs ?? 15000)
     try {
       const response = await fetcher(`${base}${input.path}`, {
         method: input.method ?? 'GET', headers, signal: abort.signal,

@@ -82,5 +82,5 @@ export const useBackendSessionStore = defineStore('backendSession', () => {
     return initializing ??= initializeOnce().finally(() => { initializing = null })
   }
 
-  return { user, identities, busy, message, loadIdentities, select, restore, initialize }
+  return { http, user, identities, busy, message, loadIdentities, select, restore, initialize }
 })
