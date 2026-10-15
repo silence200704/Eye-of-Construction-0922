@@ -49,10 +49,11 @@ def test_persisted_signing_key_and_sessions_survive_restart(settings: Settings) 
     settings.secret_key = ""
     initialize(settings)
     with TestClient(create_app(settings)) as first:
-        token = first.post(
-            "/api/v1/demo/login", json={"accountId": "demo-safety"}
-        ).json()["data"]["accessToken"]
+        token = first.post("/api/v1/demo/login", json={"accountId": "demo-safety"}).json()["data"][
+            "accessToken"
+        ]
     with TestClient(create_app(settings)) as second:
-        assert second.get(
-            "/api/v1/auth/me", headers={"Authorization": f"Bearer {token}"}
-        ).status_code == 200
+        assert (
+            second.get("/api/v1/auth/me", headers={"Authorization": f"Bearer {token}"}).status_code
+            == 200
+        )

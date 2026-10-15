@@ -10,7 +10,10 @@ router = APIRouter(prefix="/api/v1/health", tags=["环境"])
 
 @router.get("/live")
 def live(request: Request) -> dict:
-    return ok(request, {"status": "alive", "mode": "demo" if request.app.state.settings.demo_mode else "standard"})
+    return ok(
+        request,
+        {"status": "alive", "mode": "demo" if request.app.state.settings.demo_mode else "standard"},
+    )
 
 
 @router.get("/ready")

@@ -1,4 +1,5 @@
 """真实账号与可撤销登录会话。"""
+
 import sqlalchemy as sa
 from alembic import op
 

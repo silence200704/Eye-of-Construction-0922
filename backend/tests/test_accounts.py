@@ -1,7 +1,7 @@
 import pytest
+from conftest import demo_token
 from fastapi.testclient import TestClient
 
-from conftest import demo_token
 from zhutong.app import create_app
 from zhutong.core.settings import Settings
 
@@ -11,7 +11,11 @@ def test_demo_accounts_are_explicit_and_never_expose_passwords(client: TestClien
     assert response.status_code == 200
     accounts = response.json()["data"]
     assert {row["role"] for row in accounts} == {
-        "safety", "property", "device", "inspector", "repair"
+        "safety",
+        "property",
+        "device",
+        "inspector",
+        "repair",
     }
     assert "password" not in response.text.lower()
     assert "hash" not in response.text.lower()
@@ -30,9 +34,7 @@ def test_password_login_and_bad_password(client: TestClient) -> None:
         "/api/v1/auth/login", json={"username": "demo-safety", "password": "zhutong-demo"}
     )
     assert good.status_code == 200
-    bad = client.post(
-        "/api/v1/auth/login", json={"username": "demo-safety", "password": "wrong"}
-    )
+    bad = client.post("/api/v1/auth/login", json={"username": "demo-safety", "password": "wrong"})
     assert bad.status_code == 401
     assert bad.json()["error"]["code"] == "AUTH_REQUIRED"
 
@@ -50,9 +52,10 @@ def test_demo_routes_are_disabled_outside_demo_mode(settings: Settings) -> None:
     settings.demo_mode = False
     with TestClient(create_app(settings)) as isolated:
         assert isolated.get("/api/v1/demo/accounts").status_code == 404
-        assert isolated.post(
-            "/api/v1/demo/login", json={"accountId": "demo-safety"}
-        ).status_code == 404
+        assert (
+            isolated.post("/api/v1/demo/login", json={"accountId": "demo-safety"}).status_code
+            == 404
+        )
 
 
 @pytest.mark.parametrize("authorization", [None, "Bearer broken", "Basic unsafe"])

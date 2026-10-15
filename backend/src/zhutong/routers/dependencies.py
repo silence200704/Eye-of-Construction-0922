@@ -14,7 +14,8 @@ bearer = HTTPBearer(auto_error=False)
 def auth_service(request: Request) -> Iterator[AuthService]:
     with request.app.state.database.sessions() as session:
         yield AuthService(
-            SqlIdentityRepository(session), request.app.state.codec,
+            SqlIdentityRepository(session),
+            request.app.state.codec,
             request.app.state.settings.demo_mode,
         )
 

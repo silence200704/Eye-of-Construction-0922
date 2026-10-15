@@ -26,6 +26,8 @@ import FormGrid from '@/components/ui/FormGrid.vue'
 import StatusTag from '@/components/ui/StatusTag.vue'
 import IntegrityPanel from '@/components/settings/IntegrityPanel.vue'
 import DemoChainPanel from '@/components/demo/DemoChainPanel.vue'
+import { backendEnabled } from '@/api/http/runtime'
+import BackendIdentity from '@/components/session/BackendIdentity.vue'
 
 const archive = useArchiveStore()
 const plans = usePlanStore()
@@ -224,7 +226,11 @@ const notYet = [
     <DemoChainPanel />
 
     <div class="two">
-      <SectionCard title="演示身份" sub="V0.2 用身份切换区分操作留痕与关闭权限；切换仍不等于真实鉴权" marked>
+      <SectionCard v-if="backendEnabled" title="登录账号" sub="测试账号由服务端核验，支持快捷切换" marked>
+        <BackendIdentity />
+        <p class="duty">当前账号：{{ session.actorLabel }}</p>
+      </SectionCard>
+      <SectionCard v-else title="演示身份" sub="纯前端基线身份仅用于本地留痕" marked>
         <FormGrid v-model="identityModel" :fields="identityFields" :columns="1" />
         <p class="duty">当前身份：{{ session.actorLabel }}｜职责：{{ ROLES.find((r) => r.key === session.role)?.duty }}</p>
         <template #actions>

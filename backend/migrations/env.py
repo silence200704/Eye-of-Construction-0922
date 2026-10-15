@@ -13,8 +13,10 @@ def run(connection: object) -> None:
 
 if context.is_offline_mode():
     context.configure(
-        url=Settings().database_url, target_metadata=Base.metadata,
-        literal_binds=True, render_as_batch=True,
+        url=Settings().database_url,
+        target_metadata=Base.metadata,
+        literal_binds=True,
+        render_as_batch=True,
     )
     with context.begin_transaction():
         context.run_migrations()

@@ -1,5 +1,5 @@
+from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
-from typing import AsyncIterator
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -27,9 +27,17 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.state.settings = configured
     install_http(app)
     app.add_middleware(
-        CORSMiddleware, allow_origins=configured.cors_origins, allow_credentials=False,
+        CORSMiddleware,
+        allow_origins=configured.cors_origins,
+        allow_credentials=False,
         allow_methods=["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"],
-        allow_headers=["Authorization", "Content-Type", "X-Request-ID", "Idempotency-Key", "X-Dataset-ID"],
+        allow_headers=[
+            "Authorization",
+            "Content-Type",
+            "X-Request-ID",
+            "Idempotency-Key",
+            "X-Dataset-ID",
+        ],
         expose_headers=["X-Request-ID"],
     )
     app.include_router(health.router)

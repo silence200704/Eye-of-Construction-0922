@@ -16,7 +16,10 @@ logger = logging.getLogger("zhutong.http")
 
 def ok(request: Request, data: Any) -> dict[str, Any]:
     return {
-        "ok": True, "data": data, "rev": None, "replayed": False,
+        "ok": True,
+        "data": data,
+        "rev": None,
+        "replayed": False,
         "meta": {"requestId": request.state.request_id},
     }
 
@@ -27,7 +30,9 @@ def failure(request: Request, error: AppError) -> JSONResponse:
         content={
             "ok": False,
             "error": {
-                "code": error.code, "message": str(error), "retryable": error.status >= 500,
+                "code": error.code,
+                "message": str(error),
+                "retryable": error.status >= 500,
                 "details": error.details,
             },
             "meta": {"requestId": getattr(request.state, "request_id", uuid.uuid4().hex)},
@@ -46,8 +51,12 @@ def install_http(app: FastAPI) -> None:
         response = await call_next(request)
         response.headers["X-Request-ID"] = request.state.request_id
         logger.info(
-            "%s %s %s request=%s elapsed_ms=%.1f", request.method, request.url.path,
-            response.status_code, request.state.request_id, (time.monotonic() - started) * 1000,
+            "%s %s %s request=%s elapsed_ms=%.1f",
+            request.method,
+            request.url.path,
+            response.status_code,
+            request.state.request_id,
+            (time.monotonic() - started) * 1000,
         )
         return response
 
@@ -57,8 +66,12 @@ def install_http(app: FastAPI) -> None:
 
     @app.exception_handler(RequestValidationError)
     async def validation_error(request: Request, error: RequestValidationError) -> JSONResponse:
-        fields = [{"field": ".".join(map(str, e["loc"])), "message": e["msg"]} for e in error.errors()]
-        return failure(request, AppError("VALIDATION_FAILED", "请求字段校验未通过", 422, {"fields": fields}))
+        fields = [
+            {"field": ".".join(map(str, e["loc"])), "message": e["msg"]} for e in error.errors()
+        ]
+        return failure(
+            request, AppError("VALIDATION_FAILED", "请求字段校验未通过", 422, {"fields": fields})
+        )
 
     @app.exception_handler(HTTPException)
     async def http_error(request: Request, error: HTTPException) -> JSONResponse:

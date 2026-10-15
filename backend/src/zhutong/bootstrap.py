@@ -26,10 +26,17 @@ def seed_accounts(database: Database, settings: Settings) -> None:
         for role, label in ROLES.items():
             user_id = f"demo-{role}"
             if session.get(User, user_id) is None:
-                session.add(User(
-                    id=user_id, username=user_id, name=f"演示{label}", role=role,
-                    password_hash=hashed, enabled=True, is_demo=True,
-                ))
+                session.add(
+                    User(
+                        id=user_id,
+                        username=user_id,
+                        name=f"演示{label}",
+                        role=role,
+                        password_hash=hashed,
+                        enabled=True,
+                        is_demo=True,
+                    )
+                )
 
 
 def initialize(settings: Settings | None = None) -> None:

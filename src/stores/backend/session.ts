@@ -1,14 +1,14 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { createHttpClient, HttpError } from '@/api/http/client'
+import { createHttpClient } from '@/api/http/client'
 import { apiBaseUrl, type BackendUser, type LoginResult } from '@/api/http/runtime'
 import { useSessionStore } from '@/stores/session'
+import { createAccountDirectory } from './accounts'
 
 const TOKEN_KEY = 'zhutong-api/access-token'
 
 export const useBackendSessionStore = defineStore('backendSession', () => {
   const user = ref<BackendUser | null>(null)
-  const accounts = ref<BackendUser[]>([])
   const busy = ref(false)
   const message = ref('')
   let generation = 0
@@ -31,28 +31,20 @@ export const useBackendSessionStore = defineStore('backendSession', () => {
     useSessionStore().setIdentity(next.name, next.role)
   }
 
-  async function loadAccounts(): Promise<void> {
-    try { accounts.value = await http.request<BackendUser[]>({ path: '/demo/accounts' }) }
-    catch (cause) {
-      accounts.value = []
-      if (!(cause instanceof HttpError && cause.status === 404)) {
-        message.value = cause instanceof Error ? cause.message : String(cause)
-      }
-    }
-  }
+  const { accounts, loadAccounts } = createAccountDirectory(http, text => { message.value = text })
 
   async function authenticate(path: string, body: unknown): Promise<boolean> {
     const current = ++generation
     busy.value = true
     message.value = ''
     try {
-      const result = await http.request<LoginResult>({ path, method: 'POST', body })
+      const result = await http.request<LoginResult>({ path, method: 'POST', body, anonymous: true })
       if (current !== generation) return false
       localStorage.setItem(TOKEN_KEY, result.accessToken)
       accept(result.user)
       return true
     } catch (cause) {
-      message.value = cause instanceof Error ? cause.message : String(cause)
+      if (current === generation) message.value = cause instanceof Error ? cause.message : String(cause)
       return false
     } finally { if (current === generation) busy.value = false }
   }

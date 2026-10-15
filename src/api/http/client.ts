@@ -17,6 +17,7 @@ interface RequestOptions {
   method?: 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE'
   body?: unknown
   headers?: Record<string, string>
+  anonymous?: boolean
 }
 
 export class HttpError extends Error {
@@ -49,7 +50,7 @@ export function createHttpClient(options: ClientOptions = {}) {
       throw transportError('INVALID_REQUEST', '接口路径无效')
     }
     const headers = new Headers(input.headers)
-    const token = options.token?.()
+    const token = input.anonymous ? null : options.token?.()
     if (token) headers.set('Authorization', `Bearer ${token}`)
     if (input.body !== undefined) headers.set('Content-Type', 'application/json')
     const abort = new AbortController()
@@ -59,7 +60,9 @@ export function createHttpClient(options: ClientOptions = {}) {
         method: input.method ?? 'GET', headers, signal: abort.signal,
         ...(input.body !== undefined ? { body: JSON.stringify(input.body) } : {}),
       })
-      if (response.status === 401) options.unauthorized?.()
+      if (response.status === 401 && !input.anonymous && options.token?.() === token) {
+        options.unauthorized?.()
+      }
       let envelope: unknown
       try { envelope = await response.json() }
       catch { throw transportError('INVALID_RESPONSE', '服务返回的内容无效，请检查后端连接') }

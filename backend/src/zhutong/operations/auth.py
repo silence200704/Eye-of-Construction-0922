@@ -40,7 +40,9 @@ class AuthService:
         token, expires = self.codec.issue(account.id, session_id)
         self.repository.save_session(SessionRecord(session_id, account.id, expires))
         return {
-            "accessToken": token, "tokenType": "bearer", "expiresAt": expires,
+            "accessToken": token,
+            "tokenType": "bearer",
+            "expiresAt": expires,
             "user": account.public(),
         }
 
@@ -49,8 +51,12 @@ class AuthService:
         record = self.repository.session(claims["sid"])
         account = self.repository.by_id(claims["sub"])
         if (
-            record is None or record.revoked or record.expires_at <= time.time()
-            or record.user_id != claims["sub"] or account is None or not account.enabled
+            record is None
+            or record.revoked
+            or record.expires_at <= time.time()
+            or record.user_id != claims["sub"]
+            or account is None
+            or not account.enabled
         ):
             raise unauthorized()
         return account
