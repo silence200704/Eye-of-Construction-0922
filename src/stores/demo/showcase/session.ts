@@ -21,6 +21,7 @@ import { askZhutong } from '@/assistant/ask'
 import type { AskResult } from '@/assistant/types'
 import { READY_CRACK, CLOSED_CRACK } from '@/stores/writes/demo/coverage/archive'
 import { buildEventReport } from '@/core/metrics/eventReport'
+import { requireLocalDemo } from '@/api/backend/runtime'
 
 const KEY = workspaceStorageKey('zhutong-demo/showcase-run')
 interface Saved { version: number; refs: ShowcaseRefs; state: RunnerState }
@@ -127,6 +128,7 @@ class ShowcaseController {
     })
   }
   start(): Promise<void> {
+    requireLocalDemo('完整自动演示')
     if (!isShowcase) { switchWorkspace('showcase',true); return Promise.resolve() }
     if (this.launching) return this.launching
     this.cancelled = false

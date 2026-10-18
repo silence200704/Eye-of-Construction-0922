@@ -35,7 +35,12 @@ export function useFormModel(fields: () => FieldDef[]) {
       await action()
       return true
     } catch (cause) {
-      submitError.value = cause instanceof Error ? cause.message : String(cause)
+      const message = cause instanceof Error ? cause.message : String(cause)
+      const fields = (cause as { details?: { fields?: Array<{ field?: string; message?: string }> } })
+        ?.details?.fields
+      submitError.value = Array.isArray(fields) && fields.length > 0
+        ? `${message}：${fields.map((item) => [item.field, item.message].filter(Boolean).join(' ')).join('；')}`
+        : message
       return false
     }
   }

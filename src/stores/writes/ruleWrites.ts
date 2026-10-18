@@ -9,6 +9,8 @@ import { putRule } from '@/db/repo'
 import { useArchiveStore } from '../archive'
 import { useSessionStore } from '../session'
 import { validateThresholds } from '@/core/assess/thresholds'
+import { backendActive } from '@/api/backend/runtime'
+import { saveRuleVersionRemote } from '@/api/backend/archive'
 
 export interface RuleDraft {
   code: string
@@ -54,6 +56,43 @@ export async function saveRule(id: string, draft: RuleDraft): Promise<{ version:
     if (error) throw new Error(error)
   }
   const at = nowIso()
+  if (backendActive()) {
+    const thresholds = draft.yellow === null || draft.orange === null || draft.red === null
+      ? null
+      : { yellow: draft.yellow, orange: draft.orange, red: draft.red }
+    const saved = await saveRuleVersionRemote(existing, {
+      code: draft.code.trim(),
+      name: draft.name.trim(),
+      unit: draft.unit.trim(),
+      enabled: draft.enabled,
+      thresholds,
+      rateThreshold: draft.rateThreshold,
+      persistence: {
+        minRecords: draft.persistenceMinRecords,
+        minSpanMinutes: draft.persistenceMinSpanMinutes,
+        maxGapMinutes: draft.persistenceMaxGapMinutes,
+        level: existing.persistence.level,
+      },
+      recovery: {
+        yellowRatio: draft.recoveryRatio,
+        minRecords: draft.recoveryMinRecords,
+        minSpanMinutes: existing.recovery.minSpanMinutes,
+      },
+      environment: existing.environment === null
+        ? null
+        : {
+            ...existing.environment,
+            tempMin: draft.tempMin ?? existing.environment.tempMin,
+            tempMax: draft.tempMax ?? existing.environment.tempMax,
+            humidityMax: draft.humidityMax ?? existing.environment.humidityMax,
+          },
+      confirmedBy: draft.confirmedBy.trim(),
+      note: draft.note.trim(),
+      effectiveFrom: at,
+    })
+    await store.reload()
+    return { version: saved.version, versioned: true }
+  }
   const typed = draft.version.trim()
   const version = typed === '' || typed === existing.version ? nextRuleVersion(existing.version) : typed
   const row: MonitoringRule = {

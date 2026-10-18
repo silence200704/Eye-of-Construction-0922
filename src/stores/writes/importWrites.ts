@@ -10,6 +10,7 @@ import type { AlertPromptEventInput } from '@/core/event/alertPrompt'
 import { useArchiveStore } from '../archive'
 import { useEventsStore } from '../events'
 import { useRecordsStore } from '../records'
+import { backendActive } from '@/api/backend/runtime'
 
 export interface ImportResult {
   imported: number
@@ -25,6 +26,9 @@ export interface ImportBatch {
 }
 
 export async function runImport(preview: ImportPreview, batch: ImportBatch): Promise<ImportResult> {
+  if (backendActive()) {
+    throw new Error('服务端模式必须先在服务端预检，再整批原子提交；本入口不会逐条写入')
+  }
   const records = useRecordsStore()
   const archive = useArchiveStore()
   const events = useEventsStore()

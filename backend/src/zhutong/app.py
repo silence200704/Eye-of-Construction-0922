@@ -10,6 +10,7 @@ from .core.security import TokenCodec
 from .core.settings import Settings
 from .db.database import Database
 from .routers import auth, health, importing, media
+from .routers.datasets import alarms, archive, common, monitoring
 
 
 def create_app(settings: Settings | None = None) -> FastAPI:
@@ -46,4 +47,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(auth.router)
     app.include_router(media.router)
     app.include_router(importing.router)
+    app.include_router(common.router)
+    app.include_router(archive.router)
+    app.include_router(monitoring.router)
+    app.include_router(alarms.router)
     return app

@@ -12,6 +12,7 @@ import { useRecordsStore } from '@/stores/records'
 import { useSessionStore } from '@/stores/session'
 import type { MetricValues, MonitorRecord } from '@/types/domain'
 import { DEMO_LIVE_SAMPLE_NOTE } from '@/types/catalog'
+import { requireLocalDemo } from '@/api/backend/runtime'
 
 const FRESH_WINDOW_MS = 30 * 60_000
 
@@ -31,6 +32,7 @@ function isLegacyDemoSensor(row: MonitorRecord): boolean {
 }
 
 export async function normalizeLegacyDemoSensors(): Promise<number> {
+  requireLocalDemo('旧演示传感器来源校正')
   const session = useSessionStore()
   let changed = 0
   await db.transaction('rw', db.records, db.audits, async () => {
@@ -60,6 +62,7 @@ export async function normalizeLegacyDemoSensors(): Promise<number> {
 
 /** 半小时内该点已有更新采样就跳过（含人工记录）；不覆盖它，过期后重按可追加。 */
 export async function loadSimulatedLiveSensors(options: { pointIds?: string[]; beforeWrite?: () => void } = {}): Promise<{ created: number; skipped: number }> {
+  requireLocalDemo('模拟实时采样')
   const archive = useArchiveStore()
   const records = useRecordsStore()
   await records.reload()

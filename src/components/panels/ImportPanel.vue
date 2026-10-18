@@ -13,6 +13,10 @@ import { buildTemplate, templateHint } from '@/config/csvTemplate'
 import { hasNumericReadings, pointTypeDef } from '@/types/catalog'
 import { previewFromText, type ImportPreview } from '@/core/csv'
 import { runImport, type ImportResult } from '@/stores/writes/importWrites'
+import { useEventsStore } from '@/stores/events'
+import { backendActive } from '@/api/backend/runtime'
+import { commitImportRemote, previewImportRemote } from '@/api/backend/records'
+import type { AlertPromptEventInput } from '@/core/event/alertPrompt'
 import SectionCard from '@/components/ui/SectionCard.vue'
 import DataTable from '@/components/ui/DataTable.vue'
 import AppButton from '@/components/ui/AppButton.vue'
@@ -24,6 +28,7 @@ const alerts = useAlertStore()
 
 const text = ref('')
 const preview = ref<ImportPreview | null>(null)
+const previewToken = ref('')
 const result = ref<ImportResult | null>(null)
 const message = ref('')
 const tone = ref<'ok' | 'bad'>('ok')
@@ -31,19 +36,33 @@ const fileName = ref('')
 
 const importable = computed(() => (preview.value === null ? 0 : preview.value.okCount + preview.value.warnCount))
 
-function parse(): void {
+async function parse(): Promise<void> {
   result.value = null
+  previewToken.value = ''
   if (text.value.trim() === '') {
     tone.value = 'bad'
     message.value = '请先上传文件或粘贴 CSV 内容'
     preview.value = null
     return
   }
-  preview.value = previewFromText(text.value, {
-    points: archive.points,
-    rules: archive.rules,
-    existing: records.records,
-  })
+  if (backendActive()) {
+    try {
+      const remote = await previewImportRemote(text.value)
+      preview.value = remote
+      previewToken.value = remote.token
+    } catch (cause) {
+      tone.value = 'bad'
+      message.value = cause instanceof Error ? cause.message : String(cause)
+      preview.value = null
+      return
+    }
+  } else {
+    preview.value = previewFromText(text.value, {
+      points: archive.points,
+      rules: archive.rules,
+      existing: records.records,
+    })
+  }
   tone.value = preview.value.errorCount > 0 ? 'bad' : 'ok'
   message.value =
     preview.value.headerOk === false
@@ -58,7 +77,7 @@ async function onFile(event: Event): Promise<void> {
   if (file === undefined) return
   fileName.value = file.name
   text.value = await file.text()
-  parse()
+  await parse()
 }
 
 function downloadTemplate(): void {
@@ -84,11 +103,50 @@ function downloadTemplate(): void {
 
 async function confirmImport(): Promise<void> {
   if (preview.value === null) return
-  result.value = await runImport(preview.value, { fileName: fileName.value === '' ? '粘贴文本' : fileName.value })
-  alerts.enqueueBatch(result.value.alertInputs)
+  const sourceName = fileName.value === '' ? '粘贴文本' : fileName.value
+  if (backendActive()) {
+    const lineNos = preview.value.rows.filter((row) => row.payload !== null).map((row) => row.lineNo)
+    try {
+      const committed = await commitImportRemote({
+        csvText: text.value,
+        token: previewToken.value,
+        lineNos,
+        fileName: sourceName,
+      })
+      await records.reload()
+      await archive.reload()
+      const events = useEventsStore()
+      await events.reload()
+      const alertInputs: AlertPromptEventInput[] = []
+      for (const item of committed.events) {
+        const event = events.byId(item.eventId)
+        if (event === undefined) continue
+        alertInputs.push({
+          event,
+          action: item.action as AlertPromptEventInput['action'],
+          pointLabel: archive.pointLabel(item.pointId),
+        })
+      }
+      alerts.enqueueBatch(alertInputs)
+      result.value = {
+        imported: committed.imported,
+        skipped: committed.skipped,
+        eventMessages: committed.eventMessages,
+        alertInputs,
+      }
+    } catch (cause) {
+      tone.value = 'bad'
+      message.value = cause instanceof Error ? cause.message : String(cause)
+      return
+    }
+  } else {
+    result.value = await runImport(preview.value, { fileName: sourceName })
+    alerts.enqueueBatch(result.value.alertInputs)
+  }
   // 条数与事件处置在下方"导入结果"里已经写全，这里不再重复一遍
   message.value = ''
   preview.value = null
+  previewToken.value = ''
   text.value = ''
   fileName.value = ''
 }

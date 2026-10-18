@@ -48,6 +48,29 @@ describe('真实 HTTP 传输', () => {
     await expect(http.request({ path: '/health/live' })).rejects.toMatchObject({ code: 'INVALID_RESPONSE' })
   })
 
+  it('命令通道保留 rev、重放标记、请求标识与数据集 epoch', async () => {
+    const fetcher = vi.fn().mockResolvedValue(new Response(JSON.stringify({
+      ok: true, data: { id: 'rec_1' }, rev: 3, replayed: true,
+      meta: { requestId: 'request-9', datasetEpoch: 7 },
+    }), { headers: { 'Content-Type': 'application/json' } }))
+    const http = createHttpClient({ fetcher })
+    expect(await http.command({ path: '/datasets/demo-main/records', method: 'POST', body: {} })).toEqual({
+      data: { id: 'rec_1' }, rev: 3, replayed: true, requestId: 'request-9', datasetEpoch: 7,
+    })
+  })
+
+  it('命令通道遇到幂等键冲突时不改写成传输错误', async () => {
+    const fetcher = vi.fn().mockResolvedValue(new Response(JSON.stringify({
+      ok: false,
+      error: { code: 'IDEMPOTENCY_CONFLICT', message: '同一幂等键被用于不同内容', retryable: false, details: {} },
+      meta: { requestId: 'request-10' },
+    }), { status: 409 }))
+    const http = createHttpClient({ fetcher })
+    await expect(http.command({ path: '/records', method: 'POST', body: {} })).rejects.toMatchObject({
+      code: 'IDEMPOTENCY_CONFLICT', status: 409, requestId: 'request-10',
+    })
+  })
+
   it('身份切换失败不携带旧令牌，也不清理当前身份', async () => {
     const unauthorized = vi.fn()
     const fetcher = vi.fn().mockResolvedValue(new Response(JSON.stringify({

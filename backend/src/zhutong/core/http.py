@@ -14,13 +14,19 @@ from .errors import AppError
 logger = logging.getLogger("zhutong.http")
 
 
-def ok(request: Request, data: Any) -> dict[str, Any]:
+def ok(
+    request: Request,
+    data: Any,
+    rev: int | None = None,
+    replayed: bool = False,
+    meta: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     return {
         "ok": True,
         "data": data,
-        "rev": None,
-        "replayed": False,
-        "meta": {"requestId": request.state.request_id},
+        "rev": rev,
+        "replayed": replayed,
+        "meta": {"requestId": request.state.request_id, **(meta or {})},
     }
 
 

@@ -16,6 +16,8 @@ import { seedRules } from '@/config/ruleSeed'
 import { useSessionStore } from './session'
 import { markDatasetReset } from './demo/registry'
 import { workspaceStorageKey } from '@/core/demo/workspace'
+import { fetchArchive } from '@/api/backend/archive'
+import { backendActive } from '@/api/backend/runtime'
 
 const MODE_KEY = workspaceStorageKey('zhutong-demo/data-mode')
 export type DataMode = 'seed' | 'blank'
@@ -57,10 +59,26 @@ export const useArchiveStore = defineStore('archive', () => {
   }
 
   async function reload(): Promise<void> {
+    if (backendActive()) {
+      const data = await fetchArchive()
+      buildings.value = data.buildings
+      floors.value = data.floors
+      points.value = data.points
+      devices.value = data.devices
+      baselines.value = data.baselines
+      rules.value = data.rules
+      audits.value = data.audits
+      return
+    }
     applyDataset(await readDataset())
   }
 
   async function bootstrap(): Promise<void> {
+    if (backendActive()) {
+      await reload()
+      loaded.value = true
+      return
+    }
     await reload()
     loaded.value = true
     const empty = buildings.value.length === 0 && points.value.length === 0
@@ -132,6 +150,9 @@ export const useArchiveStore = defineStore('archive', () => {
    * 由数据管理页在载入示例、清空、恢复备份后统一调用，避免拿着旧事件继续归并。
    */
   async function loadSeed(): Promise<void> {
+    if (backendActive()) {
+      throw new Error('当前使用服务端数据；演示数据复位将在阶段 10 提供，不会写入浏览器数据库')
+    }
     busy.value = true
     try {
       await writeDataset(seedDataset())
@@ -145,6 +166,9 @@ export const useArchiveStore = defineStore('archive', () => {
   }
 
   async function clearAll(reason: string): Promise<void> {
+    if (backendActive()) {
+      throw new Error('当前使用服务端数据；清空与复位将在阶段 10 提供，不能用浏览器数据库代替')
+    }
     busy.value = true
     try {
       await clearDataset()
@@ -162,6 +186,9 @@ export const useArchiveStore = defineStore('archive', () => {
    * 旧版备份里的规则可能没有 ruleId，导入后立即迁移，不必等下次刷新。
    */
   async function restoreDataset(data: Dataset): Promise<void> {
+    if (backendActive()) {
+      throw new Error('当前使用服务端数据；备份恢复请在服务端备份页执行，不能写回浏览器数据库')
+    }
     await writeDataset(data)
     setMode(data.buildings.length > 0 ? 'seed' : 'blank')
     // 导入的是另一份数据集，演示场景登记过的对象未必还在
@@ -181,6 +208,21 @@ export const useArchiveStore = defineStore('archive', () => {
     reason = '',
   ): Promise<AuditLog> {
     const session = useSessionStore()
+    // 服务端模式由后端在同一事务内写审计；这里返回一条不落库的占位结果，避免再写一份本地权威数据。
+    if (backendActive()) {
+      return {
+        id: 'server-audit',
+        at: nowIso(),
+        actor: session.name,
+        actorRole: session.roleLabel,
+        action,
+        objectType,
+        objectId,
+        objectLabel,
+        summary,
+        reason,
+      }
+    }
     const input: AuditInput = {
       actor: session.name,
       actorRole: session.roleLabel,

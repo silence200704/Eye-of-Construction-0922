@@ -17,6 +17,8 @@ import { useSessionStore } from './session'
 import { useAlertStore } from './alerts'
 import { useEventsStore } from './events'
 import { shouldPresentManualAlert } from '@/core/event/alertPrompt'
+import { backendActive } from '@/api/backend/runtime'
+import { createRecordRemote, fetchRecords, reviseRecordRemote } from '@/api/backend/records'
 
 export interface RecordDraft {
   pointId: string
@@ -40,12 +42,12 @@ export const useRecordsStore = defineStore('records', () => {
   const lastEventOutcome = ref<ApplyResult>({ action: 'none', eventId: '', message: '' })
 
   async function load(): Promise<void> {
-    records.value = await db.records.toArray()
+    await reload()
     loaded.value = true
   }
 
   async function reload(): Promise<void> {
-    records.value = await db.records.toArray()
+    records.value = backendActive() ? await fetchRecords() : await db.records.toArray()
   }
 
   const sorted = computed(() => [...records.value].sort((a, b) => b.sampleTime.localeCompare(a.sampleTime)))
@@ -76,6 +78,7 @@ export const useRecordsStore = defineStore('records', () => {
   }
 
   async function addRecord(draft: RecordDraft): Promise<MonitorRecord> {
+    if (backendActive()) return addRemoteRecord(draft)
     const archive = useArchiveStore()
     const session = useSessionStore()
     // 按采样时间取生效基准：未来才生效的基准不参与本次录入
@@ -123,6 +126,33 @@ export const useRecordsStore = defineStore('records', () => {
   }
 
   /**
+   * 服务端录入：后端在同一事务内完成记录、判定、事件、通知、审计与回执，
+   * 前端只重新读取事实，不再调用本地判定或写 IndexedDB。
+   */
+  async function addRemoteRecord(draft: RecordDraft): Promise<MonitorRecord> {
+    const archive = useArchiveStore()
+    const point = archive.pointById(draft.pointId)
+    if (point === undefined) throw new Error('测点不存在')
+    const result = await createRecordRemote(draft, point.metric)
+    await reload()
+    await useEventsStore().reload()
+    await archive.reload()
+    lastEventOutcome.value = result.event
+    lastEventMessage.value = result.event.message === '' ? '判定结果不构成越限，未生成事件' : result.event.message
+    if (shouldPresentManualAlert(result.record) && result.event.eventId !== '') {
+      const event = useEventsStore().byId(result.event.eventId)
+      if (event !== undefined) {
+        useAlertStore().enqueueEvent({
+          event,
+          action: result.event.action,
+          pointLabel: archive.pointLabel(draft.pointId),
+        })
+      }
+    }
+    return result.record
+  }
+
+  /**
    * 新增记录后把判定结果落到事件：越限则生成或升级事件，恢复则把未关闭事件标为恢复待确认。
    */
   async function applyToEvents(row: MonitorRecord, previousRecordId: string | null): Promise<ApplyResult> {
@@ -154,6 +184,15 @@ export const useRecordsStore = defineStore('records', () => {
     const session = useSessionStore()
     const existing = records.value.find((row) => row.id === id)
     if (existing === undefined) return
+    if (backendActive()) {
+      const result = await reviseRecordRemote(id, draft, reason, existing.rev)
+      await reload()
+      await useEventsStore().reload()
+      await archive.reload()
+      lastEventOutcome.value = result.event
+      lastEventMessage.value = result.event.message === '' ? '修订后的判定不构成越限，未变更事件' : result.event.message
+      return
+    }
     const at = nowIso()
     // 采样时间可能被改到别的基准生效期内，基准快照必须按新的采样时间重算
     const baseline = archive.baselineAt(existing.pointId, draft.sampleTime)

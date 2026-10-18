@@ -1,0 +1,560 @@
+{
+  "rules": {
+    "crack": {
+      "id": "rule_crack_width@V1.0",
+      "ruleId": "rule_crack_width",
+      "code": "RULE-CRACK-001",
+      "name": "裂缝宽度变化分级规则",
+      "metric": "crack_width",
+      "unit": "mm",
+      "version": "V1.0",
+      "effectiveFrom": "2026-08-01T00:00:00.000Z",
+      "enabled": true,
+      "buildingIds": ["bld_b03"],
+      "pointIds": ["pnt_b03_f2_crack01"],
+      "baselineSource": "point",
+      "fixedBaseline": null,
+      "thresholds": { "yellow": 0.1, "orange": 0.2, "red": 0.3 },
+      "rateThreshold": 0.1,
+      "rateLevel": "orange",
+      "persistence": { "minRecords": 3, "minSpanMinutes": 10, "maxGapMinutes": 5, "level": "orange" },
+      "recovery": { "yellowRatio": 0.8, "minRecords": 3, "minSpanMinutes": 0 },
+      "environment": null,
+      "source": "筑瞳 Demo 演示预警规则 V1.0",
+      "confirmedBy": "学校安全管理人员",
+      "note": "共同样例用规则",
+      "createdAt": "2026-08-01T00:00:00.000Z",
+      "createdBy": "演示规则初始化",
+      "updatedAt": "2026-08-01T00:00:00.000Z",
+      "updatedBy": "演示规则初始化"
+    },
+    "crackPersistence": {
+      "id": "rule_crack_persistence@V1.0",
+      "ruleId": "rule_crack_persistence",
+      "code": "RULE-CRACK-002",
+      "name": "裂缝持续异常规则",
+      "metric": "crack_width",
+      "unit": "mm",
+      "version": "V1.0",
+      "effectiveFrom": "2026-08-01T00:00:00.000Z",
+      "enabled": true,
+      "buildingIds": ["bld_b03"],
+      "pointIds": ["pnt_b03_f2_crack01"],
+      "baselineSource": "point",
+      "fixedBaseline": null,
+      "thresholds": { "yellow": 0.1, "orange": 0.2, "red": 0.3 },
+      "rateThreshold": null,
+      "rateLevel": "orange",
+      "persistence": { "minRecords": 3, "minSpanMinutes": 10, "maxGapMinutes": 5, "level": "orange" },
+      "recovery": { "yellowRatio": 0.8, "minRecords": 3, "minSpanMinutes": 0 },
+      "environment": null,
+      "source": "筑瞳 Demo 演示预警规则 V1.0",
+      "confirmedBy": "学校安全管理人员",
+      "note": "持续/恢复共同样例用规则，不判速率",
+      "createdAt": "2026-08-01T00:00:00.000Z",
+      "createdBy": "演示规则初始化",
+      "updatedAt": "2026-08-01T00:00:00.000Z",
+      "updatedBy": "演示规则初始化"
+    },
+    "tilt": {
+      "id": "rule_tilt_xy@V1.0",
+      "ruleId": "rule_tilt_xy",
+      "code": "RULE-TILT-001",
+      "name": "倾角变化分级规则",
+      "metric": "tilt_xy",
+      "unit": "°",
+      "version": "V1.0",
+      "effectiveFrom": "2026-08-01T00:00:00.000Z",
+      "enabled": true,
+      "buildingIds": ["bld_b03"],
+      "pointIds": ["pnt_b03_f2_tilt01"],
+      "baselineSource": "point",
+      "fixedBaseline": null,
+      "thresholds": { "yellow": 0.1, "orange": 0.2, "red": 0.3 },
+      "rateThreshold": null,
+      "rateLevel": "orange",
+      "persistence": { "minRecords": 3, "minSpanMinutes": 10, "maxGapMinutes": 5, "level": "orange" },
+      "recovery": { "yellowRatio": 0.8, "minRecords": 3, "minSpanMinutes": 0 },
+      "environment": null,
+      "source": "筑瞳 Demo 演示预警规则 V1.0",
+      "confirmedBy": "学校安全管理人员",
+      "note": "倾角不配置速率阈值",
+      "createdAt": "2026-08-01T00:00:00.000Z",
+      "createdBy": "演示规则初始化",
+      "updatedAt": "2026-08-01T00:00:00.000Z",
+      "updatedBy": "演示规则初始化"
+    },
+    "vibration": {
+      "id": "rule_vibration@V1.0",
+      "ruleId": "rule_vibration",
+      "code": "RULE-VIB-001",
+      "name": "楼板振动分级规则",
+      "metric": "vibration",
+      "unit": "m/s²",
+      "version": "V1.0",
+      "effectiveFrom": "2026-08-01T00:00:00.000Z",
+      "enabled": true,
+      "buildingIds": ["bld_b03"],
+      "pointIds": ["pnt_b03_f2_vib01"],
+      "baselineSource": "none",
+      "fixedBaseline": null,
+      "thresholds": { "yellow": 0.05, "orange": 0.1, "red": 0.2 },
+      "rateThreshold": null,
+      "rateLevel": "orange",
+      "persistence": { "minRecords": 3, "minSpanMinutes": 10, "maxGapMinutes": 5, "level": "orange" },
+      "recovery": { "yellowRatio": 0.8, "minRecords": 3, "minSpanMinutes": 0 },
+      "environment": null,
+      "source": "筑瞳 Demo 演示预警规则 V1.0",
+      "confirmedBy": "学校安全管理人员",
+      "note": "振动绝对判定",
+      "createdAt": "2026-08-01T00:00:00.000Z",
+      "createdBy": "演示规则初始化",
+      "updatedAt": "2026-08-01T00:00:00.000Z",
+      "updatedBy": "演示规则初始化"
+    },
+    "environment": {
+      "id": "rule_environment@V1.0",
+      "ruleId": "rule_environment",
+      "code": "RULE-ENV-001",
+      "name": "温湿度环境提醒规则",
+      "metric": "environment",
+      "unit": "℃ / %RH",
+      "version": "V1.0",
+      "effectiveFrom": "2026-08-01T00:00:00.000Z",
+      "enabled": true,
+      "buildingIds": ["bld_b03"],
+      "pointIds": ["pnt_b03_f2_th01"],
+      "baselineSource": "none",
+      "fixedBaseline": null,
+      "thresholds": null,
+      "rateThreshold": null,
+      "rateLevel": "orange",
+      "persistence": { "minRecords": 3, "minSpanMinutes": 10, "maxGapMinutes": 5, "level": "orange" },
+      "recovery": { "yellowRatio": 0.8, "minRecords": 3, "minSpanMinutes": 0 },
+      "environment": { "tempMin": 5, "tempMax": 35, "humidityMax": 80, "persistenceRecords": 3 },
+      "source": "筑瞳 Demo 演示预警规则 V1.0",
+      "confirmedBy": "学校安全管理人员",
+      "note": "环境提醒",
+      "createdAt": "2026-08-01T00:00:00.000Z",
+      "createdBy": "演示规则初始化",
+      "updatedAt": "2026-08-01T00:00:00.000Z",
+      "updatedBy": "演示规则初始化"
+    }
+  },
+  "samples": [
+    {
+      "name": "裂缝恰好等于黄色阈值",
+      "rule": "crack",
+      "point": { "id": "pnt_b03_f2_crack01", "metric": "crack_width", "buildingId": "bld_b03" },
+      "values": { "width": 0.6 },
+      "baselineValues": { "width": 0.5 },
+      "quality": "valid",
+      "device": null,
+      "history": [],
+      "at": "2026-09-15T09:00:00.000Z",
+      "expected": {
+        "state": "yellow",
+        "triggerValue": 0.1,
+        "baselineValue": 0.5,
+        "insufficientContains": "不能判断变化速率"
+      }
+    },
+    {
+      "name": "裂缝恰好等于橙色阈值",
+      "rule": "crack",
+      "point": { "id": "pnt_b03_f2_crack01", "metric": "crack_width", "buildingId": "bld_b03" },
+      "values": { "width": 0.7 },
+      "baselineValues": { "width": 0.5 },
+      "quality": "valid",
+      "device": null,
+      "history": [],
+      "at": "2026-09-15T09:00:00.000Z",
+      "expected": {
+        "state": "orange",
+        "triggerValue": 0.2,
+        "baselineValue": 0.5,
+        "insufficientContains": "不能判断变化速率"
+      }
+    },
+    {
+      "name": "裂缝恰好等于红色阈值",
+      "rule": "crack",
+      "point": { "id": "pnt_b03_f2_crack01", "metric": "crack_width", "buildingId": "bld_b03" },
+      "values": { "width": 0.8 },
+      "baselineValues": { "width": 0.5 },
+      "quality": "valid",
+      "device": null,
+      "history": [],
+      "at": "2026-09-15T09:00:00.000Z",
+      "expected": {
+        "state": "red",
+        "triggerValue": 0.3,
+        "baselineValue": 0.5,
+        "insufficientContains": "无法判断持续趋势"
+      }
+    },
+    {
+      "name": "裂缝变化速率达到 0.10 mm/h 升级橙色",
+      "rule": "crack",
+      "point": { "id": "pnt_b03_f2_crack01", "metric": "crack_width", "buildingId": "bld_b03" },
+      "values": { "width": 0.62 },
+      "baselineValues": { "width": 0.5 },
+      "quality": "valid",
+      "device": null,
+      "history": [
+        { "values": { "width": 0.52 }, "baselineValues": { "width": 0.5 }, "sampleTime": "2026-09-15T08:00:00.000Z", "quality": "valid" }
+      ],
+      "at": "2026-09-15T09:00:00.000Z",
+      "expected": {
+        "state": "orange",
+        "triggerValue": 0.12,
+        "baselineValue": 0.5,
+        "basisContains": "变化速率"
+      }
+    },
+    {
+      "name": "裂缝连续 3 条越限且跨度 10 分钟升级橙色",
+      "rule": "crackPersistence",
+      "point": { "id": "pnt_b03_f2_crack01", "metric": "crack_width", "buildingId": "bld_b03" },
+      "values": { "width": 0.66 },
+      "baselineValues": { "width": 0.5 },
+      "quality": "valid",
+      "device": null,
+      "history": [
+        { "values": { "width": 0.62 }, "baselineValues": { "width": 0.5 }, "sampleTime": "2026-09-15T09:00:00.000Z", "quality": "valid" },
+        { "values": { "width": 0.64 }, "baselineValues": { "width": 0.5 }, "sampleTime": "2026-09-15T09:05:00.000Z", "quality": "valid" },
+        { "values": { "width": 0.66 }, "baselineValues": { "width": 0.5 }, "sampleTime": "2026-09-15T09:10:00.000Z", "quality": "valid" }
+      ],
+      "at": "2026-09-15T09:10:00.000Z",
+      "expected": {
+        "state": "orange",
+        "triggerValue": 0.16,
+        "basisContains": "持续异常"
+      }
+    },
+    {
+      "name": "连续 3 条低于黄色阈值 80% 进入恢复待确认",
+      "rule": "crackPersistence",
+      "point": { "id": "pnt_b03_f2_crack01", "metric": "crack_width", "buildingId": "bld_b03" },
+      "values": { "width": 0.57 },
+      "baselineValues": { "width": 0.5 },
+      "quality": "valid",
+      "device": null,
+      "history": [
+        { "values": { "width": 0.54 }, "baselineValues": { "width": 0.5 }, "sampleTime": "2026-09-15T09:00:00.000Z", "quality": "valid" },
+        { "values": { "width": 0.55 }, "baselineValues": { "width": 0.5 }, "sampleTime": "2026-09-15T09:05:00.000Z", "quality": "valid" },
+        { "values": { "width": 0.56 }, "baselineValues": { "width": 0.5 }, "sampleTime": "2026-09-15T09:10:00.000Z", "quality": "valid" }
+      ],
+      "at": "2026-09-15T09:15:00.000Z",
+      "expected": {
+        "state": "recovering",
+        "triggerValue": 0.07,
+        "basisContains": "80%"
+      }
+    },
+    {
+      "name": "缺少基准时判数据不足",
+      "rule": "crack",
+      "point": { "id": "pnt_b03_f2_crack01", "metric": "crack_width", "buildingId": "bld_b03" },
+      "values": { "width": 0.62 },
+      "baselineValues": null,
+      "quality": "valid",
+      "device": null,
+      "history": [],
+      "at": "2026-09-15T09:00:00.000Z",
+      "expected": {
+        "state": "unknown",
+        "insufficientContains": "尚未设置有效基准"
+      }
+    },
+    {
+      "name": "缺少判定读数时明确缺项",
+      "rule": "crack",
+      "point": { "id": "pnt_b03_f2_crack01", "metric": "crack_width", "buildingId": "bld_b03" },
+      "values": {},
+      "baselineValues": { "width": 0.5 },
+      "quality": "valid",
+      "device": null,
+      "history": [],
+      "at": "2026-09-15T09:00:00.000Z",
+      "expected": {
+        "state": "unknown",
+        "insufficientContains": "缺少判定读数"
+      }
+    },
+    {
+      "name": "存疑数据不参与判定",
+      "rule": "crack",
+      "point": { "id": "pnt_b03_f2_crack01", "metric": "crack_width", "buildingId": "bld_b03" },
+      "values": { "width": 0.82 },
+      "baselineValues": { "width": 0.5 },
+      "quality": "suspect",
+      "device": null,
+      "history": [],
+      "at": "2026-09-15T09:00:00.000Z",
+      "expected": {
+        "state": "excluded",
+        "reasonContains": "存疑"
+      }
+    },
+    {
+      "name": "超出设备量程不触发结构预警",
+      "rule": "crack",
+      "point": { "id": "pnt_b03_f2_crack01", "metric": "crack_width", "buildingId": "bld_b03" },
+      "values": { "width": 0.82 },
+      "baselineValues": { "width": 0.5 },
+      "quality": "valid",
+      "device": { "rangeMin": 0, "rangeMax": 0.6, "rangeText": "0~0.6 mm" },
+      "history": [],
+      "at": "2026-09-15T09:00:00.000Z",
+      "expected": {
+        "state": "excluded",
+        "reasonContains": "超出设备量程"
+      }
+    },
+    {
+      "name": "停用规则不参与判定",
+      "rule": "crack",
+      "rulePatch": { "enabled": false },
+      "point": { "id": "pnt_b03_f2_crack01", "metric": "crack_width", "buildingId": "bld_b03" },
+      "values": { "width": 0.82 },
+      "baselineValues": { "width": 0.5 },
+      "quality": "valid",
+      "device": null,
+      "history": [],
+      "at": "2026-09-15T09:00:00.000Z",
+      "expected": {
+        "state": "excluded",
+        "reasonContains": "规则未启用"
+      }
+    },
+    {
+      "name": "尚未生效的规则不参与当前判断",
+      "rule": "crack",
+      "rulePatch": { "effectiveFrom": "2027-01-01T00:00:00.000Z" },
+      "point": { "id": "pnt_b03_f2_crack01", "metric": "crack_width", "buildingId": "bld_b03" },
+      "values": { "width": 0.82 },
+      "baselineValues": { "width": 0.5 },
+      "quality": "valid",
+      "device": null,
+      "history": [],
+      "at": "2026-09-15T09:00:00.000Z",
+      "expected": {
+        "state": "excluded",
+        "reasonContains": "尚未生效"
+      }
+    },
+    {
+      "name": "倾角双轴取绝对值较大方向",
+      "rule": "tilt",
+      "point": { "id": "pnt_b03_f2_tilt01", "metric": "tilt_xy", "buildingId": "bld_b03" },
+      "values": { "angleX": 0.32, "angleY": 0.1 },
+      "baselineValues": { "angleX": 0.2, "angleY": -0.1 },
+      "quality": "valid",
+      "device": null,
+      "history": [],
+      "at": "2026-09-15T09:00:00.000Z",
+      "expected": {
+        "state": "orange",
+        "triggerValue": 0.2,
+        "basisContains": "双轴"
+      }
+    },
+    {
+      "name": "振动有效值绝对判定为红色",
+      "rule": "vibration",
+      "point": { "id": "pnt_b03_f2_vib01", "metric": "vibration", "buildingId": "bld_b03" },
+      "values": { "accelRms": 0.2, "accelPeak": 0.35 },
+      "baselineValues": null,
+      "quality": "valid",
+      "device": null,
+      "history": [],
+      "at": "2026-09-15T09:00:00.000Z",
+      "expected": {
+        "state": "red",
+        "triggerValue": 0.2
+      }
+    },
+    {
+      "name": "单条环境越限只生成黄色提醒",
+      "rule": "environment",
+      "point": { "id": "pnt_b03_f2_th01", "metric": "temp_humidity", "buildingId": "bld_b03" },
+      "values": { "temperature": 36, "humidity": 50 },
+      "baselineValues": null,
+      "quality": "valid",
+      "device": null,
+      "history": [],
+      "at": "2026-09-15T09:00:00.000Z",
+      "expected": {
+        "state": "yellow",
+        "triggerValue": 36,
+        "reasonContains": "超出环境提醒范围"
+      }
+    },
+    {
+      "name": "连续 3 条环境越限升级环境复核",
+      "rule": "environment",
+      "point": { "id": "pnt_b03_f2_th01", "metric": "temp_humidity", "buildingId": "bld_b03" },
+      "values": { "temperature": 36, "humidity": 50 },
+      "baselineValues": null,
+      "quality": "valid",
+      "device": null,
+      "history": [
+        { "values": { "temperature": 36, "humidity": 50 }, "baselineValues": null, "sampleTime": "2026-09-15T09:00:00.000Z", "quality": "valid" },
+        { "values": { "temperature": 36, "humidity": 50 }, "baselineValues": null, "sampleTime": "2026-09-15T09:05:00.000Z", "quality": "valid" },
+        { "values": { "temperature": 36, "humidity": 50 }, "baselineValues": null, "sampleTime": "2026-09-15T09:10:00.000Z", "quality": "valid" }
+      ],
+      "at": "2026-09-15T09:10:00.000Z",
+      "expected": {
+        "state": "orange",
+        "triggerValue": 36,
+        "reasonContains": "连续 3 条环境读数越限"
+      }
+    },
+    {
+      "name": "人工检查点不参与数值判定",
+      "rule": "crack",
+      "point": { "id": "pnt_b03_f2_check01", "metric": "inspection", "buildingId": "bld_b03" },
+      "values": {},
+      "baselineValues": null,
+      "quality": "valid",
+      "device": null,
+      "history": [],
+      "at": "2026-09-15T09:00:00.000Z",
+      "expected": {
+        "state": "excluded",
+        "reasonContains": "人工检查点"
+      }
+    }
+  ],
+  "validations": [
+    {
+      "name": "缺项与缺单位同时提示",
+      "point": { "id": "pnt_b03_f2_crack01", "metric": "crack_width", "buildingId": "bld_b03" },
+      "input": {
+        "values": {},
+        "unit": "",
+        "sampleTime": "2026-09-15T09:00:00.000Z",
+        "sampleWindow": "",
+        "quality": "valid",
+        "qualityNote": "",
+        "note": "",
+        "excludeRecordId": null,
+        "device": null,
+        "enteredAt": "2026-09-15T09:00:00.000Z"
+      },
+      "existing": [],
+      "expected": { "issueFields": ["width", "unit"], "issueContains": ["必填", "单位必填"] }
+    },
+    {
+      "name": "无效质量必须说明原因",
+      "point": { "id": "pnt_b03_f2_crack01", "metric": "crack_width", "buildingId": "bld_b03" },
+      "input": {
+        "values": { "width": 0.82 },
+        "unit": "mm",
+        "sampleTime": "2026-09-15T09:00:00.000Z",
+        "sampleWindow": "",
+        "quality": "invalid",
+        "qualityNote": "",
+        "note": "",
+        "excludeRecordId": null,
+        "device": null,
+        "enteredAt": "2026-09-15T09:00:00.000Z"
+      },
+      "existing": [],
+      "expected": { "issueFields": ["qualityNote"], "issueContains": ["说明"] }
+    },
+    {
+      "name": "同点位同分钟重复记录被拒绝",
+      "point": { "id": "pnt_b03_f2_crack01", "metric": "crack_width", "buildingId": "bld_b03" },
+      "input": {
+        "values": { "width": 0.62 },
+        "unit": "mm",
+        "sampleTime": "2026-09-15T09:00:00.000Z",
+        "sampleWindow": "",
+        "quality": "valid",
+        "qualityNote": "",
+        "note": "",
+        "excludeRecordId": null,
+        "device": null,
+        "enteredAt": "2026-09-15T09:00:00.000Z"
+      },
+      "existing": [
+        { "id": "rec_1", "recordNo": "R20260915-001", "pointId": "pnt_b03_f2_crack01", "metric": "crack_width", "values": { "width": 0.61 }, "sampleTime": "2026-09-15T09:00:30.000Z", "quality": "valid" }
+      ],
+      "expected": { "issueFields": ["sampleTime"], "issueContains": ["已有记录"] }
+    },
+    {
+      "name": "超量程要求填写质量说明",
+      "point": { "id": "pnt_b03_f2_crack01", "metric": "crack_width", "buildingId": "bld_b03" },
+      "input": {
+        "values": { "width": 0.82 },
+        "unit": "mm",
+        "sampleTime": "2026-09-15T09:00:00.000Z",
+        "sampleWindow": "",
+        "quality": "valid",
+        "qualityNote": "",
+        "note": "",
+        "excludeRecordId": null,
+        "device": { "rangeMin": 0, "rangeMax": 0.6, "rangeText": "0~0.6 mm" },
+        "enteredAt": "2026-09-15T09:00:00.000Z"
+      },
+      "existing": [],
+      "expected": { "issueFields": ["qualityNote"], "issueContains": ["量程"], "outOfRange": true }
+    },
+    {
+      "name": "振动必须填写统计窗口",
+      "point": { "id": "pnt_b03_f2_vib01", "metric": "vibration", "buildingId": "bld_b03" },
+      "input": {
+        "values": { "accelRms": 0.05, "accelPeak": 0.1 },
+        "unit": "m/s²",
+        "sampleTime": "2026-09-15T09:00:00.000Z",
+        "sampleWindow": "",
+        "quality": "valid",
+        "qualityNote": "",
+        "note": "",
+        "excludeRecordId": null,
+        "device": null,
+        "enteredAt": "2026-09-15T09:00:00.000Z"
+      },
+      "existing": [],
+      "expected": { "issueFields": ["sampleWindow"], "issueContains": ["统计窗口"] }
+    },
+    {
+      "name": "历史补录必须填写说明",
+      "point": { "id": "pnt_b03_f2_crack01", "metric": "crack_width", "buildingId": "bld_b03" },
+      "input": {
+        "values": { "width": 0.62 },
+        "unit": "mm",
+        "sampleTime": "2026-09-15T09:00:00.000Z",
+        "sampleWindow": "",
+        "quality": "valid",
+        "qualityNote": "",
+        "note": "",
+        "excludeRecordId": null,
+        "device": null,
+        "enteredAt": "2026-09-15T10:00:00.000Z"
+      },
+      "existing": [],
+      "expected": { "issueFields": ["note"], "issueContains": ["补录"], "backfill": true }
+    },
+    {
+      "name": "采样时间晚于当前时间被拒绝",
+      "point": { "id": "pnt_b03_f2_crack01", "metric": "crack_width", "buildingId": "bld_b03" },
+      "input": {
+        "values": { "width": 0.62 },
+        "unit": "mm",
+        "sampleTime": "2030-09-15T09:00:00.000Z",
+        "sampleWindow": "",
+        "quality": "valid",
+        "qualityNote": "",
+        "note": "现场补录",
+        "excludeRecordId": null,
+        "device": null,
+        "enteredAt": "2026-09-15T09:00:00.000Z"
+      },
+      "existing": [],
+      "expected": { "issueFields": ["sampleTime"], "issueContains": ["晚于当前时间"] }
+    }
+  ]
+}

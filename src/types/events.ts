@@ -122,6 +122,7 @@ export interface AlarmNotification {
   escalatedTo: string
   /** 升级来源：'' 表示按演示时限真实超时；'demo' 表示演示模式模拟，非真实超时 */
   escalationSource: '' | 'demo'
+  rev?: number
 }
 
 export const EVENT_LEVEL_LABEL: Record<EventLevel, string> = {

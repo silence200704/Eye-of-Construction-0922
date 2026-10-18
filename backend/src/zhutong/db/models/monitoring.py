@@ -64,6 +64,11 @@ class MonitorRecord(DatasetRow, Base):
     created_at: Mapped[str]
     # 旧业务的修订次数从 0 开始，与服务端乐观锁 revision 分开。
     record_revision: Mapped[int] = mapped_column(default=0, server_default="0")
+    # 录入/修订时按采样时间选中的规则版本与判定快照，保证历史解释不随新阈值漂移。
+    rule_id: Mapped[str | None]
+    rule_version: Mapped[str | None]
+    rule_snapshot: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+    assessment: Mapped[dict | None] = mapped_column(JSON, nullable=True)
 
 
 class RuleDefinition(DatasetRow, Base):

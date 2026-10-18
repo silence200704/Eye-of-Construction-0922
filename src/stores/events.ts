@@ -20,6 +20,16 @@ import { useSessionStore } from './session'
 import { useClockStore } from './clock'
 import { useWorkOrderStore } from './inspection/workOrders'
 import { useIssueStore } from './inspection/issues'
+import { backendActive } from '@/api/backend/runtime'
+import {
+  acknowledgeEventRemote,
+  acknowledgeNotificationRemote,
+  closeEventRemote,
+  escalateDueRemote,
+  fetchEvents,
+  fetchNotifications,
+  presentNotificationRemote,
+} from '@/api/backend/events'
 
 /**
  * 关闭事件的输入。
@@ -40,6 +50,12 @@ export const useEventsStore = defineStore('events', () => {
   const clock = useClockStore()
 
   async function reload(): Promise<void> {
+    if (backendActive()) {
+      const [rows, notes] = await Promise.all([fetchEvents(), fetchNotifications()])
+      events.value = rows
+      notifications.value = notes
+      return
+    }
     const [rows, notes] = await Promise.all([
       db.events.toArray(),
       db.notifications.toArray(),
@@ -116,12 +132,22 @@ export const useEventsStore = defineStore('events', () => {
   async function markPresented(eventId: string): Promise<void> {
     const targets = notifications.value.filter((row) => row.eventId === eventId && row.presentedAt === null)
     if (targets.length === 0) return
+    if (backendActive()) {
+      for (const row of targets) await presentNotificationRemote(row.id)
+      await reload()
+      return
+    }
     const at = nowIso()
     await putNotifications(targets.map((row) => ({ ...row, presentedAt: at })))
     await reload()
   }
 
   async function acknowledgeNotification(id: string): Promise<void> {
+    if (backendActive()) {
+      await acknowledgeNotificationRemote(id)
+      await reload()
+      return
+    }
     const archive = useArchiveStore()
     const session = useSessionStore()
     const row = notifications.value.find((item) => item.id === id)
@@ -134,10 +160,15 @@ export const useEventsStore = defineStore('events', () => {
 
   /** 安全管理人员确认事件：待确认 → 处理中。 */
   async function acknowledgeEvent(eventId: string): Promise<void> {
-    const archive = useArchiveStore()
-    const session = useSessionStore()
     const event = byId(eventId)
     if (event === undefined || event.status !== 'pending') return
+    if (backendActive()) {
+      await acknowledgeEventRemote(eventId, event.rev)
+      await reload()
+      return
+    }
+    const archive = useArchiveStore()
+    const session = useSessionStore()
     if (session.role !== 'safety') throw new Error('预警事件仅由学校安全管理人员确认')
     const at = nowIso()
     // 该事件下所有未确认通知一并标记为已确认，避免重复提醒；两者同事务提交
@@ -174,6 +205,13 @@ export const useEventsStore = defineStore('events', () => {
    * 关闭事件**不改问题的状态**：问题的关闭有它自己的审核出口，"验收 ≠ 问题关闭、事件关闭 ≠ 问题关闭"。
    */
   async function closeEvent(eventId: string, input: EventCloseInput): Promise<void> {
+    if (backendActive()) {
+      const current = byId(eventId)
+      if (current === undefined) throw new Error('事件不存在')
+      await closeEventRemote(eventId, current.rev, input.basis, input.noRepairNote)
+      await reload()
+      return
+    }
     const session = useSessionStore()
     const workOrders = useWorkOrderStore()
     const at = nowIso()
@@ -258,6 +296,11 @@ export const useEventsStore = defineStore('events', () => {
    * 重新打开时把已超时的未确认通知标记为升级并记录去向。
    */
   async function catchUpEscalations(): Promise<number> {
+    if (backendActive()) {
+      const result = await escalateDueRemote()
+      await reload()
+      return result.escalated
+    }
     const archive = useArchiveStore()
     // 先把时钟推到当前时刻：逾期判定依赖它，否则会复用上一次算出来的缓存结果（"点了没反应"）
     clock.refresh()

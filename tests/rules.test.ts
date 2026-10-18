@@ -149,6 +149,17 @@ describe('变化速率', () => {
   it('未配置速率阈值的规则不判速率', () => {
     expect(assessRecord(crackInput(0.62, { history, at: AT })).state).toBe('yellow')
   })
+
+  it('历史序列包含当前记录时，仍用严格更早的一条计算速率', () => {
+    const withCurrent = [...history, preview({ width: 0.62 }, AT)]
+    const result = assessRecord(crackInput(0.62, {
+      rule: makeRule({ rateThreshold: 0.1 }),
+      history: withCurrent,
+      at: AT,
+    }))
+    expect(result.state).toBe('orange')
+    expect(result.basis).toContain('变化速率')
+  })
 })
 
 describe('持续异常', () => {

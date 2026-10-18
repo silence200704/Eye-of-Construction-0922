@@ -117,9 +117,20 @@ function minutesBetween(a: string, b: string): number {
   return (new Date(b).getTime() - new Date(a).getTime()) / 60_000
 }
 
-/** 变化速率需要至少两条同口径记录和正时间差。 */
+/**
+ * 变化速率需要至少两条同口径记录和正时间差。
+ * 历史序列里可能包含当前这条（录入链路会把预览记录追加到末尾），必须严格排除同一采样时刻，
+ * 否则"上一条"永远是自己、时间差为零，速率规则永远不会触发。
+ */
 function rateOf(rule: MonitoringRule, history: MonitorRecord[], current: TriggerResult, at: string): number | null {
-  const previous = [...history].reverse().find((row) => triggerOf(rule, row.values, row.baselineValues).signed !== null)
+  const atMs = new Date(at).getTime()
+  const previous = [...history]
+    .reverse()
+    .find(
+      (row) =>
+        new Date(row.sampleTime).getTime() < atMs &&
+        triggerOf(rule, row.values, row.baselineValues).signed !== null,
+    )
   if (previous === undefined || current.signed === null) return null
   const hours = minutesBetween(previous.sampleTime, at) / 60
   if (hours <= 0) return null
@@ -221,6 +232,14 @@ function assessEnvironment(input: AssessInput): RuleAssessment {
  * 结构类指标的分级：先算判定值，再依次叠加变化速率与持续异常，最后判恢复趋势。
  * 任一步数据不足都不改判为"正常"，而是记录缺什么。
  */
+/** 该指标是否至少有一个可用于判定的读数；缺项与缺基准是两种不同的"数据不足"。 */
+function hasMetricValue(rule: MonitoringRule, values: MetricValues): boolean {
+  if (rule.metric === 'crack_width') return values.width !== undefined
+  if (rule.metric === 'tilt_xy') return values.angleX !== undefined || values.angleY !== undefined
+  if (rule.metric === 'vibration') return values.accelRms !== undefined
+  return true
+}
+
 function assessStructure(input: AssessInput, base: RuleAssessment): RuleAssessment {
   const { rule, values, baselineValues, history, at } = input
   const thresholds = rule.thresholds
@@ -233,8 +252,9 @@ function assessStructure(input: AssessInput, base: RuleAssessment): RuleAssessme
     return {
       ...base,
       state: 'unknown',
-      insufficientReason:
-        rule.baselineSource === 'none' ? '缺少判定读数' : '该测点尚未设置有效基准，无法计算变化量',
+      insufficientReason: !hasMetricValue(rule, values)
+        ? '缺少判定读数'
+        : '该测点尚未设置有效基准，无法计算变化量',
     }
   }
 

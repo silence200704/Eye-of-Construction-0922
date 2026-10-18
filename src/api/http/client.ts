@@ -4,6 +4,14 @@ interface ErrorEnvelope {
   meta?: { requestId?: string }
 }
 
+interface SuccessEnvelope<T> {
+  ok: true
+  data: T
+  rev?: number | null
+  replayed?: boolean
+  meta?: { requestId?: string; datasetEpoch?: number }
+}
+
 interface ClientOptions {
   baseUrl?: string
   token?: () => string | null
@@ -19,6 +27,15 @@ interface RequestOptions {
   headers?: Record<string, string>
   anonymous?: boolean
   timeoutMs?: number
+}
+
+/** 命令结果：保留 rev / replayed / requestId / epoch，供写操作判断重放与版本。 */
+export interface CommandResult<T> {
+  data: T
+  rev: number | null
+  replayed: boolean
+  requestId: string
+  datasetEpoch: number | null
 }
 
 export class HttpError extends Error {
@@ -46,7 +63,7 @@ export function createHttpClient(options: ClientOptions = {}) {
   const fetcher = options.fetcher ?? fetch
   const base = (options.baseUrl ?? '/api/v1').replace(/\/$/, '')
 
-  async function request<T>(input: RequestOptions): Promise<T> {
+  async function send<T>(input: RequestOptions): Promise<CommandResult<T>> {
     if (!input.path.startsWith('/') || input.path.startsWith('//')) {
       throw transportError('INVALID_REQUEST', '接口路径无效')
     }
@@ -66,22 +83,38 @@ export function createHttpClient(options: ClientOptions = {}) {
       }
       let envelope: unknown
       try { envelope = await response.json() }
-      catch { throw transportError('INVALID_RESPONSE', '服务返回的内容无效，请检查后端连接') }
+      catch {
+        // 代理在服务停摆时通常回 HTML 错误页；按"连不上后端"提示，不误报为业务响应格式问题。
+        throw response.ok
+          ? transportError('INVALID_RESPONSE', '服务返回的内容无效，请检查后端连接')
+          : transportError('STORAGE_UNAVAILABLE', '无法连接后端，请保留草稿后重试')
+      }
       if (typeof envelope !== 'object' || envelope === null || !('ok' in envelope)) {
         throw transportError('INVALID_RESPONSE', '服务响应格式无效')
       }
       if ((envelope as { ok: boolean }).ok === false && 'error' in envelope) {
         throw new HttpError({ ...(envelope as ErrorEnvelope), status: response.status })
       }
-      if (!response.ok || (envelope as { ok: unknown }).ok !== true || !('data' in envelope)) {
+      const success = envelope as SuccessEnvelope<T>
+      if (!response.ok || success.ok !== true || !('data' in success)) {
         throw transportError('INVALID_RESPONSE', '服务响应与 HTTP 状态不一致')
       }
-      return (envelope as { data: T }).data
+      return {
+        data: success.data,
+        rev: success.rev ?? null,
+        replayed: success.replayed === true,
+        requestId: success.meta?.requestId ?? '',
+        datasetEpoch: success.meta?.datasetEpoch ?? null,
+      }
     } catch (cause) {
       if (cause instanceof HttpError) throw cause
       throw transportError('STORAGE_UNAVAILABLE', '无法连接后端，请保留草稿后重试')
     } finally { clearTimeout(timer) }
   }
 
-  return { request }
+  async function request<T>(input: RequestOptions): Promise<T> {
+    return (await send<T>(input)).data
+  }
+
+  return { request, command: send }
 }

@@ -16,6 +16,7 @@ import { useEventsStore } from '../events'
 import { useRecordsStore } from '../records'
 import { CRACK_SAMPLES, DEMO_SCRIPT_LABEL, demoScriptBase, demoSampleTime } from '@/config/demoScript'
 import { D_CRACK } from '@/db/seedFactories'
+import { requireLocalDemo } from '@/api/backend/runtime'
 
 export interface DemoRunResult {
   created: number
@@ -59,6 +60,7 @@ function crackPointId(): string {
 }
 
 export async function runDemoScript(): Promise<DemoRunResult> {
+  requireLocalDemo('一键演示脚本')
   const archive = useArchiveStore()
   const events = useEventsStore()
   const records = useRecordsStore()
@@ -175,6 +177,7 @@ export interface SimulateResult {
  * 并在通知与操作日志里写明来源是演示模拟，避免与真实超时混淆。
  */
 export async function simulateOverdueNotifications(eventId: string): Promise<SimulateResult> {
+  requireLocalDemo('模拟超时通知')
   const archive = useArchiveStore()
   const events = useEventsStore()
   const targets = events.notificationsOf(eventId).filter((row) => row.acknowledgedAt === null && row.escalatedAt === null)

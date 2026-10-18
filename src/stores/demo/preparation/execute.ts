@@ -11,6 +11,7 @@ import { usePreparationSession } from './session'
 import { useDemoScenarioStore } from '../scenarios'
 import { applyPreparation } from './adapters'
 import { finishReceipt, preparationObjects } from './objects'
+import { requireLocalDemo } from '@/api/backend/runtime'
 
 async function inspect(request: { capability: Capability; pointId: string; requestId: string; token: string }): Promise<PreparationPlan> {
   const archive = useArchiveStore()
@@ -29,6 +30,7 @@ async function inspect(request: { capability: Capability; pointId: string; reque
 
 /** 初次全链与按需任务复用同一队列；执行时才重读计划，排队前的快照不能授权写入。 */
 export async function prepareForDemo(capability: Capability, pointId: string): Promise<PreparationReceipt> {
+  requireLocalDemo('演示数据准备')
   const session = usePreparationSession()
   const token = session.id
   const requestId = `prepare_${crypto.randomUUID()}`

@@ -6,6 +6,8 @@ import { nowIso } from '@/core/time'
 import { putBuilding, putDevice, putFloor, putPoint } from '@/db/repo'
 import { useArchiveStore } from '../archive'
 import { useSessionStore } from '../session'
+import { backendActive } from '@/api/backend/runtime'
+import { archiveRemote } from '@/api/backend/archive'
 
 export type ArchiveTarget = 'building' | 'floor' | 'point' | 'device'
 
@@ -30,6 +32,23 @@ export async function setArchived(
 
   const block = dependentBlock(store, target, id, archived)
   if (block !== '') return { ok: false, message: block }
+
+  if (backendActive()) {
+    const rev = target === 'building'
+      ? store.buildingById(id)?.rev
+      : target === 'floor'
+        ? store.floorById(id)?.rev
+        : target === 'point'
+          ? store.pointById(id)?.rev
+          : store.deviceById(id)?.rev
+    try {
+      await archiveRemote(target, id, archived, reason, rev)
+      await store.reload()
+      return { ok: true, message: archived ? '已归档' : '已恢复' }
+    } catch (cause) {
+      return { ok: false, message: cause instanceof Error ? cause.message : String(cause) }
+    }
+  }
 
   const stamp = {
     status: archived ? ('archived' as const) : ('active' as const),

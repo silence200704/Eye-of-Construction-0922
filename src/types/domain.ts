@@ -71,6 +71,8 @@ export interface AuditFields {
   createdBy: string
   updatedAt: string
   updatedBy: string
+  /** 服务端乐观锁行版本；本地 IndexedDB 记录没有该字段 */
+  rev?: number
 }
 
 export interface Archivable {
@@ -186,6 +188,7 @@ export interface Baseline {
   createdBy: string
   createdAt: string
   current: boolean
+  rev?: number
 }
 
 export interface RecordRevision {
@@ -233,6 +236,12 @@ export interface MonitorRecord {
   revision: number
   revisions: RecordRevision[]
   createdAt: string
+  /** 服务端行版本；`revision` 是业务修订次数，两者不混用 */
+  rev?: number
+  ruleId?: string | null
+  ruleVersion?: string | null
+  ruleSnapshot?: unknown
+  assessment?: unknown
 }
 
 export type AuditAction =

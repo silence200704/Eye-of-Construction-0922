@@ -21,6 +21,14 @@ import { nowIso } from '@/core/time'
 import { commitBaselineVersion, putBuilding, putDevice, putFloor, putPoint } from '@/db/repo'
 import { useArchiveStore } from '../archive'
 import { useSessionStore } from '../session'
+import { backendActive } from '@/api/backend/runtime'
+import {
+  saveBaselineRemote,
+  saveBuildingRemote,
+  saveDeviceRemote,
+  saveFloorRemote,
+  savePointRemote,
+} from '@/api/backend/archive'
 
 export interface BuildingDraft {
   code: string
@@ -134,6 +142,11 @@ export async function saveBuilding(id: string | null, draft: BuildingDraft): Pro
   const session = useSessionStore()
   const at = nowIso()
   const existing = id === null ? undefined : store.buildingById(id)
+  if (backendActive()) {
+    const saved = await saveBuildingRemote(id, draft, existing?.rev)
+    await store.reload()
+    return saved
+  }
   const row: Building = {
     ...draft,
     id: existing?.id ?? uid('bld'),
@@ -170,6 +183,22 @@ export async function saveFloor(id: string | null, draft: FloorDraft): Promise<F
         `有 ${orphans.length} 个测点仍在引用将被删除的区域（${orphans.map((p) => p.code).join('、')}），请先调整这些测点或保留区域名称`,
       )
     }
+  }
+  if (backendActive()) {
+    const saved = await saveFloorRemote(
+      id,
+      {
+        buildingId: draft.buildingId,
+        floorNo: draft.floorNo,
+        name: draft.name,
+        zones: parseZones(draft.zonesText),
+        planVersion: draft.planVersion,
+        remark: draft.remark,
+      },
+      existing?.rev,
+    )
+    await store.reload()
+    return saved
   }
   const row: Floor = {
     id: existing?.id ?? uid('flr'),
@@ -244,6 +273,11 @@ export async function savePoint(id: string | null, draft: PointDraft): Promise<P
   if (conflict !== null) {
     throw new Error(`NFC 标签 ${label} 已绑定在 ${conflict.pointCode} ${conflict.pointName}，一个编号只能绑一个测点`)
   }
+  if (backendActive()) {
+    const saved = await savePointRemote(id, draft, existing?.rev)
+    await store.reload()
+    return saved
+  }
   const { locationReason, nfcLabel, ...rest } = draft
   const row: Point = {
     ...rest,
@@ -315,6 +349,11 @@ export async function saveDevice(id: string | null, draft: DeviceDraft): Promise
   if (draft.rangeMin !== null && draft.rangeMax !== null && draft.rangeMin >= draft.rangeMax) {
     throw new Error('量程上限必须大于下限')
   }
+  if (backendActive()) {
+    const saved = await saveDeviceRemote(id, draft, existing?.rev)
+    await store.reload()
+    return saved
+  }
   const row: Device = {
     ...draft,
     rangeText: formatRange(draft.rangeMin, draft.rangeMax, draft.unit),
@@ -347,6 +386,12 @@ export async function saveBaseline(draft: BaselineDraft): Promise<number> {
   const history = store.baselineHistory(draft.pointId)
   const version = history.length === 0 ? 1 : history[0].version + 1
   const at = nowIso()
+
+  if (backendActive()) {
+    const saved = await saveBaselineRemote(draft, history.length === 0 ? null : history[0].version)
+    await store.reload()
+    return saved.version
+  }
 
   // 旧版本置为非当前 + 写入新当前版必须同事务：分开写时中途失败会留下"该测点没有当前基准"
   await commitBaselineVersion({

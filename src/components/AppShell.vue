@@ -22,6 +22,7 @@ import { isShowcase } from '@/core/demo/workspace'
 import ShowcaseControls from '@/components/demo/ShowcaseControls.vue'
 import OperationReceipt from '@/components/demo/OperationReceipt.vue'
 import { backendEnabled } from '@/api/http/runtime'
+import { backendActive } from '@/api/backend/runtime'
 import BackendIdentity from '@/components/session/BackendIdentity.vue'
 import { useShowcaseStore } from '@/stores/demo/showcase/session'
 const showcase = useShowcaseStore()
@@ -36,6 +37,8 @@ const alertStrongVisible = computed(() => alerts.activeStrong !== null)
 const pageTitle = computed(() => String(route.meta.title ?? ''))
 const pageSub = computed(() => String(route.meta.sub ?? ''))
 const mode = computed(() => archive.dataMode)
+/** 服务端模式下不再声称数据在本机浏览器；数据源提示必须与实际权威存储一致。 */
+const serverMode = computed(() => backendActive())
 
 /**
  * 问筑瞳半屏面板的开关与焦点回位。
@@ -116,10 +119,14 @@ function reloadPage(): void {
 
       <div class="side-foot">
         <div class="side-note">
-          <StatusTag :tone="mode === 'seed' ? 'brand' : 'gray'" :text="mode === 'seed' ? '示例数据模式' : '空白建档模式'" />
+          <StatusTag
+            :tone="serverMode ? 'brand' : mode === 'seed' ? 'brand' : 'gray'"
+            :text="serverMode ? '服务端数据 · demo-main' : mode === 'seed' ? '示例数据模式' : '空白建档模式'"
+          />
         </div>
         <p class="side-note-text">
-          数据保存在本机浏览器数据库中，清除浏览器数据会丢失内容，请在设置页定期导出备份。
+          <template v-if="serverMode">数据保存在服务端 SQLite 与私有文件目录；刷新或更换浏览器不会改变业务事实。</template>
+          <template v-else>数据保存在本机浏览器数据库中，清除浏览器数据会丢失内容，请在设置页定期导出备份。</template>
         </p>
         <p class="side-version">{{ APP_VERSION }} · {{ APP_STAGE }} · {{ backendEnabled ? '完整项目接入中' : '纯前端基线' }}</p>
       </div>
