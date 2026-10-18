@@ -1,0 +1,79 @@
+{
+  "format": "zhutong-server-backup-v1",
+  "createdAt": "2026-10-18T10:22:00.278079+00:00",
+  "schemaRevision": "0009_monitoring_assessment",
+  "tables": {
+    "alembic_version": 1,
+    "users": 5,
+    "login_sessions": 29,
+    "datasets": 2,
+    "audits": 46,
+    "import_batches": 2,
+    "operation_receipts": 34,
+    "preferences": 4,
+    "session_states": 2,
+    "buildings": 5,
+    "floors": 8,
+    "points": 8,
+    "devices": 4,
+    "rule_definitions": 4,
+    "rules": 5,
+    "baselines": 3,
+    "events": 2,
+    "notifications": 9,
+    "records": 18,
+    "plans": 0,
+    "tasks": 0,
+    "maintenance_plans": 0,
+    "maintenance_tasks": 0,
+    "issues": 0,
+    "work_orders": 0,
+    "media_files": 8,
+    "media_videos": 0,
+    "media_frames": 0,
+    "media_comparisons": 0,
+    "attachments": 0
+  },
+  "files": {
+    "zhutong.sqlite": {
+      "size": 643072,
+      "sha256": "1c80c9389d1ecc917647ea84c8a044efbae632b583b7ccb08216b71d88bfb178"
+    },
+    "session.key": {
+      "size": 64,
+      "sha256": "9794b3802a64fae00d0edcf2bd68e222319589e4b25ede9d0f450e9deb0720e0"
+    },
+    "media/files/74/748f946354e545a1a21c7cca7d37dda1": {
+      "size": 69,
+      "sha256": "c47dd9465c00e9a0c8b85e9ea58d3034a0d23b9cf926113602f3460752a4eb96"
+    },
+    "media/files/fa/fa6d2d6ee5eb4f70b810dfc30da242b1": {
+      "size": 2425328,
+      "sha256": "4ae2fa56d1474d479f1f3d556b46993f8b670ecc51a4dce40fcc011d82e73825"
+    },
+    "media/files/8d/8d088f0b9d014b5aaa7ee51731f9a2f1": {
+      "size": 2000398,
+      "sha256": "3ddcf4b1feb74e94096405a2ae84a51bf8df8b0318b10d9cd389a2040626b047"
+    },
+    "media/files/33/33722f2656814231b32156ea0d30319f": {
+      "size": 150063,
+      "sha256": "284b6abfab42b95bf3f36c6b235a9246c0487b0bb82c49073a87233b04e8e88e"
+    },
+    "media/files/11/11906a5ebb7640608fabc110698b7a63": {
+      "size": 229554,
+      "sha256": "74cb80e2c3e78615f049bef4f66893254043fec7c3d28057f3eb144c8149e931"
+    },
+    "media/files/c2/c27200cad7d44f8399f67661e26bed4f": {
+      "size": 681517,
+      "sha256": "0650c9ad24b6b776e682300b01d88427821ebac991fe1f8d7ba1017dd7155ee1"
+    },
+    "media/files/16/16366dce52c24f6491aed735c68d659e": {
+      "size": 931428,
+      "sha256": "afbf2b02843939a06d9ba03bb65629abc909eef80fa608b1e4a043a2198c2865"
+    },
+    "media/files/90/9057638f6b9a430c8cce73f784c44113": {
+      "size": 76248,
+      "sha256": "646a81da8a6d6149e58efcb8d73183b317fc800ad16fdb5d8df842cd09fb7a64"
+    }
+  }
+}
