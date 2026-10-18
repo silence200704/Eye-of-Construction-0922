@@ -11,10 +11,10 @@
 ```powershell
 uv sync --frozen
 uv run python -m zhutong init
-uv run uvicorn zhutong.app:create_app --factory --host 127.0.0.1 --port 8000
+uv run uvicorn zhutong.app:create_app --factory --host 127.0.0.1 --port 18000
 ```
 
-在项目根目录执行 `npm run dev`，打开 http://127.0.0.1:5173。
+在项目根目录执行 `npm run dev`，打开 http://127.0.0.1:5180。
 默认直接进入工作台，服务端核验演示身份，API 由 Vite 代理。纯前端基线需显式设置 `VITE_BACKEND_ENABLED=false`。
 
 ## Docker
@@ -26,9 +26,13 @@ docker compose -f deploy/compose.yaml up --build -d
 docker compose -f deploy/compose.yaml ps -a
 ```
 
-Web：http://127.0.0.1:8080；文档：http://127.0.0.1:8000/docs。
+Web：http://127.0.0.1:8080；文档：http://127.0.0.1:18000/docs。
 手机访问同一局域网内电脑 IP 的 8080 端口；数据库仅由容器访问。
 初始化任务先完成，再启动 API 和 Web。重建容器不会删除 runtime 卷。
+筑瞳使用宿主机后端 18000、开发前端 5180，避开查寝系统的 8000、5173。
+容器内 API 仍监听 8000，Nginx 通过独立 Compose 网络访问，不占用宿主机 8000。
+Vite 开发与预览均将 `/api` 转发至 18000；预览保留 4173，旧浏览器数据来源地址不变。
+Docker 与本地 uvicorn 二选一，不能同时占用筑瞳的 18000。
 停止使用 `docker compose -f deploy/compose.yaml down`；不要加 `-v`，该参数会删除数据卷。
 
 ## 演示身份

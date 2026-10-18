@@ -43,6 +43,7 @@ DATASET_EPOCH_CONFLICT 等；这些业务接口尚未交付，不冒充已有服
 
 Web 默认启用后端身份切换并直接进入工作台，`VITE_BACKEND_ENABLED=false` 才使用纯前端基线。
 默认 /api/v1；可通过 VITE_API_BASE_URL 在构建时配置。
-Vite 代理到 127.0.0.1:8000，Docker Nginx 代理到 api:8000。
+Vite 开发与预览代理到 127.0.0.1:18000，Docker Nginx 代理到 api:8000。
+宿主机 8000、5173 留给查寝系统；筑瞳开发入口为 5180，Docker 入口为 8080。
 不允许后端不可用时静默回退到本地写入。
 当前尚未迁移的业务仍明确展示浏览器存储来源，阶段 3—5 完成后切换。
