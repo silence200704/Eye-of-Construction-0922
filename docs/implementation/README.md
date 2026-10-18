@@ -40,3 +40,5 @@
 - [实施路线与验收门槛](roadmap.md)
 - [数据迁移映射](data-map.md)
 - [结构基线及行为约束](baseline.md)
+- [阶段 4—11 详细实施与审核计划](handoff/README.md)
+- [阶段完成度报告模板](handoff/completion-report.md)
