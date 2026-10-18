@@ -38,10 +38,15 @@ if errorlevel 1 (
 )
 
 echo.
-echo [3/3] 启动本地服务：http://127.0.0.1:4173
-echo       浏览器会自动打开；关闭本窗口即停止服务。
+echo [3/3] 启动或复用本地服务：http://127.0.0.1:4173
+echo       已运行的筑瞳预览将直接复用；其他程序占用时会提示。
 echo.
 start "" http://127.0.0.1:4173
 call npm run serve
+if errorlevel 1 (
+  echo [错误] 预览启动失败，请查看上方提示。
+  pause
+  exit /b 1
+)
 
 pause

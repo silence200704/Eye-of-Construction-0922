@@ -7,8 +7,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit -p tsconfig.app.json && vite build",
-    "preview": "vite preview --port 4173",
-    "serve": "vite preview --port 4173",
+    "preview": "node scripts/preview.mjs",
+    "serve": "node scripts/preview.mjs",
+    "test:tooling": "node --test tests/tooling/*.test.mjs",
     "typecheck": "vue-tsc --noEmit -p tsconfig.app.json",
     "test": "vitest run",
     "test:watch": "vitest"
