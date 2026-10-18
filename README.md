@@ -1,7 +1,7 @@
 # 筑瞳 · 校园建筑健康监测与预警系统（纯前端 Demo）
 
 > **完整项目升级进行中**：新范围与阶段核验以 [实施台账](docs/implementation/README.md) 为准。
-> 阶段 2 已建立业务库、媒体存储与备份恢复；无登录页或账号密码，默认启动需要 [FastAPI 后端](backend/README.md)。旧数据导入将在阶段 3 完成。
+> 阶段 3 已完成旧数据迁移入口及当前浏览器可获取数据的导入核验；无登录页或账号密码，默认启动需要 [FastAPI 后端](backend/README.md)。详见 [迁移验收记录](docs/implementation/stages/03-legacy-migration.md)。
 > 下文保留纯前端基线说明，业务数据将在后续阶段逐模块迁移，当前不能宣称已全部入库。
 > 与查寝系统同时使用：查寝保留前端 `5173`、后端 `8000`；筑瞳使用 Docker 前端 `8080`、后端 `18000`，本地开发前端 `5180`。详见 [端口隔离与核验](docs/implementation/port-coexistence.md)。
 

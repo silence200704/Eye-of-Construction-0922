@@ -1,0 +1,165 @@
+{
+  "verifiedAt": "2026-10-18T09:37:50.246147+00:00",
+  "origin": "http://127.0.0.1:8080",
+  "datasetId": "demo-main",
+  "legacyCounts": {
+    "buildings": 4,
+    "floors": 8,
+    "points": 8,
+    "devices": 4,
+    "baselines": 2,
+    "records": 8,
+    "audits": 1,
+    "rules": 4,
+    "events": 0,
+    "notifications": 0,
+    "plans": 0,
+    "tasks": 0,
+    "maintenancePlans": 0,
+    "maintenanceTasks": 0,
+    "issues": 0,
+    "workOrders": 0,
+    "attachments": 0
+  },
+  "storedCounts": {
+    "buildings": 4,
+    "floors": 8,
+    "points": 8,
+    "devices": 4,
+    "baselines": 2,
+    "records": 8,
+    "audits": 2,
+    "rules": 4,
+    "events": 0,
+    "notifications": 0,
+    "plans": 0,
+    "tasks": 0,
+    "maintenancePlans": 0,
+    "maintenanceTasks": 0,
+    "issues": 0,
+    "workOrders": 0,
+    "attachments": 0
+  },
+  "legacyRows": 39,
+  "fieldsVerified": 836,
+  "bundledFilesVerified": 7,
+  "importBatchCount": 2,
+  "preferences": 4,
+  "sessionStates": {
+    "assistant": 1,
+    "scenario": 1
+  },
+  "mediaFiles": [
+    {
+      "id": "748f946354e545a1a21c7cca7d37dda1",
+      "fileName": "stage2-storage-check.png",
+      "sha256": "c47dd9465c00e9a0c8b85e9ea58d3034a0d23b9cf926113602f3460752a4eb96",
+      "size": 69
+    },
+    {
+      "id": "legacy-file-805db81db8e36407d010915eb188cc5b314642d3",
+      "fileName": "corridor-crack-before.png",
+      "sha256": "4ae2fa56d1474d479f1f3d556b46993f8b670ecc51a4dce40fcc011d82e73825",
+      "size": 2425328
+    },
+    {
+      "id": "legacy-file-24b4009463f4c09f24c8c50db2d45f7d3025795c",
+      "fileName": "corridor-crack-after.png",
+      "sha256": "3ddcf4b1feb74e94096405a2ae84a51bf8df8b0318b10d9cd389a2040626b047",
+      "size": 2000398
+    },
+    {
+      "id": "legacy-file-019e64601279fd66c3bda3346876a880fe19672a",
+      "fileName": "commons-crack-example.jpg",
+      "sha256": "284b6abfab42b95bf3f36c6b235a9246c0487b0bb82c49073a87233b04e8e88e",
+      "size": 150063
+    },
+    {
+      "id": "legacy-file-6f6fecc75386bd05a68e31abe0a26ef99decebd8",
+      "fileName": "commons-crack-evidence-simulated.jpg",
+      "sha256": "74cb80e2c3e78615f049bef4f66893254043fec7c3d28057f3eb144c8149e931",
+      "size": 229554
+    },
+    {
+      "id": "legacy-file-79d7021ddf5d51d5de4ec6202d27d5c674005c09",
+      "fileName": "crack-change-simulated.mp4",
+      "sha256": "0650c9ad24b6b776e682300b01d88427821ebac991fe1f8d7ba1017dd7155ee1",
+      "size": 681517
+    },
+    {
+      "id": "legacy-file-ff2a36a6017f82543d00a32d73d7185084bbc200",
+      "fileName": "brick-inspection.mp4",
+      "sha256": "afbf2b02843939a06d9ba03bb65629abc909eef80fa608b1e4a043a2198c2865",
+      "size": 931428
+    },
+    {
+      "id": "legacy-file-b8e7cfd085b80880dbc0cd770d5c0be6ed909407",
+      "fileName": "brick-inspection-poster.jpg",
+      "sha256": "646a81da8a6d6149e58efcb8d73183b317fc800ad16fdb5d8df842cd09fb7a64",
+      "size": 76248
+    }
+  ],
+  "filesystemFileCount": 8,
+  "integrity": "ok",
+  "foreignKeyErrors": [],
+  "recordRevisions": [
+    {
+      "id": "rec_seed_01",
+      "revision": 1,
+      "record_revision": 0
+    },
+    {
+      "id": "rec_seed_02",
+      "revision": 1,
+      "record_revision": 0
+    },
+    {
+      "id": "rec_seed_03",
+      "revision": 1,
+      "record_revision": 0
+    },
+    {
+      "id": "rec_seed_04",
+      "revision": 1,
+      "record_revision": 0
+    },
+    {
+      "id": "rec_seed_05",
+      "revision": 1,
+      "record_revision": 0
+    },
+    {
+      "id": "rec_seed_06",
+      "revision": 1,
+      "record_revision": 0
+    },
+    {
+      "id": "rec_seed_07",
+      "revision": 1,
+      "record_revision": 0
+    },
+    {
+      "id": "rec_seed_08",
+      "revision": 1,
+      "record_revision": 0
+    }
+  ],
+  "schemaRevision": "0008_legacy_revision",
+  "backup": "/data/backups/stage3-dd22865a",
+  "restored": "/data/verification/stage3-restore-dd22865a",
+  "restoredDatabaseIdentical": true,
+  "missingSources": [
+    "zhutong-showcase"
+  ],
+  "replayVerifiedInBrowser": {
+    "inserted": 0,
+    "matched": 39
+  },
+  "afterRestart": {
+    "ready": true,
+    "importBatches": 2,
+    "legacyRows": 39,
+    "protectedMediaVerified": 8,
+    "snapshotMatches": true
+  }
+}

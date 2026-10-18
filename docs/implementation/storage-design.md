@@ -2,6 +2,9 @@
 
 SQLite 通过 Alembic 0003—0007 建立模型，不用 create_all 替代正式迁移。
 当前有 29 张应用表，加 alembic_version 共 30 张表。
+阶段 3 新增 0008_legacy_revision，单独保存监测记录的旧修订次数 record_revision。
+旧 revision=0 原样保留；服务端行版本 revision 从 1 开始，二者不可混用。
+0001—0007 历史迁移不改写。
 
 ## 数据集与身份
 
@@ -36,14 +39,16 @@ datasets 初始化 demo-main、demo-showcase 两个测试集，epoch 初值为 1
 嵌套清单、作答、证据、时间线、位置历史和快照使用 JSON 列，不展开无必要的子表。
 legacy_payload 仅为迁移时保留未知原字段；正式查询以业务列与快照为准，后续写操作不能靠该字段绕过校验。
 旧数据中空引用、断链和相互矛盾字段由阶段 3 导入报告识别，不通过关闭外键强行导入。
-任务结果中 linkedIssueId 等 JSON 内部关系及状态流转，由阶段 5 业务事务验证；本阶段不宣称已由外键完整覆盖。
+阶段 3 导入预检补充任务、问题、照片和保养等 JSON 内部引用核对；它们并非数据库外键。
+新业务写入和状态流转仍需阶段 5 的业务事务验证。
 
 ## 原临时数据的存储去向
 
 media_files 保存文件元数据，media_videos、media_frames、media_comparisons 保存视频、关键帧与比较结果。
 preferences 保存偏好，session_states 保存 assistant/scenario/showcase/video 运行状态。
 operation_receipts 包含 epoch、身份、操作、幂等键、请求哈希与结果；import_batches 按源哈希识别重复导入。
-这些表已经建立，其导出导入和业务接入依次在阶段 3、7、9、10 实施。
+阶段 3 已完成可获取数据的导出导入，运行状态按只读暂停快照保存，不自动重放写操作。
+运行状态的 UI 恢复及新业务接入在阶段 7、9、10 实施。
 
 ## 文件与事务
 
