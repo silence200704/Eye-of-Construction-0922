@@ -1,0 +1,55 @@
+{
+  "codeCommit": "ae289a33323c6cd162bde108f5b2d8312be54f5a",
+  "reportCommit": "f7793e32088675a3aa7500b25a7fe2b762c16929",
+  "checkedAt": "2026-10-19T12:22:00+08:00",
+  "commands": [
+    {
+      "command": "uv run pytest --cov=zhutong --cov-report=term-missing --cov-fail-under=80 -q",
+      "cwd": "backend",
+      "result": "181 passed, coverage 88.21%",
+      "exitCode": 0
+    },
+    {
+      "command": "uv run ruff check src tests migrations",
+      "cwd": "backend",
+      "result": "All checks passed",
+      "exitCode": 0
+    },
+    {
+      "command": "uv run ruff format --check src tests migrations",
+      "cwd": "backend",
+      "result": "161 files already formatted",
+      "exitCode": 0
+    },
+    {
+      "command": "recursive structure gate（tests/monitoring/test_structure.py）",
+      "cwd": "backend",
+      "result": "domain/inspection、operations/field、routers/datasets/field、tests/field 全部通过",
+      "exitCode": 0
+    },
+    {
+      "command": "npm test",
+      "cwd": ".",
+      "result": "113 files / 1136 tests passed",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test:tooling",
+      "cwd": ".",
+      "result": "4 pass",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run typecheck",
+      "cwd": ".",
+      "result": "vue-tsc passed",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run build",
+      "cwd": ".",
+      "result": "built in 6.70s; main chunk 1000.51 kB warning (>900 kB)",
+      "exitCode": 0
+    }
+  ]
+}
