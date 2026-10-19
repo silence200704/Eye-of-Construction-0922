@@ -1,0 +1,49 @@
+{
+  "checkedAt": "2026-10-19",
+  "database": "independent temporary SQLite (.runtime-recheck/recheck.sqlite)",
+  "dataset": "demo-main",
+  "results": {
+    "scope_record_write": { "status": 403, "code": "SCOPE_FORBIDDEN" },
+    "scope_record_revision": { "status": 403, "code": "SCOPE_FORBIDDEN" },
+    "scope_assessment_preview": { "status": 403 },
+    "recovering_then_red": {
+      "beforeStatus": "recovering",
+      "afterStatus": "pending",
+      "timelineContains": "恢复状态被新异常推翻",
+      "closeStatus": 409,
+      "closeCode": "STATE_CONFLICT"
+    },
+    "backfill_after_latest_red": {
+      "status": "pending",
+      "level": "red",
+      "evidences": 1,
+      "olderNormalsStored": 3
+    },
+    "revision_after_close": {
+      "status": 200,
+      "message": "事件已关闭或无未关闭事件；历史修订不新建事件",
+      "eventCount": 1
+    },
+    "disabled_latest_rule": {
+      "newVersion": "V1.1",
+      "recordRuleVersion": "V1.1",
+      "assessmentState": "excluded",
+      "reason": "规则未启用"
+    },
+    "same_key_across_notifications": {
+      "status": 409,
+      "code": "IDEMPOTENCY_CONFLICT",
+      "secondNotificationPresented": false
+    },
+    "escalation_after_close": {
+      "closedEventNotifications": 3,
+      "closedEventEscalated": 0,
+      "openEventNotificationsEscalated": 6
+    }
+  },
+  "structure": {
+    "functionsOver80Lines": 0,
+    "signaturesOver5Params": 0,
+    "newDirectoryFileBudget": "passed"
+  }
+}

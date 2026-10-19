@@ -12,6 +12,8 @@
   - 缺 `X-Dataset-Epoch` → `400 DATASET_EPOCH_REQUIRED`
   - epoch 与当前数据集不一致 → `409 DATASET_EPOCH_CONFLICT`，不落库
 - 同键同内容重放 → `200`，`replayed=true`，返回原回执对象；同键不同内容 → `409 IDEMPOTENCY_CONFLICT`。
+- 幂等摘要包含 HTTP 方法、路径、操作类型与业务载荷；同一键用于不同通知/事件/记录时
+  不会复用成功回执，而是返回 `409 IDEMPOTENCY_CONFLICT`。
 - `rev` 是行乐观锁；修改必须携带 `expectedRev`。监测记录的 `revision` 是业务修订次数
   （旧库从 0 开始），与行版本 `rev` 分开。
 
@@ -70,6 +72,10 @@
 
 校验与旧引擎同口径：缺项不按零、质量存疑/无效不判定、超设备量程标无效、振动必须写统计窗口、
 同测点同分钟不重复、采样时间不得晚于当前（5 分钟容差）、历史补录必须写说明。
+记录、修订、试算与 CSV 共用测点入口，按测点所属楼栋校验账号范围；越权返回 `403 SCOPE_FORBIDDEN`。
+
+历史补录/历史修订只存档并保留判定快照，不驱动当前事件状态；只有测点最新采样时刻的记录
+可以建单、升级、恢复或覆盖事件状态。
 
 ## 事件与通知
 
@@ -81,11 +87,16 @@
 | POST `/events/{id}/close` | 仅 safety；仅 `recovering`；必须填 `basis` 与阶段 4 的 `noRepairNote`；关闭依据与时间线、审计同事务 |
 | POST `/notifications/{id}/present` | 首次展示登记 `presentedAt`；重复调用不重复写 |
 | POST `/notifications/{id}/acknowledge` | 登记确认人/时间；不冒充短信送达 |
-| POST `/notifications/escalate` | 服务端时间核验所有未确认、未升级且超时的通知；只升级一次，`escalationSource=""` |
+| POST `/notifications/escalate` | 服务端时间核验未确认、未升级且超时的通知；已关闭事件的通知跳过；只升级一次，`escalationSource=""` |
 
 事件按“数据集 + 测点 + 稳定 ruleId”归并；未关闭时只有一条。等级只升不降，
-`peakLevel` 与 `upgrades` 保留历史；恢复只把事件标为 `recovering`，不自动关闭；
-修订会把旧证据移入 `supersededEvidences`，同一条记录最多一条活跃证据。
+`peakLevel` 与 `upgrades` 保留历史；恢复只把事件标为 `recovering`，不自动关闭。
+恢复待确认被新的越限读数推翻时，事件退回 `pending`（未确认）或 `handling`（已确认），
+恢复状态不再成立，且不能凭旧恢复状态关闭。
+修订会把旧证据移入 `supersededEvidences`，同一条记录最多一条活跃证据；事件已关闭后
+修订旧证据只更新记录，不新建第二事件。
+规则版本按采样时间先选当时生效版本，再判断启停；停用的最新版本不会被旧版本绕过，
+记录判定为 `excluded`（规则未启用）。
 
 ## 主要错误码
 
