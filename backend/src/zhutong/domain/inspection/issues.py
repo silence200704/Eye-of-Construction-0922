@@ -25,6 +25,25 @@ CATEGORIES = {
 }
 
 OPEN_RECHECK = {"pending_recheck", "observing"}
+REVIEW_STATUSES = {
+    "pending_review": {
+        "to_repair",
+        "to_investigate",
+        "recheck",
+        "need_evidence",
+        "link_object",
+        "close_no_fault",
+    },
+    "investigating": {
+        "to_repair",
+        "recheck",
+        "need_evidence",
+        "link_object",
+        "close_no_fault",
+    },
+    "pending_recheck": {"to_repair", "recheck", "link_object", "close_no_fault"},
+    "observing": {"to_repair", "recheck", "link_object", "close_no_fault"},
+}
 
 
 def review_action(input: dict) -> str:
@@ -34,8 +53,16 @@ def review_action(input: dict) -> str:
         raise ValueError("未知的审核出口")
     if input.get("category") not in categories:
         raise ValueError("请选择该出口下的处理结果（二级分类）")
-    if input.get("status") == "closed":
+    status = input.get("status")
+    if status == "closed":
         raise ValueError("该问题已关闭，如需继续处理请新建问题并关联原记录")
+    allowed = REVIEW_STATUSES.get(status, set())
+    if action not in allowed:
+        raise ValueError(
+            f"问题当前为「{status}」，不能执行该审核出口；维修中请先完成并验收工单，复查待办请先出结论"
+        )
+    if action == "recheck" and active_round(input.get("issue") or {}) is not None:
+        raise ValueError("已有一轮复查未出结论，不能重复安排复查；请先记录本轮结论")
     note = str(input.get("note", "")).strip()
     if len(note) < REVIEW_NOTE_MIN_LENGTH:
         raise ValueError(
@@ -69,6 +96,8 @@ def active_round(issue: dict) -> dict | None:
     if not rounds:
         return None
     last = rounds[-1]
+    if last.get("invalidatedAt"):
+        return None
     return last if last.get("outcome") is None else None
 
 

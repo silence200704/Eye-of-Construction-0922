@@ -3,7 +3,7 @@
   "epoch": 1,
   "ids": {
     "building": {
-      "id": "bld_58aa53ce252f4dc0999418d8951565a7",
+      "id": "bld_b8ff9c0cabb540319b00971b2756f7a3",
       "code": "B05",
       "name": "5号实验楼",
       "purpose": "实验",
@@ -30,15 +30,15 @@
       "archiveReason": "",
       "archivedAt": null,
       "archivedBy": "",
-      "createdAt": "2026-10-19T04:11:07.734915+00:00",
+      "createdAt": "2026-10-19T10:39:12.470796+00:00",
       "createdBy": "演示学校安全管理人员",
-      "updatedAt": "2026-10-19T04:11:07.734915+00:00",
+      "updatedAt": "2026-10-19T10:39:12.470796+00:00",
       "updatedBy": "演示学校安全管理人员",
       "rev": 1
     },
     "floor": {
-      "id": "flr_b7d21877794a44358711f63464845fca",
-      "buildingId": "bld_58aa53ce252f4dc0999418d8951565a7",
+      "id": "flr_f9fa5e565022403eb741093b8962a318",
+      "buildingId": "bld_b8ff9c0cabb540319b00971b2756f7a3",
       "floorNo": 2,
       "name": "二层",
       "zones": [
@@ -50,18 +50,18 @@
       "archiveReason": "",
       "archivedAt": null,
       "archivedBy": "",
-      "createdAt": "2026-10-19T04:11:07.748484+00:00",
+      "createdAt": "2026-10-19T10:39:12.483296+00:00",
       "createdBy": "演示学校安全管理人员",
-      "updatedAt": "2026-10-19T04:11:07.748484+00:00",
+      "updatedAt": "2026-10-19T10:39:12.483296+00:00",
       "updatedBy": "演示学校安全管理人员",
       "rev": 1
     },
     "crack": {
-      "id": "pnt_9263f4a8d16840b7bcca0bc8a480ba83",
+      "id": "pnt_73f4c8fc840e4b0cb98e7a1c03a7676d",
       "code": "B05-F2-CRACK01",
       "name": "裂缝测点",
-      "buildingId": "bld_58aa53ce252f4dc0999418d8951565a7",
-      "floorId": "flr_b7d21877794a44358711f63464845fca",
+      "buildingId": "bld_b8ff9c0cabb540319b00971b2756f7a3",
+      "floorId": "flr_f9fa5e565022403eb741093b8962a318",
       "zoneId": "",
       "type": "crack",
       "metric": "crack_width",
@@ -72,7 +72,7 @@
       "nfc": {
         "code": "NFC-B05-01",
         "version": 1,
-        "boundAt": "2026-10-19T04:11:07.761367+00:00",
+        "boundAt": "2026-10-19T10:39:12.495939+00:00",
         "boundBy": "演示学校安全管理人员",
         "remark": "建档时绑定"
       },
@@ -87,18 +87,18 @@
       "archiveReason": "",
       "archivedAt": null,
       "archivedBy": "",
-      "createdAt": "2026-10-19T04:11:07.761367+00:00",
+      "createdAt": "2026-10-19T10:39:12.495939+00:00",
       "createdBy": "演示学校安全管理人员",
-      "updatedAt": "2026-10-19T04:11:07.761367+00:00",
+      "updatedAt": "2026-10-19T10:39:12.495939+00:00",
       "updatedBy": "演示学校安全管理人员",
       "rev": 1
     },
     "manual": {
-      "id": "pnt_bacc382d6b0e47409f5288812f16bac8",
+      "id": "pnt_81e0913703b841f491823180d0e3a79f",
       "code": "B05-F2-CHECK01",
       "name": "巡检点",
-      "buildingId": "bld_58aa53ce252f4dc0999418d8951565a7",
-      "floorId": "flr_b7d21877794a44358711f63464845fca",
+      "buildingId": "bld_b8ff9c0cabb540319b00971b2756f7a3",
+      "floorId": "flr_f9fa5e565022403eb741093b8962a318",
       "zoneId": "",
       "type": "manual_check",
       "metric": "inspection",
@@ -109,7 +109,7 @@
       "nfc": {
         "code": "NFC-B05-F2-CHECK01",
         "version": 1,
-        "boundAt": "2026-10-19T04:11:07.776349+00:00",
+        "boundAt": "2026-10-19T10:39:12.509420+00:00",
         "boundBy": "演示学校安全管理人员",
         "remark": "建档时绑定"
       },
@@ -124,17 +124,17 @@
       "archiveReason": "",
       "archivedAt": null,
       "archivedBy": "",
-      "createdAt": "2026-10-19T04:11:07.776349+00:00",
+      "createdAt": "2026-10-19T10:39:12.509420+00:00",
       "createdBy": "演示学校安全管理人员",
-      "updatedAt": "2026-10-19T04:11:07.776349+00:00",
+      "updatedAt": "2026-10-19T10:39:12.509420+00:00",
       "updatedBy": "演示学校安全管理人员",
       "rev": 1
     },
     "device": {
-      "id": "dev_8c91755ab69448b2b7896346dd47913a",
+      "id": "dev_749b4e44448e43908d1ba03c8acc0aaf",
       "code": "B05-CRACK-DEV1",
       "name": "裂缝计",
-      "pointId": "pnt_9263f4a8d16840b7bcca0bc8a480ba83",
+      "pointId": "pnt_73f4c8fc840e4b0cb98e7a1c03a7676d",
       "model": "",
       "serial": "",
       "rangeMin": 0.0,
@@ -153,9 +153,9 @@
       "archiveReason": "",
       "archivedAt": null,
       "archivedBy": "",
-      "createdAt": "2026-10-19T04:11:07.788394+00:00",
+      "createdAt": "2026-10-19T10:39:12.521655+00:00",
       "createdBy": "演示学校安全管理人员",
-      "updatedAt": "2026-10-19T04:11:07.788394+00:00",
+      "updatedAt": "2026-10-19T10:39:12.521655+00:00",
       "updatedBy": "演示学校安全管理人员",
       "rev": 1
     }
@@ -174,7 +174,7 @@
       "issue": "ISS-20261019-001",
       "order": "WO-20261019-001",
       "orderStatus": "verified",
-      "submittedAt": "2026-10-19T04:11:08.030233+00:00",
+      "submittedAt": "2026-10-19T10:39:12.739630+00:00",
       "issueAfterVerify": "pending_recheck",
       "issueFinal": "closed",
       "attachmentBytesMatch": true,
@@ -224,7 +224,7 @@
       "periodic"
     ],
     "indicatorValues": [
-      7.899444444444445e-06,
+      5.4611111111111115e-06,
       1.0,
       1.0
     ],
@@ -264,82 +264,82 @@
     ],
     "objectAudits": [
       {
-        "objectId": "plan_c8a251e0fb854969b2668043b0db9870@2026-10-19T01:00:00+00:00",
-        "summary": "提交检查完成（B05-F2-CHECK01）"
-      },
-      {
-        "objectId": "iss_879862842bfd47feb890c4bf5bcdfa6b",
-        "summary": "登记复查：ISS-20261019-001"
-      },
-      {
-        "objectId": "evt_319777145f0d431b8e13a785d8c5ff96",
+        "objectId": "evt_b73845161889452a930c574b4360d130",
         "summary": "关闭预警事件 E20261019-001"
       },
       {
-        "objectId": "evt_319777145f0d431b8e13a785d8c5ff96",
-        "summary": "事件 E20261019-001 转为恢复待确认"
-      },
-      {
-        "objectId": "plan_c8a251e0fb854969b2668043b0db9870@2026-10-19T01:00:00+00:00",
-        "summary": "到点尝试：标签编号不一致：读到 NFC-WRONG，该点位登记为 NFC-B05-F2-CHECK01。错点不计入到点，已留痕"
-      },
-      {
-        "objectId": "wo_b15005bf3db74a2b9cf2571babf7a94f",
-        "summary": "工单 WO-20261019-001：接单处理"
-      },
-      {
-        "objectId": "wo_b15005bf3db74a2b9cf2571babf7a94f",
-        "summary": "工单 WO-20261019-001：派工"
-      },
-      {
-        "objectId": "mp_9b7fde65688d4b1baf521deb7f2d107d@2026-10-19T00:30:00+00:00",
-        "summary": "完成保养任务 MT-20261019-001"
-      },
-      {
-        "objectId": "iss_879862842bfd47feb890c4bf5bcdfa6b",
-        "summary": "问题 ISS-20261019-001：复查结论 recovered"
-      },
-      {
-        "objectId": "wo_b15005bf3db74a2b9cf2571babf7a94f",
-        "summary": "工单 WO-20261019-001：验收通过"
-      },
-      {
-        "objectId": "evt_319777145f0d431b8e13a785d8c5ff96",
-        "summary": "生成红色紧急核查预警事件 E20261019-001"
-      },
-      {
-        "objectId": "plan_c8a251e0fb854969b2668043b0db9870@2026-10-19T01:00:00+00:00",
-        "summary": "到点尝试：人工兜底核对通过（标签 NFC-B05-F2-CHECK01 v1）"
-      },
-      {
-        "objectId": "plan_c8a251e0fb854969b2668043b0db9870@2026-10-19T01:00:00+00:00",
-        "summary": "按 PLAN-20261019-001 生成任务 TK-20261019-001"
-      },
-      {
-        "objectId": "wo_b15005bf3db74a2b9cf2571babf7a94f",
+        "objectId": "wo_43bda4b450094f1086e50425d72278b7",
         "summary": "由问题 ISS-20261019-001 生成维修工单 WO-20261019-001"
       },
       {
-        "objectId": "iss_879862842bfd47feb890c4bf5bcdfa6b",
-        "summary": "提交问题 ISS-20261019-001"
-      },
-      {
-        "objectId": "iss_879862842bfd47feb890c4bf5bcdfa6b",
-        "summary": "审核问题 ISS-20261019-001"
-      },
-      {
-        "objectId": "wo_b15005bf3db74a2b9cf2571babf7a94f",
-        "summary": "工单 WO-20261019-001：提交待验收"
-      },
-      {
-        "objectId": "iss_879862842bfd47feb890c4bf5bcdfa6b",
+        "objectId": "iss_a2fba6753bfb4442b4032765e7d0d186",
         "summary": "问题 ISS-20261019-001：工单 WO-20261019-001 验收通过，进入待复查"
       },
       {
-        "objectId": "mp_9b7fde65688d4b1baf521deb7f2d107d@2026-10-19T00:30:00+00:00",
+        "objectId": "wo_43bda4b450094f1086e50425d72278b7",
+        "summary": "工单 WO-20261019-001：提交待验收"
+      },
+      {
+        "objectId": "iss_a2fba6753bfb4442b4032765e7d0d186",
+        "summary": "审核问题 ISS-20261019-001"
+      },
+      {
+        "objectId": "evt_b73845161889452a930c574b4360d130",
+        "summary": "事件 E20261019-001 转为恢复待确认"
+      },
+      {
+        "objectId": "plan_a9339d393ccd43b5b7681d0fc661d7c5@2026-10-19T01:00:00+00:00",
+        "summary": "提交检查完成（B05-F2-CHECK01）"
+      },
+      {
+        "objectId": "plan_a9339d393ccd43b5b7681d0fc661d7c5@2026-10-19T01:00:00+00:00",
+        "summary": "到点尝试：人工兜底核对通过（标签 NFC-B05-F2-CHECK01 v1）"
+      },
+      {
+        "objectId": "plan_a9339d393ccd43b5b7681d0fc661d7c5@2026-10-19T01:00:00+00:00",
+        "summary": "到点尝试：标签编号不一致：读到 NFC-WRONG，该点位登记为 NFC-B05-F2-CHECK01。错点不计入到点，已留痕"
+      },
+      {
+        "objectId": "iss_a2fba6753bfb4442b4032765e7d0d186",
+        "summary": "提交问题 ISS-20261019-001"
+      },
+      {
+        "objectId": "iss_a2fba6753bfb4442b4032765e7d0d186",
+        "summary": "问题 ISS-20261019-001：复查结论 recovered"
+      },
+      {
+        "objectId": "mp_4abe3cc7c8374ee59f3457b40a2ae996@2026-10-19T00:30:00+00:00",
         "summary": "生成保养任务 MT-20261019-001"
+      },
+      {
+        "objectId": "wo_43bda4b450094f1086e50425d72278b7",
+        "summary": "工单 WO-20261019-001：接单处理"
+      },
+      {
+        "objectId": "wo_43bda4b450094f1086e50425d72278b7",
+        "summary": "工单 WO-20261019-001：派工"
+      },
+      {
+        "objectId": "iss_a2fba6753bfb4442b4032765e7d0d186",
+        "summary": "登记复查：ISS-20261019-001"
+      },
+      {
+        "objectId": "wo_43bda4b450094f1086e50425d72278b7",
+        "summary": "工单 WO-20261019-001：验收通过"
+      },
+      {
+        "objectId": "evt_b73845161889452a930c574b4360d130",
+        "summary": "生成红色紧急核查预警事件 E20261019-001"
+      },
+      {
+        "objectId": "plan_a9339d393ccd43b5b7681d0fc661d7c5@2026-10-19T01:00:00+00:00",
+        "summary": "按 PLAN-20261019-001 生成任务 TK-20261019-001"
+      },
+      {
+        "objectId": "mp_4abe3cc7c8374ee59f3457b40a2ae996@2026-10-19T00:30:00+00:00",
+        "summary": "完成保养任务 MT-20261019-001"
       }
     ]
   },
-  "generatedAt": "2026-10-19T04:11:08.562223+00:00"
+  "generatedAt": "2026-10-19T10:39:13.203884+00:00"
 }

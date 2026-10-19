@@ -60,6 +60,37 @@ export const useMaintenancePlanStore = defineStore('maintenancePlans', () => {
 
   const activePlans = computed(() => plans.value.filter((row) => row.enabled))
 
+  async function savePlanRemote(draft: MaintenancePlanDraft): Promise<MaintenanceResult> {
+    const archive = useArchiveStore()
+    const device = archive.deviceById(draft.deviceId)
+    if (device === undefined) return { ...EMPTY, error: '所选设备不存在，请重新选择' }
+    const point = device.pointId === '' ? undefined : archive.pointById(device.pointId)
+    const existing = draft.id === null ? undefined : byId(draft.id)
+    if (draft.id !== null && existing === undefined) return { ...EMPTY, error: '保养计划不存在' }
+    try {
+      const saved = await saveMaintenancePlanRemote(
+        {
+          name: draft.name,
+          deviceId: draft.deviceId,
+          buildingId: point?.buildingId ?? existing?.buildingId ?? '',
+          cycle: draft.cycle,
+          startDate: draft.startDate,
+          endDate: draft.endDate,
+          owner: draft.owner,
+          checklist: draft.checklist,
+          enabled: existing?.enabled ?? true,
+          remark: draft.remark,
+        },
+        draft.id,
+        existing?.rev,
+      )
+      await reload()
+      return { ok: true, error: '', label: saved.code, created: 0, skipped: 0 }
+    } catch (cause) {
+      return { ...EMPTY, error: (cause as Error).message }
+    }
+  }
+
   /** 新建或编辑保养计划：设备档案只用来补全位置与编号，位置以计划为快照。 */
   async function savePlan(draft: MaintenancePlanDraft): Promise<MaintenanceResult> {
     const session = useSessionStore()
@@ -67,36 +98,7 @@ export const useMaintenancePlanStore = defineStore('maintenancePlans', () => {
     if (session.role !== 'safety') return { ...EMPTY, error: '保养计划的建立与编辑由学校安全管理人员执行' }
     const check = validateMaintenancePlan({ ...draft, endDate: draft.endDate })
     if (!check.ok) return { ...EMPTY, error: check.errors.join('；') }
-    if (backendActive()) {
-      const archive = useArchiveStore()
-      const device = archive.deviceById(draft.deviceId)
-      if (device === undefined) return { ...EMPTY, error: '所选设备不存在，请重新选择' }
-      const point = device.pointId === '' ? undefined : archive.pointById(device.pointId)
-      const existing = draft.id === null ? undefined : byId(draft.id)
-      if (draft.id !== null && existing === undefined) return { ...EMPTY, error: '保养计划不存在' }
-      try {
-        const saved = await saveMaintenancePlanRemote(
-          {
-            name: draft.name,
-            deviceId: draft.deviceId,
-            buildingId: point?.buildingId ?? existing?.buildingId ?? '',
-            cycle: draft.cycle,
-            startDate: draft.startDate,
-            endDate: draft.endDate,
-            owner: draft.owner,
-            checklist: draft.checklist,
-            enabled: existing?.enabled ?? true,
-            remark: draft.remark,
-          },
-          draft.id,
-          existing?.rev,
-        )
-        await reload()
-        return { ok: true, error: '', label: saved.code, created: 0, skipped: 0 }
-      } catch (cause) {
-        return { ...EMPTY, error: (cause as Error).message }
-      }
-    }
+    if (backendActive()) return savePlanRemote(draft)
     const device = await db.devices.get(draft.deviceId)
     if (device === undefined) return { ...EMPTY, error: '所选设备不存在，请重新选择' }
     const point = (await db.points.get(device.pointId)) ?? null

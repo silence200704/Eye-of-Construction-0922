@@ -11,6 +11,7 @@ import type { WorkOrder, WorkOrderStatus } from '@/types/inspection'
 import { backendActive } from '@/api/backend/runtime'
 import { useArchiveStore } from '@/stores/archive'
 import { useSessionStore } from '@/stores/session'
+import { useBackendSessionStore } from '@/stores/backend/session'
 import { useWorkOrderStore } from '@/stores/inspection/workOrders'
 import { useAttachmentStore } from '@/stores/inspection/attachments'
 import { isAssignedTo } from '@/core/inspection/workOrderFlow'
@@ -30,6 +31,7 @@ const emit = defineEmits<{ changed: [message: string] }>()
 
 const archive = useArchiveStore()
 const session = useSessionStore()
+const backend = useBackendSessionStore()
 const workOrders = useWorkOrderStore()
 const attachments = useAttachmentStore()
 
@@ -93,6 +95,9 @@ function thumbOf(id: string): string {
 
 const orders = computed(() => workOrders.ordersOfIssue(props.issueId))
 const repairRoles = ROLES.filter((row) => row.key === 'repair' || row.key === 'property')
+const serverWorkers = computed(() =>
+  backend.identities.filter((row) => row.role === 'repair' || row.role === 'property'),
+)
 
 const STATUS_TEXT: Record<WorkOrderStatus, string> = {
   created: '待派工',
@@ -124,9 +129,17 @@ function canVerify(): boolean {
   return session.role === 'safety'
 }
 
-/** 当前身份是否就是被派工的人（与仓储判定同一口径） */
+/** 当前身份是否就是被派工的人：服务端按身份 ID，本地演示按仓储同名口径 */
 function assignedToMe(order: WorkOrder): boolean {
+  if (backendActive()) return order.assigneeId !== undefined && order.assigneeId === backend.user?.id
   return isAssignedTo(order, { roleKey: session.role, name: session.name })
+}
+
+function dispatchExtra(): Parameters<typeof workOrders.advanceOrder>[2] {
+  const due = dueAt.value === '' ? null : dueAt.value
+  return backendActive()
+    ? { assigneeId: assignee.value, dueAt: due }
+    : { assignee: assignee.value, dueAt: due }
 }
 
 async function run(order: WorkOrder, to: WorkOrderStatus, extra: Parameters<typeof workOrders.advanceOrder>[2] = {}): Promise<void> {
@@ -292,7 +305,13 @@ function personLabel(person: { name: string; duty: string }): string {
       </AppModal>
 
       <div v-if="canAssign() && order.status === 'created'" class="row wrap actions">
-        <select v-model="assignee" class="ctl">
+        <select v-if="backendActive()" v-model="assignee" class="ctl">
+          <option value="">选择维修人…</option>
+          <option v-for="person in serverWorkers" :key="person.id" :value="person.id">
+            {{ person.name }}（{{ person.roleLabel }}）
+          </option>
+        </select>
+        <select v-else v-model="assignee" class="ctl">
           <option value="">选择维修人…</option>
           <optgroup label="按角色指派">
             <option v-for="role in repairRoles" :key="role.key" :value="role.name">{{ role.name }}</option>
@@ -305,7 +324,7 @@ function personLabel(person: { name: string; duty: string }): string {
         </select>
         <input v-model="dueAt" class="ctl" type="date" />
         <input v-model="note" class="ctl grow" placeholder="派工说明（写清楚现场情况与要求）" />
-        <AppButton size="sm" variant="primary" :disabled="busy || assignee === ''" @click="run(order, 'assigned', { assignee, dueAt: dueAt === '' ? null : dueAt })">
+        <AppButton size="sm" variant="primary" :disabled="busy || assignee === ''" @click="run(order, 'assigned', dispatchExtra())">
           派工
         </AppButton>
       </div>

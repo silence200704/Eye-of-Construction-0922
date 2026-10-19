@@ -112,6 +112,12 @@ def _build_issue(
 ) -> tuple[Issue, str, str, str]:
     source = origin.source
     event = origin.event
+    if event is None and payload.get("eventId"):
+        raise AppError(
+            "VALIDATION_FAILED",
+            "只有传感器预警转单可以携带事件 ID；人工、巡检和保养来源不能自行指定预警事件",
+            422,
+        )
     point_id, building_id, floor_id, zone_id = _location(session, workspace, payload)
     anomaly = str(payload.get("anomalyType", "")).strip()
     description = str(payload.get("description", "")).strip()
@@ -128,7 +134,7 @@ def _build_issue(
         building_id=building_id,
         floor_id=floor_id or None,
         zone_id=zone_id,
-        event_id=event.id if event is not None else payload.get("eventId"),
+        event_id=event.id if event is not None else None,
         task_id=origin.task_id,
         maintenance_task_id=origin.maintenance_task_id,
         anomaly_type=anomaly,

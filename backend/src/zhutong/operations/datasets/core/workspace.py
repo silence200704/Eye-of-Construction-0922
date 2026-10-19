@@ -127,6 +127,21 @@ def require_building(workspace: Workspace, building_id: str) -> None:
         )
 
 
+def require_target_building(
+    workspace: Workspace, building_id: str | None, label: str = "目标对象"
+) -> None:
+    """写目标必须能落到可授权楼栋；受限身份不能借“无测点”绕过范围。"""
+    if building_id is None:
+        if workspace.actor.building_ids is not None:
+            raise AppError(
+                "SCOPE_FORBIDDEN",
+                f"{label}无法确定所属楼栋，当前身份只能操作授权范围内的对象",
+                403,
+            )
+        return
+    require_building(workspace, building_id)
+
+
 def require_revision(expected: int | None, row: Any) -> None:
     if expected is None:
         raise AppError("EXPECTED_REV_REQUIRED", "修改必须携带 expectedRev，不能用过期副本覆盖", 400)

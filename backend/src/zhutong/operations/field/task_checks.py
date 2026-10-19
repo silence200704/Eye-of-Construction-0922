@@ -7,6 +7,7 @@ from ...core.errors import AppError
 from ...db.models.archive import Point
 from ...db.models.field import InspectionTask, Issue
 from ...domain.inspection import tasks as task_rules
+from ...domain.inspection.answers import normalize_answers
 from ..datasets.core.workspace import (
     AuditEntry,
     Workspace,
@@ -100,10 +101,13 @@ def complete_point(session: Session, workspace: Workspace, task_id: str, payload
         if item.get("required")
     ]
     try:
+        answers = normalize_answers(
+            payload.get("answers") or [], task.plan_snapshot.get("checklist") or []
+        )
         next_result = task_rules.complete_check(
             {
                 "result": result,
-                "answers": payload.get("answers") or [],
+                "answers": answers,
                 "required_keys": required_keys,
                 "issue_valid": issue_valid,
                 "linked_issue_id": linked_id,

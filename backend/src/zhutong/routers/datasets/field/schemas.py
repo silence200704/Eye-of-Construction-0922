@@ -51,11 +51,19 @@ class CheckInInput(BaseModel):
     fallbackReason: str = ""
 
 
+class ChecklistAnswerInput(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    key: str = Field(min_length=1)
+    label: str = ""
+    result: Literal["ok", "abnormal", "normal"]
+    note: str = ""
+
+
 class CompleteInput(BaseModel):
     model_config = ConfigDict(extra="forbid")
     expectedRev: int | None = None
     pointId: str = Field(min_length=1)
-    answers: list[dict[str, Any]]
+    answers: list[ChecklistAnswerInput]
     linkedIssueId: str | None = None
     noIssueReason: str = ""
 
@@ -124,7 +132,7 @@ class OrderActionInput(BaseModel):
     expectedRev: int | None = None
     to: Literal["assigned", "repairing", "submitted", "verified", "returned"]
     note: str = ""
-    assignee: str | None = None
+    assigneeId: str | None = None
     dueAt: str | None = None
     measures: str | None = None
     materials: str | None = None
@@ -157,7 +165,7 @@ class MaintenancePlanInput(BaseModel):
 class MaintenanceExecuteInput(BaseModel):
     model_config = ConfigDict(extra="forbid")
     expectedRev: int | None = None
-    answers: list[dict[str, Any]]
+    answers: list[ChecklistAnswerInput]
     measures: str
     materials: str = ""
     nextDueDate: str

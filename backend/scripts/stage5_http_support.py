@@ -217,7 +217,7 @@ def order_flow(api: Api, issue: dict, photos: list[dict] | None = None) -> dict:
     order = review(api, issue, "to_repair", "equipment", "现场核实后转维修处理")["order"]
     order = api.post(
         f"/work-orders/{order['id']}/actions",
-        {"expectedRev": order["rev"], "to": "assigned", "assignee": "演示维修人员"},
+        {"expectedRev": order["rev"], "to": "assigned", "assigneeId": "demo-repair"},
         f"s5-assign-{order['id']}",
     )["order"]
     order = api.post(

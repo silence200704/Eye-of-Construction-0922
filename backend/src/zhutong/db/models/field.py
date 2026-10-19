@@ -154,8 +154,10 @@ class WorkOrder(DatasetRow, AuditFields, Base):
     title: Mapped[str]
     status: Mapped[str] = mapped_column(default="created", server_default="created")
     assignee: Mapped[str] = mapped_column(default="", server_default="")
+    assignee_id: Mapped[str] = mapped_column(default="", server_default="")
     assigned_by: Mapped[str] = mapped_column(default="", server_default="")
     assigned_at: Mapped[str | None]
+    accepted_by_id: Mapped[str] = mapped_column(default="", server_default="")
     due_at: Mapped[str | None]
     measures: Mapped[str] = mapped_column(default="", server_default="")
     materials: Mapped[str] = mapped_column(default="", server_default="")

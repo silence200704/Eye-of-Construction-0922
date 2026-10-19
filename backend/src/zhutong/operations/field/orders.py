@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 
 from ...core.errors import AppError
 from ...db.models.field import WorkOrder
+from ...db.models.identity import User
 from ...domain.inspection import orders as order_rules
 from ..datasets.core.workspace import (
     AuditEntry,
@@ -13,6 +14,7 @@ from ..datasets.core.workspace import (
     now_iso,
     require_revision,
     require_role,
+    require_target_building,
     uid,
     write_audit,
 )
@@ -25,6 +27,7 @@ from .common import (
     issue_out,
     link_photos,
     next_order_no,
+    point_of,
     work_order_out,
 )
 
@@ -46,6 +49,10 @@ def create_manual(session: Session, workspace: Workspace, payload: dict) -> dict
     require_role(workspace, {"safety"}, "手工建单")
     at = now_iso()
     point_id = payload.get("pointId") or None
+    if point_id:
+        point_of(session, workspace, point_id)
+    else:
+        require_target_building(workspace, None, "手工工单")
     row = WorkOrder(
         dataset_id=workspace.dataset_id,
         id=uid("wo"),
@@ -57,7 +64,9 @@ def create_manual(session: Session, workspace: Workspace, payload: dict) -> dict
         title=str(payload.get("title", "")).strip() or "现场维修工单",
         status="created",
         assignee="",
+        assignee_id="",
         assigned_by="",
+        accepted_by_id="",
         assigned_at=None,
         due_at=payload.get("dueAt") or None,
         measures="",
@@ -97,12 +106,12 @@ def create_manual(session: Session, workspace: Workspace, payload: dict) -> dict
     return {"order": work_order_out(row)}
 
 
-def _candidate_order(order: WorkOrder, workspace: Workspace, payload: dict, at: str) -> dict:
-    assignee = payload.get("assignee")
+def _candidate_order(order: WorkOrder, payload: dict, at: str, assignee: dict | None) -> dict:
     return {
         **work_order_out(order),
-        "assignee": order.assignee if assignee is None else assignee,
-        "assigned_by": order.assigned_by if assignee is None else workspace.actor.name,
+        "assignee": order.assignee if assignee is None else assignee["name"],
+        "assignee_id": order.assignee_id if assignee is None else assignee["id"],
+        "assigned_by": order.assigned_by if assignee is None else assignee["by"],
         "assigned_at": order.assigned_at if assignee is None else at,
         "due_at": payload.get("dueAt") if payload.get("dueAt") is not None else order.due_at,
         "measures": payload.get("measures")
@@ -111,6 +120,7 @@ def _candidate_order(order: WorkOrder, workspace: Workspace, payload: dict, at: 
         "materials": payload.get("materials")
         if payload.get("materials") is not None
         else order.materials,
+        "accepted_by_id": order.accepted_by_id,
         "submitted_at": order.submitted_at,
         "photos": order.photos or [],
     }
@@ -121,9 +131,11 @@ def _apply_accepted(order: WorkOrder, accepted: dict, to: str, meta: dict) -> No
     note = meta["note"]
     at = meta["at"]
     order.assignee = accepted["assignee"]
+    order.assignee_id = accepted["assignee_id"]
     order.assigned_by = accepted["assigned_by"]
     order.assigned_at = accepted["assigned_at"]
     order.due_at = accepted["due_at"]
+    order.accepted_by_id = accepted["accepted_by_id"]
     order.measures = accepted["measures"]
     order.materials = accepted["materials"]
     order.submitted_at = accepted["submitted_at"]
@@ -182,20 +194,41 @@ def _advance_issue(
     return f"；问题 {issue.issue_no} 进入待复查"
 
 
+def _dispatch_assignee(
+    session: Session, workspace: Workspace, payload: dict, to: str
+) -> dict | None:
+    if to != "assigned":
+        if payload.get("assigneeId"):
+            raise AppError("STATE_CONFLICT", "只有派工动作可以修改维修人", 409)
+        return None
+    assignee_id = str(payload.get("assigneeId") or "").strip()
+    if assignee_id == "":
+        raise AppError("VALIDATION_FAILED", "派工必须指定维修人身份", 422)
+    user = session.get(User, assignee_id)
+    if user is None or not user.enabled or user.role not in order_rules.REPAIR_ROLES:
+        raise AppError("VALIDATION_FAILED", "指定人员不存在、已停用或不具备维修/物业角色", 422)
+    return {"id": user.id, "name": user.name, "by": workspace.actor.name}
+
+
 def advance_order(session: Session, workspace: Workspace, order_id: str, payload: dict) -> dict:
     order = get_order(session, workspace, order_id)
     require_revision(payload.get("expectedRev"), order)
     to = payload.get("to")
     at = now_iso()
     note = str(payload.get("note", ""))
-    candidate = _candidate_order(order, workspace, payload, at)
+    assignee = _dispatch_assignee(session, workspace, payload, to)
+    candidate = _candidate_order(order, payload, at, assignee)
     try:
         accepted = order_rules.advance(
             {
                 "order": candidate,
                 "to": to,
                 "at": at,
-                "actor": {"name": workspace.actor.name, "role": workspace.actor.role},
+                "actor": {
+                    "id": workspace.actor.id,
+                    "name": workspace.actor.name,
+                    "role": workspace.actor.role,
+                },
                 "note": note,
             }
         )

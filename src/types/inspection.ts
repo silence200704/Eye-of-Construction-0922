@@ -423,6 +423,7 @@ export interface WorkOrder extends AuditFields {
   title: string
   status: WorkOrderStatus
   assignee: string
+  assigneeId?: string
   assignedBy: string
   assignedAt: string | null
   dueAt: string | null
@@ -430,6 +431,7 @@ export interface WorkOrder extends AuditFields {
   materials: string
   photos: string[]
   submittedAt: string | null
+  acceptedById?: string
   reviews: WorkOrderReview[]
   timeline: IssueTimelineEntry[]
   rev?: number

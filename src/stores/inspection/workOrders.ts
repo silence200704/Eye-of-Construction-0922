@@ -28,6 +28,7 @@ import { useSessionStore } from '../session'
 export interface OrderAction {
   note?: string
   assignee?: string
+  assigneeId?: string
   dueAt?: string | null
   measures?: string
   materials?: string
@@ -122,7 +123,7 @@ export const useWorkOrderStore = defineStore('inspectionWorkOrders', () => {
         const out = await advanceWorkOrderRemote(orderId, to, {
           expectedRev: order.rev,
           note: payload.note ?? '',
-          assignee: payload.assignee,
+          assigneeId: payload.assigneeId,
           dueAt: payload.dueAt,
           measures: payload.measures,
           materials: payload.materials,

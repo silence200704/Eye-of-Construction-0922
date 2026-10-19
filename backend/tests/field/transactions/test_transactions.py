@@ -46,7 +46,7 @@ def test_order_audit_failure_rolls_back_status_and_photos(
     ids = api.seed_manual_point()
     issue = api.report_issue(ids["manual"], submissionId="tx-order")["issue"]
     order = api.review(issue, "to_repair", "equipment")["order"]
-    order = api.advance(order, "assigned", assignee="演示维修人员")["order"]
+    order = api.advance(order, "assigned", assigneeId="demo-repair")["order"]
     order = api.advance(order, "repairing", account="demo-repair")["order"]
     photo = api.upload_photo(ids["manual"]["id"], key="tx-order-photo", account="demo-repair")
     before = counts(str(settings.database_url), *TABLES)

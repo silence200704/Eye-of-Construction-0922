@@ -7,7 +7,8 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from ....core.errors import AppError
-from ....db.models.field import WorkOrder
+from ....db.models.archive import Point
+from ....db.models.field import Issue, WorkOrder
 from ....db.models.monitoring import AlarmEvent, AlarmNotification
 from ....domain.monitoring.engine import parse_iso
 from ....domain.monitoring.events import close_guard
@@ -22,6 +23,7 @@ from ..core.workspace import (
     now_iso,
     require_revision,
     require_role,
+    require_target_building,
     write_audit,
 )
 from .recovery import current_recovery
@@ -52,6 +54,8 @@ def _event_of(session: Session, workspace: Workspace, event_id: str) -> AlarmEve
     row = session.get(AlarmEvent, (workspace.dataset_id, event_id))
     if row is None:
         raise AppError("NOT_FOUND", "预警事件不存在", 404, {"eventId": event_id})
+    point = session.get(Point, (workspace.dataset_id, row.point_id))
+    require_target_building(workspace, point.building_id if point is not None else None, "预警事件")
     return row
 
 
@@ -115,6 +119,25 @@ class CloseCommand:
     no_repair_note: str
 
 
+def _legal_event_orders(
+    session: Session, workspace: Workspace, event: AlarmEvent, orders: list[WorkOrder]
+) -> list[WorkOrder]:
+    """关闭依据必须来自该事件的传感器问题链，不接受客户端间接写入的 event_id。"""
+    legal: list[WorkOrder] = []
+    for order in orders:
+        if order.origin != "event" or not order.issue_id:
+            continue
+        issue = session.get(Issue, (workspace.dataset_id, order.issue_id))
+        if (
+            issue is not None
+            and issue.source == "sensor"
+            and issue.event_id == event.id
+            and issue.point_id == event.point_id
+        ):
+            legal.append(order)
+    return legal
+
+
 def close_event(session: Session, workspace: Workspace, command: CloseCommand) -> dict:
     require_role(workspace, CLOSE_ROLES, "关闭预警事件")
     row = _event_of(session, workspace, command.event_id)
@@ -126,14 +149,19 @@ def close_event(session: Session, workspace: Workspace, command: CloseCommand) -
         raise AppError("STATE_CONFLICT", "当前有效采样序列不满足恢复条件，请重新复测", 409)
     if command.basis.strip() == "":
         raise AppError("CLOSE_BASIS_REQUIRED", "关闭事件必须填写关闭依据", 422)
-    verified_orders = list(
-        session.scalars(
-            select(WorkOrder).where(
-                WorkOrder.dataset_id == workspace.dataset_id,
-                WorkOrder.event_id == row.id,
-                WorkOrder.status == "verified",
+    verified_orders = _legal_event_orders(
+        session,
+        workspace,
+        row,
+        list(
+            session.scalars(
+                select(WorkOrder).where(
+                    WorkOrder.dataset_id == workspace.dataset_id,
+                    WorkOrder.event_id == row.id,
+                    WorkOrder.status == "verified",
+                )
             )
-        )
+        ),
     )
     note = command.no_repair_note.strip()
     if note == "" and not verified_orders:

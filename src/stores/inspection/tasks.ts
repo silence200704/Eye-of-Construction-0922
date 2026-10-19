@@ -29,7 +29,7 @@ import {
 import { useIssueStore } from './issues'
 import { useAttachmentStore } from './attachments'
 import { dayKeyOf, initialResults, isOverdue, planTasksFor, taskProgress, taskStatusOf, taskKeyOf } from '@/core/inspection/taskPlan'
-import { nextTaskNo } from '@/core/id'
+import { nextTaskNo, uid } from '@/core/id'
 import { nowIso } from '@/core/time'
 import { toPlain } from '@/core/plain'
 import { db } from '@/db/database'
@@ -69,12 +69,12 @@ export interface IssueEntryResult {
 export const useTaskStore = defineStore('inspectionTasks', () => {
   const tasks = ref<InspectionTask[]>([])
   const loaded = ref(false)
+  let pendingGenerateKey: string | null = null
   /** 同一份草稿在失败后重试时复用 submissionId；成功后清掉。 */
   const pendingSubmission = new Map<string, string>()
 
   /** 共享时钟：今日待办与逾期判定按"现在"算，见 stores/clock.ts 的取舍说明。 */
   const clock = useClockStore()
-
   /** 立即刷新待办与逾期状态：推进时钟 + 重读任务。 */
   async function refreshNow(): Promise<void> {
     clock.refresh()
@@ -125,7 +125,11 @@ export const useTaskStore = defineStore('inspectionTasks', () => {
     if (backendActive()) {
       const pad = (value: number) => String(value).padStart(2, '0')
       const text = `${day.getFullYear()}-${pad(day.getMonth() + 1)}-${pad(day.getDate())}`
-      const result = await generateTasksRemote(text)
+      const result = await generateTasksRemote(
+        text,
+        pendingGenerateKey ?? (pendingGenerateKey = uid('inspection_generate')),
+      )
+      pendingGenerateKey = null
       await reload()
       return result
     }
@@ -290,29 +294,44 @@ export const useTaskStore = defineStore('inspectionTasks', () => {
    * 执行角色形同虚设。入口内先 guardPoint()，再建问题、再关联点位。
    */
   async function reportInspectionIssue(taskId: string, pointId: string, draft: InspectionDraft): Promise<IssueEntryResult> {
-    if (backendActive()) {
-      const task = byId(taskId)
-      if (task === undefined) return { ok: false, error: '任务不存在', issue: null }
-      const existing =
-        draft.reuseIssueId === undefined || draft.reuseIssueId === null
-          ? undefined
-          : useIssueStore().byId(draft.reuseIssueId)
-      try {
-        const out = await submitTaskIssueRemote(
-          task,
-          pointId,
-          draft,
-          pendingSubmission,
-          existing?.submissionKey ?? null,
-        )
-        await reload()
-        await useIssueStore().reload()
-        await useAttachmentStore().reload()
-        return { ok: true, error: '', issue: out.issue, duplicated: out.duplicated }
-      } catch (cause) {
-        return { ok: false, error: (cause as Error).message, issue: null }
-      }
+    return backendActive()
+      ? reportInspectionIssueRemote(taskId, pointId, draft)
+      : reportInspectionIssueLocal(taskId, pointId, draft)
+  }
+
+  async function reportInspectionIssueRemote(
+    taskId: string,
+    pointId: string,
+    draft: InspectionDraft,
+  ): Promise<IssueEntryResult> {
+    const task = byId(taskId)
+    if (task === undefined) return { ok: false, error: '任务不存在', issue: null }
+    const existing =
+      draft.reuseIssueId === undefined || draft.reuseIssueId === null
+        ? undefined
+        : useIssueStore().byId(draft.reuseIssueId)
+    try {
+      const out = await submitTaskIssueRemote(
+        task,
+        pointId,
+        draft,
+        pendingSubmission,
+        existing?.submissionKey ?? null,
+      )
+      await reload()
+      await useIssueStore().reload()
+      await useAttachmentStore().reload()
+      return { ok: true, error: '', issue: out.issue, duplicated: out.duplicated }
+    } catch (cause) {
+      return { ok: false, error: (cause as Error).message, issue: null }
     }
+  }
+
+  async function reportInspectionIssueLocal(
+    taskId: string,
+    pointId: string,
+    draft: InspectionDraft,
+  ): Promise<IssueEntryResult> {
     const guard = await loadWriteContext(taskId, pointId)
     if (!guard.ok) return { ok: false, error: guard.error, issue: null }
     const { task, result, point } = guard

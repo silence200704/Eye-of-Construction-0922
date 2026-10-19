@@ -7,11 +7,13 @@ from ...core.errors import AppError
 from ...db.models.archive import Building, Device, Point
 from ...db.models.field import Issue, MaintenancePlan, MaintenanceTask
 from ...domain.inspection import maintenance as rules
+from ...domain.inspection.answers import normalize_answers
 from ...domain.inspection.schedule import day_key, end_of_day, planned_at, valid_day
 from ..datasets.core.workspace import (
     AuditEntry,
     Workspace,
     bump,
+    can_access_building,
     now_iso,
     require_building,
     require_revision,
@@ -201,6 +203,8 @@ def generate(session: Session, workspace: Workspace, day: str) -> dict:
     skipped = 0
     at = now_iso()
     for plan in plans:
+        if not can_access_building(workspace, plan.building_id):
+            continue
         planned = planned_at(
             {"startDate": plan.start_date, "endDate": plan.end_date, "cycle": plan.cycle or {}},
             day,
@@ -339,6 +343,7 @@ def execute(session: Session, workspace: Workspace, task_id: str, payload: dict)
     measures = str(payload.get("measures", ""))
     next_due = str(payload.get("nextDueDate", ""))
     try:
+        answers = normalize_answers(answers, (task.snapshot or {}).get("checklist") or [])
         rules.validate_completion(maintenance_task_out(task), answers, measures, next_due)
     except ValueError as error:
         raise AppError("MAINTENANCE_INVALID", str(error), 422) from error

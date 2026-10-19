@@ -26,6 +26,7 @@ import { buildExecuteBatch } from '@/db/maintenance/batch'
 import { plannedAtOf } from '@/core/inspection/taskPlan'
 import { maintenanceAnswersOf, planMaintenanceTask } from '@/core/maintenance/plan'
 import { nowIso } from '@/core/time'
+import { uid } from '@/core/id'
 import { useSessionStore } from '../session'
 import { useIssueStore } from '../inspection/issues'
 import { useAttachmentStore } from '../inspection/attachments'
@@ -38,6 +39,7 @@ const EMPTY: MaintenanceResult = { ok: false, error: '', label: '', created: 0, 
 export const useMaintenanceTaskStore = defineStore('maintenanceTasks', () => {
   const tasks = ref<MaintenanceTask[]>([])
   const loaded = ref(false)
+  let pendingGenerateKey: string | null = null
 
   async function reload(): Promise<void> {
     tasks.value = backendActive() ? await fetchMaintenanceTasks() : await db.maintenanceTasks.toArray()
@@ -58,6 +60,30 @@ export const useMaintenanceTaskStore = defineStore('maintenanceTasks', () => {
     return task === undefined ? [] : maintenanceAnswersOf(task.snapshot.checklist)
   }
 
+  async function generateForDayRemote(dayKey: string): Promise<MaintenanceResult> {
+    try {
+      const result = await generateMaintenanceRemote(
+        dayKey,
+        pendingGenerateKey ?? (pendingGenerateKey = uid('maintenance_generate')),
+      )
+      pendingGenerateKey = null
+      await reload()
+      const parts = [
+        `新生成 ${result.created.length} 条`,
+        result.skipped === 0 ? '' : `已存在 ${result.skipped} 条`,
+      ].filter((row) => row !== '')
+      return {
+        ok: true,
+        error: '',
+        label: parts.join('；'),
+        created: result.created.length,
+        skipped: result.skipped,
+      }
+    } catch (cause) {
+      return { ...EMPTY, error: (cause as Error).message }
+    }
+  }
+
   /**
    * 生成某一天的保养任务（幂等，可重复点击）。
    * 快照里的设备名与位置在这里读取一次并固定下来：改计划、设备调拨都不追溯改写历史任务。
@@ -67,25 +93,7 @@ export const useMaintenanceTaskStore = defineStore('maintenanceTasks', () => {
     if (session.role !== 'safety' && session.role !== 'property') {
       return { ...EMPTY, error: '生成保养任务由学校安全管理人员或物业值班执行' }
     }
-    if (backendActive()) {
-      try {
-        const result = await generateMaintenanceRemote(dayKey)
-        await reload()
-        const parts = [
-          `新生成 ${result.created.length} 条`,
-          result.skipped === 0 ? '' : `已存在 ${result.skipped} 条`,
-        ].filter((row) => row !== '')
-        return {
-          ok: true,
-          error: '',
-          label: parts.join('；'),
-          created: result.created.length,
-          skipped: result.skipped,
-        }
-      } catch (cause) {
-        return { ...EMPTY, error: (cause as Error).message }
-      }
-    }
+    if (backendActive()) return generateForDayRemote(dayKey)
     // 读库而不是读内存：计划刚被别处改过时，缓存里的旧版本会生成不该生成的任务
     const plans = (await db.maintenancePlans.toArray()).filter((row) => row.enabled)
     const day = new Date(`${dayKey}T00:00:00`)

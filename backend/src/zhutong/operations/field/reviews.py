@@ -16,6 +16,7 @@ from ..datasets.core.workspace import (
     require_building,
     require_revision,
     require_role,
+    require_target_building,
     uid,
     write_audit,
 )
@@ -47,9 +48,14 @@ def _resolve_link(
     event = session.get(AlarmEvent, (workspace.dataset_id, str(payload.get("linkedEventId") or "")))
     if event is None:
         raise AppError("NOT_FOUND", "要关联的预警事件不存在", 404)
+    if event.status == "closed" and len(str(payload.get("note", "")).strip()) < 10:
+        raise AppError(
+            "VALIDATION_FAILED",
+            "关联已关闭事件需在审核意见写明专门依据（不少于 10 个字）",
+            422,
+        )
     point = session.get(Point, (workspace.dataset_id, event.point_id))
-    if point is not None:
-        require_building(workspace, point.building_id)
+    require_target_building(workspace, point.building_id if point is not None else None, "预警事件")
     return None, event
 
 
@@ -77,7 +83,9 @@ def _create_order_for_issue(
         title=f"{issue.anomaly_type}（{issue.issue_no}）",
         status="created",
         assignee="",
+        assignee_id="",
         assigned_by="",
+        accepted_by_id="",
         assigned_at=None,
         due_at=None,
         measures="",
@@ -126,6 +134,42 @@ def _create_order_for_issue(
         ),
     )
     return order
+
+
+def _open_orders(session: Session, workspace: Workspace, issue_id: str) -> list[WorkOrder]:
+    rows = session.scalars(
+        select(WorkOrder).where(
+            WorkOrder.dataset_id == workspace.dataset_id,
+            WorkOrder.issue_id == issue_id,
+        )
+    )
+    return [row for row in rows if row.status != "verified"]
+
+
+def _invalidate_pending_rounds(issue: Issue, at: str, reason: str) -> None:
+    rounds = [dict(row) for row in issue.rechecks or []]
+    changed = False
+    for row in rounds:
+        if row.get("outcome") is None and not row.get("invalidatedAt"):
+            row["invalidatedAt"] = at
+            row["invalidatedReason"] = reason
+            changed = True
+    if not changed:
+        return
+    issue.rechecks = rounds
+    issue.timeline = [
+        *(issue.timeline or []),
+        {
+            "at": at,
+            "by": "系统",
+            "byRole": "system",
+            "action": "旧复查轮次失效",
+            "detail": (
+                "开始新的维修处置周期，未出结论的旧轮次保留历史但不能再用于关闭；"
+                "请验收后重新登记复查"
+            ),
+        },
+    ]
 
 
 def _update_targets(
@@ -184,6 +228,7 @@ def _apply_review(
     linked = (
         target_issue.issue_no if target_issue else target_event.event_no if target_event else ""
     )
+    no_photo = str(payload.get("noPhotoReason", "")).strip()
     issue.timeline = [
         *(issue.timeline or []),
         {
@@ -191,9 +236,36 @@ def _apply_review(
             "by": workspace.actor.name,
             "byRole": workspace.actor.role,
             "action": f"审核：{payload.get('action')}（{payload.get('category')}）",
-            "detail": payload.get("note", "") + (f"｜关联到 {linked}" if linked else ""),
+            "detail": (
+                payload.get("note", "")
+                + (f"｜关联到 {linked}" if linked else "")
+                + (f"｜无法拍照原因：{no_photo}" if no_photo else "")
+            ),
         },
     ]
+
+
+def _write_review_audit(
+    session: Session, workspace: Workspace, issue: Issue, payload: dict, at: str
+) -> None:
+    note = str(payload.get("note", ""))
+    no_photo = str(payload.get("noPhotoReason", "")).strip()
+    write_audit(
+        session,
+        workspace,
+        AuditEntry(
+            action="update",
+            object_type="system",
+            object_id=issue.id,
+            object_label=f"{issue.issue_no} {issue.anomaly_type}",
+            summary=f"审核问题 {issue.issue_no}",
+            reason=(
+                f"{payload.get('action')}／{payload.get('category')}；{note}"
+                + (f"；无法拍照原因：{no_photo}" if no_photo else "")
+            ),
+            at=at,
+        ),
+    )
 
 
 def review_issue(session: Session, workspace: Workspace, issue_id: str, payload: dict) -> dict:
@@ -211,9 +283,16 @@ def review_issue(session: Session, workspace: Workspace, issue_id: str, payload:
             PhotoOwner(issue_id=issue.id, point_id=issue.point_id, building_id=issue.building_id),
             specs,
         )
+    if payload.get("action") == "to_repair" and _open_orders(session, workspace, issue.id):
+        raise AppError(
+            "STATE_CONFLICT",
+            "该问题已有未验收工单，不能重复转维修；请先完成并验收现有工单，或退回后继续办理",
+            409,
+        )
     try:
         status = rules.review_action(
             {
+                "issue": issue_out(issue),
                 "action": payload.get("action"),
                 "category": payload.get("category"),
                 "note": payload.get("note", ""),
@@ -240,24 +319,13 @@ def review_issue(session: Session, workspace: Workspace, issue_id: str, payload:
     _apply_review(issue, workspace, payload, meta)
     order = None
     if payload.get("action") == "to_repair":
+        _invalidate_pending_rounds(issue, at, payload.get("note", ""))
         order = _create_order_for_issue(session, workspace, issue, payload, at)
     note = payload.get("note", "")
     meta["note"] = note
     _update_targets(workspace, issue, target_issue, target_event, meta)
     bump(issue, workspace, at)
-    write_audit(
-        session,
-        workspace,
-        AuditEntry(
-            action="update",
-            object_type="system",
-            object_id=issue.id,
-            object_label=f"{issue.issue_no} {issue.anomaly_type}",
-            summary=f"审核问题 {issue.issue_no}",
-            reason=f"{payload.get('action')}／{payload.get('category')}；{note}",
-            at=at,
-        ),
-    )
+    _write_review_audit(session, workspace, issue, payload, at)
     return {
         "issue": issue_out(issue),
         "order": work_order_out(order) if order is not None else None,

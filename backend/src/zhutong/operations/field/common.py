@@ -19,6 +19,14 @@ from ...db.models.field import (
 from ...db.models.media import Attachment, MediaFile
 from ...domain.inspection.schedule import day_key
 from ..datasets.core.workspace import Workspace, require_building, uid
+from .access import (  # noqa: F401  (兼容既有模块从 common 导入的读取器)
+    get_issue,
+    get_maintenance_plan,
+    get_maintenance_task,
+    get_order,
+    get_plan,
+    get_task,
+)
 
 
 def plan_out(row: InspectionPlan) -> dict:
@@ -156,9 +164,11 @@ def work_order_out(row: WorkOrder) -> dict:
         "title": row.title,
         "status": row.status,
         "assignee": row.assignee,
+        "assigneeId": row.assignee_id,
         "assignedBy": row.assigned_by,
         "assignedAt": row.assigned_at,
         "dueAt": row.due_at,
+        "acceptedById": row.accepted_by_id,
         "measures": row.measures,
         "materials": row.materials,
         "photos": row.photos or [],
@@ -198,48 +208,6 @@ def attachment_out(session: Session, workspace: Workspace, row: Attachment) -> d
         "thumbUrl": f"/api/v1/datasets/{workspace.dataset_id}/media/{media.id}/content",
         "rev": row.revision,
     }
-
-
-def get_plan(session: Session, workspace: Workspace, plan_id: str) -> InspectionPlan:
-    row = session.get(InspectionPlan, (workspace.dataset_id, plan_id))
-    if row is None:
-        raise AppError("NOT_FOUND", "巡检计划不存在", 404, {"planId": plan_id})
-    return row
-
-
-def get_task(session: Session, workspace: Workspace, task_id: str) -> InspectionTask:
-    row = session.get(InspectionTask, (workspace.dataset_id, task_id))
-    if row is None:
-        raise AppError("NOT_FOUND", "巡检任务不存在", 404, {"taskId": task_id})
-    return row
-
-
-def get_issue(session: Session, workspace: Workspace, issue_id: str) -> Issue:
-    row = session.get(Issue, (workspace.dataset_id, issue_id))
-    if row is None:
-        raise AppError("NOT_FOUND", "问题不存在", 404, {"issueId": issue_id})
-    return row
-
-
-def get_order(session: Session, workspace: Workspace, order_id: str) -> WorkOrder:
-    row = session.get(WorkOrder, (workspace.dataset_id, order_id))
-    if row is None:
-        raise AppError("NOT_FOUND", "工单不存在", 404, {"orderId": order_id})
-    return row
-
-
-def get_maintenance_plan(session: Session, workspace: Workspace, plan_id: str) -> MaintenancePlan:
-    row = session.get(MaintenancePlan, (workspace.dataset_id, plan_id))
-    if row is None:
-        raise AppError("NOT_FOUND", "保养计划不存在", 404, {"planId": plan_id})
-    return row
-
-
-def get_maintenance_task(session: Session, workspace: Workspace, task_id: str) -> MaintenanceTask:
-    row = session.get(MaintenanceTask, (workspace.dataset_id, task_id))
-    if row is None:
-        raise AppError("NOT_FOUND", "保养任务不存在", 404, {"taskId": task_id})
-    return row
 
 
 def point_of(session: Session, workspace: Workspace, point_id: str) -> Point:
@@ -384,12 +352,21 @@ def _link_one(
     media = session.get(MediaFile, (workspace.dataset_id, spec.media_id))
     if media is None:
         raise AppError("NOT_FOUND", "照片媒体不存在", 404, {"mediaId": spec.media_id})
+    if spec.kind == "acceptance":
+        if workspace.actor.role != "safety":
+            raise AppError("ROLE_FORBIDDEN", "验收照片只能由学校安全管理人员提交", 403)
+        if not owner.work_order_id:
+            raise AppError("VALIDATION_FAILED", "验收照片只能归属维修工单", 422)
     if media.uploaded_by != workspace.actor.id and workspace.actor.role != "safety":
         raise AppError("ROLE_FORBIDDEN", "只能关联本人上传的媒体", 403)
     if point_id and media.point_id and media.point_id != point_id:
         raise AppError("STATE_CONFLICT", "照片关联测点与归属对象不一致", 409)
     if not media.mime_type.startswith("image/"):
         raise AppError("VALIDATION_FAILED", "业务照片附件必须是图片", 422)
+    if spec.thumb_id:
+        thumb = session.get(MediaFile, (workspace.dataset_id, spec.thumb_id))
+        if thumb is None or not thumb.mime_type.startswith("image/"):
+            raise AppError("VALIDATION_FAILED", "缩略图不存在或不是图片", 422)
     existing = session.scalar(
         select(Attachment).where(
             Attachment.dataset_id == workspace.dataset_id,

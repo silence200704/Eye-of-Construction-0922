@@ -13,6 +13,7 @@ from ..datasets.core.workspace import (
     AuditEntry,
     Workspace,
     bump,
+    can_access_building,
     now_iso,
     require_building,
     require_revision,
@@ -212,6 +213,8 @@ def generate_tasks(session: Session, workspace: Workspace, day: str) -> dict:
     skipped = 0
     at = now_iso()
     for plan in plans:
+        if not can_access_building(workspace, plan.building_id):
+            continue
         planned = planned_at(
             {
                 "startDate": plan.start_date,

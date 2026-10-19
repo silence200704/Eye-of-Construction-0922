@@ -1,0 +1,55 @@
+{
+  "format": "zhutong-server-backup-v1",
+  "createdAt": "2026-10-19T10:44:49.098295+00:00",
+  "schemaRevision": "0010_work_order_assignee",
+  "tables": {
+    "alembic_version": 1,
+    "users": 5,
+    "login_sessions": 8,
+    "datasets": 2,
+    "audits": 69,
+    "import_batches": 0,
+    "operation_receipts": 61,
+    "preferences": 0,
+    "session_states": 0,
+    "buildings": 1,
+    "floors": 1,
+    "points": 2,
+    "devices": 1,
+    "rule_definitions": 1,
+    "rules": 1,
+    "baselines": 1,
+    "events": 1,
+    "notifications": 3,
+    "records": 4,
+    "plans": 1,
+    "tasks": 1,
+    "maintenance_plans": 1,
+    "maintenance_tasks": 1,
+    "issues": 6,
+    "work_orders": 4,
+    "media_files": 2,
+    "media_videos": 0,
+    "media_frames": 0,
+    "media_comparisons": 0,
+    "attachments": 2
+  },
+  "files": {
+    "zhutong.sqlite": {
+      "size": 684032,
+      "sha256": "38241b1d036d0154c60a667fd8849a1c275916bb521974a509df3eb5dd1cb228"
+    },
+    "session.key": {
+      "size": 64,
+      "sha256": "6d191b1601269b77d4df22e382a3d08a2691bd773ca77712acbc00c5a4c18d8a"
+    },
+    "media/files/80/8020711c856740538476ee056c3c8705": {
+      "size": 69,
+      "sha256": "c47dd9465c00e9a0c8b85e9ea58d3034a0d23b9cf926113602f3460752a4eb96"
+    },
+    "media/files/42/4202e1eefbdd47aaa69df443414bff4f": {
+      "size": 69,
+      "sha256": "c47dd9465c00e9a0c8b85e9ea58d3034a0d23b9cf926113602f3460752a4eb96"
+    }
+  }
+}

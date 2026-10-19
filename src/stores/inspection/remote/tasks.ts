@@ -10,11 +10,11 @@ import {
 } from '@/api/backend/field'
 import { uid } from '@/core/id'
 
-export async function generateTasksRemote(day: string): Promise<{
+export async function generateTasksRemote(day: string, commandKey: string): Promise<{
   created: InspectionTask[]
   skipped: number
 }> {
-  return generateInspectionTasksRemote(day)
+  return generateInspectionTasksRemote(day, commandKey)
 }
 
 export async function checkInRemote(

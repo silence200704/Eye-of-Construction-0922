@@ -9,7 +9,7 @@ def _order_flow(api: FieldApi, issue: dict) -> dict:
     reviewed = api.review(issue, "to_repair", "equipment")
     order = reviewed["order"]
     assert order["status"] == "created"
-    order = api.advance(order, "assigned", assignee="演示维修人员")
+    order = api.advance(order, "assigned", assigneeId="demo-repair")
     assert order["order"]["status"] == "assigned"
     order = api.advance(order["order"], "repairing", account="demo-repair")
     assert order["order"]["status"] == "repairing"
@@ -73,7 +73,7 @@ def test_work_order_permissions_and_acceptance_roles(client: TestClient, setting
 
     repair_assign = api.fpost(
         f"/work-orders/{order['id']}/actions",
-        {"expectedRev": order["rev"], "to": "assigned", "assignee": "演示维修人员"},
+        {"expectedRev": order["rev"], "to": "assigned", "assigneeId": "demo-repair"},
         "repair-assign",
         "demo-repair",
     )
@@ -84,9 +84,9 @@ def test_work_order_permissions_and_acceptance_roles(client: TestClient, setting
         {"expectedRev": order["rev"], "to": "assigned"},
         "assignee-required",
     )
-    assert no_assignee.status_code == 409
+    assert no_assignee.status_code == 422
 
-    assigned = api.advance(order, "assigned", assignee="演示维修人员")
+    assigned = api.advance(order, "assigned", assigneeId="demo-repair")
     no_reason = api.fpost(
         f"/work-orders/{order['id']}/actions",
         {"expectedRev": assigned["order"]["rev"], "to": "repairing"},

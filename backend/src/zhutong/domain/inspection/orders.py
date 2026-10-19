@@ -20,10 +20,8 @@ def role_label(role: str) -> str:
 
 
 def is_assigned_to(order: dict, actor: dict) -> bool:
-    assignee = str(order.get("assignee", ""))
-    if assignee == "":
-        return False
-    return assignee in {role_label(actor["role"]), actor["name"]}
+    assignee_id = str(order.get("assignee_id", ""))
+    return assignee_id != "" and assignee_id == str(actor.get("id", ""))
 
 
 def advance(input: dict) -> dict:
@@ -35,32 +33,41 @@ def advance(input: dict) -> dict:
         raise ValueError(f"工单当前为「{order.get('status')}」，不能直接转为「{to}」")
     if to == "assigned" and actor["role"] != "safety":
         raise ValueError("派工由学校安全管理人员执行")
-    if to == "assigned" and str(order.get("assignee", "")).strip() == "":
-        raise ValueError("派工必须指定维修人")
+    if to == "assigned" and str(order.get("assignee_id", "")).strip() == "":
+        raise ValueError("派工必须指定维修人（按身份 ID）")
     if to in {"verified", "returned"} and actor["role"] != VERIFY_ROLE:
         raise ValueError("验收通过与验收退回由学校安全管理人员执行")
     if to in {"repairing", "submitted"}:
         if actor["role"] not in REPAIR_ROLES:
             raise ValueError("接单与提交完工由维修人员（或物业值班）执行")
-        if order.get("assignee", "") == "":
+        if order.get("assignee_id", "") == "":
             raise ValueError("工单尚未指定维修人，先派工再处理")
     if to == "repairing" and not is_assigned_to(order, actor):
         if actor["role"] != "property":
             raise ValueError(f"本工单已派给「{order.get('assignee')}」，请由被派工人接单")
         if note.strip() == "":
             raise ValueError(f"物业值班代接「{order.get('assignee')}」的工单必须写明代接原因")
+    if to == "submitted":
+        if str(order.get("accepted_by_id", "")) == "":
+            raise ValueError("工单尚未接单，不能直接提交完工")
+        if str(order.get("accepted_by_id")) != str(actor.get("id", "")):
+            raise ValueError("只有实际接单人可以提交完工，原维修人或其他人员不能代交")
     if to == "submitted" and str(order.get("measures", "")).strip() == "":
         raise ValueError("提交待验收必须填写维修措施，否则验收方没有依据")
     if to == "returned" and note.strip() == "":
         raise ValueError("验收退回必须写明退回原因")
     return {
         "assignee": order.get("assignee", ""),
+        "assignee_id": order.get("assignee_id", ""),
         "assigned_by": order.get("assigned_by", ""),
         "assigned_at": order.get("assigned_at"),
         "due_at": order.get("due_at"),
         "measures": order.get("measures", ""),
         "materials": order.get("materials", ""),
         "photos": order.get("photos") or [],
+        "accepted_by_id": str(actor.get("id", ""))
+        if to == "repairing"
+        else order.get("accepted_by_id", ""),
         "submitted_at": input["at"] if to == "submitted" else order.get("submitted_at"),
     }
 

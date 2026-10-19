@@ -62,6 +62,24 @@ function transportError(code: string, message: string): HttpError {
   return new HttpError({ ok: false, status: 0, error: { code, message, retryable: true } })
 }
 
+async function fetchProtectedBlob(
+  fetcher: typeof fetch,
+  base: string,
+  token: string | null,
+  path: string,
+): Promise<Blob> {
+  if (!path.startsWith('/') || path.startsWith('//')) {
+    throw transportError('INVALID_REQUEST', '接口路径无效')
+  }
+  const headers = new Headers()
+  if (token) headers.set('Authorization', `Bearer ${token}`)
+  const response = await fetcher(`${base}${path.replace(/^\/api\/v1/, '')}`, { headers })
+  if (!response.ok) {
+    throw transportError('STORAGE_UNAVAILABLE', '无法读取照片内容，请检查后端连接')
+  }
+  return response.blob()
+}
+
 export function createHttpClient(options: ClientOptions = {}) {
   const fetcher = options.fetcher ?? fetch
   const base = (options.baseUrl ?? '/api/v1').replace(/\/$/, '')
@@ -129,17 +147,7 @@ export function createHttpClient(options: ClientOptions = {}) {
 
   /** 受身份保护的内容读取（媒体原件/缩略图），直接返回 Blob。 */
   async function blob(path: string): Promise<Blob> {
-    if (!path.startsWith('/') || path.startsWith('//')) {
-      throw transportError('INVALID_REQUEST', '接口路径无效')
-    }
-    const headers = new Headers()
-    const token = options.token?.()
-    if (token) headers.set('Authorization', `Bearer ${token}`)
-    const response = await fetcher(`${base}${path.replace(/^\/api\/v1/, '')}`, { headers })
-    if (!response.ok) {
-      throw transportError('STORAGE_UNAVAILABLE', '无法读取照片内容，请检查后端连接')
-    }
-    return response.blob()
+    return fetchProtectedBlob(fetcher, base, options.token?.() ?? null, path)
   }
 
   return { request, command: send, blob }

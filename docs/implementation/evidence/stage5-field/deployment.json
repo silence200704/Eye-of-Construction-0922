@@ -51,12 +51,12 @@
   "mediaHashSum": "062a0af6c11bc766b1171000a71b136e37ca194feb9d9a957670374235915a4b",
   "stage5Route": "GET /api/v1/datasets/demo-main/reports/indicators returned 200 in rebuilt container",
   "ports": {
-    "dorm_api_8000": 200,
-    "dorm_web_5173": 200,
-    "zhutong_api_18000": 200,
-    "zhutong_web_8080": 200
+    "dormApi8000": "000（最终检查无监听；本轮只执行筑瞳 compose，未停止查寝）",
+    "dormWeb5173": "000（同上）",
+    "zhutong18000": 200,
+    "zhutong8080": 200
   },
-  "note": "两次重建均只替换镜像/容器，runtime 数据卷未清空；业务对象计数在两次重建前后一致。回执数的 7 条增量来自页面访问，不是重建写入。",
+  "note": "先在容器内备份并校验，再重建触发 0010 迁移；业务表计数不变。恢复副本为迁移前 0009 快照，合法可读。",
   "firstRebuild": {
     "at": "2026-10-19T04:14:10Z",
     "before": {
@@ -124,5 +124,64 @@
       "operation_receipts": 51
     },
     "receiptDelta": "首次重建 44 → 最终 51；新增 7 条均为 notification_escalate（页面访问触发的通知超时核验回执），业务对象计数未变。"
+  },
+  "repairedAt": "2026-10-19T11:14:18.710445+00:00",
+  "migration": {
+    "from": "0009_monitoring_assessment",
+    "to": "0010_work_order_assignee",
+    "migrateExit": 0
+  },
+  "backupBeforeMigration": {
+    "schema": "0009_monitoring_assessment",
+    "issues": 0,
+    "orders": 0,
+    "events": 2,
+    "audits": 46,
+    "receipts": 56,
+    "mediaFiles": 8,
+    "verify": "passed"
+  },
+  "countsAfterMigration": {
+    "buildings": 5,
+    "floors": 8,
+    "points": 8,
+    "devices": 4,
+    "baselines": 3,
+    "rules": 5,
+    "records": 18,
+    "events": 2,
+    "notifications": 9,
+    "plans": 0,
+    "tasks": 0,
+    "issues": 0,
+    "work_orders": 0,
+    "attachments": 0,
+    "maintenance_plans": 0,
+    "maintenance_tasks": 0,
+    "audits": 46,
+    "operation_receipts": 56
+  },
+  "businessCountsEqual": true,
+  "containerStatus": {
+    "api": "healthy",
+    "web": "up",
+    "migrate": "exited(0)"
+  },
+  "restoreVerification": {
+    "backupSchema": "0009_monitoring_assessment",
+    "restoredSchema": "0009_monitoring_assessment",
+    "mediaFiles": 8,
+    "countsEqual": true
+  },
+  "finalRebuild": {
+    "schema": "0010_work_order_assignee",
+    "api": "healthy",
+    "web": "up",
+    "migrate": "exited(0)",
+    "workOrders": 0,
+    "mediaFiles": 8,
+    "reportsEndpoint": 200,
+    "openapiHasAssigneeId": true,
+    "openapiHasChecklistAnswerInput": true
   }
 }

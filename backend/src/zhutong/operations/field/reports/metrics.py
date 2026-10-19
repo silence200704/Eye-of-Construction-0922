@@ -147,6 +147,8 @@ def _recheck_stats(data: dict, workspace: Workspace, filters: ReportFilters) -> 
         if filters.point_id and issue.point_id != filters.point_id:
             continue
         for index, row in enumerate(issue.rechecks or []):
+            if row.get("invalidatedAt"):
+                continue
             label = f"{issue.issue_no} 第 {index + 1} 轮"
             outcome_at = row.get("outcomeAt")
             if not outcome_at:

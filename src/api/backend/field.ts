@@ -64,7 +64,7 @@ export async function saveInspectionPlanRemote(
   const result = await command<InspectionPlan>(id === null ? '/inspection/plans' : `/inspection/plans/${id}`, {
     method: id === null ? 'POST' : 'PATCH',
     body: { ...draft, expectedRev: rev },
-    key: shortKey(`inspection_plan_${id ?? 'new'}`, draft),
+    key: shortKey(`inspection_plan_${id ?? 'new'}`, { draft, rev }),
   })
   return result.data
 }
@@ -85,10 +85,11 @@ export async function fetchInspectionTasks(): Promise<InspectionTask[]> {
 
 export async function generateInspectionTasksRemote(
   day: string,
+  commandKey: string,
 ): Promise<{ created: InspectionTask[]; skipped: number }> {
   const result = await command<{ created: InspectionTask[]; skipped: number }>(
     '/inspection/tasks/generate',
-    { body: { date: day }, key: `inspection_generate|${day}` },
+    { body: { date: day }, key: commandKey },
   )
   return result.data
 }
@@ -223,7 +224,7 @@ export async function saveMaintenancePlanRemote(
     {
       method: id === null ? 'POST' : 'PATCH',
       body: { ...body, expectedRev: rev },
-      key: shortKey(`maintenance_plan_${id ?? 'new'}`, body),
+      key: shortKey(`maintenance_plan_${id ?? 'new'}`, { body, rev }),
     },
   )
   return result.data
@@ -245,10 +246,11 @@ export async function fetchMaintenanceTasks(): Promise<MaintenanceTask[]> {
 
 export async function generateMaintenanceRemote(
   day: string,
+  commandKey: string,
 ): Promise<{ created: MaintenanceTask[]; skipped: number }> {
   const result = await command<{ created: MaintenanceTask[]; skipped: number }>(
     '/maintenance/tasks/generate',
-    { body: { date: day }, key: `maintenance_generate|${day}` },
+    { body: { date: day }, key: commandKey },
   )
   return result.data
 }

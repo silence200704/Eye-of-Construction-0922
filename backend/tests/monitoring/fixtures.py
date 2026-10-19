@@ -67,14 +67,14 @@ class Api:
         assert response.status_code == status, response.text
         return response.json()["data"]
 
-    def add_scoped_user(self, user_id: str, building_ids: list[str]) -> str:
+    def add_scoped_user(self, user_id: str, building_ids: list[str] | None, **options) -> str:
         engine = create_engine(self.database_url)
         with Session(engine) as session:
             session.add(
                 User(
                     id=user_id,
-                    name="范围受限设备管理员",
-                    role="device",
+                    name=options.get("name", "范围受限设备管理员"),
+                    role=options.get("role", "device"),
                     enabled=True,
                     is_demo=True,
                     building_ids_json=__import__("json").dumps(building_ids),

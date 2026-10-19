@@ -1,30 +1,28 @@
 {
+  "createdFrom": "backend/.runtime-stage5-verify/stage5.sqlite（独立临时库，schema 0010）",
+  "backupPath": "backend/.stage5-fix-backup",
+  "restoredPath": "C:/Users/Lenovo/AppData/Local/Temp/zhutong-stage5-fix-restore（Windows 对点目录 rename 受限，未覆盖任何已有目录）",
+  "schema": "0010_work_order_assignee",
   "counts": {
     "issues": 6,
-    "work_orders": 3,
+    "work_orders": 4,
     "plans": 1,
     "tasks": 1,
     "maintenance_plans": 1,
     "maintenance_tasks": 1,
     "attachments": 2,
     "media_files": 2,
-    "audits": 60,
-    "operation_receipts": 50
+    "audits": 69,
+    "operation_receipts": 61
   },
-  "restored": {
-    "issues": 6,
-    "work_orders": 3,
-    "plans": 1,
-    "tasks": 1,
-    "maintenance_plans": 1,
-    "maintenance_tasks": 1,
-    "attachments": 2,
-    "media_files": 2,
-    "audits": 60,
-    "operation_receipts": 50
-  },
-  "equal": true,
+  "restoredEqual": true,
   "mediaFiles": 2,
-  "mediaEqual": true,
-  "schema": "0009_monitoring_assessment"
+  "mediaSha256Equal": true,
+  "restoredApiCheck": {
+    "issues": 6,
+    "orders": 4,
+    "closedIssues": 2,
+    "issue3": "closed",
+    "order4": "verified"
+  }
 }
