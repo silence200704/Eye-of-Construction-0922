@@ -3,6 +3,9 @@
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine, text
+from sqlalchemy.orm import SessionTransaction
+
+from zhutong.app import create_app
 
 from ..fixtures import Api
 from .test_records import counts
@@ -132,3 +135,26 @@ def test_recovery_reconciliation_failure_rolls_back_revision(
     assert stored["values"] == middle["values"]
     assert stored["rev"] == middle["rev"]
     assert api.get("/events")[0]["status"] == "recovering"
+
+
+def test_transaction_commit_failure_cannot_return_success(client: TestClient, settings, monkeypatch) -> None:
+    api = Api(client, str(settings.database_url))
+    rows = recovering_series(api)
+    headers = api.headers("commit-fails")
+    before = counts(str(settings.database_url), "records", "events", "audits", "operation_receipts")
+    commit = SessionTransaction.commit
+
+    def fail_commit(transaction, _to_root=False):
+        if transaction.parent is None:
+            raise RuntimeError("模拟事务提交失败")
+        return commit(transaction, _to_root)
+
+    monkeypatch.setattr(SessionTransaction, "commit", fail_commit)
+    with TestClient(create_app(settings), raise_server_exceptions=False) as transport:
+        response = transport.post(
+            f"/api/v1/datasets/demo-main/records/{rows[2]['id']}/revisions",
+            json=correction(rows[2], 0.9),
+            headers=headers,
+        )
+    assert response.status_code == 500
+    assert counts(str(settings.database_url), *before) == before
