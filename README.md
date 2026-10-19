@@ -2,9 +2,9 @@
 
 > **完整项目升级进行中**：新范围与阶段核验以 [实施台账](docs/implementation/README.md) 为准。
 > 阶段 3 已完成旧数据迁移；阶段 4 已把档案、基准、规则、监测记录、CSV、预警事件与通知切换到
-> 服务端事务，提交审核中；无登录页或账号密码，默认启动需要 [FastAPI 后端](backend/README.md)。
+> 服务端事务并通过核验；无登录页或账号密码，默认启动需要 [FastAPI 后端](backend/README.md)。
 > 巡检、问题、工单、保养仍以浏览器数据库为权威，阶段 5 迁移；下文保留前端基线说明，不能据此宣称已全部入库。
-> 阶段 4 报告见 [04-monitoring.md](docs/implementation/handoff/reports/04-monitoring.md)。
+> 阶段 4 最终核验见 [04-monitoring.md](docs/implementation/stages/04-monitoring.md)，下一步为阶段 5。
 > 与查寝系统同时使用：查寝保留前端 `5173`、后端 `8000`；筑瞳使用 Docker 前端 `8080`、后端 `18000`，本地开发前端 `5180`。详见 [端口隔离与核验](docs/implementation/port-coexistence.md)。
 
 课题三参赛方案的演示工程。**V0.3 基线持续迭代**：V0.2 预警事件闭环版冻结为演示基线，

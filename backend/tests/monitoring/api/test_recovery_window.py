@@ -137,7 +137,9 @@ def test_recovery_reconciliation_failure_rolls_back_revision(
     assert api.get("/events")[0]["status"] == "recovering"
 
 
-def test_transaction_commit_failure_cannot_return_success(client: TestClient, settings, monkeypatch) -> None:
+def test_transaction_commit_failure_cannot_return_success(
+    client: TestClient, settings, monkeypatch
+) -> None:
     api = Api(client, str(settings.database_url))
     rows = recovering_series(api)
     headers = api.headers("commit-fails")

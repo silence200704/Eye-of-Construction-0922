@@ -1,0 +1,39 @@
+{
+  "checkedAt": "2026-10-19T03:22:13.733718+00:00",
+  "transport": "real HTTP via isolated native uvicorn on ephemeral localhost ports",
+  "productionDataModified": false,
+  "results": [
+    {
+      "case": "middle normal corrected red",
+      "revisionHttp": 200,
+      "status": "pending",
+      "closeHttp": 409,
+      "eventCount": 1,
+      "originalValuePreserved": true,
+      "replayAddedAudit": false
+    },
+    {
+      "case": "latest normal invalidated",
+      "revisionHttp": 200,
+      "status": "pending",
+      "closeHttp": 409,
+      "eventCount": 1,
+      "originalValuePreserved": true,
+      "replayAddedAudit": false
+    },
+    {
+      "case": "old red corrected with later recovery intact",
+      "revisionHttp": 200,
+      "status": "recovering",
+      "closeHttp": 200,
+      "eventCount": 1,
+      "originalValuePreserved": true,
+      "replayAddedAudit": false
+    },
+    {
+      "case": "stale recovering status rejected",
+      "storedStatus": "recovering",
+      "closeHttp": 409
+    }
+  ]
+}
