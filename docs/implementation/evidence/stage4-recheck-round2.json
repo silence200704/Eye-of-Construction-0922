@@ -1,0 +1,74 @@
+{
+  "checkedAt": "2026-10-19T02:48:21.606744+00:00",
+  "results": {
+    "A_latest_normal_to_red": {
+      "assessment": "red",
+      "eventAction": "created",
+      "eventCount": 1,
+      "revision": 1,
+      "before": {
+        "width": 0.55
+      }
+    },
+    "B_recovering_latest_revision": {
+      "message": "事件 E20261019-002 追加证据（当前红色紧急核查）；恢复待确认已被新异常推翻",
+      "status": "pending",
+      "timeline": [
+        "生成红色紧急核查事件",
+        "进入恢复待确认",
+        "恢复状态被新异常推翻",
+        "追加证据"
+      ],
+      "closeStatus": 409
+    },
+    "C_recovering_after_ack": {
+      "message": "事件 E20261019-003 追加证据（当前红色紧急核查）；恢复待确认已被新异常推翻",
+      "status": "handling",
+      "closeStatus": 409
+    },
+    "D_closed_history_revision": {
+      "message": "事件已关闭；历史修订只更新记录，不新建事件",
+      "eventCount": 1,
+      "status": "closed"
+    },
+    "E_backfill_after_latest": {
+      "status": "pending",
+      "level": "red",
+      "evidences": 1
+    },
+    "F_revision_retry": {
+      "action": "created",
+      "before": {
+        "events": 1,
+        "notifications": 3,
+        "audits": 56
+      },
+      "after": {
+        "events": 1,
+        "notifications": 3,
+        "audits": 56
+      }
+    },
+    "G_rule_scope_change": {
+      "versions": [
+        "V1.1",
+        "V1.2"
+      ],
+      "currentPreviewRule": null,
+      "currentRecordRuleVersion": null,
+      "currentRecordAssessment": null,
+      "historicalRuleVersion": "V1.0",
+      "independentRuleCode": "RULE-RC2-OTHER",
+      "independentRecordRuleCode": "RULE-RC2-OTHER",
+      "independentRecordState": "yellow"
+    },
+    "H_closed_event_escalation": {
+      "closedNotifications": 3,
+      "escalated": 0
+    },
+    "I_cross_target_idempotency": {
+      "status": 409,
+      "code": "IDEMPOTENCY_CONFLICT"
+    }
+  }
+}
