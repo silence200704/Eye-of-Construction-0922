@@ -86,7 +86,9 @@ def test_correcting_window_back_to_normal_restores_recovery_and_replays_once(
     assert api.get("/events")[0]["status"] == "pending"
     body = correction(changed, 0.55)
     api.ok(api.post(f"/records/{changed['id']}/revisions", body, key="window-fixed"))
-    before = counts(str(settings.database_url), "events", "notifications", "audits", "operation_receipts")
+    before = counts(
+        str(settings.database_url), "events", "notifications", "audits", "operation_receipts"
+    )
     replay = api.post(f"/records/{changed['id']}/revisions", body, key="window-fixed")
     assert replay.json()["replayed"] is True
     assert counts(str(settings.database_url), *before) == before
@@ -111,7 +113,9 @@ def test_close_rechecks_actual_records_even_if_recovering_status_is_stale(
     assert counts(str(settings.database_url), *before) == before
 
 
-def test_recovery_reconciliation_failure_rolls_back_revision(client: TestClient, settings, monkeypatch) -> None:
+def test_recovery_reconciliation_failure_rolls_back_revision(
+    client: TestClient, settings, monkeypatch
+) -> None:
     api = Api(client, str(settings.database_url))
     rows = recovering_series(api)
     middle = rows[2]

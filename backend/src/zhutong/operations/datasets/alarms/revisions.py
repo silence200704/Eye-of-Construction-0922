@@ -10,14 +10,13 @@ from ....db.models.monitoring import AlarmEvent
 from ....domain.monitoring.events import (
     EVENT_LEVEL_LABEL,
     RevisionPlanInput,
-    level_of_state,
     notifications_for,
     plan_revision,
 )
 from ...identity_types import ROLES
 from ..core.serialize import event_out, record_out
 from ..core.workspace import AuditEntry, Workspace, bump, now_iso, write_audit
-from .shared import add_notifications, is_current_record, resume_from_recovery, timeline_item
+from .shared import add_notifications, is_current_record, timeline_item
 
 
 @dataclass(frozen=True)
@@ -140,11 +139,6 @@ def revision_flow(
                 at=at,
             ),
         )
-        resumed = (
-            resume_from_recovery(open_event, workspace, at)
-            if level_of_state(command.assessment["state"]) is not None
-            else False
-        )
         message = (
             f"事件 {open_event.event_no} 已撤销该记录的越限证据，仍在等待处置"
             if plan["action"] == "withdrawn"
@@ -153,8 +147,6 @@ def revision_flow(
                 f"{EVENT_LEVEL_LABEL[open_event.level]}"
             )
         )
-        if resumed:
-            message += "；恢复待确认已被新异常推翻"
         return {
             "action": "appended" if plan["action"] == "withdrawn" else "upgraded",
             "eventId": open_event.id,

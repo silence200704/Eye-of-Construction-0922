@@ -18,6 +18,7 @@ from ....domain.monitoring.events import (
 from ...identity_types import ROLES
 from ..core.serialize import event_out, record_out
 from ..core.workspace import AuditEntry, Workspace, bump, now_iso, write_audit
+from .recovery import reconcile_recovery
 from .revisions import revision_flow
 from .shared import add_notifications, is_current_record, resume_from_recovery, timeline_item
 
@@ -301,8 +302,13 @@ def apply_assessment(session: Session, workspace: Workspace, command: Assessment
     )
     if command.revision_reason is not None:
         handled = revision_flow(session, workspace, command, open_event)
-        if handled is not None:
-            return handled
+        if handled is None:
+            handled = _event_flow(session, workspace, command, open_event)
+        if open_event is not None:
+            message = reconcile_recovery(session, workspace, open_event)
+            if message:
+                handled["message"] = f"{handled['message']}；{message}"
+        return handled
     if not is_current_record(session, workspace, command.record):
         return {
             "action": "none",

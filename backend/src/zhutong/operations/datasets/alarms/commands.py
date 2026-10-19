@@ -23,6 +23,7 @@ from ..core.workspace import (
     require_role,
     write_audit,
 )
+from .recovery import current_recovery
 from .shared import timeline_item
 
 
@@ -120,6 +121,8 @@ def close_event(session: Session, workspace: Workspace, command: CloseCommand) -
     guard = close_guard(row.status, workspace.actor.role)
     if not guard["allowed"]:
         raise AppError("STATE_CONFLICT", guard["reason"], 409)
+    if not current_recovery(session, workspace, row):
+        raise AppError("STATE_CONFLICT", "当前有效采样序列不满足恢复条件，请重新复测", 409)
     if command.basis.strip() == "":
         raise AppError("CLOSE_BASIS_REQUIRED", "关闭事件必须填写关闭依据", 422)
     if command.no_repair_note.strip() == "":

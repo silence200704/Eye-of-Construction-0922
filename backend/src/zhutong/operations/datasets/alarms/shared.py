@@ -36,7 +36,9 @@ def add_notifications(session: Session, workspace: Workspace, rows: list[dict]) 
         )
 
 
-def resume_from_recovery(row: AlarmEvent, workspace: Workspace, at: str) -> bool:
+def resume_from_recovery(
+    row: AlarmEvent, workspace: Workspace, at: str, reason: str | None = None
+) -> bool:
     """恢复待确认被新异常推翻：回到确认前/后的状态，不能沿用恢复状态。"""
     if row.status != "recovering":
         return False
@@ -49,7 +51,7 @@ def resume_from_recovery(row: AlarmEvent, workspace: Workspace, at: str) -> bool
             at,
             workspace,
             "恢复状态被新异常推翻",
-            f"新读数再次越限，事件退回{label}；恢复待确认不再成立",
+            reason or f"新读数再次越限，事件退回{label}；恢复待确认不再成立",
         ),
     ]
     return True
