@@ -4,7 +4,7 @@
 
 - 阶段：5 · 点检巡检、问题、工单、复查、保养与报表
 - 审核依据：[首轮审核报告](05-field-work-review.md)（`c034f30`）、[返修提示词](../prompts/05-field-work-fix.md)
-- 起始受审代码：`ae289a3`；返修代码提交：`ca04849`
+- 起始受审代码：`ae289a3`；返修代码提交：`ca04849`（补充 `32baad1`：旧复查轮次在页面与导出中显示“已失效”）
 - 日期：2026-10-19；隔离环境：独立临时 SQLite、临时 API `18001`、临时 Vite `5181`
 - Alembic head：`0010_work_order_assignee`（新增 `work_orders.assignee_id`、`accepted_by_id`）
 - 结论：R5-01—R5-08 已修复并有回归；S5-01—S5-12 自评 **12/12 验证通过**。
@@ -74,7 +74,7 @@
 | `npm test` | 115 文件 / 1140 用例 | 0 |
 | `npm run test:tooling` | 5 pass（含 TS/Vue 结构门禁） | 0 |
 | `npm run typecheck` | 通过 | 0 |
-| `npm run build` | 通过，5.47s；主包 1001.39 kB 警告 | 0 |
+| `npm run build` | 通过，7.02s；主包 1001.53 kB 警告 | 0 |
 
 回归测试新增 18 项（`tests/field/regressions`）与 4 项前端命令键测试；原有阶段 4 全部测试仍通过。
 逐项命令记录：[test-run.json](../../evidence/stage5-field/test-run.json)。
@@ -101,7 +101,7 @@
 
 ## 提交材料
 
-- 返修代码提交 SHA：`ca04849`
+- 返修代码提交 SHA：`ca04849`；补充 `32baad1`
 - 契约：[field-work-v1.md](../../contracts/field-work-v1.md)
 - HTTP/页面/备份/部署/命令证据：`docs/implementation/evidence/stage5-field/`
 - 复现：`backend/scripts/stage5_http_verify.py`（临时 API 18001；需先初始化独立库）
