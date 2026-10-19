@@ -209,9 +209,10 @@ async function submitOutcome(): Promise<void> {
       <ul>
         <li v-for="(row, index) in rounds" :key="index">
           <span class="mono">{{ row.dueDate }}</span>
-          <b>{{ outcomeLabel(row.outcome) }}</b>
+          <b>{{ row.invalidatedAt ? '已失效' : outcomeLabel(row.outcome) }}</b>
           <span class="muted">责任人 {{ row.owner }}｜{{ row.subject }}</span>
-          <span v-if="row.outcomeNote !== ''" class="muted">{{ row.outcomeBy }}：{{ row.outcomeNote }}</span>
+          <span v-if="row.invalidatedAt" class="muted">因重新转维修失效，不能再用本轮结论</span>
+          <span v-else-if="row.outcomeNote !== ''" class="muted">{{ row.outcomeBy }}：{{ row.outcomeNote }}</span>
         </li>
       </ul>
     </details>

@@ -272,9 +272,11 @@ def _recheck_export(data: dict, workspace: Workspace, filters: ReportFilters) ->
                     str(round_row.get("owner") or ""),
                     str(round_row.get("dueDate") or ""),
                     fmt(round_row.get("at")),
-                    OUTCOME_LABEL.get(round_row.get("outcome") or "", "尚未提交"),
+                    "已失效"
+                    if round_row.get("invalidatedAt")
+                    else OUTCOME_LABEL.get(round_row.get("outcome") or "", "尚未提交"),
                     fmt(round_row.get("outcomeAt")),
-                    str(round_row.get("outcomeNote") or ""),
+                    str(round_row.get("outcomeNote") or round_row.get("invalidatedReason") or ""),
                 ]
             )
     return {"header": header, "rows": rows, "count": len(rows)}

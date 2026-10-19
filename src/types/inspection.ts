@@ -121,6 +121,9 @@ export interface RecheckRound {
   outcomeAt: string | null
   outcomeBy: string
   outcomeNote: string
+  /** 新维修周期开始时被系统终止的旧轮次；保留历史，不再参与结论与统计 */
+  invalidatedAt?: string
+  invalidatedReason?: string
 }
 
 /** 审核出口六种（方案 §3）：原始报告一律保留，不做覆盖式编辑。 */
