@@ -4,7 +4,7 @@
 
 - 阶段：5 · 点检巡检、问题、工单、复查、保养与报表
 - 审核依据：[首轮审核报告](05-field-work-review.md)（`c034f30`）、[返修提示词](../prompts/05-field-work-fix.md)
-- 起始受审代码：`ae289a3`；返修代码提交：见下方“提交材料”
+- 起始受审代码：`ae289a3`；返修代码提交：`ca04849`
 - 日期：2026-10-19；隔离环境：独立临时 SQLite、临时 API `18001`、临时 Vite `5181`
 - Alembic head：`0010_work_order_assignee`（新增 `work_orders.assignee_id`、`accepted_by_id`）
 - 结论：R5-01—R5-08 已修复并有回归；S5-01—S5-12 自评 **12/12 验证通过**。
@@ -101,7 +101,7 @@
 
 ## 提交材料
 
-- 返修代码提交 SHA：提交后填写
+- 返修代码提交 SHA：`ca04849`
 - 契约：[field-work-v1.md](../../contracts/field-work-v1.md)
 - HTTP/页面/备份/部署/命令证据：`docs/implementation/evidence/stage5-field/`
 - 复现：`backend/scripts/stage5_http_verify.py`（临时 API 18001；需先初始化独立库）
