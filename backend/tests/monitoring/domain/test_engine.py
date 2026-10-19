@@ -9,7 +9,7 @@ import pytest
 from zhutong.domain.monitoring.engine import assess_record
 from zhutong.domain.monitoring.validation import check_reading
 
-FIXTURE = Path(__file__).resolve().parents[3] / "tests" / "shared" / "assessment-samples.json"
+FIXTURE = Path(__file__).resolve().parents[4] / "tests" / "shared" / "assessment-samples.json"
 DATA = json.loads(FIXTURE.read_text(encoding="utf-8"))
 
 
@@ -70,3 +70,40 @@ def test_validation_matches_shared_samples(sample: dict) -> None:
         assert check["outOfRange"] is expected["outOfRange"]
     if "backfill" in expected:
         assert check["backfill"] is expected["backfill"]
+
+
+def test_rule_version_selection_respects_scope_without_fallback() -> None:
+    from zhutong.domain.monitoring.rules import rule_for_point
+
+    point = DATA["samples"][0]["point"]
+    older = copy.deepcopy(DATA["rules"]["crack"])
+    newer = {
+        **copy.deepcopy(older),
+        "id": "rule_crack_width@V1.1",
+        "version": "V1.1",
+        "buildingIds": ["bld_other"],
+        "effectiveFrom": "2026-09-01T00:00:00.000Z",
+    }
+    at = "2026-09-20T09:00:00.000Z"
+    assert rule_for_point([older, newer], point, at) is None
+    assert rule_for_point([older, newer], point, "2026-08-15T09:00:00.000Z")["version"] == "V1.0"
+
+    independent = {
+        **copy.deepcopy(older),
+        "id": "rule_other@V1.0",
+        "ruleId": "rule_other",
+        "code": "RULE-OTHER",
+        "buildingIds": [],
+        "pointIds": [],
+        "effectiveFrom": "2026-09-02T00:00:00.000Z",
+    }
+    assert rule_for_point([older, newer, independent], point, at)["ruleId"] == "rule_other"
+
+    excluded_point = {
+        **copy.deepcopy(older),
+        "id": "rule_crack_width@V1.2",
+        "version": "V1.2",
+        "pointIds": ["pnt_other"],
+        "effectiveFrom": "2026-09-03T00:00:00.000Z",
+    }
+    assert rule_for_point([older, excluded_point], point, at) is None

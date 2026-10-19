@@ -2,7 +2,7 @@
 
 from fastapi.testclient import TestClient
 
-from .fixtures import Api, iso
+from ..fixtures import Api, iso
 
 
 def test_archive_roundtrip_and_revision(client: TestClient, settings) -> None:
@@ -265,6 +265,7 @@ def test_forged_actor_and_cross_dataset_access_rejected(client: TestClient, sett
     )
     assert cross.status_code == 404
     assert cross.json()["error"]["code"] == "NOT_FOUND"
+
 
 def rule_body(threshold: float) -> dict:
     return {

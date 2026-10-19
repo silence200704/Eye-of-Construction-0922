@@ -5,7 +5,7 @@ from sqlalchemy import create_engine, text
 
 from zhutong.operations.datasets.alarms import apply as alarm_apply
 
-from .fixtures import Api, iso
+from ..fixtures import Api, iso
 
 
 def counts(database_url: str, *tables: str) -> dict[str, int]:
@@ -245,7 +245,7 @@ def test_mid_transaction_failure_rolls_back_everything(settings, monkeypatch) ->
         def explode(*args, **kwargs):
             raise RuntimeError("模拟通知写入失败")
 
-        monkeypatch.setattr(alarm_apply, "_add_notifications", explode)
+        monkeypatch.setattr(alarm_apply, "add_notifications", explode)
         response = api.post(
             "/records",
             {

@@ -433,3 +433,53 @@ describe('列表数值分级', () => {
     expect(levelOfRecord(makeRule(), makeRecord({ baselineValues: null }))).toBeNull()
   })
 })
+
+describe('规则版本与范围', () => {
+  const point = makePoint()
+  const older = makeRule({
+    ruleId: 'rule_1',
+    id: 'rule_1@V1.0',
+    version: 'V1.0',
+    effectiveFrom: '2026-08-01T00:00:00.000Z',
+  })
+  const excludedBuilding = makeRule({
+    ruleId: 'rule_1',
+    id: 'rule_1@V1.1',
+    version: 'V1.1',
+    buildingIds: ['bld_other'],
+    effectiveFrom: '2026-09-01T00:00:00.000Z',
+  })
+
+  it('新版本排除原楼栋时不回退旧版本', () => {
+    expect(ruleForPoint([older, excludedBuilding], point, '2026-09-20T09:00:00.000Z')).toBeUndefined()
+  })
+
+  it('新版本排除原测点时不回退旧版本', () => {
+    const excludedPoint = makeRule({
+      ruleId: 'rule_1',
+      id: 'rule_1@V1.2',
+      version: 'V1.2',
+      pointIds: ['pnt_other'],
+      effectiveFrom: '2026-09-03T00:00:00.000Z',
+    })
+    expect(ruleForPoint([older, excludedPoint], point, '2026-09-20T09:00:00.000Z')).toBeUndefined()
+  })
+
+  it('新版本生效前的历史采样仍使用旧版本', () => {
+    expect(ruleForPoint([older, excludedBuilding], point, '2026-08-15T09:00:00.000Z')?.version).toBe('V1.0')
+  })
+
+  it('不同 ruleId 的独立规则仍各自保留', () => {
+    const independent = makeRule({
+      ruleId: 'rule_2',
+      id: 'rule_2@V1.0',
+      code: 'RULE-OTHER',
+      buildingIds: [],
+      pointIds: [],
+      effectiveFrom: '2026-09-02T00:00:00.000Z',
+    })
+    expect(ruleForPoint([older, excludedBuilding, independent], point, '2026-09-20T09:00:00.000Z')?.ruleId).toBe(
+      'rule_2',
+    )
+  })
+})

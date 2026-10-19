@@ -29,9 +29,9 @@ export function ruleMetricOf(metric: MetricKey): RuleMetric | null {
 }
 
 /**
- * 规则是否适用于该测点：启用、指标一致，且落在规则的楼栋/测点范围内。
- * 规则表里四类指标同表存放，只看时间不看范围会取到别条规则的阈值 ——
- * 判定与图表必须共用这一个口径。
+ * 规则是否适用于该测点：指标一致，且落在规则的楼栋/测点范围内。
+ * 启停由判定引擎处理；调用方必须先按稳定 ruleId 选出生效版本，再调用本函数。
+ * 规则表里四类指标同表存放，只看时间不看范围会取到别条规则的阈值。
  */
 export function ruleAppliesTo(rule: MonitoringRule, point: PointFacts): boolean {
   const metric = ruleMetricOf(point.metric)
@@ -49,11 +49,26 @@ export function rulesForPoint(rules: MonitoringRule[], point: PointFacts): Monit
     .sort((a, b) => a.effectiveFrom.localeCompare(b.effectiveFrom))
 }
 
+/**
+ * 每个稳定 ruleId 先确定采样时刻生效的版本，再判断指标与楼栋/测点范围。
+ * 最新版本排除某楼栋/测点或停用时，不能回退同一 ruleId 的旧版本；
+ * 不同 ruleId 的独立规则仍各自保留。
+ */
+function latestRuleVersions(rules: MonitoringRule[], time: number): MonitoringRule[] {
+  const latest = new Map<string, MonitoringRule>()
+  for (const rule of rules) {
+    const effective = new Date(rule.effectiveFrom).getTime()
+    if (!Number.isFinite(effective) || effective > time) continue
+    const key = rule.ruleId || rule.id
+    const best = latest.get(key)
+    if (best === undefined || effective >= new Date(best.effectiveFrom).getTime()) latest.set(key, rule)
+  }
+  return [...latest.values()]
+}
+
 export function ruleForPoint(rules: MonitoringRule[], point: PointFacts, at: string): MonitoringRule | undefined {
   const time = new Date(at).getTime()
-  const applicable = rules.filter(
-    (rule) => ruleAppliesTo(rule, point) && new Date(rule.effectiveFrom).getTime() <= time,
-  )
+  const applicable = latestRuleVersions(rules, time).filter((rule) => ruleAppliesTo(rule, point))
   if (applicable.length === 0) return undefined
   return applicable.reduce((best, rule) =>
     new Date(rule.effectiveFrom).getTime() >= new Date(best.effectiveFrom).getTime() ? rule : best,

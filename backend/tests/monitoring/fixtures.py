@@ -7,7 +7,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
 from zhutong.db.models import User
-from zhutong.operations.identity_types import ROLES
 
 DATASET = "demo-main"
 
@@ -85,7 +84,7 @@ class Api:
         engine.dispose()
         return token_of(self.client, user_id)
 
-    def seed_crack(self, code: str = "B03-F2-CRACK01") -> dict:
+    def _seed_archive(self, code: str) -> dict:
         building = self.ok(
             self.post(
                 "/buildings",
@@ -120,7 +119,12 @@ class Api:
                 key="crack-point",
             )
         )
-        device = self.ok(
+        return {"building": building, "floor": floor, "point": point}
+
+    def seed_crack(self, code: str = "B03-F2-CRACK01") -> dict:
+        ids = self._seed_archive(code)
+        point = ids["point"]
+        ids["device"] = self.ok(
             self.post(
                 "/devices",
                 {
@@ -134,7 +138,7 @@ class Api:
                 key="crack-device",
             )
         )
-        rule = self.ok(
+        ids["rule"] = self.ok(
             self.post(
                 "/rules",
                 {
@@ -157,7 +161,7 @@ class Api:
                 key="crack-rule",
             )
         )
-        baseline = self.ok(
+        ids["baseline"] = self.ok(
             self.post(
                 "/baselines",
                 {
@@ -170,14 +174,7 @@ class Api:
                 key="crack-baseline",
             )
         )
-        return {
-            "building": building,
-            "floor": floor,
-            "point": point,
-            "device": device,
-            "rule": rule,
-            "baseline": baseline,
-        }
+        return ids
 
     def add_record(self, point_id: str, width: float, minutes: float = -60, **extra) -> dict:
         body = {
@@ -191,7 +188,3 @@ class Api:
             **extra,
         }
         return self.ok(self.post("/records", body))
-
-
-def role_label(role: str) -> str:
-    return ROLES[role]

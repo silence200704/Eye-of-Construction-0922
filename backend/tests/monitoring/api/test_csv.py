@@ -7,7 +7,7 @@ from zhutong.app import create_app
 from zhutong.bootstrap import initialize
 from zhutong.operations.datasets import importer
 
-from .fixtures import Api, iso
+from ..fixtures import Api, iso
 
 HEADER = "测点编号,采样时间,裂缝宽度,单位,统计窗口,质量标记,备注"
 

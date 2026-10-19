@@ -23,7 +23,7 @@ from ..core.workspace import (
     require_role,
     write_audit,
 )
-from .apply import _timeline_item
+from .shared import timeline_item
 
 
 def list_events(session: Session, workspace: Workspace, status: str = "all") -> list[dict]:
@@ -69,7 +69,7 @@ def acknowledge_event(
     row.acknowledged_by = workspace.actor.name
     row.timeline = [
         *row.timeline,
-        _timeline_item(
+        timeline_item(
             at,
             workspace,
             "确认事件，转入处理中",
@@ -137,7 +137,7 @@ def close_event(session: Session, workspace: Workspace, command: CloseCommand) -
     row.closed_at = at
     row.closed_by = workspace.actor.name
     row.close_basis = command.basis.strip()
-    row.timeline = [*row.timeline, _timeline_item(at, workspace, "关闭事件", detail)]
+    row.timeline = [*row.timeline, timeline_item(at, workspace, "关闭事件", detail)]
     bump(row, workspace, at)
     write_audit(
         session,
