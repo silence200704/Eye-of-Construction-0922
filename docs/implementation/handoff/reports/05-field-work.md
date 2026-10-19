@@ -5,6 +5,7 @@
 - 阶段编号/名称：5 · 点检巡检、问题、工单、复查、保养与报表
 - 对照计划：`docs/implementation/handoff/stages/05-field-work.md`（S5-01—S5-12）
 - 起始提交：`734626e`（阶段 4 最终核验）
+- 本阶段代码提交：`ae289a3`（`feat: implement stage 5 field operations and reports`）
 - 分支：`codex/fullstack-competition`
 - 报告日期：2026-10-19；测试系统：Windows 10.0.26100 x64
 - 隔离环境：临时 SQLite `backend/.runtime-stage5-verify/stage5.sqlite`，
@@ -128,7 +129,7 @@ IAB 截图接口在本机连续返回 `surface preparation timeout`，因此未�
 
 ## 提交审核的材料
 
-- 代码：本阶段提交（见 git log；报告更新提交单独列出）。
+- 代码：本阶段代码提交 `ae289a3`；报告 SHA 更新提交紧随其后，单独列出。
 - 契约：`docs/implementation/contracts/field-work-v1.md`
 - 真实 HTTP 证据：`docs/implementation/evidence/stage5-field/verification.json`
 - 页面证据：`docs/implementation/evidence/stage5-field/page-verification.json`
