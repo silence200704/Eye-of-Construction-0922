@@ -8,6 +8,12 @@ import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import type { AuditLog } from '@/types/domain'
 import type { InspectionIssue, IssueAttachment, WorkOrder, WorkOrderStatus } from '@/types/inspection'
+import { backendActive } from '@/api/backend/runtime'
+import {
+  advanceWorkOrderRemote,
+  fetchWorkOrders,
+  uploadPhotoDrafts,
+} from '@/api/backend/field'
 import { advance, closeBasis, issueAfterVerify } from '@/core/inspection/workOrderFlow'
 import { uid } from '@/core/id'
 import { nowIso } from '@/core/time'
@@ -26,6 +32,8 @@ export interface OrderAction {
   measures?: string
   materials?: string
   photos?: string[]
+  /** 服务端模式：提交完工时随命令上传的照片草稿（不先单独入库）。 */
+  photoDrafts?: DraftPhotoInput[]
   /** 安全管理人员在验收时选取的本地压缩照片；与验收结论同事务提交。 */
   acceptancePhotos?: DraftPhotoInput[]
 }
@@ -43,7 +51,7 @@ export const useWorkOrderStore = defineStore('inspectionWorkOrders', () => {
   const openOrders = computed(() => orders.value.filter((row) => row.status !== 'verified'))
 
   async function reload(): Promise<void> {
-    orders.value = await db.workOrders.toArray()
+    orders.value = backendActive() ? await fetchWorkOrders() : await db.workOrders.toArray()
     loaded.value = true
   }
 
@@ -105,6 +113,30 @@ export const useWorkOrderStore = defineStore('inspectionWorkOrders', () => {
 
   /** 工单流转：判定在 core 的 advance() 里，写库与日志同事务。 */
   async function advanceOrder(orderId: string, to: WorkOrderStatus, payload: OrderAction): Promise<OrderResult> {
+    if (backendActive()) {
+      const order = byId(orderId)
+      if (order === undefined) return { ok: false, error: '工单不存在', order: null }
+      try {
+        const before = await uploadPhotoDrafts(payload.photoDrafts, order.pointId, 'after')
+        const acceptance = await uploadPhotoDrafts(payload.acceptancePhotos, order.pointId, 'acceptance')
+        const out = await advanceWorkOrderRemote(orderId, to, {
+          expectedRev: order.rev,
+          note: payload.note ?? '',
+          assignee: payload.assignee,
+          dueAt: payload.dueAt,
+          measures: payload.measures,
+          materials: payload.materials,
+          photos: [...before, ...acceptance],
+        })
+        await reload()
+        const issues = await import('./issues')
+        await issues.useIssueStore().reload()
+        if (before.length + acceptance.length > 0) await useAttachmentStore().reload()
+        return { ok: true, error: '', order: out.order }
+      } catch (cause) {
+        return { ok: false, error: (cause as Error).message, order: null }
+      }
+    }
     const order = await db.workOrders.get(orderId)
     if (order === undefined) return { ok: false, error: '工单不存在', order: null }
     const session = useSessionStore()
@@ -265,7 +297,10 @@ export const useWorkOrderStore = defineStore('inspectionWorkOrders', () => {
 
   /** 处置依据判定（写入路径用，读库）：关闭事件前必须用它复核一次。 */
   async function basisFromDb(input: { eventId: string | null; pointId: string | null; noRepairNote: string }) {
-    return closeBasis({ orders: await db.workOrders.toArray(), ...input })
+    return closeBasis({
+      orders: backendActive() ? await fetchWorkOrders() : await db.workOrders.toArray(),
+      ...input,
+    })
   }
 
   async function reset(): Promise<void> {

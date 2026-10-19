@@ -7,14 +7,16 @@
  * ② 指标卡把定义、分子、分母、时间范围、不纳入条件一起显示，答辩时能当场解释数字怎么来的；
  * ③ 导出的是**当前筛选条件下的明细**：页面看到多少条，CSV 里就多少条。
  */
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import AppButton from '@/components/ui/AppButton.vue'
 import DataTable from '@/components/ui/DataTable.vue'
 import SectionCard from '@/components/ui/SectionCard.vue'
 import IndicatorCard from '@/components/metrics/IndicatorCard.vue'
 import { downloadCsv, eventRows, issueRows, maintenanceRows, orderRows, type NameResolvers } from '@/core/metrics/export'
-import { allIndicators, rangeOf, type MetricsRange } from '@/core/metrics/indicators'
+import { allIndicators, rangeOf, type Indicator, type MetricsRange } from '@/core/metrics/indicators'
+import { backendActive } from '@/api/backend/runtime'
+import { fetchIndicators, fetchReportExport } from '@/api/backend/field'
 import { reportDemoData } from '@/core/metrics/demoData'
 import { localDayKey } from '@/core/maintenance/plan'
 import { formatDateTime } from '@/core/time'
@@ -88,10 +90,29 @@ const useDemoIndicators = computed(() =>
   businessIndicators.value[0].value === null && businessIndicators.value[1].value === null
     && (businessIndicators.value[2].value === null || businessIndicators.value[2].value === 0),
 )
-const indicators = computed(() => useDemoIndicators.value
-  ? allIndicators({ ...input.value, ...demoData.value })
-  : businessIndicators.value,
+/** 服务端模式下三项指标由数据库明细重算，不再在页面上拼口径。 */
+const serverIndicators = ref<Indicator[]>([])
+const indicators = computed(() => backendActive()
+  ? serverIndicators.value
+  : useDemoIndicators.value
+    ? allIndicators({ ...input.value, ...demoData.value })
+    : businessIndicators.value,
 )
+
+function reportParams(): Record<string, string> {
+  const current = range.value
+  return {
+    ...(current === null ? {} : { start: current.from, end: current.to }),
+    ...(buildingId.value === '' ? {} : { buildingId: buildingId.value }),
+    ...(pointId.value === '' ? {} : { pointId: pointId.value }),
+  }
+}
+
+async function reloadServerIndicators(): Promise<void> {
+  if (!backendActive()) return
+  const data = await fetchIndicators(reportParams())
+  serverIndicators.value = data.indicators as Indicator[]
+}
 
 const names: NameResolvers = {
   point: (pointId) => (pointId === null ? '' : archive.pointLabel(pointId)),
@@ -193,6 +214,22 @@ function exportOf(label: string, table: { header: string[]; rows: string[][] }, 
   exportNote.value = `${label}：已导出 ${count} 行（${rangeText.value}，${buildingText.value}）。`
 }
 
+async function exportRow(row: { key: string; label: string; count: number }): Promise<void> {
+  if (backendActive()) {
+    try {
+      const data = await fetchReportExport(row.key, {
+        ...reportParams(),
+        ...(statusPicked.value[row.key] === '' ? {} : { status: statusPicked.value[row.key] }),
+      })
+      exportOf(row.label, { header: data.header, rows: data.rows }, data.count)
+    } catch (cause) {
+      exportNote.value = `${row.label}：导出失败——${(cause as Error).message}`
+    }
+    return
+  }
+  exportOf(row.label, tableOf(row.key), row.count)
+}
+
 /** 排除项"去处理"：保养逾期与复查逾期分别回各自工作台，不再新造入口。 */
 function locate(label: string): void {
   void router.push(label.includes('保养') ? '/maintenance' : '/issues')
@@ -203,6 +240,11 @@ onMounted(async () => {
   if (!issues.loaded) await issues.reload()
   if (!orders.loaded) await orders.reload()
   if (!maintenance.loaded) await maintenance.reload()
+  await reloadServerIndicators()
+})
+
+watch([range, buildingId, pointId], () => {
+  void reloadServerIndicators()
 })
 </script>
 
@@ -255,7 +297,7 @@ onMounted(async () => {
       :indicator="item"
       :range-text="rangeText"
       :building-text="buildingText"
-      :on-locate="useDemoIndicators ? undefined : locate"
+      :on-locate="backendActive() || useDemoIndicators ? undefined : locate"
     />
 
     <SectionCard title="明细导出" sub="导出的就是下面这几张表在当前筛选条件下的行，每行都带业务编号，能回系统核对">
@@ -267,7 +309,7 @@ onMounted(async () => {
             <option v-for="item in row.options" :key="item.key" :value="item.key">{{ item.name }}</option>
           </select>
           <span class="code num">{{ row.count }} 行</span>
-          <AppButton size="sm" :disabled="row.count === 0" @click="exportOf(row.label, tableOf(row.key), row.count)">
+          <AppButton size="sm" :disabled="row.count === 0" @click="exportRow(row)">
             {{ row.count === 0 ? '无可导出明细' : '导出 CSV' }}
           </AppButton>
         </div>

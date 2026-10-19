@@ -70,6 +70,30 @@ export async function command<T>(suffix: string, options: CommandOptions): Promi
   return result
 }
 
+/** 二进制上传（照片）：仍走同一套身份、epoch 与幂等回执。 */
+export async function commandRaw<T>(
+  suffix: string,
+  options: { rawBody: BodyInit; contentType: string; key: string; epoch?: number },
+): Promise<CommandResult<T>> {
+  const session = useBackendSessionStore()
+  const result = await session.http.command<T>({
+    path: `/datasets/${DATASET_ID}${suffix}`,
+    method: 'POST',
+    rawBody: options.rawBody,
+    contentType: options.contentType,
+    headers: {
+      'Idempotency-Key': asciiKey(options.key),
+      'X-Dataset-Epoch': String(options.epoch ?? epoch),
+    },
+  })
+  if (result.datasetEpoch !== null) setEpoch(result.datasetEpoch)
+  return result
+}
+
+export async function blobOf(path: string): Promise<Blob> {
+  return useBackendSessionStore().http.blob(path)
+}
+
 export async function read<T>(suffix: string, params: Record<string, string | number | undefined> = {}): Promise<T> {
   const session = useBackendSessionStore()
   const query = Object.entries(params)

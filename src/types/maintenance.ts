@@ -34,6 +34,8 @@ export interface MaintenancePlan extends AuditFields {
   checklist: ChecklistItem[]
   enabled: boolean
   remark: string
+  /** 服务端对象版本（本地演示库没有；写入时必须原样带回） */
+  rev?: number
 }
 
 /**
@@ -92,6 +94,8 @@ export interface MaintenanceTask extends AuditFields {
   /** 执行记录内嵌在任务上：一个周期只执行一次，不另建一对一记录表 */
   execution: MaintenanceExecution | null
   timeline: IssueTimelineEntry[]
+  /** 服务端对象版本（本地演示库没有；写入时必须原样带回） */
+  rev?: number
 }
 
 /**

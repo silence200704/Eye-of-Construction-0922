@@ -8,13 +8,26 @@
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import type { ChecklistAnswer, InspectionIssue, InspectionTask, TaskCheckResult } from '@/types/inspection'
+import { backendActive } from '@/api/backend/runtime'
+import { fetchInspectionTasks } from '@/api/backend/field'
+import {
+  checkInRemote,
+  completePointRemoteSubmit,
+  generateTasksRemote,
+  submitTaskIssueRemote,
+} from './remote/tasks'
 import { applyCheckIn, completeCheck } from '@/core/inspection/checkIn'
 import { buildDraftPhoto, type DraftPhotoInput } from '@/db/inspection/attachments'
 import { createIssueAtomic, planIssueRow } from '@/db/inspection/issueWrites'
-import { commitTaskWrite } from '@/db/inspection/disposal'
-import { buildAuditLog } from '@/db/repo'
-import { buildReportLogs, loadWriteContext, pointLabelOf } from './taskWriteGuards'
+import {
+  buildReportLogs,
+  linkIssueToTask,
+  loadWriteContext,
+  pointLabelOf,
+  writeTaskResult,
+} from './taskWriteGuards'
 import { useIssueStore } from './issues'
+import { useAttachmentStore } from './attachments'
 import { dayKeyOf, initialResults, isOverdue, planTasksFor, taskProgress, taskStatusOf, taskKeyOf } from '@/core/inspection/taskPlan'
 import { nextTaskNo } from '@/core/id'
 import { nowIso } from '@/core/time'
@@ -56,6 +69,8 @@ export interface IssueEntryResult {
 export const useTaskStore = defineStore('inspectionTasks', () => {
   const tasks = ref<InspectionTask[]>([])
   const loaded = ref(false)
+  /** 同一份草稿在失败后重试时复用 submissionId；成功后清掉。 */
+  const pendingSubmission = new Map<string, string>()
 
   /** 共享时钟：今日待办与逾期判定按"现在"算，见 stores/clock.ts 的取舍说明。 */
   const clock = useClockStore()
@@ -67,7 +82,7 @@ export const useTaskStore = defineStore('inspectionTasks', () => {
   }
 
   async function reload(): Promise<void> {
-    tasks.value = await db.tasks.toArray()
+    tasks.value = backendActive() ? await fetchInspectionTasks() : await db.tasks.toArray()
     loaded.value = true
   }
 
@@ -107,6 +122,13 @@ export const useTaskStore = defineStore('inspectionTasks', () => {
    * 序号也在同一个事务里按当时已有的任务算，避免并发算出同一个编号。
    */
   async function generateFor(day: Date, options: { planId?: string; beforeWrite?: () => void } = {}): Promise<GenerateResult> {
+    if (backendActive()) {
+      const pad = (value: number) => String(value).padStart(2, '0')
+      const text = `${day.getFullYear()}-${pad(day.getMonth() + 1)}-${pad(day.getDate())}`
+      const result = await generateTasksRemote(text)
+      await reload()
+      return result
+    }
     const planStore = usePlanStore()
     const session = useSessionStore()
     const planned = planTasksFor(planStore.plans.filter((row) => options.planId === undefined || row.id === options.planId), day)
@@ -188,6 +210,17 @@ export const useTaskStore = defineStore('inspectionTasks', () => {
     pointId: string,
     input: Omit<Parameters<typeof applyCheckIn>[1], 'point'>,
   ): Promise<EntryResult> {
+    if (backendActive()) {
+      const task = byId(taskId)
+      if (task === undefined) return { ok: false, error: '任务不存在', task: null }
+      try {
+        const saved = await checkInRemote(task, pointId, input)
+        await reload()
+        return { ok: true, error: '', task: saved }
+      } catch (cause) {
+        return { ok: false, error: (cause as Error).message, task: null }
+      }
+    }
     const guard = await loadWriteContext(taskId, pointId)
     if (!guard.ok) return { ok: false, error: guard.error, task: null }
     const { task, result, point } = guard
@@ -201,6 +234,17 @@ export const useTaskStore = defineStore('inspectionTasks', () => {
     pointId: string,
     payload: { answers: ChecklistAnswer[]; linkedIssueId: string | null; noIssueReason: string },
   ): Promise<EntryResult> {
+    if (backendActive()) {
+      const task = byId(taskId)
+      if (task === undefined) return { ok: false, error: '任务不存在', task: null }
+      try {
+        const saved = await completePointRemoteSubmit(task, pointId, payload)
+        await reload()
+        return { ok: true, error: '', task: saved }
+      } catch (cause) {
+        return { ok: false, error: (cause as Error).message, task: null }
+      }
+    }
     const guard = await loadWriteContext(taskId, pointId)
     if (!guard.ok) return { ok: false, error: guard.error, task: null }
     const { task, result } = guard
@@ -246,6 +290,29 @@ export const useTaskStore = defineStore('inspectionTasks', () => {
    * 执行角色形同虚设。入口内先 guardPoint()，再建问题、再关联点位。
    */
   async function reportInspectionIssue(taskId: string, pointId: string, draft: InspectionDraft): Promise<IssueEntryResult> {
+    if (backendActive()) {
+      const task = byId(taskId)
+      if (task === undefined) return { ok: false, error: '任务不存在', issue: null }
+      const existing =
+        draft.reuseIssueId === undefined || draft.reuseIssueId === null
+          ? undefined
+          : useIssueStore().byId(draft.reuseIssueId)
+      try {
+        const out = await submitTaskIssueRemote(
+          task,
+          pointId,
+          draft,
+          pendingSubmission,
+          existing?.submissionKey ?? null,
+        )
+        await reload()
+        await useIssueStore().reload()
+        await useAttachmentStore().reload()
+        return { ok: true, error: '', issue: out.issue, duplicated: out.duplicated }
+      } catch (cause) {
+        return { ok: false, error: (cause as Error).message, issue: null }
+      }
+    }
     const guard = await loadWriteContext(taskId, pointId)
     if (!guard.ok) return { ok: false, error: guard.error, issue: null }
     const { task, result, point } = guard
@@ -319,69 +386,18 @@ export const useTaskStore = defineStore('inspectionTasks', () => {
     return { ok: true, error: '', issue: created.issue, duplicated: !created.created }
   }
 
-  /** 把已存在的问题关联到本任务与点位（上报问题成功后调用）。 */
-  async function linkIssueToPoint(taskId: string, pointId: string, issueId: string): Promise<EntryResult> {
-    const guard = await loadWriteContext(taskId, pointId)
-    if (!guard.ok) return { ok: false, error: guard.error, task: null }
-    const { task, result } = guard
-    /*
-     * 先查内存缓存，未命中再查库：并发提交时"另一路刚建好的问题"可能还没进当前 store 的快照，
-     * 只看缓存会把已经存在的问题判成"不存在"。
-     */
-    // 一律读库：缓存里那条可能已被关闭、改归属或删除，拿它当处置依据会把错的关联写进去
-    const issue = await db.issues.get(issueId)
-    if (issue === undefined) return { ok: false, error: '问题不存在，无法关联', task: null }
-    if (issue.taskId !== task.id || issue.pointId !== pointId) {
-      return { ok: false, error: '该问题不属于本任务与点位，不能作为本点的处置证据', task: null }
-    }
-    // 已经关联过：重复调用不写库也不写日志（避免"重试产生一条伪造的新增记录"）
-    if (result.issueIds.includes(issueId) && result.abnormalHandling.linkedIssueId === issueId) {
-      return { ok: true, error: '', task }
-    }
-    const next: TaskCheckResult = {
-      ...result,
-      issueIds: [...new Set([...result.issueIds, issueId])],
-      abnormalHandling: { ...result.abnormalHandling, linkedIssueId: issueId },
-    }
-    return write(task, next, `关联问题 ${issue.issueNo}`)
-  }
-
   /** 统一的落库动作：任务状态一律由结果推导，失败不写库。 */
   async function write(task: InspectionTask, result: TaskCheckResult, note: string): Promise<EntryResult> {
-    const session = useSessionStore()
-    const at = nowIso()
-    const results = task.results.map((row) => (row.pointId === result.pointId ? { ...result } : row))
-    const row: InspectionTask = {
-      ...task,
-      results,
-      status: taskStatusOf(results),
-      updatedAt: at,
-      updatedBy: session.name,
-    }
-    /*
-     * 任务与日志同事务提交：只写任务的话，日志失败会留下没有留痕的到点/完成记录，
-     * 而这个系统的价值恰恰在于"每件事都能倒查"。
-     */
-    await commitTaskWrite({
-      task: row,
-      logs:
-        note === ''
-          ? []
-          : [
-              buildAuditLog({
-                actor: session.name,
-                actorRole: session.roleLabel,
-                action: 'update',
-                objectType: 'system',
-                objectId: task.id,
-                objectLabel: `${task.taskNo} ${pointLabelOf(task, result.pointId)}`,
-                summary: `${note}（${pointLabelOf(task, result.pointId)}）`,
-                reason: `状态：${result.status}；尝试 ${result.attempts.length} 次`,
-              }),
-            ],
-    })
-    await reload()
-    return { ok: true, error: '', task: row }
+    const out = await writeTaskResult(task, result, note)
+    if (out.ok) await reload()
+    return out
+  }
+
+  /** 把已存在的问题关联到本任务与点位（上报问题成功后调用）。 */
+  async function linkIssueToPoint(taskId: string, pointId: string, issueId: string): Promise<EntryResult> {
+    const out = await linkIssueToTask(taskId, pointId, issueId)
+    if (out.ok) await reload()
+    return out
   }
 
   /** 任务级备注用不到独立状态字段：进度一并算好给页面用。 */
@@ -406,8 +422,8 @@ export const useTaskStore = defineStore('inspectionTasks', () => {
     generateFor,
     attemptCheckIn,
     completePointCheck,
-    linkIssueToPoint,
     reportInspectionIssue,
+    linkIssueToPoint,
     progressOf,
     reset,
   }

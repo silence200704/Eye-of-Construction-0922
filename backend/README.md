@@ -1,8 +1,9 @@
 # 筑瞳服务端
 
-当前交付阶段 3：身份切换、业务数据模型、媒体上传关联、旧数据迁移及备份恢复。
-29 张应用表及 Alembic 版本表已建立，覆盖原 17 张表与新增运行数据。
-旧库导入已核验；业务流程接口和 Web 日常读写切换将在阶段 4—5 实施。
+当前交付阶段 5（待审核）：身份切换、数据模型、媒体、旧数据迁移、监测预警，以及巡检、问题、
+工单、复查、保养和报表的业务接口与 Web 接入。阶段 4 已通过核验；阶段 5 的真实 HTTP、
+页面、备份恢复和构建证据见 [阶段 5 报告](../docs/implementation/handoff/reports/05-field-work.md)。
+Alembic head 仍为 `0009_monitoring_assessment`；阶段 5 未新增迁移。
 迁移入口位于 Web 系统设置，使用学校安全管理身份操作；详见 [迁移接口](../docs/implementation/contracts/legacy-import-v1.md)。
 
 ## 本地启动

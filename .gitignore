@@ -30,3 +30,7 @@ coverage.xml
 htmlcov/
 backend/.runtime/
 *.egg-info/
+
+# 阶段 5 独立取证库与备份（不提交）
+backend/.runtime-*/
+backend/.stage5-*/

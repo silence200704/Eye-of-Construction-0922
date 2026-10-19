@@ -7,9 +7,12 @@ BACKEND = Path(__file__).resolve().parents[2]
 ROOT = BACKEND / "src" / "zhutong"
 DIRECTORIES = [
     ROOT / "domain" / "monitoring",
+    ROOT / "domain" / "inspection",
     ROOT / "operations" / "datasets",
+    ROOT / "operations" / "field",
     ROOT / "routers" / "datasets",
     Path(__file__).resolve().parent,
+    Path(__file__).resolve().parents[1] / "field",
 ]
 SKIP = {"__pycache__"}
 

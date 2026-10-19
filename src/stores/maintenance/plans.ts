@@ -7,12 +7,19 @@
  */
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
+import { backendActive } from '@/api/backend/runtime'
+import {
+  fetchMaintenancePlans,
+  saveMaintenancePlanRemote,
+  setMaintenancePlanEnabledRemote,
+} from '@/api/backend/field'
 import { db } from '@/db/database'
 import { nowIso, todayInput } from '@/core/time'
 import { uid } from '@/core/id'
 import { buildAuditLog } from '@/db/repo'
 import { commitMaintenancePlan, commitMaintenancePlanEnabled } from '@/db/maintenance/writes'
 import { validateMaintenancePlan } from '@/core/maintenance/plan'
+import { useArchiveStore } from '../archive'
 import { useSessionStore } from '../session'
 import type { ChecklistItem, PlanCycle } from '@/types/inspection'
 import type { MaintenancePlan, MaintenanceResult } from '@/types/maintenance'
@@ -38,7 +45,7 @@ export const useMaintenancePlanStore = defineStore('maintenancePlans', () => {
   const loaded = ref(false)
 
   async function reload(): Promise<void> {
-    plans.value = await db.maintenancePlans.toArray()
+    plans.value = backendActive() ? await fetchMaintenancePlans() : await db.maintenancePlans.toArray()
     loaded.value = true
   }
 
@@ -60,6 +67,36 @@ export const useMaintenancePlanStore = defineStore('maintenancePlans', () => {
     if (session.role !== 'safety') return { ...EMPTY, error: '保养计划的建立与编辑由学校安全管理人员执行' }
     const check = validateMaintenancePlan({ ...draft, endDate: draft.endDate })
     if (!check.ok) return { ...EMPTY, error: check.errors.join('；') }
+    if (backendActive()) {
+      const archive = useArchiveStore()
+      const device = archive.deviceById(draft.deviceId)
+      if (device === undefined) return { ...EMPTY, error: '所选设备不存在，请重新选择' }
+      const point = device.pointId === '' ? undefined : archive.pointById(device.pointId)
+      const existing = draft.id === null ? undefined : byId(draft.id)
+      if (draft.id !== null && existing === undefined) return { ...EMPTY, error: '保养计划不存在' }
+      try {
+        const saved = await saveMaintenancePlanRemote(
+          {
+            name: draft.name,
+            deviceId: draft.deviceId,
+            buildingId: point?.buildingId ?? existing?.buildingId ?? '',
+            cycle: draft.cycle,
+            startDate: draft.startDate,
+            endDate: draft.endDate,
+            owner: draft.owner,
+            checklist: draft.checklist,
+            enabled: existing?.enabled ?? true,
+            remark: draft.remark,
+          },
+          draft.id,
+          existing?.rev,
+        )
+        await reload()
+        return { ok: true, error: '', label: saved.code, created: 0, skipped: 0 }
+      } catch (cause) {
+        return { ...EMPTY, error: (cause as Error).message }
+      }
+    }
     const device = await db.devices.get(draft.deviceId)
     if (device === undefined) return { ...EMPTY, error: '所选设备不存在，请重新选择' }
     const point = (await db.points.get(device.pointId)) ?? null
@@ -113,6 +150,17 @@ export const useMaintenancePlanStore = defineStore('maintenancePlans', () => {
   async function setEnabled(id: string, enabled: boolean): Promise<MaintenanceResult> {
     const session = useSessionStore()
     if (session.role !== 'safety') return { ...EMPTY, error: '保养计划的启停由学校安全管理人员执行' }
+    if (backendActive()) {
+      const plan = byId(id)
+      if (plan === undefined) return { ...EMPTY, error: '保养计划不存在' }
+      try {
+        const saved = await setMaintenancePlanEnabledRemote(id, enabled, plan.rev)
+        await reload()
+        return { ok: true, error: '', label: saved.code, created: 0, skipped: 0 }
+      } catch (cause) {
+        return { ...EMPTY, error: (cause as Error).message }
+      }
+    }
     try {
       const result = await commitMaintenancePlanEnabled({
         planId: id,

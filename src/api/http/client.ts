@@ -24,6 +24,9 @@ interface RequestOptions {
   path: string
   method?: 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE'
   body?: unknown
+  /** 二进制上传：与 body 二选一；设置后不再 JSON 序列化 */
+  rawBody?: BodyInit
+  contentType?: string
   headers?: Record<string, string>
   anonymous?: boolean
   timeoutMs?: number
@@ -70,13 +73,21 @@ export function createHttpClient(options: ClientOptions = {}) {
     const headers = new Headers(input.headers)
     const token = input.anonymous ? null : options.token?.()
     if (token) headers.set('Authorization', `Bearer ${token}`)
-    if (input.body !== undefined) headers.set('Content-Type', 'application/json')
+    if (input.rawBody !== undefined) {
+      if (input.contentType) headers.set('Content-Type', input.contentType)
+    } else if (input.body !== undefined) {
+      headers.set('Content-Type', 'application/json')
+    }
     const abort = new AbortController()
     const timer = setTimeout(() => abort.abort(), input.timeoutMs ?? options.timeoutMs ?? 15000)
     try {
       const response = await fetcher(`${base}${input.path}`, {
         method: input.method ?? 'GET', headers, signal: abort.signal,
-        ...(input.body !== undefined ? { body: JSON.stringify(input.body) } : {}),
+        ...(input.rawBody !== undefined
+          ? { body: input.rawBody }
+          : input.body !== undefined
+            ? { body: JSON.stringify(input.body) }
+            : {}),
       })
       if (response.status === 401 && !input.anonymous && options.token?.() === token) {
         options.unauthorized?.()
@@ -116,5 +127,20 @@ export function createHttpClient(options: ClientOptions = {}) {
     return (await send<T>(input)).data
   }
 
-  return { request, command: send }
+  /** 受身份保护的内容读取（媒体原件/缩略图），直接返回 Blob。 */
+  async function blob(path: string): Promise<Blob> {
+    if (!path.startsWith('/') || path.startsWith('//')) {
+      throw transportError('INVALID_REQUEST', '接口路径无效')
+    }
+    const headers = new Headers()
+    const token = options.token?.()
+    if (token) headers.set('Authorization', `Bearer ${token}`)
+    const response = await fetcher(`${base}${path.replace(/^\/api\/v1/, '')}`, { headers })
+    if (!response.ok) {
+      throw transportError('STORAGE_UNAVAILABLE', '无法读取照片内容，请检查后端连接')
+    }
+    return response.blob()
+  }
+
+  return { request, command: send, blob }
 }

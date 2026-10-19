@@ -1,0 +1,84 @@
+{
+  "target": "http://127.0.0.1:5181（Vite 临时配置，代理到独立 API 18001）",
+  "browser": "ZCode 内置浏览器（IAB）",
+  "method": "Playwright DOM 快照读取页面可见文字；截图接口连续报 surface preparation timeout，本文件不附伪造截图。",
+  "cases": [
+    {
+      "page": "#/inspection",
+      "observed": [
+        "顶栏：服务端数据 · demo-main",
+        "计划 PLAN-20261019-001 阶段 5 日常巡检，5号实验楼，每 1 天 09:00，启用中",
+        "点击“生成今日任务”后页面提示：今日任务已是最新：没有需要新增的任务（同一计划同一执行时刻不会重复建单）"
+      ],
+      "backendEffect": {
+        "receiptId": "rcpt_b704de167eed4ee4a22100a3a1357b26",
+        "operation": "inspection_task_generate",
+        "key": "inspection_generate|2026-10-19"
+      }
+    },
+    {
+      "page": "#/issues",
+      "observed": [
+        "共 6 条问题｜工单 3 张",
+        "待审核 3、处理中 1、待复查 1、已关闭 1",
+        "ISS-20261019-001 已关闭；ISS-20261019-005 来源“保养发现”；ISS-20261019-006 待复查"
+      ]
+    },
+    {
+      "page": "#/issues 详情抽屉（ISS-20261019-001）",
+      "observed": [
+        "现场照片 1 张，缩略图正常显示 stage5.png",
+        "关联工单 WO-20261019-001，状态验收通过",
+        "已审查 1 次（退回 0 次）",
+        "复查与观察期：1 轮",
+        "时间线含“工单 WO-20261019-001 验收通过，进入待复查”“复查：recovered”"
+      ]
+    },
+    {
+      "page": "#/maintenance",
+      "observed": [
+        "计划 MP-20261019-001 裂缝计季度保养，B05-CRACK-DEV1，每 1 天 08:30，启用中",
+        "任务 MT-20261019-001 已完成",
+        "保养逾期 0、设备离线 0、故障工单 1、结构预警 0（四个分区各自计数）"
+      ]
+    },
+    {
+      "page": "#/reports",
+      "observed": [
+        "预警响应时长：0.0 小时（分母 1 个已响应事件）",
+        "问题按期闭环率：100.0%（分子 1，分母 1；另列 5 条未关闭问题）",
+        "复查 / 保养按期完成率：100.0%（复查 3/3；保养 1/1）",
+        "明细行数：事件 1、问题 6、工单 3、保养任务 1",
+        "事件表 E20261019-001 已关闭"
+      ]
+    },
+    {
+      "page": "#/reports/event/evt_319777145f0d431b8e13a785d8c5ff96",
+      "observed": [
+        "数据来源：后端数据库",
+        "四节：一、事件与证据；二、提醒与确认；三、问题与工单；四、关闭依据",
+        "工单 WO-20261019-003：提交完工 2026-10-19 12:11；验收通过",
+        "关闭依据：连续恢复复测与工单验收",
+        "处置时间线含“关联工单 WO-20261019-003 已验收通过”"
+      ]
+    }
+  ],
+  "persistence": {
+    "serverRestart": "18001 临时 API 停止后以同一 SQLite 重启；刷新 #/reports 后指标、事件状态、导出行数与重启前一致。",
+    "browserRefresh": "报表页执行 reload 后仍显示同一 6 条问题、1 条事件和相同指标。",
+    "freshBrowserStorage": "在 5181 页面执行 localStorage.clear() 后 reload；应用重新核验演示身份，仍显示“服务端数据 · demo-main”、问题按期闭环率 100.0%、6 行问题导出，证明业务状态不依赖浏览器本地存储。",
+    "independentClient": "另用 Python httpx 客户端以新身份令牌读取恢复目录 API 18002：events=1、issues=6、attachments=2、eventStatus=closed、mediaBytes=69。",
+    "indexedDb": {
+      "database": "zhutong-demo",
+      "issues": "missing/0",
+      "tasks": "missing/0",
+      "workOrders": "missing/0",
+      "attachments": "missing/0",
+      "maintenanceTasks": "missing/0"
+    }
+  },
+  "limitations": [
+    "IAB 截图接口报 surface preparation timeout，未生成页面截图；页面证据为 DOM 快照文本与后端回执/数据库核对。",
+    "未取得第二款浏览器引擎；以清空本地存储后的页面刷新、API 重启和独立 HTTP 客户端读取共同证明业务事实不依赖浏览器本地库。"
+  ]
+}

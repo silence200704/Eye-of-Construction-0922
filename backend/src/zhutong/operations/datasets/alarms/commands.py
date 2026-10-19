@@ -7,6 +7,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from ....core.errors import AppError
+from ....db.models.field import WorkOrder
 from ....db.models.monitoring import AlarmEvent, AlarmNotification
 from ....domain.monitoring.engine import parse_iso
 from ....domain.monitoring.events import close_guard
@@ -125,17 +126,29 @@ def close_event(session: Session, workspace: Workspace, command: CloseCommand) -
         raise AppError("STATE_CONFLICT", "当前有效采样序列不满足恢复条件，请重新复测", 409)
     if command.basis.strip() == "":
         raise AppError("CLOSE_BASIS_REQUIRED", "关闭事件必须填写关闭依据", 422)
-    if command.no_repair_note.strip() == "":
+    verified_orders = list(
+        session.scalars(
+            select(WorkOrder).where(
+                WorkOrder.dataset_id == workspace.dataset_id,
+                WorkOrder.event_id == row.id,
+                WorkOrder.status == "verified",
+            )
+        )
+    )
+    note = command.no_repair_note.strip()
+    if note == "" and not verified_orders:
         raise AppError(
             "CLOSE_BASIS_REQUIRED",
-            "阶段 4 尚未接通关联工单，关闭必须填写“无需维修”现场核查结论",
+            "关闭事件必须有当前事件关联且验收通过的工单，或填写“无需维修”现场核查结论",
             422,
         )
-    at = now_iso()
-    detail = (
-        f"事件 {row.event_no} 授权关闭；复查结论：{command.basis.strip()}；"
-        f"现场核查：{command.no_repair_note.strip()}"
+    basis_detail = (
+        f"现场核查：{note}"
+        if note != ""
+        else "关联工单 " + "、".join(order.order_no for order in verified_orders) + " 已验收通过"
     )
+    at = now_iso()
+    detail = f"事件 {row.event_no} 授权关闭；复查结论：{command.basis.strip()}；{basis_detail}"
     row.status = "closed"
     row.closed_at = at
     row.closed_by = workspace.actor.name
@@ -151,7 +164,7 @@ def close_event(session: Session, workspace: Workspace, command: CloseCommand) -
             object_id=row.id,
             object_label=row.event_no,
             summary=f"关闭预警事件 {row.event_no}",
-            reason=f"{command.basis.strip()}；{command.no_repair_note.strip()}",
+            reason=f"{command.basis.strip()}；{basis_detail}",
             at=at,
         ),
     )

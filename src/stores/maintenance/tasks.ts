@@ -12,6 +12,13 @@
  */
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
+import { backendActive } from '@/api/backend/runtime'
+import {
+  executeMaintenanceRemote,
+  fetchMaintenanceTasks,
+  generateMaintenanceRemote,
+  uploadPhotoDrafts,
+} from '@/api/backend/field'
 import { db } from '@/db/database'
 import { buildAuditLog } from '@/db/repo'
 import { commitMaintenanceGenerate, writeMaintenanceExecute } from '@/db/maintenance/writes'
@@ -33,7 +40,7 @@ export const useMaintenanceTaskStore = defineStore('maintenanceTasks', () => {
   const loaded = ref(false)
 
   async function reload(): Promise<void> {
-    tasks.value = await db.maintenanceTasks.toArray()
+    tasks.value = backendActive() ? await fetchMaintenanceTasks() : await db.maintenanceTasks.toArray()
     loaded.value = true
   }
 
@@ -59,6 +66,25 @@ export const useMaintenanceTaskStore = defineStore('maintenanceTasks', () => {
     const session = useSessionStore()
     if (session.role !== 'safety' && session.role !== 'property') {
       return { ...EMPTY, error: '生成保养任务由学校安全管理人员或物业值班执行' }
+    }
+    if (backendActive()) {
+      try {
+        const result = await generateMaintenanceRemote(dayKey)
+        await reload()
+        const parts = [
+          `新生成 ${result.created.length} 条`,
+          result.skipped === 0 ? '' : `已存在 ${result.skipped} 条`,
+        ].filter((row) => row !== '')
+        return {
+          ok: true,
+          error: '',
+          label: parts.join('；'),
+          created: result.created.length,
+          skipped: result.skipped,
+        }
+      } catch (cause) {
+        return { ...EMPTY, error: (cause as Error).message }
+      }
     }
     // 读库而不是读内存：计划刚被别处改过时，缓存里的旧版本会生成不该生成的任务
     const plans = (await db.maintenancePlans.toArray()).filter((row) => row.enabled)
@@ -126,6 +152,29 @@ export const useMaintenanceTaskStore = defineStore('maintenanceTasks', () => {
    */
   async function execute(taskId: string, input: MaintenanceExecuteInput): Promise<MaintenanceResult> {
     const session = useSessionStore()
+    if (backendActive()) {
+      const task = byId(taskId)
+      if (task === undefined) return { ...EMPTY, error: '保养任务不存在' }
+      try {
+        const photos = await uploadPhotoDrafts(input.photoDrafts, task.snapshot.pointId, 'scene')
+        const result = await executeMaintenanceRemote(taskId, {
+          expectedRev: task.rev,
+          answers: input.answers,
+          measures: input.measures,
+          materials: input.materials,
+          nextDueDate: input.nextDueDate,
+          note: input.note,
+          abnormalNote: input.anomaly.note,
+          createIssue: input.anomaly.createIssue,
+          photos,
+        })
+        await reload()
+        await Promise.all([useIssueStore().reload(), useAttachmentStore().reload()])
+        return { ok: true, error: '', label: result.task.taskNo, created: 0, skipped: 0 }
+      } catch (cause) {
+        return { ...EMPTY, error: (cause as Error).message }
+      }
+    }
     const at = nowIso()
     let error = ''
     let label = ''

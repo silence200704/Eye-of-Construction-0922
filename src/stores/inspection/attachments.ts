@@ -7,6 +7,8 @@
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import type { IssueAttachment } from '@/types/inspection'
+import { backendActive } from '@/api/backend/runtime'
+import { fetchAttachmentBlob, fetchAttachments } from '@/api/backend/media'
 import { attachmentBudget, removePhoto, savePhoto, totalPhotoBytes } from '@/db/inspection/attachments'
 import { db } from '@/db/database'
 
@@ -17,6 +19,17 @@ export const useAttachmentStore = defineStore('inspectionAttachments', () => {
   const totalBytes = computed(() => totalPhotoBytes(attachments.value))
 
   async function reload(): Promise<void> {
+    if (backendActive()) {
+      const rows = await fetchAttachments()
+      attachments.value = await Promise.all(
+        rows.map(async (row) => {
+          const blob = await fetchAttachmentBlob(row.contentUrl)
+          return { ...row, blob, thumb: blob }
+        }),
+      )
+      loaded.value = true
+      return
+    }
     attachments.value = await db.attachments.toArray()
     loaded.value = true
   }
@@ -37,6 +50,10 @@ export const useAttachmentStore = defineStore('inspectionAttachments', () => {
    * 补传判断必须以此为准：缓存"命中但已过期"时会把已在库的照片当成没传过，重复上传一遍。
    */
   async function existingOfOrder(orderId: string): Promise<IssueAttachment[]> {
+    if (backendActive()) {
+      await reload()
+      return ofOrder(orderId)
+    }
     return db.attachments.where('workOrderId').equals(orderId).toArray()
   }
 
@@ -46,12 +63,18 @@ export const useAttachmentStore = defineStore('inspectionAttachments', () => {
   }
 
   async function add(input: Parameters<typeof savePhoto>[0]): Promise<IssueAttachment> {
+    if (backendActive()) {
+      throw new Error('服务端模式下照片随业务命令上传，不单独写入附件')
+    }
     const row = await savePhoto(input)
     await reload()
     return row
   }
 
   async function remove(id: string): Promise<void> {
+    if (backendActive()) {
+      throw new Error('服务端模式下不单删附件；请通过业务命令重新提交证据')
+    }
     await removePhoto(id)
     await reload()
   }

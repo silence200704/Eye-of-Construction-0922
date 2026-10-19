@@ -251,6 +251,7 @@ export interface InspectionPlan extends AuditFields {
   /** 启用中才会生成新任务；停用后既有任务保留（方案：停用不等于删除历史） */
   enabled: boolean
   remark: string
+  rev?: number
 }
 
 /** 点位检查结果（任务内逐点一条）。 */
@@ -310,6 +311,7 @@ export interface InspectionTask extends AuditFields {
   status: TaskStatus
   results: TaskCheckResult[]
   issueIds: string[]
+  rev?: number
 }
 
 /** 巡检问题（三类来源共用）。 */
@@ -355,6 +357,7 @@ export interface InspectionIssue extends AuditFields {
    */
   rechecks?: RecheckRound[]
   timeline: IssueTimelineEntry[]
+  rev?: number
 }
 
 export interface IssueTimelineEntry {
@@ -394,6 +397,9 @@ export interface IssueAttachment {
   capturedAt: string | null
   blob: Blob
   thumb: Blob
+  /** 服务端附件版本与原件地址（本地演示库没有） */
+  rev?: number
+  contentUrl?: string
 }
 
 /** 工单验收/退回记录：每次动作都追加，不覆盖。 */
@@ -426,6 +432,7 @@ export interface WorkOrder extends AuditFields {
   submittedAt: string | null
   reviews: WorkOrderReview[]
   timeline: IssueTimelineEntry[]
+  rev?: number
 }
 
 /* ---------------- 事件关闭的前置依据 ---------------- */

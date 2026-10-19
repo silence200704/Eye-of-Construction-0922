@@ -12,6 +12,7 @@ import { useRoute, useRouter } from 'vue-router'
 import AppButton from '@/components/ui/AppButton.vue'
 import EmptyState from '@/components/ui/EmptyState.vue'
 import SectionCard from '@/components/ui/SectionCard.vue'
+import { backendActive } from '@/api/backend/runtime'
 import { buildEventReport } from '@/core/metrics/eventReport'
 import { formatDateTime } from '@/core/time'
 import { useArchiveStore } from '@/stores/archive'
@@ -33,6 +34,7 @@ function printReport(): void {
 }
 
 const eventId = computed(() => String(route.params.id))
+const sourceText = computed(() => (backendActive() ? '后端数据库' : '本机 IndexedDB'))
 
 const report = computed(() => {
   const event = events.events.find((row) => row.id === eventId.value)
@@ -65,7 +67,7 @@ onMounted(async () => {
 
     <EmptyState v-if="ready && report === null" title="事件不存在" sub="该事件可能已被清库或属于另一个数据集" />
     <template v-else-if="report !== null">
-      <SectionCard :title="report.title" :sub="`报告生成时间 ${formatDateTime(new Date().toISOString())}；数据来源：本机 IndexedDB`">
+      <SectionCard :title="report.title" :sub="`报告生成时间 ${formatDateTime(new Date().toISOString())}；数据来源：${sourceText}`">
         <p v-if="!report.closed" class="warn">
           本事件尚未关闭：下面的"关闭依据"为空是**真实的当前状态**，不代表核查通过。
         </p>

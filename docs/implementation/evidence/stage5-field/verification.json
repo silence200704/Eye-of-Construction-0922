@@ -1,0 +1,345 @@
+{
+  "dataset": "demo-main",
+  "epoch": 1,
+  "ids": {
+    "building": {
+      "id": "bld_58aa53ce252f4dc0999418d8951565a7",
+      "code": "B05",
+      "name": "5号实验楼",
+      "purpose": "实验",
+      "buildYear": null,
+      "floorCount": null,
+      "area": null,
+      "structureType": "",
+      "managerUnit": "",
+      "userUnit": "",
+      "owner": "",
+      "ownerPhone": "",
+      "backupPerson": "",
+      "source": "",
+      "footprint": {
+        "x": 0.4,
+        "y": 0.6,
+        "w": 0.2,
+        "h": 0.2,
+        "rotate": 0
+      },
+      "dataSource": "demo",
+      "remark": "",
+      "status": "active",
+      "archiveReason": "",
+      "archivedAt": null,
+      "archivedBy": "",
+      "createdAt": "2026-10-19T04:11:07.734915+00:00",
+      "createdBy": "演示学校安全管理人员",
+      "updatedAt": "2026-10-19T04:11:07.734915+00:00",
+      "updatedBy": "演示学校安全管理人员",
+      "rev": 1
+    },
+    "floor": {
+      "id": "flr_b7d21877794a44358711f63464845fca",
+      "buildingId": "bld_58aa53ce252f4dc0999418d8951565a7",
+      "floorNo": 2,
+      "name": "二层",
+      "zones": [
+        "走廊"
+      ],
+      "planVersion": 1,
+      "remark": "",
+      "status": "active",
+      "archiveReason": "",
+      "archivedAt": null,
+      "archivedBy": "",
+      "createdAt": "2026-10-19T04:11:07.748484+00:00",
+      "createdBy": "演示学校安全管理人员",
+      "updatedAt": "2026-10-19T04:11:07.748484+00:00",
+      "updatedBy": "演示学校安全管理人员",
+      "rev": 1
+    },
+    "crack": {
+      "id": "pnt_9263f4a8d16840b7bcca0bc8a480ba83",
+      "code": "B05-F2-CRACK01",
+      "name": "裂缝测点",
+      "buildingId": "bld_58aa53ce252f4dc0999418d8951565a7",
+      "floorId": "flr_b7d21877794a44358711f63464845fca",
+      "zoneId": "",
+      "type": "crack",
+      "metric": "crack_width",
+      "coord": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "nfc": {
+        "code": "NFC-B05-01",
+        "version": 1,
+        "boundAt": "2026-10-19T04:11:07.761367+00:00",
+        "boundBy": "演示学校安全管理人员",
+        "remark": "建档时绑定"
+      },
+      "planVersion": 1,
+      "locationHistory": [],
+      "owner": "",
+      "backupPerson": "",
+      "installDate": "",
+      "dataSource": "demo",
+      "remark": "",
+      "status": "active",
+      "archiveReason": "",
+      "archivedAt": null,
+      "archivedBy": "",
+      "createdAt": "2026-10-19T04:11:07.761367+00:00",
+      "createdBy": "演示学校安全管理人员",
+      "updatedAt": "2026-10-19T04:11:07.761367+00:00",
+      "updatedBy": "演示学校安全管理人员",
+      "rev": 1
+    },
+    "manual": {
+      "id": "pnt_bacc382d6b0e47409f5288812f16bac8",
+      "code": "B05-F2-CHECK01",
+      "name": "巡检点",
+      "buildingId": "bld_58aa53ce252f4dc0999418d8951565a7",
+      "floorId": "flr_b7d21877794a44358711f63464845fca",
+      "zoneId": "",
+      "type": "manual_check",
+      "metric": "inspection",
+      "coord": {
+        "x": 0.45,
+        "y": 0.45
+      },
+      "nfc": {
+        "code": "NFC-B05-F2-CHECK01",
+        "version": 1,
+        "boundAt": "2026-10-19T04:11:07.776349+00:00",
+        "boundBy": "演示学校安全管理人员",
+        "remark": "建档时绑定"
+      },
+      "planVersion": 1,
+      "locationHistory": [],
+      "owner": "",
+      "backupPerson": "",
+      "installDate": "",
+      "dataSource": "demo",
+      "remark": "",
+      "status": "active",
+      "archiveReason": "",
+      "archivedAt": null,
+      "archivedBy": "",
+      "createdAt": "2026-10-19T04:11:07.776349+00:00",
+      "createdBy": "演示学校安全管理人员",
+      "updatedAt": "2026-10-19T04:11:07.776349+00:00",
+      "updatedBy": "演示学校安全管理人员",
+      "rev": 1
+    },
+    "device": {
+      "id": "dev_8c91755ab69448b2b7896346dd47913a",
+      "code": "B05-CRACK-DEV1",
+      "name": "裂缝计",
+      "pointId": "pnt_9263f4a8d16840b7bcca0bc8a480ba83",
+      "model": "",
+      "serial": "",
+      "rangeMin": 0.0,
+      "rangeMax": 2.0,
+      "rangeText": "0.0~2.0 mm",
+      "unit": "mm",
+      "nodeId": "",
+      "gateway": "",
+      "mountPosition": "",
+      "direction": "",
+      "installDate": "",
+      "calibratedAt": "",
+      "health": "unknown",
+      "remark": "",
+      "status": "active",
+      "archiveReason": "",
+      "archivedAt": null,
+      "archivedBy": "",
+      "createdAt": "2026-10-19T04:11:07.788394+00:00",
+      "createdBy": "演示学校安全管理人员",
+      "updatedAt": "2026-10-19T04:11:07.788394+00:00",
+      "updatedBy": "演示学校安全管理人员",
+      "rev": 1
+    }
+  },
+  "steps": [
+    {
+      "step": "巡检到点与完成",
+      "plan": "PLAN-20261019-001",
+      "task": "TK-20261019-001",
+      "wrongLabelPassed": false,
+      "attempts": 2,
+      "status": "checked"
+    },
+    {
+      "step": "设备问题→维修→验收→复查恢复",
+      "issue": "ISS-20261019-001",
+      "order": "WO-20261019-001",
+      "orderStatus": "verified",
+      "submittedAt": "2026-10-19T04:11:08.030233+00:00",
+      "issueAfterVerify": "pending_recheck",
+      "issueFinal": "closed",
+      "attachmentBytesMatch": true,
+      "attachmentSha256": "c47dd9465c00e9a0c8b85e9ea58d3034a0d23b9cf926113602f3460752a4eb96",
+      "photoDownloaded": 69
+    },
+    {
+      "step": "结构问题→专业排查/观察→复发",
+      "issue": "ISS-20261019-002",
+      "investigating": "investigating",
+      "observing": "observing",
+      "recurred": "pending_review",
+      "rounds": 2
+    },
+    {
+      "step": "退回补充",
+      "issue": "ISS-20261019-003",
+      "status": "pending_review"
+    },
+    {
+      "step": "验收退回→再次办理",
+      "order": "WO-20261019-002",
+      "returned": "returned",
+      "reviews": 1
+    },
+    {
+      "step": "保养异常转问题",
+      "plan": "MP-20261019-001",
+      "task": "MT-20261019-001",
+      "taskStatus": "done",
+      "issue": "ISS-20261019-005",
+      "issueSource": "maintenance",
+      "bidirectional": true
+    },
+    {
+      "step": "事件用当前事件已验收工单关闭",
+      "event": "E20261019-001",
+      "status": "closed",
+      "secondClose": 409,
+      "closeTimeline": "事件 E20261019-001 授权关闭；复查结论：连续恢复复测与工单验收；关联工单 WO-20261019-003 已验收通过"
+    }
+  ],
+  "reports": {
+    "indicatorKeys": [
+      "response",
+      "closure",
+      "periodic"
+    ],
+    "indicatorValues": [
+      7.899444444444445e-06,
+      1.0,
+      1.0
+    ],
+    "issueExportRows": 6,
+    "taskExportStatuses": [
+      "已完成"
+    ],
+    "eventReportClosed": true,
+    "eventReportSections": [
+      "一、事件与证据",
+      "二、提醒与确认",
+      "三、问题与工单",
+      "四、关闭依据"
+    ]
+  },
+  "database": {
+    "audits": 60,
+    "receipts": 50,
+    "operations": [
+      "archive_write",
+      "baseline_write",
+      "event_close",
+      "inspection_check_in",
+      "inspection_complete",
+      "inspection_plan_write",
+      "inspection_task_generate",
+      "issue_recheck_outcome",
+      "issue_recheck_register",
+      "issue_report",
+      "issue_review",
+      "maintenance_execute",
+      "maintenance_generate",
+      "maintenance_plan_write",
+      "record_write",
+      "rule_write",
+      "work_order_action"
+    ],
+    "objectAudits": [
+      {
+        "objectId": "plan_c8a251e0fb854969b2668043b0db9870@2026-10-19T01:00:00+00:00",
+        "summary": "提交检查完成（B05-F2-CHECK01）"
+      },
+      {
+        "objectId": "iss_879862842bfd47feb890c4bf5bcdfa6b",
+        "summary": "登记复查：ISS-20261019-001"
+      },
+      {
+        "objectId": "evt_319777145f0d431b8e13a785d8c5ff96",
+        "summary": "关闭预警事件 E20261019-001"
+      },
+      {
+        "objectId": "evt_319777145f0d431b8e13a785d8c5ff96",
+        "summary": "事件 E20261019-001 转为恢复待确认"
+      },
+      {
+        "objectId": "plan_c8a251e0fb854969b2668043b0db9870@2026-10-19T01:00:00+00:00",
+        "summary": "到点尝试：标签编号不一致：读到 NFC-WRONG，该点位登记为 NFC-B05-F2-CHECK01。错点不计入到点，已留痕"
+      },
+      {
+        "objectId": "wo_b15005bf3db74a2b9cf2571babf7a94f",
+        "summary": "工单 WO-20261019-001：接单处理"
+      },
+      {
+        "objectId": "wo_b15005bf3db74a2b9cf2571babf7a94f",
+        "summary": "工单 WO-20261019-001：派工"
+      },
+      {
+        "objectId": "mp_9b7fde65688d4b1baf521deb7f2d107d@2026-10-19T00:30:00+00:00",
+        "summary": "完成保养任务 MT-20261019-001"
+      },
+      {
+        "objectId": "iss_879862842bfd47feb890c4bf5bcdfa6b",
+        "summary": "问题 ISS-20261019-001：复查结论 recovered"
+      },
+      {
+        "objectId": "wo_b15005bf3db74a2b9cf2571babf7a94f",
+        "summary": "工单 WO-20261019-001：验收通过"
+      },
+      {
+        "objectId": "evt_319777145f0d431b8e13a785d8c5ff96",
+        "summary": "生成红色紧急核查预警事件 E20261019-001"
+      },
+      {
+        "objectId": "plan_c8a251e0fb854969b2668043b0db9870@2026-10-19T01:00:00+00:00",
+        "summary": "到点尝试：人工兜底核对通过（标签 NFC-B05-F2-CHECK01 v1）"
+      },
+      {
+        "objectId": "plan_c8a251e0fb854969b2668043b0db9870@2026-10-19T01:00:00+00:00",
+        "summary": "按 PLAN-20261019-001 生成任务 TK-20261019-001"
+      },
+      {
+        "objectId": "wo_b15005bf3db74a2b9cf2571babf7a94f",
+        "summary": "由问题 ISS-20261019-001 生成维修工单 WO-20261019-001"
+      },
+      {
+        "objectId": "iss_879862842bfd47feb890c4bf5bcdfa6b",
+        "summary": "提交问题 ISS-20261019-001"
+      },
+      {
+        "objectId": "iss_879862842bfd47feb890c4bf5bcdfa6b",
+        "summary": "审核问题 ISS-20261019-001"
+      },
+      {
+        "objectId": "wo_b15005bf3db74a2b9cf2571babf7a94f",
+        "summary": "工单 WO-20261019-001：提交待验收"
+      },
+      {
+        "objectId": "iss_879862842bfd47feb890c4bf5bcdfa6b",
+        "summary": "问题 ISS-20261019-001：工单 WO-20261019-001 验收通过，进入待复查"
+      },
+      {
+        "objectId": "mp_9b7fde65688d4b1baf521deb7f2d107d@2026-10-19T00:30:00+00:00",
+        "summary": "生成保养任务 MT-20261019-001"
+      }
+    ]
+  },
+  "generatedAt": "2026-10-19T04:11:08.562223+00:00"
+}

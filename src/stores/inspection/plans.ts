@@ -8,6 +8,12 @@
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import type { InspectionPlan } from '@/types/inspection'
+import { backendActive } from '@/api/backend/runtime'
+import {
+  fetchInspectionPlans,
+  saveInspectionPlanRemote,
+  setInspectionPlanEnabledRemote,
+} from '@/api/backend/field'
 import { validatePlan } from '@/core/inspection/taskPlan'
 import { nextPlanCode, uid } from '@/core/id'
 import { nowIso } from '@/core/time'
@@ -42,7 +48,7 @@ export const usePlanStore = defineStore('inspectionPlans', () => {
     plans.value.filter((row) => row.buildingId === buildingId)
 
   async function reload(): Promise<void> {
-    plans.value = await db.plans.toArray()
+    plans.value = backendActive() ? await fetchInspectionPlans() : await db.plans.toArray()
     loaded.value = true
   }
 
@@ -60,8 +66,17 @@ export const usePlanStore = defineStore('inspectionPlans', () => {
     )
     if (!check.ok) throw new Error(check.errors.join('；'))
 
-    const at = nowIso()
     const existing = id === null ? undefined : byId(id)
+    if (backendActive()) {
+      const saved = await saveInspectionPlanRemote(
+        draft as unknown as Record<string, unknown>,
+        id,
+        existing?.rev,
+      )
+      await reload()
+      return saved
+    }
+    const at = nowIso()
     const dayKey = at.slice(0, 10).replace(/-/g, '')
     const row: InspectionPlan = {
       id: existing?.id ?? uid('plan'),
@@ -105,6 +120,11 @@ export const usePlanStore = defineStore('inspectionPlans', () => {
     const session = useSessionStore()
     const plan = byId(id)
     if (plan === undefined) return
+    if (backendActive()) {
+      await setInspectionPlanEnabledRemote(id, enabled, plan.rev)
+      await reload()
+      return
+    }
     const at = nowIso()
     await putPlan(toPlain({ ...plan, enabled, updatedAt: at, updatedBy: session.name }))
     await archive.log(

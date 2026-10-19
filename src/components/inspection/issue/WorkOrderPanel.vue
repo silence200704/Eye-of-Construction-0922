@@ -8,6 +8,7 @@
  */
 import { computed, onUnmounted, ref, watch } from 'vue'
 import type { WorkOrder, WorkOrderStatus } from '@/types/inspection'
+import { backendActive } from '@/api/backend/runtime'
 import { useArchiveStore } from '@/stores/archive'
 import { useSessionStore } from '@/stores/session'
 import { useWorkOrderStore } from '@/stores/inspection/workOrders'
@@ -132,26 +133,31 @@ async function run(order: WorkOrder, to: WorkOrderStatus, extra: Parameters<type
   busy.value = true
   const payload = { note: note.value.trim(), ...extra }
   if (to === 'submitted' && photos.value.length > 0) {
-    /*
-     * 先认人再上传：附件入库时就带了工单归属与草稿标识。上一次提交若被拦下
-     * （措施没填、事务失败），照片其实已经在库里，直接重传会在工单下堆出重复照片。
-     * 因此先查库、只上传缺的那几张，其余补关联。查库而不是查缓存：缓存可能已过期。
-     */
-    const plan = planPhotoSync(photos.value, await attachments.existingOfOrder(order.id), order.photos)
-    const ids = plan.toLink.map((row) => row.attachmentId)
-    for (const draft of plan.toUpload) {
-      const saved = await attachments.add({
-        file: new File([draft.blob], draft.fileName, { type: 'image/jpeg' }),
-        kind: 'after',
-        issueId: null,
-        workOrderId: order.id,
-        actor: session.name,
-        capturedAt: draft.capturedAt,
-        draftId: draft.id,
-      })
-      ids.push(saved.id)
+    if (backendActive()) {
+      // 服务端模式：照片草稿随完工命令一起上传与关联，重试由草稿标识去重。
+      payload.photoDrafts = photos.value
+    } else {
+      /*
+       * 先认人再上传：附件入库时就带了工单归属与草稿标识。上一次提交若被拦下
+       * （措施没填、事务失败），照片其实已经在库里，直接重传会在工单下堆出重复照片。
+       * 因此先查库、只上传缺的那几张，其余补关联。查库而不是查缓存：缓存可能已过期。
+       */
+      const plan = planPhotoSync(photos.value, await attachments.existingOfOrder(order.id), order.photos)
+      const ids = plan.toLink.map((row) => row.attachmentId)
+      for (const draft of plan.toUpload) {
+        const saved = await attachments.add({
+          file: new File([draft.blob], draft.fileName, { type: 'image/jpeg' }),
+          kind: 'after',
+          issueId: null,
+          workOrderId: order.id,
+          actor: session.name,
+          capturedAt: draft.capturedAt,
+          draftId: draft.id,
+        })
+        ids.push(saved.id)
+      }
+      payload.photos = ids
     }
-    payload.photos = ids
   }
   if ((to === 'verified' || to === 'returned') && acceptancePhotos.value.length > 0) payload.acceptancePhotos = acceptancePhotos.value
   const out = await workOrders.advanceOrder(order.id, to, payload)

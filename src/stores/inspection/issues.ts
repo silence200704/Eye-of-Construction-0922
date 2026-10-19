@@ -9,6 +9,13 @@ import { publishReuse } from '@/core/operations/receipts'
 import { defineStore } from 'pinia'
 import type { InspectionIssue, IssueSource, RecheckOutcome, ReviewAction } from '@/types/inspection'
 import type { AlarmEvent } from '@/types/events'
+import { backendActive } from '@/api/backend/runtime'
+import {
+  fetchIssues,
+  recordRecheckRemote,
+  registerRecheckRemote,
+} from '@/api/backend/field'
+import { reviewIssueRemoteSubmit, submitIssueRemote } from './remote/issues'
 import { candidateDuplicates, submissionKeyOf } from '@/core/inspection/issueMerge'
 import type { DraftPhotoInput } from '@/db/inspection/attachments'
 import { buildDraftPhoto } from '@/db/inspection/attachments'
@@ -26,6 +33,7 @@ import { performReview } from './issueReview'
 import { commitRecheckOutcome, commitRecheckRegister } from './issueRecheck'
 import { useArchiveStore } from '../archive'
 import { useWorkOrderStore } from './workOrders'
+import { useAttachmentStore } from './attachments'
 import { useSessionStore } from '../session'
 
 export interface IssueDraft {
@@ -86,12 +94,14 @@ export type EventIssueDraft = Omit<IssueDraft, 'source' | 'eventId'> & { eventId
 export const useIssueStore = defineStore('inspectionIssues', () => {
   const issues = ref<InspectionIssue[]>([])
   const loaded = ref(false)
+  /** 同一份上报草稿失败重试时复用 submissionId；成功后清掉。 */
+  const pendingSubmission = new Map<string, string>()
 
   const openIssues = computed(() => issues.value.filter((row) => row.status !== 'closed'))
   const pendingReview = computed(() => issues.value.filter((row) => row.status === 'pending_review'))
 
   async function reload(): Promise<void> {
-    issues.value = await db.issues.toArray()
+    issues.value = backendActive() ? await fetchIssues() : await db.issues.toArray()
     loaded.value = true
   }
 
@@ -186,6 +196,12 @@ export const useIssueStore = defineStore('inspectionIssues', () => {
    * 先写问题再写日志的话，日志失败会留下一条没有审计记录的问题。
    */
   async function writeIssue(draft: IssueDraft, eventForTimeline: AlarmEvent | null = null): Promise<SubmitOutcome> {
+    if (backendActive()) {
+      const out = await submitIssueRemote(draft, pendingSubmission)
+      await reload()
+      await useAttachmentStore().reload()
+      return { ...out, candidates: [] }
+    }
     const session = useSessionStore()
     const at = nowIso()
     const keyed = draftWithKey(draft)
@@ -260,6 +276,10 @@ export const useIssueStore = defineStore('inspectionIssues', () => {
       throw new Error('预警转单由学校安全管理人员执行')
     }
     const eventId = draft.eventId.trim()
+    if (backendActive()) {
+      // 事件与测点是否一致由服务端核验，避免页面缓存过期时把错点问题写进去。
+      return writeIssue({ ...draft, source: 'sensor', eventId }, null)
+    }
     const event = await db.events.get(eventId)
     if (event === undefined) throw new Error('预警事件不存在，不能转问题处理')
     if (draft.pointId !== event.pointId) throw new Error('问题测点与预警事件测点不一致，不能转问题处理')
@@ -279,6 +299,20 @@ export const useIssueStore = defineStore('inspectionIssues', () => {
      */
     if (session.role !== 'safety') {
       return { ok: false, error: '审核由学校安全管理人员执行，当前身份无权提交', issue: null }
+    }
+
+    if (backendActive()) {
+      const issue = byId(issueId)
+      if (issue === undefined) return { ok: false, error: '问题不存在', issue: null }
+      try {
+        const saved = await reviewIssueRemoteSubmit(issue, input)
+        await reload()
+        await useWorkOrderStore().reload()
+        await useAttachmentStore().reload()
+        return { ok: true, error: '', issue: saved }
+      } catch (cause) {
+        return { ok: false, error: (cause as Error).message, issue: null }
+      }
     }
 
     const issue = await db.issues.get(issueId)
@@ -322,6 +356,17 @@ export const useIssueStore = defineStore('inspectionIssues', () => {
     issueId: string,
     input: { subject: string; owner: string; dueDate: string },
   ): Promise<IssueActionResult> {
+    if (backendActive()) {
+      const issue = byId(issueId)
+      if (issue === undefined) return { ok: false, error: '问题不存在', issue: null }
+      try {
+        const out = await registerRecheckRemote(issueId, { expectedRev: issue.rev, ...input })
+        await reload()
+        return { ok: true, error: '', issue: out.issue }
+      } catch (cause) {
+        return { ok: false, error: `保存失败，未写入数据：${(cause as Error).message}（可重试）`, issue: null }
+      }
+    }
     let out: IssueActionResult
     try {
       out = await commitRecheckRegister(issueId, input)
@@ -337,6 +382,22 @@ export const useIssueStore = defineStore('inspectionIssues', () => {
     issueId: string,
     input: { outcome: RecheckOutcome; note: string; nextDueDate?: string },
   ): Promise<IssueActionResult> {
+    if (backendActive()) {
+      const issue = byId(issueId)
+      if (issue === undefined) return { ok: false, error: '问题不存在', issue: null }
+      try {
+        const out = await recordRecheckRemote(issueId, {
+          expectedRev: issue.rev,
+          outcome: input.outcome,
+          note: input.note,
+          nextDueDate: input.nextDueDate,
+        })
+        await reload()
+        return { ok: true, error: '', issue: out.issue }
+      } catch (cause) {
+        return { ok: false, error: `保存失败，未写入数据：${(cause as Error).message}（可重试）`, issue: null }
+      }
+    }
     let out: IssueActionResult
     try {
       out = await commitRecheckOutcome(issueId, input)
@@ -355,6 +416,10 @@ export const useIssueStore = defineStore('inspectionIssues', () => {
   async function attachPhotos(issueId: string, attachmentIds: string[]): Promise<InspectionIssue | null> {
     const issue = byId(issueId)
     if (issue === undefined) return null
+    if (backendActive()) {
+      // 服务端不提供"先上传附件再单独挂到已有关闭对象"的旁路：照片随上报/审核命令原子提交。
+      return attachmentIds.length === 0 ? issue : null
+    }
     const session = useSessionStore()
     const at = nowIso()
     const photos = [...new Set([...issue.photos, ...attachmentIds])]
