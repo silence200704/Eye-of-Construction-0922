@@ -8,7 +8,7 @@ from datetime import UTC, datetime, timedelta, timezone
 from typing import Any
 from uuid import uuid4
 
-from sqlalchemy import select, text
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from ....core.errors import AppError
@@ -28,6 +28,26 @@ class Workspace:
     dataset_id: str
     epoch: int
     actor: Account
+
+
+@dataclass(frozen=True)
+class AuditEntry:
+    action: str
+    object_type: str
+    object_id: str
+    object_label: str
+    summary: str
+    reason: str = ""
+    at: str | None = None
+
+
+@dataclass(frozen=True)
+class Command:
+    """一次写命令的身份：请求、操作类型与业务载荷。"""
+
+    request: Any
+    operation: str
+    payload: dict
 
 
 def now_iso() -> str:
@@ -126,31 +146,20 @@ def bump(row: Any, workspace: Workspace, at: str | None = None) -> None:
     row.updated_by = workspace.actor.name
 
 
-def write_audit(
-    session: Session,
-    workspace: Workspace,
-    *,
-    action: str,
-    object_type: str,
-    object_id: str,
-    object_label: str,
-    summary: str,
-    reason: str = "",
-    at: str | None = None,
-) -> AuditLog:
+def write_audit(session: Session, workspace: Workspace, entry: AuditEntry) -> AuditLog:
     row = AuditLog(
         dataset_id=workspace.dataset_id,
         id=uid("audit"),
-        at=at or now_iso(),
+        at=entry.at or now_iso(),
         actor_id=workspace.actor.id,
         actor=workspace.actor.name,
         actor_role=workspace.actor.role,
-        action=action,
-        object_type=object_type,
-        object_id=object_id,
-        object_label=object_label,
-        summary=summary,
-        reason=reason,
+        action=entry.action,
+        object_type=entry.object_type,
+        object_id=entry.object_id,
+        object_label=entry.object_label,
+        summary=entry.summary,
+        reason=entry.reason,
     )
     session.add(row)
     return row
@@ -164,22 +173,30 @@ def request_digest(payload: dict) -> str:
 def execute_command(
     session: Session,
     workspace: Workspace,
-    *,
-    request: Any,
-    operation: str,
-    payload: dict,
+    command: Command,
     handler: Callable[[], dict],
 ) -> tuple[dict, bool]:
-    """幂等命令：同键同内容复用回执；同键不同内容冲突；业务写入与回执同事务。"""
-    key = command_key(request)
-    require_epoch(request, workspace)
-    digest = request_digest(payload)
+    """幂等命令：同键同内容复用回执；同键不同内容冲突；业务写入与回执同事务。
+
+    摘要包含方法、路径与操作类型：同一键用于不同通知/事件/记录时不会误复用回执，
+    而是返回 IDEMPOTENCY_CONFLICT。
+    """
+    key = command_key(command.request)
+    require_epoch(command.request, workspace)
+    digest = request_digest(
+        {
+            "method": command.request.method,
+            "path": command.request.url.path,
+            "operation": command.operation,
+            "payload": command.payload,
+        }
+    )
     existing = session.scalar(
         select(OperationReceipt).where(
             OperationReceipt.dataset_id == workspace.dataset_id,
             OperationReceipt.epoch == workspace.epoch,
             OperationReceipt.actor_id == workspace.actor.id,
-            OperationReceipt.operation == operation,
+            OperationReceipt.operation == command.operation,
             OperationReceipt.key == key,
         )
     )
@@ -187,9 +204,9 @@ def execute_command(
         if existing.request_hash != digest:
             raise AppError(
                 "IDEMPOTENCY_CONFLICT",
-                "同一幂等键被用于不同内容；请换一个键重新提交",
+                "同一幂等键被用于不同目标或内容；请换一个键重新提交",
                 409,
-                {"operation": operation},
+                {"operation": command.operation},
             )
         return dict(existing.response), True
 
@@ -199,7 +216,7 @@ def execute_command(
         id=uid("rcpt"),
         epoch=workspace.epoch,
         actor_id=workspace.actor.id,
-        operation=operation,
+        operation=command.operation,
         key=key,
         request_hash=digest,
         response=response,
@@ -208,10 +225,6 @@ def execute_command(
     session.add(receipt)
     session.flush()
     return response, False
-
-
-def begin_immediate(session: Session) -> None:
-    session.execute(text("BEGIN IMMEDIATE"))
 
 
 def day_key(at: str) -> str:

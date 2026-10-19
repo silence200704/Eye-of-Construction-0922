@@ -2,6 +2,7 @@
 
 import math
 import re
+from dataclasses import dataclass
 
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
@@ -10,12 +11,12 @@ from sqlalchemy.orm import Session
 from ...core.errors import AppError
 from ...db.models.archive import Point
 from ...db.models.monitoring import Baseline, MonitoringRule, RuleDefinition
-from ...domain.monitoring.catalog import metric_def
 from .core.helpers import get_row
 from .core.serialize import baseline_out, rule_out
 from .core.workspace import (
     BASELINE_ROLES,
     RULE_ROLES,
+    AuditEntry,
     Workspace,
     now_iso,
     require_building,
@@ -108,13 +109,15 @@ def save_baseline(session: Session, workspace: Workspace, payload: dict) -> dict
     write_audit(
         session,
         workspace,
-        action="update",
-        object_type="baseline",
-        object_id=point.id,
-        object_label=f"{point.code} {point.name}",
-        summary=f"基准值更新为 v{row.version}",
-        reason=payload.get("reason", ""),
-        at=at,
+        AuditEntry(
+            action="update",
+            object_type="baseline",
+            object_id=point.id,
+            object_label=f"{point.code} {point.name}",
+            summary=f"基准值更新为 v{row.version}",
+            reason=payload.get("reason", ""),
+            at=at,
+        ),
     )
     return baseline_out(row)
 
@@ -235,56 +238,60 @@ def create_rule(session: Session, workspace: Workspace, payload: dict) -> dict:
     write_audit(
         session,
         workspace,
-        action="create",
-        object_type="system",
-        object_id=row.id,
-        object_label=f"{row.code} {row.name}",
-        summary=f"新建预警规则 {row.code}",
-        at=at,
+        AuditEntry(
+            action="create",
+            object_type="system",
+            object_id=row.id,
+            object_label=f"{row.code} {row.name}",
+            summary=f"新建预警规则 {row.code}",
+            at=at,
+        ),
     )
     return rule_out(row)
 
 
-def save_rule_version(
-    session: Session,
-    workspace: Workspace,
-    rule_id: str,
-    payload: dict,
-    expected_rev: int | None,
-    expected_version: str | None,
-) -> dict:
+@dataclass(frozen=True)
+class RuleVersionCommand:
+    rule_id: str
+    payload: dict
+    expected_rev: int | None
+    expected_version: str | None
+
+
+def save_rule_version(session: Session, workspace: Workspace, command: RuleVersionCommand) -> dict:
     require_role(workspace, RULE_ROLES, "预警规则写入")
+    payload = command.payload
     _validate_rule(payload)
-    definition = session.get(RuleDefinition, (workspace.dataset_id, rule_id))
+    definition = session.get(RuleDefinition, (workspace.dataset_id, command.rule_id))
     if definition is None:
-        raise AppError("NOT_FOUND", "规则不存在", 404, {"ruleId": rule_id})
+        raise AppError("NOT_FOUND", "规则不存在", 404, {"ruleId": command.rule_id})
     latest = session.scalar(
         select(MonitoringRule)
         .where(
             MonitoringRule.dataset_id == workspace.dataset_id,
-            MonitoringRule.rule_id == rule_id,
+            MonitoringRule.rule_id == command.rule_id,
         )
         .order_by(MonitoringRule.effective_from.desc())
         .limit(1)
     )
     if latest is None:
         raise AppError("NOT_FOUND", "规则没有可修改的版本", 404)
-    require_revision(expected_rev, latest)
-    if expected_version is None:
+    require_revision(command.expected_rev, latest)
+    if command.expected_version is None:
         raise AppError("EXPECTED_VERSION_REQUIRED", "修改规则必须携带 expectedVersion", 400)
-    if expected_version != latest.version:
+    if command.expected_version != latest.version:
         raise AppError(
             "REVISION_CONFLICT",
             "规则已生成新版本，请刷新后再修改",
             409,
-            {"expectedVersion": expected_version, "actualVersion": latest.version},
+            {"expectedVersion": command.expected_version, "actualVersion": latest.version},
         )
     at = now_iso()
     version = _next_version(latest.version)
     effective_from = payload.get("effectiveFrom") or at
     if effective_from < latest.effective_from:
         raise AppError("INVALID_EFFECTIVE_FROM", "新版本生效时间不能早于当前版本", 422)
-    row = _rule_row(payload, workspace, rule_id, version, at)
+    row = _rule_row(payload, workspace, command.rule_id, version, at)
     row.effective_from = effective_from
     session.add(row)
     try:
@@ -294,13 +301,15 @@ def save_rule_version(
     write_audit(
         session,
         workspace,
-        action="update",
-        object_type="system",
-        object_id=row.id,
-        object_label=f"{row.code} {row.name}",
-        summary=f"修改预警规则 {row.code}：生成新版本 {latest.version} → {version}，旧版本保留",
-        reason=payload.get("note", ""),
-        at=at,
+        AuditEntry(
+            action="update",
+            object_type="system",
+            object_id=row.id,
+            object_label=f"{row.code} {row.name}",
+            summary=f"修改预警规则 {row.code}：生成新版本 {latest.version} → {version}，旧版本保留",
+            reason=payload.get("note", ""),
+            at=at,
+        ),
     )
     return rule_out(row)
 
@@ -310,8 +319,3 @@ def list_rules(session: Session, workspace: Workspace) -> list[dict]:
         select(MonitoringRule).where(MonitoringRule.dataset_id == workspace.dataset_id)
     )
     return [rule_out(row) for row in rows]
-
-
-def metric_of_point(point: Point) -> str | None:
-    metric = metric_def(point.metric)
-    return metric["name"] if metric else None

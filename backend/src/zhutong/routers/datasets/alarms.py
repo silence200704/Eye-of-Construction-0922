@@ -3,6 +3,7 @@
 from fastapi import APIRouter, Request
 
 from ...operations.datasets.alarms import (
+    CloseCommand,
     acknowledge_event,
     acknowledge_notification,
     close_event,
@@ -11,7 +12,7 @@ from ...operations.datasets.alarms import (
     list_notifications,
     present_notification,
 )
-from ...operations.datasets.core.workspace import execute_command
+from ...operations.datasets.core.workspace import Command, execute_command
 from .common import Current, Read, Write, reply
 from .schemas_monitoring import EventCloseInput, EventCommand
 
@@ -38,10 +39,8 @@ def acknowledge(
     data, replayed = execute_command(
         session,
         current,
-        request=request,
-        operation="event_acknowledge",
-        payload=payload,
-        handler=lambda: acknowledge_event(session, current, event_id, body.expectedRev),
+        Command(request, "event_acknowledge", payload),
+        lambda: acknowledge_event(session, current, event_id, body.expectedRev),
     )
     return reply(request, current, data, data.get("rev"), replayed)
 
@@ -54,11 +53,11 @@ def close(
     data, replayed = execute_command(
         session,
         current,
-        request=request,
-        operation="event_close",
-        payload=payload,
-        handler=lambda: close_event(
-            session, current, event_id, body.expectedRev, body.basis, body.noRepairNote
+        Command(request, "event_close", payload),
+        lambda: close_event(
+            session,
+            current,
+            CloseCommand(event_id, body.expectedRev, body.basis, body.noRepairNote),
         ),
     )
     return reply(request, current, data, data.get("rev"), replayed)
@@ -69,10 +68,8 @@ def present(request: Request, session: Write, current: Current, notification_id:
     data, replayed = execute_command(
         session,
         current,
-        request=request,
-        operation="notification_present",
-        payload={},
-        handler=lambda: present_notification(session, current, notification_id),
+        Command(request, "notification_present", {}),
+        lambda: present_notification(session, current, notification_id),
     )
     return reply(request, current, data, data.get("rev"), replayed)
 
@@ -84,10 +81,8 @@ def acknowledge_note(
     data, replayed = execute_command(
         session,
         current,
-        request=request,
-        operation="notification_acknowledge",
-        payload={},
-        handler=lambda: acknowledge_notification(session, current, notification_id),
+        Command(request, "notification_acknowledge", {}),
+        lambda: acknowledge_notification(session, current, notification_id),
     )
     return reply(request, current, data, data.get("rev"), replayed)
 
@@ -97,9 +92,7 @@ def escalate(request: Request, session: Write, current: Current) -> dict:
     data, replayed = execute_command(
         session,
         current,
-        request=request,
-        operation="notification_escalate",
-        payload={},
-        handler=lambda: escalate_due(session, current),
+        Command(request, "notification_escalate", {}),
+        lambda: escalate_due(session, current),
     )
     return reply(request, current, data, None, replayed)

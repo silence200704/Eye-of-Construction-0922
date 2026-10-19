@@ -1,16 +1,18 @@
 """测点与设备写入，以及四类档案的归档/恢复。"""
 
-from sqlalchemy import select
+from dataclasses import dataclass
+
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from ...core.errors import AppError
 from ...db.models.archive import Building, Device, Floor, Point
 from ...domain.monitoring.catalog import POINT_METRICS, POINT_TYPES
-from .core.helpers import audit_archive, coord_of, ensure_code, ensure_nfc, get_row
-from .core.serialize import building_out, device_out, floor_out, point_out
+from .core.helpers import ArchiveAudit, audit_archive, coord_of, ensure_code, ensure_nfc, get_row
+from .core.serialize import device_out, point_out
 from .core.workspace import (
     ARCHIVE_ROLES,
+    AuditEntry,
     Workspace,
     bump,
     now_iso,
@@ -21,13 +23,48 @@ from .core.workspace import (
     write_audit,
 )
 
-ARCHIVE_KINDS = {"building": Building, "floor": Floor, "point": Point, "device": Device}
-SERIALIZERS = {
-    "building": building_out,
-    "floor": floor_out,
-    "point": point_out,
-    "device": device_out,
-}
+
+@dataclass(frozen=True)
+class PointWrite:
+    payload: dict
+    object_id: str | None
+    expected_rev: int | None
+
+
+@dataclass(frozen=True)
+class PointTarget:
+    building: Building
+    floor: Floor
+    existing: Point | None
+    x: float
+    y: float
+    label: str
+    moved: bool
+
+
+@dataclass(frozen=True)
+class DeviceWrite:
+    payload: dict
+    object_id: str | None
+    expected_rev: int | None
+
+
+@dataclass(frozen=True)
+class DeviceSpec:
+    payload: dict
+    point_id: str | None
+    low: float | None
+    high: float | None
+    at: str
+
+
+@dataclass(frozen=True)
+class ArchiveCommand:
+    kind: str
+    object_id: str
+    archived: bool
+    reason: str
+    expected_rev: int | None
 
 
 def _nfc_label(payload: dict, code: str) -> str:
@@ -74,15 +111,8 @@ def _moved(point: Point, payload: dict, x: float, y: float) -> bool:
     )
 
 
-def save_point(
-    session: Session,
-    workspace: Workspace,
-    payload: dict,
-    object_id: str | None,
-    expected_rev: int | None,
-) -> dict:
-    require_role(workspace, ARCHIVE_ROLES, "测点档案写入")
-    at = now_iso()
+def _point_target(session: Session, workspace: Workspace, write: PointWrite) -> PointTarget:
+    payload = write.payload
     x, y = coord_of(payload, "coord")
     point_type = payload["type"]
     if point_type not in POINT_TYPES:
@@ -94,106 +124,125 @@ def save_point(
         raise AppError("INVALID_FLOOR", "所选楼层不属于该楼栋", 422)
     existing = (
         None
-        if object_id is None
-        else get_row(session, Point, workspace.dataset_id, object_id, "测点")
+        if write.object_id is None
+        else get_row(session, Point, workspace.dataset_id, write.object_id, "测点")
     )
     if existing is None and (building.status != "active" or floor.status != "active"):
         raise AppError("STATE_CONFLICT", "楼栋或楼层已归档，不能新建测点", 409)
     if existing is not None:
-        require_revision(expected_rev, existing)
+        require_revision(write.expected_rev, existing)
     code = payload["code"].strip()
-    ensure_code(session, Point, workspace, code, exclude=object_id)
+    ensure_code(session, Point, workspace, code, exclude=write.object_id)
     label = _nfc_label(payload, code)
-    ensure_nfc(session, workspace, label, exclude=object_id)
+    ensure_nfc(session, workspace, label, exclude=write.object_id)
     moved = existing is not None and _moved(existing, payload, x, y)
     if moved and str(payload.get("locationReason", "")).strip() == "":
         raise AppError("LOCATION_REASON_REQUIRED", "位置发生变化，必须填写位置变更原因", 422)
+    return PointTarget(building, floor, existing, x, y, label, moved)
 
-    if existing is None:
-        row = Point(
-            dataset_id=workspace.dataset_id,
-            id=uid("pnt"),
-            code=code,
-            name=payload["name"].strip(),
-            building_id=building.id,
-            floor_id=floor.id,
-            zone_id=payload.get("zoneId", ""),
-            type=point_type,
-            metric=POINT_METRICS[point_type],
-            x=x,
-            y=y,
-            nfc_code=label,
-            nfc=_build_nfc(None, label, at, workspace.actor.name),
-            plan_version=payload.get("planVersion", 1),
-            location_history=[],
-            owner=payload.get("owner", ""),
-            backup_person=payload.get("backupPerson", ""),
-            install_date=payload.get("installDate", ""),
-            data_source=payload.get("dataSource", "demo"),
-            remark=payload.get("remark", ""),
-            status="active",
-            created_at=at,
-            created_by=workspace.actor.name,
-            updated_at=at,
-            updated_by=workspace.actor.name,
-        )
+
+def _create_point(workspace: Workspace, payload: dict, target: PointTarget, at: str) -> Point:
+    row = Point(
+        dataset_id=workspace.dataset_id,
+        id=uid("pnt"),
+        code=payload["code"].strip(),
+        name=payload["name"].strip(),
+        building_id=target.building.id,
+        floor_id=target.floor.id,
+        zone_id=payload.get("zoneId", ""),
+        type=payload["type"],
+        metric=POINT_METRICS[payload["type"]],
+        x=target.x,
+        y=target.y,
+        nfc_code=target.label,
+        nfc=_build_nfc(None, target.label, at, workspace.actor.name),
+        plan_version=payload.get("planVersion", 1),
+        location_history=[],
+        owner=payload.get("owner", ""),
+        backup_person=payload.get("backupPerson", ""),
+        install_date=payload.get("installDate", ""),
+        data_source=payload.get("dataSource", "demo"),
+        remark=payload.get("remark", ""),
+        status="active",
+        created_at=at,
+        created_by=workspace.actor.name,
+        updated_at=at,
+        updated_by=workspace.actor.name,
+    )
+    return row
+
+
+def _update_point(
+    row: Point, workspace: Workspace, payload: dict, target: PointTarget, at: str
+) -> None:
+    if target.moved:
+        row.location_history = [
+            *(row.location_history or []),
+            {
+                "at": at,
+                "by": workspace.actor.name,
+                "role": workspace.actor.role,
+                "reason": str(payload.get("locationReason", "")).strip(),
+                "from": _location_of(row),
+                "to": {
+                    "buildingId": target.building.id,
+                    "floorId": target.floor.id,
+                    "zoneId": payload.get("zoneId", ""),
+                    "coord": {"x": target.x, "y": target.y},
+                },
+            },
+        ]
+    row.code = payload["code"].strip()
+    row.name = payload["name"].strip()
+    row.building_id = target.building.id
+    row.floor_id = target.floor.id
+    row.zone_id = payload.get("zoneId", "")
+    row.type = payload["type"]
+    row.metric = POINT_METRICS[payload["type"]]
+    row.x = target.x
+    row.y = target.y
+    row.nfc_code = target.label
+    row.nfc = _build_nfc(row, target.label, at, workspace.actor.name)
+    row.plan_version = payload.get("planVersion", 1)
+    row.owner = payload.get("owner", "")
+    row.backup_person = payload.get("backupPerson", "")
+    row.install_date = payload.get("installDate", "")
+    row.data_source = payload.get("dataSource", "demo")
+    row.remark = payload.get("remark", "")
+    bump(row, workspace, at)
+
+
+def save_point(session: Session, workspace: Workspace, write: PointWrite) -> dict:
+    require_role(workspace, ARCHIVE_ROLES, "测点档案写入")
+    at = now_iso()
+    target = _point_target(session, workspace, write)
+    if target.existing is None:
+        row = _create_point(workspace, write.payload, target, at)
         session.add(row)
         created = True
     else:
-        row = existing
-        if moved:
-            row.location_history = [
-                *(row.location_history or []),
-                {
-                    "at": at,
-                    "by": workspace.actor.name,
-                    "role": workspace.actor.role,
-                    "reason": str(payload.get("locationReason", "")).strip(),
-                    "from": _location_of(row),
-                    "to": {
-                        "buildingId": building.id,
-                        "floorId": floor.id,
-                        "zoneId": payload.get("zoneId", ""),
-                        "coord": {"x": x, "y": y},
-                    },
-                },
-            ]
-        row.code = code
-        row.name = payload["name"].strip()
-        row.building_id = building.id
-        row.floor_id = floor.id
-        row.zone_id = payload.get("zoneId", "")
-        row.type = point_type
-        row.metric = POINT_METRICS[point_type]
-        row.x = x
-        row.y = y
-        row.nfc_code = label
-        row.nfc = _build_nfc(row, label, at, workspace.actor.name)
-        row.plan_version = payload.get("planVersion", 1)
-        row.owner = payload.get("owner", "")
-        row.backup_person = payload.get("backupPerson", "")
-        row.install_date = payload.get("installDate", "")
-        row.data_source = payload.get("dataSource", "demo")
-        row.remark = payload.get("remark", "")
-        bump(row, workspace, at)
+        row = target.existing
+        _update_point(row, workspace, write.payload, target, at)
         created = False
     try:
         session.flush()
     except IntegrityError as error:
         raise AppError("DUPLICATE_CODE", "测点编号或 NFC 标签重复", 409) from error
-    label_text = f"{row.code} {row.name}"
-    audit_archive(session, workspace, "point", row, label_text, created, at)
-    if moved:
+    label = f"{row.code} {row.name}"
+    audit_archive(session, workspace, ArchiveAudit("point", row, label, created, at))
+    if target.moved:
         write_audit(
             session,
             workspace,
-            action="update",
-            object_type="point",
-            object_id=row.id,
-            object_label=label_text,
-            summary=f"测点 {row.code} 位置变更",
-            reason=str(payload.get("locationReason", "")).strip(),
-            at=at,
+            AuditEntry(
+                action="update",
+                object_type="point",
+                object_id=row.id,
+                object_label=label,
+                summary=f"测点 {row.code} 位置变更",
+                reason=str(write.payload.get("locationReason", "")).strip(),
+                at=at,
+            ),
         )
     return point_out(row)
 
@@ -204,200 +253,97 @@ def _range_text(low: float | None, high: float | None, unit: str) -> str:
     return f"{low}~{high}{'' if unit.strip() == '' else f' {unit.strip()}'}"
 
 
-def save_device(
-    session: Session,
-    workspace: Workspace,
-    payload: dict,
-    object_id: str | None,
-    expected_rev: int | None,
-) -> dict:
-    require_role(workspace, ARCHIVE_ROLES, "设备档案写入")
-    at = now_iso()
-    point_id = payload.get("pointId")
-    if point_id is not None:
-        point = get_row(session, Point, workspace.dataset_id, point_id, "测点")
-        require_building(workspace, point.building_id)
-        if point.status != "active":
-            raise AppError("STATE_CONFLICT", "测点已归档，不能绑定设备", 409)
+def _device_spec(payload: dict) -> DeviceSpec:
     low = payload.get("rangeMin")
     high = payload.get("rangeMax")
     if low is not None and high is not None and low >= high:
         raise AppError("INVALID_RANGE", "量程上限必须大于下限", 422)
-    code = payload["code"].strip()
-    ensure_code(session, Device, workspace, code, exclude=object_id)
-    if object_id is None:
-        row = Device(
-            dataset_id=workspace.dataset_id,
-            id=uid("dev"),
-            code=code,
-            name=payload["name"].strip(),
-            point_id=point_id,
-            model=payload.get("model", ""),
-            serial=payload.get("serial", ""),
-            range_min=low,
-            range_max=high,
-            range_text=_range_text(low, high, payload.get("unit", "")),
-            unit=payload.get("unit", ""),
-            node_id=payload.get("nodeId", ""),
-            gateway=payload.get("gateway", ""),
-            mount_position=payload.get("mountPosition", ""),
-            direction=payload.get("direction", ""),
-            install_date=payload.get("installDate", ""),
-            calibrated_at=payload.get("calibratedAt", ""),
-            health=payload.get("health", "unknown"),
-            remark=payload.get("remark", ""),
-            status="active",
-            created_at=at,
-            created_by=workspace.actor.name,
-            updated_at=at,
-            updated_by=workspace.actor.name,
-        )
+    return DeviceSpec(
+        payload=payload, point_id=payload.get("pointId"), low=low, high=high, at=now_iso()
+    )
+
+
+def _new_device(workspace: Workspace, spec: DeviceSpec) -> Device:
+    payload = spec.payload
+    return Device(
+        dataset_id=workspace.dataset_id,
+        id=uid("dev"),
+        code=payload["code"].strip(),
+        name=payload["name"].strip(),
+        point_id=spec.point_id,
+        model=payload.get("model", ""),
+        serial=payload.get("serial", ""),
+        range_min=spec.low,
+        range_max=spec.high,
+        range_text=_range_text(spec.low, spec.high, payload.get("unit", "")),
+        unit=payload.get("unit", ""),
+        node_id=payload.get("nodeId", ""),
+        gateway=payload.get("gateway", ""),
+        mount_position=payload.get("mountPosition", ""),
+        direction=payload.get("direction", ""),
+        install_date=payload.get("installDate", ""),
+        calibrated_at=payload.get("calibratedAt", ""),
+        health=payload.get("health", "unknown"),
+        remark=payload.get("remark", ""),
+        status="active",
+        created_at=spec.at,
+        created_by=workspace.actor.name,
+        updated_at=spec.at,
+        updated_by=workspace.actor.name,
+    )
+
+
+def _update_device(row: Device, workspace: Workspace, spec: DeviceSpec) -> None:
+    payload = spec.payload
+    row.code = payload["code"].strip()
+    row.name = payload["name"].strip()
+    row.point_id = spec.point_id
+    for attr, key in (
+        ("model", "model"),
+        ("serial", "serial"),
+        ("unit", "unit"),
+        ("node_id", "nodeId"),
+        ("gateway", "gateway"),
+        ("mount_position", "mountPosition"),
+        ("direction", "direction"),
+        ("install_date", "installDate"),
+        ("calibrated_at", "calibratedAt"),
+        ("health", "health"),
+        ("remark", "remark"),
+    ):
+        setattr(row, attr, payload.get(key, ""))
+    row.range_min = spec.low
+    row.range_max = spec.high
+    row.range_text = _range_text(spec.low, spec.high, payload.get("unit", ""))
+    bump(row, workspace, spec.at)
+
+
+def save_device(session: Session, workspace: Workspace, write: DeviceWrite) -> dict:
+    require_role(workspace, ARCHIVE_ROLES, "设备档案写入")
+    payload = write.payload
+    if payload.get("pointId") is not None:
+        point = get_row(session, Point, workspace.dataset_id, payload["pointId"], "测点")
+        require_building(workspace, point.building_id)
+        if point.status != "active":
+            raise AppError("STATE_CONFLICT", "测点已归档，不能绑定设备", 409)
+    spec = _device_spec(payload)
+    ensure_code(session, Device, workspace, payload["code"].strip(), exclude=write.object_id)
+    if write.object_id is None:
+        row = _new_device(workspace, spec)
         session.add(row)
         created = True
     else:
-        row = get_row(session, Device, workspace.dataset_id, object_id, "设备")
-        require_revision(expected_rev, row)
-        row.code = code
-        row.name = payload["name"].strip()
-        row.point_id = point_id
-        for attr, key in (
-            ("model", "model"),
-            ("serial", "serial"),
-            ("unit", "unit"),
-            ("node_id", "nodeId"),
-            ("gateway", "gateway"),
-            ("mount_position", "mountPosition"),
-            ("direction", "direction"),
-            ("install_date", "installDate"),
-            ("calibrated_at", "calibratedAt"),
-            ("health", "health"),
-            ("remark", "remark"),
-        ):
-            setattr(row, attr, payload.get(key, ""))
-        row.range_min = low
-        row.range_max = high
-        row.range_text = _range_text(low, high, payload.get("unit", ""))
-        bump(row, workspace, at)
+        row = get_row(session, Device, workspace.dataset_id, write.object_id, "设备")
+        require_revision(write.expected_rev, row)
+        _update_device(row, workspace, spec)
         created = False
     try:
         session.flush()
     except IntegrityError as error:
         raise AppError("DUPLICATE_CODE", "设备编号重复", 409) from error
-    audit_archive(session, workspace, "device", row, f"{row.code} {row.name}", created, at)
-    return device_out(row)
-
-
-def _block_building_archive(session: Session, workspace: Workspace, row: Building) -> None:
-    active = session.scalar(
-        select(Point.id).where(
-            Point.dataset_id == workspace.dataset_id,
-            Point.building_id == row.id,
-            Point.status == "active",
-        )
-    )
-    if active is not None:
-        raise AppError("DEPENDENTS_ACTIVE", "该楼栋下仍有在册测点，请先归档相关测点", 409)
-
-
-def _block_floor_archive(session: Session, workspace: Workspace, row: Floor) -> None:
-    active = session.scalar(
-        select(Point.id).where(
-            Point.dataset_id == workspace.dataset_id,
-            Point.floor_id == row.id,
-            Point.status == "active",
-        )
-    )
-    if active is not None:
-        raise AppError("DEPENDENTS_ACTIVE", "该楼层下仍有在册测点，请先归档相关测点", 409)
-
-
-def _require_parents_active(session: Session, workspace: Workspace, kind: str, row) -> None:
-    if kind == "floor":
-        building = session.get(Building, (workspace.dataset_id, row.building_id))
-        if building is None or building.status != "active":
-            raise AppError("PARENT_ARCHIVED", "上级楼栋已归档，请先恢复楼栋", 409)
-    if kind == "point":
-        floor = session.get(Floor, (workspace.dataset_id, row.floor_id))
-        building = session.get(Building, (workspace.dataset_id, row.building_id))
-        if (
-            floor is None
-            or building is None
-            or floor.status != "active"
-            or building.status != "active"
-        ):
-            raise AppError("PARENT_ARCHIVED", "上级楼层或楼栋已归档，请先恢复上级对象", 409)
-    if kind == "device" and row.point_id is not None:
-        point = session.get(Point, (workspace.dataset_id, row.point_id))
-        if point is None or point.status != "active":
-            raise AppError("PARENT_ARCHIVED", "所属测点已归档，请先恢复测点", 409)
-
-
-def _archive_devices_of_point(
-    session: Session, workspace: Workspace, point_id: str, reason: str, at: str
-) -> None:
-    owned = list(
-        session.scalars(
-            select(Device).where(
-                Device.dataset_id == workspace.dataset_id,
-                Device.point_id == point_id,
-                Device.status == "active",
-            )
-        )
-    )
-    for device in owned:
-        device.status = "archived"
-        device.archive_reason = reason
-        device.archived_at = at
-        device.archived_by = workspace.actor.name
-        bump(device, workspace, at)
-
-
-def archive_object(
-    session: Session,
-    workspace: Workspace,
-    kind: str,
-    object_id: str,
-    archived: bool,
-    reason: str,
-    expected_rev: int | None,
-) -> dict:
-    require_role(workspace, ARCHIVE_ROLES, "档案归档/恢复")
-    if archived and reason.strip() == "":
-        raise AppError("REASON_REQUIRED", "归档必须填写原因", 422)
-    model = ARCHIVE_KINDS.get(kind)
-    if model is None:
-        raise AppError("NOT_FOUND", "未知档案类型", 404)
-    row = get_row(session, model, workspace.dataset_id, object_id, "档案对象")
-    require_revision(expected_rev, row)
-    building_id = row.id if kind == "building" else getattr(row, "building_id", None)
-    if kind == "device" and row.point_id is not None:
-        point = session.get(Point, (workspace.dataset_id, row.point_id))
-        building_id = point.building_id if point is not None else None
-    require_building(workspace, building_id)
-    if archived and kind == "building":
-        _block_building_archive(session, workspace, row)
-    if archived and kind == "floor":
-        _block_floor_archive(session, workspace, row)
-    if not archived:
-        _require_parents_active(session, workspace, kind, row)
-    at = now_iso()
-    row.status = "archived" if archived else "active"
-    row.archive_reason = reason.strip() if archived else ""
-    row.archived_at = at if archived else None
-    row.archived_by = workspace.actor.name if archived else ""
-    bump(row, workspace, at)
-    if kind == "point" and archived:
-        _archive_devices_of_point(session, workspace, row.id, reason, at)
-    label = f"{row.code} {row.name}" if hasattr(row, "code") else object_id
-    write_audit(
+    audit_archive(
         session,
         workspace,
-        action="archive" if archived else "restore",
-        object_type=kind,
-        object_id=row.id,
-        object_label=label,
-        summary=f"{'归档' if archived else '恢复'}{label}",
-        reason=reason,
-        at=at,
+        ArchiveAudit("device", row, f"{row.code} {row.name}", created, spec.at),
     )
-    return SERIALIZERS[kind](row)
+    return device_out(row)

@@ -6,7 +6,8 @@ from .engine import parse_iso
 
 def rule_applies_to(rule: dict, point: dict) -> bool:
     metric = RULE_METRIC_OF.get(point.get("metric", ""))
-    if metric is None or not rule.get("enabled", True) or rule.get("metric") != metric:
+    # 启停由判定引擎处理；先按时间选出当时生效的版本，停用不能被"回退到旧版本"绕过。
+    if metric is None or rule.get("metric") != metric:
         return False
     building_ids = rule.get("buildingIds") or []
     if building_ids and point.get("buildingId") not in building_ids:

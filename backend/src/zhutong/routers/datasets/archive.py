@@ -2,10 +2,23 @@
 
 from fastapi import APIRouter, Request
 
-from ...operations.datasets.archive import list_audits, save_building, save_floor, snapshot
-from ...operations.datasets.assets import archive_object, save_device, save_point
-from ...operations.datasets.core.workspace import execute_command
+from ...operations.datasets.archive import (
+    ArchiveCommand,
+    archive_object,
+    list_audits,
+    save_building,
+    save_floor,
+    snapshot,
+)
+from ...operations.datasets.assets import (
+    DeviceWrite,
+    PointWrite,
+    save_device,
+    save_point,
+)
+from ...operations.datasets.core.workspace import Command, execute_command
 from ...operations.datasets.versions import (
+    RuleVersionCommand,
     create_rule,
     list_baselines,
     list_rules,
@@ -26,15 +39,8 @@ from .schemas_archive import (
 router = APIRouter(prefix="/api/v1/datasets/{dataset_id}", tags=["档案"])
 
 
-def _run(request: Request, session, current, operation: str, payload: dict, handler) -> dict:
-    data, replayed = execute_command(
-        session,
-        current,
-        request=request,
-        operation=operation,
-        payload=payload,
-        handler=handler,
-    )
+def _run(request: Request, session, current, command: Command, handler) -> dict:
+    data, replayed = execute_command(session, current, command, handler)
     return reply(request, current, data, data.get("rev"), replayed)
 
 
@@ -57,8 +63,7 @@ def create_building(
         request,
         session,
         current,
-        "archive_write",
-        payload,
+        Command(request, "archive_write", payload),
         lambda: save_building(session, current, payload, None, None),
     )
 
@@ -72,8 +77,7 @@ def update_building(
         request,
         session,
         current,
-        "archive_write",
-        payload,
+        Command(request, "archive_write", payload),
         lambda: save_building(session, current, payload, object_id, body.expectedRev),
     )
 
@@ -85,8 +89,7 @@ def create_floor(request: Request, session: Write, current: Current, body: Floor
         request,
         session,
         current,
-        "archive_write",
-        payload,
+        Command(request, "archive_write", payload),
         lambda: save_floor(session, current, payload, None, None),
     )
 
@@ -100,8 +103,7 @@ def update_floor(
         request,
         session,
         current,
-        "archive_write",
-        payload,
+        Command(request, "archive_write", payload),
         lambda: save_floor(session, current, payload, object_id, body.expectedRev),
     )
 
@@ -113,9 +115,8 @@ def create_point(request: Request, session: Write, current: Current, body: Point
         request,
         session,
         current,
-        "archive_write",
-        payload,
-        lambda: save_point(session, current, payload, None, None),
+        Command(request, "archive_write", payload),
+        lambda: save_point(session, current, PointWrite(payload, None, None)),
     )
 
 
@@ -128,9 +129,8 @@ def update_point(
         request,
         session,
         current,
-        "archive_write",
-        payload,
-        lambda: save_point(session, current, payload, object_id, body.expectedRev),
+        Command(request, "archive_write", payload),
+        lambda: save_point(session, current, PointWrite(payload, object_id, body.expectedRev)),
     )
 
 
@@ -141,9 +141,8 @@ def create_device(request: Request, session: Write, current: Current, body: Devi
         request,
         session,
         current,
-        "archive_write",
-        payload,
-        lambda: save_device(session, current, payload, None, None),
+        Command(request, "archive_write", payload),
+        lambda: save_device(session, current, DeviceWrite(payload, None, None)),
     )
 
 
@@ -156,9 +155,8 @@ def update_device(
         request,
         session,
         current,
-        "archive_write",
-        payload,
-        lambda: save_device(session, current, payload, object_id, body.expectedRev),
+        Command(request, "archive_write", payload),
+        lambda: save_device(session, current, DeviceWrite(payload, object_id, body.expectedRev)),
     )
 
 
@@ -171,10 +169,11 @@ def archive_endpoint(
         request,
         session,
         current,
-        "archive_write",
-        payload,
+        Command(request, "archive_write", payload),
         lambda: archive_object(
-            session, current, body.kind, object_id, True, body.reason, body.expectedRev
+            session,
+            current,
+            ArchiveCommand(body.kind, object_id, True, body.reason, body.expectedRev),
         ),
     )
 
@@ -188,10 +187,11 @@ def restore_endpoint(
         request,
         session,
         current,
-        "archive_write",
-        payload,
+        Command(request, "archive_write", payload),
         lambda: archive_object(
-            session, current, body.kind, object_id, False, body.reason, body.expectedRev
+            session,
+            current,
+            ArchiveCommand(body.kind, object_id, False, body.reason, body.expectedRev),
         ),
     )
 
@@ -212,8 +212,7 @@ def create_baseline(
         request,
         session,
         current,
-        "baseline_write",
-        payload,
+        Command(request, "baseline_write", payload),
         lambda: save_baseline(session, current, payload),
     )
 
@@ -232,8 +231,7 @@ def create_rule_endpoint(
         request,
         session,
         current,
-        "rule_write",
-        payload,
+        Command(request, "rule_write", payload),
         lambda: create_rule(session, current, payload),
     )
 
@@ -247,9 +245,10 @@ def rule_version(
         request,
         session,
         current,
-        "rule_write",
-        payload,
+        Command(request, "rule_write", payload),
         lambda: save_rule_version(
-            session, current, rule_id, payload, body.expectedRev, body.expectedVersion
+            session,
+            current,
+            RuleVersionCommand(rule_id, payload, body.expectedRev, body.expectedVersion),
         ),
     )

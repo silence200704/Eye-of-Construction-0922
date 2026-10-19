@@ -35,7 +35,8 @@ export function ruleMetricOf(metric: MetricKey): RuleMetric | null {
  */
 export function ruleAppliesTo(rule: MonitoringRule, point: PointFacts): boolean {
   const metric = ruleMetricOf(point.metric)
-  if (metric === null || !rule.enabled || rule.metric !== metric) return false
+  // 启停由判定引擎处理：先按时间选出当时生效的版本，停用不能靠"回退旧版本"绕过。
+  if (metric === null || rule.metric !== metric) return false
   if (rule.buildingIds.length > 0 && !rule.buildingIds.includes(point.buildingId)) return false
   if (rule.pointIds.length > 0 && !rule.pointIds.includes(point.id)) return false
   return true

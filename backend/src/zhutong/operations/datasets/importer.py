@@ -8,8 +8,9 @@ from sqlalchemy.orm import Session
 from ...core.errors import AppError
 from ...domain.monitoring.csv import build_preview, stale_marker, valid_payloads
 from ...domain.monitoring.validation import now_iso
-from .core.workspace import Workspace, write_audit
-from .records import context_for_import, create_record
+from .core.record_queries import context_for_import
+from .core.workspace import AuditEntry, Workspace, write_audit
+from .records import create_record
 
 
 def _digest(text: str, workspace: Workspace, context: dict) -> str:
@@ -93,6 +94,8 @@ def commit_import(session: Session, workspace: Workspace, payload: dict) -> dict
     selected = _selected_rows(preview, payload.get("lineNos"))
     if not selected:
         raise AppError("INVALID_ROWS", "没有可提交的有效行", 422)
+    # 按采样时间升序写入：最后一条即当前记录，事件状态只由最新记录驱动。
+    selected.sort(key=lambda item: item["sampleTime"])
     created: list[dict] = []
     for item in selected:
         created.append(
@@ -111,15 +114,17 @@ def commit_import(session: Session, workspace: Workspace, payload: dict) -> dict
     write_audit(
         session,
         workspace,
-        action="import",
-        object_type="record",
-        object_id="csv",
-        object_label=f"CSV 批量导入（{payload.get('fileName', '粘贴文本')}）",
-        summary=f"CSV 批量导入：写入 {len(created)} 条，跳过错误行 {preview['errorCount']} 条",
-        reason=(
-            f"来源文件：{payload.get('fileName', '粘贴文本')}；"
-            "错误行只在预览中提示，不写入正式数据；"
-            "整批原子提交，与手工录入共用判定链路"
+        AuditEntry(
+            action="import",
+            object_type="record",
+            object_id="csv",
+            object_label=f"CSV 批量导入（{payload.get('fileName', '粘贴文本')}）",
+            summary=f"CSV 批量导入：写入 {len(created)} 条，跳过错误行 {preview['errorCount']} 条",
+            reason=(
+                f"来源文件：{payload.get('fileName', '粘贴文本')}；"
+                "错误行只在预览中提示，不写入正式数据；"
+                "整批原子提交，与手工录入共用判定链路"
+            ),
         ),
     )
     return {

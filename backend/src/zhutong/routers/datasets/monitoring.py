@@ -2,9 +2,10 @@
 
 from fastapi import APIRouter, Request
 
-from ...operations.datasets.core.workspace import execute_command
+from ...operations.datasets.core.workspace import Command, execute_command
 from ...operations.datasets.importer import commit_import, preview_import
 from ...operations.datasets.records import (
+    RevisionCommand,
     create_record,
     list_records,
     preview_assessment,
@@ -35,10 +36,8 @@ def add_record(request: Request, session: Write, current: Current, body: RecordI
     data, replayed = execute_command(
         session,
         current,
-        request=request,
-        operation="record_write",
-        payload=payload,
-        handler=lambda: create_record(session, current, payload),
+        Command(request, "record_write", payload),
+        lambda: create_record(session, current, payload),
     )
     return reply(request, current, data, data["record"]["rev"], replayed)
 
@@ -51,11 +50,11 @@ def revise(
     data, replayed = execute_command(
         session,
         current,
-        request=request,
-        operation="record_revise",
-        payload=payload,
-        handler=lambda: revise_record(
-            session, current, record_id, payload, body.expectedRev, body.reason
+        Command(request, "record_revise", payload),
+        lambda: revise_record(
+            session,
+            current,
+            RevisionCommand(record_id, payload, body.expectedRev, body.reason),
         ),
     )
     return reply(request, current, data, data["record"]["rev"], replayed)
@@ -81,9 +80,7 @@ def run_import(request: Request, session: Write, current: Current, body: ImportC
     data, replayed = execute_command(
         session,
         current,
-        request=request,
-        operation="record_import",
-        payload=payload,
-        handler=lambda: commit_import(session, current, payload),
+        Command(request, "record_import", payload),
+        lambda: commit_import(session, current, payload),
     )
     return reply(request, current, data, None, replayed)

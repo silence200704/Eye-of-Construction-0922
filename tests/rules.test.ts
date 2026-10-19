@@ -106,6 +106,20 @@ describe('数据质量分流', () => {
     expect(assessRecord(crackInput(0.82, { rule: makeRule({ enabled: false }) })).state).toBe('excluded')
   })
 
+  it('最新版本停用时选中的是停用版本，不能回退到旧版本继续告警', () => {
+    const older = makeRule({ ruleId: 'rule_1', id: 'rule_1@V1.0', version: 'V1.0' })
+    const disabled = makeRule({
+      ruleId: 'rule_1',
+      id: 'rule_1@V1.1',
+      version: 'V1.1',
+      enabled: false,
+      effectiveFrom: '2026-09-01T00:00:00.000Z',
+    })
+    const picked = ruleForPoint([older, disabled], makePoint(), '2026-09-20T09:00:00.000Z')
+    expect(picked?.version).toBe('V1.1')
+    expect(assessRecord(crackInput(0.62, { rule: picked! })).reason).toContain('规则未启用')
+  })
+
   it('人工检查点不参与判定', () => {
     const point = makePoint({ metric: 'inspection' })
     expect(assessRecord(crackInput(0.82, { point })).state).toBe('excluded')

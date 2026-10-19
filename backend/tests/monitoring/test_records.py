@@ -94,11 +94,14 @@ def test_backfill_does_not_regress_current_event(client: TestClient, settings) -
     assert event["lastTriggerAt"] == current["record"]["sampleTime"]
     older = api.add_record(ids["point"]["id"], 0.62, minutes=-180)
     assert older["assessment"]["state"] == "yellow"
+    assert "历史补录只存档" in older["event"]["message"]
     events = api.get("/events")
     assert len(events) == 1
+    assert events[0]["status"] == "pending"
     assert events[0]["level"] == "red"
     assert events[0]["lastTriggerAt"] == current["record"]["sampleTime"]
-    assert len(events[0]["evidences"]) == 2
+    assert len(events[0]["evidences"]) == 1
+    assert any(row["id"] == older["record"]["id"] for row in api.get("/records"))
 
 
 def test_duplicate_minute_rejected(client: TestClient, settings) -> None:

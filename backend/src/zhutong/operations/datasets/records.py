@@ -1,26 +1,33 @@
 """监测记录：手工录入、修订与试算；记录、判定、事件、通知、审计、回执同事务。"""
 
-from typing import Any
+from dataclasses import dataclass
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from ...core.errors import AppError
 from ...db.models.archive import Device, Point
-from ...db.models.monitoring import Baseline, MonitoringRule, MonitorRecord
-from ...domain.monitoring.engine import assess_record, parse_iso
+from ...db.models.monitoring import MonitorRecord
+from ...domain.monitoring.engine import assess_record
 from ...domain.monitoring.rules import baseline_at_time, rule_for_point, snapshot_of
 from ...domain.monitoring.validation import check_reading, now_iso
 from ..identity_types import ROLES
-from .alarms import apply_assessment
+from .alarms import AssessmentCommand, apply_assessment
 from .core.helpers import get_row
-from .core.serialize import baseline_out, device_out, point_out, record_out, rule_out
+from .core.record_queries import (
+    baselines_for_dataset,
+    records_of_point,
+    rules_for_dataset,
+)
+from .core.serialize import device_out, point_out, record_out
 from .core.workspace import (
     RECORD_ROLES,
+    AuditEntry,
     Workspace,
     bump,
     day_key,
     next_number,
+    require_building,
     require_revision,
     require_role,
     uid,
@@ -28,29 +35,31 @@ from .core.workspace import (
 )
 
 
-def _rules(session: Session, workspace: Workspace) -> list[dict]:
-    rows = session.scalars(
-        select(MonitoringRule).where(MonitoringRule.dataset_id == workspace.dataset_id)
-    )
-    return [rule_out(row) for row in rows]
+@dataclass(frozen=True)
+class RecordSeed:
+    point: Point
+    payload: dict
+    check: dict
+    outcome: dict
 
 
-def _baselines(session: Session, workspace: Workspace) -> list[dict]:
-    rows = session.scalars(select(Baseline).where(Baseline.dataset_id == workspace.dataset_id))
-    return [baseline_out(row) for row in rows]
+@dataclass(frozen=True)
+class RevisionCommand:
+    record_id: str
+    payload: dict
+    expected_rev: int | None
+    reason: str
 
 
-def _records_of_point(session: Session, workspace: Workspace, point_id: str) -> list[MonitorRecord]:
-    return list(
-        session.scalars(
-            select(MonitorRecord)
-            .where(
-                MonitorRecord.dataset_id == workspace.dataset_id,
-                MonitorRecord.point_id == point_id,
-            )
-            .order_by(MonitorRecord.sample_time.asc())
-        )
-    )
+@dataclass(frozen=True)
+class RevisionUpdate:
+    payload: dict
+    check: dict
+    baseline: dict | None
+    snapshot: dict | None
+    assessment: dict | None
+    at: str
+    reason: str
 
 
 def _device_for(
@@ -99,12 +108,13 @@ def _assess(
     exclude_record_id: str | None,
 ) -> dict:
     point_data = point_out(point)
-    rules = _rules(session, workspace)
-    rule = rule_for_point(rules, point_data, payload["sampleTime"])
-    baseline = baseline_at_time(_baselines(session, workspace), point.id, payload["sampleTime"])
+    rule = rule_for_point(rules_for_dataset(session, workspace), point_data, payload["sampleTime"])
+    baseline = baseline_at_time(
+        baselines_for_dataset(session, workspace), point.id, payload["sampleTime"]
+    )
     stored = [
         record_out(row)
-        for row in _records_of_point(session, workspace, point.id)
+        for row in records_of_point(session, workspace, point.id)
         if row.id != exclude_record_id and row.sample_time <= payload["sampleTime"]
     ]
     history = [*stored, _current(point_data, payload, baseline)]
@@ -115,7 +125,6 @@ def _assess(
             "baseline": baseline,
             "assessment": None,
             "history": history,
-            "input": None,
         }
     device = _device_for(session, workspace, point.id, payload.get("deviceId"))
     engine_input = {
@@ -134,7 +143,6 @@ def _assess(
         "baseline": baseline,
         "assessment": assess_record(engine_input),
         "history": history,
-        "input": engine_input,
     }
 
 
@@ -145,7 +153,7 @@ def _validate(
     payload: dict,
     exclude_record_id: str | None,
 ) -> dict:
-    existing = [record_out(row) for row in _records_of_point(session, workspace, point.id)]
+    existing = [record_out(row) for row in records_of_point(session, workspace, point.id)]
     check = check_reading(
         {
             "pointId": point.id,
@@ -175,6 +183,8 @@ def _validate(
 
 def _point_for_record(session: Session, workspace: Workspace, point_id: str) -> Point:
     point = get_row(session, Point, workspace.dataset_id, point_id, "测点")
+    # 记录、修订、试算与 CSV 提交共用此入口：范围校验不能只放在页面上。
+    require_building(workspace, point.building_id)
     if point.status != "active":
         raise AppError("STATE_CONFLICT", "测点已归档，不能录入新记录", 409)
     return point
@@ -202,20 +212,18 @@ def _record_no(session: Session, workspace: Workspace, sample_time: str) -> str:
     )
 
 
-def _new_record(
-    session: Session, workspace: Workspace, point: Point, payload: dict, check: dict, outcome: dict
-) -> MonitorRecord:
+def _new_record(session: Session, workspace: Workspace, seed: RecordSeed) -> MonitorRecord:
     at = now_iso()
-    baseline = outcome["baseline"]
-    assessment = outcome["assessment"]
-    snapshot = outcome["snapshot"]
+    payload = seed.payload
+    baseline = seed.outcome["baseline"]
+    snapshot = seed.outcome["snapshot"]
     row = MonitorRecord(
         dataset_id=workspace.dataset_id,
         id=uid("rec"),
         record_no=_record_no(session, workspace, payload["sampleTime"]),
-        point_id=point.id,
+        point_id=seed.point.id,
         device_id=payload.get("deviceId"),
-        metric=point.metric,
+        metric=seed.point.metric,
         values=payload["values"],
         unit=payload["unit"],
         sample_time=payload["sampleTime"],
@@ -227,7 +235,7 @@ def _new_record(
         quality=payload["quality"],
         quality_note=payload.get("qualityNote", ""),
         note=payload.get("note", ""),
-        is_backfill=check["backfill"],
+        is_backfill=seed.check["backfill"],
         baseline_version=baseline["version"] if baseline is not None else None,
         baseline_values=baseline["values"] if baseline is not None else None,
         revisions=[],
@@ -236,32 +244,11 @@ def _new_record(
         rule_id=snapshot["ruleId"] if snapshot is not None else None,
         rule_version=snapshot["ruleVersion"] if snapshot is not None else None,
         rule_snapshot=snapshot,
-        assessment=assessment,
+        assessment=seed.outcome["assessment"],
     )
     session.add(row)
     session.flush()
     return row
-
-
-def _audit_record(
-    session: Session,
-    workspace: Workspace,
-    row: MonitorRecord,
-    point: Point,
-    action: str,
-    summary: str,
-    reason: str,
-) -> None:
-    write_audit(
-        session,
-        workspace,
-        action=action,
-        object_type="record",
-        object_id=row.id,
-        object_label=f"{row.record_no} {point.code} {point.name}",
-        summary=summary,
-        reason=reason,
-    )
 
 
 def create_record(session: Session, workspace: Workspace, payload: dict) -> dict:
@@ -270,21 +257,34 @@ def create_record(session: Session, workspace: Workspace, payload: dict) -> dict
         raise AppError("VALIDATION_FAILED", "记录来源无效", 422)
     point = _point_for_record(session, workspace, payload["pointId"])
     check = _validate(session, workspace, point, payload, None)
-    payload = {**payload, "quality": "invalid" if check["outOfRange"] else payload["quality"]}
-    outcome = _assess(session, workspace, point, payload, None)
-    row = _new_record(session, workspace, point, payload, check, outcome)
-    _audit_record(
+    normalized = {**payload, "quality": "invalid" if check["outOfRange"] else payload["quality"]}
+    outcome = _assess(session, workspace, point, normalized, None)
+    row = _new_record(
         session,
         workspace,
-        row,
-        point,
-        "create",
-        f"录入监测记录 {row.record_no}",
-        payload.get("note", ""),
+        RecordSeed(point=point, payload=normalized, check=check, outcome=outcome),
+    )
+    write_audit(
+        session,
+        workspace,
+        AuditEntry(
+            action="create",
+            object_type="record",
+            object_id=row.id,
+            object_label=f"{row.record_no} {point.code} {point.name}",
+            summary=f"录入监测记录 {row.record_no}",
+            reason=normalized.get("note", ""),
+        ),
     )
     if outcome["snapshot"] is not None:
         event = apply_assessment(
-            session, workspace, row, outcome["assessment"], outcome["snapshot"]
+            session,
+            workspace,
+            AssessmentCommand(
+                record=row,
+                assessment=outcome["assessment"],
+                snapshot=outcome["snapshot"],
+            ),
         )
     else:
         event = {
@@ -296,26 +296,8 @@ def create_record(session: Session, workspace: Workspace, payload: dict) -> dict
     return {"record": record_out(row), "assessment": outcome["assessment"], "event": event}
 
 
-def revise_record(
-    session: Session,
-    workspace: Workspace,
-    record_id: str,
-    payload: dict,
-    expected_rev: int | None,
-    reason: str,
-) -> dict:
-    require_role(workspace, RECORD_ROLES, "监测记录修订")
-    if reason.strip() == "":
-        raise AppError("REASON_REQUIRED", "修订必须填写原因", 422)
-    row = get_row(session, MonitorRecord, workspace.dataset_id, record_id, "监测记录")
-    require_revision(expected_rev, row)
-    point = _point_for_record(session, workspace, row.point_id)
-    check = _validate(session, workspace, point, payload, row.id)
-    payload = {**payload, "quality": "invalid" if check["outOfRange"] else payload["quality"]}
-    outcome = _assess(session, workspace, point, payload, row.id)
-    baseline = outcome["baseline"]
-    snapshot = outcome["snapshot"]
-    at = now_iso()
+def _apply_revision(row: MonitorRecord, workspace: Workspace, update: RevisionUpdate) -> None:
+    payload = update.payload
     before = {
         "values": row.values,
         "unit": row.unit,
@@ -334,42 +316,72 @@ def revise_record(
     row.quality_note = payload.get("qualityNote", "")
     row.note = payload.get("note", "")
     row.device_id = payload.get("deviceId", row.device_id)
-    row.is_backfill = check["backfill"]
-    row.baseline_version = baseline["version"] if baseline is not None else None
-    row.baseline_values = baseline["values"] if baseline is not None else None
+    row.is_backfill = update.check["backfill"]
+    row.baseline_version = update.baseline["version"] if update.baseline is not None else None
+    row.baseline_values = update.baseline["values"] if update.baseline is not None else None
     row.revisions = [
         *(row.revisions or []),
         {
-            "at": at,
+            "at": update.at,
             "by": workspace.actor.name,
             "role": ROLES.get(workspace.actor.role, workspace.actor.role),
-            "reason": reason.strip(),
+            "reason": update.reason,
             "before": before,
         },
     ]
     row.record_revision += 1
-    row.rule_id = snapshot["ruleId"] if snapshot is not None else None
-    row.rule_version = snapshot["ruleVersion"] if snapshot is not None else None
-    row.rule_snapshot = snapshot
-    row.assessment = outcome["assessment"]
-    bump(row, workspace, at)
-    _audit_record(
+    row.rule_id = update.snapshot["ruleId"] if update.snapshot is not None else None
+    row.rule_version = update.snapshot["ruleVersion"] if update.snapshot is not None else None
+    row.rule_snapshot = update.snapshot
+    row.assessment = update.assessment
+    bump(row, workspace, update.at)
+
+
+def revise_record(session: Session, workspace: Workspace, command: RevisionCommand) -> dict:
+    require_role(workspace, RECORD_ROLES, "监测记录修订")
+    reason = command.reason.strip()
+    if reason == "":
+        raise AppError("REASON_REQUIRED", "修订必须填写原因", 422)
+    row = get_row(session, MonitorRecord, workspace.dataset_id, command.record_id, "监测记录")
+    require_revision(command.expected_rev, row)
+    point = _point_for_record(session, workspace, row.point_id)
+    payload = command.payload
+    check = _validate(session, workspace, point, payload, row.id)
+    normalized = {**payload, "quality": "invalid" if check["outOfRange"] else payload["quality"]}
+    outcome = _assess(session, workspace, point, normalized, row.id)
+    at = now_iso()
+    update = RevisionUpdate(
+        payload={**normalized, "reason": reason},
+        check=check,
+        baseline=outcome["baseline"],
+        snapshot=outcome["snapshot"],
+        assessment=outcome["assessment"],
+        at=at,
+        reason=reason,
+    )
+    _apply_revision(row, workspace, update)
+    write_audit(
         session,
         workspace,
-        row,
-        point,
-        "revise",
-        f"修订监测记录 {row.record_no}（第 {row.record_revision} 次）",
-        reason.strip(),
+        AuditEntry(
+            action="revise",
+            object_type="record",
+            object_id=row.id,
+            object_label=f"{row.record_no} {point.code} {point.name}",
+            summary=f"修订监测记录 {row.record_no}（第 {row.record_revision} 次）",
+            reason=reason,
+        ),
     )
-    if snapshot is not None:
+    if outcome["snapshot"] is not None:
         event = apply_assessment(
             session,
             workspace,
-            row,
-            outcome["assessment"],
-            snapshot,
-            revision_reason=reason.strip(),
+            AssessmentCommand(
+                record=row,
+                assessment=outcome["assessment"],
+                snapshot=outcome["snapshot"],
+                revision_reason=reason,
+            ),
         )
     else:
         event = {
@@ -391,40 +403,3 @@ def list_records(
         query.order_by(MonitorRecord.sample_time.asc()).limit(max(1, min(limit, 5000)))
     )
     return [record_out(row) for row in rows]
-
-
-def history_for(session: Session, workspace: Workspace, point_id: str, at: str) -> list[dict]:
-    return [
-        record_out(row)
-        for row in _records_of_point(session, workspace, point_id)
-        if parse_iso(row.sample_time) is not None and row.sample_time <= at
-    ]
-
-
-def point_rows(session: Session, workspace: Workspace) -> list[dict]:
-    rows = session.scalars(select(Point).where(Point.dataset_id == workspace.dataset_id))
-    return [point_out(row) for row in rows]
-
-
-def rule_rows(session: Session, workspace: Workspace) -> list[dict]:
-    return _rules(session, workspace)
-
-
-def baseline_rows(session: Session, workspace: Workspace) -> list[dict]:
-    return _baselines(session, workspace)
-
-
-def all_record_rows(session: Session, workspace: Workspace) -> list[dict]:
-    rows = session.scalars(
-        select(MonitorRecord).where(MonitorRecord.dataset_id == workspace.dataset_id)
-    )
-    return [record_out(row) for row in rows]
-
-
-def context_for_import(session: Session, workspace: Workspace) -> dict[str, Any]:
-    return {
-        "points": point_rows(session, workspace),
-        "rules": rule_rows(session, workspace),
-        "baselines": baseline_rows(session, workspace),
-        "existing": all_record_rows(session, workspace),
-    }

@@ -1,5 +1,6 @@
-"""档案读取与楼栋/楼层写入。"""
+"""档案读取、楼栋/楼层写入与归档命令。"""
 
+from dataclasses import dataclass
 from typing import Any
 
 from sqlalchemy import select
@@ -10,7 +11,7 @@ from ...core.errors import AppError
 from ...db.models.archive import Building, Device, Floor, Point
 from ...db.models.foundation import AuditLog
 from ...db.models.monitoring import Baseline, MonitoringRule, MonitorRecord
-from .core.helpers import audit_archive, ensure_code, get_row
+from .core.helpers import ArchiveAudit, audit_archive, ensure_code, get_row
 from .core.serialize import (
     audit_out,
     baseline_out,
@@ -22,6 +23,7 @@ from .core.serialize import (
 )
 from .core.workspace import (
     ARCHIVE_ROLES,
+    AuditEntry,
     Workspace,
     bump,
     can_access_building,
@@ -30,7 +32,25 @@ from .core.workspace import (
     require_revision,
     require_role,
     uid,
+    write_audit,
 )
+
+ARCHIVE_KINDS = {"building": Building, "floor": Floor, "point": Point, "device": Device}
+SERIALIZERS = {
+    "building": building_out,
+    "floor": floor_out,
+    "point": point_out,
+    "device": device_out,
+}
+
+
+@dataclass(frozen=True)
+class ArchiveCommand:
+    kind: str
+    object_id: str
+    archived: bool
+    reason: str
+    expected_rev: int | None
 
 
 def snapshot(session: Session, workspace: Workspace) -> dict:
@@ -154,7 +174,11 @@ def save_building(
         bump(row, workspace, at)
         created = False
     session.flush()
-    audit_archive(session, workspace, "building", row, f"{row.code} {row.name}", created, at)
+    audit_archive(
+        session,
+        workspace,
+        ArchiveAudit("building", row, f"{row.code} {row.name}", created, at),
+    )
     return building_out(row)
 
 
@@ -204,5 +228,119 @@ def save_floor(
         session.flush()
     except IntegrityError as error:
         raise AppError("DUPLICATE_FLOOR", "同一楼栋下楼层号不能重复", 409) from error
-    audit_archive(session, workspace, "floor", row, f"{building.name} {row.name}", created, at)
+    audit_archive(
+        session,
+        workspace,
+        ArchiveAudit("floor", row, f"{building.name} {row.name}", created, at),
+    )
     return floor_out(row)
+
+
+def _block_building_archive(session: Session, workspace: Workspace, row: Building) -> None:
+    active = session.scalar(
+        select(Point.id).where(
+            Point.dataset_id == workspace.dataset_id,
+            Point.building_id == row.id,
+            Point.status == "active",
+        )
+    )
+    if active is not None:
+        raise AppError("DEPENDENTS_ACTIVE", "该楼栋下仍有在册测点，请先归档相关测点", 409)
+
+
+def _block_floor_archive(session: Session, workspace: Workspace, row: Floor) -> None:
+    active = session.scalar(
+        select(Point.id).where(
+            Point.dataset_id == workspace.dataset_id,
+            Point.floor_id == row.id,
+            Point.status == "active",
+        )
+    )
+    if active is not None:
+        raise AppError("DEPENDENTS_ACTIVE", "该楼层下仍有在册测点，请先归档相关测点", 409)
+
+
+def _require_parents_active(session: Session, workspace: Workspace, kind: str, row) -> None:
+    if kind == "floor":
+        building = session.get(Building, (workspace.dataset_id, row.building_id))
+        if building is None or building.status != "active":
+            raise AppError("PARENT_ARCHIVED", "上级楼栋已归档，请先恢复楼栋", 409)
+    if kind == "point":
+        floor = session.get(Floor, (workspace.dataset_id, row.floor_id))
+        building = session.get(Building, (workspace.dataset_id, row.building_id))
+        if (
+            floor is None
+            or building is None
+            or floor.status != "active"
+            or building.status != "active"
+        ):
+            raise AppError("PARENT_ARCHIVED", "上级楼层或楼栋已归档，请先恢复上级对象", 409)
+    if kind == "device" and row.point_id is not None:
+        point = session.get(Point, (workspace.dataset_id, row.point_id))
+        if point is None or point.status != "active":
+            raise AppError("PARENT_ARCHIVED", "所属测点已归档，请先恢复测点", 409)
+
+
+def _archive_devices_of_point(
+    session: Session, workspace: Workspace, point_id: str, reason: str, at: str
+) -> None:
+    owned = list(
+        session.scalars(
+            select(Device).where(
+                Device.dataset_id == workspace.dataset_id,
+                Device.point_id == point_id,
+                Device.status == "active",
+            )
+        )
+    )
+    for device in owned:
+        device.status = "archived"
+        device.archive_reason = reason
+        device.archived_at = at
+        device.archived_by = workspace.actor.name
+        bump(device, workspace, at)
+
+
+def archive_object(session: Session, workspace: Workspace, command: ArchiveCommand) -> dict:
+    require_role(workspace, ARCHIVE_ROLES, "档案归档/恢复")
+    if command.archived and command.reason.strip() == "":
+        raise AppError("REASON_REQUIRED", "归档必须填写原因", 422)
+    model = ARCHIVE_KINDS.get(command.kind)
+    if model is None:
+        raise AppError("NOT_FOUND", "未知档案类型", 404)
+    row = get_row(session, model, workspace.dataset_id, command.object_id, "档案对象")
+    require_revision(command.expected_rev, row)
+    building_id = row.id if command.kind == "building" else getattr(row, "building_id", None)
+    if command.kind == "device" and row.point_id is not None:
+        point = session.get(Point, (workspace.dataset_id, row.point_id))
+        building_id = point.building_id if point is not None else None
+    require_building(workspace, building_id)
+    if command.archived and command.kind == "building":
+        _block_building_archive(session, workspace, row)
+    if command.archived and command.kind == "floor":
+        _block_floor_archive(session, workspace, row)
+    if not command.archived:
+        _require_parents_active(session, workspace, command.kind, row)
+    at = now_iso()
+    row.status = "archived" if command.archived else "active"
+    row.archive_reason = command.reason.strip() if command.archived else ""
+    row.archived_at = at if command.archived else None
+    row.archived_by = workspace.actor.name if command.archived else ""
+    bump(row, workspace, at)
+    if command.kind == "point" and command.archived:
+        _archive_devices_of_point(session, workspace, row.id, command.reason, at)
+    label = f"{row.code} {row.name}" if hasattr(row, "code") else command.object_id
+    write_audit(
+        session,
+        workspace,
+        AuditEntry(
+            action="archive" if command.archived else "restore",
+            object_type=command.kind,
+            object_id=row.id,
+            object_label=label,
+            summary=f"{'归档' if command.archived else '恢复'}{label}",
+            reason=command.reason,
+            at=at,
+        ),
+    )
+    return SERIALIZERS[command.kind](row)

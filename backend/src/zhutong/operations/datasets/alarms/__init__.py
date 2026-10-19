@@ -1,7 +1,8 @@
 """事件判定与命令入口。"""
 
-from .apply import apply_assessment
+from .apply import AssessmentCommand, apply_assessment
 from .commands import (
+    CloseCommand,
     acknowledge_event,
     acknowledge_notification,
     close_event,
@@ -12,6 +13,8 @@ from .commands import (
 )
 
 __all__ = [
+    "AssessmentCommand",
+    "CloseCommand",
     "apply_assessment",
     "acknowledge_event",
     "acknowledge_notification",

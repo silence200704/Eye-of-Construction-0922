@@ -1,5 +1,6 @@
 """预警事件决策：与前端 core/event/plan.ts 同口径的纯函数。"""
 
+from dataclasses import dataclass
 from datetime import UTC, datetime
 from uuid import uuid4
 
@@ -63,9 +64,28 @@ def _none() -> dict:
     }
 
 
-def plan_event(
-    *, open_event: dict | None, record: dict, assessment: dict, snapshot: dict, actor: dict, at: str
-) -> dict:
+@dataclass(frozen=True)
+class EventPlanInput:
+    open_event: dict | None
+    record: dict
+    assessment: dict
+    snapshot: dict
+    actor: dict
+    at: str
+
+
+@dataclass(frozen=True)
+class RevisionPlanInput(EventPlanInput):
+    reason: str
+
+
+def plan_event(input: EventPlanInput) -> dict:
+    open_event = input.open_event
+    record = input.record
+    assessment = input.assessment
+    snapshot = input.snapshot
+    actor = input.actor
+    at = input.at
     level = level_of_state(assessment["state"])
     if level is None:
         if assessment["state"] != "recovering" or open_event is None:
@@ -129,16 +149,13 @@ def summarize(active: list[dict], fallback: str) -> dict:
     return {"level": level, "peakLevel": level}
 
 
-def plan_revision(
-    *,
-    open_event: dict | None,
-    record: dict,
-    assessment: dict,
-    snapshot: dict,
-    actor: dict,
-    at: str,
-    reason: str,
-) -> dict:
+def plan_revision(input: RevisionPlanInput) -> dict:
+    open_event = input.open_event
+    record = input.record
+    assessment = input.assessment
+    snapshot = input.snapshot
+    actor = input.actor
+    at = input.at
     none = {
         "action": "none",
         "evidence": None,

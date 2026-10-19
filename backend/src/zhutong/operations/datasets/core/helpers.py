@@ -1,5 +1,6 @@
 """档案服务共用的小工具：取对象、编号唯一性、坐标与审计。"""
 
+from dataclasses import dataclass
 from typing import Any
 
 from sqlalchemy import select
@@ -7,7 +8,7 @@ from sqlalchemy.orm import Session
 
 from ....core.errors import AppError
 from ....db.models.archive import Point
-from .workspace import Workspace, write_audit
+from .workspace import AuditEntry, Workspace, write_audit
 
 
 def get_row(session: Session, model: Any, dataset_id: str, object_id: str, label: str) -> Any:
@@ -57,22 +58,25 @@ def coord_of(payload: dict, prefix: str = "") -> tuple[float, float]:
     return float(x), float(y)
 
 
-def audit_archive(
-    session: Session,
-    workspace: Workspace,
-    kind: str,
-    row: Any,
-    label: str,
-    created: bool,
-    at: str,
-) -> None:
+@dataclass(frozen=True)
+class ArchiveAudit:
+    kind: str
+    row: Any
+    label: str
+    created: bool
+    at: str
+
+
+def audit_archive(session: Session, workspace: Workspace, entry: ArchiveAudit) -> None:
     write_audit(
         session,
         workspace,
-        action="create" if created else "update",
-        object_type=kind,
-        object_id=row.id,
-        object_label=label,
-        summary=f"{'新建' if created else '修改'}{label}",
-        at=at,
+        AuditEntry(
+            action="create" if entry.created else "update",
+            object_type=entry.kind,
+            object_id=entry.row.id,
+            object_label=entry.label,
+            summary=f"{'新建' if entry.created else '修改'}{entry.label}",
+            at=entry.at,
+        ),
     )

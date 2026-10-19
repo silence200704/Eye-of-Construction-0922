@@ -1,6 +1,7 @@
 """CSV 预检：解析、逐行校验与可导入 payload，与前端 core/csv 同口径。"""
 
 import math
+from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta, timezone
 
 from .catalog import CSV_QUALITY_TEXT, CSV_VALUE_COLUMNS, has_numeric_readings, metric_def
@@ -163,98 +164,121 @@ def _row_summary(cells: list[str], header: list[str]) -> str:
     return f"{code or '（缺测点）'}｜{time or '（缺时间）'}"
 
 
+@dataclass(frozen=True)
+class PreviewRow:
+    line_no: int
+    cells: list[str]
+    header: list[str]
+    header_ok: bool
+    context: dict
+    seen: set[str]
+
+
+def _row_error(line_no: int, summary: str, message: str) -> dict:
+    return {
+        "lineNo": line_no,
+        "status": "error",
+        "payload": None,
+        "summary": summary,
+        "messages": [message],
+    }
+
+
+def _checked_row(
+    row: PreviewRow, point: dict, details: dict, check: dict, messages: list[str]
+) -> dict:
+    blocked = len(check["issues"]) > 0
+    payload = None
+    if not blocked:
+        payload = {
+            "pointId": point["id"],
+            "pointLabel": f"{point['code']} {point['name']}",
+            "sampleTime": row.context["sampleTime"],
+            "values": details["values"],
+            "unit": details["unit"],
+            "sampleWindow": details["sampleWindow"],
+            "quality": "invalid" if check["outOfRange"] else details["quality"],
+            "note": details["note"],
+        }
+    return {
+        "lineNo": row.line_no,
+        "status": "error" if blocked else ("warn" if messages else "ok"),
+        "payload": payload,
+        "summary": _row_summary(row.cells, row.header),
+        "messages": messages,
+    }
+
+
+def _preview_row(row: PreviewRow) -> dict:
+    summary = _row_summary(row.cells, row.header)
+    if not row.header_ok:
+        return _row_error(row.line_no, summary, "表头缺少必需列")
+    identity = _read_identity(row.header, row.cells, row.context, row.seen)
+    if not identity["ok"]:
+        return _row_error(row.line_no, summary, identity["message"])
+    point = identity["point"]
+    details = _read_details(point, row.cells, row.header)
+    if details["fatal"] is not None:
+        return _row_error(row.line_no, summary, details["fatal"])
+    check = check_reading(
+        {
+            "pointId": point["id"],
+            "metric": point["metric"],
+            "values": details["values"],
+            "unit": details["unit"],
+            "sampleTime": identity["sampleTime"],
+            "sampleWindow": details["sampleWindow"],
+            "quality": details["quality"],
+            "qualityNote": details["note"],
+            "note": details["note"],
+            "excludeRecordId": None,
+            "device": None,
+            "enteredAt": row.context.get("enteredAt"),
+        },
+        row.context["existing"],
+    )
+    messages = [*details["messages"], *(issue["message"] for issue in check["issues"])]
+    if check["backfill"]:
+        messages.append("采样时间早于当前时间，将标记为历史补录")
+    if check["outOfRange"]:
+        messages.append("超出设备量程，将标记为无效并进入数据核查")
+    if rule_for_point(row.context["rules"], point, identity["sampleTime"]) is None:
+        messages.append("该采样时间没有适用规则，本行只存档不判定")
+    return _checked_row(
+        PreviewRow(
+            line_no=row.line_no,
+            cells=row.cells,
+            header=row.header,
+            header_ok=row.header_ok,
+            context={**row.context, "sampleTime": identity["sampleTime"]},
+            seen=row.seen,
+        ),
+        point,
+        details,
+        check,
+        messages,
+    )
+
+
 def build_preview(text: str, context: dict) -> dict:
     table = read_table(text)
     header = table["header"]
     missing = [name for name in ("测点编号", "采样时间") if column_index(header, name) == -1]
     header_ok = not missing
-    rows: list[dict] = []
     seen: set[str] = set()
-    entered_at = context.get("enteredAt")
-    for item in table["data"]:
-        cells = item["cells"]
-        summary = _row_summary(cells, header)
-        if not header_ok:
-            rows.append(
-                {
-                    "lineNo": item["lineNo"],
-                    "status": "error",
-                    "payload": None,
-                    "summary": summary,
-                    "messages": ["表头缺少必需列"],
-                }
+    rows = [
+        _preview_row(
+            PreviewRow(
+                line_no=item["lineNo"],
+                cells=item["cells"],
+                header=header,
+                header_ok=header_ok,
+                context=context,
+                seen=seen,
             )
-            continue
-        identity = _read_identity(header, cells, context, seen)
-        if not identity["ok"]:
-            rows.append(
-                {
-                    "lineNo": item["lineNo"],
-                    "status": "error",
-                    "payload": None,
-                    "summary": summary,
-                    "messages": [identity["message"]],
-                }
-            )
-            continue
-        point = identity["point"]
-        details = _read_details(point, cells, header)
-        if details["fatal"] is not None:
-            rows.append(
-                {
-                    "lineNo": item["lineNo"],
-                    "status": "error",
-                    "payload": None,
-                    "summary": summary,
-                    "messages": [details["fatal"]],
-                }
-            )
-            continue
-        check = check_reading(
-            {
-                "pointId": point["id"],
-                "metric": point["metric"],
-                "values": details["values"],
-                "unit": details["unit"],
-                "sampleTime": identity["sampleTime"],
-                "sampleWindow": details["sampleWindow"],
-                "quality": details["quality"],
-                "qualityNote": details["note"],
-                "note": details["note"],
-                "excludeRecordId": None,
-                "device": None,
-                "enteredAt": entered_at,
-            },
-            context["existing"],
         )
-        messages = [*details["messages"], *(issue["message"] for issue in check["issues"])]
-        if check["backfill"]:
-            messages.append("采样时间早于当前时间，将标记为历史补录")
-        if check["outOfRange"]:
-            messages.append("超出设备量程，将标记为无效并进入数据核查")
-        if rule_for_point(context["rules"], point, identity["sampleTime"]) is None:
-            messages.append("该采样时间没有适用规则，本行只存档不判定")
-        blocked = len(check["issues"]) > 0
-        rows.append(
-            {
-                "lineNo": item["lineNo"],
-                "status": "error" if blocked else ("warn" if messages else "ok"),
-                "payload": None
-                if blocked
-                else {
-                    "pointId": point["id"],
-                    "pointLabel": f"{point['code']} {point['name']}",
-                    "sampleTime": identity["sampleTime"],
-                    "values": details["values"],
-                    "unit": details["unit"],
-                    "sampleWindow": details["sampleWindow"],
-                    "quality": "invalid" if check["outOfRange"] else details["quality"],
-                    "note": details["note"],
-                },
-                "summary": summary,
-                "messages": messages,
-            }
-        )
+        for item in table["data"]
+    ]
     return {
         "headerOk": header_ok,
         "headerMissing": missing,

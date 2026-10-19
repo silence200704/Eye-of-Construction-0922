@@ -1,5 +1,6 @@
 """事件与通知命令：确认、关闭、展示、确认与超时升级。"""
 
+from dataclasses import dataclass
 from datetime import timedelta
 
 from sqlalchemy import select
@@ -14,6 +15,7 @@ from ..core.serialize import event_out, notification_out
 from ..core.workspace import (
     CLOSE_ROLES,
     NOTIFY_ROLES,
+    AuditEntry,
     Workspace,
     bump,
     now_iso,
@@ -91,33 +93,36 @@ def acknowledge_event(
     write_audit(
         session,
         workspace,
-        action="update",
-        object_type="record",
-        object_id=row.id,
-        object_label=row.event_no,
-        summary=f"确认预警事件 {row.event_no}，转入处理中",
-        at=at,
+        AuditEntry(
+            action="update",
+            object_type="record",
+            object_id=row.id,
+            object_label=row.event_no,
+            summary=f"确认预警事件 {row.event_no}，转入处理中",
+            at=at,
+        ),
     )
     return event_out(row)
 
 
-def close_event(
-    session: Session,
-    workspace: Workspace,
-    event_id: str,
-    expected_rev: int | None,
-    basis: str,
-    no_repair_note: str,
-) -> dict:
+@dataclass(frozen=True)
+class CloseCommand:
+    event_id: str
+    expected_rev: int | None
+    basis: str
+    no_repair_note: str
+
+
+def close_event(session: Session, workspace: Workspace, command: CloseCommand) -> dict:
     require_role(workspace, CLOSE_ROLES, "关闭预警事件")
-    row = _event_of(session, workspace, event_id)
-    require_revision(expected_rev, row)
+    row = _event_of(session, workspace, command.event_id)
+    require_revision(command.expected_rev, row)
     guard = close_guard(row.status, workspace.actor.role)
     if not guard["allowed"]:
         raise AppError("STATE_CONFLICT", guard["reason"], 409)
-    if basis.strip() == "":
+    if command.basis.strip() == "":
         raise AppError("CLOSE_BASIS_REQUIRED", "关闭事件必须填写关闭依据", 422)
-    if no_repair_note.strip() == "":
+    if command.no_repair_note.strip() == "":
         raise AppError(
             "CLOSE_BASIS_REQUIRED",
             "阶段 4 尚未接通关联工单，关闭必须填写“无需维修”现场核查结论",
@@ -125,25 +130,27 @@ def close_event(
         )
     at = now_iso()
     detail = (
-        f"事件 {row.event_no} 授权关闭；复查结论：{basis.strip()}；"
-        f"现场核查：{no_repair_note.strip()}"
+        f"事件 {row.event_no} 授权关闭；复查结论：{command.basis.strip()}；"
+        f"现场核查：{command.no_repair_note.strip()}"
     )
     row.status = "closed"
     row.closed_at = at
     row.closed_by = workspace.actor.name
-    row.close_basis = basis.strip()
+    row.close_basis = command.basis.strip()
     row.timeline = [*row.timeline, _timeline_item(at, workspace, "关闭事件", detail)]
     bump(row, workspace, at)
     write_audit(
         session,
         workspace,
-        action="update",
-        object_type="record",
-        object_id=row.id,
-        object_label=row.event_no,
-        summary=f"关闭预警事件 {row.event_no}",
-        reason=f"{basis.strip()}；{no_repair_note.strip()}",
-        at=at,
+        AuditEntry(
+            action="update",
+            object_type="record",
+            object_id=row.id,
+            object_label=row.event_no,
+            summary=f"关闭预警事件 {row.event_no}",
+            reason=f"{command.basis.strip()}；{command.no_repair_note.strip()}",
+            at=at,
+        ),
     )
     return event_out(row)
 
@@ -167,12 +174,14 @@ def present_notification(session: Session, workspace: Workspace, notification_id
         write_audit(
             session,
             workspace,
-            action="update",
-            object_type="record",
-            object_id=row.event_id,
-            object_label=row.event_no,
-            summary=f"通知已展示：{row.event_no} → {row.target}",
-            at=at,
+            AuditEntry(
+                action="update",
+                object_type="record",
+                object_id=row.event_id,
+                object_label=row.event_no,
+                summary=f"通知已展示：{row.event_no} → {row.target}",
+                at=at,
+            ),
         )
     return notification_out(row)
 
@@ -188,12 +197,14 @@ def acknowledge_notification(session: Session, workspace: Workspace, notificatio
         write_audit(
             session,
             workspace,
-            action="update",
-            object_type="record",
-            object_id=row.event_id,
-            object_label=row.event_no,
-            summary=f"确认通知：{row.event_no} → {row.target}",
-            at=at,
+            AuditEntry(
+                action="update",
+                object_type="record",
+                object_id=row.event_id,
+                object_label=row.event_no,
+                summary=f"确认通知：{row.event_no} → {row.target}",
+                at=at,
+            ),
         )
     return notification_out(row)
 
@@ -211,8 +222,18 @@ def escalate_due(session: Session, workspace: Workspace) -> dict:
             )
         )
     )
+    closed_ids = set(
+        session.scalars(
+            select(AlarmEvent.id).where(
+                AlarmEvent.dataset_id == workspace.dataset_id,
+                AlarmEvent.status == "closed",
+            )
+        )
+    )
     escalated: list[dict] = []
     for row in rows:
+        if row.event_id in closed_ids:
+            continue
         created = parse_iso(row.created_at)
         if created is None or now is None:
             continue
@@ -226,15 +247,17 @@ def escalate_due(session: Session, workspace: Workspace) -> dict:
         write_audit(
             session,
             workspace,
-            action="update",
-            object_type="record",
-            object_id=row.event_id,
-            object_label=row.event_no,
-            summary=f"通知超时升级：{row.event_no} → {row.escalated_to}",
-            reason=(
-                f"{row.due_minutes} 分钟未确认，转{row.fallback}；"
-                "按服务端时间核验，不是外部渠道送达"
+            AuditEntry(
+                action="update",
+                object_type="record",
+                object_id=row.event_id,
+                object_label=row.event_no,
+                summary=f"通知超时升级：{row.event_no} → {row.escalated_to}",
+                reason=(
+                    f"{row.due_minutes} 分钟未确认，转{row.fallback}；"
+                    "按服务端时间核验，不是外部渠道送达"
+                ),
+                at=at,
             ),
-            at=at,
         )
     return {"escalated": len(escalated), "rows": escalated}

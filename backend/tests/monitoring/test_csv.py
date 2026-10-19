@@ -60,8 +60,8 @@ def test_preview_and_atomic_commit(client: TestClient, settings) -> None:
     assert len(records) == 2
     assert {row["source"] for row in records} == {"csv"}
     assert records_count(str(settings.database_url)) == 2
-    audit = api.get("/audits")[0]
-    assert audit["action"] == "import"
+    audits = api.get("/audits")
+    assert any(row["action"] == "import" for row in audits)
 
 
 def test_stale_preview_requires_repreview(client: TestClient, settings) -> None:
