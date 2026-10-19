@@ -1,0 +1,133 @@
+{
+  "reviewedCommit": "315f26d",
+  "codeCommit": "ae289a3",
+  "checkedAt": "2026-10-19T04:34:15.141Z",
+  "transport": "FastAPI TestClient / ASGI, independent temporary SQLite; not TCP and not production",
+  "productionDataModified": false,
+  "existingChecks": {
+    "backend": {
+      "passed": 181,
+      "coveragePercent": 88.21,
+      "exitCode": 0
+    },
+    "ruffCheck": {
+      "exitCode": 0
+    },
+    "ruffFormat": {
+      "formattedFiles": 161,
+      "exitCode": 0
+    },
+    "web": {
+      "files": 113,
+      "passed": 1136,
+      "exitCode": 0
+    },
+    "tooling": {
+      "passed": 4,
+      "exitCode": 0
+    },
+    "typecheck": {
+      "exitCode": 0
+    },
+    "build": {
+      "exitCode": 0,
+      "seconds": 5.49,
+      "mainChunkKB": 1000.51
+    }
+  },
+  "probes": [
+    {
+      "case": "safety empty building scope reviews issue",
+      "http": 200
+    },
+    {
+      "case": "empty building scope toggles inspection plan",
+      "http": 200
+    },
+    {
+      "case": "empty building scope assigns work order",
+      "http": 200
+    },
+    {
+      "case": "empty building scope executes maintenance without photos",
+      "http": 200
+    },
+    {
+      "case": "repair actor overrides assignee while accepting",
+      "http": 200,
+      "beforeAssignee": "其他维修人员",
+      "afterAssignee": "演示维修人员",
+      "status": "repairing"
+    },
+    {
+      "case": "manual issue for another point can forge current event work order and close",
+      "http": 200,
+      "eventPoint": "pnt_4dc8f8ef27cf4807bbc7a05be9a1307f",
+      "workOrderPoint": "pnt_f378edc620044586aa84f78078bc51cd",
+      "issueSource": "report",
+      "workOrderEvent": "evt_23e93134549f49dc82967d8a80768828"
+    },
+    {
+      "case": "same issue reviewed to repair twice with fresh key",
+      "http": 200,
+      "workOrderCount": 2
+    },
+    {
+      "case": "old pending recheck reused after new repair review",
+      "http": 200,
+      "issueStatus": "closed",
+      "orderStatuses": [
+        "created"
+      ]
+    },
+    {
+      "case": "web day-wide generation key replays after adding another plan",
+      "http": 200,
+      "replayed": true,
+      "tasksBeforeFreshGeneration": 1
+    },
+    {
+      "case": "empty checklist answer accepted as completed",
+      "http": 200,
+      "status": "checked"
+    },
+    {
+      "case": "noPhotoReason not in issue or audit",
+      "reasonPersisted": false
+    },
+    {
+      "case": "repair role can attach acceptance photo through field issue command",
+      "http": 200
+    },
+    {
+      "case": "closed event link with only four character note",
+      "http": 200
+    }
+  ],
+  "namedFunctionsOver80": [
+    {
+      "file": "src/api/http/client.ts",
+      "line": 65,
+      "name": "createHttpClient",
+      "lines": 82
+    },
+    {
+      "file": "src/stores/inspection/tasks.ts",
+      "line": 292,
+      "name": "reportInspectionIssue",
+      "lines": 96
+    },
+    {
+      "file": "src/stores/maintenance/plans.ts",
+      "line": 64,
+      "name": "savePlan",
+      "lines": 84
+    }
+  ],
+  "services": {
+    "dormitory8000": 200,
+    "dormitory5173": 200,
+    "zhutong18000": 200,
+    "zhutong8080": 200
+  }
+}
