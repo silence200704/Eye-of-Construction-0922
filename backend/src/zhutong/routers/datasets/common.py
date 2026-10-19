@@ -33,7 +33,8 @@ def workspace(request: Request, dataset_id: str, actor: Actor) -> Workspace:
 
 
 Read = Annotated[Session, Depends(read_session)]
-Write = Annotated[Session, Depends(write_session)]
+# 提交与提交错误必须发生在发送响应前，避免 200 已发出但事务尚未完成。
+Write = Annotated[Session, Depends(write_session, scope="function")]
 Current = Annotated[Workspace, Depends(workspace)]
 
 
