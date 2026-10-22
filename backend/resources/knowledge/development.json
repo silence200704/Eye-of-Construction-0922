@@ -1,0 +1,122 @@
+[
+  {
+    "id": "dev-1",
+    "query": "不用账号怎么切换角色",
+    "expectedSource": "docs/knowledge/platform/identity.md",
+    "expectedHeading": "演示身份与权限"
+  },
+  {
+    "id": "dev-2",
+    "query": "老设备不想显示了怎么办",
+    "expectedSource": "docs/knowledge/platform/archive.md",
+    "expectedHeading": "楼栋楼层测点设备归档"
+  },
+  {
+    "id": "dev-3",
+    "query": "以前的基准改了旧读数会变吗",
+    "expectedSource": "docs/knowledge/monitoring/baseline.md",
+    "expectedHeading": "基准值版本与采样时间"
+  },
+  {
+    "id": "dev-4",
+    "query": "演示阈值靠谱不靠谱",
+    "expectedSource": "docs/knowledge/monitoring/rules.md",
+    "expectedHeading": "演示预警规则与分级说明"
+  },
+  {
+    "id": "dev-5",
+    "query": "读数填错了怎么留痕纠正",
+    "expectedSource": "docs/knowledge/monitoring/records.md",
+    "expectedHeading": "监测录入质量与修订留痕"
+  },
+  {
+    "id": "dev-6",
+    "query": "表格导入报错会不会只进一半",
+    "expectedSource": "docs/knowledge/monitoring/csv.md",
+    "expectedHeading": "CSV 导入预检与原子提交"
+  },
+  {
+    "id": "dev-7",
+    "query": "数值正常了为什么预警还没关",
+    "expectedSource": "docs/knowledge/monitoring/closing.md",
+    "expectedHeading": "预警恢复与授权关闭"
+  },
+  {
+    "id": "dev-8",
+    "query": "看到提醒算不算已经签收",
+    "expectedSource": "docs/knowledge/monitoring/notifications.md",
+    "expectedHeading": "站内通知确认与超时核验"
+  },
+  {
+    "id": "dev-9",
+    "query": "计划改完旧任务归谁干",
+    "expectedSource": "docs/knowledge/operations/plans.md",
+    "expectedHeading": "巡检计划生成与任务快照"
+  },
+  {
+    "id": "dev-10",
+    "query": "扫错标签还能算到场吗",
+    "expectedSource": "docs/knowledge/operations/arrival.md",
+    "expectedHeading": "虚拟 NFC 与人工到点签到"
+  },
+  {
+    "id": "dev-11",
+    "query": "必填项空着能不能交巡检",
+    "expectedSource": "docs/knowledge/operations/checklist.md",
+    "expectedHeading": "逐点必答清单与异常后续"
+  },
+  {
+    "id": "dev-12",
+    "query": "重复提交和两次独立报告怎么区分",
+    "expectedSource": "docs/knowledge/operations/issues.md",
+    "expectedHeading": "问题四来源与独立上报"
+  },
+  {
+    "id": "dev-13",
+    "query": "审核不想维修还有哪些办法",
+    "expectedSource": "docs/knowledge/operations/reviews.md",
+    "expectedHeading": "问题审核六种出口"
+  },
+  {
+    "id": "dev-14",
+    "query": "接了维修单以后谁能交完工",
+    "expectedSource": "docs/knowledge/operations/orders.md",
+    "expectedHeading": "维修工单派工接单完工验收"
+  },
+  {
+    "id": "dev-15",
+    "query": "复查看着还不稳定要怎么办",
+    "expectedSource": "docs/knowledge/operations/rechecks.md",
+    "expectedHeading": "复查观察复发与有效轮次"
+  },
+  {
+    "id": "dev-16",
+    "query": "照片传好了点提交没成功怎么办",
+    "expectedSource": "docs/knowledge/operations/photos.md",
+    "expectedHeading": "照片配额归属与补传"
+  },
+  {
+    "id": "dev-17",
+    "query": "设备保养发现故障怎么留单",
+    "expectedSource": "docs/knowledge/operations/maintenance.md",
+    "expectedHeading": "设备保养执行与异常转问题"
+  },
+  {
+    "id": "dev-18",
+    "query": "统计表里观察中算结案吗",
+    "expectedSource": "docs/knowledge/platform/reports.md",
+    "expectedHeading": "报表统计粒度与闭环口径"
+  },
+  {
+    "id": "dev-19",
+    "query": "换电脑怎么把模型和知识一起带走",
+    "expectedSource": "docs/knowledge/platform/backup.md",
+    "expectedHeading": "服务端备份恢复与数据保护"
+  },
+  {
+    "id": "dev-20",
+    "query": "不联网怎么找知识并核对出处",
+    "expectedSource": "docs/knowledge/platform/knowledge.md",
+    "expectedHeading": "本地知识检索与依据边界"
+  }
+]
