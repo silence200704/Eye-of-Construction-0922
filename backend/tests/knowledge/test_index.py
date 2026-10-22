@@ -48,7 +48,9 @@ def test_corrupt_vector_and_changed_model_are_explicitly_invalid(client, setting
     api.ok(post(api, "/indexes/rebuild", {}))
     engine = create_engine(str(settings.database_url))
     with engine.begin() as connection:
-        connection.execute(text("UPDATE knowledge_vectors SET embedding=:value"), {"value": b"broken"})
+        connection.execute(
+            text("UPDATE knowledge_vectors SET embedding=:value"), {"value": b"broken"}
+        )
     engine.dispose()
     found = api.ok(post(api, "/search", {"query": "预警事件关闭"}))
     assert found["mode"] == "keyword" and "损坏" in found["degradedReason"]
@@ -58,14 +60,23 @@ def test_corrupt_vector_and_changed_model_are_explicitly_invalid(client, setting
     assert found["mode"] == "keyword" and "改变" in found["degradedReason"]
 
 
-def test_document_change_invalidates_index_and_never_cites_old_version(client, settings, monkeypatch):
+def test_document_change_invalidates_index_and_never_cites_old_version(
+    client, settings, monkeypatch
+):
     api = Api(client, str(settings.database_url))
     doc = document(api)
     monkeypatch.setattr("zhutong.operations.knowledge.indexing.get_encoder", lambda _: Encoder())
     api.ok(post(api, "/indexes/rebuild", {}))
-    api.ok(post(api, f"/documents/{doc['id']}/versions", {
-        "expectedRev": doc["rev"], "content": "# 新流程\n\n预警事件关闭前必须核对当前恢复条件和处置依据。",
-    }))
+    api.ok(
+        post(
+            api,
+            f"/documents/{doc['id']}/versions",
+            {
+                "expectedRev": doc["rev"],
+                "content": "# 新流程\n\n预警事件关闭前必须核对当前恢复条件和处置依据。",
+            },
+        )
+    )
     found = api.ok(post(api, "/search", {"query": "预警事件关闭"}))
     assert found["mode"] == "keyword" and "变更" in found["degradedReason"]
     assert all(candidate["version"] == 2 for candidate in found["candidates"])
@@ -78,7 +89,10 @@ def test_knowledge_backup_restores_local_model_and_vectors(client, settings, tmp
     directory.mkdir(parents=True)
     (directory / "model.onnx").write_bytes(b"model-fixture-for-backup-only")
     from zhutong.domain.knowledge.text import digest
-    (directory / "manifest.json").write_text(json.dumps({"files": {"model.onnx": digest(b"model-fixture-for-backup-only")}}))
+
+    (directory / "manifest.json").write_text(
+        json.dumps({"files": {"model.onnx": digest(b"model-fixture-for-backup-only")}})
+    )
     create_backup(settings, tmp_path / "backup")
     restore_backup(tmp_path / "backup", tmp_path / "restore")
     target = tmp_path / "restore" / "models" / "bge-small-zh-v1.5"

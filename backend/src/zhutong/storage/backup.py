@@ -78,6 +78,9 @@ def create_backup(settings: Settings, destination: Path) -> dict:
         for key in ("zhutong.sqlite", "session.key"):
             manifest["files"][key] = fingerprint(staging / key)
         copy_media(settings, staging, manifest)
+        from .knowledge_backup import copy_model
+
+        copy_model(settings.runtime_dir, staging, manifest)
         (staging / "manifest.json").write_text(
             json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8"
         )

@@ -50,6 +50,13 @@ def verify_backup(directory: Path) -> dict:
                 raise ValueError("文件哈希或体积不一致")
         database = inspect_database(root / "zhutong.sqlite")
         required = {"zhutong.sqlite", "session.key", *("media/" + key for key in database["media"])}
+        if "modelFiles" in manifest:
+            from .knowledge_backup import model_entries
+
+            model_keys = model_entries(root)
+            if not model_keys or sorted(model_keys) != sorted(manifest["modelFiles"]):
+                raise ValueError("模型备份清单不完整")
+            required.update(model_keys)
         if required != set(manifest["files"]):
             raise ValueError("文件清单不完整")
         if any(manifest[key] != database[key] for key in ("tables", "schemaRevision")):
