@@ -8,13 +8,16 @@ from sqlalchemy.orm import Session
 from ...core.errors import AppError
 from ...db.models.archive import Building, Floor
 from ...db.models.field import Issue
+from ...db.models.foundation import AuditLog
 from ...db.models.monitoring import AlarmEvent
 from ..datasets.core.workspace import (
     AuditEntry,
     Workspace,
+    bump,
     now_iso,
     require_building,
     require_role,
+    require_target_building,
     uid,
     write_audit,
 )
@@ -88,6 +91,7 @@ def _merge_existing_photos(
     )
     if len(existing.photos or []) == before:
         return
+    bump(existing, workspace)
     write_audit(
         session,
         workspace,
@@ -170,6 +174,49 @@ def _build_issue(
     return issue, at, building_id, floor_id
 
 
+def _verify_retry(
+    session: Session, workspace: Workspace, existing: Issue, context: tuple[dict, IssueOrigin]
+) -> None:
+    payload, origin = context
+    require_target_building(workspace, existing.building_id, "原上报问题")
+    creator = session.scalar(
+        select(AuditLog.actor_id)
+        .where(
+            AuditLog.dataset_id == workspace.dataset_id,
+            AuditLog.object_id == existing.id,
+            AuditLog.action == "create",
+        )
+        .limit(1)
+    )
+    if creator != workspace.actor.id:
+        raise AppError("ROLE_FORBIDDEN", "上报标识只能由原提交身份重试", 403)
+    point, building, floor, zone = _location(session, workspace, payload)
+    actual = (
+        existing.source,
+        existing.point_id or "",
+        existing.building_id,
+        existing.floor_id or "",
+        existing.zone_id or "",
+        existing.task_id,
+        existing.maintenance_task_id,
+        existing.anomaly_type,
+        existing.description,
+    )
+    expected = (
+        origin.source,
+        point,
+        building,
+        floor,
+        zone or "",
+        origin.task_id,
+        origin.maintenance_task_id,
+        str(payload.get("anomalyType", "")).strip(),
+        str(payload.get("description", "")).strip(),
+    )
+    if actual != expected:
+        raise AppError("IDEMPOTENCY_CONFLICT", "该上报标识已用于不同来源、位置或内容", 409)
+
+
 def create_issue(
     session: Session,
     workspace: Workspace,
@@ -182,6 +229,7 @@ def create_issue(
         select(Issue).where(Issue.dataset_id == workspace.dataset_id, Issue.submission_key == key)
     )
     if existing is not None:
+        _verify_retry(session, workspace, existing, (payload, origin))
         _merge_existing_photos(session, workspace, existing, payload)
         return existing, True
     issue, at, building_id, floor_id = _build_issue(session, workspace, payload, origin, key)
