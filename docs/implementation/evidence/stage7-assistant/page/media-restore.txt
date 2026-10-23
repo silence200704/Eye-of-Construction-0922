@@ -1,0 +1,64 @@
+影像素材
+  - generic: 照片属于当前测点，前后对照始终绑定同一位置
+  - text: 关联测点
+  - combobox "关联测点":
+    - option "请选择测点"
+    - option "B03-F2-CRACK01 二层走廊西墙裂缝测点" [selected]
+    - option "B03-F2-TH01 二层走廊温湿度辅助测点"
+    - option "B03-F2-TILT01 二层走廊中柱倾角测点"
+    - option "B03-F2-VIB01 二层楼板振动测点"
+    - option "B01-F1-CHECK01 一层走廊人工检查点"
+    - option "B02-F1-CHECK01 一层走廊人工检查点"
+    - option "B03-F1-CHECK01 一层走廊人工检查点"
+    - option "B04-F1-CHECK01 一层主馆区人工检查点"
+  - paragraph: 影像与关键帧保存在服务端数据库中，受身份与楼栋授权保护；刷新后从受保护内容接口重建预览。
+  - figure "人工上传 处置前 拍摄时间 2026-10-21 09:00｜69 B 移除":
+    - img "处置前"
+    - generic: 人工上传
+    - generic: 处置前
+    - generic: 拍摄时间 2026-10-21 09:00｜69 B
+    - button "移除"
+  - figure "人工上传 处置后 拍摄时间 2026-10-22 09:00｜69 B 移除":
+    - img "处置后"
+    - generic: 人工上传
+    - generic: 处置后
+    - generic: 拍摄时间 2026-10-22 09:00｜69 B
+    - button "移除"
+  - paragraph: 单个测点最多保留 6 张会话影像，当前 2 张（B03-F2-CRACK01 二层走廊西墙裂缝测点）。 会话影像不参与预警判定：影像差异不会自动生成正式结构预警。
+  - generic "添加其他影像演示照片、参考图、人工上传与本地视频"
+  - generic: 视频巡检
+  - generic: 回放 → 三帧取证 → 区域对比 → 小瞳解释，同一个测点
+  - text: 视频素材
+  - combobox "视频素材":
+    - option "固定机位 · 裂缝变化演示" [selected]
+    - option "公开实拍 · 砖墙裂缝巡检"
+  - button "让小瞳分析这段视频" [disabled]
+  - img "固定机位 · 裂缝变化演示"
+  - text: 固定机位 · 裂缝变化演示
+  - paragraph: 12 秒合成变化演示：实拍原图 → 模拟中间态 → 模拟变化图；非真实连续拍摄，非本校。
+  - paragraph: 请先到系统设置的唯一全链入口准备临时数据；此素材未借给其它测点。
+  - link "查看素材来源":
+    - /url: https://commons.wikimedia.org/wiki/File:A_crack_in_the_facade_of_a_small_building_left_during_construction,_Yonge_and_Bloor,_2018_01_31_-b_(40018872431).jpg
+  - generic "使用自己的本地视频"
+  - generic: 前后对比（预设分析）
+  - generic: 人工框选同一区域后，只做像素级差异统计：疑似变化 / 未见明显差异 / 不可比对；不给毫米数
+  - text: 前一张
+  - combobox "前一张":
+    - option "人工上传｜拍摄时间 2026-10-21 09:00" [selected]
+    - option "人工上传｜拍摄时间 2026-10-22 09:00"
+  - text: 后一张
+  - combobox "后一张":
+    - option "人工上传｜拍摄时间 2026-10-21 09:00"
+    - option "人工上传｜拍摄时间 2026-10-22 09:00" [selected]
+  - figure "前一张（在这一张上按住拖动，框出要比对的区域）":
+    - generic: 前一张（在这一张上按住拖动，框出要比对的区域）
+    - img "处置前"
+  - figure "后一张（同一区域）":
+    - generic: 后一张（同一区域）
+    - img "处置后"
+  - button "运行预设分析" [disabled]
+  - button "清除框选" [disabled]
+  - generic: 框选：未框选｜ 阈值：像素差 ≥ 18、差异占比 > 8%
+  - paragraph: 服务端已保存该测点 1 次比对记录（受身份与楼栋授权保护）。
+  - generic: 留存与边界
+  - ge

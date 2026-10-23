@@ -1,0 +1,376 @@
+{
+  "base": "http://127.0.0.1:18000/api/v1/",
+  "epoch": 1,
+  "questions": [
+    {
+      "kind": "point",
+      "question": "B03-F2-CRACK01 现在怎么样",
+      "sessionId": "as_847c50475e7f48e6a5997613006e587d",
+      "answer": {
+        "intent": "point_status",
+        "status": "answered",
+        "conclusion": "二层走廊西墙裂缝测点当前读数 0.6mm；采样于 2026-10-18 18:21（约 124 小时前），该去看看。",
+        "facts": [
+          {
+            "label": "测点",
+            "value": "B03-F2-CRACK01 二层走廊西墙裂缝测点",
+            "unit": ""
+          },
+          {
+            "label": "位置",
+            "value": "3号教学楼 2层 二层走廊",
+            "unit": ""
+          },
+          {
+            "label": "当前读数",
+            "value": "0.6",
+            "unit": "mm"
+          },
+          {
+            "label": "数据质量",
+            "value": "有效",
+            "unit": ""
+          },
+          {
+            "label": "相对基准",
+            "value": "+0.1",
+            "unit": "mm"
+          },
+          {
+            "label": "适用规则",
+            "value": "RULE-CRACK-001（V1.1）",
+            "unit": ""
+          },
+          {
+            "label": "未关闭事件",
+            "value": "E20261018-001（橙色介入，处理中）",
+            "unit": ""
+          }
+        ],
+        "objects": {
+          "pointId": "pnt_b03_f2_crack01",
+          "eventId": null,
+          "issueId": null,
+          "workOrderId": null,
+          "buildingId": "bld_b03"
+        },
+        "sources": {
+          "facts": "server_db",
+          "queriedAt": "2026-10-23T13:59:21.029102+00:00"
+        },
+        "citations": null,
+        "knowledge": null,
+        "links": [
+          {
+            "kind": "point_trend",
+            "objectId": "pnt_b03_f2_crack01"
+          },
+          {
+            "kind": "spatial_3d",
+            "objectId": "pnt_b03_f2_crack01"
+          },
+          {
+            "kind": "media_page",
+            "objectId": "pnt_b03_f2_crack01"
+          }
+        ],
+        "gaps": null
+      }
+    },
+    {
+      "kind": "event",
+      "question": "E20261018-001 为什么是橙色",
+      "sessionId": "as_847c50475e7f48e6a5997613006e587d",
+      "answer": {
+        "intent": "event_reason",
+        "status": "answered",
+        "conclusion": "E20261018-001 因 RULE-CRACK-001 触发 橙色介入，共 2 条活跃证据；当前处理中，已确认。",
+        "facts": [
+          {
+            "label": "事件",
+            "value": "E20261018-001（橙色介入）",
+            "unit": ""
+          },
+          {
+            "label": "状态",
+            "value": "处理中",
+            "unit": ""
+          },
+          {
+            "label": "测点",
+            "value": "B03-F2-CRACK01 二层走廊西墙裂缝测点",
+            "unit": ""
+          },
+          {
+            "label": "触发规则",
+            "value": "RULE-CRACK-001",
+            "unit": ""
+          },
+          {
+            "label": "确认状态",
+            "value": "已确认",
+            "unit": ""
+          }
+        ],
+        "objects": {
+          "pointId": "pnt_b03_f2_crack01",
+          "eventId": "evt_f92dbbbf8e5847e7a739bee286a849a5",
+          "issueId": null,
+          "workOrderId": null,
+          "buildingId": "bld_b03"
+        },
+        "sources": {
+          "facts": "server_db",
+          "queriedAt": "2026-10-23T13:59:21.059352+00:00"
+        },
+        "citations": null,
+        "knowledge": null,
+        "links": [
+          {
+            "kind": "event_detail",
+            "objectId": "evt_f92dbbbf8e5847e7a739bee286a849a5"
+          },
+          {
+            "kind": "event_report",
+            "objectId": "evt_f92dbbbf8e5847e7a739bee286a849a5"
+          }
+        ],
+        "gaps": null
+      }
+    },
+    {
+      "kind": "queue",
+      "question": "现在有哪些未处理预警",
+      "sessionId": "as_847c50475e7f48e6a5997613006e587d",
+      "answer": {
+        "intent": "open_events",
+        "status": "answered",
+        "conclusion": "当前未关闭预警事件 1 条。",
+        "facts": [
+          {
+            "label": "未关闭事件",
+            "value": "1",
+            "unit": "条"
+          },
+          {
+            "label": "红色 / 橙色 / 黄色",
+            "value": "0 / 1 / 0",
+            "unit": "条"
+          }
+        ],
+        "objects": {
+          "pointId": null,
+          "eventId": null,
+          "issueId": null,
+          "workOrderId": null,
+          "buildingId": null
+        },
+        "sources": {
+          "facts": "server_db",
+          "queriedAt": "2026-10-23T13:59:21.086426+00:00"
+        },
+        "citations": null,
+        "knowledge": null,
+        "links": [
+          {
+            "kind": "alarm_queue",
+            "objectId": ""
+          }
+        ],
+        "gaps": null
+      }
+    },
+    {
+      "kind": "overview",
+      "question": "全校现在概况如何",
+      "sessionId": "as_847c50475e7f48e6a5997613006e587d",
+      "answer": {
+        "intent": "campus_overview",
+        "status": "answered",
+        "conclusion": "全校在册 4 栋楼、8 个测点；未关闭事件 1 条、问题 0 条、工单 0 张。",
+        "facts": [
+          {
+            "label": "在册楼栋 / 测点 / 设备",
+            "value": "4 / 8 / 4",
+            "unit": ""
+          },
+          {
+            "label": "有效监测记录",
+            "value": "18",
+            "unit": "条"
+          },
+          {
+            "label": "未关闭事件 / 问题 / 工单",
+            "value": "1 / 0 / 0",
+            "unit": "条"
+          }
+        ],
+        "objects": {
+          "pointId": null,
+          "eventId": null,
+          "issueId": null,
+          "workOrderId": null,
+          "buildingId": null
+        },
+        "sources": {
+          "facts": "server_db",
+          "queriedAt": "2026-10-23T13:59:21.118823+00:00"
+        },
+        "citations": null,
+        "knowledge": null,
+        "links": [
+          {
+            "kind": "overview",
+            "objectId": ""
+          }
+        ],
+        "gaps": null
+      }
+    },
+    {
+      "kind": "knowledge",
+      "question": "是否需要注册账号和密码才能使用？",
+      "sessionId": "as_847c50475e7f48e6a5997613006e587d",
+      "answer": {
+        "intent": "knowledge",
+        "status": "answered",
+        "conclusion": "演示身份与权限\n\n系统不提供登录页、账号或密码。启动后使用预置演示身份，可切换学校安全管理人员、物业值班、设备管理、巡检、维修五类身份。界面身份提示不能作为授权依据；服务端按稳定身份 ID、角色和楼栋范围校验每次写入。维修人员不能自行验收工单；角色或范围不符时拒绝写入并显示原因。",
+        "facts": [],
+        "objects": {
+          "pointId": null,
+          "eventId": null,
+          "issueId": null,
+          "workOrderId": null,
+          "buildingId": null
+        },
+        "sources": {
+          "facts": "none",
+          "knowledge": "local_kb",
+          "queriedAt": "2026-10-23T13:59:21.144957+00:00"
+        },
+        "citations": [
+          {
+            "documentId": "knowledge_149ad2fe27b74f5e9083badff490aaa5",
+            "chunkId": "knowledge_149ad2fe27b74f5e9083badff490aaa5:v1:0",
+            "title": "演示身份与权限",
+            "version": 1,
+            "sha256": "21a0a1442e26f1bea8516fc04bffc267731cef70821056b7c8279e52205f0e16",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sourcePath": "docs/knowledge/platform/identity.md",
+            "methods": [
+              "keyword",
+              "vector"
+            ]
+          },
+          {
+            "documentId": "knowledge_9d1adf790c874ea9ae855c50f608b5bf",
+            "chunkId": "knowledge_9d1adf790c874ea9ae855c50f608b5bf:v1:0",
+            "title": "楼栋楼层测点设备归档",
+            "version": 1,
+            "sha256": "d068e2e71050bd1215cdef716eea8d6a70d9a6bcb52054c03392cf54ddeab291",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sourcePath": "docs/knowledge/platform/archive.md",
+            "methods": [
+              "keyword",
+              "vector"
+            ]
+          }
+        ],
+        "knowledge": {
+          "decision": "answer",
+          "mode": "hybrid",
+          "indexVersion": "index_328ffb7c047c4c268a57469bbfb9069b",
+          "reason": "根据当前启用知识返回原文；相关度不是可信概率",
+          "excerpt": "演示身份与权限\n\n系统不提供登录页、账号或密码。启动后使用预置演示身份，可切换学校安全管理人员、物业值班、设备管理、巡检、维修五类身份。界面身份提示不能作为授权依据；服务端按稳定身份 ID、角色和楼栋范围校验每次写入。维修人员不能自行验收工单；角色或范围不符时拒绝写入并显示原因。"
+        },
+        "links": [],
+        "gaps": []
+      }
+    },
+    {
+      "kind": "write",
+      "question": "准备一次红色预警演示数据",
+      "sessionId": "as_847c50475e7f48e6a5997613006e587d",
+      "answer": {
+        "intent": "demo_command",
+        "status": "unsupported",
+        "conclusion": "小瞳不在对话里写入或准备业务数据，本次提问没有修改任何记录。需要准备演示数据时请到系统设置执行全链命令；业务办理请到对应工作台由有权限的身份操作。",
+        "facts": [],
+        "objects": {
+          "pointId": null,
+          "eventId": null,
+          "issueId": null,
+          "workOrderId": null,
+          "buildingId": null
+        },
+        "sources": {
+          "facts": "none",
+          "queriedAt": "2026-10-23T13:59:21.173818+00:00"
+        },
+        "citations": null,
+        "knowledge": null,
+        "links": [
+          {
+            "kind": "settings",
+            "objectId": ""
+          }
+        ],
+        "gaps": [
+          "write_requires_workbench"
+        ]
+      }
+    }
+  ],
+  "sessionTurnCount": 40,
+  "sessionQuestions": [
+    "B03-F2-CRACK01 现在怎么样",
+    "E20261018-001 为什么是橙色",
+    "现在有哪些未处理预警",
+    "全校现在概况如何",
+    "是否需要注册账号和密码才能使用？",
+    "准备一次红色预警演示数据",
+    "B03-F2-CRACK01 现在怎么样",
+    "E20261018-001 为什么是橙色",
+    "现在有哪些未处理预警",
+    "全校现在概况如何",
+    "是否需要注册账号和密码才能使用？",
+    "准备一次红色预警演示数据",
+    "B03-F2-CRACK01 现在怎么样",
+    "B03-F2-CRACK01 现在怎么样",
+    "B03-F2-CRACK01 现在怎么样",
+    "B03-F2-CRACK01 现在怎么样",
+    "B03-F2-CRACK01 现在怎么样",
+    "B03-F2-CRACK01 现在怎么样",
+    "是否需要注册账号和密码才能使用？",
+    "是否提供登录页和账号密码？",
+    "B03-F2-CRACK01 最近趋势怎么样",
+    "B03-F2-CRACK01 现在怎么样",
+    "B03-F2-CRACK01 现在怎么样",
+    "E20261018-001 为什么是橙色",
+    "现在有哪些未处理预警",
+    "全校现在概况如何",
+    "是否需要注册账号和密码才能使用？",
+    "准备一次红色预警演示数据",
+    "B03-F2-CRACK01 现在怎么样",
+    "E20261018-001 为什么是橙色",
+    "现在有哪些未处理预警",
+    "全校现在概况如何",
+    "是否需要注册账号和密码才能使用？",
+    "准备一次红色预警演示数据",
+    "B03-F2-CRACK01 现在怎么样",
+    "E20261018-001 为什么是橙色",
+    "现在有哪些未处理预警",
+    "全校现在概况如何",
+    "是否需要注册账号和密码才能使用？",
+    "准备一次红色预警演示数据"
+  ],
+  "firstTurnObject": {
+    "pointId": "pnt_b03_f2_crack01",
+    "eventId": null,
+    "issueId": null,
+    "workOrderId": null,
+    "buildingId": "bld_b03"
+  }
+}

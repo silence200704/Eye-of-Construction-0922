@@ -1,0 +1,36 @@
+{
+  "proxy": "127.0.0.1:9",
+  "offlineQueries": [
+    {
+      "question": "B05-F2-CRACK01 现在怎么样",
+      "statusCode": 200,
+      "intent": "point_status",
+      "status": "answered",
+      "facts": 8,
+      "citations": 0,
+      "conclusion": "裂缝测点当前读数 0.82mm；采样于 2026-10-23 20:52（约 1.0 小时前）。"
+    },
+    {
+      "question": "红色预警代表什么要求",
+      "statusCode": 200,
+      "intent": "knowledge",
+      "status": "answered",
+      "facts": 0,
+      "citations": 2,
+      "conclusion": "预警分级\n\n红色为紧急核查门槛，需要学校安全管理人员立即确认并组织核查。\n确认后进入处理中，处置完成后仍需恢复复测满足条件才能关闭。"
+    },
+    {
+      "question": "现在有哪些未处理预警",
+      "statusCode": 200,
+      "intent": "open_events",
+      "status": "answered",
+      "facts": 2,
+      "citations": 0,
+      "conclusion": "当前未关闭预警事件 1 条。"
+    }
+  ],
+  "apiDown": {
+    "url": "http://127.0.0.1:18009",
+    "error": "ConnectError: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"
+  }
+}

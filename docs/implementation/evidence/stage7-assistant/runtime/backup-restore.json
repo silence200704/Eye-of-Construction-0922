@@ -1,0 +1,170 @@
+{
+  "backup": "C:\\Users\\Lenovo\\Desktop\\demo\\backend\\.runtime-stage7-backup-source-backup-46283a51",
+  "restored": "C:\\Users\\Lenovo\\Desktop\\demo\\backend\\.runtime-stage7-backup-source-restored-46283a51",
+  "schemaRevision": "0012_assistant_sessions",
+  "tables": {
+    "alembic_version": {
+      "count": 1,
+      "sha256": "5af497695813ccb1aa9745723e53071ae3aca4995b1f83690b8c1df0ff4831c7"
+    },
+    "users": {
+      "count": 6,
+      "sha256": "ab5d38398ec1a3c095b85d60145e7e128f27b8c150704b5fdd55e3ba25a6be4d"
+    },
+    "login_sessions": {
+      "count": 3,
+      "sha256": "518ad38342bcf4f30492d437c34763c85faeeb0b5579858aeec14e1161f4f5da"
+    },
+    "datasets": {
+      "count": 2,
+      "sha256": "9b839c9d34efeaa76d3adb51cbd82effd515819bf24fe655f59cffb05a3cd589"
+    },
+    "audits": {
+      "count": 37,
+      "sha256": "e6d267913b22f3373e98b523c9b7b9de209150b4e2f3ba85043d0488f2cf95df"
+    },
+    "import_batches": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "operation_receipts": {
+      "count": 30,
+      "sha256": "a94622e898d5b304a43496ae5cecae928e4d68e0e9f61e8d4f79195f105aa9f3"
+    },
+    "preferences": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "session_states": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "buildings": {
+      "count": 2,
+      "sha256": "793c22021f06c6dbca5cf7e9a05097e0083e51915e7b3aa486fd1980074bd55e"
+    },
+    "floors": {
+      "count": 2,
+      "sha256": "4cfe487a99b743dc464d47399c8679b25803e3c85a53aaa5938c031bdf0d0935"
+    },
+    "points": {
+      "count": 4,
+      "sha256": "7d396894f318fd84cdc044333e51d0c881537776a28bbcea20fd033136bce6d2"
+    },
+    "devices": {
+      "count": 1,
+      "sha256": "d5daebaa4ac72e0323178b4bb80501b6672e6b7e734f8ff45706829365c30606"
+    },
+    "rule_definitions": {
+      "count": 1,
+      "sha256": "cf5cc20653a7cf0c1f868faf1a03e4aaf35ce060890be29d827c64d60d2b221a"
+    },
+    "rules": {
+      "count": 1,
+      "sha256": "b3bc5705a28652845f2283dcfdc00eb8d233aea10646315a37fc3d27325ccb30"
+    },
+    "baselines": {
+      "count": 1,
+      "sha256": "c377461426edceb8f8fb48e7c3596fa516e05e138bb2cd1e487674dd8c29b709"
+    },
+    "events": {
+      "count": 1,
+      "sha256": "38da7ed7eb997e41449a6f088ed6102294e8320fbe5a4b5167fa8e0ffdd35e94"
+    },
+    "notifications": {
+      "count": 3,
+      "sha256": "391a3a552083add287f66904d7bb8e5576d6a240cbef47d8e6cd6e7e90a47c0c"
+    },
+    "records": {
+      "count": 8,
+      "sha256": "28333ca9edabcb581634b6bcc5b894aea57a52d0b0b0631031fa9d1b1fec15f3"
+    },
+    "plans": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "tasks": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "maintenance_plans": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "maintenance_tasks": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "issues": {
+      "count": 2,
+      "sha256": "5e205c3bb0dfa739272e7e572f1c8bad1ceaab140a05a561fa4ffa2934d31eea"
+    },
+    "work_orders": {
+      "count": 1,
+      "sha256": "95af2a015d35cf03c5ab8aad3b2a7ccabeabeb48fbf87b0973c357255e639bab"
+    },
+    "media_files": {
+      "count": 2,
+      "sha256": "b506f1429578abf309fea50157d74b990ad14a7c0646306d78918d16fca56207"
+    },
+    "media_videos": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "media_frames": {
+      "count": 2,
+      "sha256": "cd361e21d3214ed9c814123083c46a789529aad16b70fdda3bdfc1891e6489e1"
+    },
+    "media_comparisons": {
+      "count": 1,
+      "sha256": "49f19cd049b25a628b25e83511b3f348c874eb03a5cf010486e4810cc5485cc8"
+    },
+    "attachments": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "knowledge_documents": {
+      "count": 2,
+      "sha256": "d69db48f6ce49b5c586e569aad0ca824c15092afb3dd8e737016eefcde0ec75b"
+    },
+    "knowledge_versions": {
+      "count": 2,
+      "sha256": "2efe0d18c5a1c7eecae295ec2e24cd85260a24f24a7e96284663e6613f52b755"
+    },
+    "knowledge_chunks": {
+      "count": 2,
+      "sha256": "5a212b67a8734609651088d6fce11d63fcda5fce85c5fa65aed7c182df82c469"
+    },
+    "knowledge_faqs": {
+      "count": 2,
+      "sha256": "abc410bbc3c1062ed7d23ce7cbd9eb99c522be47b2d7e09c4b7ee3bc06279e21"
+    },
+    "knowledge_synonyms": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "knowledge_indexes": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "knowledge_vectors": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "knowledge_state": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "assistant_sessions": {
+      "count": 2,
+      "sha256": "00a26ace9dabe8d015c34d41c23a81b20db6898319405f67740134a378d10a1c"
+    },
+    "assistant_turns": {
+      "count": 27,
+      "sha256": "cb532442bd0e3d3b2955e37878214ce27608d83436511943d713292ab4acd6f4"
+    }
+  },
+  "allTableContentsEqual": true,
+  "modelFiles": {},
+  "allFilesVerified": true
+}

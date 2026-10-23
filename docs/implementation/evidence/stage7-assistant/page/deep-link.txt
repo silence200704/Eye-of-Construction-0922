@@ -1,0 +1,11 @@
+{
+  "opened": {
+    "hash": "#/trend?point=pnt_b03_f2_crack01"
+  },
+  "heading": "看现场",
+  "panelOpen": 0,
+  "afterBack": {
+    "hash": "#/media?point=pnt_b03_f2_crack01"
+  },
+  "panelAfterBack": 0
+}

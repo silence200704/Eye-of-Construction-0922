@@ -1,9 +1,10 @@
 # 筑瞳服务端
 
-当前交付阶段 5（待审核）：身份切换、数据模型、媒体、旧数据迁移、监测预警，以及巡检、问题、
-工单、复查、保养和报表的业务接口与 Web 接入。阶段 4 已通过核验；阶段 5 的真实 HTTP、
-页面、备份恢复和构建证据见 [阶段 5 报告](../docs/implementation/handoff/reports/05-field-work.md)。
-Alembic head 仍为 `0009_monitoring_assessment`；阶段 5 未新增迁移。
+当前交付阶段 7（待审核）：身份、数据模型、媒体、迁移、监测预警、现场业务、知识检索与
+小瞳问答/会话。阶段 6 的知识检索已交付；阶段 7 的真实 HTTP、页面、备份恢复与构建证据见
+[阶段 7 报告](../docs/implementation/handoff/reports/07-assistant.md)。Alembic head 为
+`0012_assistant_sessions`。
+
 迁移入口位于 Web 系统设置，使用学校安全管理身份操作；详见 [迁移接口](../docs/implementation/contracts/legacy-import-v1.md)。
 
 ## 本地启动
