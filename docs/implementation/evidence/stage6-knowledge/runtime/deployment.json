@@ -1,0 +1,322 @@
+{
+  "before": {
+    "alembic_version": {
+      "count": 1,
+      "sha256": "2d613e54a97fe16ce2e9ea35e1fe1b14f09e4425074d0113e7bdb4bd61c3d487"
+    },
+    "datasets": {
+      "count": 2,
+      "sha256": "14cfca249db3707a639c943775be94622845dde5be264c03b7b3dab46ea7d635"
+    },
+    "audits": {
+      "count": 46,
+      "sha256": "27d8054d9a11238a36722e21dd42c029f25194381a99685682b2c093b56ee8ec"
+    },
+    "import_batches": {
+      "count": 2,
+      "sha256": "75707549d92e51f9911a5a3f386e9302259bd9b2c0fb4c48f4dbec0b21921c65"
+    },
+    "operation_receipts": {
+      "count": 56,
+      "sha256": "0a325d7b6837b812f1c320de83b9048e1ca5c8e7529eb2f2f629c717405ece6f"
+    },
+    "preferences": {
+      "count": 4,
+      "sha256": "ef7b6ec5c8d0e57317e0d7a65a7714fdb723d9b0f0fa02ff0e05da15362060d7"
+    },
+    "session_states": {
+      "count": 2,
+      "sha256": "0de52622b4a92d631556aff0f61353759e155d670a46832017eac2565ea54883"
+    },
+    "buildings": {
+      "count": 5,
+      "sha256": "c0780ff3c82d1a97758f59a269027c93070f98c29ec973c169ec1174a142864b"
+    },
+    "floors": {
+      "count": 8,
+      "sha256": "9399f3de07314d18577fbc9d2383e2b6097fe24ecf86afa2e3108054917c9e39"
+    },
+    "points": {
+      "count": 8,
+      "sha256": "975cc5d047edc915a64b8626270a4bc57ff89e77e139f65112ebbf90f00606e8"
+    },
+    "devices": {
+      "count": 4,
+      "sha256": "33e1c32590147599e11cbe90101098e012c7f4f70207aaa6d1a59461b40ca633"
+    },
+    "rule_definitions": {
+      "count": 4,
+      "sha256": "4c4fd1de45c038d23273fe44b6cd4eac810f76e4610b901956b8789a1abd08f7"
+    },
+    "rules": {
+      "count": 5,
+      "sha256": "a887fb98d50f5467f3ebddfea59a8fb762c0164eba5841d986040771010b20bb"
+    },
+    "baselines": {
+      "count": 3,
+      "sha256": "7ca5da995d2c7a270da782d4bbd4ca3191ce41359327ed03edd3b03ecebce04e"
+    },
+    "events": {
+      "count": 2,
+      "sha256": "d39d67d8568feb1b2d32c7c66f117ab8fefcb6c60c7add06ac0b30db6ee16ccf"
+    },
+    "notifications": {
+      "count": 9,
+      "sha256": "d571bc862e8378c28ffe19fc8f5202f3b844002086893dcad1dd2ab9fd3dda46"
+    },
+    "records": {
+      "count": 18,
+      "sha256": "feb48f5d8de8b83efa8af6bd9dfaa5051e10f57424401f4cf92b99fbfd3287a9"
+    },
+    "plans": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "tasks": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "maintenance_plans": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "maintenance_tasks": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "issues": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "work_orders": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "media_files": {
+      "count": 8,
+      "sha256": "9284ae2af1f5eac493085f028f5eb0391a7d65413cb8beae0e3c3a9c9ee1d45d"
+    },
+    "media_videos": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "media_frames": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "media_comparisons": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "attachments": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  },
+  "current": {
+    "alembic_version": {
+      "count": 1,
+      "sha256": "bafdbc5c0e3da3b9e689eceef6c3334c059414cda331f1b872c81fc66c803695"
+    },
+    "datasets": {
+      "count": 2,
+      "sha256": "14cfca249db3707a639c943775be94622845dde5be264c03b7b3dab46ea7d635"
+    },
+    "audits": {
+      "count": 98,
+      "sha256": "55dc00e808d56e02fe0f9d5d01eff42c33a8c31ea25affd1f3960262879124ca"
+    },
+    "import_batches": {
+      "count": 2,
+      "sha256": "75707549d92e51f9911a5a3f386e9302259bd9b2c0fb4c48f4dbec0b21921c65"
+    },
+    "operation_receipts": {
+      "count": 110,
+      "sha256": "e0c38947809a9c752df576067cdd024c3d24a28e13f706012b60d72bfedd61db"
+    },
+    "preferences": {
+      "count": 4,
+      "sha256": "ef7b6ec5c8d0e57317e0d7a65a7714fdb723d9b0f0fa02ff0e05da15362060d7"
+    },
+    "session_states": {
+      "count": 2,
+      "sha256": "0de52622b4a92d631556aff0f61353759e155d670a46832017eac2565ea54883"
+    },
+    "buildings": {
+      "count": 5,
+      "sha256": "c0780ff3c82d1a97758f59a269027c93070f98c29ec973c169ec1174a142864b"
+    },
+    "floors": {
+      "count": 8,
+      "sha256": "9399f3de07314d18577fbc9d2383e2b6097fe24ecf86afa2e3108054917c9e39"
+    },
+    "points": {
+      "count": 8,
+      "sha256": "975cc5d047edc915a64b8626270a4bc57ff89e77e139f65112ebbf90f00606e8"
+    },
+    "devices": {
+      "count": 4,
+      "sha256": "33e1c32590147599e11cbe90101098e012c7f4f70207aaa6d1a59461b40ca633"
+    },
+    "rule_definitions": {
+      "count": 4,
+      "sha256": "4c4fd1de45c038d23273fe44b6cd4eac810f76e4610b901956b8789a1abd08f7"
+    },
+    "rules": {
+      "count": 5,
+      "sha256": "a887fb98d50f5467f3ebddfea59a8fb762c0164eba5841d986040771010b20bb"
+    },
+    "baselines": {
+      "count": 3,
+      "sha256": "7ca5da995d2c7a270da782d4bbd4ca3191ce41359327ed03edd3b03ecebce04e"
+    },
+    "events": {
+      "count": 2,
+      "sha256": "d39d67d8568feb1b2d32c7c66f117ab8fefcb6c60c7add06ac0b30db6ee16ccf"
+    },
+    "notifications": {
+      "count": 9,
+      "sha256": "d571bc862e8378c28ffe19fc8f5202f3b844002086893dcad1dd2ab9fd3dda46"
+    },
+    "records": {
+      "count": 18,
+      "sha256": "feb48f5d8de8b83efa8af6bd9dfaa5051e10f57424401f4cf92b99fbfd3287a9"
+    },
+    "plans": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "tasks": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "maintenance_plans": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "maintenance_tasks": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "issues": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "work_orders": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "media_files": {
+      "count": 8,
+      "sha256": "9284ae2af1f5eac493085f028f5eb0391a7d65413cb8beae0e3c3a9c9ee1d45d"
+    },
+    "media_videos": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "media_frames": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "media_comparisons": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "attachments": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "knowledge_documents": {
+      "count": 20,
+      "sha256": "40d620b920ce369caa44cff6c528d6bc63d8d747f3c18b0f91825680fe2694d0"
+    },
+    "knowledge_versions": {
+      "count": 20,
+      "sha256": "654acbee21405d3b15747c30fcac76211004e7908ebea91c993951a8e49c6d9c"
+    },
+    "knowledge_chunks": {
+      "count": 20,
+      "sha256": "cab1f3f0ac4e3482652a5c89cc77d06058dae8e0798c8925fc02b5d8b2f09260"
+    },
+    "knowledge_faqs": {
+      "count": 20,
+      "sha256": "bb5e820a191ef8d73bbf5a8552721eff9b472ffc039f76c667fd2e6405c82bdb"
+    },
+    "knowledge_synonyms": {
+      "count": 11,
+      "sha256": "67704f9f7a1753250b5f4b4350d9738596099e63e4491c6d4d41ed1b6a3892b8"
+    },
+    "knowledge_indexes": {
+      "count": 1,
+      "sha256": "aad2d7d7414cab978a92f591677c81154b0f8b237079c47b19364353b7082777"
+    },
+    "knowledge_vectors": {
+      "count": 20,
+      "sha256": "336f5d6e013875c975a92f92d24f7ea3415138133ad1f903c25be846137fa594"
+    },
+    "knowledge_state": {
+      "count": 1,
+      "sha256": "cff4cedb2c19bd66930c2f8835157ce19c67687f6656c9d404ebc0e42f2c3775"
+    }
+  },
+  "mediaBefore": {
+    "files/8d/8d088f0b9d014b5aaa7ee51731f9a2f1": "3ddcf4b1feb74e94096405a2ae84a51bf8df8b0318b10d9cd389a2040626b047",
+    "files/11/11906a5ebb7640608fabc110698b7a63": "74cb80e2c3e78615f049bef4f66893254043fec7c3d28057f3eb144c8149e931",
+    "files/74/748f946354e545a1a21c7cca7d37dda1": "c47dd9465c00e9a0c8b85e9ea58d3034a0d23b9cf926113602f3460752a4eb96",
+    "files/fa/fa6d2d6ee5eb4f70b810dfc30da242b1": "4ae2fa56d1474d479f1f3d556b46993f8b670ecc51a4dce40fcc011d82e73825",
+    "files/c2/c27200cad7d44f8399f67661e26bed4f": "0650c9ad24b6b776e682300b01d88427821ebac991fe1f8d7ba1017dd7155ee1",
+    "files/16/16366dce52c24f6491aed735c68d659e": "afbf2b02843939a06d9ba03bb65629abc909eef80fa608b1e4a043a2198c2865",
+    "files/90/9057638f6b9a430c8cce73f784c44113": "646a81da8a6d6149e58efcb8d73183b317fc800ad16fdb5d8df842cd09fb7a64",
+    "files/33/33722f2656814231b32156ea0d30319f": "284b6abfab42b95bf3f36c6b235a9246c0487b0bb82c49073a87233b04e8e88e"
+  },
+  "mediaCurrent": {
+    "files/8d/8d088f0b9d014b5aaa7ee51731f9a2f1": "3ddcf4b1feb74e94096405a2ae84a51bf8df8b0318b10d9cd389a2040626b047",
+    "files/11/11906a5ebb7640608fabc110698b7a63": "74cb80e2c3e78615f049bef4f66893254043fec7c3d28057f3eb144c8149e931",
+    "files/74/748f946354e545a1a21c7cca7d37dda1": "c47dd9465c00e9a0c8b85e9ea58d3034a0d23b9cf926113602f3460752a4eb96",
+    "files/fa/fa6d2d6ee5eb4f70b810dfc30da242b1": "4ae2fa56d1474d479f1f3d556b46993f8b670ecc51a4dce40fcc011d82e73825",
+    "files/c2/c27200cad7d44f8399f67661e26bed4f": "0650c9ad24b6b776e682300b01d88427821ebac991fe1f8d7ba1017dd7155ee1",
+    "files/16/16366dce52c24f6491aed735c68d659e": "afbf2b02843939a06d9ba03bb65629abc909eef80fa608b1e4a043a2198c2865",
+    "files/90/9057638f6b9a430c8cce73f784c44113": "646a81da8a6d6149e58efcb8d73183b317fc800ad16fdb5d8df842cd09fb7a64",
+    "files/33/33722f2656814231b32156ea0d30319f": "284b6abfab42b95bf3f36c6b235a9246c0487b0bb82c49073a87233b04e8e88e"
+  },
+  "originalHistoryRetained": {
+    "audits": true,
+    "operation_receipts": true
+  },
+  "businessTablesUnchanged": {
+    "datasets": true,
+    "import_batches": true,
+    "preferences": true,
+    "session_states": true,
+    "buildings": true,
+    "floors": true,
+    "points": true,
+    "devices": true,
+    "rule_definitions": true,
+    "rules": true,
+    "baselines": true,
+    "events": true,
+    "notifications": true,
+    "records": true,
+    "plans": true,
+    "tasks": true,
+    "maintenance_plans": true,
+    "maintenance_tasks": true,
+    "issues": true,
+    "work_orders": true,
+    "media_files": true,
+    "media_videos": true,
+    "media_frames": true,
+    "media_comparisons": true,
+    "attachments": true
+  },
+  "allBusinessUnchanged": true,
+  "allMediaUnchanged": true,
+  "endpoints": {
+    "http://127.0.0.1:8000/health/ready": 200,
+    "http://127.0.0.1:5173/": 200,
+    "http://127.0.0.1:18000/api/v1/health/ready": 200,
+    "http://127.0.0.1:8080/": 200,
+    "http://127.0.0.1:5180/": 200
+  }
+}

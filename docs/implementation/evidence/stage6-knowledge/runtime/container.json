@@ -1,0 +1,108 @@
+{
+  "statusAfterRecreation": {
+    "activeIndexId": "index_328ffb7c047c4c268a57469bbfb9069b",
+    "lastError": "",
+    "scope": "global",
+    "chunkCount": 20,
+    "mode": "hybrid",
+    "modelId": "BAAI/bge-small-zh-v1.5",
+    "dimension": 512,
+    "indexVersion": "index_328ffb7c047c4c268a57469bbfb9069b",
+    "degradedReason": ""
+  },
+  "containers": [
+    {
+      "Command": "\"/app/.venv/bin/uvic…\"",
+      "CreatedAt": "2026-10-23 20:08:57 +0800 CST",
+      "Engine": "",
+      "ExitCode": 0,
+      "Health": "healthy",
+      "ID": "4ae524a8f576",
+      "Image": "zhutong-api:stage1",
+      "Labels": "com.docker.compose.project.working_dir=C:\\Users\\Lenovo\\Desktop\\demo\\deploy,com.docker.compose.service=api,com.docker.compose.image=sha256:79285d2bc8250e3bf86ca2dc6bdd954e8ba941eff4a1aa117559e5407def2148,com.docker.compose.oneoff=False,com.docker.compose.project=zhutong,com.docker.compose.replace=api-1,com.docker.compose.version=5.5.0,desktop.docker.io/ports.scheme=v2,desktop.docker.io/ports/8000/tcp=127.0.0.1:18000,com.docker.compose.config-hash=4691160534dbfd63815ca0c85207a03db73ae3a414c5d787d8c8219070a81d86,com.docker.compose.container-number=1,com.docker.compose.depends_on=migrate:service_completed_successfully:false,com.docker.compose.project.config_files=C:\\Users\\Lenovo\\Desktop\\demo\\deploy\\compose.yaml",
+      "LocalVolumes": "1",
+      "Mounts": "zhutong_runtime",
+      "Name": "zhutong-api-1",
+      "Names": "zhutong-api-1",
+      "Networks": "zhutong_default",
+      "Ports": "127.0.0.1:18000->8000/tcp",
+      "Project": "zhutong",
+      "Publishers": [
+        {
+          "URL": "127.0.0.1",
+          "TargetPort": 8000,
+          "PublishedPort": 18000,
+          "Protocol": "tcp"
+        }
+      ],
+      "RunningFor": "3 minutes ago",
+      "Service": "api",
+      "Size": "0B",
+      "State": "running",
+      "Status": "Up 3 minutes (healthy)"
+    },
+    {
+      "Command": "\"/app/.venv/bin/pyth…\"",
+      "CreatedAt": "2026-10-23 19:56:42 +0800 CST",
+      "Engine": "",
+      "ExitCode": 0,
+      "Health": "",
+      "ID": "3123845f8151",
+      "Image": "zhutong-api:stage1",
+      "Labels": "com.docker.compose.project=zhutong,com.docker.compose.version=5.5.0,desktop.docker.io/ports.scheme=v2,com.docker.compose.container-number=1,com.docker.compose.depends_on=,com.docker.compose.image=sha256:79285d2bc8250e3bf86ca2dc6bdd954e8ba941eff4a1aa117559e5407def2148,com.docker.compose.oneoff=False,com.docker.compose.project.config_files=C:\\Users\\Lenovo\\Desktop\\demo\\deploy\\compose.yaml,com.docker.compose.project.working_dir=C:\\Users\\Lenovo\\Desktop\\demo\\deploy,com.docker.compose.replace=migrate-1,com.docker.compose.service=migrate,com.docker.compose.config-hash=f6e502b7873bc34b8e8bbae6c70e7d56279aa29ab96056daafb9bfb302475bcb",
+      "LocalVolumes": "1",
+      "Mounts": "zhutong_runtime",
+      "Name": "zhutong-migrate-1",
+      "Names": "zhutong-migrate-1",
+      "Networks": "zhutong_default",
+      "Ports": "",
+      "Project": "zhutong",
+      "Publishers": [],
+      "RunningFor": "15 minutes ago",
+      "Service": "migrate",
+      "Size": "0B",
+      "State": "exited",
+      "Status": "Exited (0) 3 minutes ago"
+    },
+    {
+      "Command": "\"/docker-entrypoint.…\"",
+      "CreatedAt": "2026-10-23 20:08:57 +0800 CST",
+      "Engine": "",
+      "ExitCode": 0,
+      "Health": "",
+      "ID": "45fbcd3711d3",
+      "Image": "zhutong-web:stage1",
+      "Labels": "com.docker.compose.service=web,com.docker.compose.version=5.5.0,maintainer=NGINX Docker Maintainers <docker-maint@nginx.com>,com.docker.compose.depends_on=api:service_healthy:false,com.docker.compose.image=sha256:0074485de1ea1783816fed5a081e94eaa82271ea6d63424ee7be3f9b1bd2bec8,com.docker.compose.oneoff=False,com.docker.compose.project.working_dir=C:\\Users\\Lenovo\\Desktop\\demo\\deploy,desktop.docker.io/ports.scheme=v2,desktop.docker.io/ports/8080/tcp=:8080,com.docker.compose.config-hash=938e7cfbb65ed527b886e207e72a07ebb64a7b83e69e732dce0e4cf8a9804e0b,com.docker.compose.container-number=1,com.docker.compose.project=zhutong,com.docker.compose.project.config_files=C:\\Users\\Lenovo\\Desktop\\demo\\deploy\\compose.yaml,com.docker.compose.replace=web-1",
+      "LocalVolumes": "0",
+      "Mounts": "",
+      "Name": "zhutong-web-1",
+      "Names": "zhutong-web-1",
+      "Networks": "zhutong_default",
+      "Ports": "0.0.0.0:8080->8080/tcp, [::]:8080->8080/tcp",
+      "Project": "zhutong",
+      "Publishers": [
+        {
+          "URL": "0.0.0.0",
+          "TargetPort": 8080,
+          "PublishedPort": 8080,
+          "Protocol": "tcp"
+        },
+        {
+          "URL": "::",
+          "TargetPort": 8080,
+          "PublishedPort": 8080,
+          "Protocol": "tcp"
+        }
+      ],
+      "RunningFor": "3 minutes ago",
+      "Service": "web",
+      "Size": "0B",
+      "State": "running",
+      "Status": "Up 3 minutes"
+    }
+  ],
+  "imageIds": [
+    "sha256:effe63eefcd26be6549615a298647355d26d94110ed7c80b44d8bb95c2729b51",
+    "sha256:8afcdd56d0161ed2a6e291696fdb5255852cf402cc93849cf060f28eca4a7d17"
+  ]
+}

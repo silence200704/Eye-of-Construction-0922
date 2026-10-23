@@ -1,0 +1,137 @@
+- complementary:
+  - generic: 筑
+  - generic: 筑瞳
+  - generic: 校园建筑健康监测与预警
+  - navigation "主导航":
+    - region "看现场":
+      - heading "看现场" [level=2]
+      - link "校园态势":
+        - /url: "#/dashboard"
+        - generic: 校园态势
+      - link "校园地图":
+        - /url: "#/campus"
+        - generic: 校园地图
+    - region "查数据":
+      - heading "查数据" [level=2]
+      - link "监测分析":
+        - /url: "#/monitor"
+        - generic: 监测分析
+    - region "办事务":
+      - heading "办事务" [level=2]
+      - link "异常处置":
+        - /url: "#/alarms"
+        - generic: 异常处置
+      - link "现场任务":
+        - /url: "#/inspection"
+        - generic: 现场任务
+    - region "做管理":
+      - heading "做管理" [level=2]
+      - link "知识库":
+        - /url: "#/knowledge"
+        - generic: 知识库
+      - link "管理报表":
+        - /url: "#/reports"
+        - generic: 管理报表
+      - link "系统设置":
+        - /url: "#/settings"
+        - generic: 系统设置
+  - generic: 服务端数据 · demo-main
+  - paragraph: 数据保存在服务端 SQLite 与私有文件目录；刷新或更换浏览器不会改变业务事实。
+  - paragraph: V0.3 · 开发中 · 完整项目接入中
+- banner:
+  - heading "知识库" [level=1]
+  - paragraph: 项目知识、FAQ、同义词与本地向量检索依据
+  - generic: 在册楼栋
+  - generic: "0"
+  - generic: 测点
+  - generic: "0"
+  - generic: 设备
+  - generic: "0"
+  - button "预警提醒，0 条未读":
+    - generic: 预警提醒
+  - button "维修人员 · 切换身份" [active]
+- main:
+  - paragraph: 项目知识 / 本地检索
+  - heading "知识库" [level=1]
+  - paragraph: 操作流程、身份职责与演示规则；以可定位原文作为回答依据。
+  - button "刷新服务端状态"
+  - heading "本地向量索引可用" [level=2]
+  - paragraph: 20 个当前原文块 · 通用知识供各业务数据集共用
+  - paragraph: BAAI/bge-small-zh-v1.5 · 512 维 · 索引 index_12eec2f17d8946b9b02ef8f4f11f7b13
+  - paragraph: 文档或模型变更后需重建索引。缺失、过期或损坏时会明确降级。
+  - heading "知识文档 · 21" [level=2]
+  - paragraph: 当前身份可查阅适用知识；维护限全局安全管理身份。
+  - list:
+    - button "阶段六页面验收文档 · V2"
+    - generic: 停用
+    - paragraph: verification/stage6-ui.md
+    - button "本地知识检索与依据边界 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/platform/knowledge.md
+    - button "服务端备份恢复与数据保护 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/platform/backup.md
+    - button "报表统计粒度与闭环口径 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/platform/reports.md
+    - button "设备保养执行与异常转问题 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/operations/maintenance.md
+    - button "照片配额归属与补传 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/operations/photos.md
+    - button "复查观察复发与有效轮次 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/operations/rechecks.md
+    - button "维修工单派工接单完工验收 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/operations/orders.md
+    - button "问题审核六种出口 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/operations/reviews.md
+    - button "问题四来源与独立上报 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/operations/issues.md
+    - button "逐点必答清单与异常后续 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/operations/inspection/checklist.md
+    - button "虚拟 NFC 与人工到点签到 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/operations/inspection/arrival.md
+    - button "巡检计划生成与任务快照 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/operations/inspection/plans.md
+    - button "站内通知确认与超时核验 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/monitoring/notifications.md
+    - button "预警恢复与授权关闭 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/monitoring/closing.md
+    - button "CSV 导入预检与原子提交 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/monitoring/csv.md
+    - button "监测录入质量与修订留痕 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/monitoring/records.md
+    - button "演示预警规则与分级说明 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/monitoring/rules.md
+    - button "基准值版本与采样时间 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/monitoring/baseline.md
+    - button "楼栋楼层测点设备归档 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/platform/archive.md
+    - button "演示身份与权限 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/platform/identity.md
+  - region "检索试用":
+    - heading "检索试用" [level=2]
+    - paragraph: 查询当前启用知识，返回原文依据。此入口尚未接入小瞳会话。
+    - generic: 知识问题
+    - textbox "知识问题":
+      - /placeholder: 例如：维修工单如何验收？
+    - button "检索依据"
+- button "问筑瞳：打开本地数据问答":
+  - img "小瞳待机":
+  - generic: 问筑瞳

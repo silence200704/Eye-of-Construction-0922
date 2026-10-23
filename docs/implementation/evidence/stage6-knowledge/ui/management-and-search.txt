@@ -1,0 +1,241 @@
+- complementary:
+  - generic: 筑
+  - generic: 筑瞳
+  - generic: 校园建筑健康监测与预警
+  - navigation "主导航":
+    - region "看现场":
+      - heading "看现场" [level=2]
+      - link "校园态势":
+        - /url: "#/dashboard"
+        - generic: 校园态势
+      - link "校园地图":
+        - /url: "#/campus"
+        - generic: 校园地图
+    - region "查数据":
+      - heading "查数据" [level=2]
+      - link "监测分析":
+        - /url: "#/monitor"
+        - generic: 监测分析
+    - region "办事务":
+      - heading "办事务" [level=2]
+      - link "异常处置":
+        - /url: "#/alarms"
+        - generic: 异常处置
+      - link "现场任务":
+        - /url: "#/inspection"
+        - generic: 现场任务
+    - region "做管理":
+      - heading "做管理" [level=2]
+      - link "知识库":
+        - /url: "#/knowledge"
+        - generic: 知识库
+      - link "管理报表":
+        - /url: "#/reports"
+        - generic: 管理报表
+      - link "系统设置":
+        - /url: "#/settings"
+        - generic: 系统设置
+  - generic: 服务端数据 · demo-main
+  - paragraph: 数据保存在服务端 SQLite 与私有文件目录；刷新或更换浏览器不会改变业务事实。
+  - paragraph: V0.3 · 开发中 · 完整项目接入中
+- banner:
+  - heading "知识库" [level=1]
+  - paragraph: 项目知识、FAQ、同义词与本地向量检索依据
+  - generic: 在册楼栋
+  - generic: "0"
+  - generic: 测点
+  - generic: "0"
+  - generic: 设备
+  - generic: "0"
+  - button "预警提醒，0 条未读":
+    - generic: 预警提醒
+  - button "学校安全管理人员 · 切换身份"
+- main:
+  - paragraph: 项目知识 / 本地检索
+  - heading "知识库" [level=1]
+  - paragraph: 操作流程、身份职责与演示规则；以可定位原文作为回答依据。
+  - button "刷新服务端状态"
+  - status: 索引已完整构建并发布
+  - heading "本地向量索引可用" [level=2]
+  - paragraph: 20 个当前原文块 · 通用知识供各业务数据集共用
+  - paragraph: BAAI/bge-small-zh-v1.5 · 512 维 · 索引 index_be278c9daf32432b96e91d9673a31659
+  - button "重建并发布本地索引"
+  - paragraph: 文档或模型变更后需重建索引。缺失、过期或损坏时会明确降级。
+  - heading "知识文档 · 21" [level=2]
+  - button "新增 / 导入文档"
+  - list:
+    - button "阶段六页面验收文档 · V2"
+    - generic: 停用
+    - paragraph: verification/stage6-ui.md
+    - button "启用文档"
+    - button "本地知识检索与依据边界 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/platform/knowledge.md
+    - button "停用文档"
+    - button "服务端备份恢复与数据保护 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/platform/backup.md
+    - button "停用文档"
+    - button "报表统计粒度与闭环口径 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/platform/reports.md
+    - button "停用文档"
+    - button "设备保养执行与异常转问题 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/operations/maintenance.md
+    - button "停用文档"
+    - button "照片配额归属与补传 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/operations/photos.md
+    - button "停用文档"
+    - button "复查观察复发与有效轮次 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/operations/rechecks.md
+    - button "停用文档"
+    - button "维修工单派工接单完工验收 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/operations/orders.md
+    - button "停用文档"
+    - button "问题审核六种出口 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/operations/reviews.md
+    - button "停用文档"
+    - button "问题四来源与独立上报 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/operations/issues.md
+    - button "停用文档"
+    - button "逐点必答清单与异常后续 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/operations/inspection/checklist.md
+    - button "停用文档"
+    - button "虚拟 NFC 与人工到点签到 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/operations/inspection/arrival.md
+    - button "停用文档"
+    - button "巡检计划生成与任务快照 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/operations/inspection/plans.md
+    - button "停用文档"
+    - button "站内通知确认与超时核验 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/monitoring/notifications.md
+    - button "停用文档"
+    - button "预警恢复与授权关闭 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/monitoring/closing.md
+    - button "停用文档"
+    - button "CSV 导入预检与原子提交 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/monitoring/csv.md
+    - button "停用文档"
+    - button "监测录入质量与修订留痕 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/monitoring/records.md
+    - button "停用文档"
+    - button "演示预警规则与分级说明 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/monitoring/rules.md
+    - button "停用文档"
+    - button "基准值版本与采样时间 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/monitoring/baseline.md
+    - button "停用文档"
+    - button "楼栋楼层测点设备归档 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/platform/archive.md
+    - button "停用文档"
+    - button "演示身份与权限 · V1"
+    - generic: 启用
+    - paragraph: docs/knowledge/platform/identity.md
+    - button "停用文档"
+  - heading "FAQ 与同义词" [level=2]
+  - text: 维护类型
+  - combobox "维护类型":
+    - option "标准问法" [selected]
+    - option "术语同义词"
+  - list:
+    - button "系统有哪些演示身份？ · 启用"
+    - button "有历史记录的设备能删除吗？ · 启用"
+    - button "修改基准会覆盖历史记录吗？ · 启用"
+    - button "内置阈值是国家安全标准吗？ · 启用"
+    - button "监测记录如何更正并保留原值？ · 启用"
+    - button "CSV 导入为什么需要先预检？ · 启用"
+    - button "恢复待确认会自动关闭预警吗？ · 启用"
+    - button "页面显示通知就代表短信送达吗？ · 启用"
+    - button "修改巡检计划会改变已生成任务吗？ · 启用"
+    - button "人工签到为什么必须写原因？ · 启用"
+    - button "必答项没填完能完成巡检吗？ · 启用"
+    - button "问题有哪些来源？ · 启用"
+    - button "问题审核有哪六种处理出口？ · 启用"
+    - button "维修人员可以自行验收工单吗？ · 启用"
+    - button "继续观察需要登记下一次复查日期吗？ · 启用"
+    - button "每个问题最多能上传几张照片多大？ · 启用"
+    - button "保养异常怎么转成问题？ · 启用"
+    - button "观察中的问题计入最终闭环率吗？ · 启用"
+    - button "备份是否包括本地模型和向量索引？ · 启用"
+    - button "没有模型时还能检索吗？ · 启用"
+    - button "页面标准问法核验 · 停用"
+  - button "新增标准问法"
+  - text: 绑定当前依据块
+  - combobox "绑定当前依据块":
+    - option "选择文档与原文块" [disabled] [selected]
+    - option "页面核验规则 · 第 1 行"
+    - option "本地知识检索与依据边界 · 第 1 行"
+    - option "服务端备份恢复与数据保护 · 第 1 行"
+    - option "报表统计粒度与闭环口径 · 第 1 行"
+    - option "设备保养执行与异常转问题 · 第 1 行"
+    - option "照片配额归属与补传 · 第 1 行"
+    - option "复查观察复发与有效轮次 · 第 1 行"
+    - option "维修工单派工接单完工验收 · 第 1 行"
+    - option "问题审核六种出口 · 第 1 行"
+    - option "问题四来源与独立上报 · 第 1 行"
+    - option "逐点必答清单与异常后续 · 第 1 行"
+    - option "虚拟 NFC 与人工到点签到 · 第 1 行"
+    - option "巡检计划生成与任务快照 · 第 1 行"
+    - option "站内通知确认与超时核验 · 第 1 行"
+    - option "预警恢复与授权关闭 · 第 1 行"
+    - option "CSV 导入预检与原子提交 · 第 1 行"
+    - option "监测录入质量与修订留痕 · 第 1 行"
+    - option "演示预警规则与分级说明 · 第 1 行"
+    - option "基准值版本与采样时间 · 第 1 行"
+    - option "楼栋楼层测点设备归档 · 第 1 行"
+    - option "演示身份与权限 · 第 1 行"
+  - text: 标准问法，每行一条（最多 20 条）
+  - textbox "标准问法，每行一条（最多 20 条）"
+  - checkbox "启用" [checked]
+  - text: 启用
+  - paragraph: FAQ 绑定具体版本的依据块。文档更新后请重新核对绑定，旧版本 FAQ 不参与召回。
+  - button "新增"
+  - region "检索试用":
+    - heading "检索试用" [level=2]
+    - paragraph: 查询当前启用知识，返回原文依据。此入口尚未接入小瞳会话。
+    - generic: 知识问题
+    - textbox "知识问题":
+      - /placeholder: 例如：维修工单如何验收？
+      - text: 维修人员可以自行验收工单吗？
+    - button "检索依据"
+    - heading "找到知识依据" [level=3]
+    - paragraph: 标准 FAQ 命中；请核对原文引用
+    - paragraph: FAQ / 关键词 / 本地向量 · 30.96 ms
+    - paragraph: 索引版本：index_be278c9daf32432b96e91d9673a31659；相关度是排序分值，不是可信概率。
+    - article:
+      - heading "维修工单派工接单完工验收 · V1" [level=3]
+      - paragraph: "# 维修工单派工接单完工验收 工单按待派工、已派工、处理中、待验收、验收通过或验收退回流转。安全管理人员派工并指定稳定身份 ID；只有被派工人可接单，物业代接需说明原因并记录实际接单人。只有实际接单人能提交完工，必须填写维修措施；验收退回需要理由。验收由安全管理人员执行，维修人员不能自行验收。验收通过只推进问题待复查，不能直接关闭问题或预警。"
+      - paragraph: docs/knowledge/operations/orders.md · 第 1—3 行 · 项目知识
+      - paragraph: 命中：faq / keyword / vector · 相关度 1
+      - generic "引用校验信息"
+    - article:
+      - heading "演示身份与权限 · V1" [level=3]
+      - paragraph: "# 演示身份与权限 系统不提供登录页、账号或密码。启动后使用预置演示身份，可切换学校安全管理人员、物业值班、设备管理、巡检、维修五类身份。界面身份提示不能作为授权依据；服务端按稳定身份 ID、角色和楼栋范围校验每次写入。维修人员不能自行验收工单；角色或范围不符时拒绝写入并显示原因。"
+      - paragraph: docs/knowledge/platform/identity.md · 第 1—3 行 · 项目知识
+      - paragraph: 命中：keyword / vector · 相关度 0.55493
+      - generic "引用校验信息"
+    - article:
+      - heading "问题审核六种出口 · V1" [level=3]
+      - paragraph: "# 问题审核六种出口 安全管理人员审核问题时保留原始报告，选择出口和二级分类并写明意见。六种出口为转维修、转专业排查、安排复查、退回补充、关联既有对象、无需处理关闭。退回需说明缺少什么；已当场处理需照片或持久保存无法拍照原因。维修中问题不能任意跳过办理步骤；已有未验收工单时不能重复转维修。"
+      - paragraph: docs/knowledge/operations/reviews.md · 第 1—3 行 · 项目知识
+      - paragraph: 命中：keyword / vector · 相关度 0.48626
+      - generic "引用校验信息"
+- button "问筑瞳：打开本地数据问答":
+  - img "小瞳待机":
+  - generic: 问筑瞳

@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import json
 import sqlite3
+from contextlib import closing
 from pathlib import Path
 from uuid import uuid4
 
@@ -12,7 +13,7 @@ from zhutong.storage.backup import create_backup, restore_backup, verify_backup
 
 
 def tables(path: Path) -> dict:
-    with sqlite3.connect(path) as db:
+    with closing(sqlite3.connect(path)) as db:
         names = [
             row[0]
             for row in db.execute(

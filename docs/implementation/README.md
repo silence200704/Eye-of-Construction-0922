@@ -23,8 +23,8 @@
 | 2 | 数据模型、迁移链与媒体 | 通过 | [阶段 2](stages/02-storage.md) |
 | 3 | 旧数据迁移 | 通过 | [阶段 3](stages/03-legacy-migration.md) |
 | 4 | 档案、监测、预警 | 通过 | [最终核验](stages/04-monitoring.md)、[历轮报告](handoff/reports/04-monitoring.md)、[接口契约](contracts/monitoring-v1.md) |
-| 5 | 巡检、问题、工单、保养 | 待审核 | [首轮审核：不通过](handoff/reports/05-field-work-review.md)、[返修报告](handoff/reports/05-field-work-fix.md)、[接口契约](contracts/field-work-v1.md)、[真实运行证据](evidence/stage5-field/verification.json) |
-| 6 | 知识库、本地向量检索 | 未开始 | 完成后创建 |
+| 5 | 巡检、问题、工单、保养 | 通过 | [最终复核](handoff/reports/05-field-work-final.md)、[返修报告](handoff/reports/05-field-work-fix.md)、[接口契约](contracts/field-work-v1.md) |
+| 6 | 知识库、本地向量检索 | 通过（10/10门槛） | [完成与核验报告](handoff/reports/06-local-retrieval.md)、[接口契约](contracts/knowledge-v1.md)、[逐题结果](evidence/stage6-knowledge/retrieval/acceptance-final.json) |
 | 7 | 助手与证据展示 | 未开始 | 完成后创建 |
 | 8 | Android 在线业务 | 未开始 | 完成后创建 |
 | 9 | Android 离线同步 | 未开始 | 完成后创建 |

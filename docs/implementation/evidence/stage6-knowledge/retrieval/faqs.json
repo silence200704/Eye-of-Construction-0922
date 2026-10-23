@@ -1,0 +1,1623 @@
+{
+  "total": 20,
+  "passed": 20,
+  "results": [
+    {
+      "question": "系统有哪些演示身份？",
+      "expectedSource": "docs/knowledge/platform/identity.md",
+      "passed": true,
+      "response": {
+        "decision": "answer",
+        "reason": "标准 FAQ 命中；请核对原文引用",
+        "candidates": [
+          {
+            "documentId": "knowledge_149ad2fe27b74f5e9083badff490aaa5",
+            "chunkId": "knowledge_149ad2fe27b74f5e9083badff490aaa5:v1:0",
+            "title": "演示身份与权限",
+            "heading": "演示身份与权限",
+            "text": "# 演示身份与权限\n\n系统不提供登录页、账号或密码。启动后使用预置演示身份，可切换学校安全管理人员、物业值班、设备管理、巡检、维修五类身份。界面身份提示不能作为授权依据；服务端按稳定身份 ID、角色和楼栋范围校验每次写入。维修人员不能自行验收工单；角色或范围不符时拒绝写入并显示原因。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/platform/identity.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "21a0a1442e26f1bea8516fc04bffc267731cef70821056b7c8279e52205f0e16",
+            "methods": [
+              "faq",
+              "keyword",
+              "vector"
+            ],
+            "relevance": 1.0,
+            "keywordScore": 0.5,
+            "vectorScore": 0.56171,
+            "matchedTerms": 4
+          },
+          {
+            "documentId": "knowledge_837cd050da884d3f8ff540a763a84bb3",
+            "chunkId": "knowledge_837cd050da884d3f8ff540a763a84bb3:v1:0",
+            "title": "问题四来源与独立上报",
+            "heading": "问题四来源与独立上报",
+            "text": "# 问题四来源与独立上报\n\n问题统一接收传感器预警、巡检发现、人工上报和保养异常四种来源，保留原始描述、位置、照片与来源链。每次独立上报使用固定 submissionId，同一次重试复用标识并可补照片，不能把不同上报按同人同日合并。原提交身份、来源、位置和内容必须一致才能重试；人工上报不能私填事件 ID 伪造预警处置关系。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/operations/issues.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "b601042aaa194afd4fdff995a30e8c35a4c788488664281f8de07e85918985b5",
+            "methods": [
+              "keyword",
+              "vector"
+            ],
+            "relevance": 0.30353,
+            "keywordScore": 0.125,
+            "vectorScore": 0.39966,
+            "matchedTerms": 1
+          },
+          {
+            "documentId": "knowledge_b15bc0f78e954115a7533bceb6da39cb",
+            "chunkId": "knowledge_b15bc0f78e954115a7533bceb6da39cb:v1:0",
+            "title": "虚拟 NFC 与人工到点签到",
+            "heading": "虚拟 NFC 与人工到点签到",
+            "text": "# 虚拟 NFC 与人工到点签到\n\n到点入口核对当前测点的虚拟 NFC 标签与登记版本，错误标签不计到点，成功与失败尝试均留痕。模拟读卡是演示方式，不声称真实硬件采集。人工兜底签到必须填写读卡失败、标签损坏等原因，并核对点位。到点只表明已到场，不等于已完成清单检查。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/operations/inspection/arrival.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "90d7d974f11f376aef4eb85180a52153bf74161c27161dd5acd6878f08a11172",
+            "methods": [
+              "keyword",
+              "vector"
+            ],
+            "relevance": 0.29464,
+            "keywordScore": 0.125,
+            "vectorScore": 0.38599,
+            "matchedTerms": 1
+          }
+        ],
+        "mode": "hybrid",
+        "degradedReason": "",
+        "indexVersion": "index_328ffb7c047c4c268a57469bbfb9069b",
+        "elapsedMs": 11.14,
+        "answer": "# 演示身份与权限\n\n系统不提供登录页、账号或密码。启动后使用预置演示身份，可切换学校安全管理人员、物业值班、设备管理、巡检、维修五类身份。界面身份提示不能作为授权依据；服务端按稳定身份 ID、角色和楼栋范围校验每次写入。维修人员不能自行验收工单；角色或范围不符时拒绝写入并显示原因。",
+        "scope": "global"
+      }
+    },
+    {
+      "question": "有历史记录的设备能删除吗？",
+      "expectedSource": "docs/knowledge/platform/archive.md",
+      "passed": true,
+      "response": {
+        "decision": "answer",
+        "reason": "标准 FAQ 命中；请核对原文引用",
+        "candidates": [
+          {
+            "documentId": "knowledge_9d1adf790c874ea9ae855c50f608b5bf",
+            "chunkId": "knowledge_9d1adf790c874ea9ae855c50f608b5bf:v1:0",
+            "title": "楼栋楼层测点设备归档",
+            "heading": "楼栋楼层测点设备归档",
+            "text": "# 楼栋楼层测点设备归档\n\n档案按楼栋、楼层、测点、设备组织，测点必须属于有效楼栋和楼层。编号和 NFC 标签不能重复，位置变更需要原因并保留历史。有历史数据的对象使用归档而非物理删除；有在册测点时上级楼栋或楼层不能归档。恢复档案前应核对上级仍在册，历史监测记录仍可追溯。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/platform/archive.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "d068e2e71050bd1215cdef716eea8d6a70d9a6bcb52054c03392cf54ddeab291",
+            "methods": [
+              "faq",
+              "keyword",
+              "vector"
+            ],
+            "relevance": 1.0,
+            "keywordScore": 0.45455,
+            "vectorScore": 0.4599,
+            "matchedTerms": 5
+          },
+          {
+            "documentId": "knowledge_b11c706a3d6a4bca92564f98fe14f6aa",
+            "chunkId": "knowledge_b11c706a3d6a4bca92564f98fe14f6aa:v1:0",
+            "title": "服务端备份恢复与数据保护",
+            "heading": "服务端备份恢复与数据保护",
+            "text": "# 服务端备份恢复与数据保护\n\n服务端备份包含 SQLite 数据库、私有媒体、会话签名文件以及已准备的本地模型文件。清单记录文件体积与 SHA-256，恢复前核对数据库完整性、引用完整性和全部文件哈希。恢复到独立目录，不覆盖已有目录。备份中的知识文档、版本、FAQ、同义词和向量索引随数据库恢复；模型目录一并恢复后可离线加载。不要用浏览器备份替代服务端持久化备份。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/platform/backup.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "5d99beca11eaf168f5c97965d1305a9bf4046155dd4f317cc973ddf8ceea9fc5",
+            "methods": [
+              "keyword",
+              "vector"
+            ],
+            "relevance": 0.36147,
+            "keywordScore": 0.09091,
+            "vectorScore": 0.50716,
+            "matchedTerms": 1
+          },
+          {
+            "documentId": "knowledge_01ce5bbb87534e9980f819cb554d116f",
+            "chunkId": "knowledge_01ce5bbb87534e9980f819cb554d116f:v1:0",
+            "title": "CSV 导入预检与原子提交",
+            "heading": "CSV 导入预检与原子提交",
+            "text": "# CSV 导入预检与原子提交\n\nCSV 先逐行预检，显示行号、错误及可提交状态，再选择有效行整批提交。提交时重新核对档案、规则、基准及监测记录；预检 token 过期则拒绝并要求重新预检。选中行中任何一行失败，整批事务回滚，不能部分成功。历史导入必须填写补录说明，旧采样只存档，不覆盖当前事件状态。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/monitoring/csv.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "c7c69d7fdd26bf52c9eedd5bb3b9bdc48f00babe5315350abdd1c0a65c254b72",
+            "methods": [
+              "keyword",
+              "vector"
+            ],
+            "relevance": 0.35009,
+            "keywordScore": 0.18182,
+            "vectorScore": 0.44069,
+            "matchedTerms": 2
+          }
+        ],
+        "mode": "hybrid",
+        "degradedReason": "",
+        "indexVersion": "index_328ffb7c047c4c268a57469bbfb9069b",
+        "elapsedMs": 12.88,
+        "answer": "# 楼栋楼层测点设备归档\n\n档案按楼栋、楼层、测点、设备组织，测点必须属于有效楼栋和楼层。编号和 NFC 标签不能重复，位置变更需要原因并保留历史。有历史数据的对象使用归档而非物理删除；有在册测点时上级楼栋或楼层不能归档。恢复档案前应核对上级仍在册，历史监测记录仍可追溯。",
+        "scope": "global"
+      }
+    },
+    {
+      "question": "修改基准会覆盖历史记录吗？",
+      "expectedSource": "docs/knowledge/monitoring/baseline.md",
+      "passed": true,
+      "response": {
+        "decision": "answer",
+        "reason": "标准 FAQ 命中；请核对原文引用",
+        "candidates": [
+          {
+            "documentId": "knowledge_7edf0ae0dcdd443b9045eed264c85be2",
+            "chunkId": "knowledge_7edf0ae0dcdd443b9045eed264c85be2:v1:0",
+            "title": "基准值版本与采样时间",
+            "heading": "基准值版本与采样时间",
+            "text": "# 基准值版本与采样时间\n\n基准值修改会产生新版本，必须填写原因、生效时间和预期版本。监测判定按采样时间选择当时生效的基准，记录保存基准版本和基准值快照。后续修改基准不能用新值覆盖历史判定。录入时间与采样时间是不同字段；历史补录仍按原采样时刻解释。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/monitoring/baseline.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "60efb2ba5c8b3375b10b306127895d7d854ce836956fb127b781c61332913587",
+            "methods": [
+              "faq",
+              "keyword",
+              "vector"
+            ],
+            "relevance": 1.0,
+            "keywordScore": 0.63636,
+            "vectorScore": 0.55903,
+            "matchedTerms": 7
+          },
+          {
+            "documentId": "knowledge_01ce5bbb87534e9980f819cb554d116f",
+            "chunkId": "knowledge_01ce5bbb87534e9980f819cb554d116f:v1:0",
+            "title": "CSV 导入预检与原子提交",
+            "heading": "CSV 导入预检与原子提交",
+            "text": "# CSV 导入预检与原子提交\n\nCSV 先逐行预检，显示行号、错误及可提交状态，再选择有效行整批提交。提交时重新核对档案、规则、基准及监测记录；预检 token 过期则拒绝并要求重新预检。选中行中任何一行失败，整批事务回滚，不能部分成功。历史导入必须填写补录说明，旧采样只存档，不覆盖当前事件状态。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/monitoring/csv.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "c7c69d7fdd26bf52c9eedd5bb3b9bdc48f00babe5315350abdd1c0a65c254b72",
+            "methods": [
+              "keyword",
+              "vector"
+            ],
+            "relevance": 0.43649,
+            "keywordScore": 0.36364,
+            "vectorScore": 0.47572,
+            "matchedTerms": 4
+          },
+          {
+            "documentId": "knowledge_92b9dcb286d74d34afac3b55f07379de",
+            "chunkId": "knowledge_92b9dcb286d74d34afac3b55f07379de:v1:0",
+            "title": "监测录入质量与修订留痕",
+            "heading": "监测录入质量与修订留痕",
+            "text": "# 监测录入质量与修订留痕\n\n监测录入保存测点、设备、读数、单位、采样时间、来源及质量说明。缺失读数不能按零值处理；存疑或无效数据不参与正常判定，超设备量程标记无效；振动读数还需统计窗口。同测点同分钟不能重复采样。修订必须填写原因和当前 rev，保留修订前原值、快照和次数；较早补录不覆盖当前预警状态。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/monitoring/records.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "83dfca4134a028bf0a38859dfa57cbd713d406e8f4f62ad15e47db394cf0c62f",
+            "methods": [
+              "keyword",
+              "vector"
+            ],
+            "relevance": 0.3546,
+            "keywordScore": 0.09091,
+            "vectorScore": 0.49659,
+            "matchedTerms": 1
+          }
+        ],
+        "mode": "hybrid",
+        "degradedReason": "",
+        "indexVersion": "index_328ffb7c047c4c268a57469bbfb9069b",
+        "elapsedMs": 12.66,
+        "answer": "# 基准值版本与采样时间\n\n基准值修改会产生新版本，必须填写原因、生效时间和预期版本。监测判定按采样时间选择当时生效的基准，记录保存基准版本和基准值快照。后续修改基准不能用新值覆盖历史判定。录入时间与采样时间是不同字段；历史补录仍按原采样时刻解释。",
+        "scope": "global"
+      }
+    },
+    {
+      "question": "内置阈值是国家安全标准吗？",
+      "expectedSource": "docs/knowledge/monitoring/rules.md",
+      "passed": true,
+      "response": {
+        "decision": "answer",
+        "reason": "标准 FAQ 命中；请核对原文引用",
+        "candidates": [
+          {
+            "documentId": "knowledge_6419f5cc51e44d9d85ffb6f071067a3f",
+            "chunkId": "knowledge_6419f5cc51e44d9d85ffb6f071067a3f:v1:0",
+            "title": "演示预警规则与分级说明",
+            "heading": "演示预警规则与分级说明",
+            "text": "# 演示预警规则与分级说明\n\n筑瞳内置阈值是比赛演示规则，用于展示黄、橙、红分级和处置流程，不是国家建筑安全标准，也不能作为真实建筑安全鉴定结论。规则按稳定 ruleId 保存版本；按采样时间先选当时版本，再判断启用和适用范围。最新版本停用或排除测点时，不得回退旧版本绕过限制。阈值与持续、恢复条件应查看规则原文和试算。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/monitoring/rules.md",
+            "sourceKind": "demo",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "a87b0f067003cac929c1c11be19b55d91a9db24ceca219bee3068187154ea5db",
+            "methods": [
+              "faq",
+              "keyword",
+              "vector"
+            ],
+            "relevance": 1.0,
+            "keywordScore": 0.81818,
+            "vectorScore": 0.54393,
+            "matchedTerms": 9
+          },
+          {
+            "documentId": "knowledge_c7c70c357ae6444eac61da9c7376d842",
+            "chunkId": "knowledge_c7c70c357ae6444eac61da9c7376d842:v1:0",
+            "title": "本地知识检索与依据边界",
+            "heading": "本地知识检索与依据边界",
+            "text": "# 本地知识检索与依据边界\n\n本地知识服务使用标准 FAQ、术语同义词、关键词与 BGE 中文向量混合召回；SQLite 保存向量，NumPy 在本机计算相似度，不调用外部生成或 embedding API。每个候选附文档版本、原文块、行号、哈希、来源和命中方式。相关度不是可信概率；歧义应澄清，库外内容说明没有充分依据。知识启停或新版本后旧块不再引用；模型缺失或索引损坏时明确降级 FAQ/关键词。动态业务数量或当前工单状态应查业务接口，不能从静态知识推测。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/platform/knowledge.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "996561005ee9d409c8b1f66b982599ad4d0da73d718eafdd60d771386a53d51b",
+            "methods": [
+              "keyword",
+              "vector"
+            ],
+            "relevance": 0.3296,
+            "keywordScore": 0.09091,
+            "vectorScore": 0.45812,
+            "matchedTerms": 1
+          },
+          {
+            "documentId": "knowledge_c12993f6999d4096b8cc74302b22356a",
+            "chunkId": "knowledge_c12993f6999d4096b8cc74302b22356a:v1:0",
+            "title": "站内通知确认与超时核验",
+            "heading": "站内通知确认与超时核验",
+            "text": "# 站内通知确认与超时核验\n\n通知区分生成、首次展示、人工确认和超时升级时间。展示不等于确认，更不代表短信送达；项目未接入短信或外部推送。服务端用真实时间核验未确认且超时的通知，按规则只升级一次。已关闭事件的通知保留历史但停止升级。安全管理人员确认事件时，同事件未确认通知一并确认。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/monitoring/notifications.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "3d199b1c7bbd99d3d8fe0621d07b834cd550a9bebf7f5d18c37e589c84ac0932",
+            "methods": [
+              "keyword",
+              "vector"
+            ],
+            "relevance": 0.301,
+            "keywordScore": 0.09091,
+            "vectorScore": 0.41413,
+            "matchedTerms": 1
+          }
+        ],
+        "mode": "hybrid",
+        "degradedReason": "",
+        "indexVersion": "index_328ffb7c047c4c268a57469bbfb9069b",
+        "elapsedMs": 13.05,
+        "answer": "# 演示预警规则与分级说明\n\n筑瞳内置阈值是比赛演示规则，用于展示黄、橙、红分级和处置流程，不是国家建筑安全标准，也不能作为真实建筑安全鉴定结论。规则按稳定 ruleId 保存版本；按采样时间先选当时版本，再判断启用和适用范围。最新版本停用或排除测点时，不得回退旧版本绕过限制。阈值与持续、恢复条件应查看规则原文和试算。",
+        "scope": "global"
+      }
+    },
+    {
+      "question": "监测记录如何更正并保留原值？",
+      "expectedSource": "docs/knowledge/monitoring/records.md",
+      "passed": true,
+      "response": {
+        "decision": "answer",
+        "reason": "标准 FAQ 命中；请核对原文引用",
+        "candidates": [
+          {
+            "documentId": "knowledge_92b9dcb286d74d34afac3b55f07379de",
+            "chunkId": "knowledge_92b9dcb286d74d34afac3b55f07379de:v1:0",
+            "title": "监测录入质量与修订留痕",
+            "heading": "监测录入质量与修订留痕",
+            "text": "# 监测录入质量与修订留痕\n\n监测录入保存测点、设备、读数、单位、采样时间、来源及质量说明。缺失读数不能按零值处理；存疑或无效数据不参与正常判定，超设备量程标记无效；振动读数还需统计窗口。同测点同分钟不能重复采样。修订必须填写原因和当前 rev，保留修订前原值、快照和次数；较早补录不覆盖当前预警状态。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/monitoring/records.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "83dfca4134a028bf0a38859dfa57cbd713d406e8f4f62ad15e47db394cf0c62f",
+            "methods": [
+              "faq",
+              "keyword",
+              "vector"
+            ],
+            "relevance": 1.0,
+            "keywordScore": 0.25,
+            "vectorScore": 0.6052,
+            "matchedTerms": 3
+          },
+          {
+            "documentId": "knowledge_9d1adf790c874ea9ae855c50f608b5bf",
+            "chunkId": "knowledge_9d1adf790c874ea9ae855c50f608b5bf:v1:0",
+            "title": "楼栋楼层测点设备归档",
+            "heading": "楼栋楼层测点设备归档",
+            "text": "# 楼栋楼层测点设备归档\n\n档案按楼栋、楼层、测点、设备组织，测点必须属于有效楼栋和楼层。编号和 NFC 标签不能重复，位置变更需要原因并保留历史。有历史数据的对象使用归档而非物理删除；有在册测点时上级楼栋或楼层不能归档。恢复档案前应核对上级仍在册，历史监测记录仍可追溯。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/platform/archive.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "d068e2e71050bd1215cdef716eea8d6a70d9a6bcb52054c03392cf54ddeab291",
+            "methods": [
+              "keyword",
+              "vector"
+            ],
+            "relevance": 0.4775,
+            "keywordScore": 0.41667,
+            "vectorScore": 0.51026,
+            "matchedTerms": 5
+          },
+          {
+            "documentId": "knowledge_01ce5bbb87534e9980f819cb554d116f",
+            "chunkId": "knowledge_01ce5bbb87534e9980f819cb554d116f:v1:0",
+            "title": "CSV 导入预检与原子提交",
+            "heading": "CSV 导入预检与原子提交",
+            "text": "# CSV 导入预检与原子提交\n\nCSV 先逐行预检，显示行号、错误及可提交状态，再选择有效行整批提交。提交时重新核对档案、规则、基准及监测记录；预检 token 过期则拒绝并要求重新预检。选中行中任何一行失败，整批事务回滚，不能部分成功。历史导入必须填写补录说明，旧采样只存档，不覆盖当前事件状态。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/monitoring/csv.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "c7c69d7fdd26bf52c9eedd5bb3b9bdc48f00babe5315350abdd1c0a65c254b72",
+            "methods": [
+              "keyword",
+              "vector"
+            ],
+            "relevance": 0.44969,
+            "keywordScore": 0.25,
+            "vectorScore": 0.55721,
+            "matchedTerms": 3
+          }
+        ],
+        "mode": "hybrid",
+        "degradedReason": "",
+        "indexVersion": "index_328ffb7c047c4c268a57469bbfb9069b",
+        "elapsedMs": 12.45,
+        "answer": "# 监测录入质量与修订留痕\n\n监测录入保存测点、设备、读数、单位、采样时间、来源及质量说明。缺失读数不能按零值处理；存疑或无效数据不参与正常判定，超设备量程标记无效；振动读数还需统计窗口。同测点同分钟不能重复采样。修订必须填写原因和当前 rev，保留修订前原值、快照和次数；较早补录不覆盖当前预警状态。",
+        "scope": "global"
+      }
+    },
+    {
+      "question": "CSV 导入为什么需要先预检？",
+      "expectedSource": "docs/knowledge/monitoring/csv.md",
+      "passed": true,
+      "response": {
+        "decision": "answer",
+        "reason": "标准 FAQ 命中；请核对原文引用",
+        "candidates": [
+          {
+            "documentId": "knowledge_01ce5bbb87534e9980f819cb554d116f",
+            "chunkId": "knowledge_01ce5bbb87534e9980f819cb554d116f:v1:0",
+            "title": "CSV 导入预检与原子提交",
+            "heading": "CSV 导入预检与原子提交",
+            "text": "# CSV 导入预检与原子提交\n\nCSV 先逐行预检，显示行号、错误及可提交状态，再选择有效行整批提交。提交时重新核对档案、规则、基准及监测记录；预检 token 过期则拒绝并要求重新预检。选中行中任何一行失败，整批事务回滚，不能部分成功。历史导入必须填写补录说明，旧采样只存档，不覆盖当前事件状态。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/monitoring/csv.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "c7c69d7fdd26bf52c9eedd5bb3b9bdc48f00babe5315350abdd1c0a65c254b72",
+            "methods": [
+              "faq",
+              "keyword",
+              "vector"
+            ],
+            "relevance": 1.0,
+            "keywordScore": 0.3,
+            "vectorScore": 0.59421,
+            "matchedTerms": 3
+          },
+          {
+            "documentId": "knowledge_907842e33c6746f08e0fac2549bf2c99",
+            "chunkId": "knowledge_907842e33c6746f08e0fac2549bf2c99:v1:0",
+            "title": "维修工单派工接单完工验收",
+            "heading": "维修工单派工接单完工验收",
+            "text": "# 维修工单派工接单完工验收\n\n工单按待派工、已派工、处理中、待验收、验收通过或验收退回流转。安全管理人员派工并指定稳定身份 ID；只有被派工人可接单，物业代接需说明原因并记录实际接单人。只有实际接单人能提交完工，必须填写维修措施；验收退回需要理由。验收由安全管理人员执行，维修人员不能自行验收。验收通过只推进问题待复查，不能直接关闭问题或预警。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/operations/orders.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "6d02822f6b4d6e3c9e7d040e38a82e781130a33167802d5b9a572a9bba1defa7",
+            "methods": [
+              "keyword",
+              "vector"
+            ],
+            "relevance": 0.32522,
+            "keywordScore": 0.1,
+            "vectorScore": 0.4465,
+            "matchedTerms": 1
+          },
+          {
+            "documentId": "knowledge_92b9dcb286d74d34afac3b55f07379de",
+            "chunkId": "knowledge_92b9dcb286d74d34afac3b55f07379de:v1:0",
+            "title": "监测录入质量与修订留痕",
+            "heading": "监测录入质量与修订留痕",
+            "text": "# 监测录入质量与修订留痕\n\n监测录入保存测点、设备、读数、单位、采样时间、来源及质量说明。缺失读数不能按零值处理；存疑或无效数据不参与正常判定，超设备量程标记无效；振动读数还需统计窗口。同测点同分钟不能重复采样。修订必须填写原因和当前 rev，保留修订前原值、快照和次数；较早补录不覆盖当前预警状态。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/monitoring/records.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "83dfca4134a028bf0a38859dfa57cbd713d406e8f4f62ad15e47db394cf0c62f",
+            "methods": [
+              "vector"
+            ],
+            "relevance": 0.3234,
+            "keywordScore": 0.0,
+            "vectorScore": 0.49754,
+            "matchedTerms": 0
+          }
+        ],
+        "mode": "hybrid",
+        "degradedReason": "",
+        "indexVersion": "index_328ffb7c047c4c268a57469bbfb9069b",
+        "elapsedMs": 12.66,
+        "answer": "# CSV 导入预检与原子提交\n\nCSV 先逐行预检，显示行号、错误及可提交状态，再选择有效行整批提交。提交时重新核对档案、规则、基准及监测记录；预检 token 过期则拒绝并要求重新预检。选中行中任何一行失败，整批事务回滚，不能部分成功。历史导入必须填写补录说明，旧采样只存档，不覆盖当前事件状态。",
+        "scope": "global"
+      }
+    },
+    {
+      "question": "恢复待确认会自动关闭预警吗？",
+      "expectedSource": "docs/knowledge/monitoring/closing.md",
+      "passed": true,
+      "response": {
+        "decision": "answer",
+        "reason": "标准 FAQ 命中；请核对原文引用",
+        "candidates": [
+          {
+            "documentId": "knowledge_cc31c93909054a4f8906614946e699e8",
+            "chunkId": "knowledge_cc31c93909054a4f8906614946e699e8:v1:0",
+            "title": "预警恢复与授权关闭",
+            "heading": "预警恢复与授权关闭",
+            "text": "# 预警恢复与授权关闭\n\n连续有效采样满足当前规则的恢复条件后，预警事件进入 recovering 恢复待确认，并不会自动关闭。安全管理人员关闭前必须重新核验实际有效采样序列，并填写关闭依据；处置依据须为当前事件关联且已验收的合法工单，或现场核查确认无需维修的结论。同测点旧事件工单不可借用。恢复窗口记录修订导致条件不成立时退回待确认或处理中。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/monitoring/closing.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "bbca14499eba544b5f066d2b6d50e3aec7b84d0c5a39e2464deb5efb5aba72f2",
+            "methods": [
+              "faq",
+              "keyword",
+              "vector"
+            ],
+            "relevance": 1.0,
+            "keywordScore": 0.83333,
+            "vectorScore": 0.70669,
+            "matchedTerms": 10
+          },
+          {
+            "documentId": "knowledge_ab87131e48024c4ca3b9197d5741a440",
+            "chunkId": "knowledge_ab87131e48024c4ca3b9197d5741a440:v1:0",
+            "title": "复查观察复发与有效轮次",
+            "heading": "复查观察复发与有效轮次",
+            "text": "# 复查观察复发与有效轮次\n\n待复查问题必须登记事项、责任人、目标日期，结论分为确认恢复、继续观察、复发转处置。确认恢复关闭问题；继续观察必须登记下一次复查日期并保留轮次历史，不能算最终闭环；复发回到待审核继续处置，不另建无关问题。开始新的维修周期会使未出结论旧轮次失效并记录原因，新工单验收后应重新登记有效复查，不能沿用失效轮次关闭。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/operations/rechecks.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "a07708d437b5b1be35baf21864409e7de2c43cefd7c7c4376c9f3f4d93de598c",
+            "methods": [
+              "keyword",
+              "vector"
+            ],
+            "relevance": 0.40752,
+            "keywordScore": 0.25,
+            "vectorScore": 0.49234,
+            "matchedTerms": 3
+          },
+          {
+            "documentId": "knowledge_432e5a30c3664555829fe86dc1c78ab9",
+            "chunkId": "knowledge_432e5a30c3664555829fe86dc1c78ab9:v1:0",
+            "title": "报表统计粒度与闭环口径",
+            "heading": "报表统计粒度与闭环口径",
+            "text": "# 报表统计粒度与闭环口径\n\n预警响应时长按事件产生到首次人工确认或转出问题的较早时刻计算。问题按期闭环率按已关闭且登记过复查的问题，与最后有效复查目标日期比较；观察中不算最终闭环，验收率不等于问题关闭率。复查与保养按期完成率分别按轮次结论时间和保养执行时间核对目标日期。没有结果的对象单列，不假造百分比。报表支持按时间、楼栋、测点筛选并导出明细。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/platform/reports.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "64035b9182d9588efe75ebcdf95b86f16eea318426f203a113e0fb55ddc8002b",
+            "methods": [
+              "keyword",
+              "vector"
+            ],
+            "relevance": 0.3917,
+            "keywordScore": 0.25,
+            "vectorScore": 0.468,
+            "matchedTerms": 3
+          }
+        ],
+        "mode": "hybrid",
+        "degradedReason": "",
+        "indexVersion": "index_328ffb7c047c4c268a57469bbfb9069b",
+        "elapsedMs": 13.3,
+        "answer": "# 预警恢复与授权关闭\n\n连续有效采样满足当前规则的恢复条件后，预警事件进入 recovering 恢复待确认，并不会自动关闭。安全管理人员关闭前必须重新核验实际有效采样序列，并填写关闭依据；处置依据须为当前事件关联且已验收的合法工单，或现场核查确认无需维修的结论。同测点旧事件工单不可借用。恢复窗口记录修订导致条件不成立时退回待确认或处理中。",
+        "scope": "global"
+      }
+    },
+    {
+      "question": "页面显示通知就代表短信送达吗？",
+      "expectedSource": "docs/knowledge/monitoring/notifications.md",
+      "passed": true,
+      "response": {
+        "decision": "answer",
+        "reason": "标准 FAQ 命中；请核对原文引用",
+        "candidates": [
+          {
+            "documentId": "knowledge_c12993f6999d4096b8cc74302b22356a",
+            "chunkId": "knowledge_c12993f6999d4096b8cc74302b22356a:v1:0",
+            "title": "站内通知确认与超时核验",
+            "heading": "站内通知确认与超时核验",
+            "text": "# 站内通知确认与超时核验\n\n通知区分生成、首次展示、人工确认和超时升级时间。展示不等于确认，更不代表短信送达；项目未接入短信或外部推送。服务端用真实时间核验未确认且超时的通知，按规则只升级一次。已关闭事件的通知保留历史但停止升级。安全管理人员确认事件时，同事件未确认通知一并确认。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/monitoring/notifications.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "3d199b1c7bbd99d3d8fe0621d07b834cd550a9bebf7f5d18c37e589c84ac0932",
+            "methods": [
+              "faq",
+              "keyword",
+              "vector"
+            ],
+            "relevance": 1.0,
+            "keywordScore": 0.46154,
+            "vectorScore": 0.63634,
+            "matchedTerms": 6
+          },
+          {
+            "documentId": "knowledge_149ad2fe27b74f5e9083badff490aaa5",
+            "chunkId": "knowledge_149ad2fe27b74f5e9083badff490aaa5:v1:0",
+            "title": "演示身份与权限",
+            "heading": "演示身份与权限",
+            "text": "# 演示身份与权限\n\n系统不提供登录页、账号或密码。启动后使用预置演示身份，可切换学校安全管理人员、物业值班、设备管理、巡检、维修五类身份。界面身份提示不能作为授权依据；服务端按稳定身份 ID、角色和楼栋范围校验每次写入。维修人员不能自行验收工单；角色或范围不符时拒绝写入并显示原因。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/platform/identity.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "21a0a1442e26f1bea8516fc04bffc267731cef70821056b7c8279e52205f0e16",
+            "methods": [
+              "keyword",
+              "vector"
+            ],
+            "relevance": 0.37712,
+            "keywordScore": 0.07692,
+            "vectorScore": 0.53876,
+            "matchedTerms": 1
+          },
+          {
+            "documentId": "knowledge_01ce5bbb87534e9980f819cb554d116f",
+            "chunkId": "knowledge_01ce5bbb87534e9980f819cb554d116f:v1:0",
+            "title": "CSV 导入预检与原子提交",
+            "heading": "CSV 导入预检与原子提交",
+            "text": "# CSV 导入预检与原子提交\n\nCSV 先逐行预检，显示行号、错误及可提交状态，再选择有效行整批提交。提交时重新核对档案、规则、基准及监测记录；预检 token 过期则拒绝并要求重新预检。选中行中任何一行失败，整批事务回滚，不能部分成功。历史导入必须填写补录说明，旧采样只存档，不覆盖当前事件状态。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/monitoring/csv.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "c7c69d7fdd26bf52c9eedd5bb3b9bdc48f00babe5315350abdd1c0a65c254b72",
+            "methods": [
+              "keyword",
+              "vector"
+            ],
+            "relevance": 0.34261,
+            "keywordScore": 0.07692,
+            "vectorScore": 0.48567,
+            "matchedTerms": 1
+          }
+        ],
+        "mode": "hybrid",
+        "degradedReason": "",
+        "indexVersion": "index_328ffb7c047c4c268a57469bbfb9069b",
+        "elapsedMs": 11.7,
+        "answer": "# 站内通知确认与超时核验\n\n通知区分生成、首次展示、人工确认和超时升级时间。展示不等于确认，更不代表短信送达；项目未接入短信或外部推送。服务端用真实时间核验未确认且超时的通知，按规则只升级一次。已关闭事件的通知保留历史但停止升级。安全管理人员确认事件时，同事件未确认通知一并确认。",
+        "scope": "global"
+      }
+    },
+    {
+      "question": "修改巡检计划会改变已生成任务吗？",
+      "expectedSource": "docs/knowledge/operations/inspection/plans.md",
+      "passed": true,
+      "response": {
+        "decision": "answer",
+        "reason": "标准 FAQ 命中；请核对原文引用",
+        "candidates": [
+          {
+            "documentId": "knowledge_15552ceb8cd94d458f8cbb77ca75f996",
+            "chunkId": "knowledge_15552ceb8cd94d458f8cbb77ca75f996:v1:0",
+            "title": "巡检计划生成与任务快照",
+            "heading": "巡检计划生成与任务快照",
+            "text": "# 巡检计划生成与任务快照\n\n点检或巡检计划配置设备或路线范围、周期、清单、执行角色和启停。手动生成按计划与执行时刻创建任务，业务唯一键防止重复生成。同一天新增或启用计划后可再次生成。任务冻结生成时的楼栋范围、必查点、清单和执行角色；修改计划不追溯改变已有任务，后续周期任务使用新计划。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/operations/inspection/plans.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "19e5675ab084fee95fbaf762cf10b75e01b299209133c0043e50074e4ec355ac",
+            "methods": [
+              "faq",
+              "keyword",
+              "vector"
+            ],
+            "relevance": 1.0,
+            "keywordScore": 0.64286,
+            "vectorScore": 0.67771,
+            "matchedTerms": 9
+          },
+          {
+            "documentId": "knowledge_450bc5b8a0474bda9eded5a99f29b8c2",
+            "chunkId": "knowledge_450bc5b8a0474bda9eded5a99f29b8c2:v1:0",
+            "title": "逐点必答清单与异常后续",
+            "heading": "逐点必答清单与异常后续",
+            "text": "# 逐点必答清单与异常后续\n\n巡检任务逐点填写清单，服务端按生成时的清单快照校验必答项。合法检查结果为正常或异常；缺项、空字符串、未知检查项和重复项不能冒充完成。未到点不能提交检查完成。出现异常时必须关联本任务本测点的真实问题，或填写不少于十字的无需建问题依据；部分点位完成仍属于部分完成。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/operations/inspection/checklist.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "d13f03a4ce1203bda8c63b3c3d52fa9db4377f0106bd16540f717ab0e73b3769",
+            "methods": [
+              "keyword",
+              "vector"
+            ],
+            "relevance": 0.37936,
+            "keywordScore": 0.21429,
+            "vectorScore": 0.46824,
+            "matchedTerms": 3
+          },
+          {
+            "documentId": "knowledge_8ec8e22ebce2442cb8d7ddcf7815cb21",
+            "chunkId": "knowledge_8ec8e22ebce2442cb8d7ddcf7815cb21:v1:0",
+            "title": "设备保养执行与异常转问题",
+            "heading": "设备保养执行与异常转问题",
+            "text": "# 设备保养执行与异常转问题\n\n设备保养计划配置设备、周期、负责人和执行清单，按周期生成保养任务并冻结快照，一个周期只执行一次。执行时填写必答项、维护措施、材料、照片和下次保养日期。存在异常需说明异常情况，可将异常转问题；保养执行记录与新问题双向关联并同事务提交，重试不多建问题。正常项不能伪装异常转问题，未完成保养不得算按期完成。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/operations/maintenance.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "3faacdf0cebd80ec6f85a3c00005a7f696849833f06543952676644b02f46f68",
+            "methods": [
+              "keyword",
+              "vector"
+            ],
+            "relevance": 0.36919,
+            "keywordScore": 0.21429,
+            "vectorScore": 0.45259,
+            "matchedTerms": 3
+          }
+        ],
+        "mode": "hybrid",
+        "degradedReason": "",
+        "indexVersion": "index_328ffb7c047c4c268a57469bbfb9069b",
+        "elapsedMs": 11.56,
+        "answer": "# 巡检计划生成与任务快照\n\n点检或巡检计划配置设备或路线范围、周期、清单、执行角色和启停。手动生成按计划与执行时刻创建任务，业务唯一键防止重复生成。同一天新增或启用计划后可再次生成。任务冻结生成时的楼栋范围、必查点、清单和执行角色；修改计划不追溯改变已有任务，后续周期任务使用新计划。",
+        "scope": "global"
+      }
+    },
+    {
+      "question": "人工签到为什么必须写原因？",
+      "expectedSource": "docs/knowledge/operations/inspection/arrival.md",
+      "passed": true,
+      "response": {
+        "decision": "answer",
+        "reason": "标准 FAQ 命中；请核对原文引用",
+        "candidates": [
+          {
+            "documentId": "knowledge_b15bc0f78e954115a7533bceb6da39cb",
+            "chunkId": "knowledge_b15bc0f78e954115a7533bceb6da39cb:v1:0",
+            "title": "虚拟 NFC 与人工到点签到",
+            "heading": "虚拟 NFC 与人工到点签到",
+            "text": "# 虚拟 NFC 与人工到点签到\n\n到点入口核对当前测点的虚拟 NFC 标签与登记版本，错误标签不计到点，成功与失败尝试均留痕。模拟读卡是演示方式，不声称真实硬件采集。人工兜底签到必须填写读卡失败、标签损坏等原因，并核对点位。到点只表明已到场，不等于已完成清单检查。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/operations/inspection/arrival.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "90d7d974f11f376aef4eb85180a52153bf74161c27161dd5acd6878f08a11172",
+            "methods": [
+              "faq",
+              "keyword",
+              "vector"
+            ],
+            "relevance": 1.0,
+            "keywordScore": 0.36364,
+            "vectorScore": 0.53095,
+            "matchedTerms": 4
+          },
+          {
+            "documentId": "knowledge_92b9dcb286d74d34afac3b55f07379de",
+            "chunkId": "knowledge_92b9dcb286d74d34afac3b55f07379de:v1:0",
+            "title": "监测录入质量与修订留痕",
+            "heading": "监测录入质量与修订留痕",
+            "text": "# 监测录入质量与修订留痕\n\n监测录入保存测点、设备、读数、单位、采样时间、来源及质量说明。缺失读数不能按零值处理；存疑或无效数据不参与正常判定，超设备量程标记无效；振动读数还需统计窗口。同测点同分钟不能重复采样。修订必须填写原因和当前 rev，保留修订前原值、快照和次数；较早补录不覆盖当前预警状态。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/monitoring/records.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "83dfca4134a028bf0a38859dfa57cbd713d406e8f4f62ad15e47db394cf0c62f",
+            "methods": [
+              "keyword",
+              "vector"
+            ],
+            "relevance": 0.41161,
+            "keywordScore": 0.27273,
+            "vectorScore": 0.48639,
+            "matchedTerms": 3
+          },
+          {
+            "documentId": "knowledge_907842e33c6746f08e0fac2549bf2c99",
+            "chunkId": "knowledge_907842e33c6746f08e0fac2549bf2c99:v1:0",
+            "title": "维修工单派工接单完工验收",
+            "heading": "维修工单派工接单完工验收",
+            "text": "# 维修工单派工接单完工验收\n\n工单按待派工、已派工、处理中、待验收、验收通过或验收退回流转。安全管理人员派工并指定稳定身份 ID；只有被派工人可接单，物业代接需说明原因并记录实际接单人。只有实际接单人能提交完工，必须填写维修措施；验收退回需要理由。验收由安全管理人员执行，维修人员不能自行验收。验收通过只推进问题待复查，不能直接关闭问题或预警。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/operations/orders.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "6d02822f6b4d6e3c9e7d040e38a82e781130a33167802d5b9a572a9bba1defa7",
+            "methods": [
+              "keyword",
+              "vector"
+            ],
+            "relevance": 0.40869,
+            "keywordScore": 0.18182,
+            "vectorScore": 0.53085,
+            "matchedTerms": 2
+          }
+        ],
+        "mode": "hybrid",
+        "degradedReason": "",
+        "indexVersion": "index_328ffb7c047c4c268a57469bbfb9069b",
+        "elapsedMs": 11.67,
+        "answer": "# 虚拟 NFC 与人工到点签到\n\n到点入口核对当前测点的虚拟 NFC 标签与登记版本，错误标签不计到点，成功与失败尝试均留痕。模拟读卡是演示方式，不声称真实硬件采集。人工兜底签到必须填写读卡失败、标签损坏等原因，并核对点位。到点只表明已到场，不等于已完成清单检查。",
+        "scope": "global"
+      }
+    },
+    {
+      "question": "必答项没填完能完成巡检吗？",
+      "expectedSource": "docs/knowledge/operations/inspection/checklist.md",
+      "passed": true,
+      "response": {
+        "decision": "answer",
+        "reason": "标准 FAQ 命中；请核对原文引用",
+        "candidates": [
+          {
+            "documentId": "knowledge_450bc5b8a0474bda9eded5a99f29b8c2",
+            "chunkId": "knowledge_450bc5b8a0474bda9eded5a99f29b8c2:v1:0",
+            "title": "逐点必答清单与异常后续",
+            "heading": "逐点必答清单与异常后续",
+            "text": "# 逐点必答清单与异常后续\n\n巡检任务逐点填写清单，服务端按生成时的清单快照校验必答项。合法检查结果为正常或异常；缺项、空字符串、未知检查项和重复项不能冒充完成。未到点不能提交检查完成。出现异常时必须关联本任务本测点的真实问题，或填写不少于十字的无需建问题依据；部分点位完成仍属于部分完成。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/operations/inspection/checklist.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "d13f03a4ce1203bda8c63b3c3d52fa9db4377f0106bd16540f717ab0e73b3769",
+            "methods": [
+              "faq",
+              "keyword",
+              "vector"
+            ],
+            "relevance": 1.0,
+            "keywordScore": 0.36364,
+            "vectorScore": 0.676,
+            "matchedTerms": 4
+          },
+          {
+            "documentId": "knowledge_15552ceb8cd94d458f8cbb77ca75f996",
+            "chunkId": "knowledge_15552ceb8cd94d458f8cbb77ca75f996:v1:0",
+            "title": "巡检计划生成与任务快照",
+            "heading": "巡检计划生成与任务快照",
+            "text": "# 巡检计划生成与任务快照\n\n点检或巡检计划配置设备或路线范围、周期、清单、执行角色和启停。手动生成按计划与执行时刻创建任务，业务唯一键防止重复生成。同一天新增或启用计划后可再次生成。任务冻结生成时的楼栋范围、必查点、清单和执行角色；修改计划不追溯改变已有任务，后续周期任务使用新计划。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/operations/inspection/plans.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "19e5675ab084fee95fbaf762cf10b75e01b299209133c0043e50074e4ec355ac",
+            "methods": [
+              "keyword",
+              "vector"
+            ],
+            "relevance": 0.43708,
+            "keywordScore": 0.09091,
+            "vectorScore": 0.62347,
+            "matchedTerms": 1
+          },
+          {
+            "documentId": "knowledge_8ec8e22ebce2442cb8d7ddcf7815cb21",
+            "chunkId": "knowledge_8ec8e22ebce2442cb8d7ddcf7815cb21:v1:0",
+            "title": "设备保养执行与异常转问题",
+            "heading": "设备保养执行与异常转问题",
+            "text": "# 设备保养执行与异常转问题\n\n设备保养计划配置设备、周期、负责人和执行清单，按周期生成保养任务并冻结快照，一个周期只执行一次。执行时填写必答项、维护措施、材料、照片和下次保养日期。存在异常需说明异常情况，可将异常转问题；保养执行记录与新问题双向关联并同事务提交，重试不多建问题。正常项不能伪装异常转问题，未完成保养不得算按期完成。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/operations/maintenance.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "3faacdf0cebd80ec6f85a3c00005a7f696849833f06543952676644b02f46f68",
+            "methods": [
+              "keyword",
+              "vector"
+            ],
+            "relevance": 0.41997,
+            "keywordScore": 0.27273,
+            "vectorScore": 0.49926,
+            "matchedTerms": 3
+          }
+        ],
+        "mode": "hybrid",
+        "degradedReason": "",
+        "indexVersion": "index_328ffb7c047c4c268a57469bbfb9069b",
+        "elapsedMs": 13.27,
+        "answer": "# 逐点必答清单与异常后续\n\n巡检任务逐点填写清单，服务端按生成时的清单快照校验必答项。合法检查结果为正常或异常；缺项、空字符串、未知检查项和重复项不能冒充完成。未到点不能提交检查完成。出现异常时必须关联本任务本测点的真实问题，或填写不少于十字的无需建问题依据；部分点位完成仍属于部分完成。",
+        "scope": "global"
+      }
+    },
+    {
+      "question": "问题有哪些来源？",
+      "expectedSource": "docs/knowledge/operations/issues.md",
+      "passed": true,
+      "response": {
+        "decision": "answer",
+        "reason": "标准 FAQ 命中；请核对原文引用",
+        "candidates": [
+          {
+            "documentId": "knowledge_837cd050da884d3f8ff540a763a84bb3",
+            "chunkId": "knowledge_837cd050da884d3f8ff540a763a84bb3:v1:0",
+            "title": "问题四来源与独立上报",
+            "heading": "问题四来源与独立上报",
+            "text": "# 问题四来源与独立上报\n\n问题统一接收传感器预警、巡检发现、人工上报和保养异常四种来源，保留原始描述、位置、照片与来源链。每次独立上报使用固定 submissionId，同一次重试复用标识并可补照片，不能把不同上报按同人同日合并。原提交身份、来源、位置和内容必须一致才能重试；人工上报不能私填事件 ID 伪造预警处置关系。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/operations/issues.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "b601042aaa194afd4fdff995a30e8c35a4c788488664281f8de07e85918985b5",
+            "methods": [
+              "faq",
+              "keyword",
+              "vector"
+            ],
+            "relevance": 1.0,
+            "keywordScore": 0.33333,
+            "vectorScore": 0.53508,
+            "matchedTerms": 2
+          },
+          {
+            "documentId": "knowledge_cf81d58fceea485a8b506a9391ff7fcb",
+            "chunkId": "knowledge_cf81d58fceea485a8b506a9391ff7fcb:v1:0",
+            "title": "问题审核六种出口",
+            "heading": "问题审核六种出口",
+            "text": "# 问题审核六种出口\n\n安全管理人员审核问题时保留原始报告，选择出口和二级分类并写明意见。六种出口为转维修、转专业排查、安排复查、退回补充、关联既有对象、无需处理关闭。退回需说明缺少什么；已当场处理需照片或持久保存无法拍照原因。维修中问题不能任意跳过办理步骤；已有未验收工单时不能重复转维修。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/operations/reviews.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "d3734e217c82505d95b4b0df486ec0c3091b4b52df42d71a46ac4b49ac370a63",
+            "methods": [
+              "keyword",
+              "vector"
+            ],
+            "relevance": 0.39713,
+            "keywordScore": 0.16667,
+            "vectorScore": 0.52122,
+            "matchedTerms": 1
+          },
+          {
+            "documentId": "knowledge_c7c70c357ae6444eac61da9c7376d842",
+            "chunkId": "knowledge_c7c70c357ae6444eac61da9c7376d842:v1:0",
+            "title": "本地知识检索与依据边界",
+            "heading": "本地知识检索与依据边界",
+            "text": "# 本地知识检索与依据边界\n\n本地知识服务使用标准 FAQ、术语同义词、关键词与 BGE 中文向量混合召回；SQLite 保存向量，NumPy 在本机计算相似度，不调用外部生成或 embedding API。每个候选附文档版本、原文块、行号、哈希、来源和命中方式。相关度不是可信概率；歧义应澄清，库外内容说明没有充分依据。知识启停或新版本后旧块不再引用；模型缺失或索引损坏时明确降级 FAQ/关键词。动态业务数量或当前工单状态应查业务接口，不能从静态知识推测。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/platform/knowledge.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "996561005ee9d409c8b1f66b982599ad4d0da73d718eafdd60d771386a53d51b",
+            "methods": [
+              "keyword",
+              "vector"
+            ],
+            "relevance": 0.37501,
+            "keywordScore": 0.16667,
+            "vectorScore": 0.48719,
+            "matchedTerms": 1
+          }
+        ],
+        "mode": "hybrid",
+        "degradedReason": "",
+        "indexVersion": "index_328ffb7c047c4c268a57469bbfb9069b",
+        "elapsedMs": 12.54,
+        "answer": "# 问题四来源与独立上报\n\n问题统一接收传感器预警、巡检发现、人工上报和保养异常四种来源，保留原始描述、位置、照片与来源链。每次独立上报使用固定 submissionId，同一次重试复用标识并可补照片，不能把不同上报按同人同日合并。原提交身份、来源、位置和内容必须一致才能重试；人工上报不能私填事件 ID 伪造预警处置关系。",
+        "scope": "global"
+      }
+    },
+    {
+      "question": "问题审核有哪六种处理出口？",
+      "expectedSource": "docs/knowledge/operations/reviews.md",
+      "passed": true,
+      "response": {
+        "decision": "answer",
+        "reason": "标准 FAQ 命中；请核对原文引用",
+        "candidates": [
+          {
+            "documentId": "knowledge_cf81d58fceea485a8b506a9391ff7fcb",
+            "chunkId": "knowledge_cf81d58fceea485a8b506a9391ff7fcb:v1:0",
+            "title": "问题审核六种出口",
+            "heading": "问题审核六种出口",
+            "text": "# 问题审核六种出口\n\n安全管理人员审核问题时保留原始报告，选择出口和二级分类并写明意见。六种出口为转维修、转专业排查、安排复查、退回补充、关联既有对象、无需处理关闭。退回需说明缺少什么；已当场处理需照片或持久保存无法拍照原因。维修中问题不能任意跳过办理步骤；已有未验收工单时不能重复转维修。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/operations/reviews.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "d3734e217c82505d95b4b0df486ec0c3091b4b52df42d71a46ac4b49ac370a63",
+            "methods": [
+              "faq",
+              "keyword",
+              "vector"
+            ],
+            "relevance": 1.0,
+            "keywordScore": 0.54545,
+            "vectorScore": 0.75477,
+            "matchedTerms": 6
+          },
+          {
+            "documentId": "knowledge_837cd050da884d3f8ff540a763a84bb3",
+            "chunkId": "knowledge_837cd050da884d3f8ff540a763a84bb3:v1:0",
+            "title": "问题四来源与独立上报",
+            "heading": "问题四来源与独立上报",
+            "text": "# 问题四来源与独立上报\n\n问题统一接收传感器预警、巡检发现、人工上报和保养异常四种来源，保留原始描述、位置、照片与来源链。每次独立上报使用固定 submissionId，同一次重试复用标识并可补照片，不能把不同上报按同人同日合并。原提交身份、来源、位置和内容必须一致才能重试；人工上报不能私填事件 ID 伪造预警处置关系。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/operations/issues.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "b601042aaa194afd4fdff995a30e8c35a4c788488664281f8de07e85918985b5",
+            "methods": [
+              "keyword",
+              "vector"
+            ],
+            "relevance": 0.35203,
+            "keywordScore": 0.09091,
+            "vectorScore": 0.49263,
+            "matchedTerms": 1
+          },
+          {
+            "documentId": "knowledge_907842e33c6746f08e0fac2549bf2c99",
+            "chunkId": "knowledge_907842e33c6746f08e0fac2549bf2c99:v1:0",
+            "title": "维修工单派工接单完工验收",
+            "heading": "维修工单派工接单完工验收",
+            "text": "# 维修工单派工接单完工验收\n\n工单按待派工、已派工、处理中、待验收、验收通过或验收退回流转。安全管理人员派工并指定稳定身份 ID；只有被派工人可接单，物业代接需说明原因并记录实际接单人。只有实际接单人能提交完工，必须填写维修措施；验收退回需要理由。验收由安全管理人员执行，维修人员不能自行验收。验收通过只推进问题待复查，不能直接关闭问题或预警。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/operations/orders.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "6d02822f6b4d6e3c9e7d040e38a82e781130a33167802d5b9a572a9bba1defa7",
+            "methods": [
+              "keyword",
+              "vector"
+            ],
+            "relevance": 0.35124,
+            "keywordScore": 0.18182,
+            "vectorScore": 0.44247,
+            "matchedTerms": 2
+          }
+        ],
+        "mode": "hybrid",
+        "degradedReason": "",
+        "indexVersion": "index_328ffb7c047c4c268a57469bbfb9069b",
+        "elapsedMs": 11.37,
+        "answer": "# 问题审核六种出口\n\n安全管理人员审核问题时保留原始报告，选择出口和二级分类并写明意见。六种出口为转维修、转专业排查、安排复查、退回补充、关联既有对象、无需处理关闭。退回需说明缺少什么；已当场处理需照片或持久保存无法拍照原因。维修中问题不能任意跳过办理步骤；已有未验收工单时不能重复转维修。",
+        "scope": "global"
+      }
+    },
+    {
+      "question": "维修人员可以自行验收工单吗？",
+      "expectedSource": "docs/knowledge/operations/orders.md",
+      "passed": true,
+      "response": {
+        "decision": "answer",
+        "reason": "标准 FAQ 命中；请核对原文引用",
+        "candidates": [
+          {
+            "documentId": "knowledge_907842e33c6746f08e0fac2549bf2c99",
+            "chunkId": "knowledge_907842e33c6746f08e0fac2549bf2c99:v1:0",
+            "title": "维修工单派工接单完工验收",
+            "heading": "维修工单派工接单完工验收",
+            "text": "# 维修工单派工接单完工验收\n\n工单按待派工、已派工、处理中、待验收、验收通过或验收退回流转。安全管理人员派工并指定稳定身份 ID；只有被派工人可接单，物业代接需说明原因并记录实际接单人。只有实际接单人能提交完工，必须填写维修措施；验收退回需要理由。验收由安全管理人员执行，维修人员不能自行验收。验收通过只推进问题待复查，不能直接关闭问题或预警。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/operations/orders.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "6d02822f6b4d6e3c9e7d040e38a82e781130a33167802d5b9a572a9bba1defa7",
+            "methods": [
+              "faq",
+              "keyword",
+              "vector"
+            ],
+            "relevance": 1.0,
+            "keywordScore": 0.66667,
+            "vectorScore": 0.7117,
+            "matchedTerms": 8
+          },
+          {
+            "documentId": "knowledge_149ad2fe27b74f5e9083badff490aaa5",
+            "chunkId": "knowledge_149ad2fe27b74f5e9083badff490aaa5:v1:0",
+            "title": "演示身份与权限",
+            "heading": "演示身份与权限",
+            "text": "# 演示身份与权限\n\n系统不提供登录页、账号或密码。启动后使用预置演示身份，可切换学校安全管理人员、物业值班、设备管理、巡检、维修五类身份。界面身份提示不能作为授权依据；服务端按稳定身份 ID、角色和楼栋范围校验每次写入。维修人员不能自行验收工单；角色或范围不符时拒绝写入并显示原因。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/platform/identity.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "21a0a1442e26f1bea8516fc04bffc267731cef70821056b7c8279e52205f0e16",
+            "methods": [
+              "keyword",
+              "vector"
+            ],
+            "relevance": 0.5589,
+            "keywordScore": 0.66667,
+            "vectorScore": 0.50087,
+            "matchedTerms": 8
+          },
+          {
+            "documentId": "knowledge_cf81d58fceea485a8b506a9391ff7fcb",
+            "chunkId": "knowledge_cf81d58fceea485a8b506a9391ff7fcb:v1:0",
+            "title": "问题审核六种出口",
+            "heading": "问题审核六种出口",
+            "text": "# 问题审核六种出口\n\n安全管理人员审核问题时保留原始报告，选择出口和二级分类并写明意见。六种出口为转维修、转专业排查、安排复查、退回补充、关联既有对象、无需处理关闭。退回需说明缺少什么；已当场处理需照片或持久保存无法拍照原因。维修中问题不能任意跳过办理步骤；已有未验收工单时不能重复转维修。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/operations/reviews.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "d3734e217c82505d95b4b0df486ec0c3091b4b52df42d71a46ac4b49ac370a63",
+            "methods": [
+              "keyword",
+              "vector"
+            ],
+            "relevance": 0.4722,
+            "keywordScore": 0.41667,
+            "vectorScore": 0.5021,
+            "matchedTerms": 5
+          }
+        ],
+        "mode": "hybrid",
+        "degradedReason": "",
+        "indexVersion": "index_328ffb7c047c4c268a57469bbfb9069b",
+        "elapsedMs": 11.49,
+        "answer": "# 维修工单派工接单完工验收\n\n工单按待派工、已派工、处理中、待验收、验收通过或验收退回流转。安全管理人员派工并指定稳定身份 ID；只有被派工人可接单，物业代接需说明原因并记录实际接单人。只有实际接单人能提交完工，必须填写维修措施；验收退回需要理由。验收由安全管理人员执行，维修人员不能自行验收。验收通过只推进问题待复查，不能直接关闭问题或预警。",
+        "scope": "global"
+      }
+    },
+    {
+      "question": "继续观察需要登记下一次复查日期吗？",
+      "expectedSource": "docs/knowledge/operations/rechecks.md",
+      "passed": true,
+      "response": {
+        "decision": "answer",
+        "reason": "标准 FAQ 命中；请核对原文引用",
+        "candidates": [
+          {
+            "documentId": "knowledge_ab87131e48024c4ca3b9197d5741a440",
+            "chunkId": "knowledge_ab87131e48024c4ca3b9197d5741a440:v1:0",
+            "title": "复查观察复发与有效轮次",
+            "heading": "复查观察复发与有效轮次",
+            "text": "# 复查观察复发与有效轮次\n\n待复查问题必须登记事项、责任人、目标日期，结论分为确认恢复、继续观察、复发转处置。确认恢复关闭问题；继续观察必须登记下一次复查日期并保留轮次历史，不能算最终闭环；复发回到待审核继续处置，不另建无关问题。开始新的维修周期会使未出结论旧轮次失效并记录原因，新工单验收后应重新登记有效复查，不能沿用失效轮次关闭。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/operations/rechecks.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "a07708d437b5b1be35baf21864409e7de2c43cefd7c7c4376c9f3f4d93de598c",
+            "methods": [
+              "faq",
+              "keyword",
+              "vector"
+            ],
+            "relevance": 1.0,
+            "keywordScore": 0.73333,
+            "vectorScore": 0.68016,
+            "matchedTerms": 11
+          },
+          {
+            "documentId": "knowledge_432e5a30c3664555829fe86dc1c78ab9",
+            "chunkId": "knowledge_432e5a30c3664555829fe86dc1c78ab9:v1:0",
+            "title": "报表统计粒度与闭环口径",
+            "heading": "报表统计粒度与闭环口径",
+            "text": "# 报表统计粒度与闭环口径\n\n预警响应时长按事件产生到首次人工确认或转出问题的较早时刻计算。问题按期闭环率按已关闭且登记过复查的问题，与最后有效复查目标日期比较；观察中不算最终闭环，验收率不等于问题关闭率。复查与保养按期完成率分别按轮次结论时间和保养执行时间核对目标日期。没有结果的对象单列，不假造百分比。报表支持按时间、楼栋、测点筛选并导出明细。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/platform/reports.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "64035b9182d9588efe75ebcdf95b86f16eea318426f203a113e0fb55ddc8002b",
+            "methods": [
+              "keyword",
+              "vector"
+            ],
+            "relevance": 0.46207,
+            "keywordScore": 0.26667,
+            "vectorScore": 0.56728,
+            "matchedTerms": 4
+          },
+          {
+            "documentId": "knowledge_9d1adf790c874ea9ae855c50f608b5bf",
+            "chunkId": "knowledge_9d1adf790c874ea9ae855c50f608b5bf:v1:0",
+            "title": "楼栋楼层测点设备归档",
+            "heading": "楼栋楼层测点设备归档",
+            "text": "# 楼栋楼层测点设备归档\n\n档案按楼栋、楼层、测点、设备组织，测点必须属于有效楼栋和楼层。编号和 NFC 标签不能重复，位置变更需要原因并保留历史。有历史数据的对象使用归档而非物理删除；有在册测点时上级楼栋或楼层不能归档。恢复档案前应核对上级仍在册，历史监测记录仍可追溯。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/platform/archive.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "d068e2e71050bd1215cdef716eea8d6a70d9a6bcb52054c03392cf54ddeab291",
+            "methods": [
+              "keyword",
+              "vector"
+            ],
+            "relevance": 0.38892,
+            "keywordScore": 0.06667,
+            "vectorScore": 0.56244,
+            "matchedTerms": 1
+          }
+        ],
+        "mode": "hybrid",
+        "degradedReason": "",
+        "indexVersion": "index_328ffb7c047c4c268a57469bbfb9069b",
+        "elapsedMs": 11.74,
+        "answer": "# 复查观察复发与有效轮次\n\n待复查问题必须登记事项、责任人、目标日期，结论分为确认恢复、继续观察、复发转处置。确认恢复关闭问题；继续观察必须登记下一次复查日期并保留轮次历史，不能算最终闭环；复发回到待审核继续处置，不另建无关问题。开始新的维修周期会使未出结论旧轮次失效并记录原因，新工单验收后应重新登记有效复查，不能沿用失效轮次关闭。",
+        "scope": "global"
+      }
+    },
+    {
+      "question": "每个问题最多能上传几张照片多大？",
+      "expectedSource": "docs/knowledge/operations/photos.md",
+      "passed": true,
+      "response": {
+        "decision": "answer",
+        "reason": "标准 FAQ 命中；请核对原文引用",
+        "candidates": [
+          {
+            "documentId": "knowledge_5e57e62df1c24f1587973b9508fc617c",
+            "chunkId": "knowledge_5e57e62df1c24f1587973b9508fc617c:v1:0",
+            "title": "照片配额归属与补传",
+            "heading": "照片配额归属与补传",
+            "text": "# 照片配额归属与补传\n\n业务照片真实字节保存在私有持久化目录，数据库保存媒体元数据与哈希，不能以临时 URL 或 base64 替代原件。每个问题、工单或保养归属最多三张照片，合计不超过六百 KB，服务端校验体积、类型、所有权、测点和唯一归属。上传成功后可用 draftId 与 mediaId 重试补关联，不重复占配额。验收照片只允许安全管理人员写入工单。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/operations/photos.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "0ac5bb39e06725faf694420d537274086d408616fa5498be6ceedf54fe2da1bd",
+            "methods": [
+              "faq",
+              "keyword",
+              "vector"
+            ],
+            "relevance": 1.0,
+            "keywordScore": 0.5,
+            "vectorScore": 0.59152,
+            "matchedTerms": 7
+          },
+          {
+            "documentId": "knowledge_837cd050da884d3f8ff540a763a84bb3",
+            "chunkId": "knowledge_837cd050da884d3f8ff540a763a84bb3:v1:0",
+            "title": "问题四来源与独立上报",
+            "heading": "问题四来源与独立上报",
+            "text": "# 问题四来源与独立上报\n\n问题统一接收传感器预警、巡检发现、人工上报和保养异常四种来源，保留原始描述、位置、照片与来源链。每次独立上报使用固定 submissionId，同一次重试复用标识并可补照片，不能把不同上报按同人同日合并。原提交身份、来源、位置和内容必须一致才能重试；人工上报不能私填事件 ID 伪造预警处置关系。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/operations/issues.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "b601042aaa194afd4fdff995a30e8c35a4c788488664281f8de07e85918985b5",
+            "methods": [
+              "keyword",
+              "vector"
+            ],
+            "relevance": 0.40416,
+            "keywordScore": 0.14286,
+            "vectorScore": 0.54486,
+            "matchedTerms": 2
+          },
+          {
+            "documentId": "knowledge_450bc5b8a0474bda9eded5a99f29b8c2",
+            "chunkId": "knowledge_450bc5b8a0474bda9eded5a99f29b8c2:v1:0",
+            "title": "逐点必答清单与异常后续",
+            "heading": "逐点必答清单与异常后续",
+            "text": "# 逐点必答清单与异常后续\n\n巡检任务逐点填写清单，服务端按生成时的清单快照校验必答项。合法检查结果为正常或异常；缺项、空字符串、未知检查项和重复项不能冒充完成。未到点不能提交检查完成。出现异常时必须关联本任务本测点的真实问题，或填写不少于十字的无需建问题依据；部分点位完成仍属于部分完成。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/operations/inspection/checklist.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "d13f03a4ce1203bda8c63b3c3d52fa9db4377f0106bd16540f717ab0e73b3769",
+            "methods": [
+              "keyword",
+              "vector"
+            ],
+            "relevance": 0.35433,
+            "keywordScore": 0.07143,
+            "vectorScore": 0.50666,
+            "matchedTerms": 1
+          }
+        ],
+        "mode": "hybrid",
+        "degradedReason": "",
+        "indexVersion": "index_328ffb7c047c4c268a57469bbfb9069b",
+        "elapsedMs": 12.57,
+        "answer": "# 照片配额归属与补传\n\n业务照片真实字节保存在私有持久化目录，数据库保存媒体元数据与哈希，不能以临时 URL 或 base64 替代原件。每个问题、工单或保养归属最多三张照片，合计不超过六百 KB，服务端校验体积、类型、所有权、测点和唯一归属。上传成功后可用 draftId 与 mediaId 重试补关联，不重复占配额。验收照片只允许安全管理人员写入工单。",
+        "scope": "global"
+      }
+    },
+    {
+      "question": "保养异常怎么转成问题？",
+      "expectedSource": "docs/knowledge/operations/maintenance.md",
+      "passed": true,
+      "response": {
+        "decision": "answer",
+        "reason": "标准 FAQ 命中；请核对原文引用",
+        "candidates": [
+          {
+            "documentId": "knowledge_8ec8e22ebce2442cb8d7ddcf7815cb21",
+            "chunkId": "knowledge_8ec8e22ebce2442cb8d7ddcf7815cb21:v1:0",
+            "title": "设备保养执行与异常转问题",
+            "heading": "设备保养执行与异常转问题",
+            "text": "# 设备保养执行与异常转问题\n\n设备保养计划配置设备、周期、负责人和执行清单，按周期生成保养任务并冻结快照，一个周期只执行一次。执行时填写必答项、维护措施、材料、照片和下次保养日期。存在异常需说明异常情况，可将异常转问题；保养执行记录与新问题双向关联并同事务提交，重试不多建问题。正常项不能伪装异常转问题，未完成保养不得算按期完成。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/operations/maintenance.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "3faacdf0cebd80ec6f85a3c00005a7f696849833f06543952676644b02f46f68",
+            "methods": [
+              "faq",
+              "keyword",
+              "vector"
+            ],
+            "relevance": 1.0,
+            "keywordScore": 0.33333,
+            "vectorScore": 0.70885,
+            "matchedTerms": 3
+          },
+          {
+            "documentId": "knowledge_837cd050da884d3f8ff540a763a84bb3",
+            "chunkId": "knowledge_837cd050da884d3f8ff540a763a84bb3:v1:0",
+            "title": "问题四来源与独立上报",
+            "heading": "问题四来源与独立上报",
+            "text": "# 问题四来源与独立上报\n\n问题统一接收传感器预警、巡检发现、人工上报和保养异常四种来源，保留原始描述、位置、照片与来源链。每次独立上报使用固定 submissionId，同一次重试复用标识并可补照片，不能把不同上报按同人同日合并。原提交身份、来源、位置和内容必须一致才能重试；人工上报不能私填事件 ID 伪造预警处置关系。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/operations/issues.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "b601042aaa194afd4fdff995a30e8c35a4c788488664281f8de07e85918985b5",
+            "methods": [
+              "keyword",
+              "vector"
+            ],
+            "relevance": 0.5047,
+            "keywordScore": 0.44444,
+            "vectorScore": 0.53715,
+            "matchedTerms": 4
+          },
+          {
+            "documentId": "knowledge_450bc5b8a0474bda9eded5a99f29b8c2",
+            "chunkId": "knowledge_450bc5b8a0474bda9eded5a99f29b8c2:v1:0",
+            "title": "逐点必答清单与异常后续",
+            "heading": "逐点必答清单与异常后续",
+            "text": "# 逐点必答清单与异常后续\n\n巡检任务逐点填写清单，服务端按生成时的清单快照校验必答项。合法检查结果为正常或异常；缺项、空字符串、未知检查项和重复项不能冒充完成。未到点不能提交检查完成。出现异常时必须关联本任务本测点的真实问题，或填写不少于十字的无需建问题依据；部分点位完成仍属于部分完成。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/operations/inspection/checklist.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "d13f03a4ce1203bda8c63b3c3d52fa9db4377f0106bd16540f717ab0e73b3769",
+            "methods": [
+              "keyword",
+              "vector"
+            ],
+            "relevance": 0.43872,
+            "keywordScore": 0.22222,
+            "vectorScore": 0.55529,
+            "matchedTerms": 2
+          }
+        ],
+        "mode": "hybrid",
+        "degradedReason": "",
+        "indexVersion": "index_328ffb7c047c4c268a57469bbfb9069b",
+        "elapsedMs": 11.78,
+        "answer": "# 设备保养执行与异常转问题\n\n设备保养计划配置设备、周期、负责人和执行清单，按周期生成保养任务并冻结快照，一个周期只执行一次。执行时填写必答项、维护措施、材料、照片和下次保养日期。存在异常需说明异常情况，可将异常转问题；保养执行记录与新问题双向关联并同事务提交，重试不多建问题。正常项不能伪装异常转问题，未完成保养不得算按期完成。",
+        "scope": "global"
+      }
+    },
+    {
+      "question": "观察中的问题计入最终闭环率吗？",
+      "expectedSource": "docs/knowledge/platform/reports.md",
+      "passed": true,
+      "response": {
+        "decision": "answer",
+        "reason": "标准 FAQ 命中；请核对原文引用",
+        "candidates": [
+          {
+            "documentId": "knowledge_432e5a30c3664555829fe86dc1c78ab9",
+            "chunkId": "knowledge_432e5a30c3664555829fe86dc1c78ab9:v1:0",
+            "title": "报表统计粒度与闭环口径",
+            "heading": "报表统计粒度与闭环口径",
+            "text": "# 报表统计粒度与闭环口径\n\n预警响应时长按事件产生到首次人工确认或转出问题的较早时刻计算。问题按期闭环率按已关闭且登记过复查的问题，与最后有效复查目标日期比较；观察中不算最终闭环，验收率不等于问题关闭率。复查与保养按期完成率分别按轮次结论时间和保养执行时间核对目标日期。没有结果的对象单列，不假造百分比。报表支持按时间、楼栋、测点筛选并导出明细。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/platform/reports.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "64035b9182d9588efe75ebcdf95b86f16eea318426f203a113e0fb55ddc8002b",
+            "methods": [
+              "faq",
+              "keyword",
+              "vector"
+            ],
+            "relevance": 1.0,
+            "keywordScore": 0.61538,
+            "vectorScore": 0.59647,
+            "matchedTerms": 8
+          },
+          {
+            "documentId": "knowledge_ab87131e48024c4ca3b9197d5741a440",
+            "chunkId": "knowledge_ab87131e48024c4ca3b9197d5741a440:v1:0",
+            "title": "复查观察复发与有效轮次",
+            "heading": "复查观察复发与有效轮次",
+            "text": "# 复查观察复发与有效轮次\n\n待复查问题必须登记事项、责任人、目标日期，结论分为确认恢复、继续观察、复发转处置。确认恢复关闭问题；继续观察必须登记下一次复查日期并保留轮次历史，不能算最终闭环；复发回到待审核继续处置，不另建无关问题。开始新的维修周期会使未出结论旧轮次失效并记录原因，新工单验收后应重新登记有效复查，不能沿用失效轮次关闭。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/operations/rechecks.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "a07708d437b5b1be35baf21864409e7de2c43cefd7c7c4376c9f3f4d93de598c",
+            "methods": [
+              "keyword",
+              "vector"
+            ],
+            "relevance": 0.44178,
+            "keywordScore": 0.38462,
+            "vectorScore": 0.47255,
+            "matchedTerms": 5
+          },
+          {
+            "documentId": "knowledge_8ec8e22ebce2442cb8d7ddcf7815cb21",
+            "chunkId": "knowledge_8ec8e22ebce2442cb8d7ddcf7815cb21:v1:0",
+            "title": "设备保养执行与异常转问题",
+            "heading": "设备保养执行与异常转问题",
+            "text": "# 设备保养执行与异常转问题\n\n设备保养计划配置设备、周期、负责人和执行清单，按周期生成保养任务并冻结快照，一个周期只执行一次。执行时填写必答项、维护措施、材料、照片和下次保养日期。存在异常需说明异常情况，可将异常转问题；保养执行记录与新问题双向关联并同事务提交，重试不多建问题。正常项不能伪装异常转问题，未完成保养不得算按期完成。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/operations/maintenance.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "3faacdf0cebd80ec6f85a3c00005a7f696849833f06543952676644b02f46f68",
+            "methods": [
+              "keyword",
+              "vector"
+            ],
+            "relevance": 0.29489,
+            "keywordScore": 0.07692,
+            "vectorScore": 0.41225,
+            "matchedTerms": 1
+          }
+        ],
+        "mode": "hybrid",
+        "degradedReason": "",
+        "indexVersion": "index_328ffb7c047c4c268a57469bbfb9069b",
+        "elapsedMs": 12.79,
+        "answer": "# 报表统计粒度与闭环口径\n\n预警响应时长按事件产生到首次人工确认或转出问题的较早时刻计算。问题按期闭环率按已关闭且登记过复查的问题，与最后有效复查目标日期比较；观察中不算最终闭环，验收率不等于问题关闭率。复查与保养按期完成率分别按轮次结论时间和保养执行时间核对目标日期。没有结果的对象单列，不假造百分比。报表支持按时间、楼栋、测点筛选并导出明细。",
+        "scope": "global"
+      }
+    },
+    {
+      "question": "备份是否包括本地模型和向量索引？",
+      "expectedSource": "docs/knowledge/platform/backup.md",
+      "passed": true,
+      "response": {
+        "decision": "answer",
+        "reason": "标准 FAQ 命中；请核对原文引用",
+        "candidates": [
+          {
+            "documentId": "knowledge_b11c706a3d6a4bca92564f98fe14f6aa",
+            "chunkId": "knowledge_b11c706a3d6a4bca92564f98fe14f6aa:v1:0",
+            "title": "服务端备份恢复与数据保护",
+            "heading": "服务端备份恢复与数据保护",
+            "text": "# 服务端备份恢复与数据保护\n\n服务端备份包含 SQLite 数据库、私有媒体、会话签名文件以及已准备的本地模型文件。清单记录文件体积与 SHA-256，恢复前核对数据库完整性、引用完整性和全部文件哈希。恢复到独立目录，不覆盖已有目录。备份中的知识文档、版本、FAQ、同义词和向量索引随数据库恢复；模型目录一并恢复后可离线加载。不要用浏览器备份替代服务端持久化备份。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/platform/backup.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "5d99beca11eaf168f5c97965d1305a9bf4046155dd4f317cc973ddf8ceea9fc5",
+            "methods": [
+              "faq",
+              "keyword",
+              "vector"
+            ],
+            "relevance": 1.0,
+            "keywordScore": 0.57143,
+            "vectorScore": 0.58612,
+            "matchedTerms": 8
+          },
+          {
+            "documentId": "knowledge_c7c70c357ae6444eac61da9c7376d842",
+            "chunkId": "knowledge_c7c70c357ae6444eac61da9c7376d842:v1:0",
+            "title": "本地知识检索与依据边界",
+            "heading": "本地知识检索与依据边界",
+            "text": "# 本地知识检索与依据边界\n\n本地知识服务使用标准 FAQ、术语同义词、关键词与 BGE 中文向量混合召回；SQLite 保存向量，NumPy 在本机计算相似度，不调用外部生成或 embedding API。每个候选附文档版本、原文块、行号、哈希、来源和命中方式。相关度不是可信概率；歧义应澄清，库外内容说明没有充分依据。知识启停或新版本后旧块不再引用；模型缺失或索引损坏时明确降级 FAQ/关键词。动态业务数量或当前工单状态应查业务接口，不能从静态知识推测。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/platform/knowledge.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "996561005ee9d409c8b1f66b982599ad4d0da73d718eafdd60d771386a53d51b",
+            "methods": [
+              "keyword",
+              "vector"
+            ],
+            "relevance": 0.46516,
+            "keywordScore": 0.28571,
+            "vectorScore": 0.56179,
+            "matchedTerms": 4
+          },
+          {
+            "documentId": "knowledge_92b9dcb286d74d34afac3b55f07379de",
+            "chunkId": "knowledge_92b9dcb286d74d34afac3b55f07379de:v1:0",
+            "title": "监测录入质量与修订留痕",
+            "heading": "监测录入质量与修订留痕",
+            "text": "# 监测录入质量与修订留痕\n\n监测录入保存测点、设备、读数、单位、采样时间、来源及质量说明。缺失读数不能按零值处理；存疑或无效数据不参与正常判定，超设备量程标记无效；振动读数还需统计窗口。同测点同分钟不能重复采样。修订必须填写原因和当前 rev，保留修订前原值、快照和次数；较早补录不覆盖当前预警状态。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/monitoring/records.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "83dfca4134a028bf0a38859dfa57cbd713d406e8f4f62ad15e47db394cf0c62f",
+            "methods": [
+              "vector"
+            ],
+            "relevance": 0.3199,
+            "keywordScore": 0.0,
+            "vectorScore": 0.49215,
+            "matchedTerms": 0
+          }
+        ],
+        "mode": "hybrid",
+        "degradedReason": "",
+        "indexVersion": "index_328ffb7c047c4c268a57469bbfb9069b",
+        "elapsedMs": 11.81,
+        "answer": "# 服务端备份恢复与数据保护\n\n服务端备份包含 SQLite 数据库、私有媒体、会话签名文件以及已准备的本地模型文件。清单记录文件体积与 SHA-256，恢复前核对数据库完整性、引用完整性和全部文件哈希。恢复到独立目录，不覆盖已有目录。备份中的知识文档、版本、FAQ、同义词和向量索引随数据库恢复；模型目录一并恢复后可离线加载。不要用浏览器备份替代服务端持久化备份。",
+        "scope": "global"
+      }
+    },
+    {
+      "question": "没有模型时还能检索吗？",
+      "expectedSource": "docs/knowledge/platform/knowledge.md",
+      "passed": true,
+      "response": {
+        "decision": "answer",
+        "reason": "标准 FAQ 命中；请核对原文引用",
+        "candidates": [
+          {
+            "documentId": "knowledge_c7c70c357ae6444eac61da9c7376d842",
+            "chunkId": "knowledge_c7c70c357ae6444eac61da9c7376d842:v1:0",
+            "title": "本地知识检索与依据边界",
+            "heading": "本地知识检索与依据边界",
+            "text": "# 本地知识检索与依据边界\n\n本地知识服务使用标准 FAQ、术语同义词、关键词与 BGE 中文向量混合召回；SQLite 保存向量，NumPy 在本机计算相似度，不调用外部生成或 embedding API。每个候选附文档版本、原文块、行号、哈希、来源和命中方式。相关度不是可信概率；歧义应澄清，库外内容说明没有充分依据。知识启停或新版本后旧块不再引用；模型缺失或索引损坏时明确降级 FAQ/关键词。动态业务数量或当前工单状态应查业务接口，不能从静态知识推测。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/platform/knowledge.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "996561005ee9d409c8b1f66b982599ad4d0da73d718eafdd60d771386a53d51b",
+            "methods": [
+              "faq",
+              "keyword",
+              "vector"
+            ],
+            "relevance": 1.0,
+            "keywordScore": 0.33333,
+            "vectorScore": 0.48056,
+            "matchedTerms": 3
+          },
+          {
+            "documentId": "knowledge_b11c706a3d6a4bca92564f98fe14f6aa",
+            "chunkId": "knowledge_b11c706a3d6a4bca92564f98fe14f6aa:v1:0",
+            "title": "服务端备份恢复与数据保护",
+            "heading": "服务端备份恢复与数据保护",
+            "text": "# 服务端备份恢复与数据保护\n\n服务端备份包含 SQLite 数据库、私有媒体、会话签名文件以及已准备的本地模型文件。清单记录文件体积与 SHA-256，恢复前核对数据库完整性、引用完整性和全部文件哈希。恢复到独立目录，不覆盖已有目录。备份中的知识文档、版本、FAQ、同义词和向量索引随数据库恢复；模型目录一并恢复后可离线加载。不要用浏览器备份替代服务端持久化备份。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/platform/backup.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "5d99beca11eaf168f5c97965d1305a9bf4046155dd4f317cc973ddf8ceea9fc5",
+            "methods": [
+              "keyword",
+              "vector"
+            ],
+            "relevance": 0.32423,
+            "keywordScore": 0.11111,
+            "vectorScore": 0.43898,
+            "matchedTerms": 1
+          },
+          {
+            "documentId": "knowledge_5e57e62df1c24f1587973b9508fc617c",
+            "chunkId": "knowledge_5e57e62df1c24f1587973b9508fc617c:v1:0",
+            "title": "照片配额归属与补传",
+            "heading": "照片配额归属与补传",
+            "text": "# 照片配额归属与补传\n\n业务照片真实字节保存在私有持久化目录，数据库保存媒体元数据与哈希，不能以临时 URL 或 base64 替代原件。每个问题、工单或保养归属最多三张照片，合计不超过六百 KB，服务端校验体积、类型、所有权、测点和唯一归属。上传成功后可用 draftId 与 mediaId 重试补关联，不重复占配额。验收照片只允许安全管理人员写入工单。",
+            "version": 1,
+            "sourcePath": "docs/knowledge/operations/photos.md",
+            "sourceKind": "project",
+            "lineStart": 1,
+            "lineEnd": 3,
+            "sha256": "0ac5bb39e06725faf694420d537274086d408616fa5498be6ceedf54fe2da1bd",
+            "methods": [
+              "vector"
+            ],
+            "relevance": 0.31861,
+            "keywordScore": 0.0,
+            "vectorScore": 0.49017,
+            "matchedTerms": 0
+          }
+        ],
+        "mode": "hybrid",
+        "degradedReason": "",
+        "indexVersion": "index_328ffb7c047c4c268a57469bbfb9069b",
+        "elapsedMs": 11.93,
+        "answer": "# 本地知识检索与依据边界\n\n本地知识服务使用标准 FAQ、术语同义词、关键词与 BGE 中文向量混合召回；SQLite 保存向量，NumPy 在本机计算相似度，不调用外部生成或 embedding API。每个候选附文档版本、原文块、行号、哈希、来源和命中方式。相关度不是可信概率；歧义应澄清，库外内容说明没有充分依据。知识启停或新版本后旧块不再引用；模型缺失或索引损坏时明确降级 FAQ/关键词。动态业务数量或当前工单状态应查业务接口，不能从静态知识推测。",
+        "scope": "global"
+      }
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "target": "isolated API 18001 / Web 5181",
+  "browser": "Edge, genuine UI operations",
+  "document": {
+    "id": "knowledge_8a368f53975e4169aa3dba0f4a4644eb",
+    "title": "阶段六页面验收文档",
+    "sourcePath": "verification/stage6-ui.md",
+    "sourceKind": "project",
+    "version": 2,
+    "enabled": false,
+    "roles": [
+      "safety",
+      "property",
+      "device",
+      "inspector",
+      "repair"
+    ],
+    "rev": 3,
+    "updatedAt": "2026-10-23T11:48:40.978704+00:00",
+    "content": "# 页面核验规则\n\n第二版本保留第一版本，引用必须使用当前启用版本。",
+    "sha256": "ae80aa2a7317d790f3fd9f8ac417d5c50623c3aa1b976c0b9f6d744864d484c2",
+    "chunks": [
+      {
+        "id": "knowledge_8a368f53975e4169aa3dba0f4a4644eb:v2:0",
+        "heading": "页面核验规则",
+        "text": "# 页面核验规则\n\n第二版本保留第一版本，引用必须使用当前启用版本。",
+        "lineStart": 1,
+        "lineEnd": 3,
+        "sha256": "ae80aa2a7317d790f3fd9f8ac417d5c50623c3aa1b976c0b9f6d744864d484c2"
+      }
+    ],
+    "versions": [
+      {
+        "version": 1,
+        "sha256": "2bbdff6eac48c4891fa34335d2e43e3033e528769cbf9e628804fe495cc629fd",
+        "createdAt": "2026-10-23T11:47:46.403171+00:00"
+      },
+      {
+        "version": 2,
+        "sha256": "ae80aa2a7317d790f3fd9f8ac417d5c50623c3aa1b976c0b9f6d744864d484c2",
+        "createdAt": "2026-10-23T11:48:29.205091+00:00"
+      }
+    ]
+  },
+  "faq": {
+    "id": "faqs_3209b4b420b24efc996aea76356c1072",
+    "enabled": false,
+    "rev": 2,
+    "chunkId": "knowledge_eae03e9a929849a4a10826b2c7116f50:v1:0",
+    "questions": [
+      "页面标准问法核验"
+    ]
+  },
+  "synonym": {
+    "id": "synonyms_23b2e22ec43f4989a9c712075302b57f",
+    "enabled": false,
+    "rev": 2,
+    "canonical": "页面核验术语",
+    "aliases": [
+      "页面核验别名"
+    ]
+  },
+  "repairWriteControls": 0,
+  "repairCreateControls": 0,
+  "searchEvidence": "../ui/management-and-search.txt",
+  "screenshot": "../ui/management-and-search.png"
+}
