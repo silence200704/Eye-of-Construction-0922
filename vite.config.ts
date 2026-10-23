@@ -15,6 +15,12 @@ export default defineConfig({
     },
   },
   server: {
+    // Windows 目录监听会阻止备份原子改名；后端运行资产不参与前端热更新。
+    watch: { ignored: [
+      '**/backend/.runtime*', '**/backend/.runtime*/**',
+      '**/backend/.stage5-*', '**/backend/.stage5-*/**',
+      '**/backend/.venv', '**/backend/.venv/**',
+    ] },
     port: 5180,
     strictPort: true,
     host: '127.0.0.1',

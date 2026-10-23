@@ -33,4 +33,5 @@ backend/.runtime/
 
 # 阶段 5 独立取证库与备份（不提交）
 backend/.runtime-*/
+/.runtime-*/
 backend/.stage5-*/
