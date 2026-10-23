@@ -11,6 +11,7 @@ from .core.settings import Settings
 from .db.database import Database
 from .routers import auth, health, importing, media
 from .routers.datasets import alarms, archive, common, monitoring
+from .routers.datasets.assistant import api as assistant_api
 from .routers.datasets.field import api as field_api
 from .routers.datasets.field import reports_api
 from .routers.datasets.knowledge import api as knowledge_api
@@ -56,5 +57,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(alarms.router)
     app.include_router(field_api.router)
     app.include_router(reports_api.router)
+    app.include_router(assistant_api.router)
+    app.include_router(assistant_api.media_router)
     app.include_router(knowledge_api.router)
     return app
