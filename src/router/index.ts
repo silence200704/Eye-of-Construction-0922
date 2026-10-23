@@ -5,6 +5,7 @@ import ArchiveView from '@/views/ArchiveView.vue'
 import MonitorView from '@/views/MonitorView.vue'
 import StandardsView from '@/views/StandardsView.vue'
 const MediaView = () => import('@/views/media/MediaView.vue')
+const KnowledgeView = () => import('@/views/knowledge/KnowledgeView.vue')
 import DashboardView from '@/views/dashboard/DashboardView.vue'
 import AlarmsView from '@/views/AlarmsView.vue'
 import TrendView from '@/views/TrendView.vue'
@@ -20,6 +21,8 @@ import EventReportView from '@/views/operations/EventReportView.vue'
  * 直接打开或刷新任意页面都能正确落到对应视图。
  */
 const routes: RouteRecordRaw[] = [
+  { path: '/knowledge', name: 'knowledge', component: KnowledgeView,
+    meta: { title: '知识库', sub: '项目知识、FAQ、同义词与本地向量检索依据' } },
   {
     path: '/',
     name: 'overview',

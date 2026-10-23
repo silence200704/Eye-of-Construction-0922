@@ -37,6 +37,7 @@ export const NAV_GROUPS: NavGroup[] = [
   },
   {
     key: 'manage', label: '做管理', items: [
+      { to: '/knowledge', label: '知识库', d: 'M3 4h7l2 2 2-2h7v16h-7l-2 1-2-1H3zM12 6v15' },
       { to: '/reports', label: '管理报表', d: 'M4 20h16M6 17V9M11 17V5M16 17v-6M21 17v-9' },
       { to: '/settings', label: '系统设置', d: 'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM19 15l2 2-3 3-2-2M5 9L3 7l3-3 2 2' },
     ],
@@ -44,6 +45,7 @@ export const NAV_GROUPS: NavGroup[] = [
 ]
 
 export const NAV_WORKSPACES: NavWorkspace[] = [
+  { primary: '/knowledge', paths: ['/knowledge'], tabs: [] },
   { primary: '/dashboard', paths: ['/', '/dashboard'], tabs: [
     { to: '/dashboard', label: '传感器驾驶舱' }, { to: '/', label: '校园总览' },
   ] },
