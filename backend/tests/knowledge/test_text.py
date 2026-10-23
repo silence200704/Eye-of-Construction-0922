@@ -8,5 +8,5 @@ def test_long_single_paragraph_stays_bounded_and_traceable():
     for chunk in chunks:
         assert len(chunk["text"]) <= 700
         assert chunk["sha256"] == digest(chunk["text"])
-        raw = "\n".join(content.splitlines()[chunk["line_start"] - 1:chunk["line_end"]])
+        raw = "\n".join(content.splitlines()[chunk["line_start"] - 1 : chunk["line_end"]])
         assert chunk["text"] in raw

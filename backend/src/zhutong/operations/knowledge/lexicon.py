@@ -41,7 +41,8 @@ def save(session: Session, workspace: Workspace, kind: str, payload: dict) -> di
         values = {normalized(payload["canonical"]), *(normalized(v) for v in payload["aliases"])}
         for other in session.scalars(select(KnowledgeSynonym)):
             reserved = {normalized(other.canonical), *(normalized(v) for v in other.aliases)}
-            if other.id != row_id and other.enabled and values & reserved:
+            canonical_conflict = normalized(other.canonical) == normalized(payload["canonical"])
+            if other.id != row_id and (canonical_conflict or other.enabled and values & reserved):
                 raise AppError("VALIDATION_FAILED", "同义词与已有业务术语冲突", 422)
         fields = {"canonical": payload["canonical"], "aliases": payload["aliases"]}
     if row is None:

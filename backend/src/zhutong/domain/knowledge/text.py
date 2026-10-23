@@ -58,4 +58,30 @@ def split_content(content: str, title: str) -> list[dict]:
                 "sha256": digest(text),
             }
         )
-    return chunks
+    return [part for chunk in chunks for part in _bounded(chunk)]
+
+
+def _bounded(chunk: dict) -> list[dict]:
+    """超长单行按句界切开；引用仍指向原始行，哈希对应实际片段。"""
+    text = chunk["text"]
+    parts, offset = [], 0
+    while offset < len(text):
+        end = min(offset + 700, len(text))
+        if end < len(text):
+            boundary = max(text.rfind(mark, offset + 350, end) for mark in ("。", "；", "\n"))
+            if boundary >= 0:
+                end = boundary + 1
+        piece = text[offset:end]
+        if piece.strip():
+            start_line = chunk["line_start"] + text[:offset].count("\n")
+            parts.append(
+                {
+                    **chunk,
+                    "text": piece,
+                    "line_start": start_line,
+                    "line_end": start_line + piece.count("\n"),
+                    "sha256": digest(piece),
+                }
+            )
+        offset = end
+    return parts

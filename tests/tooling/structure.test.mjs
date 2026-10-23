@@ -4,6 +4,12 @@ import { test } from 'node:test'
 import ts from 'typescript'
 
 const FILES = [
+  'src/api/knowledge/client.ts',
+  'src/api/knowledge/types.ts',
+  'src/views/knowledge/KnowledgeView.vue',
+  'src/views/knowledge/DocumentEditor.vue',
+  'src/views/knowledge/LexiconEditor.vue',
+  'src/views/knowledge/SearchTrial.vue',
   'src/api/http/client.ts',
   'src/api/backend/runtime.ts',
   'src/api/backend/field.ts',
@@ -34,7 +40,7 @@ function lineCount(source) {
   return source.split(/\r?\n/).length
 }
 
-test('阶段 5 实际改动的 TS/Vue 函数不超过 80 行、参数不超过 5 个', () => {
+test('阶段 5—6 实际改动的 TS/Vue 函数不超过 80 行、参数不超过 5 个', () => {
   const problems = []
   for (const file of FILES) {
     const source = sourceOf(file)

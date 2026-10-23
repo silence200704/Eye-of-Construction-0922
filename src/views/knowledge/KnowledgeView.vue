@@ -58,7 +58,7 @@ onMounted(() => { if (backendEnabled && session.user) void load() })
     <template v-else>
       <p v-if="error" role="alert">{{ error }}</p><p v-if="message" role="status">{{ message }}</p>
       <section class="knowledge-panel" aria-live="polite">
-        <h2>{{ status?.mode === 'hybrid' ? '本地向量索引可用' : 'FAQ / 关键词模式' }}</h2>
+        <h2>{{ !status ? '索引状态尚未读取' : status.mode === 'hybrid' ? '本地向量索引可用' : 'FAQ / 关键词模式' }}</h2>
         <p v-if="busy">正在读取或处理，请稍候…</p>
         <template v-if="status"><p>{{ status.chunkCount }} 个当前原文块 · 通用知识供各业务数据集共用</p><p class="knowledge-meta">{{ status.modelId }} {{ status.dimension ? `· ${status.dimension} 维` : '' }} · 索引 {{ status.activeIndexId ?? '未发布' }}</p><p v-if="status.degradedReason" class="knowledge-warning">{{ status.degradedReason }}</p><p v-if="status.lastError" role="alert">最近构建错误：{{ status.lastError }}</p></template>
         <button v-if="canMaintain" :disabled="busy" @click="rebuild">重建并发布本地索引</button>
@@ -73,7 +73,7 @@ onMounted(() => { if (backendEnabled && session.user) void load() })
           <DocumentEditor v-if="editor" :key="`${session.user?.id}-${selected?.id ?? 'new'}`" :document="selected" :can-maintain="canMaintain" @saved="load" @cancel="editor = false" />
           <LexiconEditor v-if="canMaintain && !busy" :documents="documents" :faqs="faqs" :synonyms="synonyms" @saved="load" />
         </div>
-        <SearchTrial :key="session.user?.id" />
+        <SearchTrial :key="`${session.user?.id}-${generation}`" />
       </div>
     </template>
   </div>

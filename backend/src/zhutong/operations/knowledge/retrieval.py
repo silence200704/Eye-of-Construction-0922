@@ -84,6 +84,8 @@ def _candidates(session: Session, workspace: Workspace, query: str, vectors: dic
 def _decision(query: str, rows: list[dict]) -> tuple[str, str]:
     if not rows:
         return "no_basis", "当前启用知识中没有充分依据"
+    if sum("faq" in row["methods"] for row in rows) > 1:
+        return "clarify", "同一问法对应多个依据，请补充业务对象并核对 FAQ 绑定"
     if "faq" in rows[0]["methods"]:
         return "answer", "标准 FAQ 命中；请核对原文引用"
     if re.search(

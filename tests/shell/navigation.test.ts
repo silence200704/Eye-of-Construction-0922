@@ -4,17 +4,18 @@ import { NAV_GROUPS, NAV_WORKSPACES, groupOf, primaryOf, workspaceOf } from '@/c
 const routePaths = [
   '/', '/dashboard', '/campus', '/archive', '/monitor', '/trend', '/media',
   '/alarms', '/issues', '/standards', '/inspection', '/maintenance',
-  '/reports', '/reports/event/evt_1', '/settings',
+  '/reports', '/reports/event/evt_1', '/settings', '/knowledge',
 ]
 
 describe('常驻主导航与工作台入口', () => {
-  it('七个主入口各出现一次，分区标题只提供分类', () => {
+  it('八个主入口各出现一次，知识维护入口与分区分类均可定位', () => {
     const entries = NAV_GROUPS.flatMap((group) => group.items)
-    expect(entries).toHaveLength(7)
-    expect(new Set(entries.map((item) => item.to)).size).toBe(7)
+    expect(entries).toHaveLength(8)
+    expect(new Set(entries.map((item) => item.to)).size).toBe(8)
+    expect(primaryOf('/knowledge')).toBe('/knowledge')
     expect(NAV_GROUPS.map((group) => group.label)).toEqual(['看现场', '查数据', '办事务', '做管理'])
     expect(entries.map((item) => item.label)).toEqual([
-      '校园态势', '校园地图', '监测分析', '异常处置', '现场任务', '管理报表', '系统设置',
+      '校园态势', '校园地图', '监测分析', '异常处置', '现场任务', '知识库', '管理报表', '系统设置',
     ])
   })
 

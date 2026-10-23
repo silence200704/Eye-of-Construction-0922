@@ -60,7 +60,16 @@ def evaluate(client: Client, source: Path) -> dict:
         "datasetSha256": hashlib.sha256(raw).hexdigest(),
         "total": len(results),
         "passed": sum(row["passed"] for row in results),
-        "answerTop3": sum(row["top3Hit"] for row in results),
+        "answerTop3": sum(
+            row["passed"] for row in results if row.get("expectedDecision", "answer") == "answer"
+        ),
+        "candidateTop3": sum(row["top3Hit"] for row in results),
+        "clarifyPassed": sum(
+            row["passed"] for row in results if row.get("expectedDecision") == "clarify"
+        ),
+        "noBasisPassed": sum(
+            row["passed"] for row in results if row.get("expectedDecision") == "no_basis"
+        ),
         "citationsValid": all(row["citationsValid"] for row in results),
         "medianMs": statistics.median(timings),
         "maxMs": max(timings),
