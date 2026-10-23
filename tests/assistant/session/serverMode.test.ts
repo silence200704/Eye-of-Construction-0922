@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createPinia, setActivePinia } from 'pinia'
+import { nextTick } from 'vue'
 
 const askServer = vi.fn()
 const fetchSession = vi.fn()
@@ -15,6 +16,7 @@ vi.mock('@/api/backend/assistant', () => ({
 }))
 
 import { useAssistantStore } from '@/assistant/session'
+import { epochVersion } from '@/api/backend/runtime'
 import { readRegistry } from '@/stores/demo/registry'
 import type { RemoteAnswer, RemoteAskReply, RemoteSession } from '@/api/backend/assistant'
 
@@ -87,6 +89,17 @@ describe('服务端模式下的小瞳会话', () => {
     await pending
     expect(store.last?.result).toBeNull()
     expect(store.last?.error).toContain('已取消')
+  })
+
+  it('数据集 epoch 变化后清空旧会话与上下文', async () => {
+    askServer.mockResolvedValue(reply())
+    const store = useAssistantStore()
+    await store.ask('B03-F2-CRACK01 现在怎么样')
+    expect(store.turns.length).toBe(1)
+    epochVersion.value += 1
+    await nextTick()
+    expect(store.turns).toEqual([])
+    expect(store.notice).toContain('epoch')
   })
 
   it('后端断开时明确失败，不补造回答', async () => {
