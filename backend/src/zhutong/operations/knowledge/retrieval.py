@@ -100,7 +100,19 @@ def _decision(query: str, rows: list[dict]) -> tuple[str, str]:
     if vague or (len(generic) <= 4 and len(set(objects)) != 1):
         return "clarify", "请说明具体对象：预警事件、维修工单、巡检任务还是问题复查？"
     top = rows[0]
-    if top["matchedTerms"] < 2 and top["vectorScore"] < 0.74:
+    has_vector = "vector" in top["methods"]
+    sufficient = (
+        (
+            top["vectorScore"] >= 0.56
+            and top["matchedTerms"] >= 1
+            or top["vectorScore"] >= 0.68
+            or top["vectorScore"] >= 0.45
+            and top["matchedTerms"] >= 2
+        )
+        if has_vector
+        else top["matchedTerms"] >= 2 and top["keywordScore"] >= 0.15
+    )
+    if not sufficient:
         return "no_basis", "相关度不足，当前知识没有充分依据"
     if len(rows) > 1 and top["relevance"] - rows[1]["relevance"] < 0.025 and not objects:
         return "clarify", "多个知识主题接近，请补充业务对象或要执行的动作"

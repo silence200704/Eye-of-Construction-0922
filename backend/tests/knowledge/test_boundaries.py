@@ -10,8 +10,11 @@ from .test_api import document, post
 def test_lexicon_rejects_blank_values(client, settings, kind, values):
     api = Api(client, str(settings.database_url))
     doc = document(api)
-    body = ({"chunkId": doc["chunks"][0]["id"], "questions": values} if kind == "faqs"
-            else {"canonical": "通知", "aliases": values})
+    body = (
+        {"chunkId": doc["chunks"][0]["id"], "questions": values}
+        if kind == "faqs"
+        else {"canonical": "通知", "aliases": values}
+    )
     assert post(api, "/" + kind, body).status_code == 422
 
 

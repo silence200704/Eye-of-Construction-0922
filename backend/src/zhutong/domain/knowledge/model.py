@@ -19,6 +19,16 @@ class LocalEncoder:
     def __init__(self, directory: Path):
         manifest_bytes = (directory / "manifest.json").read_bytes()
         manifest = json.loads(manifest_bytes)
+        if (
+            not isinstance(manifest, dict)
+            or not isinstance(manifest.get("files"), dict)
+            or not {"model.onnx", "tokenizer.json"} <= manifest["files"].keys()
+            or not isinstance(manifest.get("dimension"), int)
+            or not 0 < manifest["dimension"] <= 4096
+            or manifest.get("pooling") != "cls"
+            or manifest.get("normalization") != "l2"
+        ):
+            raise ModelUnavailable("本地模型清单格式无效")
         for name, checksum in manifest["files"].items():
             path = (directory / name).resolve()
             if (
@@ -66,7 +76,13 @@ class LocalEncoder:
 def _load(directory: str, stamp: tuple) -> LocalEncoder:
     try:
         return LocalEncoder(Path(directory))
-    except (OSError, ValueError, KeyError, ort.capi.onnxruntime_pybind11_state.Fail) as error:
+    except (
+        OSError,
+        ValueError,
+        KeyError,
+        TypeError,
+        ort.capi.onnxruntime_pybind11_state.Fail,
+    ) as error:
         raise ModelUnavailable(f"本地模型不可用：{type(error).__name__}") from error
 
 

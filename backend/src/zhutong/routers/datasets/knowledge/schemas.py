@@ -1,8 +1,10 @@
-from typing import Literal
+from typing import Annotated, Literal
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, StringConstraints
 
 Role = Literal["safety", "property", "device", "inspector", "repair"]
+Question = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=500)]
+Alias = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=40)]
 
 
 class StrictInput(BaseModel):
@@ -36,7 +38,7 @@ class FAQInput(StrictInput):
     id: str | None = None
     expectedRev: int | None = Field(default=None, ge=1)
     chunkId: str = Field(min_length=1)
-    questions: list[str] = Field(min_length=1, max_length=20)
+    questions: list[Question] = Field(min_length=1, max_length=20)
     enabled: bool = True
 
 
@@ -44,7 +46,7 @@ class SynonymInput(StrictInput):
     id: str | None = None
     expectedRev: int | None = Field(default=None, ge=1)
     canonical: str = Field(min_length=1, max_length=40)
-    aliases: list[str] = Field(min_length=1, max_length=20)
+    aliases: list[Alias] = Field(min_length=1, max_length=20)
     enabled: bool = True
 
 
