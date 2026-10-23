@@ -1,4 +1,3 @@
-import hashlib
 import json
 import sqlite3
 from contextlib import closing
@@ -6,14 +5,9 @@ from pathlib import Path
 
 from ..core.errors import AppError
 from .files import safe_child
+from .integrity import fingerprint as fingerprint
 
 FORMAT = "zhutong-server-backup-v1"
-
-
-def fingerprint(path: Path) -> dict:
-    with path.open("rb") as source:
-        digest = hashlib.file_digest(source, "sha256").hexdigest()
-    return {"size": path.stat().st_size, "sha256": digest}
 
 
 def inspect_database(path: Path) -> dict:

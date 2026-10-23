@@ -135,7 +135,7 @@
       "kind": "clear",
       "query": "今天新增巡检计划后能再次生成任务吗？",
       "expectedDecision": "answer",
-      "expectedSource": "docs/knowledge/operations/plans.md",
+      "expectedSource": "docs/knowledge/operations/inspection/plans.md",
       "expectedHeading": "巡检计划生成与任务快照"
     },
     {
@@ -143,7 +143,7 @@
       "kind": "clear",
       "query": "重复点击生成会产生重复巡检任务吗？",
       "expectedDecision": "answer",
-      "expectedSource": "docs/knowledge/operations/plans.md",
+      "expectedSource": "docs/knowledge/operations/inspection/plans.md",
       "expectedHeading": "巡检计划生成与任务快照"
     },
     {
@@ -151,7 +151,7 @@
       "kind": "clear",
       "query": "读到错误 NFC 标签能算到点吗？",
       "expectedDecision": "answer",
-      "expectedSource": "docs/knowledge/operations/arrival.md",
+      "expectedSource": "docs/knowledge/operations/inspection/arrival.md",
       "expectedHeading": "虚拟 NFC 与人工到点签到"
     },
     {
@@ -159,7 +159,7 @@
       "kind": "clear",
       "query": "到点签到成功就代表巡检完成了吗？",
       "expectedDecision": "answer",
-      "expectedSource": "docs/knowledge/operations/arrival.md",
+      "expectedSource": "docs/knowledge/operations/inspection/arrival.md",
       "expectedHeading": "虚拟 NFC 与人工到点签到"
     },
     {
@@ -167,7 +167,7 @@
       "kind": "clear",
       "query": "发现异常但不建问题需要什么依据？",
       "expectedDecision": "answer",
-      "expectedSource": "docs/knowledge/operations/checklist.md",
+      "expectedSource": "docs/knowledge/operations/inspection/checklist.md",
       "expectedHeading": "逐点必答清单与异常后续"
     },
     {
@@ -175,7 +175,7 @@
       "kind": "clear",
       "query": "部分点位检查完成可以标记整单完成吗？",
       "expectedDecision": "answer",
-      "expectedSource": "docs/knowledge/operations/checklist.md",
+      "expectedSource": "docs/knowledge/operations/inspection/checklist.md",
       "expectedHeading": "逐点必答清单与异常后续"
     },
     {

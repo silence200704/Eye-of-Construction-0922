@@ -83,7 +83,7 @@
     "slug": "plans",
     "title": "巡检计划生成与任务快照",
     "content": "# 巡检计划生成与任务快照\n\n点检或巡检计划配置设备或路线范围、周期、清单、执行角色和启停。手动生成按计划与执行时刻创建任务，业务唯一键防止重复生成。同一天新增或启用计划后可再次生成。任务冻结生成时的楼栋范围、必查点、清单和执行角色；修改计划不追溯改变已有任务，后续周期任务使用新计划。",
-    "sourcePath": "docs/knowledge/operations/plans.md",
+    "sourcePath": "docs/knowledge/operations/inspection/plans.md",
     "sourceKind": "project",
     "faq": [
       "修改巡检计划会改变已生成任务吗？"
@@ -93,7 +93,7 @@
     "slug": "arrival",
     "title": "虚拟 NFC 与人工到点签到",
     "content": "# 虚拟 NFC 与人工到点签到\n\n到点入口核对当前测点的虚拟 NFC 标签与登记版本，错误标签不计到点，成功与失败尝试均留痕。模拟读卡是演示方式，不声称真实硬件采集。人工兜底签到必须填写读卡失败、标签损坏等原因，并核对点位。到点只表明已到场，不等于已完成清单检查。",
-    "sourcePath": "docs/knowledge/operations/arrival.md",
+    "sourcePath": "docs/knowledge/operations/inspection/arrival.md",
     "sourceKind": "project",
     "faq": [
       "人工签到为什么必须写原因？"
@@ -103,7 +103,7 @@
     "slug": "checklist",
     "title": "逐点必答清单与异常后续",
     "content": "# 逐点必答清单与异常后续\n\n巡检任务逐点填写清单，服务端按生成时的清单快照校验必答项。合法检查结果为正常或异常；缺项、空字符串、未知检查项和重复项不能冒充完成。未到点不能提交检查完成。出现异常时必须关联本任务本测点的真实问题，或填写不少于十字的无需建问题依据；部分点位完成仍属于部分完成。",
-    "sourcePath": "docs/knowledge/operations/checklist.md",
+    "sourcePath": "docs/knowledge/operations/inspection/checklist.md",
     "sourceKind": "project",
     "faq": [
       "必答项没填完能完成巡检吗？"

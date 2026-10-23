@@ -4,7 +4,7 @@ import json
 import shutil
 from pathlib import Path
 
-from .backup_manifest import fingerprint
+from .integrity import fingerprint
 from .files import safe_child
 
 MODEL_PREFIX = "models/bge-small-zh-v1.5/"

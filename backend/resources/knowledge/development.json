@@ -50,19 +50,19 @@
   {
     "id": "dev-9",
     "query": "计划改完旧任务归谁干",
-    "expectedSource": "docs/knowledge/operations/plans.md",
+    "expectedSource": "docs/knowledge/operations/inspection/plans.md",
     "expectedHeading": "巡检计划生成与任务快照"
   },
   {
     "id": "dev-10",
     "query": "扫错标签还能算到场吗",
-    "expectedSource": "docs/knowledge/operations/arrival.md",
+    "expectedSource": "docs/knowledge/operations/inspection/arrival.md",
     "expectedHeading": "虚拟 NFC 与人工到点签到"
   },
   {
     "id": "dev-11",
     "query": "必填项空着能不能交巡检",
-    "expectedSource": "docs/knowledge/operations/checklist.md",
+    "expectedSource": "docs/knowledge/operations/inspection/checklist.md",
     "expectedHeading": "逐点必答清单与异常后续"
   },
   {
