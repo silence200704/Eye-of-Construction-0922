@@ -45,3 +45,19 @@ def test_knowledge_text_is_only_data_and_cannot_write_business(client, settings)
     result = api.ok(post(api, "/search", {"query": "文本是什么"}))
     assert result["answer"] == doc["content"]
     assert before == api.get("/state")
+
+
+def test_disabled_synonym_canonical_cannot_create_duplicate(client, settings):
+    api = Api(client, str(settings.database_url))
+    body = {"canonical": "通知", "aliases": ["提醒"], "enabled": False}
+    assert post(api, "/synonyms", body).status_code == 200
+    assert post(api, "/synonyms", body).status_code == 422
+
+
+def test_conflicting_exact_faqs_require_clarification(client, settings):
+    api = Api(client, str(settings.database_url))
+    for title in ("预警事件关闭", "工单关闭"):
+        doc = document(api, title=title)
+        api.ok(post(api, "/faqs", {"chunkId": doc["chunks"][0]["id"], "questions": ["怎么关闭"]}))
+    found = api.ok(post(api, "/search", {"query": "怎么关闭"}))
+    assert found["decision"] == "clarify" and found["answer"] == ""
