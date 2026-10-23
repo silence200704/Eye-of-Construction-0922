@@ -26,6 +26,7 @@ export type AskIntent =
   | 'media_reason'
   | 'capabilities'
   | 'event_reason'
+  | 'issue_status'
   | 'open_events'
   | 'media_compare'
   | 'video_compare'
@@ -41,6 +42,7 @@ export type AskIntent =
   | 'spatial_go'
   | 'demo_command'
   | 'demo_guide'
+  | 'knowledge'
   | 'unknown'
   | 'point_compare'
   | 'event_replay'
@@ -291,6 +293,35 @@ export interface AskSimulationResult {
 export type AskPreview = AskPointTrendPreview | AskMediaPairPreview | AskVisualEvidencePreview | AskVideoPreview
   | AskCompareResult | AskReplayResult | AskCasesResult | AskSimulationResult
 
+/** 知识引用：阶段 6 检索给出的原文位置与版本，可打开核对，不是业务事实。 */
+export interface AskCitation {
+  documentId: string
+  chunkId: string
+  title: string
+  version: number
+  sha256: string
+  lineStart: number
+  lineEnd: number
+  sourcePath: string
+  methods: string[]
+}
+
+/** 知识检索结论：answer / clarify / no_basis / unavailable，与业务事实分开标注。 */
+export interface AskKnowledgeMeta {
+  decision: 'answer' | 'clarify' | 'no_basis' | 'unavailable'
+  mode: string
+  indexVersion: string | null
+  reason?: string
+  excerpt?: string
+}
+
+/** 本次回答的来源口径：业务事实来自服务端数据库，知识来自本地知识库。 */
+export interface AskSources {
+  facts: 'server_db' | 'none'
+  knowledge?: string
+  queriedAt: string
+}
+
 /** 问答结果。字段顺序即界面建议的阅读顺序：结论 → 数值 → 时间来源 → 证据 → 去向。 */
 export interface AskResult {
   question: string
@@ -322,6 +353,11 @@ export interface AskResult {
   dataNotes: string[]
   /** 本回答依据的"现在"刻度，取自共享时钟；由显式刷新推进 */
   computedAt: string
+  /** 服务端回答附带的本地知识引用；本地演示问答没有这一项 */
+  citations?: AskCitation[]
+  knowledge?: AskKnowledgeMeta
+  /** 业务事实与知识来源分开标注；本地问答没有这一项 */
+  sources?: AskSources
   context?: AskContext
   followups?: string[]
 }

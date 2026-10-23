@@ -12,19 +12,24 @@ import { compareStatusLabel } from '@/core/media/compare'
 import { frameOriginLabel } from '@/types/media'
 import { buildLink } from '../actions'
 import type { AssistantSnapshot } from '../selectors'
+import { backendActive } from '@/api/backend/runtime'
 import { findPoint } from '../selectors'
 import type { PointRef } from '../resolve'
 import { draft, previewsOf, type AnswerDraft } from './shared'
 import { mediaPairPreview } from '../preview/mediaPair'
 
 /** 影像相关回答都要带上的边界说明：少一句就可能被读成"系统在看图下结论"。 */
-export const MEDIA_BOUNDARIES: string[] = [
+export function mediaBoundaries(): string[] {
+  return [
   '影像来源有四类：生成的演示前后照片、公开实拍参考图、人工上传的照片、本地演示视频抽出的关键帧。生成照片的日期是模拟值；公开图非本校照片，显示的是载入时间。',
   '本系统不调用摄像头、不接校园监控，也不调用在线 AI。',
   '预设分析只做像素级差异统计，结论止于"疑似变化 / 未见明显差异 / 不可比对"，**不给宽度（毫米）等物理量**。',
   '影像差异**不会自动生成正式结构预警**；需要数值与判定，请走监测记录与预警规则。',
-  '会话影像只存在当前页面里，刷新即失；要留存请走问题与工单的附件入口。',
-]
+  backendActive()
+    ? '关键帧与比对结果保存在服务端，受身份与楼栋授权保护；照片正式留存仍走问题与工单附件入口。'
+    : '会话影像只存在当前页面里，刷新即失；要留存请走问题与工单的附件入口。',
+  ]
+}
 
 export interface MediaAnswerInput {
   snapshot: AssistantSnapshot
@@ -36,7 +41,7 @@ export interface MediaAnswerInput {
 export function answerMediaCompare(input: MediaAnswerInput): AnswerDraft {
   const { snapshot } = input
   const frames = selectFrames(input)
-  const notes = [`定位口径：${input.matchNote}`, ...MEDIA_BOUNDARIES]
+  const notes = [`定位口径：${input.matchNote}`, ...mediaBoundaries()]
 
   if (frames.length === 0) return emptyAnswer(snapshot, notes)
 

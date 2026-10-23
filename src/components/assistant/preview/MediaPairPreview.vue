@@ -12,6 +12,7 @@ import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { formatDateTime } from '@/core/time'
 import type { Region, PixelMask } from '@/core/media/compare'
 import { useMediaStore } from '@/stores/media'
+import { backendActive } from '@/api/backend/runtime'
 import { frameOriginLabel, type MediaFrame } from '@/types/media'
 import type { AskMediaPairPreview } from '@/assistant/types'
 import PhotoCompareStage from './compare/PhotoCompareStage.vue'
@@ -108,7 +109,7 @@ const sourceLabel = computed(() => (props.preview.source === 'builtin' ? '随包
     </div>
     <p v-if="pair.length !== 2" class="missing">这组会话影像已失效：请到影像对比页重新加入后再问，或重新提问按需读取演示素材。</p>
     <p v-if="props.preview.note !== ''" class="note">{{ props.preview.note }}</p>
-    <p class="boundary">图片仅供前后目视核对；刷新即失，不自动识别裂缝或生成预警。</p>
+    <p class="boundary">图片仅供前后目视核对；{{ backendActive() ? '关键帧已保存到服务端' : '刷新即失' }}，不自动识别裂缝或生成预警。</p>
   </figure>
 </template>
 

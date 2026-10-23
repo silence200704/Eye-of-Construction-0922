@@ -2,15 +2,25 @@ import { computed, ref, watch } from 'vue'
 import { defineStore } from 'pinia'
 import type { Region } from '@/core/media/compare'
 import { useClockStore } from '@/stores/clock'
+import { useBackendSessionStore } from '@/stores/backend/session'
+import { backendActive, epochVersion } from '@/api/backend/runtime'
 import { datasetResetVersion, readRegistry } from '@/stores/demo/registry'
 import { candidateContext, queryContext } from './query/context'
 import { assembleAnswer } from './ask'
+import {
+  REMOTE_INTENTS,
+  askRemote,
+  contextPayload,
+  createRemoteSessionState,
+} from './remote/session'
 import { askWithDirector } from './director/entry'
 import { directorIntent } from './director/intent'
-import { buildGuidePlan } from './guide/plan'
 import type { GuidePlan } from './guide/plan'
-import { buildSnapshot, findPoint, reloadGuideSources } from './selectors'
+import { createGuideRunner } from './guide/reread'
+import { buildSnapshot, findPoint } from './selectors'
 import type { AskCandidate, AskContext, AskResult, AskStage } from './types'
+import { normalizeQuestion, extractEntities, parseIntent } from './parse'
+import { featureIntent } from './features/intent'
 import { isShowcase } from '@/core/demo/workspace'
 
 export type VisualAction =
@@ -72,6 +82,26 @@ export const useAssistantStore = defineStore('assistant', () => {
   const guideCanPrepare = ref(false)
   const guidePlan = ref<GuidePlan | null>(null)
   const guideLoading = ref(false)
+  const guideRunner = createGuideRunner({ guideActive, guideEventId, guideCanPrepare, guidePlan, guideLoading, notice })
+  const endGuide = guideRunner.end
+  const rereadGuide = guideRunner.reread
+  const remoteSession = createRemoteSessionState({
+    turns,
+    context,
+    pageContext,
+    contextLabel,
+    notice,
+    endGuide,
+    bumpGeneration: () => { queryGeneration += 1 },
+    turnOf: (row) => row,
+  })
+  const sessionId = remoteSession.sessionId
+  const rememberServerSession = remoteSession.remember
+  const clearServerTurns = remoteSession.clear
+  async function restoreServerSession(): Promise<void> {
+    if (!backendActive()) return
+    await remoteSession.restore()
+  }
   /** 入口的一次性反馈；null 表示没有正在进行的反馈 */
   const entryBurst = ref<MascotState | null>(null)
   let burstTimer: ReturnType<typeof setTimeout> | null = null
@@ -112,6 +142,7 @@ export const useAssistantStore = defineStore('assistant', () => {
   function toggle(): void {
     if (!open.value) {
       syncDataset()
+      void restoreServerSession()
       // 打开导览时重读数据库：别处（另一个入口/另一个标签）刚写过的状态要能被看到
       if (guideActive.value) void rereadGuide()
     }
@@ -120,40 +151,6 @@ export const useAssistantStore = defineStore('assistant', () => {
 
   function close(): void {
     open.value = false
-  }
-
-  function endGuide(): void {
-    // 结束导览时让**在途的重读失效**：否则它读取完成后会把旧计划写回状态，
-    // 出现"导览已结束却又冒出一张卡"。序号一加，进行中的那次结果就被丢弃。
-    rereadSeq += 1
-    guideActive.value = false
-    guideEventId.value = ''
-    guideCanPrepare.value = false
-    guidePlan.value = null
-    guideLoading.value = false
-  }
-
-  let rereadSeq = 0
-  async function rereadGuide(): Promise<void> {
-    if (!guideActive.value) {
-      guidePlan.value = null
-      return
-    }
-    rereadSeq += 1
-    const seq = rereadSeq
-    guideLoading.value = true
-    try {
-      await reloadGuideSources()
-      const plan = buildGuidePlan(buildSnapshot(), guideEventId.value)
-      if (seq === rereadSeq) guidePlan.value = plan
-    } catch (cause) {
-      if (seq === rereadSeq) {
-        guidePlan.value = null
-        notice.value = `阶段读取失败：${cause instanceof Error ? cause.message : String(cause)}`
-      }
-    } finally {
-      if (seq === rereadSeq) guideLoading.value = false
-    }
   }
 
   function setPageContext(next: AskContext): void {
@@ -178,10 +175,12 @@ export const useAssistantStore = defineStore('assistant', () => {
   function syncDataset(force = false): void {
     const at = readRegistry().resetAt
     if (!force && at === datasetStamp.value) return
-    queryGeneration += 1
-    pageContext.value = {}
     datasetStamp.value = at
-    turns.value = []
+    if (turns.value.length > 0 || sessionId.value !== '') {
+      clearServerTurns('数据集已切换（清空 / 重新载入 / 导入备份），已清空上一轮的问答记录。')
+      return
+    }
+    pageContext.value = {}
     context.value = {}
     contextLabel.value = ''
     endGuide()
@@ -189,6 +188,19 @@ export const useAssistantStore = defineStore('assistant', () => {
   }
 
   watch(datasetResetVersion, () => syncDataset(true), { flush: 'sync' })
+  watch(epochVersion, () => {
+    if (turns.value.length > 0 || sessionId.value !== '') {
+      clearServerTurns('数据集已复位（epoch 变化），旧会话与对象上下文已失效，请重新提问。')
+    }
+  })
+  watch(
+    () => useBackendSessionStore().user?.id ?? '',
+    () => {
+      if (turns.value.length > 0 || sessionId.value !== '') {
+        clearServerTurns('身份已切换，旧会话已清空。')
+      }
+    },
+  )
 
   function clearTurns(): void {
     queryGeneration += 1
@@ -215,6 +227,7 @@ export const useAssistantStore = defineStore('assistant', () => {
   async function openWith(kind: 'point' | 'event', id: string, label: string, question = DEFAULT_QUESTION[kind]): Promise<void> {
     syncDataset()
     open.value = true
+    await restoreServerSession()
     queryGeneration += 1
     context.value = kind === 'point' ? { pointId: id } : { eventId: id }
     contextLabel.value = label
@@ -243,7 +256,9 @@ export const useAssistantStore = defineStore('assistant', () => {
     }
     syncDataset()
     const generation = queryGeneration
-    const resolved = queryContext({ question: text, page: pageContext.value, previous: context.value, snapshot: buildSnapshot() })
+    const normalized = normalizeQuestion(text)
+    const localIntent = featureIntent(text, context.value) ?? parseIntent(normalized, extractEntities(normalized))
+    const useRemote = backendActive() && REMOTE_INTENTS.has(localIntent)
     const previousVisual = turns.value.flatMap((t) => t.result?.previews ?? []).filter((p) => p.kind === 'visual_evidence').slice(-1)[0]
     seq += 1
     const id = `turn_${seq}`
@@ -251,6 +266,28 @@ export const useAssistantStore = defineStore('assistant', () => {
     turns.value = [...turns.value, turn]
     busy.value = true
     try {
+      if (useRemote) {
+        const remote = await askRemote({
+          question: text,
+          sessionId: sessionId.value,
+          context: contextPayload(context.value, pageContext.value),
+          stillCurrent: () => generation === queryGeneration,
+        })
+        rememberServerSession(remote.sessionId)
+        if (generation !== queryGeneration) return
+        const result = remote.result
+        update(id, { result })
+        if (result.context) context.value = result.context
+        else if (result.pointId !== null) context.value = { pointId: result.pointId }
+        flashEntry(mascotStateOf(result))
+        if (result.gaps.some((gap) => gap.includes('重新选择'))) {
+          context.value = {}
+          contextLabel.value = ''
+        }
+        if (result.status === 'not_found' && result.conclusion.includes('已不在当前数据集')) clearContext()
+        return
+      }
+      const resolved = queryContext({ question: text, page: pageContext.value, previous: context.value, snapshot: buildSnapshot() })
       const request = {
         context: 'conclusion' in resolved ? {} : { ...resolved },
         visualResult: previousVisual?.kind === 'visual_evidence' ? previousVisual.results[previousVisual.active] ?? undefined : undefined,

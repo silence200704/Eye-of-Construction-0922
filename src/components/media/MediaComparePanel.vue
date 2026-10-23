@@ -10,7 +10,8 @@
 import { computed, onUnmounted, ref, watch } from 'vue'
 import { clampRegion, compareStatusLabel, DEFAULT_COMPARE_OPTIONS, isUsableRegion, sameRegion, type Region } from '@/core/media/compare'
 import { useMediaStore } from '@/stores/media'
-import { frameOriginLabel, MEDIA_SESSION_NOTE, type MediaFrame } from '@/types/media'
+import { frameOriginLabel, MEDIA_SESSION_NOTE, MEDIA_SESSION_NOTE_SERVER, type MediaFrame } from '@/types/media'
+import { backendActive } from '@/api/backend/runtime'
 import { formatDateTime } from '@/core/time'
 import SectionCard from '@/components/ui/SectionCard.vue'
 import AppButton from '@/components/ui/AppButton.vue'
@@ -31,6 +32,9 @@ const frames = computed(() => media.framesOf(props.pointId))
 const before = computed(() => frames.value.find((row) => row.id === beforeId.value) ?? null)
 const after = computed(() => frames.value.find((row) => row.id === afterId.value) ?? null)
 const result = computed(() => (media.compare !== null && media.compare.pointId === props.pointId ? media.compare : null))
+const savedCount = computed(() => (backendActive()
+  ? media.remoteComparisons.filter((row) => row.pointId === props.pointId).length
+  : 0))
 const ready = computed(() => before.value !== null && after.value !== null && beforeId.value !== afterId.value)
 
 /** 选择或框选变动后清掉旧结论，小瞳也就不会把旧区域的结果当成当前结果复述。 */
@@ -125,7 +129,7 @@ const bounds = computed(() => [
   '结论来自像素级亮度差异统计，属于预设分析，不是裂缝识别。',
   '没有标定，因此不给宽度（毫米）等物理量；需要数值请走监测记录与预警判定。',
   '影像差异不会自动生成正式结构预警，是否处置由人工判断。',
-  MEDIA_SESSION_NOTE,
+  backendActive() ? MEDIA_SESSION_NOTE_SERVER : MEDIA_SESSION_NOTE,
 ])
 
 function frameLabel(frame: MediaFrame): string {
@@ -239,6 +243,7 @@ function imageStageStyle(frame: MediaFrame): { aspectRatio: string; maxWidth: st
           <li v-for="(text, index) in bounds" :key="index">{{ text }}</li>
         </ul>
       </div>
+      <p v-if="savedCount > 0" class="hint">服务端已保存该测点 {{ savedCount }} 次比对记录（受身份与楼栋授权保护）。</p>
     </div>
   </SectionCard>
 </template>

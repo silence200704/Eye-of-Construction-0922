@@ -18,6 +18,7 @@ import type { AlarmEvent, EventEvidence } from '@/types/events'
 import { EVENT_LEVEL_LABEL, EVENT_STATUS_LABEL } from '@/types/events'
 import { frameOriginLabel, type MediaFrameRef } from '@/types/media'
 import { buildLink, buildSpatialLink } from '../actions'
+import { backendActive } from '@/api/backend/runtime'
 import { dataSourceLabel, draft, provenanceOf, type AnswerDraft } from '../answers/shared'
 import { pointTrendPreview } from '../preview/pointTrend'
 import type { PointRef } from '../resolve'
@@ -367,7 +368,9 @@ export function noFramesDraft(input: {
   const { point, scenarioReady } = input
   const gaps = scenarioReady
     ? [
-        '视觉演示素材已经准备好，但还没有读取到当前会话：再问一次这句话就会按需读取（素材随包提供，只放会话、刷新即失）。',
+        backendActive()
+          ? '视觉演示素材已经准备好，但还没有读取到当前登录会话：再问一次这句话就会按需读取，读取后会保存到服务端并受授权保护。'
+          : '视觉演示素材已经准备好，但还没有读取到当前会话：再问一次这句话就会按需读取（素材随包提供，只放会话、刷新即失）。',
         '也可以到影像对比页手动加入照片：人工上传同一位置的两张，或从本地演示视频抽关键帧。',
       ]
     : [

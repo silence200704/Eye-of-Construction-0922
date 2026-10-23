@@ -10,6 +10,7 @@
  */
 import { computed, defineAsyncComponent, ref, watch } from 'vue'
 import { extractEntities, normalizeQuestion, parseIntent } from '@/assistant/parse'
+import { backendActive } from '@/api/backend/runtime'
 import { formatDateTime } from '@/core/time'
 import { DEMO_LIVE_SOURCE_LABEL } from '@/types/catalog'
 import type { AskCandidate, AskLink, AskResult } from '@/assistant/types'
@@ -18,6 +19,7 @@ import { useAnswerReveal } from './reveal/useAnswerReveal'
 import StatusTag from '@/components/ui/StatusTag.vue'
 import XiaotongAvatar from './XiaotongAvatar.vue'
 import AnswerFailure from './presentation/AnswerFailure.vue'
+import AnswerSources from './presentation/AnswerSources.vue'
 import FeatureResult from './preview/FeatureResult.vue'
 const PointTrendPreview = defineAsyncComponent(() => import('./preview/PointTrendPreview.vue'))
 const VideoEvidencePreview = defineAsyncComponent(() => import('./preview/VideoEvidencePreview.vue'))
@@ -49,6 +51,9 @@ const assistant = useAssistantStore()
 const VISUAL_STEPS = ['读取监测记录', '核对关联影像', '计算区域差异', '整理结果']
 const VIDEO_STEPS = ['核对测点与授权', '读取视频并解码', '抽帧与计算区域差异', '整理视频与监测证据']
 const GENERIC_STEPS = ['识别问法与对象', '读取当前本地数据', '整理结论与证据']
+const genericSteps = computed(() => backendActive()
+  ? ['识别问法与对象', '读取当前服务端数据', '整理结论与证据']
+  : GENERIC_STEPS)
 
 /**
  * 回答还没落地时也要先把流程显示对，所以这里用**问答层同一个解析器**判断问句属于哪一类 ——
@@ -62,7 +67,7 @@ const looksVisual = computed(() => {
   const intent = parseIntent(q, extractEntities(q))
   return intent === 'visual_evidence' || intent === 'visual_region' || intent === 'video_compare'
 })
-const thoughtSteps = ref<string[]>(GENERIC_STEPS)
+const thoughtSteps = ref<string[]>([...genericSteps.value])
 
 const { phase, thinkingStep, stepCount, shown, showAll } = useAnswerReveal({
   turn: () => props.turn,
@@ -71,7 +76,7 @@ const { phase, thinkingStep, stepCount, shown, showAll } = useAnswerReveal({
   steps: () => thoughtSteps.value,
 })
 
-watch(looksVisual, (visual) => { thoughtSteps.value = visual ? (/视频|关键帧|短片/.test(props.turn.question) ? VIDEO_STEPS : VISUAL_STEPS) : GENERIC_STEPS }, { immediate: true })
+watch(looksVisual, (visual) => { thoughtSteps.value = visual ? (/视频|关键帧|短片/.test(props.turn.question) ? VIDEO_STEPS : VISUAL_STEPS) : [...genericSteps.value] }, { immediate: true })
 
 /** 导览进行中、且这条回答讲的就是事件处置：要标明它可能已经不是当前阶段。 */
 const staleInGuide = computed(() => {
@@ -93,6 +98,8 @@ const INTENT_TEXT: Record<AskResult['intent'], string> = {
   campus_overview: '全校概况',
   point_status: '单测点状态',
   event_reason: '预警原因',
+  issue_status: '问题与工单',
+  knowledge: '知识说明',
   open_events: '未处理队列',
   media_compare: '影像对比',
   media_reason: '影像结论依据',
@@ -166,7 +173,7 @@ const shallowLinks = computed(() => linkRows.value.filter((link) => !link.deep &
         <i v-for="(step, index) in thoughtSteps" :key="step" :class="{ 'is-active': index <= thinkingStep }" />
       </div>
       <div class="thinking-foot">
-        <small>{{ stepCount }} 个步骤按实际完成进度显示；依据当前本地数据与既有规则，不调用在线 AI</small>
+        <small>{{ stepCount }} 个步骤按实际完成进度显示；{{ backendActive() ? '依据当前服务端业务数据与本地知识库，不调用在线 AI' : '依据当前本地数据与既有规则，不调用在线 AI' }}</small>
         <button type="button" class="skip" @click="showAll()">立即显示全部</button>
       </div>
     </div>
@@ -232,6 +239,11 @@ const shallowLinks = computed(() => linkRows.value.filter((link) => !link.deep &
           </div>
         </dl>
       </div>
+
+      <AnswerSources
+        v-if="shown('source') && (turn.result.sources !== undefined || turn.result.citations?.length)"
+        :result="turn.result"
+      />
 
       <div v-if="shown('evidence') && turn.result.evidence.length > 0" class="block reveal-part">
         <p class="block-title">证据（可与看板、详情逐条核对）</p>

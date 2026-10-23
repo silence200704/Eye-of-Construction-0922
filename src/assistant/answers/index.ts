@@ -10,7 +10,7 @@ export { DEVICE_HEALTH_NOTE, NO_DEVICE_NOTE, dataSourceLabel, draft, provenanceO
 export { answerCampusOverview } from './overview'
 export { answerPointStatus, type PointAnswerInput } from './point'
 export { answerEventReason, type EventAnswerInput } from './event'
-export { MEDIA_BOUNDARIES, answerMediaCompare, type MediaAnswerInput } from './media'
+export { mediaBoundaries, answerMediaCompare, type MediaAnswerInput } from './media'
 export { QUEUE_LIMIT, answerOpenEvents } from './queue'
 export {
   ASK_EXAMPLES,

@@ -146,13 +146,27 @@ export async function ensureStoresLoaded(): Promise<void> {
  * 缓存里那份可能是别处刚写完之前的版本。这里只读，不触发任何写路径。
  */
 export async function reloadGuideSources(): Promise<void> {
+  await reloadAssistantSources()
+}
+
+/** 服务端模式下提问前重读：事实必须来自本次服务端查询，不拿页面旧缓存回答"现在"。 */
+export async function reloadAssistantSources(): Promise<void> {
   const archive = useArchiveStore()
+  const records = useRecordsStore()
   const events = useEventsStore()
   const issues = useIssueStore()
   const workOrders = useWorkOrderStore()
   const tasks = useTaskStore()
   const plans = usePlanStore()
-  await Promise.all([archive.reload(), events.reload(), issues.reload(), workOrders.reload(), tasks.reload(), plans.reload()])
+  await Promise.all([
+    archive.reload(),
+    records.load(),
+    events.reload(),
+    issues.reload(),
+    workOrders.reload(),
+    tasks.reload(),
+    plans.reload(),
+  ])
 }
 
 export function buildSnapshot(): AssistantSnapshot {

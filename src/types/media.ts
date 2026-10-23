@@ -34,6 +34,10 @@ export interface MediaFrame {
   /** 视频关键帧的时间码（秒）；照片为 null */
   videoId?: string
   timeCode: number | null
+  /** 服务端模式下已保存到数据库的媒体与关键帧 ID；本地演示模式没有 */
+  remoteMediaId?: string
+  remoteFrameId?: string
+  remoteContentUrl?: string
 }
 
 /** 只读投影：问答侧只认这些字段，不把 Blob 带进回答层。 */
@@ -69,5 +73,9 @@ export function frameOriginLabel(origin: FrameOrigin): string {
 
 /** 会话影像的边界说明：凡是展示影像的地方都要带上。 */
 export const MEDIA_SESSION_NOTE =
-  '影像只存在当前页面会话里，刷新或关闭页面即消失；正式留存的照片请在问题与工单页按现有附件入口入库。'
+  '本地演示模式下影像只存在当前页面会话里，刷新或关闭页面即消失；服务端模式下关键帧与比对结果保存到数据库，受身份与授权保护。'
+
+/** 服务端模式的影像说明：由 UI 按运行模式选择。 */
+export const MEDIA_SESSION_NOTE_SERVER =
+  '影像与关键帧保存在服务端数据库中，受身份与楼栋授权保护；刷新后从受保护内容接口重建预览。'
 

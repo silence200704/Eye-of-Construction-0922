@@ -10,6 +10,7 @@ export {
   findEvent,
   findPoint,
   issuesOfEvent,
+  reloadAssistantSources,
   reloadGuideSources,
 } from './snapshot'
 

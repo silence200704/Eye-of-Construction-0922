@@ -27,6 +27,19 @@ const FILES = [
   'src/views/operations/ReportsView.vue',
   'src/views/operations/EventReportView.vue',
   'src/components/inspection/issue/WorkOrderPanel.vue',
+  'src/api/backend/assistant.ts',
+  'src/api/backend/mediaSession.ts',
+  'src/assistant/remote/answer.ts',
+  'src/assistant/remote/citations.ts',
+  'src/assistant/remote/session.ts',
+  'src/assistant/guide/reread.ts',
+  'src/assistant/session.ts',
+  'src/media/sessionRemote.ts',
+  'src/stores/media.ts',
+  'src/components/assistant/AskAnswer.vue',
+  'src/components/assistant/presentation/AnswerSources.vue',
+  'src/components/media/MediaSourcePanel.vue',
+  'src/components/media/MediaComparePanel.vue',
 ]
 
 function sourceOf(file) {
@@ -40,7 +53,7 @@ function lineCount(source) {
   return source.split(/\r?\n/).length
 }
 
-test('阶段 5—6 实际改动的 TS/Vue 函数不超过 80 行、参数不超过 5 个', () => {
+test('阶段 5—7 实际改动的 TS/Vue 函数不超过 80 行、参数不超过 5 个', () => {
   const problems = []
   for (const file of FILES) {
     const source = sourceOf(file)

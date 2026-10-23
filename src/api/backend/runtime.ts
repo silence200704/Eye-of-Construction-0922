@@ -4,6 +4,7 @@
  * 数据集固定为 demo-main；epoch 来自服务端，每次写入都带上，复位前的旧请求会被拒绝。
  * 本模块只做传输与类型对齐，不复制业务判定。
  */
+import { ref } from 'vue'
 import { backendEnabled } from '@/api/http/runtime'
 import type { CommandResult } from '@/api/http/client'
 import { useBackendSessionStore } from '@/stores/backend/session'
@@ -11,12 +12,18 @@ import { useBackendSessionStore } from '@/stores/backend/session'
 export const DATASET_ID = 'demo-main'
 let epoch = 1
 
+/** 数据集 epoch 的响应式镜像：复位后问答上下文必须失效。 */
+export const epochVersion = ref(1)
+
 export function backendActive(): boolean {
   return backendEnabled && useBackendSessionStore().user !== null
 }
 
 export function setEpoch(next: number): void {
-  if (Number.isInteger(next) && next > 0) epoch = next
+  if (Number.isInteger(next) && next > 0) {
+    epoch = next
+    epochVersion.value = next
+  }
 }
 
 export function currentEpoch(): number {

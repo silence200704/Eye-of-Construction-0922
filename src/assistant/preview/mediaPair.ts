@@ -9,6 +9,7 @@
  * 公开参考图（`demo_public`）**永远不参与比对**：它跟谁都不是同一机位。
  */
 import { DEMO_COMPARE_REGIONS, DEMO_EVIDENCE_NOTE, DEMO_EVIDENCE_REGIONS } from '@/config/media/demoPhotos'
+import { backendActive } from '@/api/backend/runtime'
 import type { MediaCompareRecord, MediaFrameRef, FrameOrigin } from '@/types/media'
 import type { AskMediaPairPreview, MediaPairSource } from '../types'
 
@@ -26,8 +27,12 @@ const BUILTIN_SPECS: Partial<Record<FrameOrigin, BuiltinSpec>> = {
   },
 }
 
-/** 用户自己影像的说明：会话影像刷新即失，且角度与光照都会影响结果。 */
-const SESSION_NOTE = '当前会话里的影像：刷新即失；拍摄角度、距离与光照都会影响像素差异结果。'
+/** 用户自己影像的说明：服务端模式已入库可恢复；本地演示模式刷新即失。 */
+function sessionNote(): string {
+  return backendActive()
+    ? '当前会话影像已保存到服务端；拍摄角度、距离与光照仍会影响像素差异结果。'
+    : '当前会话里的影像：刷新即失；拍摄角度、距离与光照都会影响像素差异结果。'
+}
 
 /** 取一组里的早、晚两张；不足两张返回 null。 */
 function endsOf(rows: MediaFrameRef[]): [MediaFrameRef, MediaFrameRef] | null {
@@ -62,7 +67,7 @@ export function regionsOf(frame: MediaFrameRef): BuiltinSpec['regions'] | null {
 function describe(pair: [MediaFrameRef, MediaFrameRef]): { source: MediaPairSource; note: string; regions: BuiltinSpec['regions'] | null } {
   const [before, after] = pair
   const spec = before.origin === after.origin ? BUILTIN_SPECS[before.origin] : undefined
-  if (spec === undefined) return { source: 'session', note: SESSION_NOTE, regions: null }
+  if (spec === undefined) return { source: 'session', note: sessionNote(), regions: null }
   return { source: 'builtin', note: spec.note, regions: spec.regions }
 }
 

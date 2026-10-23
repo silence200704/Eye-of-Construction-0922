@@ -9,6 +9,10 @@
  */
 import { computed, ref, watch } from 'vue'
 import { defineStore } from 'pinia'
+import { backendActive } from '@/api/backend/runtime'
+import { uploadSessionFrame } from '@/api/backend/mediaSession'
+import { restoreServerFrames, saveComparisonRecord } from '@/media/sessionRemote'
+import type { RemoteComparison } from '@/api/backend/assistant'
 import { datasetResetVersion } from './demo/registry'
 import { createVideoSession } from './media/videoSession'
 import { uid } from '@/core/id'
@@ -60,6 +64,8 @@ export const useMediaStore = defineStore('media', () => {
   const frames = ref<MediaFrame[]>([])
   /** 最近一次预设分析的结果 */
   const compare = ref<MediaCompareRecord | null>(null)
+  /** 服务端已保存的比对记录（刷新恢复时读取；本地演示模式为空） */
+  const remoteComparisons = ref<RemoteComparison[]>([])
   /** 正在跑的耗时动作（压缩、抽帧、比对） */
   const busy = ref(false)
   const message = ref('')
@@ -83,9 +89,31 @@ export const useMediaStore = defineStore('media', () => {
       videoId: row.videoId,
     }))
 
+  /** 服务端模式下逐张上传并登记关键帧；失败必须可见，不能假装已保存。 */
+  let syncChain: Promise<void> = Promise.resolve()
+  function enqueueSync(row: MediaFrame): void {
+    if (!backendActive()) return
+    syncChain = syncChain
+      .then(async () => {
+        const info = await uploadSessionFrame(row)
+        frames.value = frames.value.map((item) => item.id === row.id
+          ? { ...item, remoteMediaId: info.mediaId, remoteFrameId: info.frameId, remoteContentUrl: info.contentUrl }
+          : item)
+      })
+      .catch((cause) => {
+        notify(`影像已在当前会话显示，但未写入服务端：${cause instanceof Error ? cause.message : String(cause)}`, false)
+      })
+  }
+
+  /** 等本次会话来已发起的上传落地（比对保存前调用）。 */
+  async function settleSync(): Promise<void> {
+    await syncChain
+  }
+
   function addFrame(row: MediaFrame): void {
     const existing = framesOf(row.pointId)
     frames.value = [...frames.value, row]
+    enqueueSync(row)
     if (existing.length + 1 > SESSION_FRAME_LIMIT) {
       notify(`该测点的会话影像已有 ${existing.length + 1} 张（上限 ${SESSION_FRAME_LIMIT} 张），建议先清理或去问题附件入口留存。`)
     }
@@ -297,6 +325,7 @@ export const useMediaStore = defineStore('media', () => {
   function removeFrame(id: string): void {
     frames.value = frames.value.filter((row) => row.id !== id)
     if (compare.value !== null && (compare.value.beforeId === id || compare.value.afterId === id)) compare.value = null
+    if (backendActive()) notify('已从当前会话移除；服务端已保存的关键帧与比对记录不会删除。')
   }
 
   function clearPoint(pointId: string): void {
@@ -334,6 +363,7 @@ export const useMediaStore = defineStore('media', () => {
       const record = compareRecordOf({ pointId: input.pointId, beforeId: before.id, afterId: after.id, region: input.region, result })
       compare.value = record
       notify(result.summary, result.status !== 'incomparable')
+      await persistComparison(record)
       return record
     } catch (cause) {
       notify(cause instanceof Error ? cause.message : String(cause), false)
@@ -341,6 +371,43 @@ export const useMediaStore = defineStore('media', () => {
     } finally {
       busy.value = false
     }
+  }
+
+  /** 把一次真实算出的比对结果写入服务端；关键帧未登记完成时明确失败。 */
+  async function persistComparison(record: MediaCompareRecord): Promise<boolean> {
+    if (!backendActive()) return false
+    await settleSync()
+    const before = frames.value.find((row) => row.id === record.beforeId)
+    const after = frames.value.find((row) => row.id === record.afterId)
+    if (!before?.remoteFrameId || !after?.remoteFrameId) {
+      notify('比对结果未写入服务端：关键帧尚未完成登记，请稍后重试。', false)
+      return false
+    }
+    try {
+      const saved = await saveComparisonRecord({ record, beforeFrameId: before.remoteFrameId, afterFrameId: after.remoteFrameId })
+      remoteComparisons.value = [...remoteComparisons.value, saved]
+      return true
+    } catch (cause) {
+      notify(`比对结果未写入服务端：${cause instanceof Error ? cause.message : String(cause)}`, false)
+      return false
+    }
+  }
+
+  /**
+   * 从服务端恢复该测点的关键帧与已保存比对。
+   * 内容接口按身份鉴权，这里取回字节重建本会话预览；不保存 blob: URL。
+   */
+  async function restoreRemote(pointId: string): Promise<number> {
+    if (!backendActive() || pointId === '') return 0
+    await settleSync()
+    const restored = await restoreServerFrames({
+      pointId,
+      knownFrames: new Set(frames.value.map((row) => row.remoteFrameId ?? row.id)),
+      knownMedia: new Set(frames.value.map((row) => row.remoteMediaId).filter((id): id is string => Boolean(id))),
+    })
+    remoteComparisons.value = restored.comparisons
+    if (restored.frames.length > 0) frames.value = [...frames.value, ...restored.frames]
+    return restored.frames.length
   }
 
   const frameCount = computed(() => frames.value.length)
@@ -353,6 +420,7 @@ export const useMediaStore = defineStore('media', () => {
     tone,
     ...videoSession,
     frameCount,
+    remoteComparisons,
     framesOf,
     refsOf,
     addUpload,
@@ -363,6 +431,9 @@ export const useMediaStore = defineStore('media', () => {
     removeFrame,
     clearPoint,
     runCompare,
+    persistComparison,
+    restoreRemote,
+    settleSync,
     notify,
   }
 })

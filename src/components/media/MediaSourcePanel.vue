@@ -7,12 +7,13 @@
  * 2. 面板写清不接校园监控、不调在线服务；
  * 3. 会话影像刷新即失，正式留存走问题附件入口。
  */
-import { computed, onUnmounted, ref, watch } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { formatBytes } from '@/db/inspection/attachments'
 import { decodeUpload } from '@/core/media/capture'
+import { backendActive } from '@/api/backend/runtime'
 import { DEMO_PHOTOS, PUBLIC_CRACK_REFERENCE } from '@/config/media/demoPhotos'
 import { SESSION_FRAME_LIMIT, useMediaStore } from '@/stores/media'
-import { frameOriginLabel, MEDIA_SESSION_NOTE, type MediaFrame } from '@/types/media'
+import { frameOriginLabel, MEDIA_SESSION_NOTE, MEDIA_SESSION_NOTE_SERVER, type MediaFrame } from '@/types/media'
 import { formatDateTime } from '@/core/time'
 import SectionCard from '@/components/ui/SectionCard.vue'
 import AppButton from '@/components/ui/AppButton.vue'
@@ -36,9 +37,22 @@ const urls = ref<Record<string, string>>({})
 
 const frames = computed(() => media.framesOf(props.pointId))
 const pointLabel = computed(() => props.points.find((row) => row.id === props.pointId)?.label ?? '')
+const sessionNote = computed(() => (backendActive() ? MEDIA_SESSION_NOTE_SERVER : MEDIA_SESSION_NOTE))
 const demoReady = computed(() => DEMO_PHOTOS.every((item) => frames.value.some(
   (frame) => frame.origin === 'demo_generated' && frame.fileName === item.fileName,
 )))
+
+async function restore(): Promise<void> {
+  if (props.pointId === '' || !backendActive()) return
+  try {
+    await media.restoreRemote(props.pointId)
+  } catch (cause) {
+    error.value = `服务端影像恢复失败：${cause instanceof Error ? cause.message : String(cause)}`
+  }
+}
+
+onMounted(restore)
+watch(() => props.pointId, restore)
 
 function assetUrl(path: string): string {
   return `${import.meta.env.BASE_URL}${path.slice(1)}`
@@ -85,7 +99,9 @@ async function onPhotos(event: Event): Promise<void> {
       })
       added += 1
     }
-    media.notify(`已加入 ${added} 张人工上传的会话影像（本机压缩后暂存，刷新即失）。`)
+    media.notify(backendActive()
+      ? `已加入 ${added} 张人工上传影像并提交服务端保存。`
+      : `已加入 ${added} 张人工上传的会话影像（本机压缩后暂存，刷新即失）。`)
   } catch (cause) {
     error.value = cause instanceof Error ? cause.message : String(cause)
     media.notify(error.value, false)
@@ -121,7 +137,7 @@ function originTone(origin: MediaFrame['origin']): 'brand' | 'green' | 'gray' {
       </label>
 
       <p v-if="error !== ''" class="notice notice--warn">{{ error }}</p>
-      <p class="notice notice--brand">{{ MEDIA_SESSION_NOTE }}</p>
+      <p class="notice notice--brand">{{ sessionNote }}</p>
 
       <PreparedEvidencePreview
         v-if="frames.length === 0"
@@ -160,7 +176,7 @@ function originTone(origin: MediaFrame['origin']): 'brand' | 'green' | 'gray' {
           <AppButton size="sm" variant="primary" :disabled="media.busy || pointId === ''" @click="loadDemo">
             {{ media.busy ? '正在载入…' : demoReady ? '演示照片已加入（可重试）' : '一键加入前后照片' }}
           </AppButton>
-          <p class="field-hint">点任一照片或上方按钮即可加入这一组同机位生成素材。日期为模拟值，无需文件选择框，不写入数据库。</p>
+          <p class="field-hint">点任一照片或上方按钮即可加入这一组同机位生成素材。日期为模拟值，无需文件选择框；{{ backendActive() ? '服务端模式下按来源标记保存到数据库。' : '本地演示模式不写入数据库。' }}</p>
           <div class="public-reference">
             <button class="public-thumb" type="button" :disabled="media.busy || pointId === ''" aria-label="点击加入公开实拍参考图，非本校" @click="loadPublic">
               <img :src="assetUrl(PUBLIC_CRACK_REFERENCE.path)" alt="公开实拍建筑裂缝参考图，非本校" />
