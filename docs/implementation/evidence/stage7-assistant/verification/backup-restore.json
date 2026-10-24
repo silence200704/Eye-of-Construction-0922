@@ -1,0 +1,122 @@
+{
+  "backup": "C:\\Users\\Lenovo\\Desktop\\demo\\backend\\.runtime-stage7-backup",
+  "restore": "C:\\Users\\Lenovo\\Desktop\\demo\\backend\\.runtime-stage7-restore",
+  "schemaRevision": "0013_assistant_session_epoch",
+  "businessTablesMatch": true,
+  "countsDiff": {
+    "login_sessions": {
+      "expected": 6,
+      "actual": 7
+    }
+  },
+  "runtimeWritesAfterRestore": [
+    {
+      "table": "login_sessions",
+      "start": 6,
+      "now": 7,
+      "note": "恢复后用验证客户端登录新增，非备份内容差异"
+    }
+  ],
+  "files": [
+    {
+      "path": "zhutong.sqlite",
+      "expected": "08efd399670545f7007bb3c545433a6da53140a711d8acf234ce8b17fe323709",
+      "actual": "08efd399670545f7007bb3c545433a6da53140a711d8acf234ce8b17fe323709",
+      "match": true
+    },
+    {
+      "path": "session.key",
+      "expected": "c0363a91996ebe0d302eb69ce62f274b7ff7891d0cefb036c92b16d450e21fdd",
+      "actual": "c0363a91996ebe0d302eb69ce62f274b7ff7891d0cefb036c92b16d450e21fdd",
+      "match": true
+    },
+    {
+      "path": "media/files/79/791af9c5798c42c981883c1704dfcf6a",
+      "expected": "c47dd9465c00e9a0c8b85e9ea58d3034a0d23b9cf926113602f3460752a4eb96",
+      "actual": "c47dd9465c00e9a0c8b85e9ea58d3034a0d23b9cf926113602f3460752a4eb96",
+      "match": true
+    },
+    {
+      "path": "media/files/fc/fcff647beb6f4ae5a3c5f7f163552832",
+      "expected": "c47dd9465c00e9a0c8b85e9ea58d3034a0d23b9cf926113602f3460752a4eb96",
+      "actual": "c47dd9465c00e9a0c8b85e9ea58d3034a0d23b9cf926113602f3460752a4eb96",
+      "match": true
+    },
+    {
+      "path": "media/files/be/bea376f0cb9247948c2a61e41140a746",
+      "expected": "3ff85ae5030f470ee23ea8ddaa2b953cb2a87e546a7ec5603700496f69103617",
+      "actual": "3ff85ae5030f470ee23ea8ddaa2b953cb2a87e546a7ec5603700496f69103617",
+      "match": true
+    },
+    {
+      "path": "media/files/d4/d4663c7460334dafa0eea1e46833ebaf",
+      "expected": "c47dd9465c00e9a0c8b85e9ea58d3034a0d23b9cf926113602f3460752a4eb96",
+      "actual": "c47dd9465c00e9a0c8b85e9ea58d3034a0d23b9cf926113602f3460752a4eb96",
+      "match": true
+    },
+    {
+      "path": "models/bge-small-zh-v1.5/manifest.json",
+      "expected": "63066e86da049c4b4e3653be13aab98d8789884c004943990d450d5f56742e70",
+      "actual": "63066e86da049c4b4e3653be13aab98d8789884c004943990d450d5f56742e70",
+      "match": true
+    },
+    {
+      "path": "models/bge-small-zh-v1.5/model.onnx",
+      "expected": "b9837c19ce154ff0726d398ee77abbc03a7faf0476c6f93016c84e531be7ebb5",
+      "actual": "b9837c19ce154ff0726d398ee77abbc03a7faf0476c6f93016c84e531be7ebb5",
+      "match": true
+    },
+    {
+      "path": "models/bge-small-zh-v1.5/tokenizer.json",
+      "expected": "48cea5d44424912a6fd1ea647bf4fe50b55ab8b1e5879c3275f80e339e8fae26",
+      "actual": "48cea5d44424912a6fd1ea647bf4fe50b55ab8b1e5879c3275f80e339e8fae26",
+      "match": true
+    },
+    {
+      "path": "models/bge-small-zh-v1.5/config.json",
+      "expected": "d4193ead3a810fd694fa8a31d7fc72fbaebc0668b603e398734bf2f6538ff42f",
+      "actual": "d4193ead3a810fd694fa8a31d7fc72fbaebc0668b603e398734bf2f6538ff42f",
+      "match": true
+    },
+    {
+      "path": "models/bge-small-zh-v1.5/tokenizer_config.json",
+      "expected": "e6f3b96db926a37d4039995fbf5ad17de158dfb8f6343d607e4dbaad18d75f5a",
+      "actual": "e6f3b96db926a37d4039995fbf5ad17de158dfb8f6343d607e4dbaad18d75f5a",
+      "match": true
+    },
+    {
+      "path": "models/bge-small-zh-v1.5/special_tokens_map.json",
+      "expected": "b6d346be366a7d1d48332dbc9fdf3bf8960b5d879522b7799ddba59e76237ee3",
+      "actual": "b6d346be366a7d1d48332dbc9fdf3bf8960b5d879522b7799ddba59e76237ee3",
+      "match": true
+    },
+    {
+      "path": "models/bge-small-zh-v1.5/vocab.txt",
+      "expected": "45bbac6b341c319adc98a532532882e91a9cefc0329aa57bac9ae761c27b291c",
+      "actual": "45bbac6b341c319adc98a532532882e91a9cefc0329aa57bac9ae761c27b291c",
+      "match": true
+    },
+    {
+      "path": "models/bge-small-zh-v1.5/README.md",
+      "expected": "cb22054df1a98f7ee9d5b281d023e67c27cc316e1733baf03fc994d95c3048ab",
+      "actual": "cb22054df1a98f7ee9d5b281d023e67c27cc316e1733baf03fc994d95c3048ab",
+      "match": true
+    }
+  ],
+  "allFilesMatch": true,
+  "modelFiles": 8,
+  "knowledge": {
+    "mode": "hybrid",
+    "indexVersion": "index_d8a9772800994863b2b4f01304138438",
+    "decision": "answer",
+    "topSource": "docs/knowledge/platform/identity.md"
+  },
+  "restoreCheck": {
+    "staleSessionStaysRejected": true,
+    "sessionRestored": true,
+    "videoBytesRestored": true,
+    "videoAnalysis": true,
+    "videoFrameOrigin": true,
+    "comparisonRestored": true
+  }
+}

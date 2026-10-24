@@ -1,0 +1,229 @@
+- complementary:
+  - generic: 筑
+  - generic: 筑瞳
+  - generic: 校园建筑健康监测与预警
+  - navigation "主导航":
+    - region "看现场":
+      - heading "看现场" [level=2]
+      - link "校园态势":
+        - /url: "#/dashboard"
+        - generic: 校园态势
+      - link "校园地图":
+        - /url: "#/campus"
+        - generic: 校园地图
+    - region "查数据":
+      - heading "查数据" [level=2]
+      - link "监测分析":
+        - /url: "#/monitor"
+        - generic: 监测分析
+    - region "办事务":
+      - heading "办事务" [level=2]
+      - link "异常处置":
+        - /url: "#/alarms"
+        - generic: 异常处置
+      - link "现场任务":
+        - /url: "#/inspection"
+        - generic: 现场任务
+    - region "做管理":
+      - heading "做管理" [level=2]
+      - link "知识库":
+        - /url: "#/knowledge"
+        - generic: 知识库
+      - link "管理报表":
+        - /url: "#/reports"
+        - generic: 管理报表
+      - link "系统设置":
+        - /url: "#/settings"
+        - generic: 系统设置
+  - generic: 服务端数据 · demo-main
+  - paragraph: 数据保存在服务端 SQLite 与私有文件目录；刷新或更换浏览器不会改变业务事实。
+  - paragraph: V0.3 · 开发中 · 完整项目接入中
+- banner:
+  - heading "影像对比" [level=1]
+  - paragraph: 本机照片与演示视频关键帧的前后对比；预设分析，不给毫米数
+  - generic: 在册楼栋
+  - generic: "2"
+  - generic: 测点
+  - generic: "4"
+  - generic: 设备
+  - generic: "1"
+  - button "预警提醒，0 条未读":
+    - generic: 预警提醒
+  - button "学校安全管理人员 · 切换身份"
+- main:
+  - navigation "当前工作台功能":
+    - generic: 当前工作台
+    - link "监测数据":
+      - /url: "#/monitor"
+    - link "监测趋势":
+      - /url: "#/trend"
+    - link "影像对比":
+      - /url: "#/media?point=pnt_81934c87884a41f3a631bbb44e46521b"
+  - generic "素材与分析说明演示素材 · 不是裂缝识别或安全鉴定"
+  - generic: 影像素材
+  - generic: 照片属于当前测点，前后对照始终绑定同一位置
+  - text: 关联测点
+  - combobox "关联测点":
+    - option "请选择测点"
+    - option "B05-F2-CRACK01 裂缝测点"
+    - option "B05-F2-CRACK02 第二裂缝测点" [selected]
+    - option "B06-F1-CRACK01 6号楼裂缝测点"
+    - option "B05-F2-CHECK01 巡检点"
+  - paragraph: 影像与关键帧保存在服务端数据库中，受身份与楼栋授权保护；刷新后从受保护内容接口重建预览。
+  - figure "人工上传 处置前 拍摄时间 2026-10-24 17:05｜69 B 移除":
+    - img "处置前"
+    - generic: 人工上传
+    - generic: 处置前
+    - generic: 拍摄时间 2026-10-24 17:05｜69 B
+    - button "移除"
+  - figure "人工上传 处置后 拍摄时间 2026-10-24 18:05｜69 B 移除":
+    - img "处置后"
+    - generic: 人工上传
+    - generic: 处置后
+    - generic: 拍摄时间 2026-10-24 18:05｜69 B
+    - button "移除"
+  - figure "生成演示照片 视频抽帧 模拟展示时间 2026-10-24 18:35｜69 B 时间码 3.0 秒 移除":
+    - img "视频抽帧"
+    - generic: 生成演示照片
+    - generic: 视频抽帧
+    - generic: 模拟展示时间 2026-10-24 18:35｜69 B
+    - generic: 时间码 3.0 秒
+    - button "移除"
+  - paragraph: 单个测点最多保留 6 张会话影像，当前 3 张（B05-F2-CRACK02 第二裂缝测点）。 会话影像不参与预警判定：影像差异不会自动生成正式结构预警。
+  - generic "添加其他影像演示照片、参考图、人工上传与本地视频"
+  - generic: 视频巡检
+  - generic: 回放 → 三帧取证 → 区域对比 → 小瞳解释，同一个测点
+  - text: 视频素材
+  - combobox "视频素材":
+    - option "固定机位 · 裂缝变化演示" [selected]
+    - option "公开实拍 · 砖墙裂缝巡检"
+  - button "让小瞳分析这段视频" [disabled]
+  - region "视频证据":
+    - generic: 固定机位演示视频
+    - generic: 0.0 秒 · 0×0
+    - generic "视频回放"
+    - generic "对比区域":
+      - button "裂缝区域" [pressed]
+      - button "完好墙面"
+    - paragraph: 合成演示视频，非真实连续拍摄
+    - paragraph: 随包演示素材 · 合成演示视频，非真实连续拍摄
+    - paragraph: 本地视频预设分析：只抽 3 帧，不识别裂缝、不量毫米、不生成预警；刷新即失。
+  - generic "使用自己的本地视频"
+  - generic: 前后对比（预设分析）
+  - generic: 人工框选同一区域后，只做像素级差异统计：疑似变化 / 未见明显差异 / 不可比对；不给毫米数
+  - text: 前一张
+  - combobox "前一张":
+    - option "人工上传｜拍摄时间 2026-10-24 17:05" [selected]
+    - option "人工上传｜拍摄时间 2026-10-24 18:05"
+    - option "生成演示照片｜模拟展示时间 2026-10-24 18:35"
+  - text: 后一张
+  - combobox "后一张":
+    - option "人工上传｜拍摄时间 2026-10-24 17:05"
+    - option "人工上传｜拍摄时间 2026-10-24 18:05"
+    - option "生成演示照片｜模拟展示时间 2026-10-24 18:35" [selected]
+  - figure "前一张（在这一张上按住拖动，框出要比对的区域）":
+    - generic: 前一张（在这一张上按住拖动，框出要比对的区域）
+    - img "处置前"
+  - figure "后一张（同一区域）":
+    - generic: 后一张（同一区域）
+    - img "视频抽帧"
+  - button "运行预设分析" [disabled]
+  - button "清除框选" [disabled]
+  - generic: 框选：未框选｜ 阈值：像素差 ≥ 18、差异占比 > 8%
+  - paragraph: 服务端已保存该测点 1 次比对记录（受身份与楼栋授权保护）。
+  - generic: 留存与边界
+  - generic: 关键帧与比对结果保存到服务端数据库；照片留存仍走问题附件入口
+  - list:
+    - listitem: 影像与关键帧保存在服务端数据库中，受身份与楼栋授权保护；刷新后从受保护内容接口重建预览。
+    - listitem: 需要正式留存的照片，请到「问题与工单」按现有附件入口入库（每问题最多 3 张、单图约 200 KB）。
+    - listitem: 本页产生的任何结论都不进入预警判定链路：判定只看监测记录与规则引擎。
+  - button "去问题与工单留存照片"
+  - button "去看该测点的监测趋势"
+- complementary "问筑瞳":
+  - img "小瞳找到证据":
+  - generic: 问筑瞳
+  - generic: 智能分析 · 本地数据
+  - paragraph: 页面选中：B05-F2-CRACK02 · 上轮对象：B05-F2-CRACK02 第二裂缝测点；说“刚才那个”可沿用上轮。
+  - button "关闭问筑瞳": 关闭
+  - generic: 会话管理
+  - button "清除上下文"
+  - button "清空对话"
+  - button "5号实验楼的裂缝测点现在怎么样 收起":
+    - generic: 5号实验楼的裂缝测点现在怎么样
+    - generic: 收起
+  - article:
+    - paragraph: 5号实验楼的裂缝测点现在怎么样
+    - img "小瞳没有找到可用数据":
+    - generic: 需要你选定对象
+    - generic: 选择讨论对象｜数据截至 2026-10-24 19:08
+    - paragraph: 问句线索命中 2 个测点，请选择其中一个。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 候选对象（点一条继续问，不会替你猜）
+    - button "B05-F2-CRACK01 裂缝测点":
+      - generic: B05-F2-CRACK01 裂缝测点
+    - button "B05-F2-CRACK02 第二裂缝测点":
+      - generic: B05-F2-CRACK02 第二裂缝测点
+    - paragraph: 数据口径
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "5号实验楼的裂缝测点现在怎么样 收起":
+    - generic: 5号实验楼的裂缝测点现在怎么样
+    - generic: 收起
+  - article:
+    - paragraph: 5号实验楼的裂缝测点现在怎么样
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 单测点状态｜数据截至 2026-10-24 19:08
+    - paragraph: 第二裂缝测点当前读数 0.99mm；采样于 2026-10-24 19:05（约 0.1 小时前）。
+    - term: 测点
+    - definition: B05-F2-CRACK02 第二裂缝测点
+    - term: 位置
+    - definition: 5号实验楼 2层
+    - term: 当前读数
+    - definition: 0.99mm
+    - term: 数据质量
+    - definition: 有效
+    - term: 适用规则
+    - definition: RULE-S7-CRACK（V1.2）
+    - term: 未关闭事件
+    - definition: 无
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：服务端数据库本次查询 · 查询于 2026-10-24 19:08
+    - paragraph: 证据（可与看板、详情逐条核对）
+    - list:
+      - generic: R20261024-009
+      - generic: 采样 2026-10-24 19:05；录入 2026-10-24 19:05；修订 0 次
+    - paragraph: 数据口径
+    - paragraph: 业务事实来自服务端数据库本次查询；知识解释来自本地知识库引用；建议不等于已执行。
+    - paragraph: 打开相关页面
+    - button "打开该测点的监测趋势"
+    - button "在 3D 楼层里定位该测点"
+    - button "打开该测点的影像对比页"
+    - button "它最近的变化趋势怎么样"
+    - button "这条预警为什么被触发"
+    - button "带我到 3D 看位置"
+  - button "E20261024-001 为什么是红色 收起":
+    - generic: E20261024-001 为什么是红色
+    - generic: 收起
+  - article:
+    - paragraph: E20261024-001 为什么是红色
+    - paragraph:
+      - text: 正在逐条呈现核对结果
+      - button "立即显示全部"
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 预警原因｜数据截至 2026-10-24 19:09
+    - paragraph: E20261024-001 因 RULE-S7-CRACK 触发 红色紧急核查，共 4 条活跃证据；当前待确认，未确认。
+  - generic: 可以这样问
+  - button "更多问题"
+  - generic "推荐问题":
+    - button "B05-F2-CRACK02的裂缝照片有什么变化？"
+    - button "B05-F2-CRACK02为什么照片有差异？"
+    - button "B05-F2-CRACK02放大照片变化区域"
+  - textbox "问小瞳":
+    - /placeholder: 问小瞳：分析裂缝照片、定位传感器或查看处置进度
+  - button "发送" [disabled]
+  - button "刷新数据"
+  - generic "提问对象与数据说明"

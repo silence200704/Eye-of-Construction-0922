@@ -1,0 +1,63 @@
+{
+  "headBefore": "0013_assistant_session_epoch",
+  "headAfter": "0013_assistant_session_epoch",
+  "countsDiff": {},
+  "filesEqual": true,
+  "mediaFiles": 10,
+  "media": {
+    "media/files/11/11906a5ebb7640608fabc110698b7a63": {
+      "size": 229554,
+      "sha256": "74cb80e2c3e78615f049bef4f66893254043fec7c3d28057f3eb144c8149e931"
+    },
+    "media/files/16/16366dce52c24f6491aed735c68d659e": {
+      "size": 931428,
+      "sha256": "afbf2b02843939a06d9ba03bb65629abc909eef80fa608b1e4a043a2198c2865"
+    },
+    "media/files/33/33722f2656814231b32156ea0d30319f": {
+      "size": 150063,
+      "sha256": "284b6abfab42b95bf3f36c6b235a9246c0487b0bb82c49073a87233b04e8e88e"
+    },
+    "media/files/48/48a51ea5026d4138bfe757db1ae4f2df": {
+      "size": 69,
+      "sha256": "c47dd9465c00e9a0c8b85e9ea58d3034a0d23b9cf926113602f3460752a4eb96"
+    },
+    "media/files/5a/5abc2397d75a40c6ad05317c2c095181": {
+      "size": 69,
+      "sha256": "c47dd9465c00e9a0c8b85e9ea58d3034a0d23b9cf926113602f3460752a4eb96"
+    },
+    "media/files/74/748f946354e545a1a21c7cca7d37dda1": {
+      "size": 69,
+      "sha256": "c47dd9465c00e9a0c8b85e9ea58d3034a0d23b9cf926113602f3460752a4eb96"
+    },
+    "media/files/8d/8d088f0b9d014b5aaa7ee51731f9a2f1": {
+      "size": 2000398,
+      "sha256": "3ddcf4b1feb74e94096405a2ae84a51bf8df8b0318b10d9cd389a2040626b047"
+    },
+    "media/files/90/9057638f6b9a430c8cce73f784c44113": {
+      "size": 76248,
+      "sha256": "646a81da8a6d6149e58efcb8d73183b317fc800ad16fdb5d8df842cd09fb7a64"
+    },
+    "media/files/c2/c27200cad7d44f8399f67661e26bed4f": {
+      "size": 681517,
+      "sha256": "0650c9ad24b6b776e682300b01d88427821ebac991fe1f8d7ba1017dd7155ee1"
+    },
+    "media/files/fa/fa6d2d6ee5eb4f70b810dfc30da242b1": {
+      "size": 2425328,
+      "sha256": "4ae2fa56d1474d479f1f3d556b46993f8b670ecc51a4dce40fcc011d82e73825"
+    }
+  },
+  "images": {
+    "api": "zhutong-api:stage1",
+    "apiDigest": "sha256:d61692bab50c",
+    "web": "zhutong-web:stage1",
+    "webDigest": "sha256:88b640cfa767"
+  },
+  "ports": {
+    "zhutongApi": "http://127.0.0.1:18000",
+    "zhutongWeb": "http://127.0.0.1:8080",
+    "coexist": [
+      "8000",
+      "5173"
+    ]
+  }
+}

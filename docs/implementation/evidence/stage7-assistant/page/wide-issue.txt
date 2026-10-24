@@ -1,0 +1,253 @@
+- complementary:
+  - generic: 筑
+  - generic: 筑瞳
+  - generic: 校园建筑健康监测与预警
+  - navigation "主导航":
+    - region "看现场":
+      - heading "看现场" [level=2]
+      - link "校园态势":
+        - /url: "#/dashboard"
+        - generic: 校园态势
+      - link "校园地图":
+        - /url: "#/campus"
+        - generic: 校园地图
+    - region "查数据":
+      - heading "查数据" [level=2]
+      - link "监测分析":
+        - /url: "#/monitor"
+        - generic: 监测分析
+    - region "办事务":
+      - heading "办事务" [level=2]
+      - link "异常处置":
+        - /url: "#/alarms"
+        - generic: 异常处置
+      - link "现场任务":
+        - /url: "#/inspection"
+        - generic: 现场任务
+    - region "做管理":
+      - heading "做管理" [level=2]
+      - link "知识库":
+        - /url: "#/knowledge"
+        - generic: 知识库
+      - link "管理报表":
+        - /url: "#/reports"
+        - generic: 管理报表
+      - link "系统设置":
+        - /url: "#/settings"
+        - generic: 系统设置
+  - generic: 服务端数据 · demo-main
+  - paragraph: 数据保存在服务端 SQLite 与私有文件目录；刷新或更换浏览器不会改变业务事实。
+  - paragraph: V0.3 · 开发中 · 完整项目接入中
+- banner:
+  - heading "预警中心" [level=1]
+  - paragraph: 规则判定生成的预警事件、证据链、升级历史与通知确认
+  - generic: 在册楼栋
+  - generic: "2"
+  - generic: 测点
+  - generic: "4"
+  - generic: 设备
+  - generic: "1"
+  - button "预警提醒，0 条未读":
+    - generic: 预警提醒
+  - button "学校安全管理人员 · 切换身份"
+- main:
+  - navigation "当前工作台功能":
+    - generic: 当前工作台
+    - link "预警事件":
+      - /url: "#/alarms"
+    - link "问题与工单":
+      - /url: "#/issues"
+    - link "预警标准":
+      - /url: "#/standards"
+  - paragraph:
+    - generic: 预警口径：
+    - text: 事件由「筑瞳 Demo 演示预警规则 V1.0」判定生成，用于验证通知与处置流程，
+    - generic: 不是国家建筑安全标准
+    - text: 。 同一点位同一条规则在未关闭前只保留一条事件，新证据追加进去，等级升高时记录升级历史。
+  - generic: 待确认
+  - generic: "1"
+  - generic: 需要管理人员确认
+  - generic: 处理中
+  - generic: "0"
+  - generic: 已确认，等待排查处置
+  - generic: 恢复待确认
+  - generic: "0"
+  - generic: 数据已回落，须授权关闭
+  - generic: 已关闭
+  - generic: "0"
+  - generic: 已填写关闭依据
+  - generic: 事件清单
+  - generic: 未关闭事件：黄 0｜橙 0｜红 1
+  - button "重置筛选"
+  - button "立即检查超时通知"
+  - generic: 状态
+  - combobox "状态":
+    - option "全部" [selected]
+    - option "待确认"
+    - option "处理中"
+    - option "恢复待确认"
+    - option "已关闭"
+  - generic: 等级
+  - combobox "等级":
+    - option "全部" [selected]
+    - option "黄色关注"
+    - option "橙色排查"
+    - option "红色紧急核查"
+  - generic: 测点
+  - combobox "测点":
+    - option "全部" [selected]
+    - option "B05-F2-CHECK01 巡检点"
+    - option "B05-F2-CRACK01 裂缝测点"
+    - option "B05-F2-CRACK02 第二裂缝测点"
+    - option "B06-F1-CRACK01 6号楼裂缝测点"
+  - generic: 关键词
+  - searchbox "关键词"
+  - table:
+    - rowgroup:
+      - row "事件编号 测点 规则 等级 状态 最近触发 证据/升级 操作":
+        - columnheader "事件编号"
+        - columnheader "测点"
+        - columnheader "规则"
+        - columnheader "等级"
+        - columnheader "状态"
+        - columnheader "最近触发"
+        - columnheader "证据/升级"
+        - columnheader "操作"
+    - rowgroup:
+      - row "E20261024-001 B05-F2-CRACK01 裂缝测点 RULE-S7-CRACK 红色紧急核查 待确认 2026-10-24 18:05 0.32 mm 4 / 0 详情 确认":
+        - cell "E20261024-001"
+        - cell "B05-F2-CRACK01 裂缝测点":
+          - generic: B05-F2-CRACK01 裂缝测点
+        - cell "RULE-S7-CRACK"
+        - cell "红色紧急核查":
+          - generic: 红色紧急核查
+        - cell "待确认":
+          - generic: 待确认
+        - cell "2026-10-24 18:05 0.32 mm":
+          - generic: 2026-10-24 18:05
+          - generic: 0.32 mm
+        - cell "4 / 0"
+        - cell "详情 确认":
+          - button "详情"
+          - button "确认"
+- button "问筑瞳：打开本地数据问答":
+  - img "小瞳待机":
+  - generic: 问筑瞳
+- complementary "问筑瞳":
+  - img "小瞳找到证据":
+  - generic: 问筑瞳
+  - generic: 智能分析 · 本地数据
+  - paragraph: 页面选中：B05-F2-CRACK01 · 上轮对象：B05-F2-CRACK02 第二裂缝测点；说“刚才那个”可沿用上轮。
+  - button "关闭问筑瞳": 关闭
+  - generic: 会话管理
+  - button "清除上下文"
+  - button "清空对话"
+  - button "5号实验楼的裂缝测点现在怎么样 收起":
+    - generic: 5号实验楼的裂缝测点现在怎么样
+    - generic: 收起
+  - article:
+    - paragraph: 5号实验楼的裂缝测点现在怎么样
+    - img "小瞳没有找到可用数据":
+    - generic: 需要你选定对象
+    - generic: 选择讨论对象｜数据截至 2026-10-24 19:08
+    - paragraph: 问句线索命中 2 个测点，请选择其中一个。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 候选对象（点一条继续问，不会替你猜）
+    - button "B05-F2-CRACK01 裂缝测点":
+      - generic: B05-F2-CRACK01 裂缝测点
+    - button "B05-F2-CRACK02 第二裂缝测点":
+      - generic: B05-F2-CRACK02 第二裂缝测点
+    - paragraph: 数据口径
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "5号实验楼的裂缝测点现在怎么样 收起":
+    - generic: 5号实验楼的裂缝测点现在怎么样
+    - generic: 收起
+  - article:
+    - paragraph: 5号实验楼的裂缝测点现在怎么样
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 单测点状态｜数据截至 2026-10-24 19:08
+    - paragraph: 第二裂缝测点当前读数 0.99mm；采样于 2026-10-24 19:05（约 0.1 小时前）。
+    - term: 测点
+    - definition: B05-F2-CRACK02 第二裂缝测点
+    - term: 位置
+    - definition: 5号实验楼 2层
+    - term: 当前读数
+    - definition: 0.99mm
+    - term: 数据质量
+    - definition: 有效
+    - term: 适用规则
+    - definition: RULE-S7-CRACK（V1.2）
+    - term: 未关闭事件
+    - definition: 无
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：服务端数据库本次查询 · 查询于 2026-10-24 19:08
+    - paragraph: 证据（可与看板、详情逐条核对）
+    - list:
+      - generic: R20261024-009
+      - generic: 采样 2026-10-24 19:05；录入 2026-10-24 19:05；修订 0 次
+    - paragraph: 数据口径
+    - paragraph: 业务事实来自服务端数据库本次查询；知识解释来自本地知识库引用；建议不等于已执行。
+    - paragraph: 打开相关页面
+    - button "打开该测点的监测趋势"
+    - button "在 3D 楼层里定位该测点"
+    - button "打开该测点的影像对比页"
+    - button "它最近的变化趋势怎么样"
+    - button "这条预警为什么被触发"
+    - button "带我到 3D 看位置"
+  - button "E20261024-001 为什么是红色 收起":
+    - generic: E20261024-001 为什么是红色
+    - generic: 收起
+  - article:
+    - paragraph: E20261024-001 为什么是红色
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 预警原因｜数据截至 2026-10-24 19:09
+    - paragraph: E20261024-001 因 RULE-S7-CRACK 触发 红色紧急核查，共 4 条活跃证据；当前待确认，未确认。
+    - term: 事件
+    - definition: E20261024-001（红色紧急核查）
+    - term: 状态
+    - definition: 待确认
+    - term: 测点
+    - definition: B05-F2-CRACK01 裂缝测点
+    - term: 触发规则
+    - definition: RULE-S7-CRACK
+    - term: 确认状态
+    - definition: 未确认
+    - term: 关联问题
+    - definition: ISS-20261024-001（repairing）
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：服务端数据库本次查询 · 查询于 2026-10-24 19:09
+    - paragraph: 证据（可与看板、详情逐条核对）
+    - list:
+      - generic: R20261024-001
+      - generic: 证据 1：采样 2026-10-24 17:25，触发值 0.45mm，规则版本 V1.0；判定值 0.45 mm 达到红色紧急核查门槛
+      - generic: R20261024-002
+      - generic: 证据 2：采样 2026-10-24 17:35，触发值 0.38mm，规则版本 V1.0；判定值 0.38 mm 达到红色紧急核查门槛
+      - generic: R20261024-004
+      - generic: 证据 3：采样 2026-10-24 17:55，触发值 0.1mm，规则版本 V1.0；判定值 0.10 mm 达到黄色关注门槛
+      - generic: R20261024-005
+      - generic: 证据 4：采样 2026-10-24 18:05，触发值 0.32mm，规则版本 V1.0；判定值 0.32 mm 达到红色紧急核查门槛
+    - paragraph: 数据口径
+    - paragraph: 业务事实来自服务端数据库本次查询；知识解释来自本地知识库引用；建议不等于已执行。
+    - paragraph: 打开相关页面
+    - button "打开预警中心的事件详情"
+    - button "打开可打印的事件处置报告"
+    - button "这个问题处理到哪了"
+    - button "读数恢复了吗"
+    - button "回放这次处置"
+  - generic: 可以这样问
+  - button "更多问题"
+  - generic "推荐问题":
+    - button "这个问题处理完了吗？"
+    - button "为什么这条预警是红色？"
+    - button "B05-F2-CRACK01现在的读数是多少？"
+  - textbox "问小瞳" [active]:
+    - /placeholder: 问小瞳：分析裂缝照片、定位传感器或查看处置进度
+    - text: ISS-20261024-001 现在是什么状态
+  - button "发送" [disabled]
+  - button "刷新数据"
+  - generic "提问对象与数据说明"

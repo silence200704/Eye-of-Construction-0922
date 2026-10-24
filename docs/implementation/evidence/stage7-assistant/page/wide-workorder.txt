@@ -1,0 +1,2457 @@
+- complementary:
+  - generic: 筑
+  - generic: 筑瞳
+  - generic: 校园建筑健康监测与预警
+  - navigation "主导航":
+    - region "看现场":
+      - heading "看现场" [level=2]
+      - link "校园态势":
+        - /url: "#/dashboard"
+        - generic: 校园态势
+      - link "校园地图":
+        - /url: "#/campus"
+        - generic: 校园地图
+    - region "查数据":
+      - heading "查数据" [level=2]
+      - link "监测分析":
+        - /url: "#/monitor"
+        - generic: 监测分析
+    - region "办事务":
+      - heading "办事务" [level=2]
+      - link "异常处置":
+        - /url: "#/alarms"
+        - generic: 异常处置
+      - link "现场任务":
+        - /url: "#/inspection"
+        - generic: 现场任务
+    - region "做管理":
+      - heading "做管理" [level=2]
+      - link "知识库":
+        - /url: "#/knowledge"
+        - generic: 知识库
+      - link "管理报表":
+        - /url: "#/reports"
+        - generic: 管理报表
+      - link "系统设置":
+        - /url: "#/settings"
+        - generic: 系统设置
+  - generic: 服务端数据 · demo-main
+  - paragraph: 数据保存在服务端 SQLite 与私有文件目录；刷新或更换浏览器不会改变业务事实。
+  - paragraph: V0.3 · 开发中 · 完整项目接入中
+- banner:
+  - heading "问题与工单" [level=1]
+  - paragraph: 三类来源进同一个问题池；审核留痕后转维修工单
+  - generic: 在册楼栋
+  - generic: "2"
+  - generic: 测点
+  - generic: "4"
+  - generic: 设备
+  - generic: "1"
+  - button "预警提醒，0 条未读":
+    - generic: 预警提醒
+  - button "学校安全管理人员 · 切换身份"
+- main:
+  - navigation "当前工作台功能":
+    - generic: 当前工作台
+    - link "预警事件":
+      - /url: "#/alarms"
+    - link "问题与工单":
+      - /url: "#/issues?issue=iss_a745c8ebe7eb4df7b5adf629157931cf"
+    - link "预警标准":
+      - /url: "#/standards"
+  - generic: 问题与工单
+  - generic: 预警、巡检发现、人工上报进同一个池；审核留痕后转维修工单
+  - button "待审核 1":
+    - generic: 待审核 1
+  - button "处理中 1":
+    - generic: 处理中 1
+  - button "待复查 0":
+    - generic: 待复查 0
+  - button "已关闭 1":
+    - generic: 已关闭 1
+  - generic: 共 3 条问题｜工单 1 张
+  - generic: 状态
+  - combobox "状态":
+    - option "全部" [selected]
+    - option "待审核"
+    - option "处理中（含排查中）"
+    - option "待复查"
+    - option "观察中"
+    - option "已关闭"
+  - generic: 来源
+  - combobox "来源":
+    - option "全部" [selected]
+    - option "传感器预警"
+    - option "巡检发现"
+    - option "人工上报"
+    - option "保养发现"
+  - generic: 楼栋
+  - combobox "楼栋":
+    - option "全部" [selected]
+    - option "B05 5号实验楼"
+    - option "B06 6号实验楼"
+  - generic: 异常类型
+  - combobox "异常类型":
+    - option "全部" [selected]
+    - option "裂缝宽度复核"
+    - option "裂缝越限"
+  - button "人工上报问题"
+  - generic: 当前匹配 3 条 / 共 3 条
+  - button "只看复查逾期（0）"
+  - button "刷新复查状态"
+  - table:
+    - rowgroup:
+      - row "问题编号 来源 位置 异常类型 关联任务 状态 操作":
+        - columnheader "问题编号"
+        - columnheader "来源"
+        - columnheader "位置"
+        - columnheader "异常类型"
+        - columnheader "关联任务"
+        - columnheader "状态"
+        - columnheader "操作"
+    - rowgroup:
+      - row "ISS-20261024-003 人工上报 5号实验楼 二层 同一测点的第二次独立上报 裂缝宽度复核 — 待审核 详情":
+        - cell "ISS-20261024-003"
+        - cell "人工上报"
+        - cell "5号实验楼 二层 同一测点的第二次独立上报":
+          - text: 5号实验楼 二层
+          - generic: 同一测点的第二次独立上报
+        - cell "裂缝宽度复核"
+        - cell "—"
+        - cell "待审核":
+          - generic: 待审核
+        - cell "详情":
+          - button "详情"
+      - row "ISS-20261024-002 人工上报 5号实验楼 二层 阶段 7 固定前置问题 裂缝越限 — 已关闭 详情":
+        - cell "ISS-20261024-002"
+        - cell "人工上报"
+        - cell "5号实验楼 二层 阶段 7 固定前置问题":
+          - text: 5号实验楼 二层
+          - generic: 阶段 7 固定前置问题
+        - cell "裂缝越限"
+        - cell "—"
+        - cell "已关闭":
+          - generic: 已关闭
+        - cell "详情":
+          - button "详情"
+      - row "ISS-20261024-001 传感器预警 5号实验楼 二层 阶段 7 固定前置问题 裂缝越限 — 处理中 详情":
+        - cell "ISS-20261024-001"
+        - cell "传感器预警"
+        - cell "5号实验楼 二层 阶段 7 固定前置问题":
+          - text: 5号实验楼 二层
+          - generic: 阶段 7 固定前置问题
+        - cell "裂缝越限"
+        - cell "—"
+        - cell "处理中":
+          - generic: 处理中
+        - cell "详情":
+          - button "详情"
+  - paragraph: 「关联既有对象」会保留两条记录并写上关联关系与时间线，不会把现场事实合并掉。 审核由学校安全管理人员执行（当前身份：学校安全管理人员）。
+- button "问筑瞳：打开本地数据问答":
+  - img "小瞳待机":
+  - generic: 问筑瞳
+- complementary "问筑瞳":
+  - img "小瞳找到证据":
+  - generic: 问筑瞳
+  - generic: 智能分析 · 本地数据
+  - paragraph: 页面选中：B05-F2-CRACK01 · 上轮对象：无；说“刚才那个”可沿用上轮。
+  - button "关闭问筑瞳": 关闭
+  - generic: 会话管理
+  - button "清除上下文"
+  - button "清空对话"
+  - paragraph: 已恢复上次小瞳会话（只读；不会重放写入、影像处理或自动导览）。
+  - button "现在有哪些未处理预警 收起":
+    - generic: 现在有哪些未处理预警
+    - generic: 收起
+  - article:
+    - paragraph: 现在有哪些未处理预警
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 未处理队列｜数据截至 2026-10-24 19:05
+    - paragraph: 当前未关闭预警事件 1 条。
+    - term: 未关闭事件
+    - definition: 1条
+    - term: 红色 / 橙色 / 黄色
+    - definition: 1 / 0 / 0条
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：服务端数据库本次查询 · 查询于 2026-10-24 19:05
+    - paragraph: 证据（可与看板、详情逐条核对）
+    - list:
+      - generic: E20261024-001
+      - generic: 红色紧急核查，待确认，最近触发 2026-10-24 18:05
+    - paragraph: 数据口径
+    - paragraph: 业务事实来自服务端数据库本次查询；知识解释来自本地知识库引用；建议不等于已执行。
+    - paragraph: 打开相关页面
+    - button "打开预警中心的未关闭队列"
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "B05-F2-CRACK02 现在怎么样 收起":
+    - generic: B05-F2-CRACK02 现在怎么样
+    - generic: 收起
+  - article:
+    - paragraph: B05-F2-CRACK02 现在怎么样
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 单测点状态｜数据截至 2026-10-24 19:05
+    - paragraph: 第二裂缝测点当前读数 0.99mm；采样于 2026-10-24 19:05（约 0.0 小时前）。
+    - term: 测点
+    - definition: B05-F2-CRACK02 第二裂缝测点
+    - term: 位置
+    - definition: 5号实验楼 2层
+    - term: 当前读数
+    - definition: 0.99mm
+    - term: 数据质量
+    - definition: 有效
+    - term: 适用规则
+    - definition: RULE-S7-CRACK（V1.2）
+    - term: 未关闭事件
+    - definition: 无
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：服务端数据库本次查询 · 查询于 2026-10-24 19:05
+    - paragraph: 证据（可与看板、详情逐条核对）
+    - list:
+      - generic: R20261024-009
+      - generic: 采样 2026-10-24 19:05；录入 2026-10-24 19:05；修订 0 次
+    - paragraph: 数据口径
+    - paragraph: 业务事实来自服务端数据库本次查询；知识解释来自本地知识库引用；建议不等于已执行。
+    - paragraph: 打开相关页面
+    - button "打开该测点的监测趋势"
+    - button "在 3D 楼层里定位该测点"
+    - button "打开该测点的影像对比页"
+    - button "它最近的变化趋势怎么样"
+    - button "这条预警为什么被触发"
+    - button "带我到 3D 看位置"
+  - button "系统有哪些演示身份？ 收起":
+    - generic: 系统有哪些演示身份？
+    - generic: 收起
+  - article:
+    - paragraph: 系统有哪些演示身份？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 演示身份与权限 系统不提供登录页、账号或密码。启动后使用预置演示身份，可切换学校安全管理人员、物业值班、设备管理、巡检、维修五类身份。界面身份提示不能作为授权依据；服务端按稳定身份 ID、角色和楼栋范围校验每次写入。维修人员不能自行验收工单；角色或范围不符时拒绝写入并显示原因。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 标准 FAQ 命中；请核对原文引用
+    - list:
+      - button "演示身份与权限 v1 · docs/knowledge/platform/identity.md 第 1–3 行 · faq / keyword / vector 查看引用":
+        - generic: 演示身份与权限
+        - generic: v1 · docs/knowledge/platform/identity.md 第 1–3 行 · faq / keyword / vector
+        - generic: 查看引用
+      - button "问题四来源与独立上报 v1 · docs/knowledge/operations/issues.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 问题四来源与独立上报
+        - generic: v1 · docs/knowledge/operations/issues.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "有历史记录的设备能删除吗？ 收起":
+    - generic: 有历史记录的设备能删除吗？
+    - generic: 收起
+  - article:
+    - paragraph: 有历史记录的设备能删除吗？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 楼栋楼层测点设备归档 档案按楼栋、楼层、测点、设备组织，测点必须属于有效楼栋和楼层。编号和 NFC 标签不能重复，位置变更需要原因并保留历史。有历史数据的对象使用归档而非物理删除；有在册测点时上级楼栋或楼层不能归档。恢复档案前应核对上级仍在册，历史监测记录仍可追溯。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 标准 FAQ 命中；请核对原文引用
+    - list:
+      - button "楼栋楼层测点设备归档 v1 · docs/knowledge/platform/archive.md 第 1–3 行 · faq / keyword / vector 查看引用":
+        - generic: 楼栋楼层测点设备归档
+        - generic: v1 · docs/knowledge/platform/archive.md 第 1–3 行 · faq / keyword / vector
+        - generic: 查看引用
+      - button "服务端备份恢复与数据保护 v1 · docs/knowledge/platform/backup.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 服务端备份恢复与数据保护
+        - generic: v1 · docs/knowledge/platform/backup.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "修改基准会覆盖历史记录吗？ 收起":
+    - generic: 修改基准会覆盖历史记录吗？
+    - generic: 收起
+  - article:
+    - paragraph: 修改基准会覆盖历史记录吗？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 基准值版本与采样时间 基准值修改会产生新版本，必须填写原因、生效时间和预期版本。监测判定按采样时间选择当时生效的基准，记录保存基准版本和基准值快照。后续修改基准不能用新值覆盖历史判定。录入时间与采样时间是不同字段；历史补录仍按原采样时刻解释。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 标准 FAQ 命中；请核对原文引用
+    - list:
+      - button "基准值版本与采样时间 v1 · docs/knowledge/monitoring/baseline.md 第 1–3 行 · faq / keyword / vector 查看引用":
+        - generic: 基准值版本与采样时间
+        - generic: v1 · docs/knowledge/monitoring/baseline.md 第 1–3 行 · faq / keyword / vector
+        - generic: 查看引用
+      - button "CSV 导入预检与原子提交 v1 · docs/knowledge/monitoring/csv.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: CSV 导入预检与原子提交
+        - generic: v1 · docs/knowledge/monitoring/csv.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "内置阈值是国家安全标准吗？ 收起":
+    - generic: 内置阈值是国家安全标准吗？
+    - generic: 收起
+  - article:
+    - paragraph: 内置阈值是国家安全标准吗？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 演示预警规则与分级说明 筑瞳内置阈值是比赛演示规则，用于展示黄、橙、红分级和处置流程，不是国家建筑安全标准，也不能作为真实建筑安全鉴定结论。规则按稳定 ruleId 保存版本；按采样时间先选当时版本，再判断启用和适用范围。最新版本停用或排除测点时，不得回退旧版本绕过限制。阈值与持续、恢复条件应查看规则原文和试算。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 标准 FAQ 命中；请核对原文引用
+    - list:
+      - button "演示预警规则与分级说明 v1 · docs/knowledge/monitoring/rules.md 第 1–3 行 · faq / keyword / vector 查看引用":
+        - generic: 演示预警规则与分级说明
+        - generic: v1 · docs/knowledge/monitoring/rules.md 第 1–3 行 · faq / keyword / vector
+        - generic: 查看引用
+      - button "预警分级与处置要求 v1 · docs/knowledge/预警分级.md 第 1–4 行 · keyword / vector 查看引用":
+        - generic: 预警分级与处置要求
+        - generic: v1 · docs/knowledge/预警分级.md 第 1–4 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "监测记录如何更正并保留原值？ 收起":
+    - generic: 监测记录如何更正并保留原值？
+    - generic: 收起
+  - article:
+    - paragraph: 监测记录如何更正并保留原值？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 监测录入质量与修订留痕 监测录入保存测点、设备、读数、单位、采样时间、来源及质量说明。缺失读数不能按零值处理；存疑或无效数据不参与正常判定，超设备量程标记无效；振动读数还需统计窗口。同测点同分钟不能重复采样。修订必须填写原因和当前 rev，保留修订前原值、快照和次数；较早补录不覆盖当前预警状态。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 标准 FAQ 命中；请核对原文引用
+    - list:
+      - button "监测录入质量与修订留痕 v1 · docs/knowledge/monitoring/records.md 第 1–3 行 · faq / keyword / vector 查看引用":
+        - generic: 监测录入质量与修订留痕
+        - generic: v1 · docs/knowledge/monitoring/records.md 第 1–3 行 · faq / keyword / vector
+        - generic: 查看引用
+      - button "楼栋楼层测点设备归档 v1 · docs/knowledge/platform/archive.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 楼栋楼层测点设备归档
+        - generic: v1 · docs/knowledge/platform/archive.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "CSV 导入为什么需要先预检？ 收起":
+    - generic: CSV 导入为什么需要先预检？
+    - generic: 收起
+  - article:
+    - paragraph: CSV 导入为什么需要先预检？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: CSV 导入预检与原子提交 CSV 先逐行预检，显示行号、错误及可提交状态，再选择有效行整批提交。提交时重新核对档案、规则、基准及监测记录；预检 token 过期则拒绝并要求重新预检。选中行中任何一行失败，整批事务回滚，不能部分成功。历史导入必须填写补录说明，旧采样只存档，不覆盖当前事件状态。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 标准 FAQ 命中；请核对原文引用
+    - list:
+      - button "CSV 导入预检与原子提交 v1 · docs/knowledge/monitoring/csv.md 第 1–3 行 · faq / keyword / vector 查看引用":
+        - generic: CSV 导入预检与原子提交
+        - generic: v1 · docs/knowledge/monitoring/csv.md 第 1–3 行 · faq / keyword / vector
+        - generic: 查看引用
+      - button "预警分级与处置要求 v1 · docs/knowledge/预警分级.md 第 1–4 行 · keyword / vector 查看引用":
+        - generic: 预警分级与处置要求
+        - generic: v1 · docs/knowledge/预警分级.md 第 1–4 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "恢复待确认会自动关闭预警吗？ 收起":
+    - generic: 恢复待确认会自动关闭预警吗？
+    - generic: 收起
+  - article:
+    - paragraph: 恢复待确认会自动关闭预警吗？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 预警恢复与授权关闭 连续有效采样满足当前规则的恢复条件后，预警事件进入 recovering 恢复待确认，并不会自动关闭。安全管理人员关闭前必须重新核验实际有效采样序列，并填写关闭依据；处置依据须为当前事件关联且已验收的合法工单，或现场核查确认无需维修的结论。同测点旧事件工单不可借用。恢复窗口记录修订导致条件不成立时退回待确认或处理中。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 标准 FAQ 命中；请核对原文引用
+    - list:
+      - button "预警恢复与授权关闭 v1 · docs/knowledge/monitoring/closing.md 第 1–3 行 · faq / keyword / vector 查看引用":
+        - generic: 预警恢复与授权关闭
+        - generic: v1 · docs/knowledge/monitoring/closing.md 第 1–3 行 · faq / keyword / vector
+        - generic: 查看引用
+      - button "预警分级与处置要求 v1 · docs/knowledge/预警分级.md 第 1–4 行 · keyword / vector 查看引用":
+        - generic: 预警分级与处置要求
+        - generic: v1 · docs/knowledge/预警分级.md 第 1–4 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "页面显示通知就代表短信送达吗？ 收起":
+    - generic: 页面显示通知就代表短信送达吗？
+    - generic: 收起
+  - article:
+    - paragraph: 页面显示通知就代表短信送达吗？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 站内通知确认与超时核验 通知区分生成、首次展示、人工确认和超时升级时间。展示不等于确认，更不代表短信送达；项目未接入短信或外部推送。服务端用真实时间核验未确认且超时的通知，按规则只升级一次。已关闭事件的通知保留历史但停止升级。安全管理人员确认事件时，同事件未确认通知一并确认。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 标准 FAQ 命中；请核对原文引用
+    - list:
+      - button "站内通知确认与超时核验 v1 · docs/knowledge/monitoring/notifications.md 第 1–3 行 · faq / keyword / vector 查看引用":
+        - generic: 站内通知确认与超时核验
+        - generic: v1 · docs/knowledge/monitoring/notifications.md 第 1–3 行 · faq / keyword / vector
+        - generic: 查看引用
+      - button "演示身份与权限 v1 · docs/knowledge/platform/identity.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 演示身份与权限
+        - generic: v1 · docs/knowledge/platform/identity.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "修改巡检计划会改变已生成任务吗？ 收起":
+    - generic: 修改巡检计划会改变已生成任务吗？
+    - generic: 收起
+  - article:
+    - paragraph: 修改巡检计划会改变已生成任务吗？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 巡检计划生成与任务快照 点检或巡检计划配置设备或路线范围、周期、清单、执行角色和启停。手动生成按计划与执行时刻创建任务，业务唯一键防止重复生成。同一天新增或启用计划后可再次生成。任务冻结生成时的楼栋范围、必查点、清单和执行角色；修改计划不追溯改变已有任务，后续周期任务使用新计划。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 标准 FAQ 命中；请核对原文引用
+    - list:
+      - button "巡检计划生成与任务快照 v1 · docs/knowledge/operations/inspection/plans.md 第 1–3 行 · faq / keyword / vector 查看引用":
+        - generic: 巡检计划生成与任务快照
+        - generic: v1 · docs/knowledge/operations/inspection/plans.md 第 1–3 行 · faq / keyword / vector
+        - generic: 查看引用
+      - button "逐点必答清单与异常后续 v1 · docs/knowledge/operations/inspection/checklist.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 逐点必答清单与异常后续
+        - generic: v1 · docs/knowledge/operations/inspection/checklist.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "人工签到为什么必须写原因？ 收起":
+    - generic: 人工签到为什么必须写原因？
+    - generic: 收起
+  - article:
+    - paragraph: 人工签到为什么必须写原因？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 虚拟 NFC 与人工到点签到 到点入口核对当前测点的虚拟 NFC 标签与登记版本，错误标签不计到点，成功与失败尝试均留痕。模拟读卡是演示方式，不声称真实硬件采集。人工兜底签到必须填写读卡失败、标签损坏等原因，并核对点位。到点只表明已到场，不等于已完成清单检查。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 标准 FAQ 命中；请核对原文引用
+    - list:
+      - button "虚拟 NFC 与人工到点签到 v1 · docs/knowledge/operations/inspection/arrival.md 第 1–3 行 · faq / keyword / vector 查看引用":
+        - generic: 虚拟 NFC 与人工到点签到
+        - generic: v1 · docs/knowledge/operations/inspection/arrival.md 第 1–3 行 · faq / keyword / vector
+        - generic: 查看引用
+      - button "维修工单派工接单完工验收 v1 · docs/knowledge/operations/orders.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 维修工单派工接单完工验收
+        - generic: v1 · docs/knowledge/operations/orders.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "必答项没填完能完成巡检吗？ 收起":
+    - generic: 必答项没填完能完成巡检吗？
+    - generic: 收起
+  - article:
+    - paragraph: 必答项没填完能完成巡检吗？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 逐点必答清单与异常后续 巡检任务逐点填写清单，服务端按生成时的清单快照校验必答项。合法检查结果为正常或异常；缺项、空字符串、未知检查项和重复项不能冒充完成。未到点不能提交检查完成。出现异常时必须关联本任务本测点的真实问题，或填写不少于十字的无需建问题依据；部分点位完成仍属于部分完成。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 标准 FAQ 命中；请核对原文引用
+    - list:
+      - button "逐点必答清单与异常后续 v1 · docs/knowledge/operations/inspection/checklist.md 第 1–3 行 · faq / keyword / vector 查看引用":
+        - generic: 逐点必答清单与异常后续
+        - generic: v1 · docs/knowledge/operations/inspection/checklist.md 第 1–3 行 · faq / keyword / vector
+        - generic: 查看引用
+      - button "巡检计划生成与任务快照 v1 · docs/knowledge/operations/inspection/plans.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 巡检计划生成与任务快照
+        - generic: v1 · docs/knowledge/operations/inspection/plans.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "问题有哪些来源？ 收起":
+    - generic: 问题有哪些来源？
+    - generic: 收起
+  - article:
+    - paragraph: 问题有哪些来源？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 问题四来源与独立上报 问题统一接收传感器预警、巡检发现、人工上报和保养异常四种来源，保留原始描述、位置、照片与来源链。每次独立上报使用固定 submissionId，同一次重试复用标识并可补照片，不能把不同上报按同人同日合并。原提交身份、来源、位置和内容必须一致才能重试；人工上报不能私填事件 ID 伪造预警处置关系。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 标准 FAQ 命中；请核对原文引用
+    - list:
+      - button "问题四来源与独立上报 v1 · docs/knowledge/operations/issues.md 第 1–3 行 · faq / keyword / vector 查看引用":
+        - generic: 问题四来源与独立上报
+        - generic: v1 · docs/knowledge/operations/issues.md 第 1–3 行 · faq / keyword / vector
+        - generic: 查看引用
+      - button "问题审核六种出口 v1 · docs/knowledge/operations/reviews.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 问题审核六种出口
+        - generic: v1 · docs/knowledge/operations/reviews.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "问题审核有哪六种处理出口？ 收起":
+    - generic: 问题审核有哪六种处理出口？
+    - generic: 收起
+  - article:
+    - paragraph: 问题审核有哪六种处理出口？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 问题审核六种出口 安全管理人员审核问题时保留原始报告，选择出口和二级分类并写明意见。六种出口为转维修、转专业排查、安排复查、退回补充、关联既有对象、无需处理关闭。退回需说明缺少什么；已当场处理需照片或持久保存无法拍照原因。维修中问题不能任意跳过办理步骤；已有未验收工单时不能重复转维修。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 标准 FAQ 命中；请核对原文引用
+    - list:
+      - button "问题审核六种出口 v1 · docs/knowledge/operations/reviews.md 第 1–3 行 · faq / keyword / vector 查看引用":
+        - generic: 问题审核六种出口
+        - generic: v1 · docs/knowledge/operations/reviews.md 第 1–3 行 · faq / keyword / vector
+        - generic: 查看引用
+      - button "逐点必答清单与异常后续 v1 · docs/knowledge/operations/inspection/checklist.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 逐点必答清单与异常后续
+        - generic: v1 · docs/knowledge/operations/inspection/checklist.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "维修人员可以自行验收工单吗？ 收起":
+    - generic: 维修人员可以自行验收工单吗？
+    - generic: 收起
+  - article:
+    - paragraph: 维修人员可以自行验收工单吗？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 维修工单派工接单完工验收 工单按待派工、已派工、处理中、待验收、验收通过或验收退回流转。安全管理人员派工并指定稳定身份 ID；只有被派工人可接单，物业代接需说明原因并记录实际接单人。只有实际接单人能提交完工，必须填写维修措施；验收退回需要理由。验收由安全管理人员执行，维修人员不能自行验收。验收通过只推进问题待复查，不能直接关闭问题或预警。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 标准 FAQ 命中；请核对原文引用
+    - list:
+      - button "维修工单派工接单完工验收 v1 · docs/knowledge/operations/orders.md 第 1–3 行 · faq / keyword / vector 查看引用":
+        - generic: 维修工单派工接单完工验收
+        - generic: v1 · docs/knowledge/operations/orders.md 第 1–3 行 · faq / keyword / vector
+        - generic: 查看引用
+      - button "工单验收要求 v1 · docs/knowledge/工单验收.md 第 1–4 行 · keyword / vector 查看引用":
+        - generic: 工单验收要求
+        - generic: v1 · docs/knowledge/工单验收.md 第 1–4 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "继续观察需要登记下一次复查日期吗？ 收起":
+    - generic: 继续观察需要登记下一次复查日期吗？
+    - generic: 收起
+  - article:
+    - paragraph: 继续观察需要登记下一次复查日期吗？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 复查观察复发与有效轮次 待复查问题必须登记事项、责任人、目标日期，结论分为确认恢复、继续观察、复发转处置。确认恢复关闭问题；继续观察必须登记下一次复查日期并保留轮次历史，不能算最终闭环；复发回到待审核继续处置，不另建无关问题。开始新的维修周期会使未出结论旧轮次失效并记录原因，新工单验收后应重新登记有效复查，不能沿用失效轮次关闭。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 标准 FAQ 命中；请核对原文引用
+    - list:
+      - button "复查观察复发与有效轮次 v1 · docs/knowledge/operations/rechecks.md 第 1–3 行 · faq / keyword / vector 查看引用":
+        - generic: 复查观察复发与有效轮次
+        - generic: v1 · docs/knowledge/operations/rechecks.md 第 1–3 行 · faq / keyword / vector
+        - generic: 查看引用
+      - button "报表统计粒度与闭环口径 v1 · docs/knowledge/platform/reports.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 报表统计粒度与闭环口径
+        - generic: v1 · docs/knowledge/platform/reports.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "每个问题最多能上传几张照片多大？ 收起":
+    - generic: 每个问题最多能上传几张照片多大？
+    - generic: 收起
+  - article:
+    - paragraph: 每个问题最多能上传几张照片多大？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 照片配额归属与补传 业务照片真实字节保存在私有持久化目录，数据库保存媒体元数据与哈希，不能以临时 URL 或 base64 替代原件。每个问题、工单或保养归属最多三张照片，合计不超过六百 KB，服务端校验体积、类型、所有权、测点和唯一归属。上传成功后可用 draftId 与 mediaId 重试补关联，不重复占配额。验收照片只允许安全管理人员写入工单。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 标准 FAQ 命中；请核对原文引用
+    - list:
+      - button "照片配额归属与补传 v1 · docs/knowledge/operations/photos.md 第 1–3 行 · faq / keyword / vector 查看引用":
+        - generic: 照片配额归属与补传
+        - generic: v1 · docs/knowledge/operations/photos.md 第 1–3 行 · faq / keyword / vector
+        - generic: 查看引用
+      - button "问题四来源与独立上报 v1 · docs/knowledge/operations/issues.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 问题四来源与独立上报
+        - generic: v1 · docs/knowledge/operations/issues.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "保养异常怎么转成问题？ 收起":
+    - generic: 保养异常怎么转成问题？
+    - generic: 收起
+  - article:
+    - paragraph: 保养异常怎么转成问题？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 设备保养执行与异常转问题 设备保养计划配置设备、周期、负责人和执行清单，按周期生成保养任务并冻结快照，一个周期只执行一次。执行时填写必答项、维护措施、材料、照片和下次保养日期。存在异常需说明异常情况，可将异常转问题；保养执行记录与新问题双向关联并同事务提交，重试不多建问题。正常项不能伪装异常转问题，未完成保养不得算按期完成。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 标准 FAQ 命中；请核对原文引用
+    - list:
+      - button "设备保养执行与异常转问题 v1 · docs/knowledge/operations/maintenance.md 第 1–3 行 · faq / keyword / vector 查看引用":
+        - generic: 设备保养执行与异常转问题
+        - generic: v1 · docs/knowledge/operations/maintenance.md 第 1–3 行 · faq / keyword / vector
+        - generic: 查看引用
+      - button "问题四来源与独立上报 v1 · docs/knowledge/operations/issues.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 问题四来源与独立上报
+        - generic: v1 · docs/knowledge/operations/issues.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "观察中的问题计入最终闭环率吗？ 收起":
+    - generic: 观察中的问题计入最终闭环率吗？
+    - generic: 收起
+  - article:
+    - paragraph: 观察中的问题计入最终闭环率吗？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 报表统计粒度与闭环口径 预警响应时长按事件产生到首次人工确认或转出问题的较早时刻计算。问题按期闭环率按已关闭且登记过复查的问题，与最后有效复查目标日期比较；观察中不算最终闭环，验收率不等于问题关闭率。复查与保养按期完成率分别按轮次结论时间和保养执行时间核对目标日期。没有结果的对象单列，不假造百分比。报表支持按时间、楼栋、测点筛选并导出明细。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 标准 FAQ 命中；请核对原文引用
+    - list:
+      - button "报表统计粒度与闭环口径 v1 · docs/knowledge/platform/reports.md 第 1–3 行 · faq / keyword / vector 查看引用":
+        - generic: 报表统计粒度与闭环口径
+        - generic: v1 · docs/knowledge/platform/reports.md 第 1–3 行 · faq / keyword / vector
+        - generic: 查看引用
+      - button "复查观察复发与有效轮次 v1 · docs/knowledge/operations/rechecks.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 复查观察复发与有效轮次
+        - generic: v1 · docs/knowledge/operations/rechecks.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "备份是否包括本地模型和向量索引？ 收起":
+    - generic: 备份是否包括本地模型和向量索引？
+    - generic: 收起
+  - article:
+    - paragraph: 备份是否包括本地模型和向量索引？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 服务端备份恢复与数据保护 服务端备份包含 SQLite 数据库、私有媒体、会话签名文件以及已准备的本地模型文件。清单记录文件体积与 SHA-256，恢复前核对数据库完整性、引用完整性和全部文件哈希。恢复到独立目录，不覆盖已有目录。备份中的知识文档、版本、FAQ、同义词和向量索引随数据库恢复；模型目录一并恢复后可离线加载。不要用浏览器备份替代服务端持久化备份。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 标准 FAQ 命中；请核对原文引用
+    - list:
+      - button "服务端备份恢复与数据保护 v1 · docs/knowledge/platform/backup.md 第 1–3 行 · faq / keyword / vector 查看引用":
+        - generic: 服务端备份恢复与数据保护
+        - generic: v1 · docs/knowledge/platform/backup.md 第 1–3 行 · faq / keyword / vector
+        - generic: 查看引用
+      - button "本地知识检索与依据边界 v1 · docs/knowledge/platform/knowledge.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 本地知识检索与依据边界
+        - generic: v1 · docs/knowledge/platform/knowledge.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "没有模型时还能检索吗？ 收起":
+    - generic: 没有模型时还能检索吗？
+    - generic: 收起
+  - article:
+    - paragraph: 没有模型时还能检索吗？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 本地知识检索与依据边界 本地知识服务使用标准 FAQ、术语同义词、关键词与 BGE 中文向量混合召回；SQLite 保存向量，NumPy 在本机计算相似度，不调用外部生成或 embedding API。每个候选附文档版本、原文块、行号、哈希、来源和命中方式。相关度不是可信概率；歧义应澄清，库外内容说明没有充分依据。知识启停或新版本后旧块不再引用；模型缺失或索引损坏时明确降级 FAQ/关键词。动态业务数量或当前工单状态应查业务接口，不能从静态知识推测。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 标准 FAQ 命中；请核对原文引用
+    - list:
+      - button "本地知识检索与依据边界 v1 · docs/knowledge/platform/knowledge.md 第 1–3 行 · faq / keyword / vector 查看引用":
+        - generic: 本地知识检索与依据边界
+        - generic: v1 · docs/knowledge/platform/knowledge.md 第 1–3 行 · faq / keyword / vector
+        - generic: 查看引用
+      - button "服务端备份恢复与数据保护 v1 · docs/knowledge/platform/backup.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 服务端备份恢复与数据保护
+        - generic: v1 · docs/knowledge/platform/backup.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "是否需要注册账号和密码才能使用？ 收起":
+    - generic: 是否需要注册账号和密码才能使用？
+    - generic: 收起
+  - article:
+    - paragraph: 是否需要注册账号和密码才能使用？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 演示身份与权限 系统不提供登录页、账号或密码。启动后使用预置演示身份，可切换学校安全管理人员、物业值班、设备管理、巡检、维修五类身份。界面身份提示不能作为授权依据；服务端按稳定身份 ID、角色和楼栋范围校验每次写入。维修人员不能自行验收工单；角色或范围不符时拒绝写入并显示原因。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 根据当前启用知识返回原文；相关度不是可信概率
+    - list:
+      - button "演示身份与权限 v1 · docs/knowledge/platform/identity.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 演示身份与权限
+        - generic: v1 · docs/knowledge/platform/identity.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "楼栋楼层测点设备归档 v1 · docs/knowledge/platform/archive.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 楼栋楼层测点设备归档
+        - generic: v1 · docs/knowledge/platform/archive.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "操作权限由前端身份提示决定吗？ 收起":
+    - generic: 操作权限由前端身份提示决定吗？
+    - generic: 收起
+  - article:
+    - paragraph: 操作权限由前端身份提示决定吗？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 演示身份与权限 系统不提供登录页、账号或密码。启动后使用预置演示身份，可切换学校安全管理人员、物业值班、设备管理、巡检、维修五类身份。界面身份提示不能作为授权依据；服务端按稳定身份 ID、角色和楼栋范围校验每次写入。维修人员不能自行验收工单；角色或范围不符时拒绝写入并显示原因。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 根据当前启用知识返回原文；相关度不是可信概率
+    - list:
+      - button "演示身份与权限 v1 · docs/knowledge/platform/identity.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 演示身份与权限
+        - generic: v1 · docs/knowledge/platform/identity.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "服务端备份恢复与数据保护 v1 · docs/knowledge/platform/backup.md 第 1–3 行 · vector 查看引用":
+        - generic: 服务端备份恢复与数据保护
+        - generic: v1 · docs/knowledge/platform/backup.md 第 1–3 行 · vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "楼栋下面还有在册测点可以归档吗？ 收起":
+    - generic: 楼栋下面还有在册测点可以归档吗？
+    - generic: 收起
+  - article:
+    - paragraph: 楼栋下面还有在册测点可以归档吗？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 楼栋楼层测点设备归档 档案按楼栋、楼层、测点、设备组织，测点必须属于有效楼栋和楼层。编号和 NFC 标签不能重复，位置变更需要原因并保留历史。有历史数据的对象使用归档而非物理删除；有在册测点时上级楼栋或楼层不能归档。恢复档案前应核对上级仍在册，历史监测记录仍可追溯。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 根据当前启用知识返回原文；相关度不是可信概率
+    - list:
+      - button "楼栋楼层测点设备归档 v1 · docs/knowledge/platform/archive.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 楼栋楼层测点设备归档
+        - generic: v1 · docs/knowledge/platform/archive.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "演示身份与权限 v1 · docs/knowledge/platform/identity.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 演示身份与权限
+        - generic: v1 · docs/knowledge/platform/identity.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "测点挪位置需要保留什么信息？ 收起":
+    - generic: 测点挪位置需要保留什么信息？
+    - generic: 收起
+  - article:
+    - paragraph: 测点挪位置需要保留什么信息？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 楼栋楼层测点设备归档 档案按楼栋、楼层、测点、设备组织，测点必须属于有效楼栋和楼层。编号和 NFC 标签不能重复，位置变更需要原因并保留历史。有历史数据的对象使用归档而非物理删除；有在册测点时上级楼栋或楼层不能归档。恢复档案前应核对上级仍在册，历史监测记录仍可追溯。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 根据当前启用知识返回原文；相关度不是可信概率
+    - list:
+      - button "楼栋楼层测点设备归档 v1 · docs/knowledge/platform/archive.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 楼栋楼层测点设备归档
+        - generic: v1 · docs/knowledge/platform/archive.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "监测录入质量与修订留痕 v1 · docs/knowledge/monitoring/records.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 监测录入质量与修订留痕
+        - generic: v1 · docs/knowledge/monitoring/records.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "历史补录使用哪个基准版本？ 收起":
+    - generic: 历史补录使用哪个基准版本？
+    - generic: 收起
+  - article:
+    - paragraph: 历史补录使用哪个基准版本？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 基准值版本与采样时间 基准值修改会产生新版本，必须填写原因、生效时间和预期版本。监测判定按采样时间选择当时生效的基准，记录保存基准版本和基准值快照。后续修改基准不能用新值覆盖历史判定。录入时间与采样时间是不同字段；历史补录仍按原采样时刻解释。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 根据当前启用知识返回原文；相关度不是可信概率
+    - list:
+      - button "基准值版本与采样时间 v1 · docs/knowledge/monitoring/baseline.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 基准值版本与采样时间
+        - generic: v1 · docs/knowledge/monitoring/baseline.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "CSV 导入预检与原子提交 v1 · docs/knowledge/monitoring/csv.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: CSV 导入预检与原子提交
+        - generic: v1 · docs/knowledge/monitoring/csv.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "基准值调整需要哪些依据和字段？ 收起":
+    - generic: 基准值调整需要哪些依据和字段？
+    - generic: 收起
+  - article:
+    - paragraph: 基准值调整需要哪些依据和字段？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 基准值版本与采样时间 基准值修改会产生新版本，必须填写原因、生效时间和预期版本。监测判定按采样时间选择当时生效的基准，记录保存基准版本和基准值快照。后续修改基准不能用新值覆盖历史判定。录入时间与采样时间是不同字段；历史补录仍按原采样时刻解释。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 根据当前启用知识返回原文；相关度不是可信概率
+    - list:
+      - button "基准值版本与采样时间 v1 · docs/knowledge/monitoring/baseline.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 基准值版本与采样时间
+        - generic: v1 · docs/knowledge/monitoring/baseline.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "本地知识检索与依据边界 v1 · docs/knowledge/platform/knowledge.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 本地知识检索与依据边界
+        - generic: v1 · docs/knowledge/platform/knowledge.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引���，不是现场实时数据；建���不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "停用新规则会回退旧版本判定吗？ 收起":
+    - generic: 停用新规则会回退旧版本判定吗？
+    - generic: 收起
+  - article:
+    - paragraph: 停用新规则会回退旧版本判定吗？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 演示预警规则与分级说明 筑瞳内置阈值是比赛演示规则，用于展示黄、橙、红分级和处置流程，不是国家建筑安全标准，也不能作为真实建筑安全鉴定结论。规则按稳定 ruleId 保存版本；按采样时间先选当时版本，再判断启用和适用范围。最新版本停用或排除测点时，不得回退旧版本绕过限制。阈值与持续、恢复条件应查看规则原文和试算。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 根据当前启用知识返回原文；相关度不是可信概率
+    - list:
+      - button "演示预警规则与分级说明 v1 · docs/knowledge/monitoring/rules.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 演示预警规则与分级说明
+        - generic: v1 · docs/knowledge/monitoring/rules.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "基准值版本与采样时间 v1 · docs/knowledge/monitoring/baseline.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 基准值版本与采样时间
+        - generic: v1 · docs/knowledge/monitoring/baseline.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "黄橙红的规则能直接作为建筑鉴定吗？ 收起":
+    - generic: 黄橙红的规则能直接作为建筑鉴定吗？
+    - generic: 收起
+  - article:
+    - paragraph: 黄橙红的规则能直接作为建筑鉴定吗？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 演示预警规则与分级说明 筑瞳内置阈值是比赛演示规则，用于展示黄、橙、红分级和处置流程，不是国家建筑安全标准，也不能作为真实建筑安全鉴定结论。规则按稳定 ruleId 保存版本；按采样时间先选当时版本，再判断启用和适用范围。最新版本停用或排除测点时，不得回退旧版本绕过限制。阈值与持续、恢复条件应查看规则原文和试算。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 根据当前启用知识返回原文；相关度不是可信概率
+    - list:
+      - button "演示预警规则与分级说明 v1 · docs/knowledge/monitoring/rules.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 演示预警规则与分级说明
+        - generic: v1 · docs/knowledge/monitoring/rules.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "CSV 导入预检与原子提交 v1 · docs/knowledge/monitoring/csv.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: CSV 导入预检与原子提交
+        - generic: v1 · docs/knowledge/monitoring/csv.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "数据缺项可以当成零吗？ 收起":
+    - generic: 数据缺项可以当成零吗？
+    - generic: 收起
+  - article:
+    - paragraph: 数据缺项可以当成零吗？
+    - img "小瞳没有找到可用数据":
+    - generic: 这一类问题本步不支持
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 当前本地知识库没有足够依据回答这个问题，也未生成业务事实；可以换一种问法，或在知识库补充依据。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：本地知识库没有足够依据 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 相关度不足，当前知识没有充分依据
+    - paragraph: 没有可展开的引用；本回答不把没有依据的内容写成结论。
+    - paragraph: 本地知识库没有足够依据；没有引用、也没有推测。
+    - paragraph: 数据口径
+    - paragraph: 没有依据时不引用、不推测；动态数量与状态请到业务页面查询。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "存疑和超量程数据是否参与判定？ 收起":
+    - generic: 存疑和超量程数据是否参与判定？
+    - generic: 收起
+  - article:
+    - paragraph: 存疑和超量程数据是否参与判定？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 监测录入质量与修订留痕 监测录入保存测点、设备、读数、单位、采样时间、来源及质量说明。缺失读数不能按零值处理；存疑或无效数据不参与正常判定，超设备量程标记无效；振动读数还需统计窗口。同测点同分钟不能重复采样。修订必须填写原因和当前 rev，保留修订前原值、快照和次数；较早补录不覆盖当前预警状态。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 根据当前启用知识返回原文；相关度不是可信概率
+    - list:
+      - button "监测录入质量与修订留痕 v1 · docs/knowledge/monitoring/records.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 监测录入质量与修订留痕
+        - generic: v1 · docs/knowledge/monitoring/records.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "本地知识检索与依据边界 v1 · docs/knowledge/platform/knowledge.md 第 1–3 行 · vector 查看引用":
+        - generic: 本地知识检索与依据边界
+        - generic: v1 · docs/knowledge/platform/knowledge.md 第 1–3 行 · vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "选中导入的一行失败会部分写入吗？ 收起":
+    - generic: 选中导入的一行失败会部分写入吗？
+    - generic: 收起
+  - article:
+    - paragraph: 选中导入的一行失败会部分写入吗？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: CSV 导入预检与原子提交 CSV 先逐行预检，显示行号、错误及可提交状态，再选择有效行整批提交。提交时重新核对档案、规则、基准及监测记录；预检 token 过期则拒绝并要求重新预检。选中行中任何一行失败，整批事务回滚，不能部分成功。历史导入必须填写补录说明，旧采样只存档，不覆盖当前事件状态。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 根据当前启用知识返回原文；相关度不是可信概率
+    - list:
+      - button "CSV 导入预检与原子提交 v1 · docs/knowledge/monitoring/csv.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: CSV 导入预检与原子提交
+        - generic: v1 · docs/knowledge/monitoring/csv.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "逐点必答清单与异常后续 v1 · docs/knowledge/operations/inspection/checklist.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 逐点必答清单与异常后续
+        - generic: v1 · docs/knowledge/operations/inspection/checklist.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "CSV 预检结果过期后应该怎么处理？ 收起":
+    - generic: CSV 预检结果过期后应该怎么处理？
+    - generic: 收起
+  - article:
+    - paragraph: CSV 预检结果过期后应该怎么处理？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: CSV 导入预检与原子提交 CSV 先逐行预检，显示行号、错误及可提交状态，再选择有效行整批提交。提交时重新核对档案、规则、基准及监测记录；预检 token 过期则拒绝并要求重新预检。选中行中任何一行失败，整批事务回滚，不能部分成功。历史导入必须填写补录说明，旧采样只存档，不覆盖当前事件状态。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 根据当前启用知识返回原文；相关度不是可信概率
+    - list:
+      - button "CSV 导入预检与原子提交 v1 · docs/knowledge/monitoring/csv.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: CSV 导入预检与原子提交
+        - generic: v1 · docs/knowledge/monitoring/csv.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "预警恢复与授权关闭 v1 · docs/knowledge/monitoring/closing.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 预警恢复与授权关闭
+        - generic: v1 · docs/knowledge/monitoring/closing.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "预警关闭可以借用同测点旧工单吗？ 收起":
+    - generic: 预警关闭可以借用同测点旧工单吗？
+    - generic: 收起
+  - article:
+    - paragraph: 预警关闭可以借用同测点旧工单吗？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 预警恢复与授权关闭 连续有效采样满足当前规则的恢复条件后，预警事件进入 recovering 恢复待确认，并不会自动关闭。安全管理人员关闭前必须重新核验实际有效采样序列，并填写关闭依据；处置依据须为当前事件关联且已验收的合法工单，或现场核查确认无需维修的结论。同测点旧事件工单不可借用。恢复窗口记录修订导致条件不成立时退回待确认或处理中。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 根据当前启用知识返回原文；相关度不是可信概率
+    - list:
+      - button "预警恢复与授权关闭 v1 · docs/knowledge/monitoring/closing.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 预警恢复与授权关闭
+        - generic: v1 · docs/knowledge/monitoring/closing.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "监测录入质量与修订留痕 v1 · docs/knowledge/monitoring/records.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 监测录入质量与修订留痕
+        - generic: v1 · docs/knowledge/monitoring/records.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "恢复窗口正常记录改成异常后还能关闭吗？ 收起":
+    - generic: 恢复窗口正常记录改成异常后还能关闭吗？
+    - generic: 收起
+  - article:
+    - paragraph: 恢复窗口正常记录改成异常后还能关闭吗？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 预警恢复与授权关闭 连续有效采样满足当前规则的恢复条件后，预警事件进入 recovering 恢复待确认，并不会自动关闭。安全管理人员关闭前必须重新核验实际有效采样序列，并填写关闭依据；处置依据须为当前事件关联且已验收的合法工单，或现场核查确认无需维修的结论。同测点旧事件工单不可借用。恢复窗口记录修订导致条件不成立时退回待确认或处理中。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 根据当前启用知识返回原文；相关度不是可信概率
+    - list:
+      - button "预警恢复与授权关闭 v1 · docs/knowledge/monitoring/closing.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 预警恢复与授权关闭
+        - generic: v1 · docs/knowledge/monitoring/closing.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "设备保养执行与异常转问题 v1 · docs/knowledge/operations/maintenance.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 设备保养执行与异常转问题
+        - generic: v1 · docs/knowledge/operations/maintenance.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "已关闭事件的通知还会超时升级吗？ 收起":
+    - generic: 已关闭事件的通知还会超时升级吗？
+    - generic: 收起
+  - article:
+    - paragraph: 已关闭事件的通知还会超时升级吗？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 站内通知确认与超时核验 通知区分生成、首次展示、人工确认和超时升级时间。展示不等于确认，更不代表短信送达；项目未接入短信或外部推送。服务端用真实时间核验未确认且超时的通知，按规则只升级一次。已关闭事件的通知保留历史但停止升级。安全管理人员确认事件时，同事件未确认通知一并确认。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 根据当前启用知识返回原文；相关度不是可信概率
+    - list:
+      - button "站内通知确认与超时核验 v1 · docs/knowledge/monitoring/notifications.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 站内通知确认与超时核验
+        - generic: v1 · docs/knowledge/monitoring/notifications.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "预警恢复与授权关闭 v1 · docs/knowledge/monitoring/closing.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 预警恢复与授权关闭
+        - generic: v1 · docs/knowledge/monitoring/closing.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "通知展示和人工确认有什么区别？ 收起":
+    - generic: 通知展示和人工确认有什么区别？
+    - generic: 收起
+  - article:
+    - paragraph: 通知展示和人工确认有什么区别？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 站内通知确认与超时核验 通知区分生成、首次展示、人工确认和超时升级时间。展示不等于确认，更不代表短信送达；项目未接入短信或外部推送。服务端用真实时间核验未确认且超时的通知，按规则只升级一次。已关闭事件的通知保留历史但停止升级。安全管理人员确认事件时，同事件未确认通知一并确认。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 根据当前启用知识返回原文；相关度不是可信概率
+    - list:
+      - button "站内通知确认与超时核验 v1 · docs/knowledge/monitoring/notifications.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 站内通知确认与超时核验
+        - generic: v1 · docs/knowledge/monitoring/notifications.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "报表统计粒度与闭环口径 v1 · docs/knowledge/platform/reports.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 报表统计粒度与闭环口径
+        - generic: v1 · docs/knowledge/platform/reports.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "今天新增巡检计划后能再次生成任务吗？ 收起":
+    - generic: 今天新增巡检计划后能再次生成任务吗？
+    - generic: 收起
+  - article:
+    - paragraph: 今天新增巡检计划后能再次生成任务吗？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 巡检计划生成与任务快照 点检或巡检计划配置设备或路线范围、周期、清单、执行角色和启停。手动生成按计划与执行时刻创建任务，业务唯一键防止重复生成。同一天新增或启用计划后可再次生成。任务冻结生成时的楼栋范围、必查点、清单和执行角色；修改计划不追溯改变已有任务，后续周期任务使用新计划。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 根据当前启用知识返回原文；相关度不是可信概率
+    - list:
+      - button "巡检计划生成与任务快照 v1 · docs/knowledge/operations/inspection/plans.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 巡检计划生成与任务快照
+        - generic: v1 · docs/knowledge/operations/inspection/plans.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "逐点必答清单与异常后续 v1 · docs/knowledge/operations/inspection/checklist.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 逐点必答清单与异常后续
+        - generic: v1 · docs/knowledge/operations/inspection/checklist.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "重复点击生成会产生重复巡检任务吗？ 收起":
+    - generic: 重复点击生成会产生重复巡检任务吗？
+    - generic: 收起
+  - article:
+    - paragraph: 重复点击生成会产生重复巡检任务吗？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 巡检计划生成与任务快照 点检或巡检计划配置设备或路线范围、周期、清单、执行角色和启停。手动生成按计划与执行时刻创建任务，业务唯一键防止重复生成。同一天新增或启用计划后可再次生成。任务冻结生成时的楼栋范围、必查点、清单和执行角色；修改计划不追溯改变已有任务，后续周期任务使用新计划。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 根据当前启用知识返回原文；相关度不是可信概率
+    - list:
+      - button "巡检计划生成与任务快照 v1 · docs/knowledge/operations/inspection/plans.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 巡检计划生成与任务快照
+        - generic: v1 · docs/knowledge/operations/inspection/plans.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "逐点必答清单与异常后续 v1 · docs/knowledge/operations/inspection/checklist.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 逐点必答清单与异常后续
+        - generic: v1 · docs/knowledge/operations/inspection/checklist.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "读到错误 NFC 标签能算到点吗？ 收起":
+    - generic: 读到错误 NFC 标签能算到点吗？
+    - generic: 收起
+  - article:
+    - paragraph: 读到错误 NFC 标签能算到点吗？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 虚拟 NFC 与人工到点签到 到点入口核对当前测点的虚拟 NFC 标签与登记版本，错误标签不计到点，成功与失败尝试均留痕。模拟读卡是演示方式，不声称真实硬件采集。人工兜底签到必须填写读卡失败、标签损坏等原因，并核对点位。到点只表明已到场，不等于已完成清单检查。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 根据当前启用知识返回原文；相关度不是可信概率
+    - list:
+      - button "虚拟 NFC 与人工到点签到 v1 · docs/knowledge/operations/inspection/arrival.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 虚拟 NFC 与人工到点签到
+        - generic: v1 · docs/knowledge/operations/inspection/arrival.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "逐点必答清单与异常后续 v1 · docs/knowledge/operations/inspection/checklist.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 逐点必答清单与异常后续
+        - generic: v1 · docs/knowledge/operations/inspection/checklist.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "到点签到成功就代表巡检完成了吗？ 收起":
+    - generic: 到点签到成功就代表巡检完成了吗？
+    - generic: 收起
+  - article:
+    - paragraph: 到点签到成功就代表巡检完成了吗？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 虚拟 NFC 与人工到点签到 到点入口核对当前测点的虚拟 NFC 标签与登记版本，错误标签不计到点，成功与失败尝试均留痕。模拟读卡是演示方式，不声称真实硬件采集。人工兜底签到必须填写读卡失败、标签损坏等原因，并核对点位。到点只表明已到场，不等于已完成清单检查。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 根据当前启用知识返回原文；相关度不是可信概率
+    - list:
+      - button "虚拟 NFC 与人工到点签到 v1 · docs/knowledge/operations/inspection/arrival.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 虚拟 NFC 与人工到点签到
+        - generic: v1 · docs/knowledge/operations/inspection/arrival.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "逐点必答清单与异常后续 v1 · docs/knowledge/operations/inspection/checklist.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 逐点必答清单与异常后续
+        - generic: v1 · docs/knowledge/operations/inspection/checklist.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "发现异常但不建问题需要什么依据？ 收起":
+    - generic: 发现异常但不建问题需要什么依据？
+    - generic: 收起
+  - article:
+    - paragraph: 发现异常但不建问题需要什么依据？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 逐点必答清单与异常后续 巡检任务逐点填写清单，服务端按生成时的清单快照校验必答项。合法检查结果为正常或异常；缺项、空字符串、未知检查项和重复项不能冒充完成。未到点不能提交检查完成。出现异常时必须关联本任务本测点的真实问题，或填写不少于十字的无需建问题依据；部分点位完成仍属于部分完成。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 根据当前启用知识返回原文；相关度不是可信概率
+    - list:
+      - button "逐点必答清单与异常后续 v1 · docs/knowledge/operations/inspection/checklist.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 逐点必答清单与异常后续
+        - generic: v1 · docs/knowledge/operations/inspection/checklist.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "设备保养执行与异常转问题 v1 · docs/knowledge/operations/maintenance.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 设备保养执行与异常转问题
+        - generic: v1 · docs/knowledge/operations/maintenance.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "部分点位检查完成可以标记整单完成吗？ 收起":
+    - generic: 部分点位检查完成可以标记整单完成吗？
+    - generic: 收起
+  - article:
+    - paragraph: 部分点位检查完成可以标记整单完成吗？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 逐点必答清单与异常后续 巡检任务逐点填写清单，服务端按生成时的清单快照校验必答项。合法检查结果为正常或异常；缺项、空字符串、未知检查项和重复项不能冒充完成。未到点不能提交检查完成。出现异常时必须关联本任务本测点的真实问题，或填写不少于十字的无需建问题依据；部分点位完成仍属于部分完成。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 根据当前启用知识返回原文；相关度不是可信概率
+    - list:
+      - button "逐点必答清单与异常后续 v1 · docs/knowledge/operations/inspection/checklist.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 逐点必答清单与异常后续
+        - generic: v1 · docs/knowledge/operations/inspection/checklist.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "虚拟 NFC 与人工到点签到 v1 · docs/knowledge/operations/inspection/arrival.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 虚拟 NFC 与人工到点签到
+        - generic: v1 · docs/knowledge/operations/inspection/arrival.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "同一天同一个人上报两次会被合并吗？ 收起":
+    - generic: 同一天同一个人上报两次会被合并吗？
+    - generic: 收起
+  - article:
+    - paragraph: 同一天同一个人上报两次会被合并吗？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 问题四来源与独立上报 问题统一接收传感器预警、巡检发现、人工上报和保养异常四种来源，保留原始描述、位置、照片与来源链。每次独立上报使用固定 submissionId，同一次重试复用标识并可补照片，不能把不同上报按同人同日合并。原提交身份、来源、位置和内容必须一致才能重试；人工上报不能私填事件 ID 伪造预警处置关系。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 根据当前启用知识返回原文；相关度不是可信概率
+    - list:
+      - button "问题四来源与独立上报 v1 · docs/knowledge/operations/issues.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 问题四来源与独立上报
+        - generic: v1 · docs/knowledge/operations/issues.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "巡检计划生成与任务快照 v1 · docs/knowledge/operations/inspection/plans.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 巡检计划生成与任务快照
+        - generic: v1 · docs/knowledge/operations/inspection/plans.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "上报失败重试怎么防止重复建问题？ 收起":
+    - generic: 上报失败重试怎么防止重复建问题？
+    - generic: 收起
+  - article:
+    - paragraph: 上报失败重试怎么防止重复建问题？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 问题四来源与独立上报 问题统一接收传感器预警、巡检发现、人工上报和保养异常四种来源，保留原始描述、位置、照片与来源链。每次独立上报使用固定 submissionId，同一次重试复用标识并可补照片，不能把不同上报按同人同日合并。原提交身份、来源、位置和内容必须一致才能重试；人工上报不能私填事件 ID 伪造预警处置关系。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 根据当前启用知识返回原文；相关度不是可信概率
+    - list:
+      - button "问题四来源与独立上报 v1 · docs/knowledge/operations/issues.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 问题四来源与独立上报
+        - generic: v1 · docs/knowledge/operations/issues.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "逐点必答清单与异常后续 v1 · docs/knowledge/operations/inspection/checklist.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 逐点必答清单与异常后续
+        - generic: v1 · docs/knowledge/operations/inspection/checklist.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "审核可以覆盖现场人员原始描述吗？ 收起":
+    - generic: 审核可以覆盖现场人员原始描述吗？
+    - generic: 收起
+  - article:
+    - paragraph: 审核可以覆盖现场人员原始描述吗？
+    - img "小瞳没有找到可用数据":
+    - generic: 需要你选定对象
+    - generic: 选择讨论对象｜数据截至 2026-10-24 19:05
+    - paragraph: 多个知识主题接近，请补充业务对象或要执行的动作；请补充要问的对象或动作，例如「预警分级怎么判定」「工单验收要看哪些材料」。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识依据需要补充对象后再确认 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 多个知识主题接近，请补充业务对象或要执行的动作
+    - list:
+      - button "问题审核六种出口 v1 · docs/knowledge/operations/reviews.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 问题审核六种出口
+        - generic: v1 · docs/knowledge/operations/reviews.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "预警恢复与授权关闭 v1 · docs/knowledge/monitoring/closing.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 预警恢复与授权关闭
+        - generic: v1 · docs/knowledge/monitoring/closing.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 知识问题需要补充对象或动作，候选依据尚未选定。
+    - paragraph: 数据口径
+    - paragraph: 澄清问题不生成结论；引用候选可展开核对，但尚未选定依据。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "退回补充需要填写什么内容？ 收起":
+    - generic: 退回补充需要填写什么内容？
+    - generic: 收起
+  - article:
+    - paragraph: 退回补充需要填写什么内容？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 问题审核六种出口 安全管理人员审核问题时保留原始报告，选择出口和二级分类并写明意见。六种出口为转维修、转专业排查、安排复查、退回补充、关联既有对象、无需处理关闭。退回需说明缺少什么；已当场处理需照片或持久保存无法拍照原因。维修中问题不能任意跳过办理步骤；已有未验收工单时不能重复转维修。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 根据当前启用知识返回原文；相关度不是可信概率
+    - list:
+      - button "问题审核六种出口 v1 · docs/knowledge/operations/reviews.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 问题审核六种出口
+        - generic: v1 · docs/knowledge/operations/reviews.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "维修工单派工接单完工验收 v1 · docs/knowledge/operations/orders.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 维修工单派工接单完工验收
+        - generic: v1 · docs/knowledge/operations/orders.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "物业代接别人的工单需要什么条件？ 收起":
+    - generic: 物业代接别人的工单需要什么条件？
+    - generic: 收起
+  - article:
+    - paragraph: 物业代接别人的工单需要什么条件？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 维修工单派工接单完工验收 工单按待派工、已派工、处理中、待验收、验收通过或验收退回流转。安全管理人员派工并指定稳定身份 ID；只有被派工人可接单，物业代接需说明原因并记录实际接单人。只有实际接单人能提交完工，必须填写维修措施；验收退回需要理由。验收由安全管理人员执行，维修人员不能自行验收。验收通过只推进问题待复查，不能直接关闭问题或预警。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 根据当前启用知识返回原文；相关度不是可信概率
+    - list:
+      - button "维修工单派工接单完工验收 v1 · docs/knowledge/operations/orders.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 维修工单派工接单完工验收
+        - generic: v1 · docs/knowledge/operations/orders.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "工单验收要求 v1 · docs/knowledge/工单验收.md 第 1–4 行 · keyword / vector 查看引用":
+        - generic: 工单验收要求
+        - generic: v1 · docs/knowledge/工单验收.md 第 1–4 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "验收工单通过后问题会立刻关闭吗？ 收起":
+    - generic: 验收工单通过后问题会立刻关闭吗？
+    - generic: 收起
+  - article:
+    - paragraph: 验收工单通过后问题会立刻关闭吗？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 工单验收 维修工单由学校安全管理人员验收，维修人员不能自行验收。 验收通过只进入待复查，不直接关闭问题。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 根据当前启用知识返回原文；相关度不是可信概率
+    - list:
+      - button "工单验收要求 v1 · docs/knowledge/工单验收.md 第 1–4 行 · keyword / vector 查看引用":
+        - generic: 工单验收要求
+        - generic: v1 · docs/knowledge/工单验收.md 第 1–4 行 · keyword / vector
+        - generic: 查看引用
+      - button "维修工单派工接单完工验收 v1 · docs/knowledge/operations/orders.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 维修工单派工接单完工验收
+        - generic: v1 · docs/knowledge/operations/orders.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "复查发现复发会新建无关问题吗？ 收起":
+    - generic: 复查发现复发会新建无关问题吗？
+    - generic: 收起
+  - article:
+    - paragraph: 复查发现复发会新建无关问题吗？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 复查观察复发与有效轮次 待复查问题必须登记事项、责任人、目标日期，结论分为确认恢复、继续观察、复发转处置。确认恢复关闭问题；继续观察必须登记下一次复查日期并保留轮次历史，不能算最终闭环；复发回到待审核继续处置，不另建无关问题。开始新的维修周期会使未出结论旧轮次失效并记录原因，新工单验收后应重新登记有效复查，不能沿用失效轮次关闭。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 根据当前启用知识返回原文；相关度不是可信概率
+    - list:
+      - button "复查观察复发与有效轮次 v1 · docs/knowledge/operations/rechecks.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 复查观察复发与有效轮次
+        - generic: v1 · docs/knowledge/operations/rechecks.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "工单验收要求 v1 · docs/knowledge/工单验收.md 第 1–4 行 · keyword / vector 查看引用":
+        - generic: 工单验收要求
+        - generic: v1 · docs/knowledge/工单验收.md 第 1–4 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "开始新维修后能沿用旧复查关闭问题吗？ 收起":
+    - generic: 开始新维修后能沿用旧复查关闭问题吗？
+    - generic: 收起
+  - article:
+    - paragraph: 开始新维修后能沿用旧复查关闭问题吗？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 复查观察复发与有效轮次 待复查问题必须登记事项、责任人、目标日期，结论分为确认恢复、继续观察、复发转处置。确认恢复关闭问题；继续观察必须登记下一次复查日期并保留轮次历史，不能算最终闭环；复发回到待审核继续处置，不另建无关问题。开始新的维修周期会使未出结论旧轮次失效并记录原因，新工单验收后应重新登记有效复查，不能沿用失效轮次关闭。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 根据当前启用知识返回原文；相关度不是可信概率
+    - list:
+      - button "复查观察复发与有效轮次 v1 · docs/knowledge/operations/rechecks.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 复查观察复发与有效轮次
+        - generic: v1 · docs/knowledge/operations/rechecks.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "工单验收要求 v1 · docs/knowledge/工单验收.md 第 1–4 行 · keyword / vector 查看引用":
+        - generic: 工单验收要求
+        - generic: v1 · docs/knowledge/工单验收.md 第 1–4 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "照片上传成功但提交失败能补关联吗？ 收起":
+    - generic: 照片上传成功但提交失败能补关联吗？
+    - generic: 收起
+  - article:
+    - paragraph: 照片上传成功但提交失败能补关联吗？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 照片配额归属与补传 业务照片真实字节保存在私有持久化目录，数据库保存媒体元数据与哈希，不能以临时 URL 或 base64 替代原件。每个问题、工单或保养归属最多三张照片，合计不超过六百 KB，服务端校验体积、类型、所有权、测点和唯一归属。上传成功后可用 draftId 与 mediaId 重试补关联，不重复占配额。验收照片只允许安全管理人员写入工单。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 根据当前启用知识返回原文；相关度不是可信概率
+    - list:
+      - button "照片配额归属与补传 v1 · docs/knowledge/operations/photos.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 照片配额归属与补传
+        - generic: v1 · docs/knowledge/operations/photos.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "CSV 导入预检与原子提交 v1 · docs/knowledge/monitoring/csv.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: CSV 导入预检与原子提交
+        - generic: v1 · docs/knowledge/monitoring/csv.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "维修人员上传的照片能当作验收照片吗？ 收起":
+    - generic: 维修人员上传的照片能当作验收照片吗？
+    - generic: 收起
+  - article:
+    - paragraph: 维修人员上传的照片能当作验收照片吗？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 照片配额归属与补传 业务照片真实字节保存在私有持久化目录，数据库保存媒体元数据与哈希，不能以临时 URL 或 base64 替代原件。每个问题、工单或保养归属最多三张照片，合计不超过六百 KB，服务端校验体积、类型、所有权、测点和唯一归属。上传成功后可用 draftId 与 mediaId 重试补关联，不重复占配额。验收照片只允许安全管理人员写入工单。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 根据当前启用知识返回原文；相关度不是可信概率
+    - list:
+      - button "照片配额归属与补传 v1 · docs/knowledge/operations/photos.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 照片配额归属与补传
+        - generic: v1 · docs/knowledge/operations/photos.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "维修工单派工接单完工验收 v1 · docs/knowledge/operations/orders.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 维修工单派工接单完工验收
+        - generic: v1 · docs/knowledge/operations/orders.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "保养执行必须填写哪些结果？ 收起":
+    - generic: 保养执行必须填写哪些结果？
+    - generic: 收起
+  - article:
+    - paragraph: 保养执行必须填写哪些结果？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 设备保养执行与异常转问题 设备保养计划配置设备、周期、负责人和执行清单，按周期生成保养任务并冻结快照，一个周期只执行一次。执行时填写必答项、维护措施、材料、照片和下次保养日期。存在异常需说明异常情况，可将异常转问题；保养执行记录与新问题双向关联并同事务提交，重试不多建问题。正常项不能伪装异常转问题，未完成保养不得算按期完成。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 根据当前启用知识返回原文；相关度不是可信概率
+    - list:
+      - button "设备保养执行与异常转问题 v1 · docs/knowledge/operations/maintenance.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 设备保养执行与异常转问题
+        - generic: v1 · docs/knowledge/operations/maintenance.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "报表统计粒度与闭环口径 v1 · docs/knowledge/platform/reports.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 报表统计粒度与闭环口径
+        - generic: v1 · docs/knowledge/platform/reports.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "同一周期保养可以重复执行吗？ 收起":
+    - generic: 同一周期保养可以重复执行吗？
+    - generic: 收起
+  - article:
+    - paragraph: 同一周期保养可以重复执行吗？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 设备保养执行与异常转问题 设备保养计划配置设备、周期、负责人和执行清单，按周期生成保养任务并冻结快照，一个周期只执行一次。执行时填写必答项、维护措施、材料、照片和下次保养日期。存在异常需说明异常情况，可将异常转问题；保养执行记录与新问题双向关联并同事务提交，重试不多建问题。正常项不能伪装异常转问题，未完成保养不得算按期完成。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 根据当前启用知识返回原文；相关度不是可信概率
+    - list:
+      - button "设备保养执行与异常转问题 v1 · docs/knowledge/operations/maintenance.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 设备保养执行与异常转问题
+        - generic: v1 · docs/knowledge/operations/maintenance.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "巡检计划生成与任务快照 v1 · docs/knowledge/operations/inspection/plans.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 巡检计划生成与任务快照
+        - generic: v1 · docs/knowledge/operations/inspection/plans.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "验收率可以当成问题关闭率吗？ 收起":
+    - generic: 验收率可以当成问题关闭率吗？
+    - generic: 收起
+  - article:
+    - paragraph: 验收率可以当成问题关闭率吗？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 报表统计粒度与闭环口径 预警响应时长按事件产生到首次人工确认或转出问题的较早时刻计算。问题按期闭环率按已关闭且登记过复查的问题，与最后有效复查目标日期比较；观察中不算最终闭环，验收率不等于问题关闭率。复查与保养按期完成率分别按轮次结论时间和保养执行时间核对目标日期。没有结果的对象单列，不假造百分比。报表支持按时间、楼栋、测点筛选并导出明细。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 根据当前启用知识返回原文；相关度不是可信概率
+    - list:
+      - button "报表统计粒度与闭环口径 v1 · docs/knowledge/platform/reports.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 报表统计粒度与闭环口径
+        - generic: v1 · docs/knowledge/platform/reports.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "工单验收要求 v1 · docs/knowledge/工单验收.md 第 1–4 行 · keyword / vector 查看引用":
+        - generic: 工单验收要求
+        - generic: v1 · docs/knowledge/工单验收.md 第 1–4 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "还没有完成记录时按期率应显示什么？ 收起":
+    - generic: 还没有完成记录时按期率应显示什么？
+    - generic: 收起
+  - article:
+    - paragraph: 还没有完成记录时按期率应显示什么？
+    - img "小瞳没有找到可用数据":
+    - generic: 需要你选定对象
+    - generic: 选择讨论对象｜数据截至 2026-10-24 19:05
+    - paragraph: 多个知识主题接近，请补充业务对象或要执行的动作；请补充要问的对象或动作，例如「预警分级怎么判定」「工单验收要看哪些材料」。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识依据需要补充对象后再确认 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 多个知识主题接近，请补充业务对象或要执行的动作
+    - list:
+      - button "报表统计粒度与闭环口径 v1 · docs/knowledge/platform/reports.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 报表统计粒度与闭环口径
+        - generic: v1 · docs/knowledge/platform/reports.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "基准值版本与采样时间 v1 · docs/knowledge/monitoring/baseline.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 基准值版本与采样时间
+        - generic: v1 · docs/knowledge/monitoring/baseline.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 知识问题需要补充对象或动作，候选依据尚未选定。
+    - paragraph: 数据口径
+    - paragraph: 澄清问题不生成结论；引用候选可展开核对，但尚未选定依据。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "恢复可以直接覆盖已有数据库目录吗？ 收起":
+    - generic: 恢复可以直接覆盖已有数据库目录吗？
+    - generic: 收起
+  - article:
+    - paragraph: 恢复可以直接覆盖已有数据库目录吗？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 服务端备份恢复与数据保护 服务端备份包含 SQLite 数据库、私有媒体、会话签名文件以及已准备的本地模型文件。清单记录文件体积与 SHA-256，恢复前核对数据库完整性、引用完整性和全部文件哈希。恢复到独立目录，不覆盖已有目录。备份中的知识文档、版本、FAQ、同义词和向量索引随数据库恢复；模型目录一并恢复后可离线加载。不要用浏览器备份替代服务端持久化备份。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 根据当前启用知识返回原文；相关度不是可信概率
+    - list:
+      - button "服务端备份恢复与数据保护 v1 · docs/knowledge/platform/backup.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 服务端备份恢复与数据保护
+        - generic: v1 · docs/knowledge/platform/backup.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "照片配额归属与补传 v1 · docs/knowledge/operations/photos.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 照片配额归属与补传
+        - generic: v1 · docs/knowledge/operations/photos.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "备份恢复之前要核验哪些完整性信息？ 收起":
+    - generic: 备份恢复之前要核验哪些完整性信息？
+    - generic: 收起
+  - article:
+    - paragraph: 备份恢复之前要核验哪些完整性信息？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 服务端备份恢复与数据保护 服务端备份包含 SQLite 数据库、私有媒体、会话签名文件以及已准备的本地模型文件。清单记录文件体积与 SHA-256，恢复前核对数据库完整性、引用完整性和全部文件哈希。恢复到独立目录，不覆盖已有目录。备份中的知识文档、版本、FAQ、同义词和向量索引随数据库恢复；模型目录一并恢复后可离线加载。不要用浏览器备份替代服务端持久化备份。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 根据当前启用知识返回原文；相关度不是可信概率
+    - list:
+      - button "服务端备份恢复与数据保护 v1 · docs/knowledge/platform/backup.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 服务端备份恢复与数据保护
+        - generic: v1 · docs/knowledge/platform/backup.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "预警恢复与授权关闭 v1 · docs/knowledge/monitoring/closing.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 预警恢复与授权关闭
+        - generic: v1 · docs/knowledge/monitoring/closing.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "相似度数值代表答案可信概率吗？ 收起":
+    - generic: 相似度数值代表答案可信概率吗？
+    - generic: 收起
+  - article:
+    - paragraph: 相似度数值代表答案可信概率吗？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 本地知识检索与依据边界 本地知识服务使用标准 FAQ、术语同义词、关键词与 BGE 中文向量混合召回；SQLite 保存向量，NumPy 在本机计算相似度，不调用外部生成或 embedding API。每个候选附文档版本、原文块、行号、哈希、来源和命中方式。相关度不是可信概率；歧义应澄清，库外内容说明没有充分依据。知识启停或新版本后旧块不再引用；模型缺失或索引损坏时明确降级 FAQ/关键词。动态业务数量或当前工单状态应查业务接口，不能从静态知识推测。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 根据当前启用知识返回原文；相关度不是可信概率
+    - list:
+      - button "本地知识检索与依据边界 v1 · docs/knowledge/platform/knowledge.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 本地知识检索与依据边界
+        - generic: v1 · docs/knowledge/platform/knowledge.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "报表统计粒度与闭环口径 v1 · docs/knowledge/platform/reports.md 第 1–3 行 · vector 查看引用":
+        - generic: 报表统计粒度与闭环口径
+        - generic: v1 · docs/knowledge/platform/reports.md 第 1–3 行 · vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "知识检索会调用外部大模型接口吗？ 收起":
+    - generic: 知识检索会调用外部大模型接口吗？
+    - generic: 收起
+  - article:
+    - paragraph: 知识检索会调用外部大模型接口吗？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 本地知识检索与依据边界 本地知识服务使用标准 FAQ、术语同义词、关键词与 BGE 中文向量混合召回；SQLite 保存向量，NumPy 在本机计算相似度，不调用外部生成或 embedding API。每个候选附文档版本、原文块、行号、哈希、来源和命中方式。相关度不是可信概率；歧义应澄清，库外内容说明没有充分依据。知识启停或新版本后旧块不再引用；模型缺失或索引损坏时明确降级 FAQ/关键词。动态业务数量或当前工单状态应查业务接口，不能从静态知识推测。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 根据当前启用知识返回原文；相关度不是可信概率
+    - list:
+      - button "本地知识检索与依据边界 v1 · docs/knowledge/platform/knowledge.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 本地知识检索与依据边界
+        - generic: v1 · docs/knowledge/platform/knowledge.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "服务端备份恢复与数据保护 v1 · docs/knowledge/platform/backup.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 服务端备份恢复与数据保护
+        - generic: v1 · docs/knowledge/platform/backup.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "怎么处理 收起":
+    - generic: 怎么处理
+    - generic: 收起
+  - article:
+    - paragraph: 怎么处理
+    - img "小瞳没有找到可用数据":
+    - generic: 需要你选定对象
+    - generic: 选择讨论对象｜数据截至 2026-10-24 19:05
+    - paragraph: 请说明具体对象：预警事件、维修工单、巡检任务还是问题复查？；请补充要问的对象或动作，例如「预警分级怎么判定」「工单验收要看哪些材料」。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识依据需要补充对象后再确认 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 请说明具体对象：预警事件、维修工单、巡检任务还是问题复查？
+    - list:
+      - button "问题审核六种出口 v1 · docs/knowledge/operations/reviews.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 问题审核六种出口
+        - generic: v1 · docs/knowledge/operations/reviews.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "监测录入质量与修订留痕 v1 · docs/knowledge/monitoring/records.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 监测录入质量与修订留痕
+        - generic: v1 · docs/knowledge/monitoring/records.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 知识问题需要补充对象或动作，候选依据尚未选定。
+    - paragraph: 数据口径
+    - paragraph: 澄清问题不生成结论；引用候选可展开核对，但尚未选定依据。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "怎么关闭 收起":
+    - generic: 怎么关闭
+    - generic: 收起
+  - article:
+    - paragraph: 怎么关闭
+    - img "小瞳没有找到可用数据":
+    - generic: 需要你选定对象
+    - generic: 选择讨论对象｜数据截至 2026-10-24 19:05
+    - paragraph: 请说明具体对象：预警事件、维修工单、巡检任务还是问题复查？；请补充要问的对象或动作，例如「预警分级怎么判定」「工单验收要看哪些材料」。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识依据需要补充对象后再确认 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 请说明具体对象：预警事件、维修工单、巡检任务还是问题复查？
+    - list:
+      - button "预警恢复与授权关闭 v1 · docs/knowledge/monitoring/closing.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 预警恢复与授权关闭
+        - generic: v1 · docs/knowledge/monitoring/closing.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "工单验收要求 v1 · docs/knowledge/工单验收.md 第 1–4 行 · keyword / vector 查看引用":
+        - generic: 工单验收要求
+        - generic: v1 · docs/knowledge/工单验收.md 第 1–4 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 知识问题需要补充对象或动作，候选依据尚未选定。
+    - paragraph: 数据口径
+    - paragraph: 澄清问题不生成结论；引用候选可展开核对，但尚未选定依据。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "这个怎么办 收起":
+    - generic: 这个怎么办
+    - generic: 收起
+  - article:
+    - paragraph: 这个怎么办
+    - img "小瞳没有找到可用数据":
+    - generic: 需要你选定对象
+    - generic: 选择讨论对象｜数据截至 2026-10-24 19:05
+    - paragraph: 请说明具体对象：预警事件、维修工单、巡检任务还是问题复查？；请补充要问的对象或动作，例如「预警分级怎么判定」「工单验收要看哪些材料」。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识依据需要补充对象后再确认 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 请说明具体对象：预警事件、维修工单、巡检任务还是问题复查？
+    - list:
+      - button "问题审核六种出口 v1 · docs/knowledge/operations/reviews.md 第 1–3 行 · vector 查看引用":
+        - generic: 问题审核六种出口
+        - generic: v1 · docs/knowledge/operations/reviews.md 第 1–3 行 · vector
+        - generic: 查看引用
+      - button "逐点必答清单与异常后续 v1 · docs/knowledge/operations/inspection/checklist.md 第 1–3 行 · vector 查看引用":
+        - generic: 逐点必答清单与异常后续
+        - generic: v1 · docs/knowledge/operations/inspection/checklist.md 第 1–3 行 · vector
+        - generic: 查看引用
+    - paragraph: 知识问题需要补充对象或动作，候选依据尚未选定。
+    - paragraph: 数据口径
+    - paragraph: 澄清问题不生成结论；引用候选可展开核对，但尚未选定依据。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "那个怎么完成 收起":
+    - generic: 那个怎么完成
+    - generic: 收起
+  - article:
+    - paragraph: 那个怎么完成
+    - img "小瞳没有找到可用数据":
+    - generic: 需要你选定对象
+    - generic: 选择讨论对象｜数据截至 2026-10-24 19:05
+    - paragraph: 请说明具体对象：预警事件、维修工单、巡检任务还是问题复查？；请补充要问的对象或动作，例如「预警分级怎么判定」「工单验收要看哪些材料」。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识依据需要补充对象后再确认 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 请说明具体对象：预警事件、维修工单、巡检任务还是问题复查？
+    - list:
+      - button "逐点必答清单与异常后续 v1 · docs/knowledge/operations/inspection/checklist.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 逐点必答清单与异常后续
+        - generic: v1 · docs/knowledge/operations/inspection/checklist.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "虚拟 NFC 与人工到点签到 v1 · docs/knowledge/operations/inspection/arrival.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 虚拟 NFC 与人工到点签到
+        - generic: v1 · docs/knowledge/operations/inspection/arrival.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 知识问题需要补充对象或动作，候选依据尚未选定。
+    - paragraph: 数据口径
+    - paragraph: 澄清问题不生成结论；引用候选可展开核对，但尚未选定依据。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "如何恢复 收起":
+    - generic: 如何恢复
+    - generic: 收起
+  - article:
+    - paragraph: 如何恢复
+    - img "小瞳没有找到可用数据":
+    - generic: 需要你选定对象
+    - generic: 选择讨论对象｜数据截至 2026-10-24 19:05
+    - paragraph: 请说明具体对象：预警事件、维修工单、巡检任务还是问题复查？；请补充要问的对象或动作，例如「预警分级怎么判定」「工单验收要看哪些材料」。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识依据需要补充对象后再确认 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 请说明具体对象：预警事件、维修工单、巡检任务还是问题复查？
+    - list:
+      - button "预警恢复与授权关闭 v1 · docs/knowledge/monitoring/closing.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 预警恢复与授权关闭
+        - generic: v1 · docs/knowledge/monitoring/closing.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "复查观察复发与有效轮次 v1 · docs/knowledge/operations/rechecks.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 复查观察复发与有效轮次
+        - generic: v1 · docs/knowledge/operations/rechecks.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 知识问题需要补充对象或动作，候选依据尚未选定。
+    - paragraph: 数据口径
+    - paragraph: 澄清问题不生成结论；引用候选可展开核对，但尚未选定依据。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "这个完成了吗 收起":
+    - generic: 这个完成了吗
+    - generic: 收起
+  - article:
+    - paragraph: 这个完成了吗
+    - img "小瞳没有找到可用数据":
+    - generic: 需要你选定对象
+    - generic: 选择讨论对象｜数据截至 2026-10-24 19:05
+    - paragraph: 请说明具体对象：预警事件、维修工单、巡检任务还是问题复查？；请补充要问的对象或动作，例如「预警分级怎么判定」「工单验收要看哪些材料」。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识依据需要补充对象后再确认 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 请说明具体对象：预警事件、维修工单、巡检任务还是问题复查？
+    - list:
+      - button "逐点必答清单与异常后续 v1 · docs/knowledge/operations/inspection/checklist.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 逐点必答清单与异常后续
+        - generic: v1 · docs/knowledge/operations/inspection/checklist.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "设备保养执行与异常转问题 v1 · docs/knowledge/operations/maintenance.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 设备保养执行与异常转问题
+        - generic: v1 · docs/knowledge/operations/maintenance.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 知识问题需要补充对象或动作，候选依据尚未选定。
+    - paragraph: 数据口径
+    - paragraph: 澄清问题不生成结论；引用候选可展开核对，但尚未选定依据。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "这些要怎么验收 收起":
+    - generic: 这些要怎么验收
+    - generic: 收起
+  - article:
+    - paragraph: 这些要怎么验收
+    - img "小瞳没有找到可用数据":
+    - generic: 需要你选定对象
+    - generic: 选择讨论对象｜数据截至 2026-10-24 19:05
+    - paragraph: 请说明具体对象：预警事件、维修工单、巡检任务还是问题复查？；请补充要问的对象或动作，例如「预警分级怎么判定」「工单验收要看哪些材料」。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识依据需要补充对象后再确认 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 请说明具体对象：预警事件、维修工单、巡检任务还是问题复查？
+    - list:
+      - button "工单验收要求 v1 · docs/knowledge/工单验收.md 第 1–4 行 · keyword / vector 查看引用":
+        - generic: 工单验收要求
+        - generic: v1 · docs/knowledge/工单验收.md 第 1–4 行 · keyword / vector
+        - generic: 查看引用
+      - button "维修工单派工接单完工验收 v1 · docs/knowledge/operations/orders.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 维修工单派工接单完工验收
+        - generic: v1 · docs/knowledge/operations/orders.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 知识问题需要补充对象或动作，候选依据尚未选定。
+    - paragraph: 数据口径
+    - paragraph: 澄清问题不生成结论；引用候选可展开核对，但尚未选定依据。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "怎么上报 收起":
+    - generic: 怎么上报
+    - generic: 收起
+  - article:
+    - paragraph: 怎么上报
+    - img "小瞳没有找到可用数据":
+    - generic: 需要你选定对象
+    - generic: 选择讨论对象｜数据截至 2026-10-24 19:05
+    - paragraph: 请说明具体对象：预警事件、维修工单、巡检任务还是问题复查？；请补充要问的对象或动作，例如「预警分级怎么判定」「工单验收要看哪些材料」。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识依据需要补充对象后再确认 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 请说明具体对象：预警事件、维修工单、巡检任务还是问题复查？
+    - list:
+      - button "问题四来源与独立上报 v1 · docs/knowledge/operations/issues.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 问题四来源与独立上报
+        - generic: v1 · docs/knowledge/operations/issues.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "CSV 导入预检与原子提交 v1 · docs/knowledge/monitoring/csv.md 第 1–3 行 · vector 查看引用":
+        - generic: CSV 导入预检与原子提交
+        - generic: v1 · docs/knowledge/monitoring/csv.md 第 1–3 行 · vector
+        - generic: 查看引用
+    - paragraph: 知识问题需要补充对象或动作，候选依据尚未选定。
+    - paragraph: 数据口径
+    - paragraph: 澄清问题不生成结论；引用候选可展开核对，但尚未选定依据。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "它是什么意思 收起":
+    - generic: 它是什么意思
+    - generic: 收起
+  - article:
+    - paragraph: 它是什么意思
+    - img "小瞳没有找到可用数据":
+    - generic: 需要你选定对象
+    - generic: 选择讨论对象｜数据截至 2026-10-24 19:05
+    - paragraph: 请说明具体对象：预警事件、维修工单、巡检任务还是问题复查？；请补充要问的对象或动作，例如「预警分级怎么判定」「工单验收要看哪些材料」。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识依据需要补充对象后再确认 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 请说明具体对象：预警事件、维修工单、巡检任务还是问题复查？
+    - list:
+      - button "问题审核六种出口 v1 · docs/knowledge/operations/reviews.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 问题审核六种出口
+        - generic: v1 · docs/knowledge/operations/reviews.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+      - button "本地知识检索与依据边界 v1 · docs/knowledge/platform/knowledge.md 第 1–3 行 · vector 查看引用":
+        - generic: 本地知识检索与依据边界
+        - generic: v1 · docs/knowledge/platform/knowledge.md 第 1–3 行 · vector
+        - generic: 查看引用
+    - paragraph: 知识问题需要补充对象或动作，候选依据尚未选定。
+    - paragraph: 数据口径
+    - paragraph: 澄清问题不生成结论；引用候选可展开核对，但尚未选定依据。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "这个需要谁确认 收起":
+    - generic: 这个需要谁确认
+    - generic: 收起
+  - article:
+    - paragraph: 这个需要谁确认
+    - img "小瞳没有找到可用数据":
+    - generic: 需要你选定对象
+    - generic: 选择讨论对象｜数据截至 2026-10-24 19:05
+    - paragraph: 请说明具体对象：预警事件、维修工单、巡检任务还是问题复查？；请补充要问的对象或动作，例如「预警分级怎么判定」「工单验收要看哪些材料」。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识依据需要补充对象后再确认 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 请说明具体对象：预警事件、维修工单、巡检任务还是问题复查？
+    - list:
+      - button "预警分级与处置要求 v1 · docs/knowledge/预警分级.md 第 1–4 行 · keyword / vector 查看引用":
+        - generic: 预警分级与处置要求
+        - generic: v1 · docs/knowledge/预警分级.md 第 1–4 行 · keyword / vector
+        - generic: 查看引用
+      - button "站内通知确认与超时核验 v1 · docs/knowledge/monitoring/notifications.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 站内通知确认与超时核验
+        - generic: v1 · docs/knowledge/monitoring/notifications.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 知识问题需要补充对象或动作，候选依据尚未选定。
+    - paragraph: 数据口径
+    - paragraph: 澄清问题不生成结论；引用候选可展开核对，但尚未选定依据。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "今天食堂菜单是什么 收起":
+    - generic: 今天食堂菜单是什么
+    - generic: 收起
+  - article:
+    - paragraph: 今天食堂菜单是什么
+    - img "小瞳没有找到可用数据":
+    - generic: 这一类问题本步不支持
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 当前本地知识库没有足够依据回答这个问题，也未生成业务事实；可以换一种问法，或在知识库补充依据。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：本地知识库没有足够依据 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 相关度不足，当前知识没有充分依据
+    - paragraph: 没有可展开的引用；本回答不把没有依据的内容写成结论。
+    - paragraph: 本地知识库没有足够依据；没有引用、也没有推测。
+    - paragraph: 数据口径
+    - paragraph: 没有依据时不引用、不推测；动态数量与状态请到业务页面查询。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "帮我买一张电影票 收起":
+    - generic: 帮我买一张电影票
+    - generic: 收起
+  - article:
+    - paragraph: 帮我买一张电影票
+    - img "小瞳没有找到可用数据":
+    - generic: 这一类问题本步不支持
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 当前本地知识库没有足够依据回答这个问题，也未生成业务事实；可以换一种问法，或在知识库补充依据。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：本地知识库没有足够依据 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 相关度不足，当前知识没有充分依据
+    - paragraph: 没有可展开的引用；本回答不把没有依据的内容写成结论。
+    - paragraph: 本地知识库没有足够依据；没有引用、也没有推测。
+    - paragraph: 数据口径
+    - paragraph: 没有依据时不引用、不推测；动态数量与状态请到业务页面查询。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "学校校长的私人电话 收起":
+    - generic: 学校校长的私人电话
+    - generic: 收起
+  - article:
+    - paragraph: 学校校长的私人电话
+    - img "小瞳没有找到可用数据":
+    - generic: 这一类问题本步不支持
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 当前本地知识库没有足够依据回答这个问题，也未生成业务事实；可以换一种问法，或在知识库补充依据。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：本地知识库没有足够依据 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 相关度不足，当前知识没有充分依据
+    - paragraph: 没有可展开的引用；本回答不把没有依据的内容写成结论。
+    - paragraph: 本地知识库没有足够依据；没有引用、也没有推测。
+    - paragraph: 数据口径
+    - paragraph: 没有依据时不引用、不推测；动态数量与状态请到业务页面查询。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "推荐去哪个城市旅游 收起":
+    - generic: 推荐去哪个城市旅游
+    - generic: 收起
+  - article:
+    - paragraph: 推荐去哪个城市旅游
+    - img "小瞳没有找到可用数据":
+    - generic: 这一类问题本步不支持
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 当前本地知识库没有足够依据回答这个问题，也未生成业务事实；可以换一种问法，或在知识库补充依据。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：本地知识库没有足够依据 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 相关度不足，当前知识没有充分依据
+    - paragraph: 没有可展开的引用；本回答不把没有依据的内容写成结论。
+    - paragraph: 本地知识库没有足够依据；没有引用、也没有推测。
+    - paragraph: 数据口径
+    - paragraph: 没有依据时不引用、不推测；动态数量与状态请到业务页面查询。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "明天股票会涨多少 收起":
+    - generic: 明天股票会涨多少
+    - generic: 收起
+  - article:
+    - paragraph: 明天股票会涨多少
+    - img "小瞳没有找到可用数据":
+    - generic: 这一类问题本步不支持
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 当前本地知识库没有足够依据回答这个问题，也未生成业务事实；可以换一种问法，或在知识库补充依据。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：本地知识库没有足够依据 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 相关度不足，当前知识没有充分依据
+    - paragraph: 没有可展开的引用；本回答不把没有依据的内容写成结论。
+    - paragraph: 本地知识库没有足够依据；没有引用、也没有推测。
+    - paragraph: 数据口径
+    - paragraph: 没有依据时不引用、不推测；动态数量与状态请到业务页面查询。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "请提供劳动合同法律条文 收起":
+    - generic: 请提供劳动合同法律条文
+    - generic: 收起
+  - article:
+    - paragraph: 请提供劳动合同法律条文
+    - img "小瞳没有找到可用数据":
+    - generic: 这一类问题本步不支持
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 当前本地知识库没有足够依据回答这个问题，也未生成业务事实；可以换一种问法，或在知识库补充依据。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：本地知识库没有足够依据 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 相关度不足，当前知识没有充分依据
+    - paragraph: 没有可展开的引用；本回答不把没有依据的内容写成结论。
+    - paragraph: 本地知识库没有足够依据；没有引用、也没有推测。
+    - paragraph: 数据口径
+    - paragraph: 没有依据时不引用、不推测；动态数量与状态请到业务页面查询。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "今年世界杯赛程是什么 收起":
+    - generic: 今年世界杯赛程是什么
+    - generic: 收起
+  - article:
+    - paragraph: 今年世界杯赛程是什么
+    - img "小瞳没有找到可用数据":
+    - generic: 这一类问题本步不支持
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 当前本地知识库没有足够依据回答这个问题，也未生成业务事实；可以换一种问法，或在知识库补充依据。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：本地知识库没有足够依据 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 相关度不足，当前知识没有充分依据
+    - paragraph: 没有可展开的引用；本回答不把没有依据的内容写成结论。
+    - paragraph: 本地知识库没有足够依据；没有引用、也没有推测。
+    - paragraph: 数据口径
+    - paragraph: 没有依据时不引用、不推测；动态数量与状态请到业务页面查询。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "给我写一首七言诗 收起":
+    - generic: 给我写一首七言诗
+    - generic: 收起
+  - article:
+    - paragraph: 给我写一首七言诗
+    - img "小瞳没有找到可用数据":
+    - generic: 这一类问题本步不支持
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 当前本地知识库没有足够依据回答这个问题，也未生成业务事实；可以换一种问法，或在知识库补充依据。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：本地知识库没有足够依据 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 相关度不足，当前知识没有充分依据
+    - paragraph: 没有可展开的引用；本回答不把没有依据的内容写成结论。
+    - paragraph: 本地知识库没有足够依据；没有引用、也没有推测。
+    - paragraph: 数据口径
+    - paragraph: 没有依据时不引用、不推测；动态数量与状态请到业务页面查询。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "查询新生学费缴纳银行卡 收起":
+    - generic: 查询新生学费缴纳银行卡
+    - generic: 收起
+  - article:
+    - paragraph: 查询新生学费缴纳银行卡
+    - img "小瞳没有找到可用数据":
+    - generic: 这一类问题本步不支持
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 当前本地知识库没有足够依据回答这个问题，也未生成业务事实；可以换一种问法，或在知识库补充依据。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：本地知识库没有足够依据 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 相关度不足，当前知识没有充分依据
+    - paragraph: 没有可展开的引用；本回答不把没有依据的内容写成结论。
+    - paragraph: 本地知识库没有足够依据；没有引用、也没有推测。
+    - paragraph: 数据口径
+    - paragraph: 没有依据时不引用、不推测；动态数量与状态请到业务页面查询。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "今天实时天气预报 收起":
+    - generic: 今天实时天气预报
+    - generic: 收起
+  - article:
+    - paragraph: 今天实时天气预报
+    - img "小瞳没有找到可用数据":
+    - generic: 这一类问题本步不支持
+    - generic: 知识说明｜数据截至 2026-10-24 19:05
+    - paragraph: 当前本地知识库没有足够依据回答这个问题，也未生成业务事实；可以换一种问法，或在知识库补充依据。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：本地知识库没有足够依据 · 检索方式 本地混合检索· 索引 index_c483cd6fc0d04066a8d1b1c49bf63e97
+    - paragraph: 相关度不足，当前知识没有充分依据
+    - paragraph: 没有可展开的引用；本回答不把没有依据的内容写成结论。
+    - paragraph: 本地知识库没有足够依据；没有引用、也没有推测。
+    - paragraph: 数据口径
+    - paragraph: 没有依据时不引用、不推测；动态数量与状态请到业务页面查询。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "5号实验楼的裂缝测点现在怎么样 收起":
+    - generic: 5号实验楼的裂缝测点现在怎么样
+    - generic: 收起
+  - article:
+    - paragraph: 5号实验楼的裂缝测点现在怎么样
+    - img "小瞳没有找到可用数据":
+    - generic: 需要你选定对象
+    - generic: 选择讨论对象｜数据截至 2026-10-24 19:08
+    - paragraph: 问句线索命中 2 个测点，请选择其中一个。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 候选对象（点一条继续问，不会替你猜）
+    - button "B05-F2-CRACK01 裂缝测点":
+      - generic: B05-F2-CRACK01 裂缝测点
+    - button "B05-F2-CRACK02 第二裂缝测点":
+      - generic: B05-F2-CRACK02 第二裂缝测点
+    - paragraph: 数据口径
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "5号实验楼的裂缝测点现在怎么样 收起":
+    - generic: 5号实验楼的裂缝测点现在怎么样
+    - generic: 收起
+  - article:
+    - paragraph: 5号实验楼的裂缝测点现在怎么样
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 单测点状态｜数据截至 2026-10-24 19:08
+    - paragraph: 第二裂缝测点当前读数 0.99mm；采样于 2026-10-24 19:05（约 0.1 小时前）。
+    - term: 测点
+    - definition: B05-F2-CRACK02 第二裂缝测点
+    - term: 位置
+    - definition: 5号实验楼 2层
+    - term: 当前读数
+    - definition: 0.99mm
+    - term: 数据质量
+    - definition: 有效
+    - term: 适用规则
+    - definition: RULE-S7-CRACK（V1.2）
+    - term: 未关闭事件
+    - definition: 无
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：服务端数据库本次查询 · 查询于 2026-10-24 19:08
+    - paragraph: 证据（可与看板、详情逐条核对）
+    - list:
+      - generic: R20261024-009
+      - generic: 采样 2026-10-24 19:05；录入 2026-10-24 19:05；修订 0 次
+    - paragraph: 数据口径
+    - paragraph: 业务事实来自服务端数据库本次查询；知识解释来自本地知识库引用；建议不等于已执行。
+    - paragraph: 打开相关页面
+    - button "打开该测点的监测趋势"
+    - button "在 3D 楼层里定位该测点"
+    - button "打开该测点的影像对比页"
+    - button "它最近的变化趋势怎么样"
+    - button "这条预警为什么被触发"
+    - button "带我到 3D 看位置"
+  - button "E20261024-001 为什么是红色 收起":
+    - generic: E20261024-001 为什么是红色
+    - generic: 收起
+  - article:
+    - paragraph: E20261024-001 为什么是红色
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 预警原因｜数据截至 2026-10-24 19:09
+    - paragraph: E20261024-001 因 RULE-S7-CRACK 触发 红色紧急核查，共 4 条活跃证据；当前待确认，未确认。
+    - term: 事件
+    - definition: E20261024-001（红色紧急核查）
+    - term: 状态
+    - definition: 待确认
+    - term: 测点
+    - definition: B05-F2-CRACK01 裂缝测点
+    - term: 触发规则
+    - definition: RULE-S7-CRACK
+    - term: 确认状态
+    - definition: 未确认
+    - term: 关联问题
+    - definition: ISS-20261024-001（repairing）
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：服务端数据库本次查询 · 查询于 2026-10-24 19:09
+    - paragraph: 证据（可与看板、详情逐条核对）
+    - list:
+      - generic: R20261024-001
+      - generic: 证据 1：采样 2026-10-24 17:25，触发值 0.45mm，规则版本 V1.0；判定值 0.45 mm 达到红色紧急核查门槛
+      - generic: R20261024-002
+      - generic: 证据 2：采样 2026-10-24 17:35，触发值 0.38mm，规则版本 V1.0；判定值 0.38 mm 达到红色紧急核查门槛
+      - generic: R20261024-004
+      - generic: 证据 3：采样 2026-10-24 17:55，触发值 0.1mm，规则版本 V1.0；判定值 0.10 mm 达到黄色关注门槛
+      - generic: R20261024-005
+      - generic: 证据 4：采样 2026-10-24 18:05，触发值 0.32mm，规则版本 V1.0；判定值 0.32 mm 达到红色紧急核查门槛
+    - paragraph: 数据口径
+    - paragraph: 业务事实来自服务端数据库本次查询；知识解释来自本地知识库引用；建议不等于已执行。
+    - paragraph: 打开相关页面
+    - button "打开预警中心的事件详情"
+    - button "打开可打印的事件处置报告"
+    - button "这个问题处理到哪了"
+    - button "读数恢复了吗"
+    - button "回放这次处置"
+  - button "ISS-20261024-001 现在是什么状态 收起":
+    - generic: ISS-20261024-001 现在是什么状态
+    - generic: 收起
+  - article:
+    - paragraph: ISS-20261024-001 现在是什么状态
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 问题与工单｜数据截至 2026-10-24 19:11
+    - paragraph: 问题 ISS-20261024-001 当前为「repairing」；工单维修完成后提交验收，验收通过只进入待复查，不直接关闭问题。
+    - term: 问题
+    - definition: ISS-20261024-001（裂缝越限）
+    - term: 状态
+    - definition: repairing
+    - term: 来源
+    - definition: sensor
+    - term: 审核出口
+    - definition: to_repair／equipment
+    - term: 工单
+    - definition: WO-20261024-001（submitted）
+    - term: 维修人
+    - definition: 演示维修人员
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：服务端数据库本次查询 · 查询于 2026-10-24 19:11
+    - paragraph: 数据口径
+    - paragraph: 业务事实来自服务端数据库本次查询；知识解释来自本地知识库引用；建议不等于已执行。
+    - paragraph: 打开相关页面
+    - button "打开问题详情"
+    - button "这张工单验收了吗"
+    - button "复查安排是什么"
+    - button "打开完整处置报告"
+  - generic: 可以这样问
+  - button "更多问题"
+  - generic "推荐问题":
+    - button "这个问题处理完了吗？"
+    - button "为什么这条预警是红色？"
+    - button "B05-F2-CRACK01现在的读数是多少？"
+  - textbox "问小瞳" [active]:
+    - /placeholder: 问小瞳：分析裂缝照片、定位传感器或查看处置进度
+    - text: WO-20261024-001 验收了吗
+  - button "发送" [disabled]
+  - button "刷新数据"
+  - generic "提问对象与数据说明"

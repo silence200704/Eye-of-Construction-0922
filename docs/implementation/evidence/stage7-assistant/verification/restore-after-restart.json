@@ -1,0 +1,172 @@
+{
+  "base": "http://127.0.0.1:18002/api/v1/",
+  "staleSession": {
+    "status": 410,
+    "code": "STALE_SESSION"
+  },
+  "currentSession": {
+    "status": 200,
+    "epoch": 2,
+    "turnCount": 82,
+    "firstQuestion": "现在有哪些未处理预警",
+    "objects": {
+      "pointId": null,
+      "eventId": null,
+      "issueId": null,
+      "workOrderId": null,
+      "buildingId": null
+    }
+  },
+  "summary": {
+    "frames": [
+      {
+        "id": "mf_2f5c85c0ca444ed791636d8d116d2ee3",
+        "pointId": "pnt_9af027b769a84fadaeed37f713bc8226",
+        "mediaId": "791af9c5798c42c981883c1704dfcf6a",
+        "label": "处置前",
+        "capturedAt": "2026-10-24T09:19:27.836070+00:00",
+        "timeCode": null,
+        "videoId": null,
+        "origin": "upload",
+        "fileName": "stage7.png",
+        "size": 69,
+        "mimeType": "image/png",
+        "width": 1,
+        "height": 1,
+        "contentUrl": "/api/v1/datasets/demo-main/media/791af9c5798c42c981883c1704dfcf6a/content"
+      },
+      {
+        "id": "mf_97ba2f69137844d1899fcc44dabebcc6",
+        "pointId": "pnt_9af027b769a84fadaeed37f713bc8226",
+        "mediaId": "fcff647beb6f4ae5a3c5f7f163552832",
+        "label": "处置后",
+        "capturedAt": "2026-10-24T10:19:27.849728+00:00",
+        "timeCode": null,
+        "videoId": null,
+        "origin": "upload",
+        "fileName": "stage7.png",
+        "size": 69,
+        "mimeType": "image/png",
+        "width": 1,
+        "height": 1,
+        "contentUrl": "/api/v1/datasets/demo-main/media/fcff647beb6f4ae5a3c5f7f163552832/content"
+      },
+      {
+        "id": "mf_fbfbc66c5c444df1bed2d326f3d7768d",
+        "pointId": "pnt_9af027b769a84fadaeed37f713bc8226",
+        "mediaId": "d4663c7460334dafa0eea1e46833ebaf",
+        "label": "视频抽帧",
+        "capturedAt": "2026-10-24T10:49:27.934853+00:00",
+        "timeCode": 3.0,
+        "videoId": "mv_4280f84855854f8186887f130c1a5812",
+        "origin": "demo_generated",
+        "fileName": "stage7-frame.png",
+        "size": 69,
+        "mimeType": "image/png",
+        "width": 1,
+        "height": 1,
+        "contentUrl": "/api/v1/datasets/demo-main/media/d4663c7460334dafa0eea1e46833ebaf/content"
+      }
+    ],
+    "comparisons": [
+      {
+        "id": "mc_c1e52854538a4a2f9420b0b1dfc911a6",
+        "pointId": "pnt_9af027b769a84fadaeed37f713bc8226",
+        "before": {
+          "id": "mf_2f5c85c0ca444ed791636d8d116d2ee3",
+          "pointId": "pnt_9af027b769a84fadaeed37f713bc8226",
+          "mediaId": "791af9c5798c42c981883c1704dfcf6a",
+          "label": "处置前",
+          "capturedAt": "2026-10-24T09:19:27.836070+00:00",
+          "timeCode": null,
+          "videoId": null,
+          "origin": "upload",
+          "fileName": "stage7.png",
+          "size": 69,
+          "mimeType": "image/png",
+          "width": 1,
+          "height": 1,
+          "contentUrl": "/api/v1/datasets/demo-main/media/791af9c5798c42c981883c1704dfcf6a/content"
+        },
+        "after": {
+          "id": "mf_97ba2f69137844d1899fcc44dabebcc6",
+          "pointId": "pnt_9af027b769a84fadaeed37f713bc8226",
+          "mediaId": "fcff647beb6f4ae5a3c5f7f163552832",
+          "label": "处置后",
+          "capturedAt": "2026-10-24T10:19:27.849728+00:00",
+          "timeCode": null,
+          "videoId": null,
+          "origin": "upload",
+          "fileName": "stage7.png",
+          "size": 69,
+          "mimeType": "image/png",
+          "width": 1,
+          "height": 1,
+          "contentUrl": "/api/v1/datasets/demo-main/media/fcff647beb6f4ae5a3c5f7f163552832/content"
+        },
+        "result": {
+          "changedRatio": 0.021,
+          "maxRegionRatio": 0.018,
+          "regions": null,
+          "region": {
+            "x": 0.1,
+            "y": 0.1,
+            "w": 0.5,
+            "h": 0.5
+          },
+          "status": "changed",
+          "note": "像素差统计",
+          "computedAt": null,
+          "source": "session"
+        }
+      }
+    ],
+    "videos": [
+      {
+        "id": "mv_4280f84855854f8186887f130c1a5812",
+        "pointId": "pnt_9af027b769a84fadaeed37f713bc8226",
+        "mediaId": "bea376f0cb9247948c2a61e41140a746",
+        "metadata": {
+          "fileName": "stage7.mp4",
+          "title": "固定机位演示视频",
+          "source": "随包演示素材",
+          "assetKey": "stage7",
+          "comparable": true,
+          "note": "合成演示视频，非真实连续拍摄"
+        },
+        "analysis": {
+          "videoId": "mv_4280f84855854f8186887f130c1a5812",
+          "pointId": "pnt_9af027b769a84fadaeed37f713bc8226",
+          "frameIds": [
+            "mf_fbfbc66c5c444df1bed2d326f3d7768d"
+          ],
+          "regions": {
+            "before": {
+              "x": 0.1,
+              "y": 0.1,
+              "w": 0.4,
+              "h": 0.4
+            }
+          },
+          "reason": "合成演示视频，非真实连续拍摄"
+        },
+        "contentUrl": "/api/v1/datasets/demo-main/media/bea376f0cb9247948c2a61e41140a746/content"
+      }
+    ],
+    "latestSampleTime": "2026-10-24T11:19:29.550367+00:00"
+  },
+  "videoMedia": {
+    "id": "bea376f0cb9247948c2a61e41140a746",
+    "status": 200,
+    "sha256": "3ff85ae5030f470ee23ea8ddaa2b953cb2a87e546a7ec5603700496f69103617",
+    "size": 56
+  },
+  "checks": {
+    "staleSessionStaysRejected": true,
+    "sessionRestored": true,
+    "videoBytesRestored": true,
+    "videoAnalysis": true,
+    "videoFrameOrigin": true,
+    "comparisonRestored": true
+  }
+}

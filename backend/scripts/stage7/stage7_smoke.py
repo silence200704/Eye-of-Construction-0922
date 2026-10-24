@@ -3,6 +3,7 @@
 
 import json
 from pathlib import Path
+from uuid import uuid4
 
 import httpx
 
@@ -35,7 +36,7 @@ def main() -> None:
             json={"question": question, "context": context},
             headers={
                 **headers,
-                "Idempotency-Key": f"stage7-smoke-{index}",
+                "Idempotency-Key": f"stage7-smoke-{index}-{uuid4().hex[:8]}",
                 "X-Dataset-Epoch": str(epoch),
             },
         )

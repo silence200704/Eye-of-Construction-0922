@@ -1,0 +1,77 @@
+- banner:
+  - heading "监测趋势" [level=1]
+  - button "预警提醒，0 条未读":
+  - button "物业值班人员 · 切换身份"
+- navigation "窄屏主导航":
+  - link "校园态势":
+    - /url: "#/dashboard"
+    - generic: 校园态势
+  - link "校园地图":
+    - /url: "#/campus"
+    - generic: 校园地图
+  - link "监测分析":
+    - /url: "#/monitor"
+    - generic: 监测分析
+  - link "异常处置":
+    - /url: "#/alarms"
+    - generic: 异常处置
+  - link "现场任务":
+    - /url: "#/inspection"
+    - generic: 现场任务
+  - link "知识库":
+    - /url: "#/knowledge"
+    - generic: 知识库
+  - link "管理报表":
+    - /url: "#/reports"
+    - generic: 管理报表
+  - link "系统设置":
+    - /url: "#/settings"
+    - generic: 系统设置
+- main:
+  - navigation "当前工作台功能":
+    - link "监测数据":
+      - /url: "#/monitor"
+    - link "监测趋势":
+      - /url: "#/trend?point=pnt_b02_f1_check01"
+    - link "影像对比":
+      - /url: "#/media"
+  - paragraph: 看图口径：一条数据线 + 基准线（按版本分段）+ 三级阈值线 + 事件节点 + 修订标记。 不同单位的指标分卡展示，双点比较共享同一时间范围；图上分级与预警中心的事件完全同源。
+  - generic: 查看条件
+  - generic: 选测点后按指标出图
+  - generic: 测点
+  - combobox "测点":
+    - option "请选择测点"
+    - option "B01-F1-CHECK01 一层走廊人工检查点"
+    - option "B02-F1-CHECK01 一层走廊人工检查点" [selected]
+    - option "B03-F1-CHECK01 一层走廊人工检查点"
+    - option "B03-F2-CRACK01 二层走廊西墙裂缝测点"
+    - option "B03-F2-TH01 二层走廊温湿度辅助测点"
+    - option "B03-F2-TILT01 二层走廊中柱倾角测点"
+    - option "B03-F2-VIB01 二层楼板振动测点"
+    - option "B04-F1-CHECK01 一层主馆区人工检查点"
+  - generic: 时间范围
+  - combobox "时间范围":
+    - option "近24小时"
+    - option "近7天"
+    - option "近30天" [selected]
+    - option "近90天"
+    - option "全部"
+    - option "自定义日期"
+  - generic: 第二测点（可选）
+  - combobox "第二测点（可选）":
+    - option "只看一个测点" [selected]
+    - option "B01-F1-CHECK01"
+    - option "B03-F1-CHECK01"
+    - option "B03-F2-CRACK01"
+    - option "B03-F2-TH01"
+    - option "B03-F2-TILT01"
+    - option "B03-F2-VIB01"
+    - option "B04-F1-CHECK01"
+  - checkbox "仅看有记录的指标"
+  - text: 仅看有记录的指标
+  - paragraph: 该测点没有适用的启用规则，图上只画数据点，不做分级与阈值线。
+  - generic: 点击图上的数据点查看明细
+  - generic: 节点显示该条记录的基准快照、规则版本、事件编号与通知确认状态
+- button "问筑瞳：打开本地数据问答":
+  - img "小瞳待机":
+  - generic: 问筑瞳

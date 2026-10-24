@@ -1,0 +1,1100 @@
+{
+  "method": "isolated ASGI HTTP boundary (TestClient), not production",
+  "writes": {
+    "before": {
+      "assistant_turns": 0,
+      "media_frames": 0,
+      "media_comparisons": 0,
+      "audits": 9,
+      "operation_receipts": 8
+    },
+    "after": {
+      "assistant_turns": 3,
+      "media_frames": 2,
+      "media_comparisons": 2,
+      "audits": 10,
+      "operation_receipts": 8
+    },
+    "sameAskTurn": false,
+    "sameFrame": false,
+    "staleEpochAccepted": true,
+    "frameIds": [
+      "mf_749ee235ff0848229ea9858db04500b4",
+      "mf_556cf1f99b4147879f9a135ba98f1253"
+    ],
+    "comparisonIds": [
+      "mc_a6b2f98f8717435eae4d0748371cc2d5",
+      "mc_03f78e6885414569ae67cddfc661185f"
+    ],
+    "webChosenPayloadStatus": 422
+  },
+  "scope": {
+    "outOfScopeIssue": "iss_2ddb126d2e964fea8bf01349a46f744c",
+    "/media-sessions/frames": {
+      "status": 200,
+      "data": [
+        {
+          "id": "mf_556cf1f99b4147879f9a135ba98f1253",
+          "pointId": "pnt_fbccd00c56524e289d3a543204227755",
+          "mediaId": "7013651808d44413b1c1f4f8e59f888c",
+          "label": "",
+          "capturedAt": "2026-10-24T06:15:35.285266+00:00",
+          "timeCode": null,
+          "origin": "upload",
+          "fileName": "现场.png",
+          "size": 69,
+          "mimeType": "image/png",
+          "width": 1,
+          "height": 1,
+          "contentUrl": "/api/v1/datasets/demo-main/media/7013651808d44413b1c1f4f8e59f888c/content"
+        },
+        {
+          "id": "mf_749ee235ff0848229ea9858db04500b4",
+          "pointId": "pnt_fbccd00c56524e289d3a543204227755",
+          "mediaId": "7013651808d44413b1c1f4f8e59f888c",
+          "label": "",
+          "capturedAt": "2026-10-24T06:15:35.285266+00:00",
+          "timeCode": null,
+          "origin": "upload",
+          "fileName": "现场.png",
+          "size": 69,
+          "mimeType": "image/png",
+          "width": 1,
+          "height": 1,
+          "contentUrl": "/api/v1/datasets/demo-main/media/7013651808d44413b1c1f4f8e59f888c/content"
+        }
+      ]
+    },
+    "/media-sessions/summary": {
+      "status": 200,
+      "data": {
+        "frames": [
+          {
+            "id": "mf_556cf1f99b4147879f9a135ba98f1253",
+            "pointId": "pnt_fbccd00c56524e289d3a543204227755",
+            "mediaId": "7013651808d44413b1c1f4f8e59f888c",
+            "label": "",
+            "capturedAt": "2026-10-24T06:15:35.285266+00:00",
+            "timeCode": null,
+            "origin": "upload",
+            "fileName": "现场.png",
+            "size": 69,
+            "mimeType": "image/png",
+            "width": 1,
+            "height": 1,
+            "contentUrl": "/api/v1/datasets/demo-main/media/7013651808d44413b1c1f4f8e59f888c/content"
+          },
+          {
+            "id": "mf_749ee235ff0848229ea9858db04500b4",
+            "pointId": "pnt_fbccd00c56524e289d3a543204227755",
+            "mediaId": "7013651808d44413b1c1f4f8e59f888c",
+            "label": "",
+            "capturedAt": "2026-10-24T06:15:35.285266+00:00",
+            "timeCode": null,
+            "origin": "upload",
+            "fileName": "现场.png",
+            "size": 69,
+            "mimeType": "image/png",
+            "width": 1,
+            "height": 1,
+            "contentUrl": "/api/v1/datasets/demo-main/media/7013651808d44413b1c1f4f8e59f888c/content"
+          }
+        ],
+        "comparisons": [
+          {
+            "id": "mc_03f78e6885414569ae67cddfc661185f",
+            "pointId": "pnt_fbccd00c56524e289d3a543204227755",
+            "before": {
+              "id": "mf_749ee235ff0848229ea9858db04500b4",
+              "pointId": "pnt_fbccd00c56524e289d3a543204227755",
+              "mediaId": "7013651808d44413b1c1f4f8e59f888c",
+              "label": "",
+              "capturedAt": "2026-10-24T06:15:35.285266+00:00",
+              "timeCode": null,
+              "origin": "upload",
+              "fileName": "现场.png",
+              "size": 69,
+              "mimeType": "image/png",
+              "width": 1,
+              "height": 1,
+              "contentUrl": "/api/v1/datasets/demo-main/media/7013651808d44413b1c1f4f8e59f888c/content"
+            },
+            "after": {
+              "id": "mf_556cf1f99b4147879f9a135ba98f1253",
+              "pointId": "pnt_fbccd00c56524e289d3a543204227755",
+              "mediaId": "7013651808d44413b1c1f4f8e59f888c",
+              "label": "",
+              "capturedAt": "2026-10-24T06:15:35.285266+00:00",
+              "timeCode": null,
+              "origin": "upload",
+              "fileName": "现场.png",
+              "size": 69,
+              "mimeType": "image/png",
+              "width": 1,
+              "height": 1,
+              "contentUrl": "/api/v1/datasets/demo-main/media/7013651808d44413b1c1f4f8e59f888c/content"
+            },
+            "result": {
+              "changedRatio": 0.1,
+              "maxRegionRatio": null,
+              "regions": null,
+              "region": null,
+              "status": null,
+              "note": "",
+              "computedAt": null,
+              "source": "session"
+            }
+          },
+          {
+            "id": "mc_a6b2f98f8717435eae4d0748371cc2d5",
+            "pointId": "pnt_fbccd00c56524e289d3a543204227755",
+            "before": {
+              "id": "mf_749ee235ff0848229ea9858db04500b4",
+              "pointId": "pnt_fbccd00c56524e289d3a543204227755",
+              "mediaId": "7013651808d44413b1c1f4f8e59f888c",
+              "label": "",
+              "capturedAt": "2026-10-24T06:15:35.285266+00:00",
+              "timeCode": null,
+              "origin": "upload",
+              "fileName": "现场.png",
+              "size": 69,
+              "mimeType": "image/png",
+              "width": 1,
+              "height": 1,
+              "contentUrl": "/api/v1/datasets/demo-main/media/7013651808d44413b1c1f4f8e59f888c/content"
+            },
+            "after": {
+              "id": "mf_556cf1f99b4147879f9a135ba98f1253",
+              "pointId": "pnt_fbccd00c56524e289d3a543204227755",
+              "mediaId": "7013651808d44413b1c1f4f8e59f888c",
+              "label": "",
+              "capturedAt": "2026-10-24T06:15:35.285266+00:00",
+              "timeCode": null,
+              "origin": "upload",
+              "fileName": "现场.png",
+              "size": 69,
+              "mimeType": "image/png",
+              "width": 1,
+              "height": 1,
+              "contentUrl": "/api/v1/datasets/demo-main/media/7013651808d44413b1c1f4f8e59f888c/content"
+            },
+            "result": {
+              "changedRatio": 0.1,
+              "maxRegionRatio": null,
+              "regions": null,
+              "region": null,
+              "status": null,
+              "note": "",
+              "computedAt": null,
+              "source": "session"
+            }
+          }
+        ],
+        "latestSampleTime": ""
+      }
+    },
+    "/media-sessions/comparisons": {
+      "status": 200,
+      "data": [
+        {
+          "id": "mc_03f78e6885414569ae67cddfc661185f",
+          "pointId": "pnt_fbccd00c56524e289d3a543204227755",
+          "before": {
+            "id": "mf_749ee235ff0848229ea9858db04500b4",
+            "pointId": "pnt_fbccd00c56524e289d3a543204227755",
+            "mediaId": "7013651808d44413b1c1f4f8e59f888c",
+            "label": "",
+            "capturedAt": "2026-10-24T06:15:35.285266+00:00",
+            "timeCode": null,
+            "origin": "upload",
+            "fileName": "现场.png",
+            "size": 69,
+            "mimeType": "image/png",
+            "width": 1,
+            "height": 1,
+            "contentUrl": "/api/v1/datasets/demo-main/media/7013651808d44413b1c1f4f8e59f888c/content"
+          },
+          "after": {
+            "id": "mf_556cf1f99b4147879f9a135ba98f1253",
+            "pointId": "pnt_fbccd00c56524e289d3a543204227755",
+            "mediaId": "7013651808d44413b1c1f4f8e59f888c",
+            "label": "",
+            "capturedAt": "2026-10-24T06:15:35.285266+00:00",
+            "timeCode": null,
+            "origin": "upload",
+            "fileName": "现场.png",
+            "size": 69,
+            "mimeType": "image/png",
+            "width": 1,
+            "height": 1,
+            "contentUrl": "/api/v1/datasets/demo-main/media/7013651808d44413b1c1f4f8e59f888c/content"
+          },
+          "result": {
+            "changedRatio": 0.1,
+            "maxRegionRatio": null,
+            "regions": null,
+            "region": null,
+            "status": null,
+            "note": "",
+            "computedAt": null,
+            "source": "session"
+          }
+        },
+        {
+          "id": "mc_a6b2f98f8717435eae4d0748371cc2d5",
+          "pointId": "pnt_fbccd00c56524e289d3a543204227755",
+          "before": {
+            "id": "mf_749ee235ff0848229ea9858db04500b4",
+            "pointId": "pnt_fbccd00c56524e289d3a543204227755",
+            "mediaId": "7013651808d44413b1c1f4f8e59f888c",
+            "label": "",
+            "capturedAt": "2026-10-24T06:15:35.285266+00:00",
+            "timeCode": null,
+            "origin": "upload",
+            "fileName": "现场.png",
+            "size": 69,
+            "mimeType": "image/png",
+            "width": 1,
+            "height": 1,
+            "contentUrl": "/api/v1/datasets/demo-main/media/7013651808d44413b1c1f4f8e59f888c/content"
+          },
+          "after": {
+            "id": "mf_556cf1f99b4147879f9a135ba98f1253",
+            "pointId": "pnt_fbccd00c56524e289d3a543204227755",
+            "mediaId": "7013651808d44413b1c1f4f8e59f888c",
+            "label": "",
+            "capturedAt": "2026-10-24T06:15:35.285266+00:00",
+            "timeCode": null,
+            "origin": "upload",
+            "fileName": "现场.png",
+            "size": 69,
+            "mimeType": "image/png",
+            "width": 1,
+            "height": 1,
+            "contentUrl": "/api/v1/datasets/demo-main/media/7013651808d44413b1c1f4f8e59f888c/content"
+          },
+          "result": {
+            "changedRatio": 0.1,
+            "maxRegionRatio": null,
+            "regions": null,
+            "region": null,
+            "status": null,
+            "note": "",
+            "computedAt": null,
+            "source": "session"
+          }
+        }
+      ]
+    },
+    "caseSearch": {
+      "intent": "case_search",
+      "status": "answered",
+      "conclusion": "找到 1 条相关问题记录。",
+      "objects": {
+        "pointId": null,
+        "eventId": null,
+        "issueId": null,
+        "workOrderId": null,
+        "buildingId": null
+      },
+      "facts": [],
+      "extras": {
+        "cases": [
+          {
+            "issueId": "iss_2ddb126d2e964fea8bf01349a46f744c",
+            "issueNo": "ISS-20261024-001",
+            "anomalyType": "墙面裂缝",
+            "status": "pending_review",
+            "complete": false,
+            "gaps": [
+              "问题未关闭",
+              "未登记复查",
+              "工单未验收"
+            ],
+            "measures": "",
+            "at": "2026-10-24T06:15:35.376298+00:00"
+          }
+        ],
+        "queriedAt": "2026-10-24T06:15:35.430040+00:00"
+      }
+    }
+  },
+  "objects": {
+    "current": {
+      "intent": "point_status",
+      "status": "answered",
+      "conclusion": "裂缝测点当前读数 0.82mm；采样于 2026-10-24 14:00（约 0.3 小时前）。",
+      "objects": {
+        "pointId": "pnt_fbccd00c56524e289d3a543204227755",
+        "eventId": null,
+        "issueId": null,
+        "workOrderId": null,
+        "buildingId": "bld_9b80e732377e48c9a907c10304e63d28"
+      },
+      "facts": [
+        {
+          "label": "测点",
+          "value": "B03-F2-CRACK01 裂缝测点",
+          "unit": ""
+        },
+        {
+          "label": "位置",
+          "value": "3号教学楼 2层",
+          "unit": ""
+        },
+        {
+          "label": "当前读数",
+          "value": "0.82",
+          "unit": "mm"
+        },
+        {
+          "label": "数据质量",
+          "value": "有效",
+          "unit": ""
+        },
+        {
+          "label": "相对基准",
+          "value": "+0.32",
+          "unit": "mm"
+        },
+        {
+          "label": "适用规则",
+          "value": "RULE-CRACK-001（V1.0）",
+          "unit": ""
+        },
+        {
+          "label": "未关闭事件",
+          "value": "E20261024-001（红色紧急核查，待确认）",
+          "unit": ""
+        }
+      ],
+      "extras": {
+        "freshness": "current",
+        "freshnessLabel": "采样于 2026-10-24 14:00（约 0.3 小时前）",
+        "queriedAt": "2026-10-24T06:15:35.450040+00:00",
+        "device": "裂缝计"
+      }
+    },
+    "followup": {
+      "intent": "event_reason",
+      "status": "not_found",
+      "conclusion": "请先指明或选择一条预警事件：当前问句没有可绑定的事件。",
+      "objects": {
+        "pointId": "pnt_fbccd00c56524e289d3a543204227755",
+        "eventId": null,
+        "issueId": null,
+        "workOrderId": null,
+        "buildingId": "bld_9b80e732377e48c9a907c10304e63d28"
+      },
+      "facts": [],
+      "extras": null
+    },
+    "explicitMissingBuilding": {
+      "intent": "point_status",
+      "status": "answered",
+      "conclusion": "裂缝测点当前读数 0.82mm；采样于 2026-10-24 14:00（约 0.3 小时前）。",
+      "objects": {
+        "pointId": "pnt_fbccd00c56524e289d3a543204227755",
+        "eventId": null,
+        "issueId": null,
+        "workOrderId": null,
+        "buildingId": "bld_9b80e732377e48c9a907c10304e63d28"
+      },
+      "facts": [
+        {
+          "label": "测点",
+          "value": "B03-F2-CRACK01 裂缝测点",
+          "unit": ""
+        },
+        {
+          "label": "位置",
+          "value": "3号教学楼 2层",
+          "unit": ""
+        },
+        {
+          "label": "当前读数",
+          "value": "0.82",
+          "unit": "mm"
+        },
+        {
+          "label": "数据质量",
+          "value": "有效",
+          "unit": ""
+        },
+        {
+          "label": "相对基准",
+          "value": "+0.32",
+          "unit": "mm"
+        },
+        {
+          "label": "适用规则",
+          "value": "RULE-CRACK-001（V1.0）",
+          "unit": ""
+        },
+        {
+          "label": "未关闭事件",
+          "value": "E20261024-001（红色紧急核查，待确认）",
+          "unit": ""
+        }
+      ],
+      "extras": {
+        "freshness": "current",
+        "freshnessLabel": "采样于 2026-10-24 14:00（约 0.3 小时前）",
+        "queriedAt": "2026-10-24T06:15:35.475795+00:00",
+        "device": "裂缝计"
+      }
+    }
+  },
+  "revokedScope": {
+    "freshQuery": {
+      "intent": "point_status",
+      "status": "not_found",
+      "conclusion": "当前数据集与授权范围内没有匹配这个编号的测点。",
+      "objects": {
+        "pointId": null,
+        "eventId": null,
+        "issueId": null,
+        "workOrderId": null,
+        "buildingId": null
+      },
+      "facts": [],
+      "extras": null
+    },
+    "restoreStatus": 200,
+    "restoredAnswer": {
+      "intent": "point_status",
+      "status": "answered",
+      "conclusion": "裂缝测点当前读数 0.82mm；采样于 2026-10-24 14:00（约 0.3 小时前）。",
+      "objects": {
+        "pointId": "pnt_fbccd00c56524e289d3a543204227755",
+        "eventId": null,
+        "issueId": null,
+        "workOrderId": null,
+        "buildingId": "bld_9b80e732377e48c9a907c10304e63d28"
+      },
+      "facts": [
+        {
+          "label": "测点",
+          "value": "B03-F2-CRACK01 裂缝测点",
+          "unit": ""
+        },
+        {
+          "label": "位置",
+          "value": "3号教学楼 2层",
+          "unit": ""
+        },
+        {
+          "label": "当前读数",
+          "value": "0.82",
+          "unit": "mm"
+        },
+        {
+          "label": "数据质量",
+          "value": "有效",
+          "unit": ""
+        },
+        {
+          "label": "相对基准",
+          "value": "+0.32",
+          "unit": "mm"
+        },
+        {
+          "label": "适用规则",
+          "value": "RULE-CRACK-001（V1.0）",
+          "unit": ""
+        },
+        {
+          "label": "未关闭事件",
+          "value": "E20261024-001（红色紧急核查，待确认）",
+          "unit": ""
+        }
+      ],
+      "extras": {
+        "freshness": "current",
+        "freshnessLabel": "采样于 2026-10-24 14:00（约 0.3 小时前）",
+        "queriedAt": "2026-10-24T06:15:35.510717+00:00",
+        "device": "裂缝计"
+      }
+    }
+  },
+  "rules": {
+    "before": {
+      "intent": "point_status",
+      "status": "answered",
+      "conclusion": "裂缝测点当前读数 0.82mm；采样于 2026-10-24 14:00（约 0.3 小时前）。",
+      "objects": {
+        "pointId": "pnt_fbccd00c56524e289d3a543204227755",
+        "eventId": null,
+        "issueId": null,
+        "workOrderId": null,
+        "buildingId": "bld_9b80e732377e48c9a907c10304e63d28"
+      },
+      "facts": [
+        {
+          "label": "测点",
+          "value": "B03-F2-CRACK01 裂缝测点",
+          "unit": ""
+        },
+        {
+          "label": "位置",
+          "value": "3号教学楼 2层",
+          "unit": ""
+        },
+        {
+          "label": "当前读数",
+          "value": "0.82",
+          "unit": "mm"
+        },
+        {
+          "label": "数据质量",
+          "value": "有效",
+          "unit": ""
+        },
+        {
+          "label": "相对基准",
+          "value": "+0.32",
+          "unit": "mm"
+        },
+        {
+          "label": "适用规则",
+          "value": "RULE-CRACK-001（V1.0）",
+          "unit": ""
+        },
+        {
+          "label": "未关闭事件",
+          "value": "E20261024-001（红色紧急核查，待确认）",
+          "unit": ""
+        }
+      ],
+      "extras": {
+        "freshness": "current",
+        "freshnessLabel": "采样于 2026-10-24 14:00（约 0.3 小时前）",
+        "queriedAt": "2026-10-24T06:15:35.548772+00:00",
+        "device": "裂缝计"
+      }
+    },
+    "trialDisabledRules": {
+      "intent": "rule_simulate",
+      "status": "answered",
+      "conclusion": "按候选阈值（黄 0.1／橙 0.2／红 0.3）对最近 1 条有效记录试算，1 条等级会变化；试算不写库、不触发事件。",
+      "objects": {
+        "pointId": "pnt_fbccd00c56524e289d3a543204227755",
+        "eventId": null,
+        "issueId": null,
+        "workOrderId": null,
+        "buildingId": "bld_9b80e732377e48c9a907c10304e63d28"
+      },
+      "facts": [],
+      "extras": {
+        "simulation": [
+          {
+            "recordNo": "R20261024-001",
+            "original": "normal",
+            "candidate": "红色紧急核查",
+            "changed": true
+          }
+        ],
+        "queriedAt": "2026-10-24T06:15:35.570323+00:00"
+      }
+    },
+    "recordAssessment": {
+      "state": "red",
+      "triggerValue": 0.32,
+      "baselineValue": 0.5,
+      "ruleCode": "RULE-CRACK-001",
+      "ruleVersion": "V1.0",
+      "reason": "判定值 0.32 mm 达到红色紧急核查门槛",
+      "insufficientReason": "数据不足，无法判断持续趋势",
+      "basis": "相对基准变化量绝对值"
+    },
+    "newDisabledRuleAnswer": {
+      "intent": "point_status",
+      "status": "answered",
+      "conclusion": "裂缝测点当前读数 0.82mm；采样于 2026-10-24 14:00（约 0.3 小时前）。",
+      "objects": {
+        "pointId": "pnt_fbccd00c56524e289d3a543204227755",
+        "eventId": null,
+        "issueId": null,
+        "workOrderId": null,
+        "buildingId": "bld_9b80e732377e48c9a907c10304e63d28"
+      },
+      "facts": [
+        {
+          "label": "测点",
+          "value": "B03-F2-CRACK01 裂缝测点",
+          "unit": ""
+        },
+        {
+          "label": "位置",
+          "value": "3号教学楼 2层",
+          "unit": ""
+        },
+        {
+          "label": "当前读数",
+          "value": "0.82",
+          "unit": "mm"
+        },
+        {
+          "label": "数据质量",
+          "value": "有效",
+          "unit": ""
+        },
+        {
+          "label": "相对基准",
+          "value": "+0.32",
+          "unit": "mm"
+        },
+        {
+          "label": "适用规则",
+          "value": "RULE-CRACK-001（V0.9）",
+          "unit": ""
+        },
+        {
+          "label": "未关闭事件",
+          "value": "E20261024-001（红色紧急核查，待确认）",
+          "unit": ""
+        }
+      ],
+      "extras": {
+        "freshness": "current",
+        "freshnessLabel": "采样于 2026-10-24 14:00（约 0.3 小时前）",
+        "queriedAt": "2026-10-24T06:15:35.584166+00:00",
+        "device": "裂缝计"
+      }
+    }
+  },
+  "canonicalFaqs": {
+    "method": "canonical corpus FAQ, keyword/FAQ fallback; no local embedding model in this temporary DB",
+    "total": 20,
+    "directAnswers": 20,
+    "assistantAnswered": 9,
+    "results": [
+      {
+        "question": "系统有哪些演示身份？",
+        "directDecision": "answer",
+        "assistant": {
+          "intent": "knowledge",
+          "status": "answered",
+          "conclusion": "演示身份与权限\n\n系统不提供登录页、账号或密码。启动后使用预置演示身份，可切换学校安全管理人员、物业值班、设备管理、巡检、维修五类身份。界面身份提示不能作为授权依据；服务端按稳定身份 ID、角色和楼栋范围校验每次写入。维修人员不能自行验收工单；角色或范围不符时拒绝写入并显示原因。",
+          "objects": {
+            "pointId": null,
+            "eventId": null,
+            "issueId": null,
+            "workOrderId": null,
+            "buildingId": null
+          },
+          "facts": [],
+          "extras": null
+        }
+      },
+      {
+        "question": "有历史记录的设备能删除吗？",
+        "directDecision": "answer",
+        "assistant": {
+          "intent": "point_status",
+          "status": "not_found",
+          "conclusion": "请先指明或选择一个测点：当前问句没有可绑定的测点，本回答不使用默认对象。",
+          "objects": {
+            "pointId": null,
+            "eventId": null,
+            "issueId": null,
+            "workOrderId": null,
+            "buildingId": null
+          },
+          "facts": [],
+          "extras": null
+        }
+      },
+      {
+        "question": "修改基准会覆盖历史记录吗？",
+        "directDecision": "answer",
+        "assistant": {
+          "intent": "knowledge",
+          "status": "answered",
+          "conclusion": "基准值版本与采样时间\n\n基准值修改会产生新版本，必须填写原因、生效时间和预期版本。监测判定按采样时间选择当时生效的基准，记录保存基准版本和基准值快照。后续修改基准不能用新值覆盖历史判定。录入时间与采样时间是不同字段；历史补录仍按原采样时刻解释。",
+          "objects": {
+            "pointId": null,
+            "eventId": null,
+            "issueId": null,
+            "workOrderId": null,
+            "buildingId": null
+          },
+          "facts": [],
+          "extras": null
+        }
+      },
+      {
+        "question": "内置阈值是国家安全标准吗？",
+        "directDecision": "answer",
+        "assistant": {
+          "intent": "knowledge",
+          "status": "answered",
+          "conclusion": "演示预警规则与分级说明\n\n筑瞳内置阈值是比赛演示规则，用于展示黄、橙、红分级和处置流程，不是国家建筑安全标准，也不能作为真实建筑安全鉴定结论。规则按稳定 ruleId 保存版本；按采样时间先选当时版本，再判断启用和适用范围。最新版本停用或排除测点时，不得回退旧版本绕过限制。阈值与持续、恢复条件应查看规则原文和试算。",
+          "objects": {
+            "pointId": null,
+            "eventId": null,
+            "issueId": null,
+            "workOrderId": null,
+            "buildingId": null
+          },
+          "facts": [],
+          "extras": null
+        }
+      },
+      {
+        "question": "监测记录如何更正并保留原值？",
+        "directDecision": "answer",
+        "assistant": {
+          "intent": "knowledge",
+          "status": "answered",
+          "conclusion": "监测录入质量与修订留痕\n\n监测录入保存测点、设备、读数、单位、采样时间、来源及质量说明。缺失读数不能按零值处理；存疑或无效数据不参与正常判定，超设备量程标记无效；振动读数还需统计窗口。同测点同分钟不能重复采样。修订必须填写原因和当前 rev，保留修订前原值、快照和次数；较早补录不覆盖当前预警状态。",
+          "objects": {
+            "pointId": null,
+            "eventId": null,
+            "issueId": null,
+            "workOrderId": null,
+            "buildingId": null
+          },
+          "facts": [],
+          "extras": null
+        }
+      },
+      {
+        "question": "CSV 导入为什么需要先预检？",
+        "directDecision": "answer",
+        "assistant": {
+          "intent": "event_reason",
+          "status": "not_found",
+          "conclusion": "请先指明或选择一条预警事件：当前问句没有可绑定的事件。",
+          "objects": {
+            "pointId": null,
+            "eventId": null,
+            "issueId": null,
+            "workOrderId": null,
+            "buildingId": null
+          },
+          "facts": [],
+          "extras": null
+        }
+      },
+      {
+        "question": "恢复待确认会自动关闭预警吗？",
+        "directDecision": "answer",
+        "assistant": {
+          "intent": "reading_recovery",
+          "status": "not_found",
+          "conclusion": "请先指明或选择一条预警事件：当前问句没有可绑定的事件。",
+          "objects": {
+            "pointId": null,
+            "eventId": null,
+            "issueId": null,
+            "workOrderId": null,
+            "buildingId": null
+          },
+          "facts": [],
+          "extras": null
+        }
+      },
+      {
+        "question": "页面显示通知就代表短信送达吗？",
+        "directDecision": "answer",
+        "assistant": {
+          "intent": "knowledge",
+          "status": "answered",
+          "conclusion": "站内通知确认与超时核验\n\n通知区分生成、首次展示、人工确认和超时升级时间。展示不等于确认，更不代表短信送达；项目未接入短信或外部推送。服务端用真实时间核验未确认且超时的通知，按规则只升级一次。已关闭事件的通知保留历史但停止升级。安全管理人员确认事件时，同事件未确认通知一并确认。",
+          "objects": {
+            "pointId": null,
+            "eventId": null,
+            "issueId": null,
+            "workOrderId": null,
+            "buildingId": null
+          },
+          "facts": [],
+          "extras": null
+        }
+      },
+      {
+        "question": "修改巡检计划会改变已生成任务吗？",
+        "directDecision": "answer",
+        "assistant": {
+          "intent": "knowledge",
+          "status": "answered",
+          "conclusion": "巡检计划生成与任务快照\n\n点检或巡检计划配置设备或路线范围、周期、清单、执行角色和启停。手动生成按计划与执行时刻创建任务，业务唯一键防止重复生成。同一天新增或启用计划后可再次生成。任务冻结生成时的楼栋范围、必查点、清单和执行角色；修改计划不追溯改变已有任务，后续周期任务使用新计划。",
+          "objects": {
+            "pointId": null,
+            "eventId": null,
+            "issueId": null,
+            "workOrderId": null,
+            "buildingId": null
+          },
+          "facts": [],
+          "extras": null
+        }
+      },
+      {
+        "question": "人工签到为什么必须写原因？",
+        "directDecision": "answer",
+        "assistant": {
+          "intent": "event_reason",
+          "status": "not_found",
+          "conclusion": "请先指明或选择一条预警事件：当前问句没有可绑定的事件。",
+          "objects": {
+            "pointId": null,
+            "eventId": null,
+            "issueId": null,
+            "workOrderId": null,
+            "buildingId": null
+          },
+          "facts": [],
+          "extras": null
+        }
+      },
+      {
+        "question": "必答项没填完能完成巡检吗？",
+        "directDecision": "answer",
+        "assistant": {
+          "intent": "knowledge",
+          "status": "answered",
+          "conclusion": "逐点必答清单与异常后续\n\n巡检任务逐点填写清单，服务端按生成时的清单快照校验必答项。合法检查结果为正常或异常；缺项、空字符串、未知检查项和重复项不能冒充完成。未到点不能提交检查完成。出现异常时必须关联本任务本测点的真实问题，或填写不少于十字的无需建问题依据；部分点位完成仍属于部分完成。",
+          "objects": {
+            "pointId": null,
+            "eventId": null,
+            "issueId": null,
+            "workOrderId": null,
+            "buildingId": null
+          },
+          "facts": [],
+          "extras": null
+        }
+      },
+      {
+        "question": "问题有哪些来源？",
+        "directDecision": "answer",
+        "assistant": {
+          "intent": "issue_status",
+          "status": "not_found",
+          "conclusion": "请指明问题编号或先选择相关测点：当前没有可绑定的问题。",
+          "objects": {
+            "pointId": null,
+            "eventId": null,
+            "issueId": null,
+            "workOrderId": null,
+            "buildingId": null
+          },
+          "facts": [],
+          "extras": null
+        }
+      },
+      {
+        "question": "问题审核有哪六种处理出口？",
+        "directDecision": "answer",
+        "assistant": {
+          "intent": "issue_status",
+          "status": "not_found",
+          "conclusion": "请指明问题编号或先选择相关测点：当前没有可绑定的问题。",
+          "objects": {
+            "pointId": null,
+            "eventId": null,
+            "issueId": null,
+            "workOrderId": null,
+            "buildingId": null
+          },
+          "facts": [],
+          "extras": null
+        }
+      },
+      {
+        "question": "维修人员可以自行验收工单吗？",
+        "directDecision": "answer",
+        "assistant": {
+          "intent": "issue_status",
+          "status": "not_found",
+          "conclusion": "请指明问题编号或先选择相关测点：当前没有可绑定的问题。",
+          "objects": {
+            "pointId": null,
+            "eventId": null,
+            "issueId": null,
+            "workOrderId": null,
+            "buildingId": null
+          },
+          "facts": [],
+          "extras": null
+        }
+      },
+      {
+        "question": "继续观察需要登记下一次复查日期吗？",
+        "directDecision": "answer",
+        "assistant": {
+          "intent": "issue_status",
+          "status": "not_found",
+          "conclusion": "请指明问题编号或先选择相关测点：当前没有可绑定的问题。",
+          "objects": {
+            "pointId": null,
+            "eventId": null,
+            "issueId": null,
+            "workOrderId": null,
+            "buildingId": null
+          },
+          "facts": [],
+          "extras": null
+        }
+      },
+      {
+        "question": "每个问题最多能上传几张照片多大？",
+        "directDecision": "answer",
+        "assistant": {
+          "intent": "media_compare",
+          "status": "not_found",
+          "conclusion": "请先指明或选择一个测点：当前问句没有可绑定的测点，本回答不使用默认对象。",
+          "objects": {
+            "pointId": null,
+            "eventId": null,
+            "issueId": null,
+            "workOrderId": null,
+            "buildingId": null
+          },
+          "facts": [],
+          "extras": null
+        }
+      },
+      {
+        "question": "保养异常怎么转成问题？",
+        "directDecision": "answer",
+        "assistant": {
+          "intent": "issue_status",
+          "status": "not_found",
+          "conclusion": "请指明问题编号或先选择相关测点：当前没有可绑定的问题。",
+          "objects": {
+            "pointId": null,
+            "eventId": null,
+            "issueId": null,
+            "workOrderId": null,
+            "buildingId": null
+          },
+          "facts": [],
+          "extras": null
+        }
+      },
+      {
+        "question": "观察中的问题计入最终闭环率吗？",
+        "directDecision": "answer",
+        "assistant": {
+          "intent": "issue_status",
+          "status": "not_found",
+          "conclusion": "请指明问题编号或先选择相关测点：当前没有可绑定的问题。",
+          "objects": {
+            "pointId": null,
+            "eventId": null,
+            "issueId": null,
+            "workOrderId": null,
+            "buildingId": null
+          },
+          "facts": [],
+          "extras": null
+        }
+      },
+      {
+        "question": "备份是否包括本地模型和向量索引？",
+        "directDecision": "answer",
+        "assistant": {
+          "intent": "knowledge",
+          "status": "answered",
+          "conclusion": "服务端备份恢复与数据保护\n\n服务端备份包含 SQLite 数据库、私有媒体、会话签名文件以及已准备的本地模型文件。清单记录文件体积与 SHA-256，恢复前核对数据库完整性、引用完整性和全部文件哈希。恢复到独立目录，不覆盖已有目录。备份中的知识文档、版本、FAQ、同义词和向量索引随数据库恢复；模型目录一并恢复后可离线加载。不要用浏览器备份替代服务端持久化备份。",
+          "objects": {
+            "pointId": null,
+            "eventId": null,
+            "issueId": null,
+            "workOrderId": null,
+            "buildingId": null
+          },
+          "facts": [],
+          "extras": null
+        }
+      },
+      {
+        "question": "没有模型时还能检索吗？",
+        "directDecision": "answer",
+        "assistant": {
+          "intent": "knowledge",
+          "status": "answered",
+          "conclusion": "本地知识检索与依据边界\n\n本地知识服务使用标准 FAQ、术语同义词、关键词与 BGE 中文向量混合召回；SQLite 保存向量，NumPy 在本机计算相似度，不调用外部生成或 embedding API。每个候选附文档版本、原文块、行号、哈希、来源和命中方式。相关度不是可信概率；歧义应澄清，库外内容说明没有充分依据。知识启停或新版本后旧块不再引用；模型缺失或索引损坏时明确降级 FAQ/关键词。动态业务数量或当前工单状态应查业务接口，不能从静态知识推测。",
+          "objects": {
+            "pointId": null,
+            "eventId": null,
+            "issueId": null,
+            "workOrderId": null,
+            "buildingId": null
+          },
+          "facts": [],
+          "extras": null
+        }
+      }
+    ]
+  },
+  "epoch": {
+    "restoreStatusAfterEpochChange": 200,
+    "oldSessionReused": true
+  },
+  "structure": [
+    {
+      "path": "backend\\src\\zhutong\\operations\\assistant",
+      "directFiles": 9
+    },
+    {
+      "path": "backend\\src\\zhutong\\operations\\assistant\\compose.py",
+      "name": "_business_answer",
+      "line": 139,
+      "parameters": 7,
+      "lines": 71
+    },
+    {
+      "path": "backend\\src\\zhutong\\operations\\assistant\\facts.py",
+      "name": "point_status",
+      "line": 125,
+      "parameters": 5,
+      "lines": 94
+    },
+    {
+      "path": "backend\\src\\zhutong\\operations\\assistant\\resolve.py",
+      "name": "resolve_objects",
+      "line": 284,
+      "parameters": 6,
+      "lines": 27
+    },
+    {
+      "path": "backend\\src\\zhutong\\operations\\assistant\\sessions.py",
+      "name": "append_turn",
+      "line": 51,
+      "parameters": 6,
+      "lines": 25
+    },
+    {
+      "path": "backend\\scripts\\stage7_cases.py",
+      "name": "run",
+      "line": 61,
+      "parameters": 6,
+      "lines": 210
+    },
+    {
+      "path": "backend\\scripts\\stage7_cases_late.py",
+      "name": "run_late",
+      "line": 9,
+      "parameters": 4,
+      "lines": 323
+    },
+    {
+      "path": "backend\\scripts\\stage7_http_support.py",
+      "name": "seed_archive",
+      "line": 95,
+      "parameters": 1,
+      "lines": 134
+    },
+    {
+      "path": "backend\\scripts\\stage7_http_support.py",
+      "name": "ask",
+      "line": 58,
+      "parameters": 6,
+      "lines": 16
+    }
+  ]
+}

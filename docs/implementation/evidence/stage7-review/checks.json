@@ -1,0 +1,27 @@
+{
+  "reviewDate": "2026-10-24",
+  "executionDate": "2026-10-23",
+  "reviewedHead": "c02a82b",
+  "scope": "Independent review only; no product implementation changes or production database writes",
+  "results": [
+    {"command": "uv run pytest --cov=zhutong --cov-report=term --cov-fail-under=80 -q", "cwd": "backend", "exitCode": 0, "passed": 241, "coveragePercent": 87.72},
+    {"command": "uv run ruff check src tests migrations scripts", "cwd": "backend", "exitCode": 0},
+    {"command": "uv run ruff format --check src tests migrations scripts", "cwd": "backend", "exitCode": 1, "unformattedFiles": ["scripts/stage7_cases.py", "scripts/stage7_cases_late.py", "scripts/stage7_checks.py", "scripts/stage7_verify.py", "src/zhutong/operations/assistant/knowledge_answers.py"]},
+    {"command": "npm test", "exitCode": 0, "files": 118, "passed": 1152},
+    {"command": "npm run test:tooling", "exitCode": 0, "passed": 5, "limitation": "Existing backend structure scan omits stage 7 assistant operations/tests/scripts"},
+    {"command": "npm run typecheck", "exitCode": 0},
+    {"command": "npm run build", "exitCode": 0, "viteBuildSeconds": 6.4, "mainChunkKB": 1016.81, "warning": "Chunk exceeds configured 900 kB threshold"},
+    {"command": "backend/.venv/Scripts/python.exe docs/implementation/evidence/stage7-review/probes.py", "exitCode": 0, "interpretation": "Probe completed and recorded defects; exit 0 is not acceptance success", "output": "results.json", "boundary": "ASGI TestClient with isolated temporary SQLite database"},
+    {"command": "npx vitest run --config docs/implementation/evidence/stage7-review/vitest.review.config.ts", "exitCode": 1, "files": 2, "failed": 8, "output": "web-test.log", "interpretation": "Independent acceptance assertions reproduce product defects"}
+  ],
+  "canonicalFaqComparison": {"questions": 20, "directKnowledgeAnswers": 20, "assistantAnswered": 9, "limitation": "Temporary database uses FAQ/keyword fallback without embedding model; does not replace frozen 60-question model evaluation"},
+  "productionReadOnlyChecks": [
+    {"url": "http://127.0.0.1:8000/", "status": 200},
+    {"url": "http://127.0.0.1:5173/", "status": 200},
+    {"url": "http://127.0.0.1:18000/api/v1/health/live", "status": 200},
+    {"url": "http://127.0.0.1:18000/api/v1/health/ready", "status": 200},
+    {"url": "http://127.0.0.1:8080/", "status": 200},
+    {"url": "http://127.0.0.1:5180/", "status": 200}
+  ],
+  "notReverified": ["Narrow viewport UI", "Video and dual-point page interactions", "Docker rebuild and backup/restore", "Full frozen 60-question assistant endpoint evaluation with embedding model", "Strict outbound-network blocking"]
+}

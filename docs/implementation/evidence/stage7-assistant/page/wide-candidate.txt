@@ -1,0 +1,292 @@
+- complementary:
+  - generic: 筑
+  - generic: 筑瞳
+  - generic: 校园建筑健康监测与预警
+  - navigation "主导航":
+    - region "看现场":
+      - heading "看现场" [level=2]
+      - link "校园态势":
+        - /url: "#/dashboard"
+        - generic: 校园态势
+      - link "校园地图":
+        - /url: "#/campus"
+        - generic: 校园地图
+    - region "查数据":
+      - heading "查数据" [level=2]
+      - link "监测分析":
+        - /url: "#/monitor"
+        - generic: 监测分析
+    - region "办事务":
+      - heading "办事务" [level=2]
+      - link "异常处置":
+        - /url: "#/alarms"
+        - generic: 异常处置
+      - link "现场任务":
+        - /url: "#/inspection"
+        - generic: 现场任务
+    - region "做管理":
+      - heading "做管理" [level=2]
+      - link "知识库":
+        - /url: "#/knowledge"
+        - generic: 知识库
+      - link "管理报表":
+        - /url: "#/reports"
+        - generic: 管理报表
+      - link "系统设置":
+        - /url: "#/settings"
+        - generic: 系统设置
+  - generic: 服务端数据 · demo-main
+  - paragraph: 数据保存在服务端 SQLite 与私有文件目录；刷新或更换浏览器不会改变业务事实。
+  - paragraph: V0.3 · 开发中 · 完整项目接入中
+- banner:
+  - heading "校园总览" [level=1]
+  - paragraph: 全校楼栋、测点与最近录入动态
+  - generic: 在册楼栋
+  - generic: "4"
+  - generic: 测点
+  - generic: "8"
+  - generic: 设备
+  - generic: "4"
+  - button "预警提醒，0 条未读":
+    - generic: 预警提醒
+  - button "物业值班人员 · 切换身份"
+- main:
+  - navigation "当前工作台功能":
+    - generic: 当前工作台
+    - link "传感器驾驶舱":
+      - /url: "#/dashboard"
+    - link "校园总览":
+      - /url: "#/"
+  - paragraph:
+    - generic: 数据口径：
+    - text: 本演示的校区、校园图、楼层图与楼栋档案字段（面积、建设年份、负责人等）均为明确标识的虚构占位资料；只有 3 号教学楼二层的演示测点位置与录入数据是现场实测。实际校园图与人员清单到位后替换，替换时递增底图版本并重新核对测点位置。
+  - generic: 在册楼栋
+  - generic: "4"
+  - generic: 另有已归档 1 栋
+  - generic: 在册测点
+  - generic: "8"
+  - generic: 传感器 4｜人工检查点 4｜分布 8 个楼层
+  - generic: 登记设备
+  - generic: "4"
+  - generic: 设备状态为人工登记，未接入自动心跳
+  - generic: 监测记录
+  - generic: "18"
+  - generic: 已设基准 2｜存疑或无效 0｜已修订 2
+  - generic: 校园平面图
+  - generic: 点击楼栋进入楼层图，逐级定位到测点；图上区分实测建档与示例数据
+  - generic: 归一化示意坐标
+  - button "快捷录入"
+  - button "＋"
+  - button "－"
+  - button "重置"
+  - generic: 实测建档
+  - generic: 示例数据
+  - generic: 已归档
+  - generic: 最近录入
+  - generic: 按采样时间倒序，最多显示 9 条
+  - button "全部记录"
+  - table:
+    - rowgroup:
+      - row "采样时间 测点 读数 质量":
+        - columnheader "采样时间"
+        - columnheader "测点"
+        - columnheader "读数"
+        - columnheader "质量"
+    - rowgroup:
+      - row "2026-10-18 18:21 B03-F2-CRACK01 二层走廊西墙裂缝测点 R20261018-010｜演示学校安全管理人员 0.60mm 有效":
+        - cell "2026-10-18 18:21"
+        - cell "B03-F2-CRACK01 二层走廊西墙裂缝测点 R20261018-010｜演示学校安全管理人员":
+          - generic: B03-F2-CRACK01 二层走廊西墙裂缝测点
+          - generic: R20261018-010｜演示学校安全管理人员
+        - cell "0.60mm"
+        - cell "有效":
+          - generic: 有效
+      - row "2026-10-18 18:18 B03-F2-TILT01 二层走廊中柱倾角测点 R20261018-009｜演示学校安全管理人员 0.07° / 0.00° 有效":
+        - cell "2026-10-18 18:18"
+        - cell "B03-F2-TILT01 二层走廊中柱倾角测点 R20261018-009｜演示学校安全管理人员":
+          - generic: B03-F2-TILT01 二层走廊中柱倾角测点
+          - generic: R20261018-009｜演示学校安全管理人员
+        - cell "0.07° / 0.00°"
+        - cell "有效":
+          - generic: 有效
+      - row "2026-10-18 18:17 B03-F2-TILT01 二层走廊中柱倾角测点 R20261018-008｜演示学校安全管理人员 0.06° / 0.00° 有效":
+        - cell "2026-10-18 18:17"
+        - cell "B03-F2-TILT01 二层走廊中柱倾角测点 R20261018-008｜演示学校安全管理人员":
+          - generic: B03-F2-TILT01 二层走廊中柱倾角测点
+          - generic: R20261018-008｜演示学校安全管理人员
+        - cell "0.06° / 0.00°"
+        - cell "有效":
+          - generic: 有效
+      - row "2026-10-18 18:16 B03-F2-TILT01 二层走廊中柱倾角测点 R20261018-007｜演示学校安全管理人员 0.05° / 0.00° 有效":
+        - cell "2026-10-18 18:16"
+        - cell "B03-F2-TILT01 二层走廊中柱倾角测点 R20261018-007｜演示学校安全管理人员":
+          - generic: B03-F2-TILT01 二层走廊中柱倾角测点
+          - generic: R20261018-007｜演示学校安全管理人员
+        - cell "0.05° / 0.00°"
+        - cell "有效":
+          - generic: 有效
+      - row "2026-10-18 18:16 B03-F2-CRACK01 二层走廊西墙裂缝测点 R20261018-001｜演示学校安全管理人员 0.52mm 有效":
+        - cell "2026-10-18 18:16"
+        - cell "B03-F2-CRACK01 二层走廊西墙裂缝测点 R20261018-001｜演示学校安全管理人员":
+          - generic: B03-F2-CRACK01 二层走廊西墙裂缝测点
+          - generic: R20261018-001｜演示学校安全管理人员
+        - cell "0.52mm"
+        - cell "有效":
+          - generic: 有效
+      - row "2026-10-18 18:15 B03-F2-TILT01 二层走廊中柱倾角测点 R20261018-004｜演示学校安全管理人员 0.32° / 0.00° 有效":
+        - cell "2026-10-18 18:15"
+        - cell "B03-F2-TILT01 二层走廊中柱倾角测点 R20261018-004｜演示学校安全管理人员":
+          - generic: B03-F2-TILT01 二层走廊中柱倾角测点
+          - generic: R20261018-004｜演示学校安全管理人员
+        - cell "0.32° / 0.00°"
+        - cell "有效":
+          - generic: 有效
+      - row "2026-10-18 18:14 B03-F2-TILT01 二层走廊中柱倾角测点 R20261018-003｜演示学校安全管理人员 0.22° / 0.00° 有效":
+        - cell "2026-10-18 18:14"
+        - cell "B03-F2-TILT01 二层走廊中柱倾角测点 R20261018-003｜演示学校安全管理人员":
+          - generic: B03-F2-TILT01 二层走廊中柱倾角测点
+          - generic: R20261018-003｜演示学校安全管理人员
+        - cell "0.22° / 0.00°"
+        - cell "有效":
+          - generic: 有效
+      - row "2026-10-18 18:13 B03-F2-TILT01 二层走廊中柱倾角测点 R20261018-002｜演示学校安全管理人员 0.12° / 0.00° 有效":
+        - cell "2026-10-18 18:13"
+        - cell "B03-F2-TILT01 二层走廊中柱倾角测点 R20261018-002｜演示学校安全管理人员":
+          - generic: B03-F2-TILT01 二层走廊中柱倾角测点
+          - generic: R20261018-002｜演示学校安全管理人员
+        - cell "0.12° / 0.00°"
+        - cell "有效":
+          - generic: 有效
+      - row "2026-10-18 17:05 B03-F2-CRACK01 二层走廊西墙裂缝测点 R20261018-006｜演示学校安全管理人员 0.62mm 有效":
+        - cell "2026-10-18 17:05"
+        - cell "B03-F2-CRACK01 二层走廊西墙裂缝测点 R20261018-006｜演示学校安全管理人员":
+          - generic: B03-F2-CRACK01 二层走廊西墙裂缝测点
+          - generic: R20261018-006｜演示学校安全管理人员
+        - cell "0.62mm"
+        - cell "有效":
+          - generic: 有效
+  - generic: 档案待补充
+  - generic: 共 0 项字段待补充，缺失项不填零、不臆造
+  - generic: 档案字段完整
+  - generic: 全部在册楼栋的必填档案字段均已填写
+  - generic: 操作日志
+  - generic: 记录谁在何时对哪个对象做了什么，导出报告同时留痕
+  - table:
+    - rowgroup:
+      - row "时间 操作人 操作内容":
+        - columnheader "时间"
+        - columnheader "操作人"
+        - columnheader "操作内容"
+    - rowgroup:
+      - row "2026-10-24 19:02 演示物业值班人员 property 保存小瞳问答：一层走廊人工检查点现在怎么样":
+        - cell "2026-10-24 19:02"
+        - cell "演示物业值班人员 property":
+          - generic: 演示物业值班人员
+          - generic: property
+        - cell "保存小瞳问答：一层走廊人工检查点现在怎么样":
+          - generic: 保存小瞳问答：一层走廊人工检查点现在怎么样
+      - row "2026-10-24 19:01 演示物业值班人员 property 保存小瞳问答：一层走廊人工检查点现在怎么样":
+        - cell "2026-10-24 19:01"
+        - cell "演示物业值班人员 property":
+          - generic: 演示物业值班人员
+          - generic: property
+        - cell "保存小瞳问答：一层走廊人工检查点现在怎么样":
+          - generic: 保存小瞳问答：一层走廊人工检查点现在怎么样
+      - row "2026-10-24 19:01 演示物业值班人员 property 保存小瞳问答：裂缝测点现在怎么样":
+        - cell "2026-10-24 19:01"
+        - cell "演示物业值班人员 property":
+          - generic: 演示物业值班人员
+          - generic: property
+        - cell "保存小瞳问答：裂缝测点现在怎么样":
+          - generic: 保存小瞳问答：裂缝测点现在怎么样
+      - row "2026-10-24 19:00 演示学校安全管理人员 safety 保存小瞳问答：准备一次红色预警演示数据":
+        - cell "2026-10-24 19:00"
+        - cell "演示学校安全管理人员 safety":
+          - generic: 演示学校安全管理人员
+          - generic: safety
+        - cell "保存小瞳问答：准备一次红色预警演示数据":
+          - generic: 保存小瞳问答：准备一次红色预警演示数据
+      - row "2026-10-24 19:00 演示学校安全管理人员 safety 保存小瞳问答：是否需要注册账号和密码才能使用？":
+        - cell "2026-10-24 19:00"
+        - cell "演示学校安全管理人员 safety":
+          - generic: 演示学校安全管理人员
+          - generic: safety
+        - cell "保存小瞳问答：是否需要注册账号和密码才能使用？":
+          - generic: 保存小瞳问答：是否需要注册账号和密码才能使用？
+      - row "2026-10-24 19:00 演示学校安全管理人员 safety 保存小瞳问答：全校现在概况如何":
+        - cell "2026-10-24 19:00"
+        - cell "演示学校安全管理人员 safety":
+          - generic: 演示学校安全管理人员
+          - generic: safety
+        - cell "保存小瞳问答：全校现在概况如何":
+          - generic: 保存小瞳问答：全校现在概况如何
+      - row "2026-10-24 19:00 演示学校安全管理人员 safety 保存小瞳问答：现在有哪些未处理预警":
+        - cell "2026-10-24 19:00"
+        - cell "演示学校安全管理人员 safety":
+          - generic: 演示学校安全管理人员
+          - generic: safety
+        - cell "保存小瞳问答：现在有哪些未处理预警":
+          - generic: 保存小瞳问答：现在有哪些未处理预警
+      - row "2026-10-24 19:00 演示学校安全管理人员 safety 保存小瞳问答：E20261018-001 为什么是橙色":
+        - cell "2026-10-24 19:00"
+        - cell "演示学校安全管理人员 safety":
+          - generic: 演示学校安全管理人员
+          - generic: safety
+        - cell "保存小瞳问答：E20261018-001 为什么是橙色":
+          - generic: 保存小瞳问答：E20261018-001 为什么是橙色
+- complementary "问筑瞳":
+  - img "小瞳找到证据":
+  - generic: 问筑瞳
+  - generic: 智能分析 · 本地数据
+  - paragraph: 当前上下文：B02-F1-CHECK01 一层走廊人工检查点
+  - button "关闭问筑瞳": 关闭
+  - generic: 会话管理
+  - button "清除上下文"
+  - button "清空对话"
+  - button "一层走廊人工检查点现在怎么样 收起":
+    - generic: 一层走廊人工检查点现在怎么样
+    - generic: 收起
+  - article:
+    - paragraph: 一层走廊人工检查点现在怎么样
+    - img "小瞳没有找到可用数据":
+    - generic: 需要你选定对象
+    - generic: 选择讨论对象｜数据截至 2026-10-24 19:22
+    - paragraph: 问句线索命中 4 个测点，请选择其中一个。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 候选对象（点一条继续问，不会替你猜）
+    - button "B01-F1-CHECK01 一层走廊人工检查点":
+      - generic: B01-F1-CHECK01 一层走廊人工检查点
+    - button "B02-F1-CHECK01 一层走廊人工检查点":
+      - generic: B02-F1-CHECK01 一层走廊人工检查点
+    - button "B03-F1-CHECK01 一层走廊人工检查点":
+      - generic: B03-F1-CHECK01 一层走廊人工检查点
+    - button "B04-F1-CHECK01 一层主馆区人工检查点":
+      - generic: B04-F1-CHECK01 一层主馆区人工检查点
+    - paragraph: 数据口径
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "一层走廊人工检查点现在怎么样 收起":
+    - generic: 一层走廊人工检查点现在怎么样
+    - generic: 收起
+  - article:
+    - paragraph: 一层走廊人工检查点现在怎么样
+    - paragraph:
+      - text: 正在逐条呈现核对结果
+      - button "立即显示全部"
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 单测点状态｜数据截至 2026-10-24 19:22
+    - paragraph: 一层走廊人工检查点当前读数 （无）；该测点还没有有效读数。
+  - generic: 可以这样问
+  - button "更多问题"
+  - generic "推荐问题":
+    - button "B02-F1-CHECK01现在的读数是多少？"
+    - button "B02-F1-CHECK01的趋势如何？"
+    - button "在3D中定位 B02-F1-CHECK01"
+  - textbox "问小瞳":
+    - /placeholder: 问小瞳：分析裂缝照片、定位传感器或查看处置进度
+  - button "发送" [disabled]
+  - button "刷新数据"
+  - generic "提问对象与数据说明"

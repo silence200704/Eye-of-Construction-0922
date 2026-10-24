@@ -1,0 +1,74 @@
+{
+  "runtime": "C:\\Users\\Lenovo\\Desktop\\demo\\backend\\.runtime-stage7-net",
+  "alembicHead": "0013_assistant_session_epoch",
+  "guard": "sitecustomize：拒绝非 loopback connect/connect_ex/getaddrinfo，记录尝试",
+  "outboundAttempts": "",
+  "guardCheck": "BLOCKED_RESOLVE example.com",
+  "business": {
+    "total": 44,
+    "passed": 44,
+    "failed": []
+  },
+  "knowledge": {
+    "faq": {
+      "total": 20,
+      "passed": 20,
+      "searchPassed": 20,
+      "assistantPassed": 20,
+      "failed": []
+    },
+    "acceptance": {
+      "total": 60,
+      "passed": 57,
+      "searchPassed": 57,
+      "assistantPassed": 57,
+      "failed": [
+        "accept-9",
+        "accept-25",
+        "accept-36"
+      ]
+    },
+    "acceptanceByKind": {
+      "clear": {
+        "total": 30,
+        "passed": 28
+      },
+      "paraphrase": {
+        "total": 10,
+        "passed": 9
+      },
+      "ambiguous": {
+        "total": 10,
+        "passed": 10
+      },
+      "outside": {
+        "total": 10,
+        "passed": 10
+      }
+    }
+  },
+  "media": {
+    "files": [
+      {
+        "path": "media/files/01/01e9648118314fa283352ab054ea38df",
+        "size": 56,
+        "sha256": "3ff85ae5030f470ee23ea8ddaa2b953cb2a87e546a7ec5603700496f69103617"
+      },
+      {
+        "path": "media/files/1f/1fd7bac548fb4956912095de4d372858",
+        "size": 69,
+        "sha256": "c47dd9465c00e9a0c8b85e9ea58d3034a0d23b9cf926113602f3460752a4eb96"
+      },
+      {
+        "path": "media/files/6d/6da6c35c18ff468db3af4eee0fad36bc",
+        "size": 69,
+        "sha256": "c47dd9465c00e9a0c8b85e9ea58d3034a0d23b9cf926113602f3460752a4eb96"
+      },
+      {
+        "path": "media/files/fd/fda95e39cb3a4d308e6035bcba0f824e",
+        "size": 69,
+        "sha256": "c47dd9465c00e9a0c8b85e9ea58d3034a0d23b9cf926113602f3460752a4eb96"
+      }
+    ]
+  }
+}

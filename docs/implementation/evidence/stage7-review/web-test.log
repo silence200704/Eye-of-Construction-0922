@@ -1,0 +1,267 @@
+
+ RUN  v5.0.1 C:/Users/Lenovo/Desktop/demo
+
+ ❯ docs/implementation/evidence/stage7-review/media.test.ts (3 tests | 3 failed) 51ms
+   × 服务端模式抽帧后应进入正式上传登记链路 37ms
+   × 模拟来源需要传入正式上传接口，不能恢复为普通上传 7ms
+   × 切换身份后清除上一身份已经取回的媒体字节 5ms
+ ❯ docs/implementation/evidence/stage7-review/web.test.ts (5 tests | 5 failed) 27ms
+   ❯ 阶段 7 审查：真实跨层契约与异步边界 (5)
+     × 候选选择只发送后端 QueryContext 接受的字段 6ms
+     × 映射回答时保留问题/工单 ID，供下一轮绑定 4ms
+     × 远程请求中切换页面对象后丢弃旧对象回答 9ms
+     × 身份切换后迟到的响应不能把旧会话 ID 写入新身份存储 3ms
+     × 会话恢复请求中清空状态后，不得重新灌入旧轮次 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 8 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  docs/implementation/evidence/stage7-review/media.test.ts > 服务端模式抽帧后应进入正式上传登记链路
+AssertionError: expected "vi.fn()" to be called 3 times, but got 0 times
+ ❯ docs/implementation/evidence/stage7-review/media.test.ts:49:18
+     47|   await media.settleSync()
+     48|   expect(media.frames).toHaveLength(3)
+     49|   expect(upload).toHaveBeenCalledTimes(3)
+       |                  ^
+     50|   expect(register).toHaveBeenCalledTimes(3)
+     51| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯
+
+ FAIL  docs/implementation/evidence/stage7-review/media.test.ts > 模拟来源需要传入正式上传接口，不能恢复为普通上传
+AssertionError: expected { …(5) } to match object { origin: 'demo_generated' }
+(8 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "origin": "demo_generated",
++   "blob": Blob {
++     Symbol(kHandle): Blob {},
++     Symbol(kLength): 4,
++     Symbol(kType): "",
++   },
++   "capturedAt": "now",
++   "draftId": "f1",
++   "fileName": "demo.png",
++   "pointId": "A",
+  }
+
+ ❯ docs/implementation/evidence/stage7-review/media.test.ts:55:35
+     53| it('模拟来源需要传入正式上传接口，不能恢复为普通上传', async () => {
+     54|   await uploadSessionFrame(frame())
+     55|   expect(upload.mock.calls[0][0]).toMatchObject({ origin: 'demo_genera…
+       |                                   ^
+     56| })
+     57|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯
+
+ FAIL  docs/implementation/evidence/stage7-review/media.test.ts > 切换身份后清除上一身份已经取回的媒体字节
+AssertionError: expected [ Array(1) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   {
++     "blob": Blob {
++       Symbol(kHandle): Blob {},
++       Symbol(kLength): 4,
++       Symbol(kType): "",
++     },
++     "capturedAt": "now",
++     "fileName": "demo.png",
++     "height": 10,
++     "id": "media_mvl1yqnq6yjni",
++     "label": "模拟",
++     "origin": "upload",
++     "pointId": "A",
++     "remoteContentUrl": "/content",
++     "remoteFrameId": "frame-1",
++     "remoteMediaId": "media-1",
++     "size": 4,
++     "timeCode": null,
++     "width": 10,
++   },
++ ]
+
+ ❯ docs/implementation/evidence/stage7-review/media.test.ts:66:24
+     64|   identity.user = { id: 'new', name: '新', role: 'inspector', roleLabel…
+     65|   await nextTick()
+     66|   expect(media.frames).toEqual([])
+       |                        ^
+     67| })
+     68|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/8]⎯
+
+ FAIL  docs/implementation/evidence/stage7-review/web.test.ts > 阶段 7 审查：真实跨层契约与异步边界 > 候选选择只发送后端 QueryContext 接受的字段
+AssertionError: expected { pointId: 'A', chosen: true, …(1) } to deeply equal { pointId: 'A', source: 'previous' }
+
+- Expected
++ Received
+
+  {
++   "chosen": true,
+    "pointId": "A",
+    "source": "previous",
+  }
+
+ ❯ docs/implementation/evidence/stage7-review/web.test.ts:62:21
+     60|   it('候选选择只发送后端 QueryContext 接受的字段', () => {
+     61|     const payload = contextPayload({ pointId: 'A', chosen: true }, {})
+     62|     expect(payload).toEqual({ pointId: 'A', source: 'previous' })
+       |                     ^
+     63|   })
+     64|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/8]⎯
+
+ FAIL  docs/implementation/evidence/stage7-review/web.test.ts > 阶段 7 审查：真实跨层契约与异步边界 > 映射回答时保留问题/工单 ID，供下一轮绑定
+AssertionError: expected { pointId: 'A' } to match object { pointId: 'A', issueId: 'I1', …(1) }
+
+- Expected
++ Received
+
+  {
+-   "issueId": "I1",
+    "pointId": "A",
+-   "workOrderId": "W1",
+  }
+
+ ❯ docs/implementation/evidence/stage7-review/web.test.ts:66:56
+     64|
+     65|   it('映射回答时保留问题/工单 ID，供下一轮绑定', () => {
+     66|     expect(mapServerAnswer(answer(), '这个问题呢').context).toMatchObject({
+       |                                                        ^
+     67|       pointId: 'A', issueId: 'I1', workOrderId: 'W1',
+     68|     })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/8]⎯
+
+ FAIL  docs/implementation/evidence/stage7-review/web.test.ts > 阶段 7 审查：真实跨层契约与异步边界 > 远程请求中切换页面对象后丢弃旧对象回答
+AssertionError: expected { …(20) } to be null
+
+- Expected:
+null
+
++ Received:
+{
+  "candidates": [],
+  "citations": [],
+  "computedAt": "2026-10-23T10:00:00+08:00",
+  "conclusion": "旧对象 A 的回答",
+  "context": {
+    "pointId": "A",
+  },
+  "dataNotes": [],
+  "evidence": [],
+  "facts": [],
+  "gaps": [],
+  "guide": null,
+  "intent": "point_status",
+  "links": [],
+  "pendingCommands": [],
+  "pointId": "A",
+  "previews": [],
+  "provenance": null,
+  "question": "B03-F2-CRACK01 现在怎么样",
+  "sources": {
+    "facts": "server_db",
+    "queriedAt": "2026-10-23T10:00:00+08:00",
+  },
+  "status": "answered",
+  "timing": null,
+}
+
+ ❯ docs/implementation/evidence/stage7-review/web.test.ts:80:32
+     78|     pendingReply.resolve({ sessionId: 'old-session', turnId: 'old-turn…
+     79|     await pending
+     80|     expect(store.last?.result).toBeNull()
+       |                                ^
+     81|     expect(store.pageContext.pointId).toBe('B')
+     82|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/8]⎯
+
+ FAIL  docs/implementation/evidence/stage7-review/web.test.ts > 阶段 7 审查：真实跨层契约与异步边界 > 身份切换后迟到的响应不能把旧会话 ID 写入新身份存储
+AssertionError: expected 'old-actor-session' to be null
+
+- Expected:
+null
+
++ Received:
+"old-actor-session"
+
+ ❯ docs/implementation/evidence/stage7-review/web.test.ts:95:92
+     93|     pendingReply.resolve({ sessionId: 'old-actor-session', turnId: 'ol…
+     94|     await pending
+     95|     expect(sessionStorage.getItem(sessionStorageKey(readRegistry().res…
+       |                                                                                            ^
+     96|   })
+     97|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/8]⎯
+
+ FAIL  docs/implementation/evidence/stage7-review/web.test.ts > 阶段 7 审查：真实跨层契约与异步边界 > 会话恢复请求中清空状态后，不得重新灌入旧轮次
+AssertionError: expected [ { id: 'old-turn', …(5) } ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   {
++     "error": "",
++     "id": "old-turn",
++     "presented": true,
++     "question": "旧问题",
++     "result": {
++       "candidates": [],
++       "citations": [],
++       "computedAt": "2026-10-23T10:00:00+08:00",
++       "conclusion": "旧对象 A 的回答",
++       "context": {
++         "pointId": "A",
++       },
++       "dataNotes": [],
++       "evidence": [],
++       "facts": [],
++       "gaps": [],
++       "guide": null,
++       "intent": "point_status",
++       "links": [],
++       "pendingCommands": [],
++       "pointId": "A",
++       "previews": [],
++       "provenance": null,
++       "question": "旧问题",
++       "sources": {
++         "facts": "server_db",
++         "queriedAt": "2026-10-23T10:00:00+08:00",
++       },
++       "status": "answered",
++       "timing": null,
++     },
++     "stage": null,
++   },
++ ]
+
+ ❯ docs/implementation/evidence/stage7-review/web.test.ts:116:25
+    114|     })
+    115|     await pending
+    116|     expect(turns.value).toEqual([])
+       |                         ^
+    117|     expect(remote.sessionId.value).toBe('')
+    118|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/8]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  8 failed (8)
+   Start at  22:15:51
+   Duration  1.54s (transform 73%, import 18%, setup 4%, tests 4%, worker 1%)
+

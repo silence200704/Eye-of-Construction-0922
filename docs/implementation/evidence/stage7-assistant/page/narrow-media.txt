@@ -1,0 +1,172 @@
+- banner:
+  - heading "影像对比" [level=1]
+  - button "预警提醒，0 条未读":
+  - button "物业值班人员 · 切换身份"
+- navigation "窄屏主导航":
+  - link "校园态势":
+    - /url: "#/dashboard"
+    - generic: 校园态势
+  - link "校园地图":
+    - /url: "#/campus"
+    - generic: 校园地图
+  - link "监测分析":
+    - /url: "#/monitor"
+    - generic: 监测分析
+  - link "异常处置":
+    - /url: "#/alarms"
+    - generic: 异常处置
+  - link "现场任务":
+    - /url: "#/inspection"
+    - generic: 现场任务
+  - link "知识库":
+    - /url: "#/knowledge"
+    - generic: 知识库
+  - link "管理报表":
+    - /url: "#/reports"
+    - generic: 管理报表
+  - link "系统设置":
+    - /url: "#/settings"
+    - generic: 系统设置
+- main:
+  - navigation "当前工作台功能":
+    - link "监测数据":
+      - /url: "#/monitor"
+    - link "监测趋势":
+      - /url: "#/trend"
+    - link "影像对比":
+      - /url: "#/media?point=pnt_b02_f1_check01"
+  - generic "素材与分析说明 演示素材 · 不是裂缝识别或安全鉴定":
+    - text: 素材与分析说明
+    - generic: 演示素材 · 不是裂缝识别或安全鉴定
+  - generic: 影像素材
+  - generic: 照片属于当前测点，前后对照始终绑定同一位置
+  - text: 关联测点
+  - combobox "关联测点":
+    - option "请选择测点"
+    - option "B03-F2-CRACK01 二层走廊西墙裂缝测点"
+    - option "B03-F2-TH01 二层走廊温湿度辅助测点"
+    - option "B03-F2-TILT01 二层走廊中柱倾角测点"
+    - option "B03-F2-VIB01 二层楼板振动测点"
+    - option "B01-F1-CHECK01 一层走廊人工检查点"
+    - option "B02-F1-CHECK01 一层走廊人工检查点" [selected]
+    - option "B03-F1-CHECK01 一层走廊人工检查点"
+    - option "B04-F1-CHECK01 一层主馆区人工检查点"
+  - paragraph: 影像与关键帧保存在服务端数据库中，受身份与楼栋授权保护；刷新后从受保护内容接口重建预览。
+  - region "视觉演示素材预览":
+    - text: 从照片到证据，三步完成
+    - paragraph: 先在系统设置的唯一全链入口准备临时数据，再选择登记测点。
+    - generic: 操作指引
+    - list:
+      - generic: 01 看照片
+      - generic: 原图与同底图派生图，位置可直接对照
+      - generic: 02 比区域
+      - generic: 裂缝区与完好墙面分别计算，不预填比例
+      - generic: 03 问小瞳
+      - generic: 同屏查看读数、趋势、影像与 3D 位置
+  - paragraph: 单个测点最多保留 6 张会话影像，当前 0 张（B02-F1-CHECK01 一层走廊人工检查点）。 会话影像不参与预警判定：影像差异不会自动生成正式结构预警。
+  - generic "添加其他影像 演示照片、参考图、人工上传与本地视频":
+    - text: 添加其他影像
+    - generic: 演示照片、参考图、人工上传与本地视频
+  - generic: 视频巡检
+  - generic: 回放 → 三帧取证 → 区域对比 → 小瞳解释，同一个测点
+  - text: 视频素材
+  - combobox "视频素材":
+    - option "固定机位 · 裂缝变化演示" [selected]
+    - option "公开实拍 · 砖墙裂缝巡检"
+  - button "让小瞳分析这段视频" [disabled]
+  - img "固定机位 · 裂缝变化演示"
+  - text: 固定机位 · 裂缝变化演示
+  - paragraph: 12 秒合成变化演示：实拍原图 → 模拟中间态 → 模拟变化图；非真实连续拍摄，非本校。
+  - paragraph: 请先到系统设置的唯一全链入口准备临时数据；此素材未借给其它测点。
+  - link "查看素材来源":
+    - /url: https://commons.wikimedia.org/wiki/File:A_crack_in_the_facade_of_a_small_building_left_during_construction,_Yonge_and_Bloor,_2018_01_31_-b_(40018872431).jpg
+  - generic "使用自己的本地视频"
+  - generic: 前后对比（预设分析）
+  - generic: 人工框选同一区域后，只做像素级差异统计：疑似变化 / 未见明显差异 / 不可比对；不给毫米数
+  - generic: 至少需要两张同一测点的影像
+  - generic: 已准备的测点可在上方点「问小瞳查看这组视觉证据」，按需读取照片并计算示范区域；也可上传两张同位置照片后手动框选。公开参考图仅供展示。
+  - generic: 留存与边界
+  - generic: 关键帧与比对结果保存到服务端数据库；照片留存仍走问题附件入口
+  - list:
+    - listitem: 影像与关键帧保存在服务端数据库中，受身份与楼栋授权保护；刷新后从受保护内容接口重建预览。
+    - listitem: 需要正式留存的照片，请到「问题与工单」按现有附件入口入库（每问题最多 3 张、单图约 200 KB）。
+    - listitem: 本页产生的任何结论都不进入预警判定链路：判定只看监测记录与规则引擎。
+  - button "去问题与工单留存照片"
+  - button "去看该测点的监测趋势"
+- button "问筑瞳：打开本地数据问答" [active]:
+  - img "小瞳待机":
+  - generic: 问筑瞳
+- complementary "问筑瞳":
+  - img "小瞳找到证据":
+  - generic: 问筑瞳
+  - generic: 智能分析 · 本地数据
+  - paragraph: 页面选中：B02-F1-CHECK01 · 上轮对象：B02-F1-CHECK01 一层走廊人工检查点；说“刚才那个”可沿用上轮。
+  - button "关闭问筑瞳": 关闭
+  - generic: 会话管理
+  - button "清除上下文"
+  - button "清空对话"
+  - button "一层走廊人工检查点现在怎么样 收起":
+    - generic: 一层走廊人工检查点现在怎么样
+    - generic: 收起
+  - article:
+    - paragraph: 一层走廊人工检查点现在怎么样
+    - img "小瞳没有找到可用数据":
+    - generic: 需要你选定对象
+    - generic: 选择讨论对象｜数据截至 2026-10-24 19:22
+    - paragraph: 问句线索命中 4 个测点，请选择其中一个。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 候选对象（点一条继续问，不会替你猜）
+    - button "B01-F1-CHECK01 一层走廊人工检查点":
+      - generic: B01-F1-CHECK01 一层走廊人工检查点
+    - button "B02-F1-CHECK01 一层走廊人工检查点":
+      - generic: B02-F1-CHECK01 一层走廊人工检查点
+    - button "B03-F1-CHECK01 一层走廊人工检查点":
+      - generic: B03-F1-CHECK01 一层走廊人工检查点
+    - button "B04-F1-CHECK01 一层主馆区人工检查点":
+      - generic: B04-F1-CHECK01 一层主馆区人工检查点
+    - paragraph: 数据口径
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "一层走廊人工检查点现在怎么样 收起":
+    - generic: 一层走廊人工检查点现在怎么样
+    - generic: 收起
+  - article:
+    - paragraph: 一层走廊人工检查点现在怎么样
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 单测点状态｜数据截至 2026-10-24 19:22
+    - paragraph: 一层走廊人工检查点当前读数 （无）；该测点还没有有效读数。
+    - term: 测点
+    - definition: B02-F1-CHECK01 一层走廊人工检查点
+    - term: 位置
+    - definition: 2号实验楼 1层 一层走廊
+    - term: 有效读数
+    - definition: （无）
+    - term: 判定
+    - definition: 未判定：当前没有启用中的适用规则
+    - term: 未关闭事件
+    - definition: 无
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：服务端数据库本次查询 · 查询于 2026-10-24 19:22
+    - paragraph: 数据口径
+    - paragraph: 业务事实来自服务端数据库本次查询；知识解释来自本地知识库引用；建议不等于已执行。
+    - paragraph: 打开相关页面
+    - button "打开该测点的监测趋势"
+    - button "在 3D 楼层里定位该测点"
+    - button "打开该测点的影像对比页"
+    - button "它最近的变化趋势怎么样"
+    - button "这条预警为什么被触发"
+    - button "带我到 3D 看位置"
+  - generic: 可以这样问
+  - button "更多问题"
+  - generic "推荐问题":
+    - button "B02-F1-CHECK01现在的读数是多少？"
+    - button "B02-F1-CHECK01的趋势如何？"
+    - button "在3D中定位 B02-F1-CHECK01"
+  - textbox "问小瞳":
+    - /placeholder: 问小瞳：分析裂缝照片、定位传感器或查看处置进度
+  - button "发送" [disabled]
+  - button "刷新数据"
+  - generic "提问对象与数据说明"

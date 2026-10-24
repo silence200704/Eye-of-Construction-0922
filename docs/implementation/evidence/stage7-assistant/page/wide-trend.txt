@@ -1,0 +1,174 @@
+- complementary:
+  - generic: 筑
+  - generic: 筑瞳
+  - generic: 校园建筑健康监测与预警
+  - navigation "主导航":
+    - region "看现场":
+      - heading "看现场" [level=2]
+      - link "校园态势":
+        - /url: "#/dashboard"
+        - generic: 校园态势
+      - link "校园地图":
+        - /url: "#/campus"
+        - generic: 校园地图
+    - region "查数据":
+      - heading "查数据" [level=2]
+      - link "监测分析":
+        - /url: "#/monitor"
+        - generic: 监测分析
+    - region "办事务":
+      - heading "办事务" [level=2]
+      - link "异常处置":
+        - /url: "#/alarms"
+        - generic: 异常处置
+      - link "现场任务":
+        - /url: "#/inspection"
+        - generic: 现场任务
+    - region "做管理":
+      - heading "做管理" [level=2]
+      - link "知识库":
+        - /url: "#/knowledge"
+        - generic: 知识库
+      - link "管理报表":
+        - /url: "#/reports"
+        - generic: 管理报表
+      - link "系统设置":
+        - /url: "#/settings"
+        - generic: 系统设置
+  - generic: 服务端数据 · demo-main
+  - paragraph: 数据保存在服务端 SQLite 与私有文件目录；刷新或更换浏览器不会改变业务事实。
+  - paragraph: V0.3 · 开发中 · 完整项目接入中
+- banner:
+  - heading "监测趋势" [level=1]
+  - paragraph: 单测点单指标：数据线、基准线、三级阈值线、事件节点与修订标记
+  - generic: 在册楼栋
+  - generic: "2"
+  - generic: 测点
+  - generic: "4"
+  - generic: 设备
+  - generic: "1"
+  - button "预警提醒，0 条未读":
+    - generic: 预警提醒
+  - button "学校安全管理人员 · 切换身份"
+- main:
+  - navigation "当前工作台功能":
+    - generic: 当前工作台
+    - link "监测数据":
+      - /url: "#/monitor"
+    - link "监测趋势":
+      - /url: "#/trend?point=pnt_81934c87884a41f3a631bbb44e46521b"
+    - link "影像对比":
+      - /url: "#/media"
+  - paragraph:
+    - generic: 看图口径：
+    - text: 一条数据线 + 基准线（按版本分段）+ 三级阈值线 + 事件节点 + 修订标记。 不同单位的指标分卡展示，双点比较共享同一时间范围；图上分级与预警中心的事件完全同源。
+  - generic: 查看条件
+  - generic: 选测点后按指标出图
+  - generic: 测点
+  - combobox "测点":
+    - option "请选择测点"
+    - option "B05-F2-CHECK01 巡检点"
+    - option "B05-F2-CRACK01 裂缝测点"
+    - option "B05-F2-CRACK02 第二裂缝测点" [selected]
+    - option "B06-F1-CRACK01 6号楼裂缝测点"
+  - generic: 时间范围
+  - combobox "时间范围":
+    - option "近24小时"
+    - option "近7天"
+    - option "近30天" [selected]
+    - option "近90天"
+    - option "全部"
+    - option "自定义日期"
+  - generic: 第二测点（可选）
+  - combobox "第二测点（可选）":
+    - option "只看一个测点" [selected]
+    - option "B05-F2-CHECK01"
+    - option "B05-F2-CRACK01"
+    - option "B06-F1-CRACK01"
+  - checkbox "仅看有记录的指标"
+  - text: 仅看有记录的指标
+  - paragraph: 命中规则：RULE-S7-CRACK 裂缝宽度分级规则（V1.2）， 阈值 黄 0.1 / 橙 0.2 / 红 0.3 mm。 测点类型：裂缝开合测点。
+  - generic: B05-F2-CRACK02｜裂缝宽度
+  - generic: 单位 mm｜有效记录 3 条，已被修订替代 0 条
+  - paragraph: 阈值线 = 当时生效基准 + 当时生效规则阈值 ；规则已换版（V1.0 → V1.1 → V1.2），每条记录按采样时间取当时版本判定。 单位为 mm，不同单位的指标不共轴。
+  - generic: 点击图上的数据点查看明细
+  - generic: 节点显示该条记录的基准快照、规则版本、事件编号与通知确认状态
+- button "问筑瞳：打开本地数据问答" [active]:
+  - img "小瞳待机":
+  - generic: 问筑瞳
+- complementary "问筑瞳":
+  - img "小瞳找到证据":
+  - generic: 问筑瞳
+  - generic: 智能分析 · 本地数据
+  - paragraph: 页面选中：B05-F2-CRACK02 · 上轮对象：B05-F2-CRACK02 第二裂缝测点；说“刚才那个”可沿用上轮。
+  - button "关闭问筑瞳": 关闭
+  - generic: 会话管理
+  - button "清除上下文"
+  - button "清空对话"
+  - button "5号实验楼的裂缝测点现在怎么样 收起":
+    - generic: 5号实验楼的裂缝测点现在怎么样
+    - generic: 收起
+  - article:
+    - paragraph: 5号实验楼的裂缝测点现在怎么样
+    - img "小瞳没有找到可用数据":
+    - generic: 需要你选定对象
+    - generic: 选择讨论对象｜数据截至 2026-10-24 19:08
+    - paragraph: 问句线索命中 2 个测点，请选择其中一个。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 候选对象（点一条继续问，不会替你猜）
+    - button "B05-F2-CRACK01 裂缝测点":
+      - generic: B05-F2-CRACK01 裂缝测点
+    - button "B05-F2-CRACK02 第二裂缝测点":
+      - generic: B05-F2-CRACK02 第二裂缝测点
+    - paragraph: 数据口径
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "5号实验楼的裂缝测点现在怎么样 收起":
+    - generic: 5号实验楼的裂缝测点现在怎么样
+    - generic: 收起
+  - article:
+    - paragraph: 5号实验楼的裂缝测点现在怎么样
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 单测点状态｜数据截至 2026-10-24 19:08
+    - paragraph: 第二裂缝测点当前读数 0.99mm；采样于 2026-10-24 19:05（约 0.1 小时前）。
+    - term: 测点
+    - definition: B05-F2-CRACK02 第二裂缝测点
+    - term: 位置
+    - definition: 5号实验楼 2层
+    - term: 当前读数
+    - definition: 0.99mm
+    - term: 数据质量
+    - definition: 有效
+    - term: 适用规则
+    - definition: RULE-S7-CRACK（V1.2）
+    - term: 未关闭事件
+    - definition: 无
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：服务端数据库本次查询 · 查询于 2026-10-24 19:08
+    - paragraph: 证据（可与看板、详情逐条核对）
+    - list:
+      - generic: R20261024-009
+      - generic: 采样 2026-10-24 19:05；录入 2026-10-24 19:05；修订 0 次
+    - paragraph: 数据口径
+    - paragraph: 业务事实来自服务端数据库本次查询；知识解释来自本地知识库引用；建议不等于已执行。
+    - paragraph: 打开相关页面
+    - button "打开该测点的监测趋势"
+    - button "在 3D 楼层里定位该测点"
+    - button "打开该测点的影像对比页"
+    - button "它最近的变化趋势怎么样"
+    - button "这条预警为什么被触发"
+    - button "带我到 3D 看位置"
+  - generic: 可以这样问
+  - button "更多问题"
+  - generic "推荐问题":
+    - button "B05-F2-CRACK02现在的读数是多少？"
+    - button "B05-F2-CRACK02的趋势如何？"
+    - button "在3D中定位 B05-F2-CRACK02"
+  - textbox "问小瞳":
+    - /placeholder: 问小瞳：分析裂缝照片、定位传感器或查看处置进度
+  - button "发送" [disabled]
+  - button "刷新数据"
+  - generic "提问对象与数据说明"
