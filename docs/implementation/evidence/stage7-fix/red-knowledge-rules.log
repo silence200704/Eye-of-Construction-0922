@@ -1,0 +1,85 @@
+FFFF                                                                     [100%]
+================================== FAILURES ===================================
+_____________ test_twenty_standard_faqs_answer_through_assistant ______________
+
+client = <starlette.testclient.TestClient object at 0x0000018919476D20>
+settings = Settings(runtime_dir=WindowsPath('C:/Users/Lenovo/AppData/Local/Temp/pytest-of-Silence/pytest-282/test_twenty_standard..., media_max_bytes=33554432, import_max_bytes=83886080, cors_origins=['http://127.0.0.1:5180', 'http://localhost:5180'])
+
+    def test_twenty_standard_faqs_answer_through_assistant(client: TestClient, settings) -> None:
+        api = AssistantApi(client, str(settings.database_url))
+        seed_corpus(api)
+        answered = []
+        for index, item in enumerate(CORPUS):
+            answer = _ask(api, item["faq"][0], f"faq-{index}")
+            if answer["status"] == "answered":
+                answered.append((item["faq"][0], answer["intent"]))
+>       assert len(answered) == len(CORPUS), {
+            "answered": answered,
+            "missing": [item["faq"][0] for item in CORPUS if item["faq"][0] not in {row[0] for row in answered}],
+        }
+E       AssertionError: {'answered': [('系统有哪些演示身份？', 'knowledge'), ('修改基准会覆盖历史记录吗？', 'knowledge'), ('内置阈值是国家安全标准吗？', 'knowledge'), ('监测记录如何更正并..., 'missing': ['有历史记录的设备能删除吗？', 'CSV 导入为什么需要先预检？', '恢复待确认会自动关闭预警吗？', '人工签到为什么必须写原因？', '问题有哪些来源？', '问题审核有哪六种处理出口？', ...]}
+E       assert 9 == 20
+E        +  where 9 = len([('系统有哪些演示身份？', 'knowledge'), ('修改基准会覆盖历史记录吗？', 'knowledge'), ('内置阈值是国家安全标准吗？', 'knowledge'), ('监测记录如何更正并保留原值？', 'knowledge'), ('页面显示通知就代表短信送达吗？', 'knowledge'), ('修改巡检计划会改变已生成任务吗？', 'knowledge'), ...])
+E        +  and   20 = len([{'slug': 'identity', 'title': '演示身份与权限', 'content': '# 演示身份与权限\n\n系统不提供登录页、账号或密码。启动后使用预置演示身份，可切换学校安全管理人员、物业值班、设备管理、巡检...。选中行中任何一行失败，整批事务回滚，不能部分成功。历史导入必须填写补录说明，旧采样只存档，不覆盖当前事件状态。', 'sourcePath': 'docs/knowledge/monitoring/csv.md', ...}, ...])
+
+tests\assistant\test_review_knowledge_rules.py:35: AssertionError
+___________ test_object_questions_keep_business_intent_and_failures ___________
+
+client = <starlette.testclient.TestClient object at 0x00000189198AD1F0>
+settings = Settings(runtime_dir=WindowsPath('C:/Users/Lenovo/AppData/Local/Temp/pytest-of-Silence/pytest-282/test_object_question..., media_max_bytes=33554432, import_max_bytes=83886080, cors_origins=['http://127.0.0.1:5180', 'http://localhost:5180'])
+
+    def test_object_questions_keep_business_intent_and_failures(client: TestClient, settings) -> None:
+        api = AssistantApi(client, str(settings.database_url))
+        seed_corpus(api)
+        api.seed_manual_point()
+        cases = {
+            "CSV 导入为什么需要先预检？": "knowledge",
+            "恢复待确认会自动关闭预警吗？": "knowledge",
+            "维修人员可以自行验收工单吗？": "knowledge",
+            "这条预警为什么被触发": "event_reason",
+            "B03-F2-CRACK01 为什么是红色": "event_reason",
+            "B99-F9-CRACK01 阈值是什么意思": None,
+        }
+        intents = {question: _ask(api, question, f"route-{index}")["intent"] for index, question in enumerate(cases)}
+>       assert intents["CSV 导入为什么需要先预检？"] == "knowledge"
+E       AssertionError: assert 'event_reason' == 'knowledge'
+E         
+E         - knowledge
+E         + event_reason
+
+tests\assistant\test_review_knowledge_rules.py:54: AssertionError
+__________ test_point_status_uses_current_rule_version_and_snapshot ___________
+
+client = <starlette.testclient.TestClient object at 0x00000189199C6C30>
+settings = Settings(runtime_dir=WindowsPath('C:/Users/Lenovo/AppData/Local/Temp/pytest-of-Silence/pytest-282/test_point_status_us..., media_max_bytes=33554432, import_max_bytes=83886080, cors_origins=['http://127.0.0.1:5180', 'http://localhost:5180'])
+
+    def test_point_status_uses_current_rule_version_and_snapshot(client: TestClient, settings) -> None:
+        api = AssistantApi(client, str(settings.database_url))
+        ids = api.seed_red_event()
+        answer = _ask(api, "B03-F2-CRACK01 现在怎么样", "rules-before")
+>       assert answer["snapshot"]["objects"]["pointId"]["rev"] == ids["point"]["rev"]
+               ^^^^^^^^^^^^^^^^^^
+E       KeyError: 'snapshot'
+
+tests\assistant\test_review_knowledge_rules.py:68: KeyError
+________________ test_trial_parses_candidate_and_reuses_engine ________________
+
+client = <starlette.testclient.TestClient object at 0x000001891952DE20>
+settings = Settings(runtime_dir=WindowsPath('C:/Users/Lenovo/AppData/Local/Temp/pytest-of-Silence/pytest-282/test_trial_parses_ca..., media_max_bytes=33554432, import_max_bytes=83886080, cors_origins=['http://127.0.0.1:5180', 'http://localhost:5180'])
+
+    def test_trial_parses_candidate_and_reuses_engine(client: TestClient, settings) -> None:
+        api = AssistantApi(client, str(settings.database_url))
+        api.seed_red_event()
+        before = counts(str(settings.database_url), "events", "records", "audits")
+        trial = _ask(api, "B03-F2-CRACK01 试算黄色阈值改为0.15毫米", "trial-yellow")
+        assert trial["status"] == "answered"
+>       assert "黄 0.15" in trial["conclusion"]
+E       AssertionError: assert '黄 0.15' in '按候选阈值（黄 0.1／橙 0.2／红 0.3）对最近 3 条有效记录试算，3 条等级会变化；试算不写库、不触发事件。'
+
+tests\assistant\test_review_knowledge_rules.py:105: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/assistant/test_review_knowledge_rules.py::test_twenty_standard_faqs_answer_through_assistant
+FAILED tests/assistant/test_review_knowledge_rules.py::test_object_questions_keep_business_intent_and_failures
+FAILED tests/assistant/test_review_knowledge_rules.py::test_point_status_uses_current_rule_version_and_snapshot
+FAILED tests/assistant/test_review_knowledge_rules.py::test_trial_parses_candidate_and_reuses_engine
+4 failed in 2.83s
