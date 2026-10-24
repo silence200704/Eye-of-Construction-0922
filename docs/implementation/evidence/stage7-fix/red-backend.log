@@ -1,0 +1,106 @@
+FFFF.                                                                    [100%]
+================================== FAILURES ===================================
+_______________ test_empty_scope_filters_media_lists_and_cases ________________
+
+client = <starlette.testclient.TestClient object at 0x00000162CB306990>
+settings = Settings(runtime_dir=WindowsPath('C:/Users/Lenovo/AppData/Local/Temp/pytest-of-Silence/pytest-276/test_empty_scope_fil..., media_max_bytes=33554432, import_max_bytes=83886080, cors_origins=['http://127.0.0.1:5180', 'http://localhost:5180'])
+
+    def test_empty_scope_filters_media_lists_and_cases(client: TestClient, settings) -> None:
+        api = AssistantApi(client, str(settings.database_url))
+        ids = api.seed_manual_point()
+        point_id = ids["point"]["id"]
+        first = _frame(api, point_id, "scope-a")
+        second = _frame(api, point_id, "scope-b")
+        saved = _comparison(api, point_id, first["id"], second["id"], "scope-comparison")
+        assert saved.status_code == 200, saved.text
+        issue = api.report_issue(ids["manual"], submissionId="scope-case")["issue"]
+        api.add_scoped_user("review-empty-scope", [], role="safety")
+        for suffix in ("/media-sessions/frames", "/media-sessions/comparisons"):
+            data = api.client.get(
+                f"/api/v1/datasets/demo-main{suffix}",
+                headers={"Authorization": f"Bearer {api.token_for('review-empty-scope')}"},
+            )
+            assert data.status_code == 200, data.text
+>           assert data.json()["data"] == []
+E           AssertionError: assert [{'id': 'mf_5...cope-b', ...}] == []
+E             
+E             Left contains 2 more items, first extra item: {'id': 'mf_5003ed6c83ef4326aeba9d5156c3f2ed', 'pointId': 'pnt_77937235290a47cd8f9432abe8215250', 'mediaId': '6ae93a906a20480d9598cafa95752c69', 'label': 'scope-a', ...}
+E             Use -v to get more diff
+
+tests\assistant\test_review_boundaries.py:60: AssertionError
+______ test_revoked_scope_redacts_old_turn_and_epoch_invalidates_session ______
+
+client = <starlette.testclient.TestClient object at 0x00000162CB912300>
+settings = Settings(runtime_dir=WindowsPath('C:/Users/Lenovo/AppData/Local/Temp/pytest-of-Silence/pytest-276/test_revoked_scope_r..., media_max_bytes=33554432, import_max_bytes=83886080, cors_origins=['http://127.0.0.1:5180', 'http://localhost:5180'])
+
+    def test_revoked_scope_redacts_old_turn_and_epoch_invalidates_session(
+        client: TestClient, settings
+    ) -> None:
+        api = AssistantApi(client, str(settings.database_url))
+        ids = api.seed_manual_point()
+        api.add_record(ids["point"]["id"], 0.82, minutes=-15)
+        api.add_scoped_user("review-revoked", [ids["building"]["id"]], role="safety")
+        original = api.raw_ask(
+            "B03-F2-CRACK01 现在怎么样", None, "revoke-original", "review-revoked"
+        ).json()["data"]
+        engine = create_engine(str(settings.database_url))
+        with engine.begin() as db:
+            db.execute(text("UPDATE users SET building_ids_json='[]' WHERE id='review-revoked'"))
+        engine.dispose()
+        detail = api.client.get(
+            f"/api/v1/datasets/demo-main/assistant/sessions/{original['sessionId']}",
+            headers={"Authorization": f"Bearer {api.token_for('review-revoked')}"},
+        )
+        assert detail.status_code == 200, detail.text
+        restored = detail.json()["data"]["turns"][0]["answer"]
+>       assert restored["status"] == "not_found"
+E       AssertionError: assert 'answered' == 'not_found'
+E         
+E         - not_found
+E         + answered
+
+tests\assistant\test_review_boundaries.py:94: AssertionError
+_____________ test_explicit_building_and_unique_event_stay_bound ______________
+
+client = <starlette.testclient.TestClient object at 0x00000162CB3B2870>
+settings = Settings(runtime_dir=WindowsPath('C:/Users/Lenovo/AppData/Local/Temp/pytest-of-Silence/pytest-276/test_explicit_buildi..., media_max_bytes=33554432, import_max_bytes=83886080, cors_origins=['http://127.0.0.1:5180', 'http://localhost:5180'])
+
+    def test_explicit_building_and_unique_event_stay_bound(client: TestClient, settings) -> None:
+        api = AssistantApi(client, str(settings.database_url))
+        ids = api.seed_red_event()
+        event = ids["event"]
+        foreign = api.ask("B99 的裂缝测点现在怎么样", key="object-b99")["answer"]
+>       assert foreign["status"] == "not_found"
+E       AssertionError: assert 'answered' == 'not_found'
+E         
+E         - not_found
+E         + answered
+
+tests\assistant\test_review_boundaries.py:126: AssertionError
+___________ test_write_commands_replay_reject_stale_epoch_and_audit ___________
+
+client = <starlette.testclient.TestClient object at 0x00000162CBD13B30>
+settings = Settings(runtime_dir=WindowsPath('C:/Users/Lenovo/AppData/Local/Temp/pytest-of-Silence/pytest-276/test_write_commands_..., media_max_bytes=33554432, import_max_bytes=83886080, cors_origins=['http://127.0.0.1:5180', 'http://localhost:5180'])
+
+    def test_write_commands_replay_reject_stale_epoch_and_audit(client: TestClient, settings) -> None:
+        api = AssistantApi(client, str(settings.database_url))
+        ids = api.seed_manual_point()
+        tables = ("assistant_turns", "media_frames", "media_comparisons", "audits", "operation_receipts")
+        before = counts(str(settings.database_url), *tables)
+        first = _ask(api, "全校现在概况如何", "write-replay")
+        assert first.status_code == 200, first.text
+        second = _ask(api, "全校现在概况如何", "write-replay")
+        assert second.status_code == 200, second.text
+>       assert second.json()["data"]["turnId"] == first.json()["data"]["turnId"]
+E       AssertionError: assert 'at_2c5d66621...9b065895dae70' == 'at_383b0687a...3802084d4f093'
+E         
+E         - at_383b0687a10a4d6dbb43802084d4f093
+E         + at_2c5d666217c5436c8559b065895dae70
+
+tests\assistant\test_review_boundaries.py:150: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/assistant/test_review_boundaries.py::test_empty_scope_filters_media_lists_and_cases
+FAILED tests/assistant/test_review_boundaries.py::test_revoked_scope_redacts_old_turn_and_epoch_invalidates_session
+FAILED tests/assistant/test_review_boundaries.py::test_explicit_building_and_unique_event_stay_bound
+FAILED tests/assistant/test_review_boundaries.py::test_write_commands_replay_reject_stale_epoch_and_audit
+4 failed, 1 passed in 2.34s
