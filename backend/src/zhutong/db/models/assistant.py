@@ -11,6 +11,7 @@ class AssistantSession(Base):
     dataset_id: Mapped[str] = mapped_column(primary_key=True)
     id: Mapped[str] = mapped_column(primary_key=True)
     actor_id: Mapped[str] = mapped_column(index=True)
+    epoch: Mapped[int] = mapped_column(Integer, default=0, server_default="0")
     title: Mapped[str] = mapped_column(default="")
     turn_count: Mapped[int] = mapped_column(Integer, default=0)
     created_at: Mapped[str]

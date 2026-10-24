@@ -69,7 +69,7 @@ def _latest_record(session: Session, workspace: Workspace, point_id: str) -> Mon
     return max(rows, key=lambda row: row.sample_time)
 
 
-def _open_event_of(session: Session, workspace: Workspace, point_id: str) -> AlarmEvent | None:
+def _open_events_of(session: Session, workspace: Workspace, point_id: str) -> list[AlarmEvent]:
     rows = session.scalars(
         select(AlarmEvent).where(
             AlarmEvent.dataset_id == workspace.dataset_id,
@@ -77,8 +77,12 @@ def _open_event_of(session: Session, workspace: Workspace, point_id: str) -> Ala
             AlarmEvent.status != "closed",
         )
     )
-    ordered = sorted(rows, key=lambda row: row.last_trigger_at or "", reverse=True)
-    return ordered[0] if ordered else None
+    return sorted(rows, key=lambda row: row.last_trigger_at or "", reverse=True)
+
+
+def _open_event_of(session: Session, workspace: Workspace, point_id: str) -> AlarmEvent | None:
+    events = _open_events_of(session, workspace, point_id)
+    return events[0] if events else None
 
 
 def _rule_of(session: Session, workspace: Workspace, point: Point) -> MonitoringRule | None:
@@ -126,7 +130,10 @@ def point_status(
     session: Session, workspace: Workspace, resolved: Resolved, point: Point, now: datetime
 ) -> dict:
     record = _latest_record(session, workspace, point.id)
-    event = _open_event_of(session, workspace, point.id)
+    open_events = _open_events_of(session, workspace, point.id)
+    event = open_events[0] if len(open_events) == 1 else None
+    if event is not None and resolved.event_id is None:
+        resolved.event_id = event.id
     rule = _rule_of(session, workspace, point)
     baseline = _baseline_of(session, workspace, point.id)
     device = session.scalar(
@@ -194,6 +201,10 @@ def point_status(
                 "id": event.id,
                 "detail": f"最近触发 {_local(event.last_trigger_at)}",
             }
+        )
+    elif len(open_events) > 1:
+        facts.append(
+            {"label": "未关闭事件", "value": f"{len(open_events)} 条（追问需选择）", "unit": ""}
         )
     else:
         facts.append({"label": "未关闭事件", "value": "无", "unit": ""})

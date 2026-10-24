@@ -9,7 +9,7 @@ from dataclasses import dataclass, field
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from ...db.models.archive import Building, Point
+from ...db.models.archive import Building, Floor, Point
 from ...db.models.field import Issue, WorkOrder
 from ...db.models.monitoring import AlarmEvent
 from ..datasets.core.workspace import Workspace, can_access_building
@@ -102,7 +102,11 @@ def _by_building(session: Session, workspace: Workspace, ref: str) -> list[Point
             Building.dataset_id == workspace.dataset_id, Building.status == "active"
         )
     )
-    matched = [row for row in buildings if row.code.lower() == ref.lower() or row.name == ref]
+    matched = [
+        row
+        for row in buildings
+        if row.code.lower() == ref.removesuffix("的").lower() or row.name == ref.removesuffix("的")
+    ]
     matched = [row for row in matched if _in_scope(workspace, row.id)]
     if not matched:
         return []
@@ -117,6 +121,32 @@ def _by_metric(session: Session, workspace: Workspace, metric: str) -> list[Poin
         select(Point).where(Point.dataset_id == workspace.dataset_id, Point.status == "active")
     )
     return [row for row in points if row.metric == metric and _in_scope(workspace, row.building_id)]
+
+
+def _filter_clues(
+    session: Session, workspace: Workspace, matched: list[Point], entities: dict
+) -> list[Point]:
+    """楼栋、楼层、指标共同约束候选；任何显式线索不匹配都不能退回全库。"""
+    refs = entities["buildingRefs"]
+    if refs:
+        building_points = []
+        for ref in refs:
+            building_points.extend(_by_building(session, workspace, ref))
+        allowed = {row.building_id for row in building_points}
+        matched = [row for row in matched if row.building_id in allowed]
+    floor_number = entities["floorNumber"]
+    if floor_number is not None and matched:
+        floor_ids = {
+            row.id
+            for row in session.scalars(
+                select(Floor).where(
+                    Floor.dataset_id == workspace.dataset_id,
+                    Floor.floor_no == floor_number,
+                )
+            )
+        }
+        matched = [row for row in matched if row.floor_id in floor_ids]
+    return matched
 
 
 def _by_event_no(session: Session, workspace: Workspace, event_no: str) -> AlarmEvent | None:
@@ -208,6 +238,7 @@ def _explicit_point(
                 matched.extend(_by_building(session, workspace, ref))
     else:
         return
+    matched = _filter_clues(session, workspace, matched, entities)
     unique = {row.id: row for row in matched}
     if len(unique) == 1:
         row = next(iter(unique.values()))
@@ -281,6 +312,35 @@ def _apply_context(session: Session, workspace: Workspace, context: dict, out: R
                 out.point_id = getattr(row, "point_id", None)
 
 
+def _bind_point_event(session: Session, workspace: Workspace, intent: str, out: Resolved) -> None:
+    """唯一未关闭事件可确定关联；追问多条事件时先让人选择。"""
+    if out.status != "resolved" or out.point_id is None or out.event_id is not None:
+        return
+    rows = session.scalars(
+        select(AlarmEvent).where(
+            AlarmEvent.dataset_id == workspace.dataset_id,
+            AlarmEvent.point_id == out.point_id,
+            AlarmEvent.status != "closed",
+        )
+    )
+    events = sorted(rows, key=lambda row: row.last_trigger_at or "", reverse=True)
+    if len(events) == 1:
+        out.event_id = events[0].id
+        return
+    if len(events) > 1 and intent in {
+        "event_reason",
+        "reading_recovery",
+        "event_replay",
+        "demo_guide",
+    }:
+        out.status = "need_choice"
+        out.conclusion = "该测点有多条未关闭事件，请先选择要讨论的事件。"
+        out.candidates = [
+            {"id": row.id, "label": row.event_no, "detail": f"{row.level} / {row.status}"}
+            for row in events[:8]
+        ]
+
+
 def resolve_objects(
     session: Session,
     workspace: Workspace,
@@ -294,6 +354,7 @@ def resolve_objects(
     _explicit_numbers(session, workspace, entities, out)
     _explicit_point(session, workspace, entities, intent, out)
     _apply_context(session, workspace, context, out)
+    _bind_point_event(session, workspace, intent, out)
     if out.status != "resolved":
         return out
     if out.point_id is not None and out.building_id is None:

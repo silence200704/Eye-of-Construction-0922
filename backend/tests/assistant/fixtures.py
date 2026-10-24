@@ -37,6 +37,7 @@ class AssistantApi(FieldApi):
             headers={
                 "Authorization": f"Bearer {token_of(self.client, account)}",
                 "Idempotency-Key": key,
+                "X-Dataset-Epoch": str(self.epoch),
             },
         )
 

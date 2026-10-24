@@ -1,9 +1,15 @@
-"""阶段 7：小瞳问答、会话与影像会话路由。"""
+"""阶段 7：小瞳问答、会话与影像会话路由；写入统一走命令执行器。"""
 
 from fastapi import APIRouter, Request
 
 from ....operations.assistant import compose
 from ....operations.assistant import sessions as session_ops
+from ....operations.datasets.core.workspace import (
+    AuditEntry,
+    Command,
+    execute_command,
+    write_audit,
+)
 from ....operations.media import session as media_session
 from ..common import Current, Read, Write, reply
 from .schemas import AssistantQueryInput, MediaCompareInput, MediaFrameInput
@@ -11,30 +17,43 @@ from .schemas import AssistantQueryInput, MediaCompareInput, MediaFrameInput
 router = APIRouter(prefix="/api/v1/datasets/{dataset_id}/assistant", tags=["小瞳问答"])
 
 
+def _audit(session: Write, current: Current, action: str, object_id: str, summary: str) -> None:
+    write_audit(
+        session,
+        current,
+        AuditEntry(
+            action=action,
+            object_type="assistant",
+            object_id=object_id,
+            object_label="小瞳会话与影像",
+            summary=summary[:180],
+        ),
+    )
+
+
 @router.post("/query")
 def query(request: Request, session: Write, current: Current, body: AssistantQueryInput) -> dict:
     payload = body.model_dump()
-    answer = compose.query(session, current, request.app.state.settings.runtime_dir, payload)
-    row = session_ops.ensure_session(
-        session,
-        current,
-        payload.get("sessionId"),
-        answer["sources"]["queriedAt"],
-        payload["question"],
+
+    def save() -> dict:
+        answer = compose.query(session, current, request.app.state.settings.runtime_dir, payload)
+        at = answer["sources"]["queriedAt"]
+        row = session_ops.ensure_session(
+            session, current, payload.get("sessionId"), at, payload["question"]
+        )
+        turn = session_ops.append_turn(
+            session,
+            current,
+            row,
+            session_ops.TurnInput(question=payload["question"], answer=answer, at=at),
+        )
+        _audit(session, current, "assistant_query", row.id, f"保存小瞳问答：{payload['question']}")
+        return {"sessionId": row.id, "turnId": turn.id, "answer": answer}
+
+    data, replayed = execute_command(
+        session, current, Command(request, "assistant_query", payload), save
     )
-    turn = session_ops.append_turn(
-        session,
-        current,
-        row,
-        payload["question"],
-        answer,
-        answer["sources"]["queriedAt"],
-    )
-    return reply(
-        request,
-        current,
-        {"sessionId": row.id, "turnId": turn.id, "answer": answer},
-    )
+    return reply(request, current, data, replayed=replayed)
 
 
 @router.get("/sessions")
@@ -44,12 +63,7 @@ def listing(request: Request, session: Read, current: Current) -> dict:
 
 @router.get("/sessions/{session_id}")
 def detail(request: Request, session: Read, current: Current, session_id: str) -> dict:
-    data = session_ops.read_session(session, current, session_id)
-    if data is None:
-        from ....core.errors import AppError
-
-        raise AppError("NOT_FOUND", "会话不存在或不属于当前身份", 404, {"sessionId": session_id})
-    return reply(request, current, data)
+    return reply(request, current, session_ops.read_session(session, current, session_id))
 
 
 media_router = APIRouter(prefix="/api/v1/datasets/{dataset_id}/media-sessions", tags=["影像会话"])
@@ -64,9 +78,17 @@ def frames(request: Request, session: Read, current: Current, pointId: str | Non
 def register_frame(
     request: Request, session: Write, current: Current, body: MediaFrameInput
 ) -> dict:
-    return reply(
-        request, current, media_session.register_frame(session, current, body.model_dump())
+    payload = body.model_dump()
+
+    def save() -> dict:
+        result = media_session.register_frame(session, current, payload)
+        _audit(session, current, "assistant_frame_register", result["id"], "登记影像会话关键帧")
+        return result
+
+    data, replayed = execute_command(
+        session, current, Command(request, "assistant_frame_register", payload), save
     )
+    return reply(request, current, data, replayed=replayed)
 
 
 @media_router.get("/comparisons")
@@ -80,9 +102,17 @@ def comparisons(
 def save_comparison(
     request: Request, session: Write, current: Current, body: MediaCompareInput
 ) -> dict:
-    return reply(
-        request, current, media_session.save_comparison(session, current, body.model_dump())
+    payload = body.model_dump()
+
+    def save() -> dict:
+        result = media_session.save_comparison(session, current, payload)
+        _audit(session, current, "assistant_comparison_save", result["id"], "保存影像会话比对结果")
+        return result
+
+    data, replayed = execute_command(
+        session, current, Command(request, "assistant_comparison_save", payload), save
     )
+    return reply(request, current, data, replayed=replayed)
 
 
 @media_router.get("/summary")

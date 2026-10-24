@@ -16,6 +16,7 @@ def _headers(api: AssistantApi, key: str) -> dict:
     return {
         "Authorization": f"Bearer {token_of(api.client, 'demo-safety')}",
         "Idempotency-Key": key,
+        "X-Dataset-Epoch": str(api.epoch),
     }
 
 

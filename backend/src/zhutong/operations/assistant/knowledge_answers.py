@@ -145,5 +145,3 @@ def _attach_knowledge(answer: dict, knowledge: dict | None, intent: str) -> dict
         "知识引用来自本地知识库，业务事实仍以服务端数据库为准。"
     )
     return answer
-
-

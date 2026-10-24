@@ -86,18 +86,39 @@ def register_frame(session: Session, workspace: Workspace, payload: dict) -> dic
     return _frame_out(row, workspace.dataset_id, media)
 
 
+def _visible_frame_parts(
+    session: Session, workspace: Workspace, row: MediaFrame
+) -> tuple[Point, MediaFile] | None:
+    point = session.get(Point, (workspace.dataset_id, row.point_id))
+    if (
+        point is None
+        or point.status != "active"
+        or not can_access_building(workspace, point.building_id)
+    ):
+        return None
+    media = _media_of(session, workspace.dataset_id, row.media_id)
+    if media is None or (media.point_id is not None and media.point_id != point.id):
+        return None
+    media_point = (
+        session.get(Point, (workspace.dataset_id, media.point_id)) if media.point_id else None
+    )
+    if not _media_readable(workspace, media, media_point):
+        return None
+    return point, media
+
+
 def list_frames(session: Session, workspace: Workspace, point_id: str | None) -> list[dict]:
     query = select(MediaFrame).where(MediaFrame.dataset_id == workspace.dataset_id)
     if point_id:
         _point(session, workspace, point_id)
         query = query.where(MediaFrame.point_id == point_id)
     rows = session.scalars(query.order_by(MediaFrame.captured_at))
-    return [
-        _frame_out(
-            row, workspace.dataset_id, _media_of(session, workspace.dataset_id, row.media_id)
-        )
-        for row in rows
-    ]
+    out = []
+    for row in rows:
+        parts = _visible_frame_parts(session, workspace, row)
+        if parts is not None:
+            out.append(_frame_out(row, workspace.dataset_id, parts[1]))
+    return out
 
 
 def save_comparison(session: Session, workspace: Workspace, payload: dict) -> dict:
@@ -158,6 +179,12 @@ def list_comparisons(session: Session, workspace: Workspace, point_id: str | Non
     for row in rows:
         before = session.get(MediaFrame, (workspace.dataset_id, row.before_id))
         after = session.get(MediaFrame, (workspace.dataset_id, row.after_id))
+        if before is None or after is None:
+            continue
+        if _visible_frame_parts(session, workspace, before) is None:
+            continue
+        if _visible_frame_parts(session, workspace, after) is None:
+            continue
         out.append(_comparison_out(session, row, workspace.dataset_id, before, after))
     return out
 

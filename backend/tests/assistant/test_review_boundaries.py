@@ -95,9 +95,9 @@ def test_revoked_scope_redacts_old_turn_and_epoch_invalidates_session(
     assert restored["facts"] == []
     assert restored["objects"]["pointId"] is None
     assert "0.82" not in detail.text
-    fresh = api.raw_ask(
-        "B03-F2-CRACK01 现在怎么样", None, "revoke-fresh", "review-revoked"
-    ).json()["data"]["answer"]
+    fresh = api.raw_ask("B03-F2-CRACK01 现在怎么样", None, "revoke-fresh", "review-revoked").json()[
+        "data"
+    ]["answer"]
     assert fresh["status"] == "not_found"
 
     current = api.ask("B03-F2-CRACK01 现在怎么样", key="epoch-original")
@@ -141,7 +141,13 @@ def test_explicit_building_and_unique_event_stay_bound(client: TestClient, setti
 def test_write_commands_replay_reject_stale_epoch_and_audit(client: TestClient, settings) -> None:
     api = AssistantApi(client, str(settings.database_url))
     ids = api.seed_manual_point()
-    tables = ("assistant_turns", "media_frames", "media_comparisons", "audits", "operation_receipts")
+    tables = (
+        "assistant_turns",
+        "media_frames",
+        "media_comparisons",
+        "audits",
+        "operation_receipts",
+    )
     before = counts(str(settings.database_url), *tables)
     first = _ask(api, "全校现在概况如何", "write-replay")
     assert first.status_code == 200, first.text

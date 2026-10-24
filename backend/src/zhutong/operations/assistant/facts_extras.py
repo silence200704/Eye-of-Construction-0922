@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from ...db.models.field import Issue, WorkOrder
 from ...db.models.monitoring import AlarmEvent
 from ..datasets.core.record_queries import records_of_point
-from ..datasets.core.workspace import Workspace
+from ..datasets.core.workspace import Workspace, can_access_building
 from .facts import LEVEL_TEXT, queried_at
 
 
@@ -65,6 +65,10 @@ def case_search(session: Session, workspace: Workspace, point_id: str | None, ke
     rows = session.scalars(select(Issue).where(Issue.dataset_id == workspace.dataset_id))
     matched = []
     for row in rows:
+        if not can_access_building(workspace, row.building_id):
+            continue
+        if row.building_id is None and workspace.actor.building_ids is not None:
+            continue
         if point_id is not None and row.point_id != point_id:
             continue
         if keyword and keyword not in row.anomaly_type and keyword not in row.description:
