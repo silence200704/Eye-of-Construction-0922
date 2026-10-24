@@ -24,6 +24,7 @@ export async function uploadSessionFrame(frame: MediaFrame): Promise<SessionFram
     draftId: frame.id,
     pointId: frame.pointId,
     capturedAt: frame.capturedAt,
+    origin: frame.origin,
   })
   const registered = await registerSessionFrame({
     mediaId: media.id,
@@ -31,6 +32,7 @@ export async function uploadSessionFrame(frame: MediaFrame): Promise<SessionFram
     label: frame.label,
     capturedAt: frame.capturedAt,
     timeCode: frame.timeCode,
+    videoId: frame.videoId ?? null,
   })
   return { mediaId: media.id, frameId: registered.id, contentUrl: registered.contentUrl }
 }

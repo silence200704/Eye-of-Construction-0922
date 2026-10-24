@@ -75,6 +75,7 @@ export interface RemoteMediaFrame {
   label: string
   capturedAt: string
   timeCode: number | null
+  videoId?: string | null
   origin: string
   fileName: string
   size: number
@@ -95,7 +96,17 @@ export interface RemoteComparison {
 export interface RemoteMediaSession {
   frames: RemoteMediaFrame[]
   comparisons: RemoteComparison[]
+  videos: RemoteVideo[]
   latestSampleTime: string
+}
+
+export interface RemoteVideo {
+  id: string
+  pointId: string
+  mediaId: string
+  metadata: Record<string, unknown>
+  analysis: Record<string, unknown> | null
+  contentUrl: string
 }
 
 let sequence = 0
@@ -136,6 +147,7 @@ export function registerSessionFrame(input: {
   label: string
   capturedAt?: string | null
   timeCode?: number | null
+  videoId?: string | null
 }): Promise<RemoteMediaFrame> {
   return command<RemoteMediaFrame>('/media-sessions/frames', {
     body: input,

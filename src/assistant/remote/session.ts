@@ -1,5 +1,6 @@
 /** 服务端会话的存取、上下文载荷与回答合并；store 只保留状态与交互编排。 */
 import { ref, type Ref } from 'vue'
+import { currentEpoch } from '@/api/backend/runtime'
 import { useBackendSessionStore } from '@/stores/backend/session'
 import { readRegistry } from '@/stores/demo/registry'
 import { askServer, fetchSession, type RemoteSession } from '@/api/backend/assistant'
@@ -30,8 +31,21 @@ export interface RestoredTurn {
   stage: AskStage | null
 }
 
+const CONTEXT_KEYS = [
+  'pointId',
+  'eventId',
+  'issueId',
+  'workOrderId',
+  'pointIds',
+  'caseIds',
+  'replayNode',
+  'videoId',
+  'simulation',
+] as const
+
+/** 存储键绑定身份、数据集与当前 epoch；epoch 变化后旧键不会被读取或覆盖。 */
 export function sessionStorageKey(resetAt: string, actorId: string): string {
-  return `zhutong.assistant.session.${actorId}.${resetAt}`
+  return `zhutong.assistant.session.${actorId}.${resetAt}.e${currentEpoch()}`
 }
 
 export function readStoredSession(key: string): string {
@@ -58,15 +72,16 @@ export function dropSession(key: string): void {
   }
 }
 
-/** 上下文载荷：页面对象优先于上一轮；问句显式编号由服务端再覆盖。 */
+/** 上下文载荷：只发送服务端 DTO 接受的字段；chosen/range 等 UI 状态不外发。 */
 export function contextPayload(
   context: AskContext,
   page: AskContext,
 ): Record<string, unknown> {
-  const merged: Record<string, unknown> = context.chosen
-    ? { ...context }
-    : { ...context, ...page }
-  for (const key of ['pointId', 'eventId', 'issueId', 'workOrderId', 'videoId', 'replayNode']) {
+  const merged: Record<string, unknown> = { ...context, ...page }
+  for (const key of Object.keys(merged)) {
+    if (!CONTEXT_KEYS.includes(key as (typeof CONTEXT_KEYS)[number])) delete merged[key]
+  }
+  for (const key of CONTEXT_KEYS) {
     if (merged[key] === undefined) delete merged[key]
   }
   merged.source = Object.keys(page).length > 0 ? 'page' : 'previous'
@@ -102,6 +117,7 @@ export function createRemoteSessionState<T extends RestoredTurn>(input: {
 }) {
   const sessionId = ref('')
   let restored = false
+  let restoreRun = 0
   const key = (): string =>
     sessionStorageKey(readRegistry().resetAt, useBackendSessionStore().user?.id ?? 'none')
 
@@ -118,6 +134,7 @@ export function createRemoteSessionState<T extends RestoredTurn>(input: {
   }
 
   function clear(noticeText: string): void {
+    restoreRun += 1
     input.bumpGeneration()
     forget()
     input.turns.value = []
@@ -131,10 +148,12 @@ export function createRemoteSessionState<T extends RestoredTurn>(input: {
   async function restore(): Promise<void> {
     if (restored) return
     restored = true
+    const run = ++restoreRun
     const stored = sessionId.value !== '' ? sessionId.value : readStoredSession(key())
     if (stored === '') return
     try {
       const rows = await loadRemoteSession(stored)
+      if (run !== restoreRun) return
       if (rows.length === 0) return
       sessionId.value = stored
       input.turns.value = rows.map(input.turnOf)
@@ -142,7 +161,7 @@ export function createRemoteSessionState<T extends RestoredTurn>(input: {
       if (lastResult?.context) input.context.value = lastResult.context
       input.notice.value = '已恢复上次小瞳会话（只读；不会重放写入、影像处理或自动导览）。'
     } catch {
-      forget()
+      if (run === restoreRun) forget()
     }
   }
 
@@ -169,9 +188,12 @@ export async function askRemote(input: {
       context: input.context,
     })
   } catch (cause) {
-    throw new Error(`无法读取服务端小瞳回答（后端断开或请求失败）：${cause instanceof Error ? cause.message : String(cause)}`)
+    throw new Error(
+      `无法读取服务端小瞳回答（后端断开或请求失败）：${cause instanceof Error ? cause.message : String(cause)}`,
+    )
   }
   const result = mapServerAnswer(reply.answer, input.question)
+  if (!input.stillCurrent()) return { sessionId: reply.sessionId, result }
   if (input.stillCurrent() && result.intent === 'point_trend' && result.pointId !== null) {
     try {
       await reloadAssistantSources()

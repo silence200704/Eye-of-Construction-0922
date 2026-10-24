@@ -7,7 +7,12 @@ import { DEMO_VIDEOS, VIDEO_REGIONS, type DemoVideoKey } from '@/config/media/de
 import type { MediaFrame } from '@/types/media'
 import type { SessionVideo, VideoAnalysis } from '@/types/media/video'
 
-type Context = { frames: Ref<MediaFrame[]>; notify: (text: string, ok?: boolean) => void }
+type Context = {
+  frames: Ref<MediaFrame[]>
+  notify: (text: string, ok?: boolean) => void
+  /** 服务端模式下把新帧送入正式上传登记链；本地演示模式是空操作。 */
+  persistFrame?: (row: MediaFrame) => void
+}
 type Guard = () => void
 
 /** 视频、帧、分析共享视频身份；只有明确的任务才准备，所有提交前复核授权。 */
@@ -81,6 +86,7 @@ class VideoSession {
       }))
       this.videoMeta.value = { ...meta, pointId }
       this.context.frames.value = [...this.context.frames.value.filter((row) => row.videoId !== meta.id), ...frames]
+      for (const row of frames) this.context.persistFrame?.(row)
       this.videoAnalysis.value = null
       return frames.length
     } finally { releaseVideo(video) }

@@ -16,7 +16,8 @@ vi.mock('@/api/backend/assistant', () => ({
 }))
 
 import { useAssistantStore } from '@/assistant/session'
-import { epochVersion } from '@/api/backend/runtime'
+import { epochVersion, currentEpoch } from '@/api/backend/runtime'
+import { sessionStorageKey } from '@/assistant/remote/session'
 import { readRegistry } from '@/stores/demo/registry'
 import type { RemoteAnswer, RemoteAskReply, RemoteSession } from '@/api/backend/assistant'
 
@@ -130,7 +131,7 @@ describe('服务端模式下的小瞳会话', () => {
     }
     fetchSession.mockResolvedValue(detail)
     sessionStorage.setItem(
-      `zhutong.assistant.session.none.${readRegistry().resetAt}`,
+      sessionStorageKey(readRegistry().resetAt, 'none'),
       'sess_restored',
     )
     const store = useAssistantStore()

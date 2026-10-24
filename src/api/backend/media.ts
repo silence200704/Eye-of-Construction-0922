@@ -28,10 +28,12 @@ export async function uploadMedia(input: {
   draftId: string
   pointId?: string | null
   capturedAt?: string | null
+  origin?: string | null
 }): Promise<RemoteMedia> {
   const params = new URLSearchParams({ fileName: input.fileName })
   if (input.pointId) params.set('pointId', input.pointId)
   if (input.capturedAt) params.set('capturedAt', input.capturedAt)
+  if (input.origin) params.set('origin', input.origin)
   const result = await commandRaw<RemoteMedia>(`/media?${params.toString()}`, {
     rawBody: input.blob,
     contentType: input.blob.type || 'image/jpeg',

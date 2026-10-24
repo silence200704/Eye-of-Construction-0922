@@ -119,6 +119,8 @@ function contextOf(answer: RemoteAnswer): AskContext {
   const context: AskContext = {}
   if (objects.pointId) context.pointId = objects.pointId
   if (objects.eventId) context.eventId = objects.eventId
+  if (objects.issueId) context.issueId = objects.issueId
+  if (objects.workOrderId) context.workOrderId = objects.workOrderId
   return context
 }
 

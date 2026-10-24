@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import type { Region } from '@/core/media/compare'
 import { useClockStore } from '@/stores/clock'
 import { useBackendSessionStore } from '@/stores/backend/session'
-import { backendActive, epochVersion } from '@/api/backend/runtime'
+import { backendActive, currentEpoch, epochVersion } from '@/api/backend/runtime'
 import { datasetResetVersion, readRegistry } from '@/stores/demo/registry'
 import { candidateContext, queryContext } from './query/context'
 import { assembleAnswer } from './ask'
@@ -265,16 +265,22 @@ export const useAssistantStore = defineStore('assistant', () => {
     const turn: AskTurn = { id, question: text, result: null, error: '', presented: false, stage: null }
     turns.value = [...turns.value, turn]
     busy.value = true
+    const actorId = useBackendSessionStore().user?.id ?? ''
+    const epoch = currentEpoch()
+    if (useRemote) requestContext = { ...context.value, ...pageContext.value }
     try {
       if (useRemote) {
         const remote = await askRemote({
           question: text,
           sessionId: sessionId.value,
           context: contextPayload(context.value, pageContext.value),
-          stillCurrent: () => generation === queryGeneration,
+          stillCurrent: () =>
+            generation === queryGeneration
+            && actorId === (useBackendSessionStore().user?.id ?? '')
+            && epoch === currentEpoch(),
         })
-        rememberServerSession(remote.sessionId)
         if (generation !== queryGeneration) return
+        rememberServerSession(remote.sessionId)
         const result = remote.result
         update(id, { result })
         if (result.context) context.value = result.context

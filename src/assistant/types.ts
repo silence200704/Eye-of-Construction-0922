@@ -374,6 +374,9 @@ export interface AskContext {
   pointId?: string
   /** 详情页/看板已明确选中的事件 */
   eventId?: string
+  /** 服务端回答绑定的稳定问题/工单 ID，用于跨轮追问 */
+  issueId?: string
+  workOrderId?: string
   pointIds?: string[]
   range?: TimeRange
   caseIds?: string[]

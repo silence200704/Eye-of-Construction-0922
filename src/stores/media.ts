@@ -9,12 +9,13 @@
  */
 import { computed, ref, watch } from 'vue'
 import { defineStore } from 'pinia'
-import { backendActive } from '@/api/backend/runtime'
+import { backendActive, currentEpoch, epochVersion } from '@/api/backend/runtime'
 import { uploadSessionFrame } from '@/api/backend/mediaSession'
 import { restoreServerFrames, saveComparisonRecord } from '@/media/sessionRemote'
 import type { RemoteComparison } from '@/api/backend/assistant'
 import { datasetResetVersion } from './demo/registry'
 import { createVideoSession } from './media/videoSession'
+import { useBackendSessionStore } from './backend/session'
 import { uid } from '@/core/id'
 import { nowIso } from '@/core/time'
 import { type Region } from '@/core/media/compare'
@@ -313,8 +314,22 @@ export const useMediaStore = defineStore('media', () => {
     }
   }
 
-  const videoSession = createVideoSession({ frames, notify })
-  watch(datasetResetVersion, () => videoSession.clearVideo(), { flush: 'sync' })
+  const videoSession = createVideoSession({ frames, notify, persistFrame: enqueueSync })
+
+  /** 身份、数据集或 epoch 变化后清掉上一身份已取回的字节与比对缓存。 */
+  function forgetCachedMedia(): void {
+    videoSession.clearVideo()
+    frames.value = []
+    compare.value = null
+    remoteComparisons.value = []
+  }
+  watch(datasetResetVersion, forgetCachedMedia, { flush: 'sync' })
+  watch(epochVersion, forgetCachedMedia, { flush: 'sync' })
+  watch(
+    () => useBackendSessionStore().user?.id ?? '',
+    () => forgetCachedMedia(),
+    { flush: 'sync' },
+  )
 
   function videoPairAllowed(before: MediaFrame, after: MediaFrame): boolean {
     if (!before.videoId && !after.videoId) return before.origin !== 'video_frame' && after.origin !== 'video_frame'
@@ -376,6 +391,8 @@ export const useMediaStore = defineStore('media', () => {
   /** 把一次真实算出的比对结果写入服务端；关键帧未登记完成时明确失败。 */
   async function persistComparison(record: MediaCompareRecord): Promise<boolean> {
     if (!backendActive()) return false
+    const actorId = useBackendSessionStore().user?.id ?? ''
+    const epoch = currentEpoch()
     await settleSync()
     const before = frames.value.find((row) => row.id === record.beforeId)
     const after = frames.value.find((row) => row.id === record.afterId)
@@ -385,6 +402,7 @@ export const useMediaStore = defineStore('media', () => {
     }
     try {
       const saved = await saveComparisonRecord({ record, beforeFrameId: before.remoteFrameId, afterFrameId: after.remoteFrameId })
+      if (actorId !== (useBackendSessionStore().user?.id ?? '') || epoch !== currentEpoch()) return false
       remoteComparisons.value = [...remoteComparisons.value, saved]
       return true
     } catch (cause) {
@@ -399,12 +417,15 @@ export const useMediaStore = defineStore('media', () => {
    */
   async function restoreRemote(pointId: string): Promise<number> {
     if (!backendActive() || pointId === '') return 0
+    const actorId = useBackendSessionStore().user?.id ?? ''
+    const epoch = currentEpoch()
     await settleSync()
     const restored = await restoreServerFrames({
       pointId,
       knownFrames: new Set(frames.value.map((row) => row.remoteFrameId ?? row.id)),
       knownMedia: new Set(frames.value.map((row) => row.remoteMediaId).filter((id): id is string => Boolean(id))),
     })
+    if (actorId !== (useBackendSessionStore().user?.id ?? '') || epoch !== currentEpoch()) return 0
     remoteComparisons.value = restored.comparisons
     if (restored.frames.length > 0) frames.value = [...frames.value, ...restored.frames]
     return restored.frames.length
