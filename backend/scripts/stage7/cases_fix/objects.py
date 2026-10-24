@@ -123,7 +123,7 @@ def candidate_click(api, state: dict, add, ask) -> None:
         ask(
             "q35b",
             "5号实验楼的裂缝测点现在怎么样",
-            {"pointId": target["id"], "source": "page"},
+            {"chosen": True, "pointId": target["id"], "source": "page"},
         )
         if target
         else reply

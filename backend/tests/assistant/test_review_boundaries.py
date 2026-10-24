@@ -228,7 +228,9 @@ def test_candidate_click_resolves_same_question_without_asking_again(
     assert first["status"] == "need_choice"
     assert {row["id"] for row in first["candidates"]} == {ids["point"]["id"], other["id"]}
     picked = api.ask(
-        "裂缝测点现在怎么样", {"pointId": other["id"], "source": "page"}, key="choice-pick"
+        "裂缝测点现在怎么样",
+        {"chosen": True, "pointId": other["id"], "source": "page"},
+        key="choice-pick",
     )["answer"]
     assert picked["status"] == "answered", picked
     assert picked["objects"]["pointId"] == other["id"]

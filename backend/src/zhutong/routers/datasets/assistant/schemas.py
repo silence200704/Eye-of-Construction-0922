@@ -7,6 +7,7 @@ from pydantic import BaseModel, ConfigDict, Field
 
 class QueryContext(BaseModel):
     model_config = ConfigDict(extra="forbid")
+    chosen: bool = False
     pointId: str | None = None
     eventId: str | None = None
     issueId: str | None = None

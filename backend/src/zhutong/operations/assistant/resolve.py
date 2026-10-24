@@ -266,8 +266,8 @@ def _explicit_point(
 
 
 def _apply_choice(session: Session, workspace: Workspace, context: dict, out: Resolved) -> None:
-    """候选点击：只在上下文 ID 属于本轮返回的候选时采用，避免猜对象。"""
-    if out.status != "need_choice":
+    """候选点击：只有用户明确点选（chosen）且 ID 属于本轮候选时才采用。"""
+    if out.status != "need_choice" or context.get("chosen") is not True:
         return
     ids = {row["id"] for row in out.candidates}
     point_id = str(context.get("pointId") or "")

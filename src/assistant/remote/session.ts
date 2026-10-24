@@ -32,6 +32,7 @@ export interface RestoredTurn {
 }
 
 const CONTEXT_KEYS = [
+  'chosen',
   'pointId',
   'eventId',
   'issueId',

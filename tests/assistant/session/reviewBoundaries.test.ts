@@ -57,9 +57,9 @@ beforeEach(() => {
 })
 
 describe('阶段 7 审查：真实跨层契约与异步边界', () => {
-  it('候选选择只发送后端 QueryContext 接受的字段', () => {
+  it('候选选择发送后端 QueryContext 接受的明确点选字段', () => {
     const payload = contextPayload({ pointId: 'A', chosen: true }, {})
-    expect(payload).toEqual({ pointId: 'A', source: 'previous' })
+    expect(payload).toEqual({ chosen: true, pointId: 'A', source: 'previous' })
   })
 
   it('映射回答时保留问题/工单 ID，供下一轮绑定', () => {
