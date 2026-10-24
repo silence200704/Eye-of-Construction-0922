@@ -2,6 +2,7 @@
 """阶段 7 真实 HTTP 证据的客户端与固定前置数据（只写独立临时库）。"""
 
 import base64
+import struct
 from dataclasses import dataclass, field
 from datetime import UTC, datetime, timedelta, timezone
 
@@ -11,6 +12,19 @@ SHANGHAI = timezone(timedelta(hours=8))
 PNG = base64.b64decode(
     "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVR4nGNgYGAAAAAEAAH2FzhVAAAAAElFTkSuQmCC"
 )
+
+
+def mp4() -> bytes:
+    """最小合法 MP4 容器：用于验证原字节存储、元数据与分析恢复，不冒充真实解码。"""
+
+    def box(kind: bytes, payload: bytes) -> bytes:
+        return struct.pack(">I", 8 + len(payload)) + kind + payload
+
+    return (
+        box(b"ftyp", b"isom\x00\x00\x02\x00isomiso2")
+        + box(b"moov", b"")
+        + box(b"mdat", b"\x00" * 16)
+    )
 
 
 def stamp(minutes: int = 0) -> str:
@@ -69,12 +83,17 @@ class Api:
         assert response.status_code == 200, response.text
         return response.json()["data"]
 
-    def upload(self, point_id: str, key: str) -> dict:
+    def upload(self, point_id: str, key: str, **options) -> dict:
+        mime = options.get("mime", "image/png")
+        filename = options.get("filename", "stage7.png")
+        params = {"fileName": filename, "pointId": point_id}
+        if options.get("origin"):
+            params["origin"] = options["origin"]
         response = self.http.post(
             self.path("/media"),
-            params={"fileName": "stage7.png", "pointId": point_id},
-            content=PNG,
-            headers={**self.headers("demo-safety", key), "Content-Type": "image/png"},
+            params=params,
+            content=options.get("data", PNG),
+            headers={**self.headers("demo-safety", key), "Content-Type": mime},
         )
         assert response.status_code in (200, 201), response.text
         return response.json()["data"]

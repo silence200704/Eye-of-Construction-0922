@@ -68,6 +68,38 @@ def test_object_questions_keep_business_intent_and_failures(client: TestClient, 
     assert "0.82" not in json.dumps(intents)
 
 
+def test_conceptual_questions_without_object_clue_use_knowledge(
+    client: TestClient, settings
+) -> None:
+    api = AssistantApi(client, str(settings.database_url))
+    seed_corpus(api)
+    questions = [
+        "问题审核有哪六种处理出口？",
+        "有历史记录的设备能删除吗？",
+        "必答项没填完能完成巡检吗？",
+        "怎么处理",
+    ]
+    for index, question in enumerate(questions):
+        answer = _ask(api, question, f"concept-{index}")
+        assert answer["intent"] == "knowledge", (question, answer)
+        assert answer["status"] in {"answered", "clarify"}, answer
+        assert answer["objects"]["pointId"] is None
+    docs = api.get("/knowledge/documents")
+    archive = next(row for row in docs if row["sourcePath"].endswith("platform/archive.md"))
+    api.knowledge_faq(
+        archive["chunks"][0]["id"],
+        ["楼栋下面还有在册测点可以归档吗？"],
+        "concept-archive-faq",
+    )
+    fallback = _ask(api, "楼栋下面还有在册测点可以归档吗？", "concept-fallback")
+    assert fallback["intent"] == "knowledge", fallback
+    assert fallback["status"] == "answered", fallback
+    assert fallback["sources"]["facts"] == "none"
+    explicit = _ask(api, "B99-F9-CRACK01 可以归档吗", "concept-explicit")
+    assert explicit["status"] == "not_found"
+    assert explicit["intent"] != "knowledge"
+
+
 def test_point_status_uses_current_rule_version_and_snapshot(client: TestClient, settings) -> None:
     api = AssistantApi(client, str(settings.database_url))
     ids = api.seed_red_event()

@@ -13,7 +13,14 @@ from stage7_http_support import (
     seed_records,
     snapshot,
 )
-from stage7_seeds import add_scoped_user, seed_field, seed_knowledge, seed_media
+from stage7_seeds import (
+    add_scoped_user,
+    seed_field,
+    seed_knowledge,
+    seed_media,
+    seed_second_issue,
+    seed_video,
+)
 
 OUT = (
     Path(__file__).resolve().parents[2]
@@ -36,8 +43,20 @@ def main() -> int:
         field = seed_field(api, ids, event)
         docs = seed_knowledge(api)
         media = seed_media(api, ids["crack2"]["id"])
+        second = seed_second_issue(api, ids["crack"])
+        video = seed_video(api, ids["crack2"]["id"])
         result = run(
-            CaseInput(api=api, ids=ids, events=events, field=field, media=media, docs=docs)
+            CaseInput(
+                api=api,
+                ids=ids,
+                events=events,
+                field=field,
+                media=media,
+                docs=docs,
+                db=args.db,
+                second_issue=second,
+                video=video,
+            )
         )
         result["seeded"] = {
             "ids": ids,
@@ -49,7 +68,10 @@ def main() -> int:
             "media": {
                 "frames": [media["frame"]["id"], media["secondFrame"]["id"]],
                 "comparison": media["comparison"]["id"],
+                "video": video["video"]["id"],
+                "videoMedia": video["media"]["id"],
             },
+            "secondIssue": second,
         }
         result["database"] = snapshot(api)
         args.output.parent.mkdir(parents=True, exist_ok=True)

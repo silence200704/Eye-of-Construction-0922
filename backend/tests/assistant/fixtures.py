@@ -77,11 +77,11 @@ class AssistantApi(FieldApi):
         assert response.status_code == 200, response.text
         return response.json()["data"]
 
-    def knowledge_faq(self, chunk_id: str, questions: list[str]) -> None:
+    def knowledge_faq(self, chunk_id: str, questions: list[str], key: str = "") -> None:
         response = self.client.post(
             "/api/v1/datasets/demo-main/knowledge/faqs",
             json={"chunkId": chunk_id, "questions": questions},
-            headers=self._knowledge_headers(f"assistant-faq-{chunk_id}"),
+            headers=self._knowledge_headers(key or f"assistant-faq-{chunk_id}"),
         )
         assert response.status_code == 200, response.text
 

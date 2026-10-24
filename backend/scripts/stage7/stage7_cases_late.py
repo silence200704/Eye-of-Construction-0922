@@ -202,19 +202,15 @@ def session_turns(api: Api, state: dict, add, ask) -> None:
 def trial_and_recovery(api: Api, state: dict, add, ask) -> None:
     crack_id, crack2_id, event, event_no, issue, closed, media = _state(state)
 
-    # 21 试算不写库
+    # 21 阈值不完整时先澄清，不使用默认值
     before = snapshot(api)
     reply = ask("q21", "B05-F2-CRACK01 如果阈值改成 0.1/0.2/0.3 试算")
     add(
         "q21",
-        "B05-F2-CRACK01 如果阈值改成 0.1/0.2/0.3 试算",
-        basic(reply["answer"], "rule_simulate")
-        + [
-            check(
-                "simulation_rows",
-                len(reply["answer"].get("extras", {}).get("simulation", [])) == 5,
-                str(len(reply["answer"].get("extras", {}).get("simulation", []))),
-            ),
+        "B05-F2-CRACK01 如果阈值改成 0.1/0.2/0.3 试算（缺完整候选）",
+        [
+            check("status", reply["answer"]["status"] == "need_choice", reply["answer"]["status"]),
+            check("no_rows", reply["answer"].get("extras", {}).get("simulation", []) == []),
             check("db_unchanged", snapshot(api) == before),
         ],
         reply,
@@ -290,7 +286,12 @@ def cases_and_issues(api: Api, state: dict, add, ask) -> None:
 
 
 def media_and_changes(api: Api, state: dict, add, ask) -> None:
-    crack_id, crack2_id, event, event_no, issue, closed, media = _state(state)
+    _media_session(api, state, add)
+    _changes_and_context(api, state, add, ask)
+
+
+def _media_session(api: Api, state: dict, add) -> None:
+    media = state["media"]
 
     # 26 影像会话原字节、关键帧与比对持久化
     summary = api.get(f"/media-sessions/summary?pointId={state['ids']['crack2']['id']}")
@@ -299,7 +300,11 @@ def media_and_changes(api: Api, state: dict, add, ask) -> None:
         "q26",
         "影像会话：关键帧、比对与受保护内容接口",
         [
-            check("frames", len(summary["frames"]) == 2, str(len(summary["frames"]))),
+            check(
+                "frames",
+                len([row for row in summary["frames"] if row.get("videoId") is None]) == 2,
+                str(len(summary["frames"])),
+            ),
             check(
                 "comparisons", len(summary["comparisons"]) == 1, str(len(summary["comparisons"]))
             ),
@@ -324,6 +329,11 @@ def media_and_changes(api: Api, state: dict, add, ask) -> None:
             "answer": {"intent": "media_session", "sources": {"facts": "server_db"}},
         },
     )
+
+
+def _changes_and_context(api: Api, state: dict, add, ask) -> None:
+    crack_id = state["ids"]["crack"]["id"]
+    crack2_id = state["ids"]["crack2"]["id"]
 
     # 27 写入请求不执行
     before = snapshot(api)

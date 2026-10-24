@@ -145,6 +145,8 @@ def point_status(data: PointStatusInput) -> dict:
     )
     freshness, freshness_label = _freshness(record.sample_time if record else None, data.now)
     facts, evidence = _record_facts(session, point, record, baseline)
+    if rule is None and point.metric:
+        facts.append({"label": "判定", "value": "未判定：当前没有启用中的适用规则", "unit": ""})
     _rule_event_facts(facts, evidence, rule, event, open_events)
     issue = _open_issue_of(session, workspace, point.id)
     if issue is not None:

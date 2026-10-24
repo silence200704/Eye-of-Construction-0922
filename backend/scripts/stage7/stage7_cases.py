@@ -6,7 +6,9 @@
 """
 
 from dataclasses import dataclass, field
+from pathlib import Path
 
+from cases_fix import run_fix
 from stage7_cases_late import run_late
 from stage7_http_support import Api
 
@@ -68,6 +70,9 @@ class CaseInput:
     field: dict
     media: dict
     docs: dict
+    db: Path
+    second_issue: dict = field(default_factory=dict)
+    video: dict = field(default_factory=dict)
 
 
 @dataclass
@@ -78,7 +83,10 @@ class CaseRun:
 
     def ask(self, case_id: str, question: str, context: dict | None = None, **options) -> dict:
         reply = self.input.api.ask(
-            question, context, options.get("key") or case_id, options.get("account", "demo-safety")
+            question,
+            context,
+            key=options.get("key") or case_id,
+            account=options.get("account", "demo-safety"),
         )
         self.answers[case_id] = {"question": question, "context": context or {}, "reply": reply}
         return reply
@@ -125,18 +133,22 @@ def _state(api: Api, run: CaseRun) -> dict:
         ),
         "media": run.input.media,
         "first": run.answers["q01"]["reply"],
+        "second_issue": run.input.second_issue,
+        "video": run.input.video,
+        "db": run.input.db,
     }
 
 
 def run(input: CaseInput) -> dict:
     run = CaseRun(input)
     api = input.api
-    state = _state(api, run)
     crack_id, crack2_id, event, event_no, issue, order = _objects(run)
     _point_cases(run, crack_id, crack2_id)
     _event_cases(run, event, event_no)
     _issue_cases(run, issue, order)
+    state = _state(api, run)
     run_late(api, state, run.add, run.ask)
+    run_fix(api, state, run.add, run.ask)
     return run.result()
 
 
@@ -240,6 +252,7 @@ def _event_cases(run: CaseRun, event: dict, event_no: str) -> None:
                 any(row["id"] == event["id"] for row in reply["answer"]["evidence"]),
             ),
         ],
+        reply,
     )
 
 
@@ -263,7 +276,7 @@ def _issue_cases(run: CaseRun, issue: dict, order: dict) -> None:
             ),
             check(
                 "fact_open",
-                fact(reply["answer"], "未关闭事件 / 问题 / 工单") == "1 / 1 / 1",
+                fact(reply["answer"], "未关闭事件 / 问题 / 工单") == "1 / 2 / 1",
                 fact(reply["answer"], "未关闭事件 / 问题 / 工单"),
             ),
         ],
@@ -282,6 +295,32 @@ def _issue_cases(run: CaseRun, issue: dict, order: dict) -> None:
                 "fact_status",
                 fact(reply["answer"], "状态") == "repairing",
                 fact(reply["answer"], "状态"),
+            ),
+            check(
+                "fact_order",
+                order["orderNo"] in fact(reply["answer"], "工单"),
+                fact(reply["answer"], "工单"),
+            ),
+        ],
+        reply,
+    )
+
+    # 10 工单编号绑定问题与工单
+    reply = run.ask("q10", f"{order['orderNo']} 验收了吗")
+    run.add(
+        "q10",
+        f"{order['orderNo']} 验收了吗",
+        basic(reply["answer"], "issue_status")
+        + [
+            check(
+                "object_order",
+                reply["answer"]["objects"]["workOrderId"] == order["id"],
+                str(reply["answer"]["objects"]["workOrderId"]),
+            ),
+            check(
+                "object_issue",
+                reply["answer"]["objects"]["issueId"] == issue["id"],
+                str(reply["answer"]["objects"]["issueId"]),
             ),
             check(
                 "fact_order",

@@ -5,7 +5,7 @@ import json
 import sqlite3
 from pathlib import Path
 
-from stage7_http_support import Api, stamp
+from stage7_http_support import Api, mp4, stamp
 
 
 def issue_body(point: dict, submission: str) -> dict:
@@ -168,6 +168,81 @@ def seed_media(api: Api, point_id: str) -> dict:
         "secondFrame": second,
         "comparison": saved,
     }
+
+
+def seed_second_issue(api: Api, point: dict) -> dict:
+    return api.post(
+        "/issues",
+        {
+            "source": "report",
+            "pointId": point["id"],
+            "buildingId": point["buildingId"],
+            "floorId": point["floorId"],
+            "anomalyType": "裂缝宽度复核",
+            "description": "同一测点的第二次独立上报",
+            "submissionId": "s7-second-issue",
+        },
+        "s7-second-issue-key",
+    )["issue"]
+
+
+def seed_video(api: Api, point_id: str) -> dict:
+    media = api.upload(
+        point_id,
+        "s7-video",
+        mime="video/mp4",
+        filename="stage7.mp4",
+        data=mp4(),
+        origin="demo_generated",
+    )
+    frame_media = api.upload(
+        point_id,
+        "s7-video-frame-media",
+        origin="demo_generated",
+        filename="stage7-frame.png",
+    )
+    video = api.post(
+        "/media-sessions/videos",
+        {
+            "mediaId": media["id"],
+            "pointId": point_id,
+            "metadata": {
+                "fileName": "stage7.mp4",
+                "title": "固定机位演示视频",
+                "source": "随包演示素材",
+                "assetKey": "stage7",
+                "comparable": True,
+                "note": "合成演示视频，非真实连续拍摄",
+            },
+        },
+        "s7-video-register",
+    )
+    frame = api.post(
+        "/media-sessions/frames",
+        {
+            "mediaId": frame_media["id"],
+            "pointId": point_id,
+            "label": "视频抽帧",
+            "capturedAt": stamp(-30),
+            "timeCode": 3.0,
+            "videoId": video["id"],
+        },
+        "s7-video-frame",
+    )
+    api.post(
+        f"/media-sessions/videos/{video['id']}/analysis",
+        {
+            "analysis": {
+                "videoId": video["id"],
+                "pointId": point_id,
+                "frameIds": [frame["id"]],
+                "regions": {"before": {"x": 0.1, "y": 0.1, "w": 0.4, "h": 0.4}},
+                "reason": "合成演示视频，非真实连续拍摄",
+            }
+        },
+        "s7-video-analysis",
+    )
+    return {"media": media, "video": video, "frame": frame}
 
 
 def add_scoped_user(db_path: Path, user_id: str, building_ids: list[str]) -> None:

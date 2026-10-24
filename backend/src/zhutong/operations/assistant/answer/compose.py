@@ -118,6 +118,9 @@ def query(session: Session, workspace: Workspace, runtime: Path, payload: dict) 
     knowledge = _knowledge(session, workspace, runtime, question)
     if intent == "knowledge":
         answer = _knowledge_answer(knowledge)
+    elif resolved.status == "not_found" and _general_knowledge(entities, context, knowledge):
+        # 问句没有点名任何业务对象时，概念问题交给本地知识；点名对象仍按业务失败返回。
+        answer = _knowledge_answer(knowledge)
     elif resolved.status in {"need_choice", "not_found"}:
         answer = _attach_knowledge(_context_answer(resolved, intent, question), knowledge, intent)
     else:
@@ -133,6 +136,10 @@ def query(session: Session, workspace: Workspace, runtime: Path, payload: dict) 
             )
         )
         if answer is None or answer.get("intent") == "unknown":
+            answer = _knowledge_answer(knowledge)
+        elif answer.get("status") == "not_found" and _general_knowledge(
+            entities, context, knowledge
+        ):
             answer = _knowledge_answer(knowledge)
         else:
             answer = _attach_knowledge(answer, knowledge, intent)
@@ -187,6 +194,22 @@ def _fact_snapshot(
         "rules": [extras["rule"]] if isinstance(extras.get("rule"), dict) else [],
         "baselines": [extras["baseline"]] if isinstance(extras.get("baseline"), dict) else [],
     }
+
+
+def _general_knowledge(entities: dict, context: dict, knowledge: dict) -> bool:
+    """没有点名任何对象时，概念问题可由本地知识回答；点名对象不得改成知识成功。"""
+    if knowledge.get("decision") not in {"answer", "clarify"}:
+        return False
+    explicit = (
+        entities.get("pointCode")
+        or entities.get("eventNo")
+        or entities.get("issueNo")
+        or entities.get("orderNo")
+        or entities.get("buildingRefs")
+        or entities.get("floorNumber")
+    )
+    bound = any(context.get(key) for key in ("pointId", "eventId", "issueId", "workOrderId"))
+    return not explicit and not bound
 
 
 def _context_answer(resolved: Resolved, intent: str, question: str) -> dict:
