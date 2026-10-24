@@ -1,0 +1,54 @@
+FF                                                                       [100%]
+================================== FAILURES ===================================
+___________ test_video_metadata_analysis_frames_and_summary_persist ___________
+
+client = <starlette.testclient.TestClient object at 0x000002319C4A69C0>
+settings = Settings(runtime_dir=WindowsPath('C:/Users/Lenovo/AppData/Local/Temp/pytest-of-Silence/pytest-286/test_video_metadata_..., media_max_bytes=33554432, import_max_bytes=83886080, cors_origins=['http://127.0.0.1:5180', 'http://localhost:5180'])
+
+    def test_video_metadata_analysis_frames_and_summary_persist(client: TestClient, settings) -> None:
+        api = AssistantApi(client, str(settings.database_url))
+        ids = api.seed_manual_point()
+        point_id = ids["point"]["id"]
+        video_media = _upload(api, point_id, "video", mp4(), "video/mp4")
+        assert video_media["origin"] == "upload"
+        registered = _register_video(api, video_media["id"], point_id, "one")
+>       assert registered.status_code == 200, registered.text
+E       AssertionError: {"ok":false,"error":{"code":"NOT_FOUND","message":"Not Found","retryable":false,"details":{}},"meta":{"requestId":"3617aab6e6fe4f2f916a8b84915cbff6"}}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests\media\test_video_session.py:66: AssertionError
+________________ test_video_scope_and_cross_point_are_enforced ________________
+
+client = <starlette.testclient.TestClient object at 0x000002319C9165D0>
+settings = Settings(runtime_dir=WindowsPath('C:/Users/Lenovo/AppData/Local/Temp/pytest-of-Silence/pytest-286/test_video_scope_and..., media_max_bytes=33554432, import_max_bytes=83886080, cors_origins=['http://127.0.0.1:5180', 'http://localhost:5180'])
+
+    def test_video_scope_and_cross_point_are_enforced(client: TestClient, settings) -> None:
+        api = AssistantApi(client, str(settings.database_url))
+        ids = api.seed_manual_point()
+        other = api.ok(
+            api.post(
+                "/points",
+                {
+                    "code": "B03-F2-CRACK02",
+                    "name": "第二裂缝测点",
+                    "buildingId": ids["building"]["id"],
+                    "floorId": ids["floor"]["id"],
+                    "type": "crack",
+                    "coord": {"x": 0.6, "y": 0.6},
+                },
+                key="video-other-point",
+            )
+        )
+        video_media = _upload(api, ids["point"]["id"], "scope-video", mp4(), "video/mp4")
+        registered = _register_video(api, video_media["id"], ids["point"]["id"], "scope")
+>       assert registered.status_code == 200, registered.text
+E       AssertionError: {"ok":false,"error":{"code":"NOT_FOUND","message":"Not Found","retryable":false,"details":{}},"meta":{"requestId":"37b2d5e50ee64f6b9a45b4080e30d1cd"}}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests\media\test_video_session.py:144: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/media/test_video_session.py::test_video_metadata_analysis_frames_and_summary_persist
+FAILED tests/media/test_video_session.py::test_video_scope_and_cross_point_are_enforced
+2 failed in 0.95s
