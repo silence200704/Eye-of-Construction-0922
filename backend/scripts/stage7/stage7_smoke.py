@@ -8,7 +8,7 @@ import httpx
 
 BASE = "http://127.0.0.1:18000/api/v1/"
 OUT = (
-    Path(__file__).resolve().parents[2]
+    Path(__file__).resolve().parents[3]
     / "docs/implementation/evidence/stage7-assistant/runtime/http-smoke.json"
 )
 QUESTIONS = [

@@ -203,3 +203,33 @@ def test_failed_command_rolls_back_business_receipt_and_audit(client: TestClient
     after = counts(str(settings.database_url), "media_frames", "audits", "operation_receipts")
     assert after == before
     assert json.loads(failed.text)["ok"] is False
+
+
+def test_candidate_click_resolves_same_question_without_asking_again(
+    client: TestClient, settings
+) -> None:
+    api = AssistantApi(client, str(settings.database_url))
+    ids = api.seed_red_event()
+    other = api.ok(
+        api.post(
+            "/points",
+            {
+                "code": "B03-F2-CRACK02",
+                "name": "第二裂缝测点",
+                "buildingId": ids["building"]["id"],
+                "floorId": ids["floor"]["id"],
+                "type": "crack",
+                "coord": {"x": 0.6, "y": 0.6},
+            },
+            key="choice-second-point",
+        )
+    )
+    first = api.ask("裂缝测点现在怎么样", key="choice-list")["answer"]
+    assert first["status"] == "need_choice"
+    assert {row["id"] for row in first["candidates"]} == {ids["point"]["id"], other["id"]}
+    picked = api.ask(
+        "裂缝测点现在怎么样", {"pointId": other["id"], "source": "page"}, key="choice-pick"
+    )["answer"]
+    assert picked["status"] == "answered", picked
+    assert picked["objects"]["pointId"] == other["id"]
+    assert "0.82" not in json.dumps(picked["facts"])

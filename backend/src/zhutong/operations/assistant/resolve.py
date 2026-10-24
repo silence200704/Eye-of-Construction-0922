@@ -265,6 +265,30 @@ def _explicit_point(
         _fail(out, "当前数据集与授权范围内没有匹配这个线索的测点。", "point_not_found")
 
 
+def _apply_choice(session: Session, workspace: Workspace, context: dict, out: Resolved) -> None:
+    """候选点击：只在上下文 ID 属于本轮返回的候选时采用，避免猜对象。"""
+    if out.status != "need_choice":
+        return
+    ids = {row["id"] for row in out.candidates}
+    point_id = str(context.get("pointId") or "")
+    event_id = str(context.get("eventId") or "")
+    if point_id in ids:
+        row = find_point(session, workspace, point_id)
+        if row is None:
+            return
+        out.point_id, out.building_id = row.id, row.building_id
+    elif event_id in ids:
+        row = find_event(session, workspace, event_id)
+        if row is None:
+            return
+        out.event_id, out.point_id = row.id, row.point_id
+    else:
+        return
+    out.status = "resolved"
+    out.conclusion = ""
+    out.candidates = []
+
+
 def _apply_context(session: Session, workspace: Workspace, context: dict, out: Resolved) -> None:
     """只补本轮没有显式指定的对象；旧上下文不能压过本轮问句。"""
     if out.status != "resolved":
@@ -358,8 +382,10 @@ def resolve_objects(data: ResolveInput) -> Resolved:
     out = Resolved()
     _explicit_numbers(data.session, data.workspace, data.entities, out)
     _explicit_point(data.session, data.workspace, data.entities, data.intent, out)
+    _apply_choice(data.session, data.workspace, data.context, out)
     _apply_context(data.session, data.workspace, data.context, out)
     _bind_point_event(data.session, data.workspace, data.intent, out)
+    _apply_choice(data.session, data.workspace, data.context, out)
     if out.status != "resolved":
         return out
     if out.point_id is not None and out.building_id is None:
