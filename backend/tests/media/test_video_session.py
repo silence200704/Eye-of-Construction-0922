@@ -2,9 +2,9 @@
 
 import struct
 
-from fastapi.testclient import TestClient
-
 from assistant.fixtures import AssistantApi
+from fastapi.testclient import TestClient
+from field.fixtures import PNG
 
 
 def mp4() -> bytes:
@@ -20,7 +20,9 @@ def mp4() -> bytes:
     )
 
 
-def _upload(api: AssistantApi, point_id: str, key: str, data: bytes, mime: str, origin: str | None = None) -> dict:
+def _upload(
+    api: AssistantApi, point_id: str, key: str, data: bytes, mime: str, origin: str | None = None
+) -> dict:
     params = {"fileName": f"{key}.{'mp4' if mime == 'video/mp4' else 'png'}", "pointId": point_id}
     if origin:
         params["origin"] = origin
@@ -29,7 +31,7 @@ def _upload(api: AssistantApi, point_id: str, key: str, data: bytes, mime: str, 
         params=params,
         content=data,
         headers={
-            **api.headers("demo-safety", f"media-{key}"),
+            **api.headers(key=f"media-{key}"),
             "Content-Type": mime,
         },
     )
@@ -69,8 +71,16 @@ def test_video_metadata_analysis_frames_and_summary_persist(client: TestClient, 
     assert video["contentUrl"].endswith(f"/media/{video_media['id']}/content")
     replay = _register_video(api, video_media["id"], point_id, "one")
     assert replay.json()["data"]["id"] == video["id"]
-    replay.json()["replayed"] is True
-    changed = _register_video(api, video_media["id"], point_id, "one-changed")
+    assert replay.json()["replayed"] is True
+    changed = api.fpost(
+        "/media-sessions/videos",
+        {
+            "mediaId": video_media["id"],
+            "pointId": point_id,
+            "metadata": {"assetKey": "different"},
+        },
+        "video-one",
+    )
     assert changed.status_code == 409, changed.text
 
     analysis = api.fpost(
@@ -103,10 +113,15 @@ def test_video_metadata_analysis_frames_and_summary_persist(client: TestClient, 
     assert replay_analysis.status_code == 200, replay_analysis.text
     assert replay_analysis.json()["replayed"] is True
 
-    frame_media = _upload(api, point_id, "frame", b"png", "image/png", origin="demo_generated")
+    frame_media = _upload(api, point_id, "frame", PNG, "image/png", origin="demo_generated")
     frame = api.fpost(
         "/media-sessions/frames",
-        {"mediaId": frame_media["id"], "pointId": point_id, "videoId": video["id"], "timeCode": 3.0},
+        {
+            "mediaId": frame_media["id"],
+            "pointId": point_id,
+            "videoId": video["id"],
+            "timeCode": 3.0,
+        },
         "video-frame-one",
     ).json()["data"]
     assert frame["origin"] == "demo_generated"
@@ -142,7 +157,6 @@ def test_video_scope_and_cross_point_are_enforced(client: TestClient, settings) 
     video_media = _upload(api, ids["point"]["id"], "scope-video", mp4(), "video/mp4")
     registered = _register_video(api, video_media["id"], ids["point"]["id"], "scope")
     assert registered.status_code == 200, registered.text
-    video = registered.json()["data"]
     foreign = _upload(api, other["id"], "foreign-video", mp4(), "video/mp4")
     mismatch = api.fpost(
         "/media-sessions/videos",

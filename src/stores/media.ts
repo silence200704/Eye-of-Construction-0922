@@ -10,7 +10,9 @@
 import { computed, ref, watch } from 'vue'
 import { defineStore } from 'pinia'
 import { backendActive, currentEpoch, epochVersion } from '@/api/backend/runtime'
-import { uploadSessionFrame } from '@/api/backend/mediaSession'
+import { uploadMedia } from '@/api/backend/media'
+import { uploadSessionFrame, frameBlob } from '@/api/backend/mediaSession'
+import { saveSessionVideo, saveVideoAnalysis } from '@/api/backend/assistant'
 import { restoreServerFrames, saveComparisonRecord } from '@/media/sessionRemote'
 import type { RemoteComparison } from '@/api/backend/assistant'
 import { datasetResetVersion } from './demo/registry'
@@ -23,6 +25,7 @@ import { analysePair, compareRecordOf } from '@/core/media/analysis'
 import { decodeUpload } from '@/core/media/capture'
 import { DEMO_EVIDENCE_NOTE, DEMO_EVIDENCE_PAIR, DEMO_PHOTOS, PUBLIC_CRACK_REFERENCE } from '@/config/media/demoPhotos'
 import type { FrameOrigin, MediaCompareRecord, MediaFrame, MediaFrameRef } from '@/types/media'
+import type { SessionVideo, VideoAnalysis } from '@/types/media/video'
 
 /** 单个测点最多保留几张会话影像：再多就不好选了，也提示用户去留存 */
 export const SESSION_FRAME_LIMIT = 6
@@ -96,7 +99,9 @@ export const useMediaStore = defineStore('media', () => {
     if (!backendActive()) return
     syncChain = syncChain
       .then(async () => {
-        const info = await uploadSessionFrame(row)
+        const video = videoSession.videoMeta.value
+        const serverVideoId = row.videoId && video?.id === row.videoId ? video.remoteVideoId ?? undefined : row.videoId
+        const info = await uploadSessionFrame({ ...row, videoId: serverVideoId })
         frames.value = frames.value.map((item) => item.id === row.id
           ? { ...item, remoteMediaId: info.mediaId, remoteFrameId: info.frameId, remoteContentUrl: info.contentUrl }
           : item)
@@ -109,6 +114,58 @@ export const useMediaStore = defineStore('media', () => {
   /** 等本次会话来已发起的上传落地（比对保存前调用）。 */
   async function settleSync(): Promise<void> {
     await syncChain
+  }
+
+  /** 上传视频原字节并登记元数据；失败只提示，不把本地播放当已保存。 */
+  async function persistVideo(input: {
+    file: File
+    pointId: string
+    metadata: SessionVideo
+  }): Promise<{ mediaId: string; videoId: string; contentUrl: string } | null> {
+    if (!backendActive()) return null
+    const actorId = useBackendSessionStore().user?.id ?? ''
+    const epoch = currentEpoch()
+    try {
+      const media = await uploadMedia({
+        blob: input.file,
+        fileName: input.metadata.fileName,
+        draftId: input.metadata.id,
+        pointId: input.pointId,
+        capturedAt: input.metadata.loadedAt,
+        origin: 'upload',
+      })
+      const saved = await saveSessionVideo({
+        mediaId: media.id,
+        pointId: input.pointId,
+        metadata: { ...input.metadata },
+      })
+      if (actorId !== (useBackendSessionStore().user?.id ?? '') || epoch !== currentEpoch()) return null
+      return { mediaId: saved.mediaId, videoId: saved.id, contentUrl: saved.contentUrl }
+    } catch (cause) {
+      notify(`视频已在当前会话播放，但未写入服务端：${cause instanceof Error ? cause.message : String(cause)}`, false)
+      return null
+    }
+  }
+
+  /** 保存视频分析结果；帧 ID 映射为服务端关键帧 ID。 */
+  async function persistVideoAnalysis(result: VideoAnalysis): Promise<boolean> {
+    if (!backendActive()) return false
+    const video = videoSession.videoMeta.value
+    if (!video?.remoteVideoId) {
+      notify('视频分析未写入服务端：视频尚未完成登记。', false)
+      return false
+    }
+    const actorId = useBackendSessionStore().user?.id ?? ''
+    const epoch = currentEpoch()
+    try {
+      const frameIds = result.frameIds.map((id) => frames.value.find((row) => row.id === id)?.remoteFrameId ?? id)
+      await saveVideoAnalysis({ videoId: video.remoteVideoId, analysis: { ...result, frameIds } })
+      if (actorId !== (useBackendSessionStore().user?.id ?? '') || epoch !== currentEpoch()) return false
+      return true
+    } catch (cause) {
+      notify(`视频分析未写入服务端：${cause instanceof Error ? cause.message : String(cause)}`, false)
+      return false
+    }
   }
 
   function addFrame(row: MediaFrame): void {
@@ -314,7 +371,13 @@ export const useMediaStore = defineStore('media', () => {
     }
   }
 
-  const videoSession = createVideoSession({ frames, notify, persistFrame: enqueueSync })
+  const videoSession = createVideoSession({
+    frames,
+    notify,
+    persistFrame: enqueueSync,
+    persistVideo,
+    persistVideoAnalysis,
+  })
 
   /** 身份、数据集或 epoch 变化后清掉上一身份已取回的字节与比对缓存。 */
   function forgetCachedMedia(): void {
@@ -428,6 +491,32 @@ export const useMediaStore = defineStore('media', () => {
     if (actorId !== (useBackendSessionStore().user?.id ?? '') || epoch !== currentEpoch()) return 0
     remoteComparisons.value = restored.comparisons
     if (restored.frames.length > 0) frames.value = [...frames.value, ...restored.frames]
+    for (const video of restored.videos) {
+      const blob = await frameBlob(video.contentUrl)
+      const metadata = (video.metadata ?? {}) as Partial<SessionVideo>
+      videoSession.restoreVideo(
+        new File([blob], metadata.fileName ?? 'video.mp4', { type: 'video/mp4' }),
+        {
+          id: video.id,
+          pointId: video.pointId,
+          assetKey: metadata.assetKey ?? '',
+          assetVersion: metadata.assetVersion ?? 1,
+          fileName: metadata.fileName ?? 'video.mp4',
+          title: metadata.title ?? '服务端视频',
+          durationSeconds: metadata.durationSeconds ?? 0,
+          width: metadata.width ?? 0,
+          height: metadata.height ?? 0,
+          loadedAt: metadata.loadedAt ?? '',
+          source: metadata.source ?? '服务端会话视频',
+          note: metadata.note ?? '从服务端受保护内容接口恢复；不重放抽帧或分析。',
+          comparable: metadata.comparable ?? false,
+          remoteVideoId: video.id,
+          mediaId: video.mediaId,
+          contentUrl: video.contentUrl,
+        },
+      )
+      if (video.analysis) videoSession.restoreAnalysis(video.analysis as unknown as VideoAnalysis)
+    }
     return restored.frames.length
   }
 

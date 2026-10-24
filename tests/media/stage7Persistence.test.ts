@@ -46,7 +46,8 @@ it('服务端模式抽帧后应进入正式上传登记链路', async () => {
   await media.captureKeyframes('A', '演示')
   await media.settleSync()
   expect(media.frames).toHaveLength(3)
-  expect(upload).toHaveBeenCalledTimes(3)
+  // 4 = 原视频字节 1 次 + 三个关键帧；审查桩未提供视频登记接口，因此帧登记仍断言 3 次。
+  expect(upload).toHaveBeenCalledTimes(4)
   expect(register).toHaveBeenCalledTimes(3)
 })
 

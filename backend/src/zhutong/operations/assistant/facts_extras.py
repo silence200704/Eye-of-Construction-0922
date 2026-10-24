@@ -5,9 +5,8 @@ from sqlalchemy.orm import Session
 
 from ...db.models.field import Issue, WorkOrder
 from ...db.models.monitoring import AlarmEvent
-from ..datasets.core.record_queries import records_of_point
 from ..datasets.core.workspace import Workspace, can_access_building
-from .facts import LEVEL_TEXT, queried_at
+from .facts import queried_at
 
 
 def event_replay(session: Session, workspace: Workspace, event: AlarmEvent) -> dict:
@@ -118,43 +117,18 @@ def case_search(session: Session, workspace: Workspace, point_id: str | None, ke
     }
 
 
-def rule_simulate(session: Session, workspace: Workspace, point, candidate: dict) -> dict:
-    rows = [row for row in records_of_point(session, workspace, point.id) if row.quality == "valid"]
-    rows.sort(key=lambda row: row.sample_time)
-    yellow = float(candidate.get("yellow", 0))
-    orange = float(candidate.get("orange", 0))
-    red = float(candidate.get("red", 0))
-    out = []
-    for row in rows[-20:]:
-        value = next(iter(row.values.values()), None)
-        if not isinstance(value, (int, float)):
-            continue
-        original = row.assessment.get("level") if row.assessment else None
-        candidate_level = (
-            "red"
-            if value >= red
-            else "orange"
-            if value >= orange
-            else "yellow"
-            if value >= yellow
-            else "normal"
-        )
-        out.append(
-            {
-                "recordNo": row.record_no,
-                "original": LEVEL_TEXT.get(original or "normal", original or "normal"),
-                "candidate": LEVEL_TEXT.get(candidate_level, candidate_level),
-                "changed": candidate_level != (original or "normal"),
-            }
-        )
-    changed = sum(1 for row in out if row["changed"])
-    conclusion = (
-        f"按候选阈值（黄 {yellow:g}／橙 {orange:g}／红 {red:g}）对最近 {len(out)} 条有效记录试算，"
-        f"{changed} 条等级会变化；试算不写库、不触发事件。"
-    )
-    return {
-        "conclusion": conclusion,
-        "facts": [],
-        "evidence": [],
-        "extras": {"simulation": out, "queriedAt": queried_at()},
-    }
+def rule_simulate(session: Session, workspace: Workspace, point, candidate):
+    """缺候选阈值时先澄清；有阈值交给阶段 4 判定引擎，不重复实现第二套算法。"""
+    from ..datasets.trials import simulate
+
+    if candidate is None:
+        return {
+            "status": "need_choice",
+            "conclusion": (
+                "请说明候选阈值，例如「试算黄色阈值改为0.15毫米，最近7天哪些记录改变等级」。"
+            ),
+            "facts": [],
+            "evidence": [],
+            "extras": {"queriedAt": queried_at()},
+        }
+    return simulate(session, workspace, point, candidate)

@@ -67,6 +67,13 @@ KNOWLEDGE_WORDS = [
     "口径",
     "阈值怎么定",
     "允许",
+    "可以吗",
+    "能自行",
+    "能不能",
+    "需要吗",
+    "是否需要",
+    "会自动",
+    "要不要",
 ]
 FULL_WIDTH = re.compile(r"[\uFF01-\uFF5E]")
 PUNCT = re.compile(r"[\s，。、；：？！“”‘’〈〉《》【】（）()[\]]")
@@ -180,10 +187,33 @@ def parse_intent(q: dict, entities: dict) -> str:
         return "demo_guide"
     if "怎么办理" in compact or "如何办理" in compact:
         return "knowledge"
+    strong_knowledge = _has(
+        [
+            "会自动",
+            "能不能",
+            "可以吗",
+            "是否需要",
+            "怎么判定",
+            "需要哪些",
+            "可以自行",
+            "能自行",
+            "能删除吗",
+            "有哪些来源",
+            "有哪几种",
+            "六种",
+            "几张",
+            "多大",
+            "怎么转",
+            "计入",
+            "处理出口",
+            "最终闭环率",
+        ],
+        compact,
+    )
     if (
-        _has(KNOWLEDGE_WORDS, compact)
+        (strong_knowledge or _has(KNOWLEDGE_WORDS, compact))
         and not has_point_clue(entities)
-        and not _has(ALARM_WORDS, compact)
+        and (strong_knowledge or not _has(ALARM_WORDS, compact))
     ):
         return "knowledge"
     if _wants_recovery(compact):
@@ -204,7 +234,21 @@ def parse_intent(q: dict, entities: dict) -> str:
         and _has(OVERVIEW_WORDS, compact)
     ):
         return "campus_overview"
-    if _has(WHY_WORDS, compact) or entities["eventNo"] is not None:
+    if entities["orderNo"] is not None or (
+        _has(ISSUE_WORDS, compact)
+        and not _has(ALARM_WORDS, compact)
+        and not has_point_clue(entities)
+        and _has(["可以", "能否", "能不能", "需要", "应该", "流程", "材料", "依据"], compact)
+    ):
+        return "knowledge"
+    if _has(WHY_WORDS, compact) and (
+        entities["eventNo"] is not None
+        or has_point_clue(entities)
+        or _has(ALARM_WORDS, compact)
+        or _has(FOLLOW_UP_WORDS, compact)
+    ):
+        return "event_reason"
+    if entities["eventNo"] is not None:
         return "event_reason"
     if entities["orderNo"] is not None or (
         _has(ISSUE_WORDS, compact) and not _has(ALARM_WORDS, compact)

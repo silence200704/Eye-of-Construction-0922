@@ -33,6 +33,7 @@ class MediaFrameInput(BaseModel):
     label: str = ""
     capturedAt: str | None = None
     timeCode: float | None = None
+    videoId: str | None = None
 
 
 class MediaCompareInput(BaseModel):
@@ -41,3 +42,15 @@ class MediaCompareInput(BaseModel):
     beforeId: str = Field(min_length=1)
     afterId: str = Field(min_length=1)
     result: dict[str, Any]
+
+
+class MediaVideoInput(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    mediaId: str = Field(min_length=1)
+    pointId: str = Field(min_length=1)
+    metadata: dict[str, Any] = Field(default_factory=dict)
+
+
+class VideoAnalysisInput(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    analysis: dict[str, Any]

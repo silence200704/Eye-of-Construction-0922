@@ -15,6 +15,10 @@ export interface SessionVideo {
   source: string
   note: string
   comparable: boolean
+  /** 服务端已保存的视频身份；本地演示模式没有 */
+  remoteVideoId?: string
+  mediaId?: string
+  contentUrl?: string
 }
 
 export interface VideoAnalysis {

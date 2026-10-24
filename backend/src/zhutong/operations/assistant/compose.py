@@ -4,6 +4,7 @@
 knowledge 来自阶段 6 检索（含 chunkId/版本/哈希）。建议不是已执行的动作。
 """
 
+import re
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -11,8 +12,9 @@ from sqlalchemy.orm import Session
 
 from ...db.models.archive import Point
 from ...db.models.field import Issue
-from ...db.models.monitoring import AlarmEvent
+from ...db.models.monitoring import AlarmEvent, MonitorRecord
 from ..datasets.core.workspace import Workspace
+from ..datasets.trials import TrialThresholds
 from . import facts, facts_extras, facts_more
 from .knowledge_answers import _attach_knowledge, _knowledge, _knowledge_answer
 from .parse import extract_entities, normalize, parse_intent
@@ -107,6 +109,11 @@ def query(session: Session, workspace: Workspace, runtime: Path, payload: dict) 
             answer = _knowledge_answer(knowledge)
         else:
             answer = _attach_knowledge(answer, knowledge, intent)
+            if (
+                answer.get("status") == "answered"
+                and answer.get("sources", {}).get("facts") == "server_db"
+            ):
+                answer["snapshot"] = _fact_snapshot(session, workspace, resolved, answer)
     if answer is not None:
         answer.setdefault("intent", intent)
         answer["question"] = question
@@ -121,6 +128,57 @@ def query(session: Session, workspace: Workspace, runtime: Path, payload: dict) 
         )
         answer["dataNotes"] = answer.get("dataNotes", []) + [note]
     return answer
+
+
+def _candidate_thresholds(question: str, context: dict) -> TrialThresholds | None:
+    simulation = context.get("simulation")
+    if simulation:
+        return TrialThresholds(
+            yellow=simulation.get("yellow"),
+            orange=simulation.get("orange"),
+            red=simulation.get("red"),
+        )
+    levels = {"黄": "yellow", "橙": "orange", "红": "red"}
+    found: dict[str, float] = {}
+    for match in re.finditer(r"(黄|橙|红)(?:色)?(?:阈值)?改为\s*([0-9]+(?:\.[0-9]+)?)", question):
+        found[levels[match.group(1)]] = float(match.group(2))
+    if not found:
+        return None
+    return TrialThresholds(
+        yellow=found.get("yellow"), orange=found.get("orange"), red=found.get("red")
+    )
+
+
+def _fact_snapshot(
+    session: Session, workspace: Workspace, resolved: Resolved, answer: dict
+) -> dict:
+    objects: dict[str, dict] = {}
+    for key, attr, finder in (
+        ("pointId", "point_id", find_point),
+        ("eventId", "event_id", find_event),
+        ("issueId", "issue_id", find_issue),
+        ("workOrderId", "work_order_id", find_order),
+    ):
+        row = finder(session, workspace, getattr(resolved, attr))
+        if row is not None:
+            objects[key] = {"id": row.id, "rev": row.revision}
+    records = []
+    for row in answer.get("evidence") or []:
+        if row.get("kind") != "record":
+            continue
+        record = session.get(MonitorRecord, (workspace.dataset_id, row.get("id")))
+        if record is not None:
+            records.append(
+                {"id": record.id, "rev": record.revision, "recordRevision": record.record_revision}
+            )
+    extras = answer.get("extras") or {}
+    return {
+        "queriedAt": answer.get("sources", {}).get("queriedAt", ""),
+        "objects": objects,
+        "records": records,
+        "rules": [extras["rule"]] if isinstance(extras.get("rule"), dict) else [],
+        "baselines": [extras["baseline"]] if isinstance(extras.get("baseline"), dict) else [],
+    }
 
 
 def _context_answer(resolved: Resolved, intent: str, question: str) -> dict:
@@ -191,11 +249,7 @@ def _business_answer(
         point = _need_point(session, workspace, resolved)
         if point is None:
             return _missing_point(intent, entities)
-        candidate = payload.get("context", {}).get("simulation") or {
-            "yellow": 0.1,
-            "orange": 0.2,
-            "red": 0.3,
-        }
+        candidate = _candidate_thresholds(payload.get("question", ""), payload.get("context") or {})
         return _wrap(facts_extras.rule_simulate(session, workspace, point, candidate), resolved)
     if intent in {"spatial_go", "video_compare", "visual_evidence", "visual_region"}:
         point = _need_point(session, workspace, resolved)

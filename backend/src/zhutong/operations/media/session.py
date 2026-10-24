@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from ...core.errors import AppError
 from ...db.models.archive import Point
-from ...db.models.media import MediaComparison, MediaFile, MediaFrame
+from ...db.models.media import MediaComparison, MediaFile, MediaFrame, MediaVideo
 from ...db.models.monitoring import MonitorRecord
 from ..datasets.core.workspace import Workspace, can_access_building, require_building, uid
 
@@ -50,6 +50,7 @@ def _frame_out(row: MediaFrame, dataset_id: str, media: MediaFile | None = None)
         "label": row.label,
         "capturedAt": row.captured_at,
         "timeCode": row.time_code,
+        "videoId": row.video_id,
         "origin": media.origin if media else "upload",
         "fileName": media.file_name if media else "",
         "size": media.size if media else 0,
@@ -71,12 +72,17 @@ def register_frame(session: Session, workspace: Workspace, payload: dict) -> dic
         raise AppError("STATE_CONFLICT", "关键帧影像与测点不一致", 409)
     if not media.mime_type.startswith("image/"):
         raise AppError("VALIDATION_FAILED", "影像会话关键帧必须是图片", 422)
+    video_id = payload.get("videoId")
+    if video_id is not None:
+        video = session.get(MediaVideo, (workspace.dataset_id, str(video_id)))
+        if video is None or video.point_id != point.id:
+            raise AppError("STATE_CONFLICT", "关键帧视频与测点不一致", 409)
     row = MediaFrame(
         dataset_id=workspace.dataset_id,
         id=uid("mf"),
         media_id=media.id,
         point_id=point.id,
-        video_id=None,
+        video_id=str(video_id) if video_id is not None else None,
         time_code=payload.get("timeCode"),
         label=payload.get("label", ""),
         captured_at=payload.get("capturedAt") or media.uploaded_at,
@@ -105,6 +111,84 @@ def _visible_frame_parts(
     if not _media_readable(workspace, media, media_point):
         return None
     return point, media
+
+
+def _point_visible(session: Session, workspace: Workspace, point_id: str | None) -> Point | None:
+    if not point_id:
+        return None
+    point = session.get(Point, (workspace.dataset_id, point_id))
+    if (
+        point is None
+        or point.status != "active"
+        or not can_access_building(workspace, point.building_id)
+    ):
+        return None
+    return point
+
+
+def _video_out(session: Session, row: MediaVideo, dataset_id: str) -> dict:
+    return {
+        "id": row.id,
+        "pointId": row.point_id,
+        "mediaId": row.media_id,
+        "metadata": row.metadata_snapshot or {},
+        "analysis": row.analysis,
+        "contentUrl": f"/api/v1/datasets/{dataset_id}/media/{row.media_id}/content",
+    }
+
+
+def register_video(session: Session, workspace: Workspace, payload: dict) -> dict:
+    point = _point(session, workspace, payload["pointId"])
+    media = _media(session, workspace, payload["mediaId"])
+    if media.point_id != point.id or media.mime_type != "video/mp4":
+        raise AppError("STATE_CONFLICT", "视频媒体与测点不一致，且必须是 MP4", 409)
+    row = session.scalar(
+        select(MediaVideo).where(
+            MediaVideo.dataset_id == workspace.dataset_id,
+            MediaVideo.media_id == media.id,
+        )
+    )
+    metadata = payload.get("metadata") or {}
+    if row is None:
+        row = MediaVideo(
+            dataset_id=workspace.dataset_id,
+            id=uid("mv"),
+            media_id=media.id,
+            point_id=point.id,
+            metadata_snapshot=metadata,
+            analysis=None,
+        )
+        session.add(row)
+    elif row.point_id != point.id or row.metadata_snapshot != metadata:
+        raise AppError("STATE_CONFLICT", "该视频已绑定其它测点或元数据", 409)
+    session.flush()
+    return _video_out(session, row, workspace.dataset_id)
+
+
+def save_video_analysis(session: Session, workspace: Workspace, payload: dict) -> dict:
+    row = session.get(MediaVideo, (workspace.dataset_id, payload["videoId"]))
+    point = _point_visible(session, workspace, row.point_id) if row is not None else None
+    if row is None or point is None:
+        raise AppError("NOT_FOUND", "视频不存在或无权读取", 404, {"videoId": payload["videoId"]})
+    analysis = payload.get("analysis")
+    if not isinstance(analysis, dict):
+        raise AppError("VALIDATION_FAILED", "视频分析结果必须是结构化对象", 422)
+    row.analysis = analysis
+    session.flush()
+    return _video_out(session, row, workspace.dataset_id)
+
+
+def list_videos(session: Session, workspace: Workspace, point_id: str | None) -> list[dict]:
+    query = select(MediaVideo).where(MediaVideo.dataset_id == workspace.dataset_id)
+    if point_id:
+        _point(session, workspace, point_id)
+        query = query.where(MediaVideo.point_id == point_id)
+    out = []
+    for row in session.scalars(query.order_by(MediaVideo.id)):
+        if _point_visible(session, workspace, row.point_id) is None:
+            continue
+        out.append(_video_out(session, row, workspace.dataset_id))
+    return out
 
 
 def list_frames(session: Session, workspace: Workspace, point_id: str | None) -> list[dict]:
@@ -206,4 +290,9 @@ def session_summary(session: Session, workspace: Workspace, point_id: str | None
         ]
         if rows:
             latest = max(row.sample_time for row in rows)
-    return {"frames": frames, "comparisons": comparisons, "latestSampleTime": latest}
+    return {
+        "frames": frames,
+        "comparisons": comparisons,
+        "videos": list_videos(session, workspace, point_id),
+        "latestSampleTime": latest,
+    }

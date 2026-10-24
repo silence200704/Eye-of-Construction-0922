@@ -159,6 +159,27 @@ export function fetchMediaSession(pointId: string): Promise<RemoteMediaSession> 
   return read<RemoteMediaSession>('/media-sessions/summary', { pointId })
 }
 
+export function saveSessionVideo(input: {
+  mediaId: string
+  pointId: string
+  metadata: Record<string, unknown>
+}): Promise<RemoteVideo> {
+  return command<RemoteVideo>('/media-sessions/videos', {
+    body: input,
+    key: `video|${input.mediaId}|${input.pointId}`,
+  }).then((result) => result.data)
+}
+
+export function saveVideoAnalysis(input: {
+  videoId: string
+  analysis: Record<string, unknown>
+}): Promise<RemoteVideo> {
+  return command<RemoteVideo>(`/media-sessions/videos/${encodeURIComponent(input.videoId)}/analysis`, {
+    body: { analysis: input.analysis },
+    key: `video-analysis|${input.videoId}`,
+  }).then((result) => result.data)
+}
+
 export function saveSessionComparison(input: {
   pointId: string
   beforeId: string

@@ -12,7 +12,13 @@ from ....operations.datasets.core.workspace import (
 )
 from ....operations.media import session as media_session
 from ..common import Current, Read, Write, reply
-from .schemas import AssistantQueryInput, MediaCompareInput, MediaFrameInput
+from .schemas import (
+    AssistantQueryInput,
+    MediaCompareInput,
+    MediaFrameInput,
+    MediaVideoInput,
+    VideoAnalysisInput,
+)
 
 router = APIRouter(prefix="/api/v1/datasets/{dataset_id}/assistant", tags=["小瞳问答"])
 
@@ -111,6 +117,45 @@ def save_comparison(
 
     data, replayed = execute_command(
         session, current, Command(request, "assistant_comparison_save", payload), save
+    )
+    return reply(request, current, data, replayed=replayed)
+
+
+@media_router.get("/videos")
+def videos(request: Request, session: Read, current: Current, pointId: str | None = None) -> dict:
+    return reply(request, current, media_session.list_videos(session, current, pointId))
+
+
+@media_router.post("/videos")
+def register_video(
+    request: Request, session: Write, current: Current, body: MediaVideoInput
+) -> dict:
+    payload = body.model_dump()
+
+    def save() -> dict:
+        result = media_session.register_video(session, current, payload)
+        _audit(session, current, "assistant_video_register", result["id"], "登记会话视频元数据")
+        return result
+
+    data, replayed = execute_command(
+        session, current, Command(request, "assistant_video_register", payload), save
+    )
+    return reply(request, current, data, replayed=replayed)
+
+
+@media_router.post("/videos/{video_id}/analysis")
+def save_video_analysis(
+    request: Request, session: Write, current: Current, video_id: str, body: VideoAnalysisInput
+) -> dict:
+    payload = {"videoId": video_id, **body.model_dump()}
+
+    def save() -> dict:
+        result = media_session.save_video_analysis(session, current, payload)
+        _audit(session, current, "assistant_video_analysis", result["id"], "保存视频分析结果")
+        return result
+
+    data, replayed = execute_command(
+        session, current, Command(request, "assistant_video_analysis", payload), save
     )
     return reply(request, current, data, replayed=replayed)
 

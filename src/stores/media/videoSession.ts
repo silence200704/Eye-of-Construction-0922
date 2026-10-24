@@ -7,11 +7,20 @@ import { DEMO_VIDEOS, VIDEO_REGIONS, type DemoVideoKey } from '@/config/media/de
 import type { MediaFrame } from '@/types/media'
 import type { SessionVideo, VideoAnalysis } from '@/types/media/video'
 
+type PersistedVideo = { mediaId: string; videoId: string; contentUrl: string }
 type Context = {
   frames: Ref<MediaFrame[]>
   notify: (text: string, ok?: boolean) => void
   /** 服务端模式下把新帧送入正式上传登记链；本地演示模式是空操作。 */
   persistFrame?: (row: MediaFrame) => void
+  /** 上传原视频并登记元数据；返回服务端身份，失败返回 null 且不冒称已保存。 */
+  persistVideo?: (input: {
+    file: File
+    pointId: string
+    metadata: SessionVideo
+  }) => Promise<PersistedVideo | null>
+  /** 保存视频分析结果；失败由调用方提示，不阻塞本地展示。 */
+  persistVideoAnalysis?: (result: VideoAnalysis) => Promise<boolean>
 }
 type Guard = () => void
 
@@ -51,7 +60,11 @@ class VideoSession {
       this.clearVideo()
       this.videoUrl.value = url
       this.videoMeta.value = next
-      return next
+      const saved = await this.context.persistVideo?.({ file: input.file, pointId: input.pointId, metadata: next })
+      if (saved && this.videoMeta.value?.id === next.id) {
+        this.videoMeta.value = { ...next, remoteVideoId: saved.videoId, mediaId: saved.mediaId, contentUrl: saved.contentUrl }
+      }
+      return this.videoMeta.value
     } catch (cause) { URL.revokeObjectURL(url); throw cause }
   }
 
@@ -108,7 +121,22 @@ class VideoSession {
     guard()
     if (this.videoMeta.value?.id !== meta.id || !result.frameIds.every((id) => this.context.frames.value.some((row) => row.id === id))) throw new Error('视频或关键帧已失效，请重试。')
     this.videoAnalysis.value = result
+    await this.context.persistVideoAnalysis?.(result)
     return result
+  }
+
+  /** 只读恢复：不重新上传、不重放抽帧或分析；视频身份直接采用服务端 ID。 */
+  restoreVideo(file: File, meta: SessionVideo): void {
+    const url = URL.createObjectURL(file)
+    if (this.videoUrl.value) URL.revokeObjectURL(this.videoUrl.value)
+    this.videoUrl.value = url
+    this.videoMeta.value = meta
+    this.videoAnalysis.value = null
+  }
+
+  restoreAnalysis(result: VideoAnalysis): void {
+    if (this.videoMeta.value?.id !== result.videoId) return
+    this.videoAnalysis.value = result
   }
 }
 
@@ -118,6 +146,7 @@ export function createVideoSession(context: Context) {
     videoUrl: session.videoUrl, videoMeta: session.videoMeta, videoAnalysis: session.videoAnalysis,
     pickVideo: session.pickVideo.bind(session), clearVideo: session.clearVideo.bind(session),
     captureKeyframes: session.captureKeyframes.bind(session), loadBundledVideo: session.loadBundledVideo.bind(session),
-    analyseVideo: session.analyseVideo.bind(session),
+    analyseVideo: session.analyseVideo.bind(session), restoreVideo: session.restoreVideo.bind(session),
+    restoreAnalysis: session.restoreAnalysis.bind(session),
   }
 }

@@ -12,7 +12,9 @@ from sqlalchemy.orm import Session
 from ...db.models.archive import Building, Device, Floor, Point
 from ...db.models.field import Issue
 from ...db.models.monitoring import AlarmEvent, Baseline, MonitoringRule, MonitorRecord
-from ..datasets.core.record_queries import records_of_point
+from ...domain.monitoring.rules import rule_for_point
+from ..datasets.core.record_queries import records_of_point, rules_for_dataset
+from ..datasets.core.serialize import point_out
 from ..datasets.core.workspace import Workspace
 from .resolve import Resolved
 
@@ -85,25 +87,16 @@ def _open_event_of(session: Session, workspace: Workspace, point_id: str) -> Ala
     return events[0] if events else None
 
 
-def _rule_of(session: Session, workspace: Workspace, point: Point) -> MonitoringRule | None:
-    """按阶段 4 口径取适用规则：先按采样时间选版本，再判断范围与启用。"""
+def _rule_of(
+    session: Session, workspace: Workspace, point: Point, at: str
+) -> MonitoringRule | None:
+    """当前生效规则复用阶段 4 选取器；同一 ruleId 最新版停用时不回退旧版。"""
     if not point.metric:
         return None
-    rules = [
-        row
-        for row in session.scalars(
-            select(MonitoringRule).where(
-                MonitoringRule.dataset_id == workspace.dataset_id,
-                MonitoringRule.metric == point.metric,
-            )
-        )
-        if row.enabled
-        and (not row.point_ids or point.id in row.point_ids)
-        and (not row.building_ids or point.building_id in row.building_ids)
-    ]
-    if not rules:
+    rule = rule_for_point(rules_for_dataset(session, workspace), point_out(point), at)
+    if rule is None or not rule.get("enabled", False):
         return None
-    return max(rules, key=lambda row: (row.effective_from, row.version))
+    return session.get(MonitoringRule, (workspace.dataset_id, rule["id"]))
 
 
 def _baseline_of(session: Session, workspace: Workspace, point_id: str) -> Baseline | None:
@@ -134,7 +127,7 @@ def point_status(
     event = open_events[0] if len(open_events) == 1 else None
     if event is not None and resolved.event_id is None:
         resolved.event_id = event.id
-    rule = _rule_of(session, workspace, point)
+    rule = _rule_of(session, workspace, point, queried_at())
     baseline = _baseline_of(session, workspace, point.id)
     device = session.scalar(
         select(Device).where(Device.dataset_id == workspace.dataset_id, Device.point_id == point.id)
@@ -216,16 +209,21 @@ def point_status(
     current = facts[2]["value"] if record is not None else "（无）"
     unit = facts[2]["unit"] if record is not None and facts[2]["unit"] else ""
     conclusion = f"{point.name}当前读数 {current}{unit}；{freshness_label}。"
+    extras = {
+        "freshness": freshness,
+        "freshnessLabel": freshness_label,
+        "queriedAt": queried_at(),
+        "device": device.name if device else "",
+    }
+    if rule is not None:
+        extras["rule"] = {"id": rule.id, "ruleId": rule.rule_id, "version": rule.version}
+    if baseline is not None:
+        extras["baseline"] = {"version": baseline.version}
     return {
         "conclusion": conclusion,
         "facts": facts,
         "evidence": evidence,
-        "extras": {
-            "freshness": freshness,
-            "freshnessLabel": freshness_label,
-            "queriedAt": queried_at(),
-            "device": device.name if device else "",
-        },
+        "extras": extras,
     }
 
 

@@ -1,5 +1,5 @@
 /** 影像会话的服务端恢复与比对保存；store 只负责状态提示。 */
-import type { RemoteComparison } from '@/api/backend/assistant'
+import type { RemoteComparison, RemoteVideo } from '@/api/backend/assistant'
 import {
   fetchRemoteSession,
   frameBlob,
@@ -11,6 +11,7 @@ import type { MediaCompareRecord, MediaFrame } from '@/types/media'
 export interface RestoredSession {
   frames: MediaFrame[]
   comparisons: RemoteComparison[]
+  videos: RemoteVideo[]
 }
 
 /** 只补当前会话还没有的关键帧；内容接口按身份鉴权，取回字节重建预览。 */
@@ -26,7 +27,7 @@ export async function restoreServerFrames(input: {
   const frames = await Promise.all(
     missing.map(async (row) => frameOfRemote(row, await frameBlob(row.contentUrl))),
   )
-  return { frames, comparisons: summary.comparisons }
+  return { frames, comparisons: summary.comparisons, videos: summary.videos ?? [] }
 }
 
 export function saveComparisonRecord(input: {
