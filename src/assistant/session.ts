@@ -5,18 +5,13 @@ import { useClockStore } from '@/stores/clock'
 import { useBackendSessionStore } from '@/stores/backend/session'
 import { backendActive, currentEpoch, epochVersion } from '@/api/backend/runtime'
 import { datasetResetVersion, readRegistry } from '@/stores/demo/registry'
-import { candidateContext, queryContext } from './query/context'
+import { candidateContext } from './query/context'
 import { assembleAnswer } from './ask'
-import {
-  REMOTE_INTENTS,
-  askRemote,
-  contextPayload,
-  createRemoteSessionState,
-} from './remote/session'
-import { askWithDirector } from './director/entry'
+import { REMOTE_INTENTS, createRemoteSessionState } from './remote/session'
 import { directorIntent } from './director/intent'
 import type { GuidePlan } from './guide/plan'
 import { createGuideRunner } from './guide/reread'
+import { askLocalTurn, askRemoteTurn, type TurnContext, type TurnRequest } from './turns'
 import { buildSnapshot, findPoint } from './selectors'
 import type { AskCandidate, AskContext, AskResult, AskStage } from './types'
 import { normalizeQuestion, extractEntities, parseIntent } from './parse'
@@ -245,6 +240,24 @@ export const useAssistantStore = defineStore('assistant', () => {
     await ask(question)
   }
 
+  const turnContext: TurnContext = {
+    sessionId,
+    context,
+    pageContext,
+    contextLabel,
+    guideActive,
+    guideEventId,
+    guideCanPrepare,
+    requestContext: { get value() { return requestContext }, set value(next) { requestContext = next } },
+    stillCurrent: (generation: number) => generation === queryGeneration,
+    update,
+    remember: rememberServerSession,
+    flash: (result: AskResult | null) => flashEntry(mascotStateOf(result)),
+    clearContext,
+    beginGuide,
+    endGuide,
+  }
+
   async function ask(question: string, options: { readOnly?: boolean } = {}): Promise<void> {
     const text = question.trim()
     if (text === '' || busy.value) return
@@ -262,66 +275,24 @@ export const useAssistantStore = defineStore('assistant', () => {
     const previousVisual = turns.value.flatMap((t) => t.result?.previews ?? []).filter((p) => p.kind === 'visual_evidence').slice(-1)[0]
     seq += 1
     const id = `turn_${seq}`
-    const turn: AskTurn = { id, question: text, result: null, error: '', presented: false, stage: null }
-    turns.value = [...turns.value, turn]
+    turns.value = [...turns.value, { id, question: text, result: null, error: '', presented: false, stage: null }]
     busy.value = true
-    const actorId = useBackendSessionStore().user?.id ?? ''
-    const epoch = currentEpoch()
+    const request: TurnRequest = {
+      id,
+      text,
+      generation,
+      actorId: useBackendSessionStore().user?.id ?? '',
+      epoch: currentEpoch(),
+      readOnly: options.readOnly,
+      previousVisual,
+    }
     if (useRemote) requestContext = { ...context.value, ...pageContext.value }
     try {
       if (useRemote) {
-        const remote = await askRemote({
-          question: text,
-          sessionId: sessionId.value,
-          context: contextPayload(context.value, pageContext.value),
-          stillCurrent: () =>
-            generation === queryGeneration
-            && actorId === (useBackendSessionStore().user?.id ?? '')
-            && epoch === currentEpoch(),
-        })
-        if (generation !== queryGeneration) return
-        rememberServerSession(remote.sessionId)
-        const result = remote.result
-        update(id, { result })
-        if (result.context) context.value = result.context
-        else if (result.pointId !== null) context.value = { pointId: result.pointId }
-        flashEntry(mascotStateOf(result))
-        if (result.gaps.some((gap) => gap.includes('重新选择'))) {
-          context.value = {}
-          contextLabel.value = ''
-        }
-        if (result.status === 'not_found' && result.conclusion.includes('已不在当前数据集')) clearContext()
+        await askRemoteTurn(request, turnContext)
         return
       }
-      const resolved = queryContext({ question: text, page: pageContext.value, previous: context.value, snapshot: buildSnapshot() })
-      const request = {
-        context: 'conclusion' in resolved ? {} : { ...resolved },
-        visualResult: previousVisual?.kind === 'visual_evidence' ? previousVisual.results[previousVisual.active] ?? undefined : undefined,
-        onStage: (stage: AskStage) => { if (generation === queryGeneration) update(id, { stage }) },
-      }
-      requestContext = request.context
-      const result = 'conclusion' in resolved ? assembleAnswer(text, 'unknown', resolved, buildSnapshot()) : await askWithDirector(text, request, options.readOnly)
-      if (generation !== queryGeneration) return
-      update(id, { result })
-      if (result.context) context.value = result.context
-      if (result.intent === 'demo_guide') {
-        guideActive.value = result.guide !== null && (result.guide.eventId !== null || result.guide.canPrepare)
-        guideEventId.value = result.guide?.eventId ?? ''
-        guideCanPrepare.value = result.guide?.canPrepare ?? false
-        if (guideEventId.value !== '') beginGuide(guideEventId.value)
-      }
-      if (result.pointId !== null && !result.context) {
-        const guideEvent = buildSnapshot().events.find((row) => row.id === guideEventId.value)
-        if (guideActive.value && (guideEvent?.pointId !== result.pointId
-          || (directorIntent(question) !== null && result.guide === null))) endGuide()
-        const event = buildSnapshot().events.find((row) => row.id === context.value.eventId && row.pointId === result.pointId)
-        context.value = { pointId: result.pointId, ...(event === undefined ? {} : { eventId: event.id }) }
-        if (event === undefined) contextLabel.value = buildSnapshot().points.find((row) => row.id === result.pointId)?.code ?? ''
-      }
-      flashEntry(mascotStateOf(result))
-      // 回答里说明了"上一轮选定的对象已不在当前数据集"时，把失效的上下文清掉，
-      // 免得后续每一问都拿着一个不存在的对象
-      if (result.status === 'not_found' && result.conclusion.includes('已不在当前数据集')) clearContext()
+      await askLocalTurn(request, turnContext)
     } catch (cause) {
       if (generation !== queryGeneration) return
       update(id, { error: cause instanceof Error ? cause.message : String(cause) })

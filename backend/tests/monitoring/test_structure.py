@@ -9,17 +9,23 @@ DIRECTORIES = [
     ROOT / "domain" / "monitoring",
     ROOT / "domain" / "inspection",
     ROOT / "domain" / "knowledge",
+    ROOT / "operations" / "assistant",
     ROOT / "operations" / "datasets",
     ROOT / "operations" / "field",
     ROOT / "operations" / "knowledge",
+    ROOT / "operations" / "media",
     ROOT / "db" / "models" / "knowledge",
     ROOT / "storage",
     BACKEND / "scripts" / "knowledge",
+    BACKEND / "scripts" / "stage7",
     BACKEND / "migrations" / "versions" / "stage6",
+    BACKEND / "migrations" / "versions" / "stage7",
     ROOT / "routers" / "datasets",
     Path(__file__).resolve().parent,
+    Path(__file__).resolve().parents[1] / "assistant",
     Path(__file__).resolve().parents[1] / "field",
     Path(__file__).resolve().parents[1] / "knowledge",
+    Path(__file__).resolve().parents[1] / "media",
 ]
 SKIP = {"__pycache__"}
 

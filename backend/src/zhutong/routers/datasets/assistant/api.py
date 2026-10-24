@@ -2,8 +2,8 @@
 
 from fastapi import APIRouter, Request
 
-from ....operations.assistant import compose
 from ....operations.assistant import sessions as session_ops
+from ....operations.assistant.answer import compose
 from ....operations.datasets.core.workspace import (
     AuditEntry,
     Command,

@@ -9,6 +9,7 @@ from stage7_http_support import Api
 脚本只写临时库；每题保存回答、对象 ID、关键事实与引用核验。
 """
 
+
 def fact(answer: dict, label: str) -> str:
     return next((row["value"] for row in answer["facts"] if row["label"] == label), "")
 
@@ -56,5 +57,3 @@ def point_checks(answer: dict, point_id: str, value: str | None = None) -> list[
             check("fact_current", fact(answer, "当前读数") == value, fact(answer, "当前读数"))
         )
     return checks
-
-

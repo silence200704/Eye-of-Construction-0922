@@ -5,8 +5,8 @@ from pathlib import Path
 
 from sqlalchemy.orm import Session
 
-from ..datasets.core.workspace import Workspace
-from ..knowledge import retrieval
+from ...datasets.core.workspace import Workspace
+from ...knowledge import retrieval
 from . import facts
 
 KNOWLEDGE_ATTACH_INTENTS = {"point_status", "event_reason", "issue_status", "reading_recovery"}

@@ -20,12 +20,10 @@ def mp4() -> bytes:
     )
 
 
-def _upload(
-    api: AssistantApi, point_id: str, key: str, data: bytes, mime: str, origin: str | None = None
-) -> dict:
+def _upload(api: AssistantApi, point_id: str, key: str, data: bytes, mime: str, **options) -> dict:
     params = {"fileName": f"{key}.{'mp4' if mime == 'video/mp4' else 'png'}", "pointId": point_id}
-    if origin:
-        params["origin"] = origin
+    if options.get("origin"):
+        params["origin"] = options["origin"]
     response = api.client.post(
         "/api/v1/datasets/demo-main/media",
         params=params,

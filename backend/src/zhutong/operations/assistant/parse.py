@@ -53,6 +53,26 @@ SIMULATE_WORDS = ["试算", "如果阈值", "假如阈值", "改成"]
 ISSUE_WORDS = ["问题", "工单", "维修", "复查"]
 COMPARE_WORDS = ["比较", "对比", "一起看", "同范围"]
 TREND_WORDS = ["趋势", "曲线", "走势", "变化过程"]
+STRONG_KNOWLEDGE_WORDS = [
+    "会自动",
+    "能不能",
+    "可以吗",
+    "是否需要",
+    "怎么判定",
+    "需要哪些",
+    "可以自行",
+    "能自行",
+    "能删除吗",
+    "有哪些来源",
+    "有哪几种",
+    "六种",
+    "几张",
+    "多大",
+    "怎么转",
+    "计入",
+    "处理出口",
+    "最终闭环率",
+]
 WRITE_WORDS = ["准备", "载入", "生成", "造一条", "来一条", "写入", "模拟"]
 DEMO_WORDS = ["演示", "红色", "预警", "数据"]
 KNOWLEDGE_WORDS = [
@@ -167,8 +187,7 @@ def _wants_spatial(compact: str) -> bool:
     return (spatial and go) or bool(re.search(r"它在哪|帮我定位|定位(?:这个|该|b\d)", compact))
 
 
-def parse_intent(q: dict, entities: dict) -> str:
-    compact = q["compact"]
+def _command_intent(compact: str, entities: dict) -> str | None:
     if _has(WRITE_WORDS, compact) and _has(DEMO_WORDS, compact):
         return "demo_command"
     if _has(SIMULATE_WORDS, compact) or "试算" in compact:
@@ -183,37 +202,13 @@ def parse_intent(q: dict, entities: dict) -> str:
         return "point_compare"
     if entities["orderNo"] is not None or entities["issueNo"] is not None:
         return "issue_status"
-    if _has(GUIDE_WORDS, compact):
-        return "demo_guide"
-    if "怎么办理" in compact or "如何办理" in compact:
-        return "knowledge"
-    strong_knowledge = _has(
-        [
-            "会自动",
-            "能不能",
-            "可以吗",
-            "是否需要",
-            "怎么判定",
-            "需要哪些",
-            "可以自行",
-            "能自行",
-            "能删除吗",
-            "有哪些来源",
-            "有哪几种",
-            "六种",
-            "几张",
-            "多大",
-            "怎么转",
-            "计入",
-            "处理出口",
-            "最终闭环率",
-        ],
-        compact,
-    )
+    if _has(GUIDE_WORDS, compact) or "怎么办理" in compact or "如何办理" in compact:
+        return "demo_guide" if _has(GUIDE_WORDS, compact) else "knowledge"
+    strong = _has(STRONG_KNOWLEDGE_WORDS, compact)
     if (
-        (strong_knowledge or _has(KNOWLEDGE_WORDS, compact))
+        (strong or _has(KNOWLEDGE_WORDS, compact))
         and not has_point_clue(entities)
-        and (strong_knowledge or not _has(ALARM_WORDS, compact))
+        and (strong or not _has(ALARM_WORDS, compact))
     ):
         return "knowledge"
     if _wants_recovery(compact):
@@ -222,18 +217,24 @@ def parse_intent(q: dict, entities: dict) -> str:
         return "point_trend"
     if _wants_spatial(compact):
         return "spatial_go"
-    if re.search(r"视频|关键帧|短片", compact):
-        return "video_compare"
-    if _has(MEDIA_WORDS, compact):
-        return "media_compare"
-    if _has(CAMPUS_WORDS, compact):
-        return "campus_overview"
-    if (
+    return None
+
+
+def _media_intent(compact: str, entities: dict) -> str | None:
+    if _has(CAMPUS_WORDS, compact) or (
         not has_point_clue(entities)
         and not _has(POINT_WORDS, compact)
         and _has(OVERVIEW_WORDS, compact)
     ):
         return "campus_overview"
+    if re.search(r"视频|关键帧|短片", compact):
+        return "video_compare"
+    if _has(MEDIA_WORDS, compact):
+        return "media_compare"
+    return None
+
+
+def _object_intent(compact: str, entities: dict) -> str:
     if entities["orderNo"] is not None or (
         _has(ISSUE_WORDS, compact)
         and not _has(ALARM_WORDS, compact)
@@ -268,3 +269,14 @@ def parse_intent(q: dict, entities: dict) -> str:
     if _has(FOLLOW_UP_WORDS, compact):
         return "point_status"
     return "unknown"
+
+
+def parse_intent(q: dict, entities: dict) -> str:
+    compact = q["compact"]
+    command = _command_intent(compact, entities)
+    if command is not None:
+        return command
+    media = _media_intent(compact, entities)
+    if media is not None:
+        return media
+    return _object_intent(compact, entities)

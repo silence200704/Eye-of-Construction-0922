@@ -17,9 +17,9 @@ class AssistantApi(FieldApi):
         question: str,
         context: dict | None = None,
         key: str = "ask-1",
-        account: str = "demo-safety",
+        **options,
     ):
-        response = self.raw_ask(question, context, key, account)
+        response = self.raw_ask(question, context, key, options.get("account", "demo-safety"))
         assert response.status_code == 200, response.text
         return response.json()["data"]
 

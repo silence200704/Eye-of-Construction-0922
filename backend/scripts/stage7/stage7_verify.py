@@ -6,19 +6,19 @@ import json
 import sys
 from pathlib import Path
 
-from stage7_cases import run
+from stage7_cases import CaseInput, run
 from stage7_http_support import (
     Api,
-    add_scoped_user,
     seed_archive,
-    seed_field,
-    seed_knowledge,
-    seed_media,
     seed_records,
     snapshot,
 )
+from stage7_seeds import add_scoped_user, seed_field, seed_knowledge, seed_media
 
-OUT = Path(__file__).resolve().parents[2] / "docs/implementation/evidence/stage7-assistant/verification/questions.json"
+OUT = (
+    Path(__file__).resolve().parents[2]
+    / "docs/implementation/evidence/stage7-assistant/verification/questions.json"
+)
 
 
 def main() -> int:
@@ -36,7 +36,9 @@ def main() -> int:
         field = seed_field(api, ids, event)
         docs = seed_knowledge(api)
         media = seed_media(api, ids["crack2"]["id"])
-        result = run(api, ids, events, field, media, docs)
+        result = run(
+            CaseInput(api=api, ids=ids, events=events, field=field, media=media, docs=docs)
+        )
         result["seeded"] = {
             "ids": ids,
             "event": event,

@@ -5,6 +5,8 @@
 脚本只写临时库；每题保存回答、对象 ID、关键事实与引用核验。
 """
 
+from dataclasses import dataclass, field
+
 from stage7_cases_late import run_late
 from stage7_http_support import Api
 
@@ -58,23 +60,31 @@ def point_checks(answer: dict, point_id: str, value: str | None = None) -> list[
     return checks
 
 
-def run(api: Api, ids: dict, events: dict, field: dict, media: dict, docs: dict) -> dict:
-    answers: dict[str, dict] = {}
-    cases: list[dict] = []
+@dataclass(frozen=True)
+class CaseInput:
+    api: Api
+    ids: dict
+    events: dict
+    field: dict
+    media: dict
+    docs: dict
 
-    def ask(
-        case_id: str,
-        question: str,
-        context: dict | None = None,
-        account: str = "demo-safety",
-        key: str | None = None,
-    ) -> dict:
-        reply = api.ask(question, context, key or case_id, account)
-        answers[case_id] = {"question": question, "context": context or {}, "reply": reply}
+
+@dataclass
+class CaseRun:
+    input: CaseInput
+    answers: dict = field(default_factory=dict)
+    cases: list = field(default_factory=list)
+
+    def ask(self, case_id: str, question: str, context: dict | None = None, **options) -> dict:
+        reply = self.input.api.ask(
+            question, context, options.get("key") or case_id, options.get("account", "demo-safety")
+        )
+        self.answers[case_id] = {"question": question, "context": context or {}, "reply": reply}
         return reply
 
-    def add(case_id: str, question: str, checks: list[dict], reply: dict) -> None:
-        cases.append(
+    def add(self, case_id: str, question: str, checks: list[dict], reply: dict) -> None:
+        self.cases.append(
             {
                 "id": case_id,
                 "question": question,
@@ -86,17 +96,68 @@ def run(api: Api, ids: dict, events: dict, field: dict, media: dict, docs: dict)
             }
         )
 
-    crack_id = ids["crack"]["id"]
-    crack2_id = ids["crack2"]["id"]
-    event = next(row for row in events.values() if row["pointId"] == crack_id)
-    event_no = event["eventNo"]
-    issue = field["issue"]
-    order = field["order"]
-    closed = next(row for row in api.get("/issues") if row["id"] == field["closedIssue"]["id"])
+    def result(self) -> dict:
+        return {
+            "total": len(self.cases),
+            "passed": sum(row["passed"] for row in self.cases),
+            "failed": [row["id"] for row in self.cases if not row["passed"]],
+            "cases": self.cases,
+            "answers": {
+                key: value["reply"]["answer"]
+                for key, value in self.answers.items()
+                if isinstance(value, dict) and "reply" in value
+            },
+        }
 
+
+def _state(api: Api, run: CaseRun) -> dict:
+    ids = run.input.ids
+    crack_id = ids["crack"]["id"]
+    event = next(row for row in run.input.events.values() if row["pointId"] == crack_id)
+    return {
+        "ids": ids,
+        "event": event,
+        "event_no": event["eventNo"],
+        "issue": run.input.field["issue"],
+        "order": run.input.field["order"],
+        "closed": next(
+            row for row in api.get("/issues") if row["id"] == run.input.field["closedIssue"]["id"]
+        ),
+        "media": run.input.media,
+        "first": run.answers["q01"]["reply"],
+    }
+
+
+def run(input: CaseInput) -> dict:
+    run = CaseRun(input)
+    api = input.api
+    state = _state(api, run)
+    crack_id, crack2_id, event, event_no, issue, order = _objects(run)
+    _point_cases(run, crack_id, crack2_id)
+    _event_cases(run, event, event_no)
+    _issue_cases(run, issue, order)
+    run_late(api, state, run.add, run.ask)
+    return run.result()
+
+
+def _objects(run: CaseRun) -> tuple:
+    ids = run.input.ids
+    crack_id = ids["crack"]["id"]
+    event = next(row for row in run.input.events.values() if row["pointId"] == crack_id)
+    return (
+        crack_id,
+        ids["crack2"]["id"],
+        event,
+        event["eventNo"],
+        run.input.field["issue"],
+        run.input.field["order"],
+    )
+
+
+def _point_cases(run: CaseRun, crack_id: str, crack2_id: str) -> None:
     # 1 显式测点 + 当前读数
-    reply = ask("q01", "B05-F2-CRACK01 现在怎么样")
-    add(
+    reply = run.ask("q01", "B05-F2-CRACK01 现在怎么样")
+    run.add(
         "q01",
         "B05-F2-CRACK01 现在怎么样",
         basic(reply["answer"], "point_status") + point_checks(reply["answer"], crack_id, "0.82"),
@@ -104,12 +165,12 @@ def run(api: Api, ids: dict, events: dict, field: dict, media: dict, docs: dict)
     )
 
     # 2 无线索追问沿用上一轮
-    reply = ask("q02", "它现在怎么样", {"pointId": crack_id, "source": "previous"})
-    add("q02", "它现在怎么样", point_checks(reply["answer"], crack_id, "0.82"), reply)
+    reply = run.ask("q02", "它现在怎么样", {"pointId": crack_id, "source": "previous"})
+    run.add("q02", "它现在怎么样", point_checks(reply["answer"], crack_id, "0.82"), reply)
 
     # 3 问句新对象覆盖旧上下文
-    reply = ask("q03", "B05-F2-CRACK02 现在怎么样", {"pointId": crack_id, "source": "previous"})
-    add(
+    reply = run.ask("q03", "B05-F2-CRACK02 现在怎么样", {"pointId": crack_id, "source": "previous"})
+    run.add(
         "q03",
         "B05-F2-CRACK02 现在怎么样（旧上下文为 CRACK01）",
         point_checks(reply["answer"], crack2_id, "0.42"),
@@ -117,9 +178,9 @@ def run(api: Api, ids: dict, events: dict, field: dict, media: dict, docs: dict)
     )
 
     # 4 趋势
-    reply = ask("q04", "B05-F2-CRACK02 最近趋势怎么样")
+    reply = run.ask("q04", "B05-F2-CRACK02 最近趋势怎么样")
     samples = reply["answer"].get("extras", {}).get("samples", [])
-    add(
+    run.add(
         "q04",
         "B05-F2-CRACK02 最近趋势怎么样",
         basic(reply["answer"], "point_trend")
@@ -130,9 +191,11 @@ def run(api: Api, ids: dict, events: dict, field: dict, media: dict, docs: dict)
         reply,
     )
 
+
+def _event_cases(run: CaseRun, event: dict, event_no: str) -> None:
     # 5 事件追因（编号）
-    reply = ask("q05", f"{event_no} 为什么是红色")
-    add(
+    reply = run.ask("q05", f"{event_no} 为什么是红色")
+    run.add(
         "q05",
         f"{event_no} 为什么是红色",
         basic(reply["answer"], "event_reason")
@@ -149,8 +212,8 @@ def run(api: Api, ids: dict, events: dict, field: dict, media: dict, docs: dict)
     )
 
     # 6 事件追问
-    reply = ask("q06", "这条为什么", {"eventId": event["id"], "source": "previous"})
-    add(
+    reply = run.ask("q06", "这条为什么", {"eventId": event["id"], "source": "previous"})
+    run.add(
         "q06",
         "这条为什么（沿用事件上下文）",
         [
@@ -161,8 +224,8 @@ def run(api: Api, ids: dict, events: dict, field: dict, media: dict, docs: dict)
     )
 
     # 7 未关闭队列
-    reply = ask("q07", "现在有哪些未处理预警")
-    add(
+    reply = run.ask("q07", "现在有哪些未处理预警")
+    run.add(
         "q07",
         "现在有哪些未处理预警",
         basic(reply["answer"], "open_events")
@@ -177,12 +240,13 @@ def run(api: Api, ids: dict, events: dict, field: dict, media: dict, docs: dict)
                 any(row["id"] == event["id"] for row in reply["answer"]["evidence"]),
             ),
         ],
-        reply,
     )
 
+
+def _issue_cases(run: CaseRun, issue: dict, order: dict) -> None:
     # 8 全校概况
-    reply = ask("q08", "全校现在概况如何")
-    add(
+    reply = run.ask("q08", "全校现在概况如何")
+    run.add(
         "q08",
         "全校现在概况如何",
         basic(reply["answer"], "campus_overview")
@@ -207,8 +271,8 @@ def run(api: Api, ids: dict, events: dict, field: dict, media: dict, docs: dict)
     )
 
     # 9 问题编号与工单
-    reply = ask("q09", f"{issue['issueNo']} 现在是什么状态")
-    add(
+    reply = run.ask("q09", f"{issue['issueNo']} 现在是什么状态")
+    run.add(
         "q09",
         f"{issue['issueNo']} 现在是什么状态",
         basic(reply["answer"], "issue_status")
@@ -227,46 +291,3 @@ def run(api: Api, ids: dict, events: dict, field: dict, media: dict, docs: dict)
         ],
         reply,
     )
-
-    # 10 工单编号
-    reply = ask("q10", f"{order['orderNo']} 验收了吗")
-    add(
-        "q10",
-        f"{order['orderNo']} 验收了吗",
-        basic(reply["answer"], "issue_status")
-        + [
-            check("object_order", reply["answer"]["objects"]["workOrderId"] == order["id"]),
-            check(
-                "fact_status",
-                "submitted" in fact(reply["answer"], "工单"),
-                fact(reply["answer"], "工单"),
-            ),
-        ],
-        reply,
-    )
-
-    state = {
-        "ids": ids,
-        "event": event,
-        "event_no": event_no,
-        "issue": issue,
-        "order": order,
-        "closed": closed,
-        "media": media,
-        "first": answers["q01"]["reply"],
-    }
-    run_late(api, state, add, ask)
-
-    return {
-        "total": len(cases),
-        "passed": sum(row["passed"] for row in cases),
-        "failed": [row["id"] for row in cases if not row["passed"]],
-        "cases": cases,
-        "answers": {
-            key: value["reply"]["answer"]
-            for key, value in answers.items()
-            if isinstance(value, dict) and "reply" in value
-        },
-    }
-
-

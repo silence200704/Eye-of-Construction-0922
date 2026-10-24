@@ -11,6 +11,8 @@ import { formatDateTime } from '@/core/time'
 import { compareStatusLabel } from '@/core/media/compare'
 import { frameOriginLabel } from '@/types/media'
 import { buildLink } from '../actions'
+import type { MediaCompareRecord } from '@/types/media'
+import type { AskMediaPairPreview } from '../types'
 import type { AssistantSnapshot } from '../selectors'
 import { backendActive } from '@/api/backend/runtime'
 import { findPoint } from '../selectors'
@@ -42,83 +44,112 @@ export function answerMediaCompare(input: MediaAnswerInput): AnswerDraft {
   const { snapshot } = input
   const frames = selectFrames(input)
   const notes = [`定位口径：${input.matchNote}`, ...mediaBoundaries()]
-
   if (frames.length === 0) return emptyAnswer(snapshot, notes)
-
   const point = frames[0].pointId
   const target = findPoint(snapshot, point)
   const label = target === undefined ? '该测点' : `${target.code} ${target.name}`
   const compare = snapshot.media.compare !== null && snapshot.media.compare.pointId === point ? snapshot.media.compare : null
   const preview = mediaPairPreview(frames, compare)
+  const facts = mediaFacts(frames, target, compare)
+  if (compare === null) return noCompareAnswer({ point, label, sourceText: sourceOf(frames), facts, preview, notes, target })
+  return compareAnswer({ point, label, facts, preview, notes, target, frames, compare })
+}
 
+function sourceOf(frames: AssistantSnapshot['media']['frames']): string {
+  return [...new Set(frames.map((row) => frameOriginLabel(row.origin)))].join('、')
+}
+
+function mediaFacts(
+  frames: AssistantSnapshot['media']['frames'],
+  target: PointRef | undefined,
+  compare: MediaCompareRecord | null,
+): NonNullable<AnswerDraft['facts']> {
   const facts: NonNullable<AnswerDraft['facts']> = [
     { label: '关联测点', value: target === undefined ? '测点已不在档案里' : `${target.code} ${target.name}`, unit: '' },
     { label: '会话影像', value: `${frames.length} 张（演示素材、公开参考图或本机文件）`, unit: '' },
+    { label: '影像来源', value: sourceOf(frames), unit: '' },
   ]
-  const sourceText = [...new Set(frames.map((row) => frameOriginLabel(row.origin)))].join('、')
-  facts.push({ label: '影像来源', value: sourceText, unit: '' })
   const latest = frames[frames.length - 1]
   facts.push({ label: latest.origin === 'demo_public' ? '参考图载入时间' : '最近一张时间', value: formatDateTime(latest.capturedAt), unit: '' })
   const withTimeCode = frames.filter((row) => row.timeCode !== null)
   if (withTimeCode.length > 0) {
     facts.push({ label: '视频关键帧时间码', value: withTimeCode.map((row) => `${row.timeCode?.toFixed(1)} 秒`).join('、'), unit: '' })
   }
-
-  if (compare === null) {
-    facts.push({ label: '可观察现象', value: '尚未运行预设分析', unit: '' })
-    return draft(
-      `${label} 当前有 ${frames.length} 张会话影像（${sourceText}），但还没有做前后对比：请在影像对比页框选同一区域后运行预设分析。`,
-      {
-        pointId: point,
-        facts,
-        previews: previewsOf(preview),
-        evidence: frames.map((row) => ({
-          kind: 'record' as const,
-          ref: `${frameOriginLabel(row.origin)}｜${formatDateTime(row.capturedAt)}`,
-          id: row.id,
-          detail: row.label,
-        })),
-        gaps: [
-          '影像差异结论只在"框选同一区域并运行预设分析"之后才有；现在能说的只有来源与时间。',
-          '没有标定就不给毫米数 —— 想知道裂缝宽度，请看该测点的监测记录与阈值判定。',
-        ],
-        links: mediaLinks(point, target),
-        dataNotes: notes,
-      },
-    )
+  if (compare === null) facts.push({ label: '可观察现象', value: '尚未运行预设分析', unit: '' })
+  else {
+    facts.push({ label: '可观察现象', value: `${compareStatusLabel(compare.status)}（差异像素 ${(compare.changedRatio * 100).toFixed(1)}%）`, unit: '' })
+    facts.push({ label: '比对时间', value: formatDateTime(compare.comparedAt), unit: '' })
   }
+  return facts
+}
 
-  facts.push({ label: '可观察现象', value: `${compareStatusLabel(compare.status)}（差异像素 ${(compare.changedRatio * 100).toFixed(1)}%）`, unit: '' })
-  facts.push({ label: '比对时间', value: formatDateTime(compare.comparedAt), unit: '' })
+function noCompareAnswer(input: {
+  point: string
+  label: string
+  sourceText: string
+  facts: NonNullable<AnswerDraft['facts']>
+  preview: AskMediaPairPreview | null
+  notes: string[]
+  target: PointRef | undefined
+}): AnswerDraft {
+  return draft(
+    `${input.label} 当前有会话影像，但还没有做前后对比：请在影像对比页框选同一区域后运行预设分析。`,
+    {
+      pointId: input.point,
+      facts: input.facts,
+      previews: previewsOf(input.preview),
+      evidence: frameEvidence([]),
+      gaps: [
+        '影像差异结论只在"框选同一区域并运行预设分析"之后才有；现在能说的只有来源与时间。',
+        '没有标定就不给毫米数 —— 想知道裂缝宽度，请看该测点的监测记录与阈值判定。',
+      ],
+      links: mediaLinks(input.point, input.target),
+      dataNotes: input.notes,
+    },
+  )
+}
 
+function compareAnswer(input: {
+  point: string
+  label: string
+  facts: NonNullable<AnswerDraft['facts']>
+  preview: AskMediaPairPreview | null
+  notes: string[]
+  target: PointRef | undefined
+  frames: AssistantSnapshot['media']['frames']
+  compare: MediaCompareRecord
+}): AnswerDraft {
   const gaps = [
     '结论只覆盖你框选的那一块区域；区域之外没有比对，换一块可能得到不同结果。',
     '两次拍摄的角度、光照、距离都会影响结果；整体曝光差异过大时系统会直接判"不可比对"。',
   ]
-  if (compare.status === 'incomparable') {
+  if (input.compare.status === 'incomparable') {
     gaps.unshift('本次比对**不可比对**：请用同一测点、同一取景范围、相近光照的两张影像重拍后再试。')
   }
-  if (compare.status === 'changed') {
+  if (input.compare.status === 'changed') {
     gaps.unshift('"疑似变化"不等于病害结论：是否处置要由人现场复核，影像本身不作为判定依据。')
   }
-
-  return draft(`${label} 的会话影像对比结果：${compare.summary}`, {
-    pointId: point,
-    facts,
-    previews: previewsOf(preview),
+  return draft(`${input.label} 的会话影像对比结果：${input.compare.summary}`, {
+    pointId: input.point,
+    facts: input.facts,
+    previews: previewsOf(input.preview),
     evidence: [
-      { kind: 'record', ref: '预设分析', id: compare.afterId, detail: compare.summary },
-      ...frames.slice(-2).map((row) => ({
-        kind: 'record' as const,
-        ref: `${frameOriginLabel(row.origin)}｜${formatDateTime(row.capturedAt)}`,
-        id: row.id,
-        detail: row.label,
-      })),
+      { kind: 'record', ref: '预设分析', id: input.compare.afterId, detail: input.compare.summary },
+      ...frameEvidence(input.frames.slice(-2)),
     ],
     gaps,
-    links: mediaLinks(point, target),
-    dataNotes: notes,
+    links: mediaLinks(input.point, input.target),
+    dataNotes: input.notes,
   })
+}
+
+function frameEvidence(frames: AssistantSnapshot['media']['frames']) {
+  return frames.map((row) => ({
+    kind: 'record' as const,
+    ref: `${frameOriginLabel(row.origin)}｜${formatDateTime(row.capturedAt)}`,
+    id: row.id,
+    detail: row.label,
+  }))
 }
 
 /** 选影像：问句点名了测点就用它，否则用当前会话里影像最多的那个测点（只报事实，不猜点） */

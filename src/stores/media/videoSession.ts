@@ -8,7 +8,7 @@ import type { MediaFrame } from '@/types/media'
 import type { SessionVideo, VideoAnalysis } from '@/types/media/video'
 
 type PersistedVideo = { mediaId: string; videoId: string; contentUrl: string }
-type Context = {
+export type Context = {
   frames: Ref<MediaFrame[]>
   notify: (text: string, ok?: boolean) => void
   /** 服务端模式下把新帧送入正式上传登记链；本地演示模式是空操作。 */

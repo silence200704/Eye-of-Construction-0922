@@ -4,19 +4,20 @@
 读取按 workspace 身份过滤楼栋范围；行版本随对象一起返回，供回答标注查询时刻。
 """
 
+from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta, timezone
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from ...db.models.archive import Building, Device, Floor, Point
-from ...db.models.field import Issue
-from ...db.models.monitoring import AlarmEvent, Baseline, MonitoringRule, MonitorRecord
-from ...domain.monitoring.rules import rule_for_point
-from ..datasets.core.record_queries import records_of_point, rules_for_dataset
-from ..datasets.core.serialize import point_out
-from ..datasets.core.workspace import Workspace
-from .resolve import Resolved
+from ....db.models.archive import Building, Device, Floor, Point
+from ....db.models.field import Issue
+from ....db.models.monitoring import AlarmEvent, Baseline, MonitoringRule, MonitorRecord
+from ....domain.monitoring.rules import rule_for_point
+from ...datasets.core.record_queries import records_of_point, rules_for_dataset
+from ...datasets.core.serialize import point_out
+from ...datasets.core.workspace import Workspace
+from ..resolve import Resolved
 
 LOCAL = timezone(timedelta(hours=8))
 
@@ -119,61 +120,89 @@ STATUS_TEXT = {
 }
 
 
-def point_status(
-    session: Session, workspace: Workspace, resolved: Resolved, point: Point, now: datetime
-) -> dict:
+@dataclass(frozen=True)
+class PointStatusInput:
+    """单测点状态输入；对象行与当前时刻一起传递，便于补行版本快照。"""
+
+    session: Session
+    workspace: Workspace
+    resolved: Resolved
+    point: Point
+    now: datetime
+
+
+def point_status(data: PointStatusInput) -> dict:
+    session, workspace, point = data.session, data.workspace, data.point
     record = _latest_record(session, workspace, point.id)
     open_events = _open_events_of(session, workspace, point.id)
     event = open_events[0] if len(open_events) == 1 else None
-    if event is not None and resolved.event_id is None:
-        resolved.event_id = event.id
+    if event is not None and data.resolved.event_id is None:
+        data.resolved.event_id = event.id
     rule = _rule_of(session, workspace, point, queried_at())
     baseline = _baseline_of(session, workspace, point.id)
     device = session.scalar(
         select(Device).where(Device.dataset_id == workspace.dataset_id, Device.point_id == point.id)
     )
-    freshness, freshness_label = _freshness(record.sample_time if record else None, now)
+    freshness, freshness_label = _freshness(record.sample_time if record else None, data.now)
+    facts, evidence = _record_facts(session, point, record, baseline)
+    _rule_event_facts(facts, evidence, rule, event, open_events)
+    issue = _open_issue_of(session, workspace, point.id)
+    if issue is not None:
+        facts.append(
+            {"label": "在办问题", "value": f"{issue.issue_no}（{issue.status}）", "unit": ""}
+        )
+    current = facts[2]["value"] if record is not None else "（无）"
+    unit = facts[2]["unit"] if record is not None and facts[2]["unit"] else ""
+    return {
+        "conclusion": f"{point.name}当前读数 {current}{unit}；{freshness_label}。",
+        "facts": facts,
+        "evidence": evidence,
+        "extras": _status_extras(device, rule, baseline, freshness, freshness_label),
+    }
+
+
+def _record_facts(
+    session: Session, point: Point, record: MonitorRecord | None, baseline: Baseline | None
+) -> tuple[list[dict], list[dict]]:
     facts = [
         {"label": "测点", "value": f"{point.code} {point.name}", "unit": ""},
         {"label": "位置", "value": _location(session, point), "unit": ""},
     ]
     evidence: list[dict] = []
-    conclusion: str
     if record is None:
-        conclusion = f"{point.name}还没有有效读数，不能下结论；请先录入监测记录。"
         facts.append({"label": "有效读数", "value": "（无）", "unit": ""})
-    else:
-        value, unit = _value_of(record)
-        facts.append({"label": "当前读数", "value": value, "unit": unit})
-        facts.append(
-            {
-                "label": "数据质量",
-                "value": "有效" if record.quality == "valid" else record.quality,
-                "unit": "",
-            }
-        )
-        if baseline is not None and record.baseline_values:
-            base = next(iter(record.baseline_values.values()))
-            current = next(iter(record.values.values()))
-            if isinstance(base, (int, float)) and isinstance(current, (int, float)):
-                facts.append(
-                    {
-                        "label": "相对基准",
-                        "value": f"{current - base:+.3g}",
-                        "unit": unit,
-                    }
-                )
-        evidence.append(
-            {
-                "kind": "record",
-                "ref": record.record_no,
-                "id": record.id,
-                "detail": (
-                    f"采样 {_local(record.sample_time)}；录入 {_local(record.created_at)}；"
-                    f"修订 {record.record_revision} 次"
-                ),
-            }
-        )
+        return facts, evidence
+    value, unit = _value_of(record)
+    facts.append({"label": "当前读数", "value": value, "unit": unit})
+    facts.append(
+        {
+            "label": "数据质量",
+            "value": "有效" if record.quality == "valid" else record.quality,
+            "unit": "",
+        }
+    )
+    if baseline is not None and record.baseline_values:
+        base = next(iter(record.baseline_values.values()))
+        current = next(iter(record.values.values()))
+        if isinstance(base, (int, float)) and isinstance(current, (int, float)):
+            facts.append({"label": "相对基准", "value": f"{current - base:+.3g}", "unit": unit})
+    evidence.append(
+        {
+            "kind": "record",
+            "ref": record.record_no,
+            "id": record.id,
+            "detail": (
+                f"采样 {_local(record.sample_time)}；录入 {_local(record.created_at)}；"
+                f"修订 {record.record_revision} 次"
+            ),
+        }
+    )
+    return facts, evidence
+
+
+def _rule_event_facts(
+    facts: list[dict], evidence: list[dict], rule, event, open_events: list[AlarmEvent]
+) -> None:
     if rule is not None:
         facts.append({"label": "适用规则", "value": f"{rule.code}（{rule.version}）", "unit": ""})
     if event is not None:
@@ -201,14 +230,9 @@ def point_status(
         )
     else:
         facts.append({"label": "未关闭事件", "value": "无", "unit": ""})
-    issue = _open_issue_of(session, workspace, point.id)
-    if issue is not None:
-        facts.append(
-            {"label": "在办问题", "value": f"{issue.issue_no}（{issue.status}）", "unit": ""}
-        )
-    current = facts[2]["value"] if record is not None else "（无）"
-    unit = facts[2]["unit"] if record is not None and facts[2]["unit"] else ""
-    conclusion = f"{point.name}当前读数 {current}{unit}；{freshness_label}。"
+
+
+def _status_extras(device, rule, baseline, freshness: str, freshness_label: str) -> dict:
     extras = {
         "freshness": freshness,
         "freshnessLabel": freshness_label,
@@ -219,12 +243,7 @@ def point_status(
         extras["rule"] = {"id": rule.id, "ruleId": rule.rule_id, "version": rule.version}
     if baseline is not None:
         extras["baseline"] = {"version": baseline.version}
-    return {
-        "conclusion": conclusion,
-        "facts": facts,
-        "evidence": evidence,
-        "extras": extras,
-    }
+    return extras
 
 
 def _location(session: Session, point: Point) -> str:

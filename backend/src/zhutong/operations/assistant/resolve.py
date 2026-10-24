@@ -341,31 +341,36 @@ def _bind_point_event(session: Session, workspace: Workspace, intent: str, out: 
         ]
 
 
-def resolve_objects(
-    session: Session,
-    workspace: Workspace,
-    question: str,
-    context: dict,
-    entities: dict,
-    intent: str,
-) -> Resolved:
+@dataclass(frozen=True)
+class ResolveInput:
+    """一次对象解析的全部输入；字段只增不改，避免继续增长参数列表。"""
+
+    session: Session
+    workspace: Workspace
+    question: str
+    context: dict
+    entities: dict
+    intent: str
+
+
+def resolve_objects(data: ResolveInput) -> Resolved:
     """优先级（S7-04）：本轮显式编号 > 显式测点线索 > 页面/上一轮上下文。"""
     out = Resolved()
-    _explicit_numbers(session, workspace, entities, out)
-    _explicit_point(session, workspace, entities, intent, out)
-    _apply_context(session, workspace, context, out)
-    _bind_point_event(session, workspace, intent, out)
+    _explicit_numbers(data.session, data.workspace, data.entities, out)
+    _explicit_point(data.session, data.workspace, data.entities, data.intent, out)
+    _apply_context(data.session, data.workspace, data.context, out)
+    _bind_point_event(data.session, data.workspace, data.intent, out)
     if out.status != "resolved":
         return out
     if out.point_id is not None and out.building_id is None:
-        point = session.get(Point, (workspace.dataset_id, out.point_id))
+        point = data.session.get(Point, (data.workspace.dataset_id, out.point_id))
         out.building_id = point.building_id if point else None
     if out.issue_id is not None and out.point_id is None:
-        issue = session.get(Issue, (workspace.dataset_id, out.issue_id))
+        issue = data.session.get(Issue, (data.workspace.dataset_id, out.issue_id))
         if issue is not None:
             out.point_id = issue.point_id
     if out.work_order_id is not None and out.issue_id is None:
-        order = session.get(WorkOrder, (workspace.dataset_id, out.work_order_id))
+        order = data.session.get(WorkOrder, (data.workspace.dataset_id, out.work_order_id))
         if order is not None:
             out.issue_id = order.issue_id
     return out

@@ -6,14 +6,29 @@ from stage7_http_support import PNG, Api, snapshot
 from stage7_http_support import record as add_record
 
 
+def _state(state: dict) -> tuple:
+    return (
+        state["ids"]["crack"]["id"],
+        state["ids"]["crack2"]["id"],
+        state["event"],
+        state["event_no"],
+        state["issue"],
+        state["closed"],
+        state["media"],
+    )
+
+
 def run_late(api: Api, state: dict, add, ask) -> None:
-    crack_id = state["ids"]["crack"]["id"]
-    crack2_id = state["ids"]["crack2"]["id"]
-    event = state["event"]
-    event_no = state["event_no"]
-    issue = state["issue"]
-    closed = state["closed"]
-    media = state["media"]
+    clarity_and_injection(api, state, add, ask)
+    scoped_reads(api, state, add, ask)
+    session_turns(api, state, add, ask)
+    trial_and_recovery(api, state, add, ask)
+    cases_and_issues(api, state, add, ask)
+    media_and_changes(api, state, add, ask)
+
+
+def clarity_and_injection(api: Api, state: dict, add, ask) -> None:
+    crack_id, crack2_id, *_ = _state(state)
 
     # 11 同名/多候选先澄清
     reply = ask("q11", "5号实验楼的裂缝测点现在怎么样")
@@ -64,7 +79,10 @@ def run_late(api: Api, state: dict, add, ask) -> None:
         reply,
     )
 
-    # 14 知识题（FAQ 命中）
+    _knowledge_and_injection(api, state, add, ask, crack_id)
+
+
+def _knowledge_and_injection(api: Api, state: dict, add, ask, crack_id: str) -> None:
     reply = ask("q14", "红色预警代表什么要求")
     citations = reply["answer"].get("citations", [])
     add(
@@ -109,6 +127,10 @@ def run_late(api: Api, state: dict, add, ask) -> None:
         reply,
     )
 
+
+def scoped_reads(api: Api, state: dict, add, ask) -> None:
+    crack_id, crack2_id, event, event_no, issue, closed, media = _state(state)
+
     # 17 范围受限身份读不到 B06
     reply = ask("q17", "B06-F1-CRACK01 现在怎么样", account="verify-scoped", key="q17")
     add(
@@ -135,6 +157,10 @@ def run_late(api: Api, state: dict, add, ask) -> None:
         ],
         reply,
     )
+
+
+def session_turns(api: Api, state: dict, add, ask) -> None:
+    crack_id, crack2_id, event, event_no, issue, closed, media = _state(state)
 
     # 19 会话持久化 + 轮次对象
     session_id = state["first"]["sessionId"]
@@ -171,6 +197,10 @@ def run_late(api: Api, state: dict, add, ask) -> None:
             "answer": {"intent": "session", "sources": {"facts": "none"}},
         },
     )
+
+
+def trial_and_recovery(api: Api, state: dict, add, ask) -> None:
+    crack_id, crack2_id, event, event_no, issue, closed, media = _state(state)
 
     # 21 试算不写库
     before = snapshot(api)
@@ -220,6 +250,10 @@ def run_late(api: Api, state: dict, add, ask) -> None:
         reply,
     )
 
+
+def cases_and_issues(api: Api, state: dict, add, ask) -> None:
+    crack_id, crack2_id, event, event_no, issue, closed, media = _state(state)
+
     # 24 相似案例
     reply = ask("q24", "有没有类似裂缝案例")
     rows = reply["answer"].get("extras", {}).get("cases", [])
@@ -253,6 +287,10 @@ def run_late(api: Api, state: dict, add, ask) -> None:
         ],
         reply,
     )
+
+
+def media_and_changes(api: Api, state: dict, add, ask) -> None:
+    crack_id, crack2_id, event, event_no, issue, closed, media = _state(state)
 
     # 26 影像会话原字节、关键帧与比对持久化
     summary = api.get(f"/media-sessions/summary?pointId={state['ids']['crack2']['id']}")
@@ -329,4 +367,3 @@ def run_late(api: Api, state: dict, add, ask) -> None:
         point_checks(reply["answer"], crack_id, "0.82"),
         reply,
     )
-

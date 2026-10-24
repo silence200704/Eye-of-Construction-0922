@@ -4,21 +4,29 @@
 knowledge 来自阶段 6 检索（含 chunkId/版本/哈希）。建议不是已执行的动作。
 """
 
-import re
+from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
 
 from sqlalchemy.orm import Session
 
-from ...db.models.archive import Point
-from ...db.models.field import Issue
-from ...db.models.monitoring import AlarmEvent, MonitorRecord
-from ..datasets.core.workspace import Workspace
-from ..datasets.trials import TrialThresholds
+from ....db.models.archive import Point
+from ....db.models.field import Issue
+from ....db.models.monitoring import AlarmEvent, MonitorRecord
+from ...datasets.core.workspace import Workspace
+from ..parse import extract_entities, normalize, parse_intent
+from ..resolve import (
+    Resolved,
+    ResolveInput,
+    find_event,
+    find_issue,
+    find_order,
+    find_point,
+    resolve_objects,
+)
 from . import facts, facts_extras, facts_more
+from .flows import _candidate_thresholds, _demo_command_answer, _frontend_flow_answer
 from .knowledge_answers import _attach_knowledge, _knowledge, _knowledge_answer
-from .parse import extract_entities, normalize, parse_intent
-from .resolve import Resolved, find_event, find_issue, find_order, find_point, resolve_objects
 
 NAV_KINDS = {
     "point_status": [
@@ -97,14 +105,33 @@ def query(session: Session, workspace: Workspace, runtime: Path, payload: dict) 
     q = normalize(question)
     entities = extract_entities(q)
     intent = parse_intent(q, entities)
-    resolved = resolve_objects(session, workspace, question, context, entities, intent)
+    resolved = resolve_objects(
+        ResolveInput(
+            session=session,
+            workspace=workspace,
+            question=question,
+            context=context,
+            entities=entities,
+            intent=intent,
+        )
+    )
     knowledge = _knowledge(session, workspace, runtime, question)
     if intent == "knowledge":
         answer = _knowledge_answer(knowledge)
     elif resolved.status in {"need_choice", "not_found"}:
         answer = _attach_knowledge(_context_answer(resolved, intent, question), knowledge, intent)
     else:
-        answer = _business_answer(session, workspace, intent, resolved, entities, now, payload)
+        answer = _business_answer(
+            AnswerInput(
+                session=session,
+                workspace=workspace,
+                intent=intent,
+                resolved=resolved,
+                entities=entities,
+                now=now,
+                payload=payload,
+            )
+        )
         if answer is None or answer.get("intent") == "unknown":
             answer = _knowledge_answer(knowledge)
         else:
@@ -128,25 +155,6 @@ def query(session: Session, workspace: Workspace, runtime: Path, payload: dict) 
         )
         answer["dataNotes"] = answer.get("dataNotes", []) + [note]
     return answer
-
-
-def _candidate_thresholds(question: str, context: dict) -> TrialThresholds | None:
-    simulation = context.get("simulation")
-    if simulation:
-        return TrialThresholds(
-            yellow=simulation.get("yellow"),
-            orange=simulation.get("orange"),
-            red=simulation.get("red"),
-        )
-    levels = {"黄": "yellow", "橙": "orange", "红": "red"}
-    found: dict[str, float] = {}
-    for match in re.finditer(r"(黄|橙|红)(?:色)?(?:阈值)?改为\s*([0-9]+(?:\.[0-9]+)?)", question):
-        found[levels[match.group(1)]] = float(match.group(2))
-    if not found:
-        return None
-    return TrialThresholds(
-        yellow=found.get("yellow"), orange=found.get("orange"), red=found.get("red")
-    )
 
 
 def _fact_snapshot(
@@ -194,15 +202,23 @@ def _context_answer(resolved: Resolved, intent: str, question: str) -> dict:
     }
 
 
-def _business_answer(
-    session: Session,
-    workspace: Workspace,
-    intent: str,
-    resolved: Resolved,
-    entities: dict,
-    now,
-    payload: dict,
-) -> dict | None:
+@dataclass(frozen=True)
+class AnswerInput:
+    """业务回答输入：只读依赖与问句载荷一起传递，避免超参数。"""
+
+    session: Session
+    workspace: Workspace
+    intent: str
+    resolved: Resolved
+    entities: dict
+    now: datetime
+    payload: dict
+
+
+def _business_answer(data: AnswerInput) -> dict | None:
+    session, workspace = data.session, data.workspace
+    intent, resolved, entities = data.intent, data.resolved, data.entities
+    now, payload = data.now, data.payload
     if intent == "campus_overview":
         return _wrap(facts_more.campus_overview(session, workspace), resolved)
     if intent == "open_events":
@@ -211,7 +227,14 @@ def _business_answer(
         point = _need_point(session, workspace, resolved)
         if point is None:
             return _missing_point(intent, entities)
-        return _wrap(facts.point_status(session, workspace, resolved, point, now), resolved)
+        return _wrap(
+            facts.point_status(
+                facts.PointStatusInput(
+                    session=session, workspace=workspace, resolved=resolved, point=point, now=now
+                )
+            ),
+            resolved,
+        )
     if intent == "point_trend":
         point = _need_point(session, workspace, resolved)
         if point is None:
@@ -261,23 +284,6 @@ def _business_answer(
     if intent == "demo_command":
         return _demo_command_answer()
     return None
-
-
-def _demo_command_answer() -> dict:
-    """写入请求一律不执行：只说明去哪里办，避免"说一句话就改了库"。"""
-    return {
-        "intent": "demo_command",
-        "status": "unsupported",
-        "conclusion": (
-            "小瞳不在对话里写入或准备业务数据，本次提问没有修改任何记录。"
-            "需要准备演示数据时请到系统设置执行全链命令；业务办理请到对应工作台由有权限的身份操作。"
-        ),
-        "facts": [],
-        "evidence": [],
-        "gaps": ["write_requires_workbench"],
-        "sources": {"facts": "none", "queriedAt": facts.queried_at()},
-        "dataNotes": ["建议不等于已执行；写入必须走真实业务命令并形成回执。"],
-    }
 
 
 def _wrap(result: dict, resolved: Resolved) -> dict:
@@ -360,28 +366,6 @@ def _latest_issue_of_point(
     )
     ordered = sorted(rows, key=lambda row: row.created_at, reverse=True)
     return ordered[0] if ordered else None
-
-
-def _frontend_flow_answer(intent: str, point: Point) -> dict:  # noqa: C901
-    label = {
-        "spatial_go": "3D 定位",
-        "video_compare": "视频关键帧比较",
-        "visual_evidence": "视觉证据同屏",
-        "visual_region": "区域差异",
-    }[intent]
-    return {
-        "intent": intent,
-        "status": "answered",
-        "conclusion": (
-            f"已定位测点 {point.code} {point.name}；"
-            f"{label}在页面内用已登记的会话影像与前端算法计算，"
-            "影像与算法不在服务端执行，结果在回答卡片展示并写入媒体会话记录。"
-        ),
-        "facts": [{"label": "测点", "value": f"{point.code} {point.name}", "unit": ""}],
-        "evidence": [],
-        "gaps": [],
-        "sources": {"facts": "server_db", "queriedAt": facts.queried_at()},
-    }
 
 
 def _guide_answer(session: Session, workspace: Workspace, resolved: Resolved) -> dict:

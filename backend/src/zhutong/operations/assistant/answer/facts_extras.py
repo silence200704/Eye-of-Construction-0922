@@ -3,9 +3,9 @@
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from ...db.models.field import Issue, WorkOrder
-from ...db.models.monitoring import AlarmEvent
-from ..datasets.core.workspace import Workspace, can_access_building
+from ....db.models.field import Issue, WorkOrder
+from ....db.models.monitoring import AlarmEvent
+from ...datasets.core.workspace import Workspace, can_access_building
 from .facts import queried_at
 
 
@@ -119,7 +119,7 @@ def case_search(session: Session, workspace: Workspace, point_id: str | None, ke
 
 def rule_simulate(session: Session, workspace: Workspace, point, candidate):
     """缺候选阈值时先澄清；有阈值交给阶段 4 判定引擎，不重复实现第二套算法。"""
-    from ..datasets.trials import simulate
+    from ...datasets.trials import simulate
 
     if candidate is None:
         return {
