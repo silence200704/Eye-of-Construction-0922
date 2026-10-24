@@ -1,0 +1,267 @@
+
+[1m[30m[46m RUN [49m[39m[22m [36mv5.0.1 [39m[90mC:/Users/Lenovo/Desktop/demo[39m
+
+ [31m❯[39m tests/media/stage7Persistence.test.ts [2m([22m[2m3 tests[22m[2m | [22m[31m3 failed[39m[2m)[22m[32m 29[2mms[22m[39m
+[31m   [31m×[31m 服务端模式抽帧后应进入正式上传登记链路[39m[32m 22[2mms[22m[39m
+[31m   [31m×[31m 模拟来源需要传入正式上传接口，不能恢复为普通上传[39m[32m 4[2mms[22m[39m
+[31m   [31m×[31m 切换身份后清除上一身份已经取回的媒体字节[39m[32m 3[2mms[22m[39m
+ [31m❯[39m tests/assistant/session/reviewBoundaries.test.ts [2m([22m[2m5 tests[22m[2m | [22m[31m5 failed[39m[2m)[22m[32m 18[2mms[22m[39m
+   [31m❯[39m 阶段 7 审查：真实跨层契约与异步边界 [2m(5)[22m
+[31m     [31m×[31m 候选选择只发送后端 QueryContext 接受的字段[39m[32m 6[2mms[22m[39m
+[31m     [31m×[31m 映射回答时保留问题/工单 ID，供下一轮绑定[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m 远程请求中切换页面对象后丢弃旧对象回答[39m[32m 6[2mms[22m[39m
+[31m     [31m×[31m 身份切换后迟到的响应不能把旧会话 ID 写入新身份存储[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m 会话恢复请求中清空状态后，不得重新灌入旧轮次[39m[32m 1[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 8 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m tests/media/stage7Persistence.test.ts[2m > [22m服务端模式抽帧后应进入正式上传登记链路
+[31m[1mAssertionError[22m: expected "vi.fn()" to be called 3 times, but got 0 times[39m
+[36m [2m❯[22m tests/media/stage7Persistence.test.ts:[2m49:18[22m[39m
+    [90m 47|[39m   await media.settleSync()
+    [90m 48|[39m   expect(media.frames).toHaveLength(3)
+    [90m 49|[39m   expect(upload).toHaveBeenCalledTimes(3)
+    [90m   |[39m                  [31m^[39m
+    [90m 50|[39m   expect(register).toHaveBeenCalledTimes(3)
+    [90m 51|[39m })
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/media/stage7Persistence.test.ts[2m > [22m模拟来源需要传入正式上传接口，不能恢复为普通上传
+[31m[1mAssertionError[22m: expected { …(5) } to match object { origin: 'demo_generated' }
+(8 matching properties omitted from actual)[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  {[22m
+[32m-   "origin": "demo_generated",[39m
+[31m+   "blob": Blob {[39m
+[31m+     Symbol(kHandle): Blob {},[39m
+[31m+     Symbol(kLength): 4,[39m
+[31m+     Symbol(kType): "",[39m
+[31m+   },[39m
+[31m+   "capturedAt": "now",[39m
+[31m+   "draftId": "f1",[39m
+[31m+   "fileName": "demo.png",[39m
+[31m+   "pointId": "A",[39m
+[2m  }[22m
+
+[36m [2m❯[22m tests/media/stage7Persistence.test.ts:[2m55:35[22m[39m
+    [90m 53|[39m it('模拟来源需要传入正式上传接口，不能恢复为普通上传', async () => {
+    [90m 54|[39m   await uploadSessionFrame(frame())
+    [90m 55|[39m   expect(upload.mock.calls[0][0]).toMatchObject({ origin: 'demo_genera…
+    [90m   |[39m                                   [31m^[39m
+    [90m 56|[39m })
+    [90m 57|[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/media/stage7Persistence.test.ts[2m > [22m切换身份后清除上一身份已经取回的媒体字节
+[31m[1mAssertionError[22m: expected [ Array(1) ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   {[39m
+[31m+     "blob": Blob {[39m
+[31m+       Symbol(kHandle): Blob {},[39m
+[31m+       Symbol(kLength): 4,[39m
+[31m+       Symbol(kType): "",[39m
+[31m+     },[39m
+[31m+     "capturedAt": "now",[39m
+[31m+     "fileName": "demo.png",[39m
+[31m+     "height": 10,[39m
+[31m+     "id": "media_mvm0a27m6sgyr",[39m
+[31m+     "label": "模拟",[39m
+[31m+     "origin": "upload",[39m
+[31m+     "pointId": "A",[39m
+[31m+     "remoteContentUrl": "/content",[39m
+[31m+     "remoteFrameId": "frame-1",[39m
+[31m+     "remoteMediaId": "media-1",[39m
+[31m+     "size": 4,[39m
+[31m+     "timeCode": null,[39m
+[31m+     "width": 10,[39m
+[31m+   },[39m
+[31m+ ][39m
+
+[36m [2m❯[22m tests/media/stage7Persistence.test.ts:[2m66:24[22m[39m
+    [90m 64|[39m   identity.user = { id: 'new', name: '新', role: 'inspector', roleLabel…
+    [90m 65|[39m   await nextTick()
+    [90m 66|[39m   expect(media.frames).toEqual([])
+    [90m   |[39m                        [31m^[39m
+    [90m 67|[39m })
+    [90m 68|[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/assistant/session/reviewBoundaries.test.ts[2m > [22m阶段 7 审查：真实跨层契约与异步边界[2m > [22m候选选择只发送后端 QueryContext 接受的字段
+[31m[1mAssertionError[22m: expected { pointId: 'A', chosen: true, …(1) } to deeply equal { pointId: 'A', source: 'previous' }[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  {[22m
+[31m+   "chosen": true,[39m
+[2m    "pointId": "A",[22m
+[2m    "source": "previous",[22m
+[2m  }[22m
+
+[36m [2m❯[22m tests/assistant/session/reviewBoundaries.test.ts:[2m62:21[22m[39m
+    [90m 60|[39m   it('候选选择只发送后端 QueryContext 接受的字段', () => {
+    [90m 61|[39m     const payload = contextPayload({ pointId: 'A', chosen: true }, {})
+    [90m 62|[39m     expect(payload).toEqual({ pointId: 'A', source: 'previous' })
+    [90m   |[39m                     [31m^[39m
+    [90m 63|[39m   })
+    [90m 64|[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/assistant/session/reviewBoundaries.test.ts[2m > [22m阶段 7 审查：真实跨层契约与异步边界[2m > [22m映射回答时保留问题/工单 ID，供下一轮绑定
+[31m[1mAssertionError[22m: expected { pointId: 'A' } to match object { pointId: 'A', issueId: 'I1', …(1) }[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  {[22m
+[32m-   "issueId": "I1",[39m
+[2m    "pointId": "A",[22m
+[32m-   "workOrderId": "W1",[39m
+[2m  }[22m
+
+[36m [2m❯[22m tests/assistant/session/reviewBoundaries.test.ts:[2m66:56[22m[39m
+    [90m 64|[39m
+    [90m 65|[39m   it('映射回答时保留问题/工单 ID，供下一轮绑定', () => {
+    [90m 66|[39m     expect(mapServerAnswer(answer(), '这个问题呢').context).toMatchObject({
+    [90m   |[39m                                                        [31m^[39m
+    [90m 67|[39m       pointId: 'A', issueId: 'I1', workOrderId: 'W1',
+    [90m 68|[39m     })
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/assistant/session/reviewBoundaries.test.ts[2m > [22m阶段 7 审查：真实跨层契约与异步边界[2m > [22m远程请求中切换页面对象后丢弃旧对象回答
+[31m[1mAssertionError[22m: expected { …(20) } to be null[39m
+
+[32m- Expected:[39m
+null
+
+[31m+ Received:[39m
+{
+  "candidates": [],
+  "citations": [],
+  "computedAt": "2026-10-23T10:00:00+08:00",
+  "conclusion": "旧对象 A 的回答",
+  "context": {
+    "pointId": "A",
+  },
+  "dataNotes": [],
+  "evidence": [],
+  "facts": [],
+  "gaps": [],
+  "guide": null,
+  "intent": "point_status",
+  "links": [],
+  "pendingCommands": [],
+  "pointId": "A",
+  "previews": [],
+  "provenance": null,
+  "question": "B03-F2-CRACK01 现在怎么样",
+  "sources": {
+    "facts": "server_db",
+    "queriedAt": "2026-10-23T10:00:00+08:00",
+  },
+  "status": "answered",
+  "timing": null,
+}
+
+[36m [2m❯[22m tests/assistant/session/reviewBoundaries.test.ts:[2m80:32[22m[39m
+    [90m 78|[39m     pendingReply.resolve({ sessionId: 'old-session', turnId: 'old-turn…
+    [90m 79|[39m     await pending
+    [90m 80|[39m     expect(store.last?.result).toBeNull()
+    [90m   |[39m                                [31m^[39m
+    [90m 81|[39m     expect(store.pageContext.pointId).toBe('B')
+    [90m 82|[39m   })
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/assistant/session/reviewBoundaries.test.ts[2m > [22m阶段 7 审查：真实跨层契约与异步边界[2m > [22m身份切换后迟到的响应不能把旧会话 ID 写入新身份存储
+[31m[1mAssertionError[22m: expected 'old-actor-session' to be null[39m
+
+[32m- Expected:[39m
+null
+
+[31m+ Received:[39m
+"old-actor-session"
+
+[36m [2m❯[22m tests/assistant/session/reviewBoundaries.test.ts:[2m95:92[22m[39m
+    [90m 93|[39m     pendingReply.resolve({ sessionId: 'old-actor-session', turnId: 'ol…
+    [90m 94|[39m     await pending
+    [90m 95|[39m     expect(sessionStorage.getItem(sessionStorageKey(readRegistry().res…
+    [90m   |[39m                                                                                            [31m^[39m
+    [90m 96|[39m   })
+    [90m 97|[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/assistant/session/reviewBoundaries.test.ts[2m > [22m阶段 7 审查：真实跨层契约与异步边界[2m > [22m会话恢复请求中清空状态后，不得重新灌入旧轮次
+[31m[1mAssertionError[22m: expected [ { id: 'old-turn', …(5) } ] to deeply equal [][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [][39m
+[31m+ [[39m
+[31m+   {[39m
+[31m+     "error": "",[39m
+[31m+     "id": "old-turn",[39m
+[31m+     "presented": true,[39m
+[31m+     "question": "旧问题",[39m
+[31m+     "result": {[39m
+[31m+       "candidates": [],[39m
+[31m+       "citations": [],[39m
+[31m+       "computedAt": "2026-10-23T10:00:00+08:00",[39m
+[31m+       "conclusion": "旧对象 A 的回答",[39m
+[31m+       "context": {[39m
+[31m+         "pointId": "A",[39m
+[31m+       },[39m
+[31m+       "dataNotes": [],[39m
+[31m+       "evidence": [],[39m
+[31m+       "facts": [],[39m
+[31m+       "gaps": [],[39m
+[31m+       "guide": null,[39m
+[31m+       "intent": "point_status",[39m
+[31m+       "links": [],[39m
+[31m+       "pendingCommands": [],[39m
+[31m+       "pointId": "A",[39m
+[31m+       "previews": [],[39m
+[31m+       "provenance": null,[39m
+[31m+       "question": "旧问题",[39m
+[31m+       "sources": {[39m
+[31m+         "facts": "server_db",[39m
+[31m+         "queriedAt": "2026-10-23T10:00:00+08:00",[39m
+[31m+       },[39m
+[31m+       "status": "answered",[39m
+[31m+       "timing": null,[39m
+[31m+     },[39m
+[31m+     "stage": null,[39m
+[31m+   },[39m
+[31m+ ][39m
+
+[36m [2m❯[22m tests/assistant/session/reviewBoundaries.test.ts:[2m116:25[22m[39m
+    [90m114|[39m     })
+    [90m115|[39m     await pending
+    [90m116|[39m     expect(turns.value).toEqual([])
+    [90m   |[39m                         [31m^[39m
+    [90m117|[39m     expect(remote.sessionId.value).toBe('')
+    [90m118|[39m   })
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/8]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m2 failed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[31m8 failed[39m[22m[90m (8)[39m
+[2m   Start at [22m 14:16:27
+[2m   Duration [22m 1.05s[2m (transform 71%, import 21%, setup 4%, tests 4%, worker 1%)[22m
+
