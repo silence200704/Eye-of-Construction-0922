@@ -213,6 +213,20 @@ def _explicit_numbers(
             _fail(out, f"当前数据集里没有编号 {entities['orderNo']} 的工单。", "order_no_missing")
             return
         out.work_order_id = row.id
+        issue = find_issue(session, workspace, row.issue_id)
+        if out.issue_id is not None and out.issue_id != row.issue_id:
+            _fail(
+                out,
+                f"问句同时指到工单 {row.order_no} 与另一个问题，二者关联不一致，请分开询问。",
+                "conflicting_objects",
+            )
+            return
+        if issue is not None:
+            out.issue_id = issue.id
+            if out.point_id is None:
+                out.point_id = issue.point_id
+            if out.building_id is None:
+                out.building_id = issue.building_id
         if out.point_id is None:
             out.point_id = row.point_id
 

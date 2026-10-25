@@ -184,6 +184,27 @@ def open_events(session: Session, workspace: Workspace) -> dict:
     }
 
 
+def _building_allowed(workspace: Workspace, building_id: str) -> bool:
+    from ...datasets.core.workspace import can_access_building
+
+    return can_access_building(workspace, building_id)
+
+
+def _issue_allowed(workspace: Workspace, row: Issue, point_ids: set[str]) -> bool:
+    from ...datasets.core.workspace import can_access_building
+
+    if row.building_id is not None:
+        return can_access_building(workspace, row.building_id)
+    return row.point_id in point_ids
+
+
+def _order_allowed(workspace: Workspace, row: WorkOrder, point_ids: set[str], issues: dict) -> bool:
+    if row.point_id is not None:
+        return row.point_id in point_ids
+    issue = issues.get(row.issue_id)
+    return issue is not None and _issue_allowed(workspace, issue, point_ids)
+
+
 def campus_overview(session: Session, workspace: Workspace) -> dict:
     from ....db.models.archive import Building, Device
 
@@ -194,27 +215,28 @@ def campus_overview(session: Session, workspace: Workspace) -> dict:
             Building.dataset_id == workspace.dataset_id, Building.status == "active"
         )
     )
-    visible_buildings = [row for row in buildings if row.id in {p.building_id for p in points}]
+    visible_buildings = [row for row in buildings if _building_allowed(workspace, row.id)]
     devices = session.scalars(
         select(Device).where(Device.dataset_id == workspace.dataset_id, Device.status == "active")
     )
     visible_devices = [row for row in devices if row.point_id in point_ids]
     open = _event_rows(session, workspace, open_only=True)
-    issues = session.scalars(select(Issue).where(Issue.dataset_id == workspace.dataset_id))
+    issues = list(session.scalars(select(Issue).where(Issue.dataset_id == workspace.dataset_id)))
     open_issues = [
         row
         for row in issues
-        if row.status != "closed" and (row.point_id is None or row.point_id in point_ids)
+        if row.status != "closed" and _issue_allowed(workspace, row, point_ids)
     ]
+    issue_map = {row.id: row for row in issues}
     orders = session.scalars(select(WorkOrder).where(WorkOrder.dataset_id == workspace.dataset_id))
     open_orders = [
         row
         for row in orders
-        if row.status not in {"verified"} and (row.point_id is None or row.point_id in point_ids)
+        if row.status not in {"verified"} and _order_allowed(workspace, row, point_ids, issue_map)
     ]
     record_count = sum(
         len([row for row in records_of_point(session, workspace, pid) if row.quality == "valid"])
-        for pid in list(point_ids)[:20]
+        for pid in point_ids
     )
     facts = [
         {

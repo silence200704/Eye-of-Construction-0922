@@ -341,7 +341,10 @@ export const useMediaStore = defineStore('media', () => {
   watch(datasetResetVersion, forgetCachedMedia, { flush: 'sync' })
   watch(epochVersion, forgetCachedMedia, { flush: 'sync' })
   watch(
-    () => useBackendSessionStore().user?.id ?? '',
+    () => {
+      const user = useBackendSessionStore().user
+      return [user?.id ?? '', user?.role ?? '', JSON.stringify(user?.buildingIds ?? null)].join('|')
+    },
     () => forgetCachedMedia(),
     { flush: 'sync' },
   )

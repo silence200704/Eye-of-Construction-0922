@@ -155,6 +155,11 @@ def _turn_visible(session: Session, workspace: Workspace, answer: dict) -> bool:
     )
 
 
+def visible_answer(session: Session, workspace: Workspace, answer: dict) -> dict:
+    """幂等重放不重办业务，但必须按当前权限重新投影正文。"""
+    return answer if _turn_visible(session, workspace, answer) else _redacted(answer)
+
+
 def _redacted(answer: dict) -> dict:
     return {
         "intent": answer.get("intent", "unknown"),

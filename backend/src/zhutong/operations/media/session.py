@@ -137,6 +137,13 @@ def _video_out(session: Session, row: MediaVideo, dataset_id: str) -> dict:
     }
 
 
+def replay_visible(session: Session, workspace: Workspace, data: dict) -> None:
+    """幂等重放不重办业务，但当前无权读取的对象直接拒绝。"""
+    point_id = data.get("pointId")
+    if point_id and _point_visible(session, workspace, str(point_id)) is None:
+        raise AppError("NOT_FOUND", "该影像对象不存在或无权读取", 404, {"pointId": point_id})
+
+
 def register_video(session: Session, workspace: Workspace, payload: dict) -> dict:
     point = _point(session, workspace, payload["pointId"])
     media = _media(session, workspace, payload["mediaId"])
@@ -165,6 +172,42 @@ def register_video(session: Session, workspace: Workspace, payload: dict) -> dic
     return _video_out(session, row, workspace.dataset_id)
 
 
+def _analysis_frames(
+    session: Session, workspace: Workspace, row: MediaVideo, analysis: dict
+) -> None:
+    frame_ids = analysis.get("frameIds")
+    if frame_ids is None:
+        frame_ids = []
+    if not isinstance(frame_ids, list) or not all(isinstance(item, str) for item in frame_ids):
+        raise AppError("INVALID_ANALYSIS_REFERENCE", "视频分析的关键帧引用格式无效", 422)
+    known: set[str] = set()
+    for frame_id in frame_ids:
+        frame = session.get(MediaFrame, (workspace.dataset_id, frame_id))
+        if frame is None or frame.video_id != row.id or frame.point_id != row.point_id:
+            raise AppError(
+                "INVALID_ANALYSIS_REFERENCE",
+                "视频分析引用了不属于该视频/测点的关键帧",
+                422,
+                {"frameId": frame_id},
+            )
+        known.add(frame_id)
+    regions = analysis.get("regions") or {}
+    if not isinstance(regions, dict):
+        raise AppError("INVALID_ANALYSIS_REFERENCE", "视频分析区域必须是对象", 422)
+    for region in regions.values():
+        if not isinstance(region, dict):
+            continue
+        for key in ("beforeId", "afterId"):
+            ref = region.get(key)
+            if ref is not None and ref not in known:
+                raise AppError(
+                    "INVALID_ANALYSIS_REFERENCE",
+                    "视频分析区域引用了未登记的关键帧",
+                    422,
+                    {"regionKey": key, "frameId": ref},
+                )
+
+
 def save_video_analysis(session: Session, workspace: Workspace, payload: dict) -> dict:
     row = session.get(MediaVideo, (workspace.dataset_id, payload["videoId"]))
     point = _point_visible(session, workspace, row.point_id) if row is not None else None
@@ -173,7 +216,12 @@ def save_video_analysis(session: Session, workspace: Workspace, payload: dict) -
     analysis = payload.get("analysis")
     if not isinstance(analysis, dict):
         raise AppError("VALIDATION_FAILED", "视频分析结果必须是结构化对象", 422)
-    row.analysis = analysis
+    if analysis.get("videoId") not in (None, row.id):
+        raise AppError("INVALID_ANALYSIS_REFERENCE", "分析结果绑定了另一个视频", 422)
+    if analysis.get("pointId") not in (None, row.point_id):
+        raise AppError("INVALID_ANALYSIS_REFERENCE", "分析结果绑定了另一个测点", 422)
+    _analysis_frames(session, workspace, row, analysis)
+    row.analysis = {**analysis, "videoId": row.id, "pointId": row.point_id}
     session.flush()
     return _video_out(session, row, workspace.dataset_id)
 

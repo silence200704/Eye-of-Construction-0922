@@ -59,6 +59,8 @@ def query(request: Request, session: Write, current: Current, body: AssistantQue
     data, replayed = execute_command(
         session, current, Command(request, "assistant_query", payload), save
     )
+    if replayed:
+        data = {**data, "answer": session_ops.visible_answer(session, current, data["answer"])}
     return reply(request, current, data, replayed=replayed)
 
 
@@ -73,6 +75,12 @@ def detail(request: Request, session: Read, current: Current, session_id: str) -
 
 
 media_router = APIRouter(prefix="/api/v1/datasets/{dataset_id}/media-sessions", tags=["影像会话"])
+
+
+def _replay_guard(session, current, data: dict, replayed: bool) -> dict:
+    if replayed:
+        media_session.replay_visible(session, current, data)
+    return data
 
 
 @media_router.get("/frames")
@@ -94,7 +102,9 @@ def register_frame(
     data, replayed = execute_command(
         session, current, Command(request, "assistant_frame_register", payload), save
     )
-    return reply(request, current, data, replayed=replayed)
+    return reply(
+        request, current, _replay_guard(session, current, data, replayed), replayed=replayed
+    )
 
 
 @media_router.get("/comparisons")
@@ -118,7 +128,9 @@ def save_comparison(
     data, replayed = execute_command(
         session, current, Command(request, "assistant_comparison_save", payload), save
     )
-    return reply(request, current, data, replayed=replayed)
+    return reply(
+        request, current, _replay_guard(session, current, data, replayed), replayed=replayed
+    )
 
 
 @media_router.get("/videos")
@@ -140,7 +152,9 @@ def register_video(
     data, replayed = execute_command(
         session, current, Command(request, "assistant_video_register", payload), save
     )
-    return reply(request, current, data, replayed=replayed)
+    return reply(
+        request, current, _replay_guard(session, current, data, replayed), replayed=replayed
+    )
 
 
 @media_router.post("/videos/{video_id}/analysis")
@@ -157,7 +171,9 @@ def save_video_analysis(
     data, replayed = execute_command(
         session, current, Command(request, "assistant_video_analysis", payload), save
     )
-    return reply(request, current, data, replayed=replayed)
+    return reply(
+        request, current, _replay_guard(session, current, data, replayed), replayed=replayed
+    )
 
 
 @media_router.get("/summary")

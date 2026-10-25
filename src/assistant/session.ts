@@ -7,7 +7,7 @@ import { backendActive, currentEpoch, epochVersion } from '@/api/backend/runtime
 import { datasetResetVersion, readRegistry } from '@/stores/demo/registry'
 import { candidateContext } from './query/context'
 import { assembleAnswer } from './ask'
-import { REMOTE_INTENTS, createRemoteSessionState } from './remote/session'
+import { REMOTE_INTENTS, authorizationFingerprint, createRemoteSessionState } from './remote/session'
 import { directorIntent } from './director/intent'
 import type { GuidePlan } from './guide/plan'
 import { createGuideRunner } from './guide/reread'
@@ -171,6 +171,7 @@ export const useAssistantStore = defineStore('assistant', () => {
     const at = readRegistry().resetAt
     if (!force && at === datasetStamp.value) return
     datasetStamp.value = at
+    remoteSession.invalidate()
     if (turns.value.length > 0 || sessionId.value !== '') {
       clearServerTurns('数据集已切换（清空 / 重新载入 / 导入备份），已清空上一轮的问答记录。')
       return
@@ -184,18 +185,21 @@ export const useAssistantStore = defineStore('assistant', () => {
 
   watch(datasetResetVersion, () => syncDataset(true), { flush: 'sync' })
   watch(epochVersion, () => {
+    remoteSession.invalidate()
     if (turns.value.length > 0 || sessionId.value !== '') {
       clearServerTurns('数据集已复位（epoch 变化），旧会话与对象上下文已失效，请重新提问。')
+    } else {
+      notice.value = '数据集已复位（epoch 变化），上一会话已失效，请重新提问。'
     }
-  })
-  watch(
-    () => useBackendSessionStore().user?.id ?? '',
-    () => {
-      if (turns.value.length > 0 || sessionId.value !== '') {
-        clearServerTurns('身份已切换，旧会话已清空。')
-      }
-    },
-  )
+  }, { flush: 'sync' })
+  watch(authorizationFingerprint, () => {
+    remoteSession.invalidate()
+    if (turns.value.length > 0 || sessionId.value !== '') {
+      clearServerTurns('身份或授权范围已变化，旧会话已清空。')
+    } else {
+      notice.value = '身份或授权范围已变化，上一会话已失效，请重新提问。'
+    }
+  }, { flush: 'sync' })
 
   function clearTurns(): void {
     queryGeneration += 1

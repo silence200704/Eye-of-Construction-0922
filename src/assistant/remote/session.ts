@@ -9,6 +9,17 @@ import { reloadAssistantSources } from '../selectors'
 import type { AskContext, AskIntent, AskResult, AskStage } from '../types'
 import { mapServerAnswer } from './answer'
 
+/** 身份 + 角色 + 楼栋范围 + epoch；恢复与媒体缓存都以此判断是否仍是同一授权上下文。 */
+export function authorizationFingerprint(): string {
+  const user = useBackendSessionStore().user
+  return [
+    user?.id ?? '',
+    user?.role ?? '',
+    JSON.stringify(user?.buildingIds ?? null),
+    currentEpoch(),
+  ].join('|')
+}
+
 /** 服务端给业务答复的意图；其余视觉/比较/回放/试算/导览仍走现有前端编排。 */
 export const REMOTE_INTENTS = new Set<AskIntent>([
   'point_status',
@@ -122,6 +133,12 @@ export function createRemoteSessionState<T extends RestoredTurn>(input: {
   const key = (): string =>
     sessionStorageKey(readRegistry().resetAt, useBackendSessionStore().user?.id ?? 'none')
 
+  function invalidate(): void {
+    restoreRun += 1
+    restored = false
+    sessionId.value = ''
+  }
+
   function remember(id: string): void {
     sessionId.value = id
     restored = true
@@ -150,11 +167,12 @@ export function createRemoteSessionState<T extends RestoredTurn>(input: {
     if (restored) return
     restored = true
     const run = ++restoreRun
+    const fingerprint = authorizationFingerprint()
     const stored = sessionId.value !== '' ? sessionId.value : readStoredSession(key())
     if (stored === '') return
     try {
       const rows = await loadRemoteSession(stored)
-      if (run !== restoreRun) return
+      if (run !== restoreRun || fingerprint !== authorizationFingerprint()) return
       if (rows.length === 0) return
       sessionId.value = stored
       input.turns.value = rows.map(input.turnOf)
@@ -166,7 +184,7 @@ export function createRemoteSessionState<T extends RestoredTurn>(input: {
     }
   }
 
-  return { sessionId, remember, forget, clear, restore }
+  return { sessionId, remember, forget, clear, restore, invalidate }
 }
 
 export interface RemoteReply {

@@ -25,12 +25,13 @@ def video_chain(api, state: dict, add, ask) -> None:
             ),
             check(
                 "video_analysis",
-                summary["videos"][0]["analysis"]["frameIds"] == [state["video"]["frame"]["id"]],
+                summary["videos"][0]["analysis"]["frameIds"]
+                == [row["id"] for row in state["video"]["frames"]],
                 str(summary["videos"][0]["analysis"].get("frameIds")),
             ),
             check(
                 "frame_video",
-                len(frames) == 1 and frames[0]["timeCode"] == 3.0,
+                len(frames) == 3 and frames[0]["timeCode"] == 3.0,
                 str(frames),
             ),
             check("frame_origin", frames[0]["origin"] == "demo_generated", frames[0]["origin"]),

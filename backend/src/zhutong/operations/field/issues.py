@@ -14,6 +14,7 @@ from ..datasets.core.workspace import (
     AuditEntry,
     Workspace,
     bump,
+    can_access_building,
     now_iso,
     require_building,
     require_role,
@@ -279,7 +280,11 @@ def report_issue(session: Session, workspace: Workspace, payload: dict) -> dict:
 
 def list_issues(session: Session, workspace: Workspace) -> list[dict]:
     rows = session.scalars(select(Issue).where(Issue.dataset_id == workspace.dataset_id))
-    return [issue_out(row) for row in rows]
+    return [
+        issue_out(row)
+        for row in rows
+        if row.building_id is None or can_access_building(workspace, row.building_id)
+    ]
 
 
 def list_attachments(session: Session, workspace: Workspace) -> list[dict]:

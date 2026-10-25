@@ -196,9 +196,9 @@ def _fact_snapshot(
     }
 
 
-def _general_knowledge(entities: dict, context: dict, knowledge: dict) -> bool:
+def _general_knowledge(entities: dict, context: dict, knowledge: dict | None) -> bool:
     """没有点名任何对象时，概念问题可由本地知识回答；点名对象不得改成知识成功。"""
-    if knowledge.get("decision") not in {"answer", "clarify"}:
+    if knowledge is None or knowledge.get("decision") not in {"answer", "clarify"}:
         return False
     explicit = (
         entities.get("pointCode")

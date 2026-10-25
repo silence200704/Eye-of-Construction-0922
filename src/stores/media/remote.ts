@@ -21,8 +21,18 @@ export interface MediaServerContext {
   restoreAnalysis: (result: VideoAnalysis) => void
 }
 
-function sessionStillCurrent(actorId: string, epoch: number): boolean {
-  return actorId === (useBackendSessionStore().user?.id ?? '') && epoch === currentEpoch()
+function authorizationStamp(): string {
+  const user = useBackendSessionStore().user
+  return [
+    user?.id ?? '',
+    user?.role ?? '',
+    JSON.stringify(user?.buildingIds ?? null),
+    currentEpoch(),
+  ].join('|')
+}
+
+function sessionStillCurrent(stamp: string): boolean {
+  return stamp === authorizationStamp()
 }
 
 function restoredVideo(video: {
@@ -53,6 +63,30 @@ function restoredVideo(video: {
   }
 }
 
+function analysisForServer(
+  result: VideoAnalysis,
+  video: SessionVideo,
+  frames: MediaFrame[],
+): VideoAnalysis | null {
+  const maps = new Map(frames.map((row) => [row.id, row.remoteFrameId ?? '']))
+  const frameIds = result.frameIds.map((id) => maps.get(id) ?? '')
+  if (frameIds.some((id) => id === '')) return null
+  const regions: VideoAnalysis['regions'] = {}
+  for (const [key, record] of Object.entries(result.regions)) {
+    const beforeId = maps.get(record.beforeId) ?? ''
+    const afterId = maps.get(record.afterId) ?? ''
+    if (beforeId === '' || afterId === '') return null
+    regions[key] = { ...record, beforeId, afterId }
+  }
+  return {
+    ...result,
+    videoId: video.remoteVideoId ?? video.id,
+    pointId: video.pointId,
+    frameIds,
+    regions,
+  }
+}
+
 function createMediaVideoWriter(context: MediaServerContext) {
   /** 上传视频原字节并登记元数据；失败只提示，不把本地播放当已保存。 */
   async function persistVideo(input: {
@@ -61,8 +95,7 @@ function createMediaVideoWriter(context: MediaServerContext) {
     metadata: SessionVideo
   }): Promise<{ mediaId: string; videoId: string; contentUrl: string } | null> {
     if (!backendActive()) return null
-    const actorId = useBackendSessionStore().user?.id ?? ''
-    const epoch = currentEpoch()
+    const stamp = authorizationStamp()
     try {
       const media = await uploadMedia({
         blob: input.file,
@@ -77,7 +110,7 @@ function createMediaVideoWriter(context: MediaServerContext) {
         pointId: input.pointId,
         metadata: { ...input.metadata },
       })
-      if (!sessionStillCurrent(actorId, epoch)) return null
+      if (!sessionStillCurrent(stamp)) return null
       return { mediaId: saved.mediaId, videoId: saved.id, contentUrl: saved.contentUrl }
     } catch (cause) {
       context.notify(
@@ -88,7 +121,7 @@ function createMediaVideoWriter(context: MediaServerContext) {
     }
   }
 
-  /** 保存视频分析结果；帧 ID 映射为服务端关键帧 ID。 */
+  /** 保存视频分析结果；整张引用关系先映射为服务端 ID，帧未登记完成则明确失败。 */
   async function persistVideoAnalysis(result: VideoAnalysis): Promise<boolean> {
     if (!backendActive()) return false
     const video = context.videoMeta.value
@@ -96,14 +129,16 @@ function createMediaVideoWriter(context: MediaServerContext) {
       context.notify('视频分析未写入服务端：视频尚未完成登记。', false)
       return false
     }
-    const actorId = useBackendSessionStore().user?.id ?? ''
-    const epoch = currentEpoch()
+    const stamp = authorizationStamp()
     try {
-      const frameIds = result.frameIds.map(
-        (id) => context.frames.value.find((row) => row.id === id)?.remoteFrameId ?? id,
-      )
-      await saveVideoAnalysis({ videoId: video.remoteVideoId, analysis: { ...result, frameIds } })
-      return sessionStillCurrent(actorId, epoch)
+      await context.settleSync()
+      const analysis = analysisForServer(result, video, context.frames.value)
+      if (analysis === null) {
+        context.notify('视频分析未写入服务端：关键帧尚未完成登记，请稍后重试。', false)
+        return false
+      }
+      await saveVideoAnalysis({ videoId: video.remoteVideoId, analysis: { ...analysis } })
+      return sessionStillCurrent(stamp)
     } catch (cause) {
       context.notify(
         `视频分析未写入服务端：${cause instanceof Error ? cause.message : String(cause)}`,
@@ -119,8 +154,7 @@ function createMediaVideoWriter(context: MediaServerContext) {
 function createMediaComparisonWriter(context: MediaServerContext) {
   /** 把一次真实算出的比对结果写入服务端；关键帧未登记完成时明确失败。 */
   async function persistComparison(record: MediaCompareRecord): Promise<boolean> {
-    const actorId = useBackendSessionStore().user?.id ?? ''
-    const epoch = currentEpoch()
+    const stamp = authorizationStamp()
     await context.settleSync()
     const before = context.frames.value.find((row) => row.id === record.beforeId)
     const after = context.frames.value.find((row) => row.id === record.afterId)
@@ -134,7 +168,7 @@ function createMediaComparisonWriter(context: MediaServerContext) {
         beforeFrameId: before.remoteFrameId,
         afterFrameId: after.remoteFrameId,
       })
-      if (!sessionStillCurrent(actorId, epoch)) return false
+      if (!sessionStillCurrent(stamp)) return false
       context.remoteComparisons.value = [...context.remoteComparisons.value, saved]
       return true
     } catch (cause) {
@@ -151,9 +185,9 @@ function createMediaComparisonWriter(context: MediaServerContext) {
    */
   async function restoreRemote(pointId: string): Promise<number> {
     if (pointId === '') return 0
-    const actorId = useBackendSessionStore().user?.id ?? ''
-    const epoch = currentEpoch()
+    const stamp = authorizationStamp()
     await context.settleSync()
+    if (!sessionStillCurrent(stamp)) return 0
     const restored = await restoreServerFrames({
       pointId,
       knownFrames: new Set(context.frames.value.map((row) => row.remoteFrameId ?? row.id)),
@@ -161,11 +195,12 @@ function createMediaComparisonWriter(context: MediaServerContext) {
         context.frames.value.map((row) => row.remoteMediaId).filter((id): id is string => Boolean(id)),
       ),
     })
-    if (!sessionStillCurrent(actorId, epoch)) return 0
+    if (!sessionStillCurrent(stamp)) return 0
     context.remoteComparisons.value = restored.comparisons
     if (restored.frames.length > 0) context.frames.value = [...context.frames.value, ...restored.frames]
     for (const video of restored.videos) {
       const blob = await frameBlob(video.contentUrl)
+      if (!sessionStillCurrent(stamp)) return restored.frames.length
       const metadata = restoredVideo(video)
       context.restoreVideo(new File([blob], metadata.fileName, { type: 'video/mp4' }), metadata)
       if (video.analysis) context.restoreAnalysis(video.analysis as unknown as VideoAnalysis)
