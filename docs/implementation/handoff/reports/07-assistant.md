@@ -30,7 +30,7 @@
 | RR1 重放绕过权限 | 旧 Idempotency-Key 仍返回原读数/对象 | `2579f1f`：助手重放按当前会话可见性脱敏；媒体重放按当前测点授权 404 | 后端 `test_scope_replay.py`：范围收回、角色收窄、对象归档后重放无正文；轮次/审计/回执不增；probes `replayed` 为 `historical=true` | 无 |
 | RR2 恢复竞态/缓存 | 首次 restore、视频字节下载、同 id 范围收窄 | `2579f1f`：恢复捕获 actor/dataset/epoch/角色/楼栋/generation，空状态也失效；每个 await 后复核；媒体 scope watch | 前端 5 项正式用例：首次恢复切身份、视频下载切身份、同 id 范围收窄清字节、分析延迟窗口、视频往返恢复全绿 | 无 |
 | RR3 工单关系串问题 | 显式工单 + 旧问题上下文拼错 | `2579f1f`：显式工单先绑定自身问题/测点，再过滤上下文；显式冲突返回失败 | `test_relations_knowledge.py`：工单回答绑定 A，旧 B 不出现在事实/对象；工单+另一个问题编号 not_found | 无 |
-| RR4 视频分析恢复 | 本地 videoId 落库，刷新丢分析 | `2579f1f`：Web 等帧登记后整张映射；服务端校验 video/point/frame/region 引用 | 后端 `test_media_analysis.py` 9 项；前端往返与延迟上传用例；页面 `wide-video-restore.txt` 显示 3 帧与“疑似变化 12.0%” | 视频算法仍是预设统计 |
+| RR4 视频分析恢复 | 本地 videoId 落库，刷新丢分析 | `2579f1f`：Web 等帧登记后整张映射；服务端校验 video/point/frame/region 引用 | 后端 `test_media_analysis.py` 覆盖外帧/本地 ID/归档重放；前端往返与延迟上传用例；页面 `wide-video-restore.txt` 显示 3 帧与“疑似变化 12.0%” | 视频算法仍是预设统计 |
 | RR5 空范围概况 | 无测点问题/工单污染；GET /issues 旁路 | `2579f1f`：问题按楼栋、工单按关联问题授权；GET /issues 同一边界 | probes `0/0/0`，GET /issues 返回 `[]`；`test_scope_replay.py` 覆盖 | 其他未复验旧列表另行跟踪 |
 | RR6 记录截断 | 只聚合前 20 个测点 | `2579f1f`：全授权集合求和；空档案楼按授权计入楼栋 | probes 22/22；测试 23 点 22 记录、空楼栋计数 | 无 |
 | RR7 检索异常 500 | `_knowledge=None` 时 `.get` 崩溃 | `2579f1f`：空值先判；业务失败保留、知识题 unavailable | probes B99 返回 200 `not_found`；有效测点仍读事实；知识题 `decision=unavailable` | 无 |
