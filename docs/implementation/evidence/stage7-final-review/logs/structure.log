@@ -1,0 +1,27 @@
+F.                                                                       [100%]
+================================== FAILURES ===================================
+__________________ test_no_oversized_functions_or_signatures __________________
+
+    def test_no_oversized_functions_or_signatures() -> None:
+        problems: list[str] = []
+        for path in _files():
+            tree = ast.parse(path.read_text(encoding="utf-8"))
+            for node in ast.walk(tree):
+                if not isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                    continue
+                length = (node.end_lineno or node.lineno) - node.lineno + 1
+                params = len(node.args.posonlyargs) + len(node.args.args) + len(node.args.kwonlyargs)
+                if length > 80:
+                    problems.append(f"{path}:{node.lineno} {node.name} lines={length}")
+                if params > 5:
+                    problems.append(f"{path}:{node.lineno} {node.name} params={params}")
+>       assert problems == []
+E       AssertionError: assert ['C:\\Users\\...deo lines=82'] == []
+E         
+E         Left contains one more item: 'C:\\Users\\Lenovo\\Desktop\\demo\\backend\\scripts\\stage7\\stage7_seeds.py:189 seed_video lines=82'
+E         Use -v to get more diff
+
+tests\monitoring\test_structure.py:67: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/monitoring/test_structure.py::test_no_oversized_functions_or_signatures
+1 failed, 1 passed in 1.59s

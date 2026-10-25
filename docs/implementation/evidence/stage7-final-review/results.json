@@ -1,0 +1,1000 @@
+{
+  "reviewedCode": "2579f1f",
+  "reviewedDocs": "4080295",
+  "method": "Temporary SQLite; actual ASGI routes, not TCP/browser",
+  "revokedReplay": {
+    "fresh": {
+      "status": 200,
+      "response": {
+        "ok": true,
+        "data": {
+          "sessionId": "as_c91e514ff24b46978069a77e90461ed1",
+          "turnId": "at_b51c4795bbeb4f7d993e7fada698640c",
+          "answer": {
+            "intent": "point_status",
+            "status": "not_found",
+            "conclusion": "当前数据集与授权范围内没有匹配这个编号的测点。",
+            "facts": [],
+            "evidence": [],
+            "candidates": [],
+            "gaps": [
+              "point_not_found"
+            ],
+            "sources": {
+              "facts": "none",
+              "queriedAt": "2026-10-25T08:22:36.864625+00:00"
+            },
+            "question": "B03-F2-CRACK01 现在怎么样",
+            "objects": {
+              "pointId": null,
+              "eventId": null,
+              "issueId": null,
+              "workOrderId": null,
+              "buildingId": null
+            },
+            "links": [],
+            "followups": [
+              "全校现在概况如何",
+              "现在有哪些未关闭预警"
+            ],
+            "dataNotes": [
+              "知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。"
+            ]
+          }
+        },
+        "rev": null,
+        "replayed": false,
+        "meta": {
+          "requestId": "ac03409e2c94495eb0cb017f855d623c",
+          "datasetEpoch": 1
+        }
+      }
+    },
+    "restored": {
+      "status": 200,
+      "response": {
+        "ok": true,
+        "data": {
+          "id": "as_c91e514ff24b46978069a77e90461ed1",
+          "title": "B03-F2-CRACK01 现在怎么样",
+          "turnCount": 2,
+          "createdAt": "2026-10-25T08:22:36.826586+00:00",
+          "updatedAt": "2026-10-25T08:22:36.864625+00:00",
+          "actorId": "rereview-revoked",
+          "epoch": 1,
+          "turns": [
+            {
+              "id": "at_f6498b9e4a424cab946ab80a863e6ab0",
+              "seq": 1,
+              "question": "（该轮内容已按当前权限隐藏）",
+              "answer": {
+                "intent": "point_status",
+                "status": "not_found",
+                "conclusion": "该轮引用的对象或知识已失效、归档或超出当前授权；原回答内容不再展示，请重新提问。",
+                "facts": [],
+                "evidence": [],
+                "candidates": [],
+                "citations": [],
+                "gaps": [
+                  "history_unavailable"
+                ],
+                "links": [],
+                "followups": [],
+                "dataNotes": [
+                  "历史回答已按当前身份、范围与对象状态脱敏；未重新执行任何写入或媒体处理。"
+                ],
+                "sources": {
+                  "facts": "none",
+                  "queriedAt": "2026-10-25T08:22:36.826586+00:00"
+                },
+                "objects": {
+                  "pointId": null,
+                  "eventId": null,
+                  "issueId": null,
+                  "workOrderId": null,
+                  "buildingId": null
+                },
+                "historical": true
+              },
+              "createdAt": "2026-10-25T08:22:36.826586+00:00",
+              "currentVisible": false
+            },
+            {
+              "id": "at_b51c4795bbeb4f7d993e7fada698640c",
+              "seq": 2,
+              "question": "B03-F2-CRACK01 现在怎么样",
+              "answer": {
+                "intent": "point_status",
+                "status": "not_found",
+                "conclusion": "当前数据集与授权范围内没有匹配这个编号的测点。",
+                "facts": [],
+                "evidence": [],
+                "candidates": [],
+                "gaps": [
+                  "point_not_found"
+                ],
+                "sources": {
+                  "facts": "none",
+                  "queriedAt": "2026-10-25T08:22:36.864625+00:00"
+                },
+                "question": "B03-F2-CRACK01 现在怎么样",
+                "objects": {
+                  "pointId": null,
+                  "eventId": null,
+                  "issueId": null,
+                  "workOrderId": null,
+                  "buildingId": null
+                },
+                "links": [],
+                "followups": [
+                  "全校现在概况如何",
+                  "现在有哪些未关闭预警"
+                ],
+                "dataNotes": [
+                  "知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。"
+                ]
+              },
+              "createdAt": "2026-10-25T08:22:36.864625+00:00",
+              "currentVisible": true
+            }
+          ]
+        },
+        "rev": null,
+        "replayed": false,
+        "meta": {
+          "requestId": "6d937f9b45ef4922a7e3ed861e98f337",
+          "datasetEpoch": 1
+        }
+      }
+    },
+    "replayed": {
+      "status": 200,
+      "response": {
+        "ok": true,
+        "data": {
+          "sessionId": "as_c91e514ff24b46978069a77e90461ed1",
+          "turnId": "at_f6498b9e4a424cab946ab80a863e6ab0",
+          "answer": {
+            "intent": "point_status",
+            "status": "not_found",
+            "conclusion": "该轮引用的对象或知识已失效、归档或超出当前授权；原回答内容不再展示，请重新提问。",
+            "facts": [],
+            "evidence": [],
+            "candidates": [],
+            "citations": [],
+            "gaps": [
+              "history_unavailable"
+            ],
+            "links": [],
+            "followups": [],
+            "dataNotes": [
+              "历史回答已按当前身份、范围与对象状态脱敏；未重新执行任何写入或媒体处理。"
+            ],
+            "sources": {
+              "facts": "none",
+              "queriedAt": "2026-10-25T08:22:36.826586+00:00"
+            },
+            "objects": {
+              "pointId": null,
+              "eventId": null,
+              "issueId": null,
+              "workOrderId": null,
+              "buildingId": null
+            },
+            "historical": true
+          }
+        },
+        "rev": null,
+        "replayed": true,
+        "meta": {
+          "requestId": "28a4ed140c254f57845563d8d1d265b9",
+          "datasetEpoch": 1
+        }
+      }
+    }
+  },
+  "unboundScope": {
+    "seededIssue": {
+      "id": "iss_f14f81f91a4e4183a6b11431d65133b2",
+      "issueNo": "ISS-20261025-001",
+      "source": "report",
+      "submissionKey": "rereview-no-point",
+      "pointId": null,
+      "buildingId": "bld_8e8c5def465b4f94924e2b46b17e4120",
+      "floorId": "flr_82273ede5d9b44f6a13bd0791c1e5353",
+      "zoneId": "",
+      "eventId": null,
+      "taskId": null,
+      "maintenanceTaskId": null,
+      "anomalyType": "墙面裂缝",
+      "description": "现场发现新增裂缝",
+      "photos": [],
+      "status": "pending_review",
+      "reviewAction": null,
+      "reviewCategory": "",
+      "reviewedAt": null,
+      "reviewedBy": "",
+      "reviewNote": "",
+      "duplicateOf": null,
+      "linkedEventId": null,
+      "linkedFrom": [],
+      "workOrderIds": [],
+      "rechecks": [],
+      "timeline": [
+        {
+          "at": "2026-10-25T08:22:36.626026+00:00",
+          "by": "演示学校安全管理人员",
+          "byRole": "safety",
+          "action": "提交问题",
+          "detail": "来源：report；现场发现新增裂缝"
+        }
+      ],
+      "createdAt": "2026-10-25T08:22:36.626026+00:00",
+      "createdBy": "演示学校安全管理人员",
+      "updatedAt": "2026-10-25T08:22:36.626026+00:00",
+      "updatedBy": "演示学校安全管理人员",
+      "rev": 1
+    },
+    "reviewed": {
+      "issue": {
+        "id": "iss_f14f81f91a4e4183a6b11431d65133b2",
+        "issueNo": "ISS-20261025-001",
+        "source": "report",
+        "submissionKey": "rereview-no-point",
+        "pointId": null,
+        "buildingId": "bld_8e8c5def465b4f94924e2b46b17e4120",
+        "floorId": "flr_82273ede5d9b44f6a13bd0791c1e5353",
+        "zoneId": "",
+        "eventId": null,
+        "taskId": null,
+        "maintenanceTaskId": null,
+        "anomalyType": "墙面裂缝",
+        "description": "现场发现新增裂缝",
+        "photos": [],
+        "status": "repairing",
+        "reviewAction": "to_repair",
+        "reviewCategory": "general",
+        "reviewedAt": "2026-10-25T08:22:36.652017+00:00",
+        "reviewedBy": "演示学校安全管理人员",
+        "reviewNote": "审核意见：现场情况已核对，按本出口处理",
+        "duplicateOf": null,
+        "linkedEventId": null,
+        "linkedFrom": [],
+        "workOrderIds": [
+          "wo_5f68c90fb64e437497ba966cac87b0f4"
+        ],
+        "rechecks": [],
+        "timeline": [
+          {
+            "at": "2026-10-25T08:22:36.626026+00:00",
+            "by": "演示学校安全管理人员",
+            "byRole": "safety",
+            "action": "提交问题",
+            "detail": "来源：report；现场发现新增裂缝"
+          },
+          {
+            "at": "2026-10-25T08:22:36.652017+00:00",
+            "by": "演示学校安全管理人员",
+            "byRole": "safety",
+            "action": "审核：to_repair（general）",
+            "detail": "审核意见：现场情况已核对，按本出口处理"
+          },
+          {
+            "at": "2026-10-25T08:22:36.652017+00:00",
+            "by": "演示学校安全管理人员",
+            "byRole": "safety",
+            "action": "生成维修工单",
+            "detail": "WO-20261025-001 待派工"
+          }
+        ],
+        "createdAt": "2026-10-25T08:22:36.626026+00:00",
+        "createdBy": "演示学校安全管理人员",
+        "updatedAt": "2026-10-25T08:22:36.652017+00:00",
+        "updatedBy": "演示学校安全管理人员",
+        "rev": 2
+      },
+      "order": {
+        "id": "wo_5f68c90fb64e437497ba966cac87b0f4",
+        "orderNo": "WO-20261025-001",
+        "origin": "issue",
+        "issueId": "iss_f14f81f91a4e4183a6b11431d65133b2",
+        "eventId": null,
+        "pointId": null,
+        "title": "墙面裂缝（ISS-20261025-001）",
+        "status": "created",
+        "assignee": "",
+        "assigneeId": "",
+        "assignedBy": "",
+        "assignedAt": null,
+        "dueAt": null,
+        "acceptedById": "",
+        "measures": "",
+        "materials": "",
+        "photos": [],
+        "submittedAt": null,
+        "reviews": [],
+        "timeline": [
+          {
+            "at": "2026-10-25T08:22:36.652017+00:00",
+            "by": "演示学校安全管理人员",
+            "byRole": "safety",
+            "action": "创建工单",
+            "detail": "由问题 ISS-20261025-001 审核转维修生成，待派工"
+          }
+        ],
+        "createdAt": "2026-10-25T08:22:36.652017+00:00",
+        "createdBy": "演示学校安全管理人员",
+        "updatedAt": "2026-10-25T08:22:36.652017+00:00",
+        "updatedBy": "演示学校安全管理人员",
+        "rev": 1
+      },
+      "photos": []
+    },
+    "authoritativeIssueListing": {
+      "status": 200,
+      "response": {
+        "ok": true,
+        "data": [],
+        "rev": null,
+        "replayed": false,
+        "meta": {
+          "requestId": "5c387fdc89434b0faff24bd6ee4a6298",
+          "datasetEpoch": 1
+        }
+      }
+    },
+    "assistantOverview": {
+      "status": 200,
+      "response": {
+        "ok": true,
+        "data": {
+          "sessionId": "as_90ab0b138d6f4638841280a01744e714",
+          "turnId": "at_e4cf7742058e4e478738d83343379651",
+          "answer": {
+            "conclusion": "全校在册 0 栋楼、0 个测点；未关闭事件 0 条、问题 0 条、工单 0 张。",
+            "facts": [
+              {
+                "label": "在册楼栋 / 测点 / 设备",
+                "value": "0 / 0 / 0",
+                "unit": ""
+              },
+              {
+                "label": "有效监测记录",
+                "value": "0",
+                "unit": "条"
+              },
+              {
+                "label": "未关闭事件 / 问题 / 工单",
+                "value": "0 / 0 / 0",
+                "unit": "条"
+              }
+            ],
+            "evidence": [],
+            "extras": {
+              "queriedAt": "2026-10-25T08:22:36.727996+00:00"
+            },
+            "status": "answered",
+            "candidates": [],
+            "sources": {
+              "facts": "server_db",
+              "queriedAt": "2026-10-25T08:22:36.727996+00:00"
+            },
+            "snapshot": {
+              "queriedAt": "2026-10-25T08:22:36.727996+00:00",
+              "objects": {},
+              "records": [],
+              "rules": [],
+              "baselines": []
+            },
+            "intent": "campus_overview",
+            "question": "全校现在概况如何",
+            "objects": {
+              "pointId": null,
+              "eventId": null,
+              "issueId": null,
+              "workOrderId": null,
+              "buildingId": null
+            },
+            "links": [
+              {
+                "kind": "overview",
+                "objectId": ""
+              }
+            ],
+            "followups": [
+              "全校现在概况如何",
+              "现在有哪些未关闭预警"
+            ],
+            "dataNotes": [
+              "业务事实来自服务端数据库本次查询；知识解释来自本地知识库引用；建议不等于已执行。"
+            ]
+          }
+        },
+        "rev": null,
+        "replayed": false,
+        "meta": {
+          "requestId": "3d3f297329bb4d75822eb9f1acbf7590",
+          "datasetEpoch": 1
+        }
+      }
+    }
+  },
+  "mixedObjects": {
+    "order": {
+      "id": "wo_5f68c90fb64e437497ba966cac87b0f4",
+      "orderNo": "WO-20261025-001",
+      "origin": "issue",
+      "issueId": "iss_f14f81f91a4e4183a6b11431d65133b2",
+      "eventId": null,
+      "pointId": null,
+      "title": "墙面裂缝（ISS-20261025-001）",
+      "status": "created",
+      "assignee": "",
+      "assigneeId": "",
+      "assignedBy": "",
+      "assignedAt": null,
+      "dueAt": null,
+      "acceptedById": "",
+      "measures": "",
+      "materials": "",
+      "photos": [],
+      "submittedAt": null,
+      "reviews": [],
+      "timeline": [
+        {
+          "at": "2026-10-25T08:22:36.652017+00:00",
+          "by": "演示学校安全管理人员",
+          "byRole": "safety",
+          "action": "创建工单",
+          "detail": "由问题 ISS-20261025-001 审核转维修生成，待派工"
+        }
+      ],
+      "createdAt": "2026-10-25T08:22:36.652017+00:00",
+      "createdBy": "演示学校安全管理人员",
+      "updatedAt": "2026-10-25T08:22:36.652017+00:00",
+      "updatedBy": "演示学校安全管理人员",
+      "rev": 1
+    },
+    "actualOrderIssue": "iss_f14f81f91a4e4183a6b11431d65133b2",
+    "oldContextIssue": "iss_59ae2140ced74208b15e523ac528dc4f",
+    "result": {
+      "status": 200,
+      "response": {
+        "ok": true,
+        "data": {
+          "sessionId": "as_963c4d5b756f40688762be5c9c621864",
+          "turnId": "at_9d7ecf048fc8412b987ebe070bda54d2",
+          "answer": {
+            "conclusion": "问题 ISS-20261025-001 当前为「repairing」；工单维修完成后提交验收，验收通过只进入待复查，不直接关闭问题。",
+            "facts": [
+              {
+                "label": "问题",
+                "value": "ISS-20261025-001（墙面裂缝）",
+                "unit": ""
+              },
+              {
+                "label": "状态",
+                "value": "repairing",
+                "unit": ""
+              },
+              {
+                "label": "来源",
+                "value": "report",
+                "unit": ""
+              },
+              {
+                "label": "审核出口",
+                "value": "to_repair／general",
+                "unit": ""
+              },
+              {
+                "label": "工单",
+                "value": "WO-20261025-001（created）",
+                "unit": ""
+              },
+              {
+                "label": "维修人",
+                "value": "待派工",
+                "unit": ""
+              }
+            ],
+            "evidence": [
+              {
+                "kind": "issue",
+                "ref": "ISS-20261025-001",
+                "id": "iss_f14f81f91a4e4183a6b11431d65133b2",
+                "detail": "提交问题：来源：report；现场发现新增裂缝"
+              },
+              {
+                "kind": "issue",
+                "ref": "ISS-20261025-001",
+                "id": "iss_f14f81f91a4e4183a6b11431d65133b2",
+                "detail": "审核：to_repair（general）：审核意见：现场情况已核对，按本出口处理"
+              },
+              {
+                "kind": "issue",
+                "ref": "ISS-20261025-001",
+                "id": "iss_f14f81f91a4e4183a6b11431d65133b2",
+                "detail": "生成维修工单：WO-20261025-001 待派工"
+              }
+            ],
+            "extras": {
+              "queriedAt": "2026-10-25T08:22:36.939921+00:00"
+            },
+            "status": "answered",
+            "candidates": [],
+            "sources": {
+              "facts": "server_db",
+              "queriedAt": "2026-10-25T08:22:36.939921+00:00"
+            },
+            "snapshot": {
+              "queriedAt": "2026-10-25T08:22:36.939921+00:00",
+              "objects": {
+                "issueId": {
+                  "id": "iss_f14f81f91a4e4183a6b11431d65133b2",
+                  "rev": 2
+                },
+                "workOrderId": {
+                  "id": "wo_5f68c90fb64e437497ba966cac87b0f4",
+                  "rev": 1
+                }
+              },
+              "records": [],
+              "rules": [],
+              "baselines": []
+            },
+            "intent": "issue_status",
+            "question": "WO-20261025-001 现在怎么样",
+            "objects": {
+              "pointId": null,
+              "eventId": null,
+              "issueId": "iss_f14f81f91a4e4183a6b11431d65133b2",
+              "workOrderId": "wo_5f68c90fb64e437497ba966cac87b0f4",
+              "buildingId": "bld_8e8c5def465b4f94924e2b46b17e4120"
+            },
+            "links": [
+              {
+                "kind": "issue_detail",
+                "objectId": "iss_f14f81f91a4e4183a6b11431d65133b2"
+              },
+              {
+                "kind": "workorder_detail",
+                "objectId": "wo_5f68c90fb64e437497ba966cac87b0f4"
+              }
+            ],
+            "followups": [
+              "这张工单验收了吗",
+              "复查安排是什么",
+              "打开完整处置报告"
+            ],
+            "dataNotes": [
+              "业务事实来自服务端数据库本次查询；知识解释来自本地知识库引用；建议不等于已执行。"
+            ]
+          }
+        },
+        "rev": null,
+        "replayed": false,
+        "meta": {
+          "requestId": "1c8c3fb78d3f4ec7a14b8ae5342b3b5a",
+          "datasetEpoch": 1
+        }
+      }
+    }
+  },
+  "mixedContextGraph": {
+    "order": {
+      "id": "wo_5f68c90fb64e437497ba966cac87b0f4",
+      "orderNo": "WO-20261025-001",
+      "origin": "issue",
+      "issueId": "iss_f14f81f91a4e4183a6b11431d65133b2",
+      "eventId": null,
+      "pointId": null,
+      "title": "墙面裂缝（ISS-20261025-001）",
+      "status": "created",
+      "assignee": "",
+      "assigneeId": "",
+      "assignedBy": "",
+      "assignedAt": null,
+      "dueAt": null,
+      "acceptedById": "",
+      "measures": "",
+      "materials": "",
+      "photos": [],
+      "submittedAt": null,
+      "reviews": [],
+      "timeline": [
+        {
+          "at": "2026-10-25T08:22:36.652017+00:00",
+          "by": "演示学校安全管理人员",
+          "byRole": "safety",
+          "action": "创建工单",
+          "detail": "由问题 ISS-20261025-001 审核转维修生成，待派工"
+        }
+      ],
+      "createdAt": "2026-10-25T08:22:36.652017+00:00",
+      "createdBy": "演示学校安全管理人员",
+      "updatedAt": "2026-10-25T08:22:36.652017+00:00",
+      "updatedBy": "演示学校安全管理人员",
+      "rev": 1
+    },
+    "actualIssue": {
+      "id": "iss_f14f81f91a4e4183a6b11431d65133b2",
+      "issueNo": "ISS-20261025-001",
+      "source": "report",
+      "submissionKey": "rereview-no-point",
+      "pointId": null,
+      "buildingId": "bld_8e8c5def465b4f94924e2b46b17e4120",
+      "floorId": "flr_82273ede5d9b44f6a13bd0791c1e5353",
+      "zoneId": "",
+      "eventId": null,
+      "taskId": null,
+      "maintenanceTaskId": null,
+      "anomalyType": "墙面裂缝",
+      "description": "现场发现新增裂缝",
+      "photos": [],
+      "status": "pending_review",
+      "reviewAction": null,
+      "reviewCategory": "",
+      "reviewedAt": null,
+      "reviewedBy": "",
+      "reviewNote": "",
+      "duplicateOf": null,
+      "linkedEventId": null,
+      "linkedFrom": [],
+      "workOrderIds": [],
+      "rechecks": [],
+      "timeline": [
+        {
+          "at": "2026-10-25T08:22:36.626026+00:00",
+          "by": "演示学校安全管理人员",
+          "byRole": "safety",
+          "action": "提交问题",
+          "detail": "来源：report；现场发现新增裂缝"
+        }
+      ],
+      "createdAt": "2026-10-25T08:22:36.626026+00:00",
+      "createdBy": "演示学校安全管理人员",
+      "updatedAt": "2026-10-25T08:22:36.626026+00:00",
+      "updatedBy": "演示学校安全管理人员",
+      "rev": 1
+    },
+    "unrelatedOldEvent": "evt_93845496a9fa43b0a3d92713c39e858d",
+    "unrelatedOldPoint": "pnt_d1bffeae519a4ca993a4a76b595cf817",
+    "result": {
+      "status": 200,
+      "response": {
+        "ok": true,
+        "data": {
+          "sessionId": "as_963c4d5b756f40688762be5c9c621864",
+          "turnId": "at_0b9d6935824641a9acc1cf557f698627",
+          "answer": {
+            "conclusion": "问题 ISS-20261025-001 当前为「repairing」；工单维修完成后提交验收，验收通过只进入待复查，不直接关闭问题。",
+            "facts": [
+              {
+                "label": "问题",
+                "value": "ISS-20261025-001（墙面裂缝）",
+                "unit": ""
+              },
+              {
+                "label": "状态",
+                "value": "repairing",
+                "unit": ""
+              },
+              {
+                "label": "来源",
+                "value": "report",
+                "unit": ""
+              },
+              {
+                "label": "审核出口",
+                "value": "to_repair／general",
+                "unit": ""
+              },
+              {
+                "label": "工单",
+                "value": "WO-20261025-001（created）",
+                "unit": ""
+              },
+              {
+                "label": "维修人",
+                "value": "待派工",
+                "unit": ""
+              }
+            ],
+            "evidence": [
+              {
+                "kind": "issue",
+                "ref": "ISS-20261025-001",
+                "id": "iss_f14f81f91a4e4183a6b11431d65133b2",
+                "detail": "提交问题：来源：report；现场发现新增裂缝"
+              },
+              {
+                "kind": "issue",
+                "ref": "ISS-20261025-001",
+                "id": "iss_f14f81f91a4e4183a6b11431d65133b2",
+                "detail": "审核：to_repair（general）：审核意见：现场情况已核对，按本出口处理"
+              },
+              {
+                "kind": "issue",
+                "ref": "ISS-20261025-001",
+                "id": "iss_f14f81f91a4e4183a6b11431d65133b2",
+                "detail": "生成维修工单：WO-20261025-001 待派工"
+              }
+            ],
+            "extras": {
+              "queriedAt": "2026-10-25T08:22:36.972022+00:00"
+            },
+            "status": "answered",
+            "candidates": [],
+            "sources": {
+              "facts": "server_db",
+              "queriedAt": "2026-10-25T08:22:36.972022+00:00"
+            },
+            "snapshot": {
+              "queriedAt": "2026-10-25T08:22:36.972022+00:00",
+              "objects": {
+                "issueId": {
+                  "id": "iss_f14f81f91a4e4183a6b11431d65133b2",
+                  "rev": 2
+                },
+                "workOrderId": {
+                  "id": "wo_5f68c90fb64e437497ba966cac87b0f4",
+                  "rev": 1
+                }
+              },
+              "records": [],
+              "rules": [],
+              "baselines": []
+            },
+            "intent": "issue_status",
+            "question": "WO-20261025-001 现在怎么样",
+            "objects": {
+              "pointId": null,
+              "eventId": null,
+              "issueId": "iss_f14f81f91a4e4183a6b11431d65133b2",
+              "workOrderId": "wo_5f68c90fb64e437497ba966cac87b0f4",
+              "buildingId": "bld_8e8c5def465b4f94924e2b46b17e4120"
+            },
+            "links": [
+              {
+                "kind": "issue_detail",
+                "objectId": "iss_f14f81f91a4e4183a6b11431d65133b2"
+              },
+              {
+                "kind": "workorder_detail",
+                "objectId": "wo_5f68c90fb64e437497ba966cac87b0f4"
+              }
+            ],
+            "followups": [
+              "这张工单验收了吗",
+              "复查安排是什么",
+              "打开完整处置报告"
+            ],
+            "dataNotes": [
+              "业务事实来自服务端数据库本次查询；知识解释来自本地知识库引用；建议不等于已执行。"
+            ]
+          }
+        },
+        "rev": null,
+        "replayed": false,
+        "meta": {
+          "requestId": "020ef84e07e54398854b9c8c8783ebdf",
+          "datasetEpoch": 1
+        }
+      }
+    }
+  },
+  "knowledgeFailure": {
+    "fault": "knowledge retrieval returns None, as its exception handler does",
+    "result": {
+      "status": 200,
+      "response": {
+        "ok": true,
+        "data": {
+          "sessionId": "as_963c4d5b756f40688762be5c9c621864",
+          "turnId": "at_df418f98d4c14d4e9cf7bdc8ecf63663",
+          "answer": {
+            "intent": "point_status",
+            "status": "not_found",
+            "conclusion": "当前数据集与授权范围内没有匹配这个线索的测点。",
+            "facts": [],
+            "evidence": [],
+            "candidates": [],
+            "gaps": [
+              "point_not_found"
+            ],
+            "sources": {
+              "facts": "none",
+              "queriedAt": "2026-10-25T08:22:36.997383+00:00"
+            },
+            "question": "B99 的裂缝测点现在怎么样",
+            "objects": {
+              "pointId": null,
+              "eventId": null,
+              "issueId": null,
+              "workOrderId": null,
+              "buildingId": null
+            },
+            "links": [],
+            "followups": [
+              "全校现在概况如何",
+              "现在有哪些未关闭预警"
+            ],
+            "dataNotes": [
+              "知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。"
+            ]
+          }
+        },
+        "rev": null,
+        "replayed": false,
+        "meta": {
+          "requestId": "ee02142a60014278b5d7d74135a36e0a",
+          "datasetEpoch": 1
+        }
+      }
+    }
+  },
+  "overviewCount": {
+    "databaseValidRecords": 22,
+    "assistant": {
+      "status": 200,
+      "response": {
+        "ok": true,
+        "data": {
+          "sessionId": "as_963c4d5b756f40688762be5c9c621864",
+          "turnId": "at_d3d82e27662c4ab689bfd0e2a0bcbebf",
+          "answer": {
+            "conclusion": "全校在册 1 栋楼、23 个测点；未关闭事件 1 条、问题 2 条、工单 1 张。",
+            "facts": [
+              {
+                "label": "在册楼栋 / 测点 / 设备",
+                "value": "1 / 23 / 1",
+                "unit": ""
+              },
+              {
+                "label": "有效监测记录",
+                "value": "22",
+                "unit": "条"
+              },
+              {
+                "label": "未关闭事件 / 问题 / 工单",
+                "value": "1 / 2 / 1",
+                "unit": "条"
+              }
+            ],
+            "evidence": [],
+            "extras": {
+              "queriedAt": "2026-10-25T08:22:37.655570+00:00"
+            },
+            "status": "answered",
+            "candidates": [],
+            "sources": {
+              "facts": "server_db",
+              "queriedAt": "2026-10-25T08:22:37.655570+00:00"
+            },
+            "snapshot": {
+              "queriedAt": "2026-10-25T08:22:37.655570+00:00",
+              "objects": {},
+              "records": [],
+              "rules": [],
+              "baselines": []
+            },
+            "intent": "campus_overview",
+            "question": "全校现在概况如何",
+            "objects": {
+              "pointId": null,
+              "eventId": null,
+              "issueId": null,
+              "workOrderId": null,
+              "buildingId": null
+            },
+            "links": [
+              {
+                "kind": "overview",
+                "objectId": ""
+              }
+            ],
+            "followups": [
+              "全校现在概况如何",
+              "现在有哪些未关闭预警"
+            ],
+            "dataNotes": [
+              "业务事实来自服务端数据库本次查询；知识解释来自本地知识库引用；建议不等于已执行。"
+            ]
+          }
+        },
+        "rev": null,
+        "replayed": false,
+        "meta": {
+          "requestId": "bf6580c748b34fc9b86a41eb273b54ba",
+          "datasetEpoch": 1
+        }
+      }
+    }
+  },
+  "mediaRoleReplay": {
+    "initial": {
+      "status": 200,
+      "response": {
+        "ok": true,
+        "data": {
+          "id": "mf_90d4b49dd9f045949fe6e8940938d18c",
+          "pointId": "pnt_d1bffeae519a4ca993a4a76b595cf817",
+          "mediaId": "69a535208e7145d1a725c37b254ab44b",
+          "label": "private-frame",
+          "capturedAt": "2026-10-25T08:22:37.740431+00:00",
+          "timeCode": null,
+          "videoId": null,
+          "origin": "upload",
+          "fileName": "owner-private.png",
+          "size": 69,
+          "mimeType": "image/png",
+          "width": 1,
+          "height": 1,
+          "contentUrl": "/api/v1/datasets/demo-main/media/69a535208e7145d1a725c37b254ab44b/content"
+        },
+        "rev": null,
+        "replayed": false,
+        "meta": {
+          "requestId": "b1ea25c5601841be9ac888955b677d63",
+          "datasetEpoch": 1
+        }
+      }
+    },
+    "currentRead": {
+      "status": 200,
+      "response": {
+        "ok": true,
+        "data": [],
+        "rev": null,
+        "replayed": false,
+        "meta": {
+          "requestId": "a86f2a53f48f46f987e8bd81dc4eefde",
+          "datasetEpoch": 1
+        }
+      }
+    },
+    "currentNewCommand": {
+      "status": 403,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "ROLE_FORBIDDEN",
+          "message": "无权读取该媒体",
+          "retryable": false,
+          "details": {}
+        },
+        "meta": {
+          "requestId": "e3465574952f4026b53cae8e10f38585"
+        }
+      }
+    },
+    "replay": {
+      "status": 403,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "ROLE_FORBIDDEN",
+          "message": "无权读取该媒体",
+          "retryable": false,
+          "details": {
+            "frameId": "mf_90d4b49dd9f045949fe6e8940938d18c"
+          }
+        },
+        "meta": {
+          "requestId": "ba047961af854e80a2801f03b489ca14"
+        }
+      }
+    },
+    "countsBeforeReplay": {
+      "media_frames": 1,
+      "audits": 64,
+      "operation_receipts": 61
+    },
+    "countsAfterReplay": {
+      "media_frames": 1,
+      "audits": 64,
+      "operation_receipts": 61
+    }
+  }
+}

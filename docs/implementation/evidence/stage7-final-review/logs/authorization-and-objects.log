@@ -1,0 +1,16 @@
+FF                                                                       [100%]
+================================== FAILURES ===================================
+___________ test_media_receipt_cannot_replay_hidden_owner_metadata ____________
+..\docs\implementation\evidence\stage7-final-review\test_media_replay.py:18: in test_media_receipt_cannot_replay_hidden_owner_metadata
+    assert result["replay"]["status"] in {403, 404}, result["replay"]
+E   AssertionError: {'status': 200, 'response': {'ok': True, 'data': {'id': 'mf_e1a29448270e4c1cbbf4e8852db71d90', 'pointId': 'pnt_431ec25...6', 'mediaId': '2fcb8554879545dabe1221be478892fe', 'label': 'private-frame', ...}, 'rev': None, 'replayed': True, ...}}
+E   assert 200 in {403, 404}
+________ test_explicit_order_does_not_inherit_unrelated_point_or_event ________
+..\docs\implementation\evidence\stage7-final-review\test_object_graph.py:22: in test_explicit_order_does_not_inherit_unrelated_point_or_event
+    assert answer["objects"]["pointId"] is None, answer["objects"]
+E   AssertionError: {'pointId': 'pnt_ff3f38bab5d6425692eaab8a64fbf792', 'eventId': 'evt_e4122d01ea0246f1883e46943a1cd4d4', 'issueId': 'iss_575dce3ba90d44d786be8bd20f5ba58a', 'workOrderId': 'wo_e95a557f7c874e35bc1c769f1da828bf', ...}
+E   assert 'pnt_ff3f38bab5d6425692eaab8a64fbf792' is None
+=========================== short test summary info ===========================
+FAILED ..\docs\implementation\evidence\stage7-final-review\test_media_replay.py::test_media_receipt_cannot_replay_hidden_owner_metadata
+FAILED ..\docs\implementation\evidence\stage7-final-review\test_object_graph.py::test_explicit_order_does_not_inherit_unrelated_point_or_event
+2 failed in 4.37s

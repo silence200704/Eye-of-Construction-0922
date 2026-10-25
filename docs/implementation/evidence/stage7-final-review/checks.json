@@ -1,0 +1,74 @@
+{
+  "date": "2026-10-25T16:18:50.2017077+08:00",
+  "code": "2579f1f",
+  "documents": "4080295",
+  "conclusion": "not_passed",
+  "rrClosure": {
+    "RR2": "verified",
+    "RR3": "partial: unrelated point/event in objects and snapshot",
+    "RR5": "verified",
+    "RR7": "verified",
+    "RR1": "partial: media ownership replay",
+    "RR6": "verified",
+    "RR4": "verified"
+  },
+  "backend": {
+    "log": "logs/backend-pytest.log",
+    "command": "uv run pytest --cov=zhutong --cov-report=term --cov-fail-under=80 -q",
+    "failedTest": "tests/monitoring/test_structure.py::test_no_oversized_functions_or_signatures",
+    "failed": 1,
+    "coverage": 88.78,
+    "passed": 263
+  },
+  "structure": {
+    "log": "logs/structure.log",
+    "exitCode": 1,
+    "failed": 1,
+    "function": "backend/scripts/stage7/stage7_seeds.py:189 seed_video",
+    "lines": 82,
+    "passed": 1
+  },
+  "independentRegressions": {
+    "passed": 0,
+    "failed": 2,
+    "log": "logs/authorization-and-objects.log",
+    "exitCode": 1
+  },
+  "web": {
+    "passed": 1165,
+    "log": "logs/web-vitest.log",
+    "files": 122
+  },
+  "originalFrontendRegressions": {
+    "passed": 4,
+    "log": "logs/original-four.log",
+    "files": 2
+  },
+  "ruff": {
+    "checkExit": 0,
+    "formattedFiles": 248,
+    "scope": "backend directory, ruff check . / format --check .",
+    "formatExit": 0
+  },
+  "webChecks": {
+    "toolingExit": 0,
+    "buildExit": 0,
+    "log": "logs/web-checks.log",
+    "warning": "Existing minified chunk over 900 kB",
+    "typecheckExit": 0,
+    "toolingPassed": 5
+  },
+  "ports": {
+    "web8080": 200,
+    "apiUrl": "http://127.0.0.1:18000/api/v1/health/ready",
+    "dormitory5173": "connection refused",
+    "dormitory8000": "connection refused",
+    "apiReady": 200
+  },
+  "limits": [
+    "Full pytest and npm exit records were not separately persisted; original command output was truncated, actual final summaries retained in logs.",
+    "Dedicated 44/FAQ/60/offline/backup/container scripts were reviewed as submitted evidence, not rerun.",
+    "Reviewed submitted PNG and DOM evidence; no independent browser interaction.",
+    "No product source, delivery data or services changed; old review evidence preserved."
+  ]
+}

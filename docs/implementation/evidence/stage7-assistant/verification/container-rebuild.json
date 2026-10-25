@@ -48,9 +48,9 @@
   },
   "images": {
     "api": "zhutong-api:stage1",
-    "apiDigest": "sha256:35c82a1bc556",
+    "apiDigest": "sha256:7ba3ad2e2299",
     "web": "zhutong-web:stage1",
-    "webDigest": "sha256:ba3932e34b43"
+    "webDigest": "sha256:2f40216e180f"
   },
   "ports": {
     "zhutongApi": "http://127.0.0.1:18000",
@@ -59,5 +59,12 @@
       "8000",
       "5173"
     ]
+  },
+  "portProbes": {
+    "18000": 200,
+    "8080": 200,
+    "8000": "<urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>",
+    "5173": "<urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>",
+    "note": "8000/5173 本轮连接拒绝，未由本轮启动或停止，不宣称并存复验"
   }
 }

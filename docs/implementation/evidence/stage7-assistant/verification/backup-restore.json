@@ -5,51 +5,51 @@
   "businessTablesMatch": true,
   "countsDiff": {
     "login_sessions": {
-      "expected": 7,
-      "actual": 8
+      "expected": 6,
+      "actual": 7
     }
   },
   "runtimeWritesAfterRestore": [
     {
       "table": "login_sessions",
-      "start": 7,
-      "now": 8,
+      "start": 6,
+      "now": 7,
       "note": "恢复后用验证客户端登录新增，非备份内容差异"
     }
   ],
   "files": [
     {
       "path": "zhutong.sqlite",
-      "expected": "a64babc59d31702ce0b4d7e84d023f52b37ff4c6b06245847b9c8caa26647195",
-      "actual": "a64babc59d31702ce0b4d7e84d023f52b37ff4c6b06245847b9c8caa26647195",
+      "expected": "0bc38d4f1abb610aea41b92f93f84901d3d18bd4cf3e9baa5aabacbf61a7eb95",
+      "actual": "0bc38d4f1abb610aea41b92f93f84901d3d18bd4cf3e9baa5aabacbf61a7eb95",
       "match": true
     },
     {
       "path": "session.key",
-      "expected": "010e31e672512062777d8f66ed96920f14810208445c9300825d7bc4477c51b6",
-      "actual": "010e31e672512062777d8f66ed96920f14810208445c9300825d7bc4477c51b6",
+      "expected": "4b1bc8457406993060ab5f11bb85356b5f4df4d666fa7d8ea29a6c126a87d64d",
+      "actual": "4b1bc8457406993060ab5f11bb85356b5f4df4d666fa7d8ea29a6c126a87d64d",
       "match": true
     },
     {
-      "path": "media/files/89/89be811b5a6f4e599dcf7ca77ca59d39",
+      "path": "media/files/9a/9aabd23e9b8f4559b42db76bce70c1d3",
       "expected": "c47dd9465c00e9a0c8b85e9ea58d3034a0d23b9cf926113602f3460752a4eb96",
       "actual": "c47dd9465c00e9a0c8b85e9ea58d3034a0d23b9cf926113602f3460752a4eb96",
       "match": true
     },
     {
-      "path": "media/files/39/3997f36fd33349bd837e72acd4b2a7d4",
+      "path": "media/files/fb/fb727afd087a41aaad726936f5aaa82d",
       "expected": "c47dd9465c00e9a0c8b85e9ea58d3034a0d23b9cf926113602f3460752a4eb96",
       "actual": "c47dd9465c00e9a0c8b85e9ea58d3034a0d23b9cf926113602f3460752a4eb96",
       "match": true
     },
     {
-      "path": "media/files/f5/f53c829e5ca04add9fbf04548412e201",
+      "path": "media/files/05/05391a53beab4b15bed08967f53df065",
       "expected": "3ff85ae5030f470ee23ea8ddaa2b953cb2a87e546a7ec5603700496f69103617",
       "actual": "3ff85ae5030f470ee23ea8ddaa2b953cb2a87e546a7ec5603700496f69103617",
       "match": true
     },
     {
-      "path": "media/files/d7/d7b763b02373440d97b713d3882450b4",
+      "path": "media/files/0c/0c4a92cc982e46d689f5780d036fdf09",
       "expected": "c47dd9465c00e9a0c8b85e9ea58d3034a0d23b9cf926113602f3460752a4eb96",
       "actual": "c47dd9465c00e9a0c8b85e9ea58d3034a0d23b9cf926113602f3460752a4eb96",
       "match": true
@@ -107,7 +107,7 @@
   "modelFiles": 8,
   "knowledge": {
     "mode": "hybrid",
-    "indexVersion": "index_da711031c6b44be2b7d8420b1e522a67",
+    "indexVersion": "index_31428a9d87e9406eb9b1d32c329bd27b",
     "decision": "answer",
     "topSource": "docs/knowledge/platform/identity.md"
   },

@@ -1,0 +1,46 @@
+{
+  "reviewBaseline": {
+    "code": "2579f1f",
+    "docs": "4080295"
+  },
+  "fixHead": "9d1cb8f",
+  "rr1Media": {
+    "currentRead": [],
+    "newCommandStatus": 403,
+    "replayStatus": 403,
+    "countsEqual": true
+  },
+  "rr3Graph": {
+    "objects": {
+      "pointId": null,
+      "eventId": null,
+      "issueId": "iss_f14f81f91a4e4183a6b11431d65133b2",
+      "workOrderId": "wo_5f68c90fb64e437497ba966cac87b0f4",
+      "buildingId": "bld_8e8c5def465b4f94924e2b46b17e4120"
+    },
+    "snapshotObjectKeys": [
+      "issueId",
+      "workOrderId"
+    ],
+    "issueNoInFacts": true
+  },
+  "tests": {
+    "backendPassed": 266,
+    "backendCoverage": "88.86%",
+    "frontendFiles": 122,
+    "frontendPassed": 1165,
+    "structurePassed": 2,
+    "tooling": 5
+  },
+  "ports": {
+    "18000": {
+      "path": "/api/v1/health/ready",
+      "status": "healthy"
+    },
+    "8080": 200,
+    "8000": "connection_refused",
+    "5173": "connection_refused",
+    "note": "查寝未由本轮启动/停止，不宣称并存复验"
+  },
+  "boundary": "ASGI probes + formal pytest + real browser screenshots; this file is not an independent review verdict"
+}
