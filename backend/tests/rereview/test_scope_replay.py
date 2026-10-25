@@ -160,3 +160,33 @@ def test_overview_counts_authorized_building_without_points(client: TestClient, 
     assert facts["在册楼栋 / 测点 / 设备"].startswith("2 / 2 /")
     assert "空档案楼" not in json.dumps(overview, ensure_ascii=False)
     assert ids["building"]["id"] != ""
+
+
+def test_media_replay_rechecks_media_ownership_after_role_change(
+    client: TestClient, settings
+) -> None:
+    api = AssistantApi(client, str(settings.database_url))
+    ids = api.seed_manual_point()
+    building = ids["building"]["id"]
+    point = ids["point"]["id"]
+    api.add_scoped_user("media-owner", [building], role="inspector")
+    api.add_scoped_user("media-reader", [building], role="safety")
+    media = api.upload_photo(account="media-owner", file_name="owner-private.png")
+    body = {"pointId": point, "mediaId": media["id"], "label": "private-frame"}
+    first = api.fpost("/media-sessions/frames", body, "role-frame", "media-reader")
+    assert first.status_code == 200, first.text
+    engine = create_engine(api.database_url)
+    with engine.begin() as db:
+        db.execute(text("UPDATE users SET role='device' WHERE id='media-reader'"))
+    engine.dispose()
+    headers = {"Authorization": f"Bearer {api.token_for('media-reader')}"}
+    listing = api.client.get("/api/v1/datasets/demo-main/media-sessions/frames", headers=headers)
+    assert listing.json()["data"] == []
+    fresh = api.fpost("/media-sessions/frames", body, "role-new", "media-reader")
+    assert fresh.status_code == 403, fresh.text
+    before = counts(api.database_url, "media_frames", "audits", "operation_receipts")
+    replay = api.fpost("/media-sessions/frames", body, "role-frame", "media-reader")
+    assert replay.status_code in {403, 404}, replay.text
+    assert "owner-private.png" not in replay.text
+    after = counts(api.database_url, "media_frames", "audits", "operation_receipts")
+    assert after == before

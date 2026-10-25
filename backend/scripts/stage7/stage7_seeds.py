@@ -186,6 +186,59 @@ def seed_second_issue(api: Api, point: dict) -> dict:
     )["issue"]
 
 
+def _seed_video_frames(api: Api, point_id: str, frame_media: dict, video: dict) -> list:
+    frames = []
+    for time_code, label, minutes, key in (
+        (3.0, "首帧", -30, "s7-video-frame"),
+        (6.0, "中帧", -25, "s7-video-frame-mid"),
+        (9.0, "末帧", -20, "s7-video-frame-last"),
+    ):
+        frames.append(
+            api.post(
+                "/media-sessions/frames",
+                {
+                    "mediaId": frame_media["id"],
+                    "pointId": point_id,
+                    "label": f"视频抽帧｜{label}",
+                    "capturedAt": stamp(minutes),
+                    "timeCode": time_code,
+                    "videoId": video["id"],
+                },
+                key,
+            )
+        )
+    return frames
+
+
+def _video_analysis(point_id: str, video: dict, frames: list) -> dict:
+    region = {"x": 0.1, "y": 0.1, "w": 0.4, "h": 0.4}
+    control = {"x": 0.5, "y": 0.1, "w": 0.3, "h": 0.3}
+    return {
+        "videoId": video["id"],
+        "pointId": point_id,
+        "frameIds": [row["id"] for row in frames],
+        "regions": {
+            "crack": {
+                "beforeId": frames[0]["id"],
+                "afterId": frames[2]["id"],
+                "region": region,
+                "changedRatio": 0.12,
+                "status": "changed",
+                "summary": "区域像素差统计，不给毫米数",
+            },
+            "control": {
+                "beforeId": frames[0]["id"],
+                "afterId": frames[2]["id"],
+                "region": control,
+                "changedRatio": 0,
+                "status": "stable",
+                "summary": "完好墙面未见明显差异",
+            },
+        },
+        "reason": "合成演示视频，非真实连续拍摄",
+    }
+
+
 def seed_video(api: Api, point_id: str) -> dict:
     media = api.upload(
         point_id,
@@ -217,54 +270,10 @@ def seed_video(api: Api, point_id: str) -> dict:
         },
         "s7-video-register",
     )
-    frames = []
-    for time_code, label, minutes, key in (
-        (3.0, "首帧", -30, "s7-video-frame"),
-        (6.0, "中帧", -25, "s7-video-frame-mid"),
-        (9.0, "末帧", -20, "s7-video-frame-last"),
-    ):
-        frames.append(
-            api.post(
-                "/media-sessions/frames",
-                {
-                    "mediaId": frame_media["id"],
-                    "pointId": point_id,
-                    "label": f"视频抽帧｜{label}",
-                    "capturedAt": stamp(minutes),
-                    "timeCode": time_code,
-                    "videoId": video["id"],
-                },
-                key,
-            )
-        )
+    frames = _seed_video_frames(api, point_id, frame_media, video)
     api.post(
         f"/media-sessions/videos/{video['id']}/analysis",
-        {
-            "analysis": {
-                "videoId": video["id"],
-                "pointId": point_id,
-                "frameIds": [row["id"] for row in frames],
-                "regions": {
-                    "crack": {
-                        "beforeId": frames[0]["id"],
-                        "afterId": frames[2]["id"],
-                        "region": {"x": 0.1, "y": 0.1, "w": 0.4, "h": 0.4},
-                        "changedRatio": 0.12,
-                        "status": "changed",
-                        "summary": "区域像素差统计，不给毫米数",
-                    },
-                    "control": {
-                        "beforeId": frames[0]["id"],
-                        "afterId": frames[2]["id"],
-                        "region": {"x": 0.5, "y": 0.1, "w": 0.3, "h": 0.3},
-                        "changedRatio": 0,
-                        "status": "stable",
-                        "summary": "完好墙面未见明显差异",
-                    },
-                },
-                "reason": "合成演示视频，非真实连续拍摄",
-            }
-        },
+        {"analysis": _video_analysis(point_id, video, frames)},
         "s7-video-analysis",
     )
     return {"media": media, "video": video, "frames": frames, "frame": frames[0]}

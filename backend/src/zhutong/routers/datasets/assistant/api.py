@@ -77,9 +77,9 @@ def detail(request: Request, session: Read, current: Current, session_id: str) -
 media_router = APIRouter(prefix="/api/v1/datasets/{dataset_id}/media-sessions", tags=["影像会话"])
 
 
-def _replay_guard(session, current, data: dict, replayed: bool) -> dict:
+def _replay_guard(session, current, data: dict, replayed: bool, kind: str) -> dict:
     if replayed:
-        media_session.replay_visible(session, current, data)
+        media_session.replay_visible(session, current, data, kind)
     return data
 
 
@@ -103,7 +103,10 @@ def register_frame(
         session, current, Command(request, "assistant_frame_register", payload), save
     )
     return reply(
-        request, current, _replay_guard(session, current, data, replayed), replayed=replayed
+        request,
+        current,
+        _replay_guard(session, current, data, replayed, "frame"),
+        replayed=replayed,
     )
 
 
@@ -129,7 +132,10 @@ def save_comparison(
         session, current, Command(request, "assistant_comparison_save", payload), save
     )
     return reply(
-        request, current, _replay_guard(session, current, data, replayed), replayed=replayed
+        request,
+        current,
+        _replay_guard(session, current, data, replayed, "comparison"),
+        replayed=replayed,
     )
 
 
@@ -153,7 +159,10 @@ def register_video(
         session, current, Command(request, "assistant_video_register", payload), save
     )
     return reply(
-        request, current, _replay_guard(session, current, data, replayed), replayed=replayed
+        request,
+        current,
+        _replay_guard(session, current, data, replayed, "video"),
+        replayed=replayed,
     )
 
 
@@ -172,7 +181,10 @@ def save_video_analysis(
         session, current, Command(request, "assistant_video_analysis", payload), save
     )
     return reply(
-        request, current, _replay_guard(session, current, data, replayed), replayed=replayed
+        request,
+        current,
+        _replay_guard(session, current, data, replayed, "analysis"),
+        replayed=replayed,
     )
 
 

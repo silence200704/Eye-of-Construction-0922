@@ -23,6 +23,7 @@ class Resolved:
     issue_id: str | None = None
     work_order_id: str | None = None
     building_id: str | None = None
+    explicit: bool = False
     status: str = "resolved"
     conclusion: str = ""
     candidates: list[dict] = field(default_factory=list)
@@ -199,12 +200,14 @@ def _explicit_numbers(
             return
         out.event_id = row.id
         out.point_id = row.point_id
+        out.explicit = True
     if entities["issueNo"] is not None:
         row = _by_issue_no(session, workspace, entities["issueNo"])
         if row is None:
             _fail(out, f"当前数据集里没有编号 {entities['issueNo']} 的问题。", "issue_no_missing")
             return
         out.issue_id = row.id
+        out.explicit = True
         if out.point_id is None:
             out.point_id = row.point_id
     if entities["orderNo"] is not None:
@@ -213,6 +216,7 @@ def _explicit_numbers(
             _fail(out, f"当前数据集里没有编号 {entities['orderNo']} 的工单。", "order_no_missing")
             return
         out.work_order_id = row.id
+        out.explicit = True
         issue = find_issue(session, workspace, row.issue_id)
         if out.issue_id is not None and out.issue_id != row.issue_id:
             _fail(
@@ -263,6 +267,7 @@ def _explicit_point(
             return
         out.point_id = row.id
         out.building_id = row.building_id
+        out.explicit = True
         return
     if len(unique) > 1:
         out.status = "need_choice"
@@ -301,13 +306,14 @@ def _apply_choice(session: Session, workspace: Workspace, context: dict, out: Re
     out.status = "resolved"
     out.conclusion = ""
     out.candidates = []
+    out.explicit = True
 
 
 def _apply_context(session: Session, workspace: Workspace, context: dict, out: Resolved) -> None:
-    """只补本轮没有显式指定的对象；旧上下文不能压过本轮问句。"""
+    """只补尚未指定的对象；显式对象已确定（即使关联为空）时不再用旧上下文补空。"""
     if out.status != "resolved":
         return
-    if out.point_id is None and context.get("pointId") is not None:
+    if out.point_id is None and not out.explicit and context.get("pointId") is not None:
         row = find_point(session, workspace, str(context["pointId"]))
         if row is None:
             _fail(
@@ -318,7 +324,7 @@ def _apply_context(session: Session, workspace: Workspace, context: dict, out: R
             return
         out.point_id = row.id
         out.building_id = row.building_id
-    if out.event_id is None and context.get("eventId") is not None:
+    if not out.explicit and out.event_id is None and context.get("eventId") is not None:
         row = find_event(session, workspace, str(context["eventId"]))
         if row is None:
             _fail(
@@ -332,6 +338,8 @@ def _apply_context(session: Session, workspace: Workspace, context: dict, out: R
             out.point_id = row.point_id
         elif row.point_id == out.point_id:
             out.event_id = row.id
+    if out.explicit:
+        return
     for key, finder, attr, label in (
         ("issueId", find_issue, "issue_id", "问题"),
         ("workOrderId", find_order, "work_order_id", "工单"),

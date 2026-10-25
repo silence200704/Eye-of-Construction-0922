@@ -66,3 +66,26 @@ def test_knowledge_failure_keeps_business_failure_and_degrades(
     assert "0.82" in json.dumps(valid.json()["data"]["answer"]["facts"])
     assert concept.json()["data"]["answer"]["status"] == "unsupported"
     assert concept.json()["data"]["answer"]["knowledge"]["decision"] == "unavailable"
+
+
+def test_unbound_order_keeps_null_point_and_event_with_old_context(
+    client: TestClient, settings
+) -> None:
+    api = AssistantApi(client, str(settings.database_url))
+    ids = api.seed_manual_point()
+    api.add_record(ids["point"]["id"], 0.82, minutes=-15)
+    issue, order = _no_point_order(api, ids)
+    event = api.get("/events")[0]
+    reply = api.raw_ask(
+        f"{order['orderNo']} 现在怎么样",
+        context={"pointId": ids["point"]["id"], "eventId": event["id"]},
+        key="rereview-unbound-graph",
+    )
+    assert reply.status_code == 200, reply.text
+    answer = reply.json()["data"]["answer"]
+    assert answer["objects"]["issueId"] == issue["id"]
+    assert answer["objects"]["pointId"] is None
+    assert answer["objects"]["eventId"] is None
+    assert "pointId" not in answer["snapshot"]["objects"]
+    assert "eventId" not in answer["snapshot"]["objects"]
+    assert event["eventNo"] not in json.dumps(answer, ensure_ascii=False)

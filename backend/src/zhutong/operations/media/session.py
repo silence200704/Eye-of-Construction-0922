@@ -137,11 +137,33 @@ def _video_out(session: Session, row: MediaVideo, dataset_id: str) -> dict:
     }
 
 
-def replay_visible(session: Session, workspace: Workspace, data: dict) -> None:
-    """幂等重放不重办业务，但当前无权读取的对象直接拒绝。"""
-    point_id = data.get("pointId")
-    if point_id and _point_visible(session, workspace, str(point_id)) is None:
-        raise AppError("NOT_FOUND", "该影像对象不存在或无权读取", 404, {"pointId": point_id})
+def _replay_frame(session: Session, workspace: Workspace, frame_id: str) -> None:
+    row = session.get(MediaFrame, (workspace.dataset_id, frame_id))
+    if row is None or _point_visible(session, workspace, row.point_id) is None:
+        raise AppError("NOT_FOUND", "该关键帧不存在或无权读取", 404, {"frameId": frame_id})
+    if _visible_frame_parts(session, workspace, row) is None:
+        raise AppError("ROLE_FORBIDDEN", "无权读取该媒体", 403, {"frameId": frame_id})
+
+
+def replay_visible(session: Session, workspace: Workspace, data: dict, kind: str) -> None:
+    """幂等重放不重办业务，但按当前媒体所有权重新检查依赖对象。"""
+    if kind == "frame":
+        _replay_frame(session, workspace, str(data["id"]))
+        return
+    if kind == "comparison":
+        row = session.get(MediaComparison, (workspace.dataset_id, str(data["id"])))
+        if row is None or _point_visible(session, workspace, row.point_id) is None:
+            raise AppError("NOT_FOUND", "该比对不存在或无权读取", 404)
+        _replay_frame(session, workspace, row.before_id)
+        _replay_frame(session, workspace, row.after_id)
+        return
+    row = session.get(MediaVideo, (workspace.dataset_id, str(data["id"])))
+    point = _point_visible(session, workspace, row.point_id) if row is not None else None
+    if row is None or point is None:
+        raise AppError("NOT_FOUND", "该视频不存在或无权读取", 404)
+    media = _media_of(session, workspace.dataset_id, row.media_id)
+    if media is None or not _media_readable(workspace, media, point):
+        raise AppError("ROLE_FORBIDDEN", "无权读取该视频媒体", 403)
 
 
 def register_video(session: Session, workspace: Workspace, payload: dict) -> dict:
