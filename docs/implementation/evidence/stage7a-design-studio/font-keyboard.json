@@ -1,0 +1,75 @@
+{
+  "base": "http://127.0.0.1:8080",
+  "results": [
+    {
+      "screen": "workbench",
+      "scale": 2,
+      "width": 388,
+      "scroll": 388,
+      "contentWidth": 388,
+      "contentScroll": 388
+    },
+    {
+      "screen": "monitoring",
+      "scale": 2,
+      "width": 388,
+      "scroll": 388,
+      "contentWidth": 388,
+      "contentScroll": 388
+    },
+    {
+      "screen": "statistics",
+      "scale": 2,
+      "width": 388,
+      "scroll": 388,
+      "contentWidth": 388,
+      "contentScroll": 388
+    },
+    {
+      "screen": "task",
+      "scale": 2,
+      "width": 388,
+      "scroll": 388,
+      "contentWidth": 388,
+      "contentScroll": 388
+    },
+    {
+      "screen": "report",
+      "scale": 2,
+      "width": 388,
+      "scroll": 388,
+      "contentWidth": 388,
+      "contentScroll": 388
+    },
+    {
+      "screen": "order",
+      "scale": 2,
+      "width": 388,
+      "scroll": 388,
+      "contentWidth": 388,
+      "contentScroll": 388
+    },
+    {
+      "screen": "profile",
+      "scale": 2,
+      "width": 388,
+      "scroll": 388,
+      "contentWidth": 388,
+      "contentScroll": 388
+    },
+    {
+      "screen": "sync",
+      "scale": 2,
+      "width": 388,
+      "scroll": 388,
+      "contentWidth": 388,
+      "contentScroll": 388
+    }
+  ],
+  "keyboard": {
+    "draftRestored": true,
+    "tabOrder": true,
+    "reducedMotion": "0s"
+  },
+  "scope": "Browser text-only 200% style stress, not native system font scaling or screen reader verification"
+}

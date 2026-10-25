@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="筑瞳 OpenHarmony 原生 App 的阶段7A设计原型，示例数据，不连接业务接口。" />
+  <title>筑瞳 · App 设计交接</title>
+  <link rel="stylesheet" href="./styles/studio.css" />
+  <link rel="stylesheet" href="./styles/app.css" />
+  <link rel="stylesheet" href="./styles/components.css" />
+</head>
+<body>
+  <a class="skip" href="#preview-content">跳到原型内容</a>
+  <header class="studio-head">
+    <a class="brand" href="#workbench"><img src="./assets/brand/app-icon-concept.svg" alt="" width="42" height="42" /><span><b>筑瞳设计室</b><small>阶段7A · OpenHarmony 原生 App 设计交接</small></span></a>
+    <div class="studio-mode" role="group" aria-label="设计室内容">
+      <button type="button" data-mode="prototype" aria-pressed="true">App 原型</button>
+      <button type="button" data-mode="assets" aria-pressed="false">图形资源</button>
+      <button type="button" data-mode="templates" aria-pressed="false">传播模板</button>
+    </div>
+    <a class="web-return" href="/#/campus">返回 Web 工作台</a>
+  </header>
+  <div class="design-notice">设计原型 · 所有数值为示例 · 不连接 API、不上传照片、不提交业务。实际 ArkUI 原生工程在阶段8实现。</div>
+  <main class="studio-main">
+    <aside id="inspector" class="inspector" aria-label="原型检查与交接">
+      <p class="eyebrow">温暖的校园守护</p><h1>把现场的每一步，<br />照顾清楚。</h1>
+      <p class="intro">保留校园青和丰富卡片，将监测、巡检与工单串成清楚的现场路径。</p>
+      <label>原型页面<select id="screen-picker" name="screen"></select></label>
+      <label>界面状态<select id="state-picker" name="state"><option value="normal">正常</option><option value="loading">加载中</option><option value="empty">暂无内容</option><option value="error">连接失败</option><option value="forbidden">无权访问</option><option value="offline">离线快照</option><option value="submitting">提交中</option><option value="conflict">提交冲突</option><option value="success">提交结果示意</option></select></label>
+      <fieldset><legend>原型窗口</legend><div class="segmented"><button type="button" data-window="phone" aria-pressed="true">手机</button><button type="button" data-window="wide" aria-pressed="false">宽窗口</button></div></fieldset>
+      <div class="handoff-note"><b>原生实现约定</b><p id="mapping"></p><p>控件目标 ≥48vp，正文使用 fp；此处 CSS 仅供设计预览，不能作为原生安装证据。</p></div>
+      <details><summary>数据与能力边界</summary><p>模拟硬件输入、模拟读卡持续标注；草稿、同步和回执仅演练界面。刷新会清空原型临时填写，真实持久化在阶段9验收。</p></details>
+    </aside>
+    <section id="prototype-stage" class="prototype-stage" aria-label="App 窗口设计原型">
+      <div class="device-caption"><span id="window-label">手机 · 390px 设计参考</span><span>交互原型，非真机截图</span></div>
+      <div id="device" class="device">
+        <header class="app-head"><button type="button" id="back" aria-label="返回上一页" class="icon-button"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 12H4m7-7-7 7 7 7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" /></svg></button><div><span class="app-kicker">筑瞳 · 现场守护</span><h2 id="page-title">工作台</h2></div><button type="button" data-go="profile" class="identity-pill">巡检员</button></header>
+        <p class="sample-strip">原型示例 · 硬件输入模拟 · 未连接服务器</p>
+        <div id="preview-content" class="app-content" tabindex="-1"></div>
+        <nav id="bottom-nav" class="bottom-nav" aria-label="App 主导航"></nav>
+      </div>
+    </section>
+    <section id="gallery" class="gallery" aria-label="设计资源预览" hidden></section>
+  </main>
+  <div id="announcement" class="sr-only" role="status" aria-live="polite"></div>
+  <script type="module" src="./scripts/main.js"></script>
+</body>
+</html>

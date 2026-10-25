@@ -1,0 +1,3008 @@
+{
+  "base": "http://127.0.0.1:8080",
+  "checks": [
+    "Prototype is separate from business API and clearly labelled",
+    "Monitoring filters preserve missing values and simulation source",
+    "Wide monitoring keeps selected detail alongside list",
+    "Back returns to monitoring without discarding filters",
+    "Arrival and completed checklist gate the next step",
+    "Report validates inline, preserves temporary draft and caps placeholders",
+    "Identity change isolates draft and enables repair-only workflow",
+    "Alarm form requires measures and does not close event",
+    "Statistics change week/month and expose text data",
+    "All 12 pages and 9 states fit 3 reference windows",
+    "Gallery and 7 templates load offline-local assets with editable downloads"
+  ],
+  "errors": [],
+  "api": [],
+  "writes": [],
+  "external": [],
+  "layouts": [
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "workbench",
+      "state": "normal",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "workbench",
+      "state": "loading",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "workbench",
+      "state": "empty",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "workbench",
+      "state": "error",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "workbench",
+      "state": "forbidden",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "workbench",
+      "state": "offline",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "workbench",
+      "state": "submitting",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "workbench",
+      "state": "conflict",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "workbench",
+      "state": "success",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "monitoring",
+      "state": "normal",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "monitoring",
+      "state": "loading",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "monitoring",
+      "state": "empty",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "monitoring",
+      "state": "error",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "monitoring",
+      "state": "forbidden",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "monitoring",
+      "state": "offline",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "monitoring",
+      "state": "submitting",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "monitoring",
+      "state": "conflict",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "monitoring",
+      "state": "success",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "point",
+      "state": "normal",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "point",
+      "state": "loading",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "point",
+      "state": "empty",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "point",
+      "state": "error",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "point",
+      "state": "forbidden",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "point",
+      "state": "offline",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "point",
+      "state": "submitting",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "point",
+      "state": "conflict",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "point",
+      "state": "success",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "alarms",
+      "state": "normal",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "alarms",
+      "state": "loading",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "alarms",
+      "state": "empty",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "alarms",
+      "state": "error",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "alarms",
+      "state": "forbidden",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "alarms",
+      "state": "offline",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "alarms",
+      "state": "submitting",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "alarms",
+      "state": "conflict",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "alarms",
+      "state": "success",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "alarm",
+      "state": "normal",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "alarm",
+      "state": "loading",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "alarm",
+      "state": "empty",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "alarm",
+      "state": "error",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "alarm",
+      "state": "forbidden",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "alarm",
+      "state": "offline",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "alarm",
+      "state": "submitting",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "alarm",
+      "state": "conflict",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "alarm",
+      "state": "success",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "statistics",
+      "state": "normal",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "statistics",
+      "state": "loading",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "statistics",
+      "state": "empty",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "statistics",
+      "state": "error",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "statistics",
+      "state": "forbidden",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "statistics",
+      "state": "offline",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "statistics",
+      "state": "submitting",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "statistics",
+      "state": "conflict",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "statistics",
+      "state": "success",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "tasks",
+      "state": "normal",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "tasks",
+      "state": "loading",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "tasks",
+      "state": "empty",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "tasks",
+      "state": "error",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "tasks",
+      "state": "forbidden",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "tasks",
+      "state": "offline",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "tasks",
+      "state": "submitting",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "tasks",
+      "state": "conflict",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "tasks",
+      "state": "success",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "task",
+      "state": "normal",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "task",
+      "state": "loading",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "task",
+      "state": "empty",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "task",
+      "state": "error",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "task",
+      "state": "forbidden",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "task",
+      "state": "offline",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "task",
+      "state": "submitting",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "task",
+      "state": "conflict",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "task",
+      "state": "success",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "report",
+      "state": "normal",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "report",
+      "state": "loading",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "report",
+      "state": "empty",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "report",
+      "state": "error",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "report",
+      "state": "forbidden",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "report",
+      "state": "offline",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "report",
+      "state": "submitting",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "report",
+      "state": "conflict",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "report",
+      "state": "success",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "order",
+      "state": "normal",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "order",
+      "state": "loading",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "order",
+      "state": "empty",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "order",
+      "state": "error",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "order",
+      "state": "forbidden",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "order",
+      "state": "offline",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "order",
+      "state": "submitting",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "order",
+      "state": "conflict",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "order",
+      "state": "success",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "sync",
+      "state": "normal",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "sync",
+      "state": "loading",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "sync",
+      "state": "empty",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "sync",
+      "state": "error",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "sync",
+      "state": "forbidden",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "sync",
+      "state": "offline",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "sync",
+      "state": "submitting",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "sync",
+      "state": "conflict",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "sync",
+      "state": "success",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "profile",
+      "state": "normal",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "profile",
+      "state": "loading",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "profile",
+      "state": "empty",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "profile",
+      "state": "error",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "profile",
+      "state": "forbidden",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "profile",
+      "state": "offline",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "profile",
+      "state": "submitting",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "profile",
+      "state": "conflict",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": false,
+      "name": "profile",
+      "state": "success",
+      "doc": 1440,
+      "body": 388,
+      "client": 388
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "workbench",
+      "state": "normal",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "workbench",
+      "state": "loading",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "workbench",
+      "state": "empty",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "workbench",
+      "state": "error",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "workbench",
+      "state": "forbidden",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "workbench",
+      "state": "offline",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "workbench",
+      "state": "submitting",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "workbench",
+      "state": "conflict",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "workbench",
+      "state": "success",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "monitoring",
+      "state": "normal",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "monitoring",
+      "state": "loading",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "monitoring",
+      "state": "empty",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "monitoring",
+      "state": "error",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "monitoring",
+      "state": "forbidden",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "monitoring",
+      "state": "offline",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "monitoring",
+      "state": "submitting",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "monitoring",
+      "state": "conflict",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "monitoring",
+      "state": "success",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "point",
+      "state": "normal",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "point",
+      "state": "loading",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "point",
+      "state": "empty",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "point",
+      "state": "error",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "point",
+      "state": "forbidden",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "point",
+      "state": "offline",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "point",
+      "state": "submitting",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "point",
+      "state": "conflict",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "point",
+      "state": "success",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "alarms",
+      "state": "normal",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "alarms",
+      "state": "loading",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "alarms",
+      "state": "empty",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "alarms",
+      "state": "error",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "alarms",
+      "state": "forbidden",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "alarms",
+      "state": "offline",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "alarms",
+      "state": "submitting",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "alarms",
+      "state": "conflict",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "alarms",
+      "state": "success",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "alarm",
+      "state": "normal",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "alarm",
+      "state": "loading",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "alarm",
+      "state": "empty",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "alarm",
+      "state": "error",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "alarm",
+      "state": "forbidden",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "alarm",
+      "state": "offline",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "alarm",
+      "state": "submitting",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "alarm",
+      "state": "conflict",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "alarm",
+      "state": "success",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "statistics",
+      "state": "normal",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "statistics",
+      "state": "loading",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "statistics",
+      "state": "empty",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "statistics",
+      "state": "error",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "statistics",
+      "state": "forbidden",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "statistics",
+      "state": "offline",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "statistics",
+      "state": "submitting",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "statistics",
+      "state": "conflict",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "statistics",
+      "state": "success",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "tasks",
+      "state": "normal",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "tasks",
+      "state": "loading",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "tasks",
+      "state": "empty",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "tasks",
+      "state": "error",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "tasks",
+      "state": "forbidden",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "tasks",
+      "state": "offline",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "tasks",
+      "state": "submitting",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "tasks",
+      "state": "conflict",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "tasks",
+      "state": "success",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "task",
+      "state": "normal",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "task",
+      "state": "loading",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "task",
+      "state": "empty",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "task",
+      "state": "error",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "task",
+      "state": "forbidden",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "task",
+      "state": "offline",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "task",
+      "state": "submitting",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "task",
+      "state": "conflict",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "task",
+      "state": "success",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "report",
+      "state": "normal",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "report",
+      "state": "loading",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "report",
+      "state": "empty",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "report",
+      "state": "error",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "report",
+      "state": "forbidden",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "report",
+      "state": "offline",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "report",
+      "state": "submitting",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "report",
+      "state": "conflict",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "report",
+      "state": "success",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "order",
+      "state": "normal",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "order",
+      "state": "loading",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "order",
+      "state": "empty",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "order",
+      "state": "error",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "order",
+      "state": "forbidden",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "order",
+      "state": "offline",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "order",
+      "state": "submitting",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "order",
+      "state": "conflict",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "order",
+      "state": "success",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "sync",
+      "state": "normal",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "sync",
+      "state": "loading",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "sync",
+      "state": "empty",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "sync",
+      "state": "error",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "sync",
+      "state": "forbidden",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "sync",
+      "state": "offline",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "sync",
+      "state": "submitting",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "sync",
+      "state": "conflict",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "sync",
+      "state": "success",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "profile",
+      "state": "normal",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "profile",
+      "state": "loading",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "profile",
+      "state": "empty",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "profile",
+      "state": "error",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "profile",
+      "state": "forbidden",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "profile",
+      "state": "offline",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "profile",
+      "state": "submitting",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "profile",
+      "state": "conflict",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 1440,
+      "wide": true,
+      "name": "profile",
+      "state": "success",
+      "doc": 1440,
+      "body": 878,
+      "client": 878
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "workbench",
+      "state": "normal",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "workbench",
+      "state": "loading",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "workbench",
+      "state": "empty",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "workbench",
+      "state": "error",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "workbench",
+      "state": "forbidden",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "workbench",
+      "state": "offline",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "workbench",
+      "state": "submitting",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "workbench",
+      "state": "conflict",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "workbench",
+      "state": "success",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "monitoring",
+      "state": "normal",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "monitoring",
+      "state": "loading",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "monitoring",
+      "state": "empty",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "monitoring",
+      "state": "error",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "monitoring",
+      "state": "forbidden",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "monitoring",
+      "state": "offline",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "monitoring",
+      "state": "submitting",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "monitoring",
+      "state": "conflict",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "monitoring",
+      "state": "success",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "point",
+      "state": "normal",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "point",
+      "state": "loading",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "point",
+      "state": "empty",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "point",
+      "state": "error",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "point",
+      "state": "forbidden",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "point",
+      "state": "offline",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "point",
+      "state": "submitting",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "point",
+      "state": "conflict",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "point",
+      "state": "success",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "alarms",
+      "state": "normal",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "alarms",
+      "state": "loading",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "alarms",
+      "state": "empty",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "alarms",
+      "state": "error",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "alarms",
+      "state": "forbidden",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "alarms",
+      "state": "offline",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "alarms",
+      "state": "submitting",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "alarms",
+      "state": "conflict",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "alarms",
+      "state": "success",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "alarm",
+      "state": "normal",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "alarm",
+      "state": "loading",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "alarm",
+      "state": "empty",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "alarm",
+      "state": "error",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "alarm",
+      "state": "forbidden",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "alarm",
+      "state": "offline",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "alarm",
+      "state": "submitting",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "alarm",
+      "state": "conflict",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "alarm",
+      "state": "success",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "statistics",
+      "state": "normal",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "statistics",
+      "state": "loading",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "statistics",
+      "state": "empty",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "statistics",
+      "state": "error",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "statistics",
+      "state": "forbidden",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "statistics",
+      "state": "offline",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "statistics",
+      "state": "submitting",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "statistics",
+      "state": "conflict",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "statistics",
+      "state": "success",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "tasks",
+      "state": "normal",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "tasks",
+      "state": "loading",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "tasks",
+      "state": "empty",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "tasks",
+      "state": "error",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "tasks",
+      "state": "forbidden",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "tasks",
+      "state": "offline",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "tasks",
+      "state": "submitting",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "tasks",
+      "state": "conflict",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "tasks",
+      "state": "success",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "task",
+      "state": "normal",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "task",
+      "state": "loading",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "task",
+      "state": "empty",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "task",
+      "state": "error",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "task",
+      "state": "forbidden",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "task",
+      "state": "offline",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "task",
+      "state": "submitting",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "task",
+      "state": "conflict",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "task",
+      "state": "success",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "report",
+      "state": "normal",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "report",
+      "state": "loading",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "report",
+      "state": "empty",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "report",
+      "state": "error",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "report",
+      "state": "forbidden",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "report",
+      "state": "offline",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "report",
+      "state": "submitting",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "report",
+      "state": "conflict",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "report",
+      "state": "success",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "order",
+      "state": "normal",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "order",
+      "state": "loading",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "order",
+      "state": "empty",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "order",
+      "state": "error",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "order",
+      "state": "forbidden",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "order",
+      "state": "offline",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "order",
+      "state": "submitting",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "order",
+      "state": "conflict",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "order",
+      "state": "success",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "sync",
+      "state": "normal",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "sync",
+      "state": "loading",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "sync",
+      "state": "empty",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "sync",
+      "state": "error",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "sync",
+      "state": "forbidden",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "sync",
+      "state": "offline",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "sync",
+      "state": "submitting",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "sync",
+      "state": "conflict",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "sync",
+      "state": "success",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "profile",
+      "state": "normal",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "profile",
+      "state": "loading",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "profile",
+      "state": "empty",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "profile",
+      "state": "error",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "profile",
+      "state": "forbidden",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "profile",
+      "state": "offline",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "profile",
+      "state": "submitting",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "profile",
+      "state": "conflict",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    },
+    {
+      "width": 375,
+      "wide": false,
+      "name": "profile",
+      "state": "success",
+      "doc": 375,
+      "body": 345,
+      "client": 345
+    }
+  ],
+  "access": [
+    {
+      "name": "wide-monitoring",
+      "violations": []
+    },
+    {
+      "name": "report-filled",
+      "violations": []
+    },
+    {
+      "name": "phone-workbench",
+      "violations": []
+    },
+    {
+      "name": "phone-monitoring",
+      "violations": []
+    },
+    {
+      "name": "phone-point",
+      "violations": []
+    },
+    {
+      "name": "phone-alarms",
+      "violations": []
+    },
+    {
+      "name": "phone-alarm",
+      "violations": []
+    },
+    {
+      "name": "phone-statistics",
+      "violations": []
+    },
+    {
+      "name": "phone-tasks",
+      "violations": []
+    },
+    {
+      "name": "phone-task",
+      "violations": []
+    },
+    {
+      "name": "phone-report",
+      "violations": []
+    },
+    {
+      "name": "phone-order",
+      "violations": []
+    },
+    {
+      "name": "phone-sync",
+      "violations": []
+    },
+    {
+      "name": "phone-profile",
+      "violations": []
+    },
+    {
+      "name": "conflict-narrow",
+      "violations": []
+    },
+    {
+      "name": "asset-gallery",
+      "violations": []
+    },
+    {
+      "name": "template-gallery",
+      "violations": []
+    }
+  ]
+}

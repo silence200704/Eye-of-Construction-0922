@@ -1,0 +1,24 @@
+{
+  "assets": {
+    "svg": 52,
+    "png": 52,
+    "totalAssetBytes": 1050823,
+    "externalAssetReferences": 0,
+    "hashesAndPngDimensions": "passed"
+  },
+  "bundle": {
+    "entries": 107,
+    "bytes": 983716,
+    "sha256": "bab888ab87a888bce794d1bb32f1bf2950876ec1ca7d320187ebdf47886925ba",
+    "result": "passed"
+  },
+  "sourceStructure": {
+    "files": 20,
+    "fileLimit": 450,
+    "pythonFunctionLimit": 80,
+    "pythonParameterLimit": 5,
+    "directoryFileLimit": 8,
+    "result": "passed"
+  },
+  "nativeSdkCompatibility": "not_verified; stage8 prerequisite"
+}

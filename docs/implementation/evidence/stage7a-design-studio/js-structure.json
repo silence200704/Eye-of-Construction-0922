@@ -1,0 +1,71 @@
+{
+  "files": [
+    {
+      "file": "scripts\\design\\check-js.mjs",
+      "lines": 40,
+      "maxFunctionLines": 23,
+      "maxParameters": 1
+    },
+    {
+      "file": "scripts\\design\\export-assets.mjs",
+      "lines": 25,
+      "maxFunctionLines": 1,
+      "maxParameters": 2
+    },
+    {
+      "file": "public\\design-studio\\scripts\\data.js",
+      "lines": 39,
+      "maxFunctionLines": 4,
+      "maxParameters": 1
+    },
+    {
+      "file": "public\\design-studio\\scripts\\gallery.js",
+      "lines": 24,
+      "maxFunctionLines": 16,
+      "maxParameters": 1
+    },
+    {
+      "file": "public\\design-studio\\scripts\\main.js",
+      "lines": 137,
+      "maxFunctionLines": 25,
+      "maxParameters": 1
+    },
+    {
+      "file": "public\\design-studio\\scripts\\navigation.js",
+      "lines": 33,
+      "maxFunctionLines": 17,
+      "maxParameters": 1
+    },
+    {
+      "file": "public\\design-studio\\scripts\\renderers\\field.js",
+      "lines": 38,
+      "maxFunctionLines": 9,
+      "maxParameters": 2
+    },
+    {
+      "file": "public\\design-studio\\scripts\\renderers\\monitoring.js",
+      "lines": 43,
+      "maxFunctionLines": 11,
+      "maxParameters": 2
+    },
+    {
+      "file": "public\\design-studio\\scripts\\renderers\\overview.js",
+      "lines": 25,
+      "maxFunctionLines": 7,
+      "maxParameters": 1
+    },
+    {
+      "file": "public\\design-studio\\scripts\\renderers\\states.js",
+      "lines": 26,
+      "maxFunctionLines": 5,
+      "maxParameters": 0
+    },
+    {
+      "file": "public\\design-studio\\scripts\\ui.js",
+      "lines": 30,
+      "maxFunctionLines": 4,
+      "maxParameters": 3
+    }
+  ],
+  "findings": []
+}

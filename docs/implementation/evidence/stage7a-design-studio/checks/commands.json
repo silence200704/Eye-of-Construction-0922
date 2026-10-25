@@ -1,0 +1,66 @@
+{
+  "date": "2026-10-25",
+  "commands": [
+    {
+      "command": "python scripts/design/build.py",
+      "exitCode": 0,
+      "result": "52 original SVG + token/manifest"
+    },
+    {
+      "command": "node scripts/design/export-assets.mjs",
+      "exitCode": 0,
+      "result": "52 PNG exports"
+    },
+    {
+      "command": "python scripts/design/check.py",
+      "exitCode": 0,
+      "result": "52 SVG/PNG and ZIP107 entries integrity passed"
+    },
+    {
+      "command": "node scripts/design/check-js.mjs",
+      "exitCode": 0,
+      "result": "11 JS files, no structure violations"
+    },
+    {
+      "command": "npm test",
+      "exitCode": 0,
+      "result": "125 files / 1170 tests passed"
+    },
+    {
+      "command": "npm run test:tooling",
+      "exitCode": 0,
+      "result": "5 passed"
+    },
+    {
+      "command": "npm run build",
+      "exitCode": 0,
+      "result": "typecheck + build passed; existing chunk warning retained"
+    },
+    {
+      "command": "docker compose -f deploy/compose.yaml build web",
+      "exitCode": 0,
+      "result": "built"
+    },
+    {
+      "command": "docker compose -f deploy/compose.yaml up -d --no-deps web",
+      "exitCode": 0,
+      "result": "web recreated; API untouched"
+    },
+    {
+      "command": "node backend/.runtime-ui-refresh/design-verify.mjs http://127.0.0.1:8080",
+      "exitCode": 0,
+      "result": "11 groups / 324 layouts / 17 axe scans passed"
+    },
+    {
+      "command": "node backend/.runtime-ui-refresh/design-font.mjs http://127.0.0.1:8080",
+      "exitCode": 0,
+      "result": "8 text scale checks, draft/keyboard/reduced motion passed"
+    },
+    {
+      "command": "node backend/.runtime-ui-refresh/design-performance.mjs http://127.0.0.1:8080",
+      "exitCode": 0,
+      "result": "48 layouts and local performance recorded"
+    }
+  ],
+  "rerunNote": "Saved QA scripts accept DESIGN_EVIDENCE and default to ignored recheck output; the captured run used the current evidence directory."
+}

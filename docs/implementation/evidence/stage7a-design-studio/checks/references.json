@@ -1,0 +1,13 @@
+{
+  "date": "2026-10-25",
+  "tool": "mcp__codex_apps__exa_web_fetch_exa",
+  "sourcePolicy": "Official documentation and user-provided design reference sites; original Vue/CSS/vanilla JS/SVG code, no third-party source/artwork embedded.",
+  "references": [
+    {"url":"https://bencho.dev/blocks/ai-chat-input","access":"MCP succeeded","application":"Considered action grouping and input surface hierarchy; no model/microphone controls added."},
+    {"url":"https://ui.aceternity.com/components/tabs","access":"MCP succeeded","application":"Selected-state feedback for task categories and week/month controls; no React runtime copied."},
+    {"url":"https://ui.aceternity.com/components/file-upload","access":"MCP succeeded","application":"Photo-slot hierarchy and interaction feedback; prototype uses explicitly labelled decorative placeholders, not uploads."},
+    {"url":"https://kinetics.colorion.co/#library","access":"MCP succeeded","application":"Short press feedback and interruptible interaction; no fake progress or request delay."},
+    {"url":"https://raw.githubusercontent.com/openharmony/docs/OpenHarmony-5.0.0-Release/en/application-dev/ui/arkts-navigation-navigation.md","access":"MCP succeeded","application":"Design mapping for Navigation/NavDestination and list-detail adaptation; not evidence of installed SDK."},
+    {"url":"https://raw.githubusercontent.com/openharmony/docs/OpenHarmony-5.0.0-Release/en/application-dev/ui/arkts-layout-development-overview.md","access":"MCP succeeded","application":"Native layout-container handoff; exact platform compatibility still awaits stage 8."}
+  ]
+}

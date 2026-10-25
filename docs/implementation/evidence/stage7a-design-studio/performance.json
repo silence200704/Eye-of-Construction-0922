@@ -1,0 +1,494 @@
+{
+  "base": "http://127.0.0.1:8080",
+  "initial": {
+    "domContentLoadedMs": 72,
+    "loadMs": 116.5,
+    "resources": [
+      {
+        "name": "/design-studio/styles/studio.css",
+        "transfer": 6264,
+        "durationMs": 7.5
+      },
+      {
+        "name": "/design-studio/styles/app.css",
+        "transfer": 5979,
+        "durationMs": 8.700000002980232
+      },
+      {
+        "name": "/design-studio/styles/components.css",
+        "transfer": 5599,
+        "durationMs": 9.100000001490116
+      },
+      {
+        "name": "/design-studio/assets/brand/app-icon-concept.svg",
+        "transfer": 725,
+        "durationMs": 9.699999999254942
+      },
+      {
+        "name": "/design-studio/scripts/main.js",
+        "transfer": 7146,
+        "durationMs": 9.899999998509884
+      },
+      {
+        "name": "/design-studio/scripts/data.js",
+        "transfer": 3404,
+        "durationMs": 3.5
+      },
+      {
+        "name": "/design-studio/scripts/ui.js",
+        "transfer": 1535,
+        "durationMs": 3.5
+      },
+      {
+        "name": "/design-studio/scripts/navigation.js",
+        "transfer": 1527,
+        "durationMs": 3.699999999254942
+      },
+      {
+        "name": "/design-studio/scripts/gallery.js",
+        "transfer": 2602,
+        "durationMs": 3.5
+      },
+      {
+        "name": "/design-studio/scripts/renderers/overview.js",
+        "transfer": 3940,
+        "durationMs": 4
+      },
+      {
+        "name": "/design-studio/scripts/renderers/field.js",
+        "transfer": 5869,
+        "durationMs": 4.700000002980232
+      },
+      {
+        "name": "/design-studio/scripts/renderers/monitoring.js",
+        "transfer": 6440,
+        "durationMs": 4.800000000745058
+      },
+      {
+        "name": "/design-studio/scripts/renderers/states.js",
+        "transfer": 2921,
+        "durationMs": 4.899999998509884
+      },
+      {
+        "name": "/design-studio/assets/mascot/ready.svg",
+        "transfer": 1447,
+        "durationMs": 1.699999999254942
+      },
+      {
+        "name": "/design-studio/assets/icons/monitoring/monitor.svg",
+        "transfer": 544,
+        "durationMs": 2.600000001490116
+      },
+      {
+        "name": "/design-studio/assets/scenes/morning.svg",
+        "transfer": 3989,
+        "durationMs": 2.900000002235174
+      },
+      {
+        "name": "/design-studio/assets/icons/field/inspection.svg",
+        "transfer": 544,
+        "durationMs": 2
+      },
+      {
+        "name": "/design-studio/assets/icons/field/report.svg",
+        "transfer": 536,
+        "durationMs": 2.5
+      },
+      {
+        "name": "/design-studio/assets/icons/field/order.svg",
+        "transfer": 566,
+        "durationMs": 2.899999998509884
+      },
+      {
+        "name": "/design-studio/assets/icons/monitoring/campus.svg",
+        "transfer": 560,
+        "durationMs": 2.900000002235174
+      },
+      {
+        "name": "/design-studio/assets/icons/common/identity.svg",
+        "transfer": 555,
+        "durationMs": 4
+      },
+      {
+        "name": "/favicon.ico",
+        "transfer": 1044,
+        "durationMs": 2.300000000745058
+      }
+    ],
+    "heapBytes": 1387689
+  },
+  "navigation": [
+    {
+      "screen": "workbench",
+      "nextFrameMs": 2.5
+    },
+    {
+      "screen": "monitoring",
+      "nextFrameMs": 3.5
+    },
+    {
+      "screen": "alarm",
+      "nextFrameMs": 4
+    },
+    {
+      "screen": "tasks",
+      "nextFrameMs": 4
+    },
+    {
+      "screen": "report",
+      "nextFrameMs": 4.300000000745058
+    },
+    {
+      "screen": "sync",
+      "nextFrameMs": 4.199999999254942
+    },
+    {
+      "screen": "profile",
+      "nextFrameMs": 3.899999998509884
+    }
+  ],
+  "gallery": {
+    "cards": 45,
+    "nodes": 324,
+    "heapBytes": 3094187
+  },
+  "layouts": [
+    {
+      "screen": "#workbench",
+      "width": 375,
+      "docWidth": 375,
+      "content": 345,
+      "scroll": 345
+    },
+    {
+      "screen": "#monitoring",
+      "width": 375,
+      "docWidth": 375,
+      "content": 345,
+      "scroll": 345
+    },
+    {
+      "screen": "#point",
+      "width": 375,
+      "docWidth": 375,
+      "content": 345,
+      "scroll": 345
+    },
+    {
+      "screen": "#alarms",
+      "width": 375,
+      "docWidth": 375,
+      "content": 345,
+      "scroll": 345
+    },
+    {
+      "screen": "#alarm",
+      "width": 375,
+      "docWidth": 375,
+      "content": 345,
+      "scroll": 345
+    },
+    {
+      "screen": "#statistics",
+      "width": 375,
+      "docWidth": 375,
+      "content": 345,
+      "scroll": 345
+    },
+    {
+      "screen": "#tasks",
+      "width": 375,
+      "docWidth": 375,
+      "content": 345,
+      "scroll": 345
+    },
+    {
+      "screen": "#task",
+      "width": 375,
+      "docWidth": 375,
+      "content": 345,
+      "scroll": 345
+    },
+    {
+      "screen": "#report",
+      "width": 375,
+      "docWidth": 375,
+      "content": 345,
+      "scroll": 345
+    },
+    {
+      "screen": "#order",
+      "width": 375,
+      "docWidth": 375,
+      "content": 345,
+      "scroll": 345
+    },
+    {
+      "screen": "#sync",
+      "width": 375,
+      "docWidth": 375,
+      "content": 345,
+      "scroll": 345
+    },
+    {
+      "screen": "#profile",
+      "width": 375,
+      "docWidth": 375,
+      "content": 345,
+      "scroll": 345
+    },
+    {
+      "screen": "#workbench",
+      "width": 768,
+      "docWidth": 768,
+      "content": 388,
+      "scroll": 388
+    },
+    {
+      "screen": "#monitoring",
+      "width": 768,
+      "docWidth": 768,
+      "content": 388,
+      "scroll": 388
+    },
+    {
+      "screen": "#point",
+      "width": 768,
+      "docWidth": 768,
+      "content": 388,
+      "scroll": 388
+    },
+    {
+      "screen": "#alarms",
+      "width": 768,
+      "docWidth": 768,
+      "content": 388,
+      "scroll": 388
+    },
+    {
+      "screen": "#alarm",
+      "width": 768,
+      "docWidth": 768,
+      "content": 388,
+      "scroll": 388
+    },
+    {
+      "screen": "#statistics",
+      "width": 768,
+      "docWidth": 768,
+      "content": 388,
+      "scroll": 388
+    },
+    {
+      "screen": "#tasks",
+      "width": 768,
+      "docWidth": 768,
+      "content": 388,
+      "scroll": 388
+    },
+    {
+      "screen": "#task",
+      "width": 768,
+      "docWidth": 768,
+      "content": 388,
+      "scroll": 388
+    },
+    {
+      "screen": "#report",
+      "width": 768,
+      "docWidth": 768,
+      "content": 388,
+      "scroll": 388
+    },
+    {
+      "screen": "#order",
+      "width": 768,
+      "docWidth": 768,
+      "content": 388,
+      "scroll": 388
+    },
+    {
+      "screen": "#sync",
+      "width": 768,
+      "docWidth": 768,
+      "content": 388,
+      "scroll": 388
+    },
+    {
+      "screen": "#profile",
+      "width": 768,
+      "docWidth": 768,
+      "content": 388,
+      "scroll": 388
+    },
+    {
+      "screen": "#workbench",
+      "width": 1280,
+      "docWidth": 1280,
+      "content": 388,
+      "scroll": 388
+    },
+    {
+      "screen": "#monitoring",
+      "width": 1280,
+      "docWidth": 1280,
+      "content": 388,
+      "scroll": 388
+    },
+    {
+      "screen": "#point",
+      "width": 1280,
+      "docWidth": 1280,
+      "content": 388,
+      "scroll": 388
+    },
+    {
+      "screen": "#alarms",
+      "width": 1280,
+      "docWidth": 1280,
+      "content": 388,
+      "scroll": 388
+    },
+    {
+      "screen": "#alarm",
+      "width": 1280,
+      "docWidth": 1280,
+      "content": 388,
+      "scroll": 388
+    },
+    {
+      "screen": "#statistics",
+      "width": 1280,
+      "docWidth": 1280,
+      "content": 388,
+      "scroll": 388
+    },
+    {
+      "screen": "#tasks",
+      "width": 1280,
+      "docWidth": 1280,
+      "content": 388,
+      "scroll": 388
+    },
+    {
+      "screen": "#task",
+      "width": 1280,
+      "docWidth": 1280,
+      "content": 388,
+      "scroll": 388
+    },
+    {
+      "screen": "#report",
+      "width": 1280,
+      "docWidth": 1280,
+      "content": 388,
+      "scroll": 388
+    },
+    {
+      "screen": "#order",
+      "width": 1280,
+      "docWidth": 1280,
+      "content": 388,
+      "scroll": 388
+    },
+    {
+      "screen": "#sync",
+      "width": 1280,
+      "docWidth": 1280,
+      "content": 388,
+      "scroll": 388
+    },
+    {
+      "screen": "#profile",
+      "width": 1280,
+      "docWidth": 1280,
+      "content": 388,
+      "scroll": 388
+    },
+    {
+      "screen": "#workbench",
+      "width": 1920,
+      "docWidth": 1920,
+      "content": 388,
+      "scroll": 388
+    },
+    {
+      "screen": "#monitoring",
+      "width": 1920,
+      "docWidth": 1920,
+      "content": 388,
+      "scroll": 388
+    },
+    {
+      "screen": "#point",
+      "width": 1920,
+      "docWidth": 1920,
+      "content": 388,
+      "scroll": 388
+    },
+    {
+      "screen": "#alarms",
+      "width": 1920,
+      "docWidth": 1920,
+      "content": 388,
+      "scroll": 388
+    },
+    {
+      "screen": "#alarm",
+      "width": 1920,
+      "docWidth": 1920,
+      "content": 388,
+      "scroll": 388
+    },
+    {
+      "screen": "#statistics",
+      "width": 1920,
+      "docWidth": 1920,
+      "content": 388,
+      "scroll": 388
+    },
+    {
+      "screen": "#tasks",
+      "width": 1920,
+      "docWidth": 1920,
+      "content": 388,
+      "scroll": 388
+    },
+    {
+      "screen": "#task",
+      "width": 1920,
+      "docWidth": 1920,
+      "content": 388,
+      "scroll": 388
+    },
+    {
+      "screen": "#report",
+      "width": 1920,
+      "docWidth": 1920,
+      "content": 388,
+      "scroll": 388
+    },
+    {
+      "screen": "#order",
+      "width": 1920,
+      "docWidth": 1920,
+      "content": 388,
+      "scroll": 388
+    },
+    {
+      "screen": "#sync",
+      "width": 1920,
+      "docWidth": 1920,
+      "content": 388,
+      "scroll": 388
+    },
+    {
+      "screen": "#profile",
+      "width": 1920,
+      "docWidth": 1920,
+      "content": 388,
+      "scroll": 388
+    }
+  ],
+  "scope": "Local Chrome without CPU/network throttling; next rAF is not a measured screen presentation or an INP guarantee; gallery is 45 design cards, not a production business stress test."
+}
