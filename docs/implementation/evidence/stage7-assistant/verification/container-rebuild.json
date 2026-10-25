@@ -48,9 +48,9 @@
   },
   "images": {
     "api": "zhutong-api:stage1",
-    "apiDigest": "sha256:d61692bab50c",
+    "apiDigest": "sha256:35c82a1bc556",
     "web": "zhutong-web:stage1",
-    "webDigest": "sha256:88b640cfa767"
+    "webDigest": "sha256:ba3932e34b43"
   },
   "ports": {
     "zhutongApi": "http://127.0.0.1:18000",

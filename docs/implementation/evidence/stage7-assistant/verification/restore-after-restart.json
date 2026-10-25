@@ -20,11 +20,11 @@
   "summary": {
     "frames": [
       {
-        "id": "mf_2f5c85c0ca444ed791636d8d116d2ee3",
-        "pointId": "pnt_9af027b769a84fadaeed37f713bc8226",
-        "mediaId": "791af9c5798c42c981883c1704dfcf6a",
+        "id": "mf_6f4e7ed221214a439d25318d5ecd5ca9",
+        "pointId": "pnt_476313644d084d19a76f9f75db303d40",
+        "mediaId": "89be811b5a6f4e599dcf7ca77ca59d39",
         "label": "处置前",
-        "capturedAt": "2026-10-24T09:19:27.836070+00:00",
+        "capturedAt": "2026-10-25T05:48:07.717071+00:00",
         "timeCode": null,
         "videoId": null,
         "origin": "upload",
@@ -33,14 +33,14 @@
         "mimeType": "image/png",
         "width": 1,
         "height": 1,
-        "contentUrl": "/api/v1/datasets/demo-main/media/791af9c5798c42c981883c1704dfcf6a/content"
+        "contentUrl": "/api/v1/datasets/demo-main/media/89be811b5a6f4e599dcf7ca77ca59d39/content"
       },
       {
-        "id": "mf_97ba2f69137844d1899fcc44dabebcc6",
-        "pointId": "pnt_9af027b769a84fadaeed37f713bc8226",
-        "mediaId": "fcff647beb6f4ae5a3c5f7f163552832",
+        "id": "mf_d7e3ad80a7b548a08f6bf00efc514064",
+        "pointId": "pnt_476313644d084d19a76f9f75db303d40",
+        "mediaId": "3997f36fd33349bd837e72acd4b2a7d4",
         "label": "处置后",
-        "capturedAt": "2026-10-24T10:19:27.849728+00:00",
+        "capturedAt": "2026-10-25T06:48:07.736215+00:00",
         "timeCode": null,
         "videoId": null,
         "origin": "upload",
@@ -49,35 +49,67 @@
         "mimeType": "image/png",
         "width": 1,
         "height": 1,
-        "contentUrl": "/api/v1/datasets/demo-main/media/fcff647beb6f4ae5a3c5f7f163552832/content"
+        "contentUrl": "/api/v1/datasets/demo-main/media/3997f36fd33349bd837e72acd4b2a7d4/content"
       },
       {
-        "id": "mf_fbfbc66c5c444df1bed2d326f3d7768d",
-        "pointId": "pnt_9af027b769a84fadaeed37f713bc8226",
-        "mediaId": "d4663c7460334dafa0eea1e46833ebaf",
-        "label": "视频抽帧",
-        "capturedAt": "2026-10-24T10:49:27.934853+00:00",
+        "id": "mf_9d363df0ae624fa4a8afdf74e36cf57c",
+        "pointId": "pnt_476313644d084d19a76f9f75db303d40",
+        "mediaId": "d7b763b02373440d97b713d3882450b4",
+        "label": "视频抽帧｜首帧",
+        "capturedAt": "2026-10-25T07:18:07.839588+00:00",
         "timeCode": 3.0,
-        "videoId": "mv_4280f84855854f8186887f130c1a5812",
+        "videoId": "mv_a9398b3fe446452fa66d6108c674b9e6",
         "origin": "demo_generated",
         "fileName": "stage7-frame.png",
         "size": 69,
         "mimeType": "image/png",
         "width": 1,
         "height": 1,
-        "contentUrl": "/api/v1/datasets/demo-main/media/d4663c7460334dafa0eea1e46833ebaf/content"
+        "contentUrl": "/api/v1/datasets/demo-main/media/d7b763b02373440d97b713d3882450b4/content"
+      },
+      {
+        "id": "mf_f234474ed3ac464894fa73546d9bb3c7",
+        "pointId": "pnt_476313644d084d19a76f9f75db303d40",
+        "mediaId": "d7b763b02373440d97b713d3882450b4",
+        "label": "视频抽帧｜中帧",
+        "capturedAt": "2026-10-25T07:23:07.861060+00:00",
+        "timeCode": 6.0,
+        "videoId": "mv_a9398b3fe446452fa66d6108c674b9e6",
+        "origin": "demo_generated",
+        "fileName": "stage7-frame.png",
+        "size": 69,
+        "mimeType": "image/png",
+        "width": 1,
+        "height": 1,
+        "contentUrl": "/api/v1/datasets/demo-main/media/d7b763b02373440d97b713d3882450b4/content"
+      },
+      {
+        "id": "mf_04995e453c0d47c6824676e694573909",
+        "pointId": "pnt_476313644d084d19a76f9f75db303d40",
+        "mediaId": "d7b763b02373440d97b713d3882450b4",
+        "label": "视频抽帧｜末帧",
+        "capturedAt": "2026-10-25T07:28:07.875500+00:00",
+        "timeCode": 9.0,
+        "videoId": "mv_a9398b3fe446452fa66d6108c674b9e6",
+        "origin": "demo_generated",
+        "fileName": "stage7-frame.png",
+        "size": 69,
+        "mimeType": "image/png",
+        "width": 1,
+        "height": 1,
+        "contentUrl": "/api/v1/datasets/demo-main/media/d7b763b02373440d97b713d3882450b4/content"
       }
     ],
     "comparisons": [
       {
-        "id": "mc_c1e52854538a4a2f9420b0b1dfc911a6",
-        "pointId": "pnt_9af027b769a84fadaeed37f713bc8226",
+        "id": "mc_adb013fad2ae4e0ba08ae2a1872eef28",
+        "pointId": "pnt_476313644d084d19a76f9f75db303d40",
         "before": {
-          "id": "mf_2f5c85c0ca444ed791636d8d116d2ee3",
-          "pointId": "pnt_9af027b769a84fadaeed37f713bc8226",
-          "mediaId": "791af9c5798c42c981883c1704dfcf6a",
+          "id": "mf_6f4e7ed221214a439d25318d5ecd5ca9",
+          "pointId": "pnt_476313644d084d19a76f9f75db303d40",
+          "mediaId": "89be811b5a6f4e599dcf7ca77ca59d39",
           "label": "处置前",
-          "capturedAt": "2026-10-24T09:19:27.836070+00:00",
+          "capturedAt": "2026-10-25T05:48:07.717071+00:00",
           "timeCode": null,
           "videoId": null,
           "origin": "upload",
@@ -86,14 +118,14 @@
           "mimeType": "image/png",
           "width": 1,
           "height": 1,
-          "contentUrl": "/api/v1/datasets/demo-main/media/791af9c5798c42c981883c1704dfcf6a/content"
+          "contentUrl": "/api/v1/datasets/demo-main/media/89be811b5a6f4e599dcf7ca77ca59d39/content"
         },
         "after": {
-          "id": "mf_97ba2f69137844d1899fcc44dabebcc6",
-          "pointId": "pnt_9af027b769a84fadaeed37f713bc8226",
-          "mediaId": "fcff647beb6f4ae5a3c5f7f163552832",
+          "id": "mf_d7e3ad80a7b548a08f6bf00efc514064",
+          "pointId": "pnt_476313644d084d19a76f9f75db303d40",
+          "mediaId": "3997f36fd33349bd837e72acd4b2a7d4",
           "label": "处置后",
-          "capturedAt": "2026-10-24T10:19:27.849728+00:00",
+          "capturedAt": "2026-10-25T06:48:07.736215+00:00",
           "timeCode": null,
           "videoId": null,
           "origin": "upload",
@@ -102,7 +134,7 @@
           "mimeType": "image/png",
           "width": 1,
           "height": 1,
-          "contentUrl": "/api/v1/datasets/demo-main/media/fcff647beb6f4ae5a3c5f7f163552832/content"
+          "contentUrl": "/api/v1/datasets/demo-main/media/3997f36fd33349bd837e72acd4b2a7d4/content"
         },
         "result": {
           "changedRatio": 0.021,
@@ -123,9 +155,9 @@
     ],
     "videos": [
       {
-        "id": "mv_4280f84855854f8186887f130c1a5812",
-        "pointId": "pnt_9af027b769a84fadaeed37f713bc8226",
-        "mediaId": "bea376f0cb9247948c2a61e41140a746",
+        "id": "mv_a9398b3fe446452fa66d6108c674b9e6",
+        "pointId": "pnt_476313644d084d19a76f9f75db303d40",
+        "mediaId": "f53c829e5ca04add9fbf04548412e201",
         "metadata": {
           "fileName": "stage7.mp4",
           "title": "固定机位演示视频",
@@ -135,28 +167,50 @@
           "note": "合成演示视频，非真实连续拍摄"
         },
         "analysis": {
-          "videoId": "mv_4280f84855854f8186887f130c1a5812",
-          "pointId": "pnt_9af027b769a84fadaeed37f713bc8226",
+          "videoId": "mv_a9398b3fe446452fa66d6108c674b9e6",
+          "pointId": "pnt_476313644d084d19a76f9f75db303d40",
           "frameIds": [
-            "mf_fbfbc66c5c444df1bed2d326f3d7768d"
+            "mf_9d363df0ae624fa4a8afdf74e36cf57c",
+            "mf_f234474ed3ac464894fa73546d9bb3c7",
+            "mf_04995e453c0d47c6824676e694573909"
           ],
           "regions": {
-            "before": {
-              "x": 0.1,
-              "y": 0.1,
-              "w": 0.4,
-              "h": 0.4
+            "crack": {
+              "beforeId": "mf_9d363df0ae624fa4a8afdf74e36cf57c",
+              "afterId": "mf_04995e453c0d47c6824676e694573909",
+              "region": {
+                "x": 0.1,
+                "y": 0.1,
+                "w": 0.4,
+                "h": 0.4
+              },
+              "changedRatio": 0.12,
+              "status": "changed",
+              "summary": "区域像素差统计，不给毫米数"
+            },
+            "control": {
+              "beforeId": "mf_9d363df0ae624fa4a8afdf74e36cf57c",
+              "afterId": "mf_04995e453c0d47c6824676e694573909",
+              "region": {
+                "x": 0.5,
+                "y": 0.1,
+                "w": 0.3,
+                "h": 0.3
+              },
+              "changedRatio": 0,
+              "status": "stable",
+              "summary": "完好墙面未见明显差异"
             }
           },
           "reason": "合成演示视频，非真实连续拍摄"
         },
-        "contentUrl": "/api/v1/datasets/demo-main/media/bea376f0cb9247948c2a61e41140a746/content"
+        "contentUrl": "/api/v1/datasets/demo-main/media/f53c829e5ca04add9fbf04548412e201/content"
       }
     ],
-    "latestSampleTime": "2026-10-24T11:19:29.550367+00:00"
+    "latestSampleTime": "2026-10-25T07:48:09.598301+00:00"
   },
   "videoMedia": {
-    "id": "bea376f0cb9247948c2a61e41140a746",
+    "id": "f53c829e5ca04add9fbf04548412e201",
     "status": 200,
     "sha256": "3ff85ae5030f470ee23ea8ddaa2b953cb2a87e546a7ec5603700496f69103617",
     "size": 56

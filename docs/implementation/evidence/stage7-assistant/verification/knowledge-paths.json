@@ -46,7 +46,7 @@
         "sources": [
           "docs/knowledge/platform/identity.md",
           "docs/knowledge/operations/issues.md",
-          "docs/knowledge/monitoring/rules.md"
+          "docs/knowledge/operations/inspection/arrival.md"
         ],
         "passed": true
       },
@@ -123,8 +123,8 @@
         "decision": "answer",
         "sources": [
           "docs/knowledge/monitoring/rules.md",
-          "docs/knowledge/platform/knowledge.md",
-          "docs/knowledge/预警分级.md"
+          "docs/knowledge/预警分级.md",
+          "docs/knowledge/platform/knowledge.md"
         ],
         "passed": true
       },
@@ -134,7 +134,7 @@
         "decision": "answer",
         "citations": [
           "docs/knowledge/monitoring/rules.md",
-          "docs/knowledge/platform/knowledge.md"
+          "docs/knowledge/预警分级.md"
         ],
         "passed": true,
         "conclusion": "演示预警规则与分级说明\n\n筑瞳内置阈值是比赛演示规则，用于展示黄、橙、红分级和处置流程，不是国家建筑安全标准，也不能作为真实建筑安全鉴定结论。规则按稳定 ruleId 保存版本；按采样时间先选当时版本，再判断启用和适用范围。最新版本停用或排除测点时，不得回退旧版本绕过限制。阈值与持续、恢复条件应查看规则原文和试算。"
@@ -357,8 +357,8 @@
         "decision": "answer",
         "sources": [
           "docs/knowledge/operations/reviews.md",
-          "docs/knowledge/operations/issues.md",
-          "docs/knowledge/operations/orders.md"
+          "docs/knowledge/operations/orders.md",
+          "docs/knowledge/operations/issues.md"
         ],
         "passed": true
       },
@@ -368,7 +368,7 @@
         "decision": "answer",
         "citations": [
           "docs/knowledge/operations/reviews.md",
-          "docs/knowledge/operations/issues.md"
+          "docs/knowledge/operations/orders.md"
         ],
         "passed": true,
         "conclusion": "问题审核六种出口\n\n安全管理人员审核问题时保留原始报告，选择出口和二级分类并写明意见。六种出口为转维修、转专业排查、安排复查、退回补充、关联既有对象、无需处理关闭。退回需说明缺少什么；已当场处理需照片或持久保存无法拍照原因。维修中问题不能任意跳过办理步骤；已有未验收工单时不能重复转维修。"
@@ -569,8 +569,8 @@
         "decision": "answer",
         "sources": [
           "docs/knowledge/platform/identity.md",
-          "docs/knowledge/platform/archive.md",
-          "docs/knowledge/预警分级.md"
+          "docs/knowledge/预警分级.md",
+          "docs/knowledge/platform/archive.md"
         ],
         "passed": true
       },
@@ -580,7 +580,7 @@
         "decision": "answer",
         "citations": [
           "docs/knowledge/platform/identity.md",
-          "docs/knowledge/platform/archive.md"
+          "docs/knowledge/预警分级.md"
         ],
         "passed": true,
         "conclusion": "演示身份与权限\n\n系统不提供登录页、账号或密码。启动后使用预置演示身份，可切换学校安全管理人员、物业值班、设备管理、巡检、维修五类身份。界面身份提示不能作为授权依据；服务端按稳定身份 ID、角色和楼栋范围校验每次写入。维修人员不能自行验收工单；角色或范围不符时拒绝写入并显示原因。"
@@ -765,8 +765,8 @@
         "decision": "answer",
         "sources": [
           "docs/knowledge/monitoring/rules.md",
-          "docs/knowledge/monitoring/csv.md",
-          "docs/knowledge/monitoring/records.md"
+          "docs/knowledge/monitoring/records.md",
+          "docs/knowledge/platform/identity.md"
         ],
         "passed": true
       },
@@ -776,7 +776,7 @@
         "decision": "answer",
         "citations": [
           "docs/knowledge/monitoring/rules.md",
-          "docs/knowledge/monitoring/csv.md"
+          "docs/knowledge/monitoring/records.md"
         ],
         "passed": true,
         "conclusion": "演示预警规则与分级说明\n\n筑瞳内置阈值是比赛演示规则，用于展示黄、橙、红分级和处置流程，不是国家建筑安全标准，也不能作为真实建筑安全鉴定结论。规则按稳定 ruleId 保存版本；按采样时间先选当时版本，再判断启用和适用范围。最新版本停用或排除测点时，不得回退旧版本绕过限制。阈值与持续、恢复条件应查看规则原文和试算。"
@@ -814,8 +814,8 @@
         "decision": "answer",
         "sources": [
           "docs/knowledge/monitoring/records.md",
-          "docs/knowledge/platform/knowledge.md",
-          "docs/knowledge/monitoring/notifications.md"
+          "docs/knowledge/monitoring/notifications.md",
+          "docs/knowledge/platform/knowledge.md"
         ],
         "passed": true
       },
@@ -825,7 +825,7 @@
         "decision": "answer",
         "citations": [
           "docs/knowledge/monitoring/records.md",
-          "docs/knowledge/platform/knowledge.md"
+          "docs/knowledge/monitoring/notifications.md"
         ],
         "passed": true,
         "conclusion": "监测录入质量与修订留痕\n\n监测录入保存测点、设备、读数、单位、采样时间、来源及质量说明。缺失读数不能按零值处理；存疑或无效数据不参与正常判定，超设备量程标记无效；振动读数还需统计窗口。同测点同分钟不能重复采样。修订必须填写原因和当前 rev，保留修订前原值、快照和次数；较早补录不覆盖当前预警状态。"
@@ -842,8 +842,8 @@
         "decision": "answer",
         "sources": [
           "docs/knowledge/monitoring/csv.md",
-          "docs/knowledge/operations/inspection/checklist.md",
-          "docs/knowledge/operations/inspection/arrival.md"
+          "docs/knowledge/operations/inspection/arrival.md",
+          "docs/knowledge/operations/inspection/checklist.md"
         ],
         "passed": true
       },
@@ -853,7 +853,7 @@
         "decision": "answer",
         "citations": [
           "docs/knowledge/monitoring/csv.md",
-          "docs/knowledge/operations/inspection/checklist.md"
+          "docs/knowledge/operations/inspection/arrival.md"
         ],
         "passed": true,
         "conclusion": "CSV 导入预检与原子提交\n\nCSV 先逐行预检，显示行号、错误及可提交状态，再选择有效行整批提交。提交时重新核对档案、规则、基准及监测记录；预检 token 过期则拒绝并要求重新预检。选中行中任何一行失败，整批事务回滚，不能部分成功。历史导入必须填写补录说明，旧采样只存档，不覆盖当前事件状态。"
@@ -899,7 +899,7 @@
         "sources": [
           "docs/knowledge/monitoring/closing.md",
           "docs/knowledge/工单验收.md",
-          "docs/knowledge/operations/orders.md"
+          "docs/knowledge/monitoring/records.md"
         ],
         "passed": true
       },
@@ -983,7 +983,7 @@
         "sources": [
           "docs/knowledge/monitoring/notifications.md",
           "docs/knowledge/platform/reports.md",
-          "docs/knowledge/monitoring/rules.md"
+          "docs/knowledge/operations/issues.md"
         ],
         "passed": true
       },
@@ -1676,8 +1676,8 @@
         "decision": "clarify",
         "sources": [
           "docs/knowledge/operations/reviews.md",
-          "docs/knowledge/operations/orders.md",
-          "docs/knowledge/monitoring/records.md"
+          "docs/knowledge/monitoring/records.md",
+          "docs/knowledge/operations/orders.md"
         ],
         "passed": true
       },
@@ -1752,7 +1752,7 @@
         "sources": [
           "docs/knowledge/operations/inspection/checklist.md",
           "docs/knowledge/operations/inspection/arrival.md",
-          "docs/knowledge/operations/maintenance.md"
+          "docs/knowledge/预警分级.md"
         ],
         "passed": true
       },
@@ -1775,8 +1775,8 @@
       "search": {
         "decision": "clarify",
         "sources": [
-          "docs/knowledge/monitoring/closing.md",
           "docs/knowledge/operations/rechecks.md",
+          "docs/knowledge/monitoring/closing.md",
           "docs/knowledge/platform/backup.md"
         ],
         "passed": true
@@ -1877,7 +1877,7 @@
         "sources": [
           "docs/knowledge/operations/reviews.md",
           "docs/knowledge/platform/knowledge.md",
-          "docs/knowledge/operations/inspection/checklist.md"
+          "docs/knowledge/operations/inspection/plans.md"
         ],
         "passed": true
       },

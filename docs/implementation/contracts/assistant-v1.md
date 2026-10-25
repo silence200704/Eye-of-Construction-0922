@@ -40,18 +40,23 @@
 - `session_id` 按 `dataset_id + actor_id + epoch` 隔离；跨身份读取返回 404。
 - 每轮保存 `question`、完整 `answer`、`seq`、`created_at`，与回答同事务写入；提问命令复用幂等键、
   回执与审计，同键同内容重放原轮次，同键异内容 409。
+- 幂等重放不重新执行业务，但输出必须按**当前**授权重新投影：助手回答不可见时返回与 GET 会话相同的
+  脱敏占位；媒体帧/比对/视频/分析所属测点已越权或归档时返回 404。重放不得新增轮次、审计或回执。
 - 数据集的 epoch 保存在会话上；epoch 变化后旧会话读取/追加返回 410 `STALE_SESSION`，
   新提问建立新 epoch 会话。前端存储键绑定身份、数据集与 epoch。
-- 会话恢复按当前身份、楼栋范围、对象状态与知识启用状态逐轮复核：不可见的轮次返回
+- 会话恢复按当前身份、角色、楼栋范围、对象状态与知识启用状态逐轮复核：不可见的轮次返回
   `historical=true` 的脱敏占位，不返回原业务正文。
-- 前端用 `sessionStorage` 记住当前身份、数据集与 epoch 下的 `sessionId`；刷新后读取服务端轮次，
-  迟到响应在写入回答/会话/媒体缓存前校验 generation、actor、epoch 与存储键。
+- 前端恢复请求在发起时捕获 actor/dataset/epoch/角色/楼栋范围与 generation；即使当前没有轮次或
+  sessionId，身份、范围或 epoch 变化也会使在途恢复失效。所有 await 之后、回填与存储之前重新核对；
+  同一 user id 的楼栋范围收窄同样清除已取回媒体字节。清理只针对原请求键，不误删新身份会话。
 
 ### 2.3 知识入口
 
 - 有具体对象（编号、楼栋、楼层或上下文 ID）时，实时事实优先；对象不存在或越权保持业务失败，
   不得改写成知识成功。
 - 没有点名任何对象的概念问题，若本地检索返回 `answer/clarify`，交给知识回答；`no_basis` 仍明确无依据。
+- 检索返回 `null`（异常降级）时，显式对象仍按业务 `not_found`/事实回答，知识题返回
+  `knowledge.decision=unavailable`，不得抛 500。
 - 20 条标准 FAQ 与冻结 60 题分别从 `/knowledge/search` 与 `/assistant/query` 两路核对；
   冻结题目的 SHA 与期望答案不改，阶段 6 三条旧错答保留失败记录。
 
@@ -62,6 +67,10 @@
 - `POST /media-sessions/comparisons` 保存真实算出的比对结果；前后帧必须属于同一测点。
 - `POST /media-sessions/videos` 登记视频原字节与元数据（文件名、标题、来源、素材键、可比性、备注），
   同媒体同元数据幂等重放，异内容 409；`POST /media-sessions/videos/{id}/analysis` 保存区域/关键帧分析。
+- 视频分析只接受服务端身份：`analysis.videoId` 必须等于该视频，`pointId` 必须等于该测点，
+  `frameIds` 与区域 `beforeId/afterId` 必须属于该视频/测点；本地 `video_*`/`media_*` 身份一律 422。
+- Web 保存分析前等待关键帧登记完成，把 videoId、frameIds、区域前后帧 ID 整张映射为服务端 ID；
+  任一项未登记则明确不保存，不拿本地 ID 兜底。
 - 帧、比对、视频、比对列表和 `summary` 均按测点逐项校验楼栋范围；受限身份没有 pointId 时也不能
   通过列表或摘要读到范围外元数据。
 - `GET /media-sessions/summary?pointId=` 返回帧、比对、视频与最新采样时间；帧元数据含来源、
@@ -85,13 +94,17 @@
 | GET | `/api/v1/datasets/{datasetId}/media/{mediaId}/content` | 受保护原字节 |
 
 请求上下文 `context`：`chosen/pointId/eventId/issueId/workOrderId/pointIds/caseIds/replayNode/videoId/simulation/source(page/previous/explicit)`。
-问句中的显式编号优先于上下文；同一问句命中多个测点/事件时先返回候选。候选点击必须携带
-`chosen=true` 且 ID 属于本轮候选，服务端才采用；旧上下文单独存在时不代替用户选择。
-上下文对象不存在或越权时明确失败。所有写接口要求 `Idempotency-Key` 与 `X-Dataset-Epoch`。
+问句中的显式编号优先于上下文；显式工单先绑定其真实问题/事件/测点关系，再用兼容的旧上下文补齐。
+同一问句的显式工单与问题编号不一致时返回明确失败，不拼成一条回答。同一问句命中多个测点/事件时
+先返回候选。候选点击必须携带 `chosen=true` 且 ID 属于本轮候选，服务端才采用；旧上下文单独存在时
+不代替用户选择。上下文对象不存在或越权时明确失败。所有写接口要求 `Idempotency-Key` 与 `X-Dataset-Epoch`。
 
 ## 5. 权限、写入与失败
 
 - 全部读写沿用五类预置身份与楼栋范围；隐藏字段或前端提示不作为授权依据。
+- 概况与问题池共用范围边界：楼栋级无测点问题按 `buildingId` 授权，工单按关联问题或测点授权；
+  `pointId=None` 不代表全范围。记录总数对全部授权测点聚合，不做未声明的截断。本阶段同时修复
+  `GET /issues` 已证实的列表旁路；其他尚未复验的旧列表另行跟踪。
 - 会话轮次、帧、比对、视频、分析均通过既有命令执行器写入：业务内容、审计与幂等回执同事务；
   失败整体回滚，重试不增加行数。
 - 越权/不存在对象返回 `not_found`；旧 epoch 写入 409 `DATASET_EPOCH_CONFLICT`；旧 epoch 会话

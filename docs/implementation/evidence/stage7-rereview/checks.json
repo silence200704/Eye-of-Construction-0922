@@ -1,0 +1,41 @@
+{
+  "reviewDate": "2026-10-25",
+  "implementationHead": "76f78a1",
+  "documentationHead": "1e6c8a5",
+  "conclusion": "not_passed",
+  "productSourceChangedByReview": false,
+  "commands": [
+    {"command": "uv run pytest --cov=zhutong --cov-report=term --cov-fail-under=80 -q", "cwd": "backend", "exitCode": 0, "passed": 254, "coveragePercent": 88.65, "durationSeconds": 186.09},
+    {"command": "uv run ruff check src tests migrations scripts", "cwd": "backend", "exitCode": 0},
+    {"command": "uv run ruff format --check src tests migrations scripts", "cwd": "backend", "exitCode": 0, "formattedFiles": 243},
+    {"command": "npm test", "exitCode": 0, "passed": 1160, "files": 120},
+    {"command": "npm run test:tooling", "exitCode": 0, "passed": 5},
+    {"command": "npm run typecheck", "exitCode": 0},
+    {"command": "npm run build", "exitCode": 0, "viteBuildSeconds": 11.06, "mainChunkKB": 1022.65, "warning": "Configured 900kB chunk limit exceeded"},
+    {"command": "backend/.venv/Scripts/python.exe docs/implementation/evidence/stage7-rereview/probes.py", "exitCode": 0, "interpretation": "Evidence collection completed, not acceptance success", "boundary": "Isolated SQLite with ASGI TestClient; not TCP/browser", "output": "results.json"},
+    {"command": "npx vitest run --config docs/implementation/evidence/stage7-rereview/vitest.review.config.ts", "exitCode": 1, "failed": 4, "files": 2, "output": "web-test.log", "interpretation": "Acceptance assertions reproduce remaining defects"}
+  ],
+  "reportedEvidenceInspected": {
+    "businessCases": {"total": 44, "passed": 44, "independentTcpRerun": false},
+    "standardFaq": {"searchPassed": 20, "assistantPassed": 20, "total": 20},
+    "frozenQuestions": {"searchPassed": 57, "assistantPassed": 57, "total": 60, "failures": ["accept-9", "accept-25", "accept-36"], "independentModelRerun": false},
+    "frozenSha256": "0d3b42c6f3e41cbc18085145cc2429fec53ecbaea028f9b23e002812963a7b16",
+    "backupFiles": 14,
+    "allRecordedBackupHashesMatch": true,
+    "backupRestoreRepeatedByReview": false,
+    "offlineProcessRepeatedByReview": false,
+    "dockerRebuildRepeatedByReview": false
+  },
+  "pageEvidence": {
+    "browserReexecutedByReview": false,
+    "imageSizesVerified": {"wide-home.png": [1440, 900], "wide-assistant.png": [1440, 900], "narrow-trend.png": [390, 844]},
+    "note": "wide-assistant.png does not show an expanded assistant panel; narrow DOM checklist covers fewer flows than wide"
+  },
+  "portProbes": [
+    {"port": 8000, "result": "connection_refused"},
+    {"port": 5173, "result": "connection_refused"},
+    {"port": 8080, "result": "connection_refused"},
+    {"port": 18000, "path": "/api/v1/health/ready", "result": "connection_refused"}
+  ],
+  "limitations": "No production writes, service starts/stops, live browser reexecution or independent production deployment verification. Existing OpenHarmony and visual plans preserved."
+}

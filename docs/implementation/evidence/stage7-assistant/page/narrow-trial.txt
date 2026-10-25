@@ -1,0 +1,290 @@
+- banner:
+  - heading "校园总览" [level=1]
+  - button "预警提醒，0 条未读":
+  - button "学校安全管理人员 · 切换身份"
+- navigation "窄屏主导航":
+  - link "校园态势":
+    - /url: "#/dashboard"
+    - generic: 校园态势
+  - link "校园地图":
+    - /url: "#/campus"
+    - generic: 校园地图
+  - link "监测分析":
+    - /url: "#/monitor"
+    - generic: 监测分析
+  - link "异常处置":
+    - /url: "#/alarms"
+    - generic: 异常处置
+  - link "现场任务":
+    - /url: "#/inspection"
+    - generic: 现场任务
+  - link "知识库":
+    - /url: "#/knowledge"
+    - generic: 知识库
+  - link "管理报表":
+    - /url: "#/reports"
+    - generic: 管理报表
+  - link "系统设置":
+    - /url: "#/settings"
+    - generic: 系统设置
+- main:
+  - navigation "当前工作台功能":
+    - link "传感器驾驶舱":
+      - /url: "#/dashboard"
+    - link "校园总览":
+      - /url: "#/"
+  - paragraph: 数据口径：本演示的校区、校园图、楼层图与楼栋档案字段（面积、建设年份、负责人等）均为明确标识的虚构占位资料；只有 3 号教学楼二层的演示测点位置与录入数据是现场实测。实际校园图与人员清单到位后替换，替换时递增底图版本并重新核对测点位置。
+  - generic: 在册楼栋
+  - generic: "2"
+  - generic: 另有已归档 0 栋
+  - generic: 在册测点
+  - generic: "4"
+  - generic: 传感器 3｜人工检查点 1｜分布 2 个楼层
+  - generic: 登记设备
+  - generic: "1"
+  - generic: 设备状态为人工登记，未接入自动心跳
+  - generic: 监测记录
+  - generic: "9"
+  - generic: 已设基准 1｜存疑或无效 0｜已修订 0
+  - generic: 校园平面图
+  - generic: 点击楼栋进入楼层图，逐级定位到测点；图上区分实测建档与示例数据
+  - generic: 归一化示意坐标
+  - button "快捷录入"
+  - button "＋"
+  - button "－"
+  - button "重置"
+  - generic: 实测建档
+  - generic: 示例数据
+  - generic: 已归档
+  - generic: 最近录入
+  - generic: 按采样时间倒序，最多显示 9 条
+  - button "全部记录"
+  - table:
+    - rowgroup:
+      - row "采样时间 测点 读数 质量":
+        - columnheader "采样时间"
+        - columnheader "测点"
+        - columnheader "读数"
+        - columnheader "质量"
+    - rowgroup:
+      - row "2026-10-25 15:43 B05-F2-CRACK02 第二裂缝测点 R20261025-009｜演示学校安全管理人员 0.99mm 有效":
+        - cell "2026-10-25 15:43"
+        - cell "B05-F2-CRACK02 第二裂缝测点 R20261025-009｜演示学校安全管理人员":
+          - generic: B05-F2-CRACK02 第二裂缝测点
+          - generic: R20261025-009｜演示学校安全管理人员
+        - cell "0.99mm"
+        - cell "有效":
+          - generic: 有效
+      - row "2026-10-25 15:37 B05-F2-CRACK02 第二裂缝测点 R20261025-008｜演示学校安全管理人员 0.95mm 有效":
+        - cell "2026-10-25 15:37"
+        - cell "B05-F2-CRACK02 第二裂缝测点 R20261025-008｜演示学校安全管理人员":
+          - generic: B05-F2-CRACK02 第二裂缝测点
+          - generic: R20261025-008｜演示学校安全管理人员
+        - cell "0.95mm"
+        - cell "有效":
+          - generic: 有效
+      - row "2026-10-25 15:17 B06-F1-CRACK01 6号楼裂缝测点 R20261025-007｜演示学校安全管理人员 0.11mm 有效":
+        - cell "2026-10-25 15:17"
+        - cell "B06-F1-CRACK01 6号楼裂缝测点 R20261025-007｜演示学校安全管理人员":
+          - generic: B06-F1-CRACK01 6号楼裂缝测点
+          - generic: R20261025-007｜演示学校安全管理人员
+        - cell "0.11mm"
+        - cell "有效":
+          - generic: 有效
+      - row "2026-10-25 15:12 B05-F2-CRACK02 第二裂缝测点 R20261025-006｜演示学校安全管理人员 0.42mm 有效":
+        - cell "2026-10-25 15:12"
+        - cell "B05-F2-CRACK02 第二裂缝测点 R20261025-006｜演示学校安全管理人员":
+          - generic: B05-F2-CRACK02 第二裂缝测点
+          - generic: R20261025-006｜演示学校安全管理人员
+        - cell "0.42mm"
+        - cell "有效":
+          - generic: 有效
+      - row "2026-10-25 14:42 B05-F2-CRACK01 裂缝测点 R20261025-005｜演示学校安全管理人员 0.82mm 有效":
+        - cell "2026-10-25 14:42"
+        - cell "B05-F2-CRACK01 裂缝测点 R20261025-005｜演示学校安全管理人员":
+          - generic: B05-F2-CRACK01 裂缝测点
+          - generic: R20261025-005｜演示学校安全管理人员
+        - cell "0.82mm"
+        - cell "有效":
+          - generic: 有效
+      - row "2026-10-25 14:32 B05-F2-CRACK01 裂缝测点 R20261025-004｜演示学校安全管理人员 0.60mm 有效":
+        - cell "2026-10-25 14:32"
+        - cell "B05-F2-CRACK01 裂缝测点 R20261025-004｜演示学校安全管理人员":
+          - generic: B05-F2-CRACK01 裂缝测点
+          - generic: R20261025-004｜演示学校安全管理人员
+        - cell "0.60mm"
+        - cell "有效":
+          - generic: 有效
+      - row "2026-10-25 14:22 B05-F2-CRACK01 裂缝测点 R20261025-003｜演示学校安全管理人员 0.55mm 有效":
+        - cell "2026-10-25 14:22"
+        - cell "B05-F2-CRACK01 裂缝测点 R20261025-003｜演示学校安全管理人员":
+          - generic: B05-F2-CRACK01 裂缝测点
+          - generic: R20261025-003｜演示学校安全管理人员
+        - cell "0.55mm"
+        - cell "有效":
+          - generic: 有效
+      - row "2026-10-25 14:12 B05-F2-CRACK01 裂缝测点 R20261025-002｜演示学校安全管理人员 0.12mm 有效":
+        - cell "2026-10-25 14:12"
+        - cell "B05-F2-CRACK01 裂缝测点 R20261025-002｜演示学校安全管理人员":
+          - generic: B05-F2-CRACK01 裂缝测点
+          - generic: R20261025-002｜演示学校安全管理人员
+        - cell "0.12mm"
+        - cell "有效":
+          - generic: 有效
+      - row "2026-10-25 14:02 B05-F2-CRACK01 裂缝测点 R20261025-001｜演示学校安全管理人员 0.05mm 有效":
+        - cell "2026-10-25 14:02"
+        - cell "B05-F2-CRACK01 裂缝测点 R20261025-001｜演示学校安全管理人员":
+          - generic: B05-F2-CRACK01 裂缝测点
+          - generic: R20261025-001｜演示学校安全管理人员
+        - cell "0.05mm"
+        - cell "有效":
+          - generic: 有效
+  - generic: 档案待补充
+  - generic: 共 16 项字段待补充，缺失项不填零、不臆造
+  - list:
+    - generic: B05 5号实验楼
+    - button "去补充"
+    - generic: 建设年份
+    - generic: 层数
+    - generic: 面积
+    - generic: 结构形式
+    - generic: 管理单位
+    - generic: 使用单位
+    - generic: 楼栋负责人
+    - generic: 替补人员
+    - generic: B06 6号实验楼
+    - button "去补充"
+    - generic: 建设年份
+    - generic: 层数
+    - generic: 面积
+    - generic: 结构形式
+    - generic: 管理单位
+    - generic: 使用单位
+    - generic: 楼栋负责人
+    - generic: 替补人员
+  - generic: 操作日志
+  - generic: 记录谁在何时对哪个对象做了什么，导出报告同时留痕
+  - table:
+    - rowgroup:
+      - row "时间 操作人 操作内容":
+        - columnheader "时间"
+        - columnheader "操作人"
+        - columnheader "操作内容"
+    - rowgroup:
+      - row "2026-10-25 15:43 演示学校安全管理人员 safety 保存小瞳问答：今天实时天气预报":
+        - cell "2026-10-25 15:43"
+        - cell "演示学校安全管理人员 safety":
+          - generic: 演示学校安全管理人员
+          - generic: safety
+        - cell "保存小瞳问答：今天实时天气预报":
+          - generic: 保存小瞳问答：今天实时天气预报
+      - row "2026-10-25 15:43 演示学校安全管理人员 safety 保存小瞳问答：查询新生学费缴纳银行卡":
+        - cell "2026-10-25 15:43"
+        - cell "演示学校安全管理人员 safety":
+          - generic: 演示学校安全管理人员
+          - generic: safety
+        - cell "保存小瞳问答：查询新生学费缴纳银行卡":
+          - generic: 保存小瞳问答：查询新生学费缴纳银行卡
+      - row "2026-10-25 15:43 演示学校安全管理人员 safety 保存小瞳问答：给我写一首七言诗":
+        - cell "2026-10-25 15:43"
+        - cell "演示学校安全管理人员 safety":
+          - generic: 演示学校安全管理人员
+          - generic: safety
+        - cell "保存小瞳问答：给我写一首七言诗":
+          - generic: 保存小瞳问答：给我写一首七言诗
+      - row "2026-10-25 15:43 演示学校安全管理人员 safety 保存小瞳问答：今年世界杯赛程是什么":
+        - cell "2026-10-25 15:43"
+        - cell "演示学校安全管理人员 safety":
+          - generic: 演示学校安全管理人员
+          - generic: safety
+        - cell "保存小瞳问答：今年世界杯赛程是什么":
+          - generic: 保存小瞳问答：今年世界杯赛程是什么
+      - row "2026-10-25 15:43 演示学校安全管理人员 safety 保存小瞳问答：请提供劳动合同法律条文":
+        - cell "2026-10-25 15:43"
+        - cell "演示学校安全管理人员 safety":
+          - generic: 演示学校安全管理人员
+          - generic: safety
+        - cell "保存小瞳问答：请提供劳动合同法律条文":
+          - generic: 保存小瞳问答：请提供劳动合同法律条文
+      - row "2026-10-25 15:43 演示学校安全管理人员 safety 保存小瞳问答：明天股票会涨多少":
+        - cell "2026-10-25 15:43"
+        - cell "演示学校安全管理人员 safety":
+          - generic: 演示学校安全管理人员
+          - generic: safety
+        - cell "保存小瞳问答：明天股票会涨多少":
+          - generic: 保存小瞳问答：明天股票会涨多少
+      - row "2026-10-25 15:43 演示学校安全管理人员 safety 保存小瞳问答：推荐去哪个城市旅游":
+        - cell "2026-10-25 15:43"
+        - cell "演示学校安全管理人员 safety":
+          - generic: 演示学校安全管理人员
+          - generic: safety
+        - cell "保存小瞳问答：推荐去哪个城市旅游":
+          - generic: 保存小瞳问答：推荐去哪个城市旅游
+      - row "2026-10-25 15:43 演示学校安全管理人员 safety 保存小瞳问答：学校校长的私人电话":
+        - cell "2026-10-25 15:43"
+        - cell "演示学校安全管理人员 safety":
+          - generic: 演示学校安全管理人员
+          - generic: safety
+        - cell "保存小瞳问答：学校校长的私人电话":
+          - generic: 保存小瞳问答：学校校长的私人电话
+- complementary "问筑瞳":
+  - img "小瞳找到证据":
+  - generic: 问筑瞳
+  - generic: 智能分析 · 本地数据
+  - paragraph: 当前上下文：已选测点
+  - button "关闭问筑瞳": 关闭
+  - generic: 会话管理
+  - button "清除上下文"
+  - button "清空对话"
+  - button "系统有哪些演示身份？ 收起":
+    - generic: 系统有哪些演示身份？
+    - generic: 收起
+  - article:
+    - paragraph: 系统有哪些演示身份？
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 知识说明｜数据截至 2026-10-25 15:46
+    - paragraph: 演示身份与权限 系统不提供登录页、账号或密码。启动后使用预置演示身份，可切换学校安全管理人员、物业值班、设备管理、巡检、维修五类身份。界面身份提示不能作为授权依据；服务端按稳定身份 ID、角色和楼栋范围校验每次写入。维修人员不能自行验收工单；角色或范围不符时拒绝写入并显示原因。
+    - paragraph: 来源（业务事实与知识依据分开）
+    - paragraph: 业务事实：本次回答没有可绑定的业务数据
+    - paragraph: 知识依据：知识库已命中 · 检索方式 本地混合检索· 索引 index_47bd0badb71e4ac6b345d81535e87538
+    - paragraph: 标准 FAQ 命中；请核对原文引用
+    - list:
+      - button "演示身份与权限 v1 · docs/knowledge/platform/identity.md 第 1–3 行 · faq / keyword / vector 收起" [expanded]:
+        - generic: 演示身份与权限
+        - generic: v1 · docs/knowledge/platform/identity.md 第 1–3 行 · faq / keyword / vector
+        - generic: 收起
+      - paragraph: "# 演示身份与权限 系统不提供登录页、账号或密码。启动后使用预置演示身份，可切换学校安全管理人员、物业值班、设备管理、巡检、维修五类身份。界面身份提示不能作为授权依据；服务端按稳定身份 ID、角色和楼栋范围校验每次写入。维修人员不能自行验收工单；角色或范围不符时拒绝写入并显示原因。"
+      - paragraph: 演示身份与权限 v1 · docs/knowledge/platform/identity.md 第 1–3 行
+      - button "问题四来源与独立上报 v1 · docs/knowledge/operations/issues.md 第 1–3 行 · keyword / vector 查看引用":
+        - generic: 问题四来源与独立上报
+        - generic: v1 · docs/knowledge/operations/issues.md 第 1–3 行 · keyword / vector
+        - generic: 查看引用
+    - paragraph: 数据口径
+    - paragraph: 结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。
+    - paragraph: 知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。
+    - button "全校现在概况如何"
+    - button "现在有哪些未关闭预警"
+  - button "B05-F2-CRACK01 如果黄色阈值改为0.15试算 收起":
+    - generic: B05-F2-CRACK01 如果黄色阈值改为0.15试算
+    - generic: 收起
+  - article:
+    - paragraph: B05-F2-CRACK01 如果黄色阈值改为0.15试算
+    - paragraph:
+      - text: 正在逐条呈现核对结果
+      - button "立即显示全部"
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 候选阈值试算｜数据截至 2026-10-25 15:46
+    - paragraph: 近24小时，5 条范围内记录中 1 条判定发生变化；候选阈值未保存。
+  - generic: 可以这样问
+  - button "更多问题"
+  - generic "推荐问题":
+    - button "B05-F2-CRACK01现在的读数是多少？"
+    - button "B05-F2-CRACK01的趋势如何？"
+    - button "在3D中定位 B05-F2-CRACK01"
+  - textbox "问小瞳":
+    - /placeholder: 问小瞳：分析裂缝照片、定位传感器或查看处置进度
+  - button "发送" [disabled]
+  - button "刷新数据"
+  - generic "提问对象与数据说明"

@@ -1,0 +1,174 @@
+
+ RUN  v5.0.1 C:/Users/Lenovo/Desktop/demo
+
+ ❯ docs/implementation/evidence/stage7-rereview/media.test.ts (3 tests | 3 failed) 94ms
+   × 正常上传/抽帧/分析后，刷新能用服务端视频身份恢复分析 30ms
+   × 下载视频字节期间换身份，不得回填上一身份视频/分析 61ms
+   × 同一身份范围收窄后清除原有媒体字节 2ms
+ ❯ docs/implementation/evidence/stage7-rereview/restore.test.ts (1 test | 1 failed) 65ms
+   × 首次恢复尚未完成时换身份，也应丢弃旧身份轮次 64ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  docs/implementation/evidence/stage7-rereview/media.test.ts > 正常上传/抽帧/分析后，刷新能用服务端视频身份恢复分析
+AssertionError: expected { …(3) } to match object { submittedVideoId: 'mv-server', …(2) }
+
+- Expected
++ Received
+
+  {
+-   "restoredAnalysis": ObjectContaining {
+-     "videoId": "mv-server",
+-   },
++   "restoredAnalysis": null,
+    "restoredVideoId": "mv-server",
+-   "submittedVideoId": "mv-server",
++   "submittedVideoId": "video_mvnhzqn42iod3",
+  }
+
+ ❯ docs/implementation/evidence/stage7-rereview/media.test.ts:77:49
+     75|   await restored.restoreRemote('A')
+     76|   expect({ submittedVideoId: analysis.videoId, restoredVideoId: restor…
+     77|     restoredAnalysis: restored.videoAnalysis }).toMatchObject({
+       |                                                 ^
+     78|     submittedVideoId: 'mv-server', restoredVideoId: 'mv-server',
+     79|     restoredAnalysis: expect.objectContaining({ videoId: 'mv-server' }…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  docs/implementation/evidence/stage7-rereview/media.test.ts > 下载视频字节期间换身份，不得回填上一身份视频/分析
+AssertionError: expected { id: 'mv-old', pointId: 'A', …(14) } to be null
+
+- Expected:
+null
+
++ Received:
+{
+  "assetKey": "",
+  "assetVersion": 1,
+  "comparable": false,
+  "contentUrl": "/video",
+  "durationSeconds": 0,
+  "fileName": "video.mp4",
+  "height": 0,
+  "id": "mv-old",
+  "loadedAt": "",
+  "mediaId": "m-old",
+  "note": "从服务端受保护内容接口恢复；不重放抽帧或分析。",
+  "pointId": "A",
+  "remoteVideoId": "mv-old",
+  "source": "服务端会话视频",
+  "title": "服务端视频",
+  "width": 0,
+}
+
+ ❯ docs/implementation/evidence/stage7-rereview/media.test.ts:98:27
+     96|   finish(new Blob(['old bytes']))
+     97|   await pending
+     98|   expect(media.videoMeta).toBeNull()
+       |                           ^
+     99|   expect(media.videoAnalysis).toBeNull()
+    100| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  docs/implementation/evidence/stage7-rereview/media.test.ts > 同一身份范围收窄后清除原有媒体字节
+AssertionError: expected [ Array(1) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   {
++     "blob": Blob {
++       Symbol(kHandle): Blob {},
++       Symbol(kLength): 9,
++       Symbol(kType): "",
++     },
++     "capturedAt": "now",
++     "fileName": "a.png",
++     "height": 1,
++     "id": "media_mvnhzqp464tqt",
++     "label": "photo",
++     "origin": "upload",
++     "pointId": "A",
++     "remoteContentUrl": "/frame",
++     "remoteFrameId": "mf-1",
++     "remoteMediaId": "media-1",
++     "size": 9,
++     "timeCode": null,
++     "width": 1,
++   },
++ ]
+
+ ❯ docs/implementation/evidence/stage7-rereview/media.test.ts:110:24
+    108|   await media.settleSync()
+    109|   identity.user = { ...identity.user, buildingIds: [] }
+    110|   expect(media.frames).toEqual([])
+       |                        ^
+    111| })
+    112|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  docs/implementation/evidence/stage7-rereview/restore.test.ts > 首次恢复尚未完成时换身份，也应丢弃旧身份轮次
+AssertionError: expected [ { id: 'at-old', …(5) } ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   {
++     "error": "",
++     "id": "at-old",
++     "presented": true,
++     "question": "旧身份的问题",
++     "result": {
++       "candidates": [],
++       "citations": [],
++       "computedAt": "",
++       "conclusion": "旧身份受保护业务正文",
++       "context": {
++         "pointId": "private",
++       },
++       "dataNotes": [],
++       "evidence": [],
++       "facts": [],
++       "gaps": [],
++       "guide": null,
++       "intent": "point_status",
++       "links": [],
++       "pendingCommands": [],
++       "pointId": "private",
++       "previews": [],
++       "provenance": null,
++       "question": "旧身份的问题",
++       "sources": {
++         "facts": "server_db",
++         "queriedAt": "",
++       },
++       "status": "answered",
++       "timing": null,
++     },
++     "stage": null,
++   },
++ ]
+
+ ❯ docs/implementation/evidence/stage7-rereview/restore.test.ts:51:23
+
+     49|   finish(oldSession())
+     50|   await vi.waitFor(() => expect(store.notice).not.toBe(''))
+     51|   expect(store.turns).toEqual([])
+       |                       ^
+     52| })
+     53|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+ Test Files  2 failed (2)
+      Tests  4 failed (4)
+   Start at  15:20:04
+   Duration  1.11s (transform 66%, import 19%, tests 11%, setup 4%)
+

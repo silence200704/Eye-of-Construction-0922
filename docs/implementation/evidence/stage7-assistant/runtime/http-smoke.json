@@ -9,7 +9,7 @@
       "answer": {
         "intent": "point_status",
         "status": "answered",
-        "conclusion": "二层走廊西墙裂缝测点当前读数 0.6mm；采样于 2026-10-18 18:21（约 145 小时前），该去看看。",
+        "conclusion": "二层走廊西墙裂缝测点当前读数 0.6mm；采样于 2026-10-18 18:21（约 166 小时前），该去看看。",
         "facts": [
           {
             "label": "测点",
@@ -56,7 +56,7 @@
         },
         "sources": {
           "facts": "server_db",
-          "queriedAt": "2026-10-24T11:25:34.660663+00:00"
+          "queriedAt": "2026-10-25T07:53:35.178379+00:00"
         },
         "citations": null,
         "knowledge": null,
@@ -121,7 +121,7 @@
         },
         "sources": {
           "facts": "server_db",
-          "queriedAt": "2026-10-24T11:25:34.734767+00:00"
+          "queriedAt": "2026-10-25T07:53:35.215845+00:00"
         },
         "citations": null,
         "knowledge": null,
@@ -167,7 +167,7 @@
         },
         "sources": {
           "facts": "server_db",
-          "queriedAt": "2026-10-24T11:25:34.769833+00:00"
+          "queriedAt": "2026-10-25T07:53:35.244933+00:00"
         },
         "citations": null,
         "knowledge": null,
@@ -214,7 +214,7 @@
         },
         "sources": {
           "facts": "server_db",
-          "queriedAt": "2026-10-24T11:25:34.799616+00:00"
+          "queriedAt": "2026-10-25T07:53:35.274445+00:00"
         },
         "citations": null,
         "knowledge": null,
@@ -246,7 +246,7 @@
         "sources": {
           "facts": "none",
           "knowledge": "local_kb",
-          "queriedAt": "2026-10-24T11:25:34.828421+00:00"
+          "queriedAt": "2026-10-25T07:53:35.298391+00:00"
         },
         "citations": [
           {
@@ -307,7 +307,7 @@
         },
         "sources": {
           "facts": "none",
-          "queriedAt": "2026-10-24T11:25:34.859772+00:00"
+          "queriedAt": "2026-10-25T07:53:35.322186+00:00"
         },
         "citations": null,
         "knowledge": null,
@@ -323,8 +323,14 @@
       }
     }
   ],
-  "sessionTurnCount": 12,
+  "sessionTurnCount": 18,
   "sessionQuestions": [
+    "B03-F2-CRACK01 现在怎么样",
+    "E20261018-001 为什么是橙色",
+    "现在有哪些未处理预警",
+    "全校现在概况如何",
+    "是否需要注册账号和密码才能使用？",
+    "准备一次红色预警演示数据",
     "B03-F2-CRACK01 现在怎么样",
     "E20261018-001 为什么是橙色",
     "现在有哪些未处理预警",

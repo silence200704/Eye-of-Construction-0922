@@ -1,0 +1,92 @@
+{
+  "reviewBaseline": {
+    "code": "76f78a1",
+    "docs": "1e6c8a5"
+  },
+  "fixHead": "2579f1f",
+  "rr1": {
+    "replayStatus": 200,
+    "historical": true,
+    "facts": [],
+    "objectPoint": null,
+    "note": "重放不新增轮次/审计/回执"
+  },
+  "rr3": {
+    "explicitOrderIssue": "iss_d30ccef9a3fd493a8326e8e0590a0735",
+    "expectedIssue": "iss_d30ccef9a3fd493a8326e8e0590a0735",
+    "oldContextIssue": "iss_979fc5df547c469eab79a61e2e89b878"
+  },
+  "rr5": {
+    "overviewFacts": [
+      {
+        "label": "在册楼栋 / 测点 / 设备",
+        "value": "0 / 0 / 0",
+        "unit": ""
+      },
+      {
+        "label": "有效监测记录",
+        "value": "0",
+        "unit": "条"
+      },
+      {
+        "label": "未关闭事件 / 问题 / 工单",
+        "value": "0 / 0 / 0",
+        "unit": "条"
+      }
+    ],
+    "issuesListing": []
+  },
+  "rr6": {
+    "databaseValidRecords": 22,
+    "overviewFacts": [
+      {
+        "label": "在册楼栋 / 测点 / 设备",
+        "value": "1 / 23 / 1",
+        "unit": ""
+      },
+      {
+        "label": "有效监测记录",
+        "value": "22",
+        "unit": "条"
+      },
+      {
+        "label": "未关闭事件 / 问题 / 工单",
+        "value": "1 / 2 / 1",
+        "unit": "条"
+      }
+    ]
+  },
+  "rr7": {
+    "status": 200,
+    "answerStatus": "not_found"
+  },
+  "tests": {
+    "backendPassed": 264,
+    "backendCoverage": "88.78%",
+    "frontendFiles": 122,
+    "frontendPassed": 1165,
+    "reviewFrontendCases": 5,
+    "backendRereviewCases": 10,
+    "tooling": 5
+  },
+  "page": {
+    "wideAssistant": "page/wide-assistant.png",
+    "videoRestore": "page/wide-video-restore.txt",
+    "narrowCitation": "page/narrow-citation.txt",
+    "narrowTrial": "page/narrow-trial.txt",
+    "narrowReplay": "page/narrow-replay.txt",
+    "narrowWorkorder": "page/narrow-workorder.txt"
+  },
+  "ports": {
+    "zhutong": {
+      "18000": "healthy",
+      "8080": 200
+    },
+    "dorm": {
+      "8000": "connection_refused",
+      "5173": "connection_refused"
+    },
+    "note": "查寝未由本轮启动/停止，不宣称并存复验"
+  },
+  "boundary": "ASGI/单测/真实浏览器分开；本文件不是独立复审结论"
+}

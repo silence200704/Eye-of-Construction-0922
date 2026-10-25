@@ -1,0 +1,315 @@
+- banner:
+  - heading "问题与工单" [level=1]
+  - button "预警提醒，0 条未读":
+  - button "学校安全管理人员 · 切换身份"
+- navigation "窄屏主导航":
+  - link "校园态势":
+    - /url: "#/dashboard"
+    - generic: 校园态势
+  - link "校园地图":
+    - /url: "#/campus"
+    - generic: 校园地图
+  - link "监测分析":
+    - /url: "#/monitor"
+    - generic: 监测分析
+  - link "异常处置":
+    - /url: "#/alarms"
+    - generic: 异常处置
+  - link "现场任务":
+    - /url: "#/inspection"
+    - generic: 现场任务
+  - link "知识库":
+    - /url: "#/knowledge"
+    - generic: 知识库
+  - link "管理报表":
+    - /url: "#/reports"
+    - generic: 管理报表
+  - link "系统设置":
+    - /url: "#/settings"
+    - generic: 系统设置
+- main:
+  - navigation "当前工作台功能":
+    - link "预警事件":
+      - /url: "#/alarms"
+    - link "问题与工单":
+      - /url: "#/issues?workOrder=wo_f0ebfa0f19674bb3a011c9f328061f58"
+    - link "预警标准":
+      - /url: "#/standards"
+  - generic: 问题与工单
+  - generic: 预警、巡检发现、人工上报进同一个池；审核留痕后转维修工单
+  - button "待审核 1":
+    - generic: 待审核 1
+  - button "处理中 1":
+    - generic: 处理中 1
+  - button "待复查 0":
+    - generic: 待复查 0
+  - button "已关闭 1":
+    - generic: 已关闭 1
+  - generic: 共 3 条问题｜工单 1 张
+  - generic: 状态
+  - combobox "状态":
+    - option "全部" [selected]
+    - option "待审核"
+    - option "处理中（含排查中）"
+    - option "待复查"
+    - option "观察中"
+    - option "已关闭"
+  - generic: 来源
+  - combobox "来源":
+    - option "全部" [selected]
+    - option "传感器预警"
+    - option "巡检发现"
+    - option "人工上报"
+    - option "保养发现"
+  - generic: 楼栋
+  - combobox "楼栋":
+    - option "全部" [selected]
+    - option "B05 5号实验楼"
+    - option "B06 6号实验楼"
+  - generic: 异常类型
+  - combobox "异常类型":
+    - option "全部" [selected]
+    - option "裂缝宽度复核"
+    - option "裂缝越限"
+  - button "人工上报问题"
+  - generic: 当前匹配 3 条 / 共 3 条
+  - button "只看复查逾期（0）"
+  - button "刷新复查状态"
+  - table:
+    - rowgroup:
+      - row "问题编号 来源 位置 异常类型 关联任务 状态 操作":
+        - columnheader "问题编号"
+        - columnheader "来源"
+        - columnheader "位置"
+        - columnheader "异常类型"
+        - columnheader "关联任务"
+        - columnheader "状态"
+        - columnheader "操作"
+    - rowgroup:
+      - row "ISS-20261025-003 人工上报 5号实验楼 二层 同一测点的第二次独立上报 裂缝宽度复核 — 待审核 详情":
+        - cell "ISS-20261025-003"
+        - cell "人工上报"
+        - cell "5号实验楼 二层 同一测点的第二次独立上报":
+          - text: 5号实验楼 二层
+          - generic: 同一测点的第二次独立上报
+        - cell "裂缝宽度复核"
+        - cell "—"
+        - cell "待审核":
+          - generic: 待审核
+        - cell "详情":
+          - button "详情"
+      - row "ISS-20261025-002 人工上报 5号实验楼 二层 阶段 7 固定前置问题 裂缝越限 — 已关闭 详情":
+        - cell "ISS-20261025-002"
+        - cell "人工上报"
+        - cell "5号实验楼 二层 阶段 7 固定前置问题":
+          - text: 5号实验楼 二层
+          - generic: 阶段 7 固定前置问题
+        - cell "裂缝越限"
+        - cell "—"
+        - cell "已关闭":
+          - generic: 已关闭
+        - cell "详情":
+          - button "详情"
+      - row "ISS-20261025-001 传感器预警 5号实验楼 二层 阶段 7 固定前置问题 裂缝越限 — 处理中 收起":
+        - cell "ISS-20261025-001"
+        - cell "传感器预警"
+        - cell "5号实验楼 二层 阶段 7 固定前置问题":
+          - text: 5号实验楼 二层
+          - generic: 阶段 7 固定前置问题
+        - cell "裂缝越限"
+        - cell "—"
+        - cell "处理中":
+          - generic: 处理中
+        - cell "收起":
+          - button "收起"
+  - paragraph: 「关联既有对象」会保留两条记录并写上关联关系与时间线，不会把现场事实合并掉。 审核由学校安全管理人员执行（当前身份：学校安全管理人员）。
+- button "问筑瞳：打开本地数据问答" [active]:
+  - img "小瞳待机":
+  - generic: 问筑瞳
+- complementary "问筑瞳":
+  - img "小瞳找到证据":
+  - generic: 问筑瞳
+  - generic: 智能分析 · 本地数据
+  - paragraph: 页面选中：B05-F2-CRACK01 · 上轮对象：预警事件 E20261025-001；说“刚才那个”可沿用上轮。
+  - button "关闭问筑瞳": 关闭
+  - generic: 会话管理
+  - button "清除上下文"
+  - button "清空对话"
+  - region "处置进度":
+    - text: 处置进度 · 5/7 · 待验收
+    - heading "待验收" [level=3]
+    - button "收起进度"
+    - paragraph: 正在按当前数据库重新读取事件、问题与工单…
+    - paragraph: 小瞳已核对当前处置进度；派工、接单、验收、复查结论与事件关闭由人在原业务表单完成。
+  - button "系统有哪些演示身份？ 展开回答":
+    - generic: 系统有哪些演示身份？
+    - generic: 展开回答
+  - button "B05-F2-CRACK01 如果黄色阈值改为0.15试算 展开回答":
+    - generic: B05-F2-CRACK01 如果黄色阈值改为0.15试算
+    - generic: 展开回答
+  - button "回放 E20261024-001 的处置过程 展开回答":
+    - generic: 回放 E20261024-001 的处置过程
+    - generic: 展开回答
+  - button "WO-20261025-001 验收了吗 收起":
+    - generic: WO-20261025-001 验收了吗
+    - generic: 收起
+  - article:
+    - paragraph: WO-20261025-001 验收了吗
+    - paragraph:
+      - text: 正在逐条呈现核对结果
+      - button "立即显示全部"
+    - img "小瞳找到证据":
+    - generic: 已按当前数据回答
+    - generic: 演示导览｜数据截至 2026-10-25 15:46
+    - paragraph: 带你看 E20261025-001 的处置流程。E20261025-001（红色紧急核查）于 2026-10-25 15:42 生成，当前状态「待确认」。触发原因是相对基准变化量绝对值：证据记录 R20261025-005 触发值 0.32mm，命中规则 RULE-S7-CRACK（V1.0）。
+    - paragraph: 这条回答是提问当时按数据库读出的；当前处置阶段以上方「处置进度」卡片为准。
+    - term: 事件编号
+    - definition: E20261025-001
+    - term: 当前等级
+    - definition: 红色紧急核查
+    - term: 历史最高等级
+    - definition: 红色紧急核查
+    - term: 当前状态
+    - definition: 待确认
+    - term: 涉及测点
+    - definition: B05-F2-CRACK01 裂缝测点
+    - term: 升级过程
+    - definition: 红
+    - term: 最近触发时间
+    - definition: 2026-10-25 14:42
+    - term: 证据条数
+    - definition: 4 条（另有 0 条被修订替代）
+    - term: 确认情况
+    - definition: 尚未确认
+    - term: 触发值
+    - definition: 0.32mm
+    - term: 判定基准
+    - definition: 0.50mm
+    - term: 当次阈值
+    - definition: 黄 0.10 / 橙 0.20 / 红 0.30mm
+    - term: 判定方式
+    - definition: 相对基准变化量绝对值
+    - term: 命中规则
+    - definition: RULE-S7-CRACK（V1.0）
+    - term: 证据采样时间
+    - definition: 2026-10-25 14:42
+    - term: 判定说明
+    - definition: 判定值 0.32 mm 达到红色紧急核查门槛
+    - paragraph: 时间口径
+    - term: 采样时间
+    - definition: 2026-10-25 14:42
+    - term: 录入时间
+    - definition: 2026-10-25 15:42
+    - term: 数据性质
+    - definition: 历史补录（不代表实时上报）
+    - paragraph: 采样时间 2026-10-25 14:42，已 距今约 1.1 小时；本机没有设备心跳，据此只能判断数据偏旧，不能判断设备离线
+    - paragraph: 来源与质量
+    - term: 来源
+    - definition: 人工录入
+    - term: 质量标记
+    - definition: 有效
+    - term: 测点档案
+    - definition: 示例数据
+    - term: 设备状态
+    - definition: 未接入（无设备心跳）
+    - paragraph: 证据（可与看板、详情逐条核对）
+    - list:
+      - generic: E20261025-001
+      - generic: 预警事件本体
+      - generic: R20261025-001
+      - generic: 证据记录（红色紧急核查）采样 2026-10-25 14:02
+      - generic: R20261025-002
+      - generic: 证据记录（红色紧急核查）采样 2026-10-25 14:12
+      - generic: R20261025-004
+      - generic: 证据记录（黄色关注）采样 2026-10-25 14:32
+      - generic: R20261025-005
+      - generic: 证据记录（红色紧急核查）采样 2026-10-25 14:42
+    - paragraph: 该事件已关联 1 个问题，可在问题与工单页查看审核、派工与复查状态。
+    - paragraph: 数据口径
+    - paragraph: 定位口径：沿用当前明确选定的事件
+    - paragraph: 判定依据直接引用事件里已落库的判定快照，助手不重新计算阈值。
+    - paragraph: 设备健康状态是档案里人工登记的字段，不是设备心跳；本机不接入真实设备，回答里不会出现实时在线判断。
+    - paragraph: 确认、转问题、派工、验收、关闭都在原工作台按角色权限完成，助手只做只读导航，不代替提交。
+    - paragraph: 下一步以事件当前状态为准；小瞳不会替人确认、派工、验收或关闭。
+  - generic: 可以这样问
+  - button "更多问题"
+  - generic "推荐问题":
+    - button "这个问题处理完了吗？"
+    - button "为什么这条预警是红色？"
+    - button "B05-F2-CRACK01现在的读数是多少？"
+  - textbox "问小瞳":
+    - /placeholder: 问小瞳：分析裂缝照片、定位传感器或查看处置进度
+  - button "发送" [disabled]
+  - button "刷新数据"
+  - generic "提问对象与数据说明"
+- dialog:
+  - banner:
+    - heading "问题 ISS-20261025-001" [level=3]
+    - button "关闭详情": ×
+  - generic: ISS-20261025-001
+  - generic: 传感器预警｜5号实验楼 二层 ｜B05-F2-CRACK01 裂缝测点
+  - generic: 处理中
+  - button "关闭"
+  - region "预警处置下一步":
+    - generic: 现场处置流程 · 第 1/7 步
+    - generic: 预警 → 问题 → 派工 → 维修 → 验收 → 复查 → 关闭
+    - strong: 下一步：确认事件
+    - generic: 责任角色：学校安全管理人员
+    - paragraph: 核对证据与现场位置，然后确认预警。
+    - generic: 关联问题 ISS-20261025-001 · 工单 WO-20261025-001
+  - paragraph: 阶段 7 固定前置问题
+  - term: 异常类型
+  - definition: 裂缝越限
+  - term: 提交人
+  - definition: 演示学校安全管理人员｜2026-10-25 15:42
+  - term: 关联任务
+  - definition: —（非巡检来源）
+  - term: 关联预警事件
+  - definition:
+    - text: E20261025-001｜red｜待确认
+    - generic: 最近证据：R20261025-005｜0.32
+  - term: 关联原问题
+  - definition: —
+  - term: 所属工单
+  - definition: 1 张
+  - paragraph: 维修工单
+  - generic: WO-20261025-001
+  - generic: 裂缝越限（ISS-20261025-001）｜B05-F2-CRACK01 裂缝测点｜来源：预警转单
+  - generic: 待验收
+  - paragraph: 流程：1. 派工 → 2. 接单维修 → 3. 提交维修报告（当前） → 4. 验收
+  - paragraph: 本次为第 1 次送审
+  - term: 维修人
+  - definition: 演示维修人员
+  - term: 期限
+  - definition: —
+  - term: 完工照片
+  - definition: 0 张
+  - term: 验收照片
+  - definition: 0 张
+  - term: 提交待验收
+  - definition: 2026-10-25 15:42
+  - paragraph: 维修措施：更换固定件并复紧
+  - textbox "验收意见（退回必填，说明哪里不合格）"
+  - generic: 选择照片
+  - generic: 已选 0 / 3 张，共 0 B（上限 600 KB）
+  - paragraph: 照片在本机压缩后保存（每张约 200 KB），原始大图不入库； 随备份一并导出。纯前端阶段没有云端上传，"已选"只表示照片在本机草稿里。
+  - paragraph: 验收照片会与验收结论一次写入本地档案；未选照片也可记录文字验收结论。
+  - button "验收退回"
+  - button "验收通过"
+  - generic "工单时间线（4 条）"
+  - paragraph: 审核记录与时间线
+  - list:
+    - generic: 2026-10-25 15:42
+    - generic: 演示学校安全管理人员（safety）
+    - generic: 提交问题
+    - generic: 来源：sensor；阶段 7 固定前置问题
+    - generic: 2026-10-25 15:42
+    - generic: 演示学校安全管理人员（safety）
+    - generic: 审核：to_repair（equipment）
+    - generic: 现场核实后转维修处理
+    - generic: 2026-10-25 15:42
+    - generic: 演示学校安全管理人员（safety）
+    - generic: 生成维修工单
+    - generic: WO-20261025-001 待派工
+  - paragraph: 审核
+  - button "审核处理"
