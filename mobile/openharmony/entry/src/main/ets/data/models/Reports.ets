@@ -15,6 +15,7 @@ export interface PreparedPhoto {
   fileName: string;
   mimeType: string;
   source: string;
+  cachePath?: string;
 }
 
 export class ReportPhoto {

@@ -1,7 +1,8 @@
 import { Identity, IdentitySession } from '../../data/models/Identity';
 import { ApiClient, ClientSettings } from '../../data/models/Http';
 import { readWorkspace } from '../../data/repositories/WorkspaceRepository';
-import { emptyWorkspace, withTasks } from '../../data/models/Workspace';
+import { emptyWorkspace, withTasks, withIssues } from '../../data/models/Workspace';
+import { ReportResult } from '../../data/models/Reports';
 import { InspectionTask } from '../../data/models/Tasks';
 import { TaskWrite, TaskCommandResult } from '../../data/models/Inspection';
 import { TaskCommander, TaskAccess } from '../field/TaskCommander';
@@ -62,6 +63,18 @@ export class WorkspaceController {
   async submitInspection(write: TaskWrite): Promise<TaskCommandResult | undefined> { return this.commands.submit(write); }
 
   async retryInspection(): Promise<TaskCommandResult | undefined> { return this.commands.retry(); }
+
+  fieldAccess(): TaskAccess | null { return this.taskAccess(); }
+  invalidateReport(message: string): void { this.invalidateInspection(message); }
+  acceptReport(result: ReportResult): void {
+    if (this.state.mode !== 'ready') return;
+    if (result.task) this.applyTask(result.task);
+    const previous = this.state.workspace.issues.find((row) => row.id === result.issue.id);
+    if (previous && previous.rev > result.issue.rev) return;
+    this.state.workspace = withIssues(this.state.workspace,
+      [...this.state.workspace.issues.filter((row) => row.id !== result.issue.id), result.issue]);
+    this.publish();
+  }
 
   async reloadInspection(): Promise<void> {
     const access = this.taskAccess();

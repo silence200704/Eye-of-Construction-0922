@@ -2,6 +2,7 @@ import { ApiClient, Envelope } from '../models/Http';
 import { ArchiveSnapshot, Workspace } from '../models/Workspace';
 import { AlarmEvent, MonitorRecord } from '../models/Monitoring';
 import { InspectionTask, WorkOrder } from '../models/Tasks';
+import { IssueRecord } from '../models/Reports';
 import { ApiError } from '../../core/network/ApiError';
 
 export interface WorkspaceRead {
@@ -35,6 +36,7 @@ export async function readWorkspace(read: WorkspaceRead): Promise<Workspace> {
   const events = await rows<AlarmEvent>(read, '/events?status=all', data.epoch);
   const tasks = await rows<InspectionTask>(read, '/inspection/tasks', data.epoch);
   const orders = await rows<WorkOrder>(read, '/work-orders', data.epoch);
+  const issues = await rows<IssueRecord>(read, '/issues', data.epoch);
   return { epoch: data.epoch, buildings: data.buildings, floors: data.floors, points: data.points,
-    devices: data.devices, records, events, tasks, orders };
+    devices: data.devices, records, events, tasks, orders, issues };
 }

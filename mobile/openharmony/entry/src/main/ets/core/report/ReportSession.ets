@@ -16,6 +16,7 @@ export interface ReportOptions {
   onChange: (state: ReportView) => void;
   invalidate: (message: string) => void;
   disposePhoto: (photo: PreparedPhoto) => void;
+  onResult?: (result: ReportResult) => void;
 }
 
 export class ReportSession {
@@ -161,6 +162,7 @@ export class ReportSession {
         throw new ApiError('INVALID_RESPONSE', '上报响应不完整，请用原请求核验。');
       }
       this.view.issue = response.data.issue;
+      this.options.onResult?.(response.data);
       this.phase('done', `已提交 ${response.data.issue.issueNo}，等待审核；问题尚未关闭。`);
       return response.data;
     } catch (cause) {
