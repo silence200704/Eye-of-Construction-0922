@@ -1,6 +1,10 @@
 import { Identity, IdentitySession } from '../../data/models/Identity';
 import { ApiClient, ClientSettings } from '../../data/models/Http';
 import { readWorkspace } from '../../data/repositories/WorkspaceRepository';
+import { emptyWorkspace } from '../../data/models/Workspace';
+import { InspectionTask } from '../../data/models/Tasks';
+import { TaskWrite, TaskCommandResult } from '../../data/models/Inspection';
+import { TaskCommander, TaskAccess } from '../field/TaskCommander';
 import { AppState } from '../../shared/state/AppState';
 import { SettingsStorage } from '../storage/ConnectionPreferences';
 import { ApiError, errorMessage } from '../network/ApiError';
@@ -25,9 +29,59 @@ export class WorkspaceController {
   private token: string = '';
   private preferredId: string = '';
   private suspended: boolean = false;
+  private commands: TaskCommander;
 
   constructor(options: ControllerOptions) {
     this.options = options;
+    this.commands = new TaskCommander({ access: () => this.taskAccess(),
+      onState: (state) => { this.state.command = state; this.publish(); },
+      onTask: (task) => this.applyTask(task), invalidate: (message) => this.invalidateInspection(message) });
+  }
+
+  private taskAccess(): TaskAccess | null {
+    if (this.state.mode !== 'ready' || !this.state.user || !this.client) return null;
+    return { client: this.client, user: this.state.user, baseUrl: this.state.baseUrl, workspace: this.state.workspace };
+  }
+
+  private applyTask(task: InspectionTask): InspectionTask {
+    const previous = this.state.workspace.tasks.find((row) => row.id === task.id);
+    if (!previous || previous.rev > task.rev) return previous ?? task;
+    this.state.workspace = { ...this.state.workspace,
+      tasks: this.state.workspace.tasks.map((row) => row.id === task.id ? task : row) };
+    this.state.loadedAt = new Date().toISOString();
+    this.publish();
+    return task;
+  }
+
+  private invalidateInspection(message: string): void {
+    this.commands.deactivate();
+    this.fail(this.gate.begin(), new ApiError('AUTHORIZATION_CHANGED', message));
+    this.options.onReset();
+  }
+
+  async submitInspection(write: TaskWrite): Promise<TaskCommandResult | undefined> { return this.commands.submit(write); }
+
+  async retryInspection(): Promise<TaskCommandResult | undefined> { return this.commands.retry(); }
+
+  async reloadInspection(): Promise<void> {
+    const access = this.taskAccess();
+    if (!access) return;
+    try {
+      const principal = await access.client.send<Identity>('/auth/me');
+      if (this.client !== access.client) return;
+      if (authorizationOf(principal.data) !== authorizationOf(access.user)) {
+        this.invalidateInspection('身份授权已变化，请重新读取。');
+        return;
+      }
+      const response = await access.client.send<InspectionTask[]>('/datasets/demo-main/inspection/tasks');
+      if (this.client !== access.client) return;
+      if (response.meta?.datasetEpoch !== access.workspace.epoch || !Array.isArray(response.data)) {
+        this.invalidateInspection('演示数据已更新，请重新读取。');
+        return;
+      }
+      this.state.workspace = { ...this.state.workspace, tasks: response.data };
+      this.publish();
+    } catch (cause) { this.invalidateInspection(errorMessage(cause as Error)); }
   }
 
   private publish(): void {
@@ -35,6 +89,7 @@ export class WorkspaceController {
   }
 
   private begin(baseUrl: string): number {
+    this.commands.deactivate();
     const revision = this.gate.begin();
     const directory = this.state.baseUrl === baseUrl ? this.state.identities : [];
     this.client?.cancel();
@@ -56,6 +111,7 @@ export class WorkspaceController {
     this.client = null;
     this.token = '';
     this.state.user = null;
+    this.state.workspace = emptyWorkspace();
     this.state.mode = 'error';
     this.state.busy = false;
     this.state.message = errorMessage(cause);
@@ -134,6 +190,7 @@ export class WorkspaceController {
     this.state.mode = 'ready';
     this.state.busy = false;
     this.state.message = '';
+    this.commands.restore();
     this.publish();
   }
 

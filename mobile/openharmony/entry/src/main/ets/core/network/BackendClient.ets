@@ -27,6 +27,8 @@ export class BackendClient implements ApiClient {
     this.active.add(request);
     const headers: Record<string, string> = { 'Content-Type': 'application/json' };
     if (this.settings.token) headers['Authorization'] = `Bearer ${this.settings.token}`;
+    if (options.idempotencyKey) headers['Idempotency-Key'] = options.idempotencyKey;
+    if (options.datasetEpoch !== undefined) headers['X-Dataset-Epoch'] = String(options.datasetEpoch);
     try {
       const response = await request.request(`${this.settings.baseUrl}/api/v1${path}`, {
         method: options.method === 'POST' ? http.RequestMethod.POST : http.RequestMethod.GET,

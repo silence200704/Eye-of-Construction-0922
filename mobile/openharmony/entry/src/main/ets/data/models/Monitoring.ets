@@ -22,6 +22,12 @@ export interface Point {
   type: string;
   status: string;
   dataSource: string;
+  nfc?: NfcLabel | null;
+}
+
+export interface NfcLabel {
+  code: string;
+  version: number;
 }
 
 export interface Device {

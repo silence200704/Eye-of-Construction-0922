@@ -1,13 +1,48 @@
+export interface ChecklistItem {
+  key: string;
+  label: string;
+  required: boolean;
+  hint?: string;
+}
+
+export interface ChecklistAnswer {
+  key: string;
+  label: string;
+  result: string | null;
+  note: string;
+}
+
+export interface TaskAttempt {
+  at: string;
+  method: string;
+  labelRead: string;
+  fallbackReason: string;
+  passed: boolean;
+  message: string;
+}
+
 export interface TaskPlan {
   planName: string;
   executorRole: string;
   buildingId: string;
   pointIds: string[];
+  kind?: string;
+  checklist: ChecklistItem[];
 }
 
 export interface TaskCheck {
   pointId: string;
   status: string;
+  checkedAt?: string | null;
+  attempts: TaskAttempt[];
+  checklist: ChecklistAnswer[];
+  issueIds: string[];
+  abnormalHandling?: AbnormalHandling;
+}
+
+export interface AbnormalHandling {
+  linkedIssueId: string | null;
+  reason: string;
 }
 
 export interface InspectionTask {
@@ -19,6 +54,7 @@ export interface InspectionTask {
   dueAt: string;
   status: string;
   results: TaskCheck[];
+  rev: number;
 }
 
 export interface WorkOrder {

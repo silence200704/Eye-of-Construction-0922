@@ -1,6 +1,8 @@
 export interface ResponseMeta {
   requestId?: string;
   datasetEpoch?: number;
+  receiptId?: string;
+  replayed?: boolean;
 }
 
 export interface ApiFailure {
@@ -18,6 +20,8 @@ export interface Envelope<T> {
 export interface RequestOptions {
   method?: string;
   body?: string;
+  idempotencyKey?: string;
+  datasetEpoch?: number;
 }
 
 export interface ApiClient {
