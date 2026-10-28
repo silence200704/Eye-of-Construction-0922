@@ -37,5 +37,9 @@ export class ReportLease {
     if (!building || (target.pointId && (!point || point.buildingId !== target.buildingId))) {
       throw new ApiError('AUTHORIZATION_CHANGED', '上报位置已归档或不在当前范围内。');
     }
+    const confirmed = await this.access.client.send<Identity>('/auth/me');
+    if (!this.current() || authorizationOf(confirmed.data) !== authorizationOf(this.access.user)) {
+      throw new ApiError('AUTHORIZATION_CHANGED', '身份授权已变化，请重新读取。');
+    }
   }
 }
