@@ -124,3 +124,31 @@ test('unfinished draft survives reentry; a completed report permits a genuinely 
  assert.notEqual(f.current().draft.submissionId, before)
  assert.equal(f.current().draft.description, '')
 })
+
+test('same-id authorization change before selection clears protected draft and old photo bytes', async () => {
+ const f = setup(); await f.session.choose(async () => photo())
+ f.access.user = { ...f.access.user, buildingIds: [] }
+ await assert.rejects(f.session.choose(async () => photo()), /失效|授权/)
+ assert.equal(f.current().draft, null)
+ assert.deepEqual(f.disposed, ['file://preview'])
+})
+
+test('removed photo is disposed and is never sent as an attachment; malformed upload stays retryable', async () => {
+ const f = setup(); await f.session.choose(async () => photo())
+ f.session.remove('photo-stable'); assert.deepEqual(f.disposed, ['file://preview'])
+ await f.session.choose(async () => photo())
+ f.intercept(path => path.includes('/media?') ? { data: { id: 'bad', size: 400, sha256: 'bad' } } : undefined)
+ await f.session.submit(); assert.equal(f.current().phase, 'upload-error')
+ assert.equal(f.calls.filter(c => c.path.endsWith('/issues')).length, 0)
+ f.intercept(null); await f.session.submit(); assert.equal(f.current().phase, 'done')
+})
+
+test('late report response after context reset does not resurrect a submitted issue', async () => {
+ const f = setup(), held = deferred()
+ f.intercept(path => path.endsWith('/issues') ? held.promise : undefined)
+ const waiting = f.session.submit(); await new Promise(resolve => setImmediate(resolve))
+ f.session.deactivate()
+ held.resolve({ data: { issue: {id:'late',pointId:'p1'} }, meta:{datasetEpoch:1} })
+ await waiting
+ assert.equal(f.current().draft, null); assert.equal(f.current().issue, null)
+})
