@@ -112,3 +112,15 @@ test('task 409 preserves uploaded evidence until explicit adoption; wrong role c
   f.session.deactivate(); f.access.user = identity('property')
   assert.equal(f.session.start({ ...target, taskId: 't1', expectedRev: 2 }), false)
 })
+
+test('unfinished draft survives reentry; a completed report permits a genuinely new submission', async () => {
+ const f = setup()
+ const before = f.current().draft.submissionId
+ assert.equal(f.session.start(target), true)
+ assert.equal(f.current().draft.submissionId, before)
+ assert.match(f.current().draft.description, /走廊/)
+ await f.session.submit(); assert.equal(f.current().phase, 'done')
+ assert.equal(f.session.start(target), true)
+ assert.notEqual(f.current().draft.submissionId, before)
+ assert.equal(f.current().draft.description, '')
+})

@@ -64,3 +64,15 @@ test('native command headers carry idempotency and dataset epoch without replaci
   assert.equal(observed.options.header['X-Dataset-Epoch'], '7')
   assert.equal(observed.options.header.Authorization, 'Bearer fixture-token')
 })
+
+test('native photo upload sends original binary bytes and image content type on 201 response', async () => {
+ nextResponse = { responseCode: 201, result: JSON.stringify({ ok: true, data: { id: 'media-real' } }) }
+ const client = new BackendClient({ baseUrl: 'http://localhost:8080', token: 'fixture-token' })
+ const bytes = new Uint8Array([255,216,255,217]).buffer
+ const response = await client.send('/datasets/demo-main/media?fileName=photo.jpg', {
+  method: 'POST', body: bytes, contentType: 'image/jpeg', idempotencyKey: 'same-photo', datasetEpoch: 1,
+ })
+ assert.equal(observed.options.extraData, bytes)
+ assert.equal(observed.options.header['Content-Type'], 'image/jpeg')
+ assert.equal(response.data.id, 'media-real')
+})
