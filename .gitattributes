@@ -1,2 +1,3 @@
 # Preserve artwork, manifest and ZIP member bytes across Windows/Linux checkouts.
 public/design-studio/** -text
+mobile/openharmony/artwork/** -text

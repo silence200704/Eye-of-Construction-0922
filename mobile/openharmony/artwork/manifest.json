@@ -1,0 +1,148 @@
+{
+  "version": "2.0.0",
+  "assets": [
+    {
+      "path": "characters/scout.svg",
+      "width": 264,
+      "height": 276,
+      "bytes": 2243,
+      "sha256": "6d4bd66b42ccca1dfd4b63fad63cf8931434c98d1c6fb160116ded2ee8ae0fa4",
+      "author": "Project-original vector drawing (AI assisted)",
+      "rights": "Project artwork; no third-party artwork copied",
+      "aiAssisted": true,
+      "version": "2.0.0"
+    },
+    {
+      "path": "characters/rest.svg",
+      "width": 264,
+      "height": 276,
+      "bytes": 2247,
+      "sha256": "ade9f814e0e6a27cdcaa408abc7c85c2668cd7e95eb0368e8d47cc8d06bcc24e",
+      "author": "Project-original vector drawing (AI assisted)",
+      "rights": "Project artwork; no third-party artwork copied",
+      "aiAssisted": true,
+      "version": "2.0.0"
+    },
+    {
+      "path": "characters/guide.svg",
+      "width": 264,
+      "height": 276,
+      "bytes": 2262,
+      "sha256": "fc2281693ff09dc95ee60d1e55eeb09533baf57136c6d285f67ef2a73d7246e0",
+      "author": "Project-original vector drawing (AI assisted)",
+      "rights": "Project artwork; no third-party artwork copied",
+      "aiAssisted": true,
+      "version": "2.0.0"
+    },
+    {
+      "path": "brand/foreground.svg",
+      "width": 1024,
+      "height": 1024,
+      "bytes": 2296,
+      "sha256": "6a9caacb0b17b700b4deb5e6af701d553e17bd5be6568588edb90e71810a2372",
+      "author": "Project-original vector drawing (AI assisted)",
+      "rights": "Project artwork; no third-party artwork copied",
+      "aiAssisted": true,
+      "version": "2.0.0"
+    },
+    {
+      "path": "brand/background.svg",
+      "width": 1024,
+      "height": 1024,
+      "bytes": 265,
+      "sha256": "a9ae81c9c85afe050864e573ab9d7db84aa542847d3a1e7e01c2c23c7c0b80b1",
+      "author": "Project-original vector drawing (AI assisted)",
+      "rights": "Project artwork; no third-party artwork copied",
+      "aiAssisted": true,
+      "version": "2.0.0"
+    },
+    {
+      "path": "scenes/campus.svg",
+      "width": 480,
+      "height": 300,
+      "bytes": 3458,
+      "sha256": "1d0b3982a8b29fc4e534ac6fa65bd80e29cc92064148d479effd167d62b703c8",
+      "author": "Project-original vector drawing (AI assisted)",
+      "rights": "Project artwork; no third-party artwork copied",
+      "aiAssisted": true,
+      "version": "2.0.0"
+    },
+    {
+      "path": "scenes/toolbox.svg",
+      "width": 320,
+      "height": 250,
+      "bytes": 1049,
+      "sha256": "75628b1cea75f0defd60264988ffe79970f1d4759eb8e03ecc03fea4920679db",
+      "author": "Project-original vector drawing (AI assisted)",
+      "rights": "Project artwork; no third-party artwork copied",
+      "aiAssisted": true,
+      "version": "2.0.0"
+    },
+    {
+      "path": "patterns/dots.svg",
+      "width": 600,
+      "height": 1000,
+      "bytes": 308,
+      "sha256": "64c387e593da59b16ae624b88ea520a4a7e04fbdbdfa63581ad28d660c933df3",
+      "author": "Project-original vector drawing (AI assisted)",
+      "rights": "Project artwork; no third-party artwork copied",
+      "aiAssisted": true,
+      "version": "2.0.0"
+    },
+    {
+      "path": "patterns/doodle.svg",
+      "width": 480,
+      "height": 300,
+      "bytes": 446,
+      "sha256": "166c509ee33e7c0ecad14548a925eb9d3cc6629588e7c803113a91eaa8411f85",
+      "author": "Project-original vector drawing (AI assisted)",
+      "rights": "Project artwork; no third-party artwork copied",
+      "aiAssisted": true,
+      "version": "2.0.0"
+    },
+    {
+      "path": "icons/arrow.svg",
+      "width": 32,
+      "height": 32,
+      "bytes": 225,
+      "sha256": "3eddc6c47f0a59eee59ffb5747d8132efe6d4469f07eeb1071adf6df4d40b751",
+      "author": "Project-original vector drawing (AI assisted)",
+      "rights": "Project artwork; no third-party artwork copied",
+      "aiAssisted": true,
+      "version": "2.0.0"
+    },
+    {
+      "path": "icons/spark.svg",
+      "width": 32,
+      "height": 32,
+      "bytes": 238,
+      "sha256": "3ae28201532b563d907a2894350250d7ffcfff25eb7995a5ef28a781c4c7811d",
+      "author": "Project-original vector drawing (AI assisted)",
+      "rights": "Project artwork; no third-party artwork copied",
+      "aiAssisted": true,
+      "version": "2.0.0"
+    },
+    {
+      "path": "icons/shield.svg",
+      "width": 32,
+      "height": 32,
+      "bytes": 266,
+      "sha256": "214ce6c95d68bc078282bfa43e7e84e48f0a24fd543d1bf9d66a890cb5431a72",
+      "author": "Project-original vector drawing (AI assisted)",
+      "rights": "Project artwork; no third-party artwork copied",
+      "aiAssisted": true,
+      "version": "2.0.0"
+    },
+    {
+      "path": "icons/check.svg",
+      "width": 32,
+      "height": 32,
+      "bytes": 218,
+      "sha256": "b27e5669f8426c23f3a42032ba6e5dcf2609023b063f0bfe2471e5bb05808a8d",
+      "author": "Project-original vector drawing (AI assisted)",
+      "rights": "Project artwork; no third-party artwork copied",
+      "aiAssisted": true,
+      "version": "2.0.0"
+    }
+  ]
+}

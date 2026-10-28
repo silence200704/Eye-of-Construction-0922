@@ -1,0 +1,7 @@
+{
+  "layered-image":
+  {
+    "background" : "$media:playful_background",
+    "foreground" : "$media:playful_foreground"
+  }
+}
