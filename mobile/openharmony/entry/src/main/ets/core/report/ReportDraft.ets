@@ -1,4 +1,4 @@
-import { ReportTarget, PreparedPhoto, ReportPhoto, ReportBody } from '../../data/models/Reports';
+import { ReportTarget, PreparedPhoto, ReportPhoto, ReportBody, PhotoLink } from '../../data/models/Reports';
 
 export function reportId(): string { return `report-${Date.now()}-${Math.random().toString(36).slice(2)}`; }
 
@@ -40,7 +40,7 @@ export class ReportDraft {
   body(): string {
     const body: ReportBody = { pointId: this.target.pointId || null, anomalyType: this.anomalyType.trim(),
       description: this.description.trim(), submissionId: this.submissionId,
-      photos: this.photos.map((photo) => ({ mediaId: photo.mediaId, draftId: photo.prepared.draftId, kind: 'scene' })) };
+      photos: this.photos.map((photo): PhotoLink => ({ mediaId: photo.mediaId, draftId: photo.prepared.draftId, kind: 'scene' })) };
     if (this.target.taskId) body.expectedRev = this.target.expectedRev;
     else { body.source = 'report'; body.buildingId = this.target.buildingId; body.floorId = this.target.floorId; }
     return JSON.stringify(body);

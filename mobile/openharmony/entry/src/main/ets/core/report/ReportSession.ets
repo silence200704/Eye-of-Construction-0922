@@ -47,7 +47,10 @@ export class ReportSession {
   }
 
   start(target: ReportTarget): boolean {
-    if (this.locked()) return false;
+    if (this.view.draft && this.view.phase !== 'done') {
+      const previous = this.view.draft.target;
+      return !this.locked() && previous.pointId === target.pointId && previous.buildingId === target.buildingId && previous.taskId === target.taskId;
+    }
     const access = this.options.access();
     if (!access) return false;
     const task = access.workspace.tasks.find((row) => row.id === target.taskId);
@@ -99,7 +102,7 @@ export class ReportSession {
   }
 
   private failed(cause: ApiError, phase: string): void {
-    if (['AUTHORIZATION_CHANGED', 'EPOCH_CHANGED'].includes(cause.code) || [401, 403].includes(cause.status ?? 0)) {
+    if (['AUTHORIZATION_CHANGED', 'EPOCH_CHANGED', 'DATASET_EPOCH_CONFLICT'].includes(cause.code) || [401, 403].includes(cause.status ?? 0)) {
       this.deactivate(); this.options.invalidate(errorMessage(cause as Error)); return;
     }
     this.phase(phase, errorMessage(cause as Error));
