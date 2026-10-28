@@ -47,6 +47,7 @@ export class TaskCommander {
     state.phase = phase;
     state.message = message;
     state.taskId = pending?.write.taskId ?? '';
+    state.pointId = pending?.write.pointId ?? '';
     state.operationId = pending?.key ?? '';
     this.options.onState(state);
   }

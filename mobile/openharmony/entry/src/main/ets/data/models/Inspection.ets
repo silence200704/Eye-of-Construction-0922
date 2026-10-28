@@ -15,6 +15,7 @@ export interface TaskCommandResult {
 export class TaskCommandState {
   phase: string = 'idle';
   taskId: string = '';
+  pointId: string = '';
   message: string = '';
   operationId: string = '';
 }

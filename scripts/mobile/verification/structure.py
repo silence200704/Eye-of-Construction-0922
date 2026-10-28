@@ -52,7 +52,7 @@ def check_artwork():
 
 def run():
     result = {'python': check_python(), 'artwork': check_artwork()}
-    evidence = Path(os.environ.get('ZHUTONG_NATIVE_EVIDENCE', ROOT / 'docs/implementation/evidence/stage8-playful'))
+    evidence = Path(os.environ.get('ZHUTONG_NATIVE_EVIDENCE', ROOT / 'backend/.runtime-native-online/verification'))
     output = evidence / 'builds/structure-assets.json'
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(result, indent=2) + '\n', encoding='utf-8')

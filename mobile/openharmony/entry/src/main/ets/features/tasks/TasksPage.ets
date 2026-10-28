@@ -6,6 +6,7 @@ import { ConnectionState } from '../../shared/components/ConnectionState';
 import { PageStage } from '../../shared/playful/PageStage';
 import { PageHeading } from '../../shared/playful/PageHeading';
 import { EmptyBuddy } from '../../shared/playful/EmptyBuddy';
+import { PlayButton } from '../../shared/playful/PlayButton';
 import { label, timeText } from '../../shared/format/display';
 
 @Component
@@ -14,6 +15,7 @@ export struct TasksPage {
   @State orders: boolean = false;
   onSettings: () => void = () => {};
   onRefresh: () => void = () => {};
+  onOpen: (id: string) => void = () => {};
 
   @Builder
   taskCard(task: InspectionTask) {
@@ -24,7 +26,8 @@ export struct TasksPage {
       Text(`截止 ${timeText(task.dueAt)}`).fontSize(13).fontColor(Theme.secondary);
       Text(`必查 ${task.planSnapshot.pointIds.length} 处 · 已完成 ${task.results.filter((row) => row.status === 'completed').length} 处`)
         .fontSize(14).fontColor(Theme.text);
-      Text('到点、清单检查与问题上报将在后续批次接入。').fontSize(12).fontColor(Theme.secondary);
+      PlayButton({ title: this.state.user?.role === task.planSnapshot.executorRole ? '打开巡检手账' : '查看任务详情',
+        secondary: true, onAction: () => this.onOpen(task.id), controlId: `inspection-task-${task.id}` });
     }
   }
 

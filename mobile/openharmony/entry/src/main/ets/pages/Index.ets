@@ -10,6 +10,7 @@ import { WorkbenchPage } from '../features/workbench/WorkbenchPage';
 import { MonitoringPage } from '../features/monitoring/MonitoringPage';
 import { PointDetail } from '../features/monitoring/PointDetail';
 import { TasksPage } from '../features/tasks/TasksPage';
+import { TaskDetail } from '../features/tasks/TaskDetail';
 import { ProfilePage } from '../features/profile/ProfilePage';
 
 @Entry
@@ -18,6 +19,7 @@ struct Index {
   @State state: AppState = new AppState();
   @State tab: number = 0;
   @State pointId: string = '';
+  @State taskId: string = '';
   private paths: NavPathStack = new NavPathStack();
   private controller: WorkspaceController | undefined = undefined;
   private showHome: boolean = true;
@@ -28,7 +30,7 @@ struct Index {
     this.appearance = new AppearancePreferences(context);
     this.controller = new WorkspaceController({
       storage: new ConnectionPreferences(context), createClient: (settings) => new BackendClient(settings),
-      onReset: () => { this.paths.clear(); this.pointId = ''; },
+      onReset: () => { this.paths.clear(); this.pointId = ''; this.taskId = ''; },
       onChange: (state: AppState) => {
         this.state = state;
         if (state.mode === 'ready' && this.showHome) { this.tab = 0; this.showHome = false; }
@@ -45,6 +47,12 @@ struct Index {
     if (name === 'point') {
       NavDestination() { PointDetail({ state: this.state, pointId: this.pointId }); }
         .title('测点详情').backgroundColor(Theme.canvas);
+    } else if (name === 'inspection-task') {
+      NavDestination() {
+        TaskDetail({ state: this.state, taskId: this.taskId,
+          onSubmit: async (request) => this.controller?.submitInspection(request),
+          onRetry: async () => this.controller?.retryInspection(), onReload: () => this.controller?.reloadInspection() });
+      }.title('巡检手账').backgroundColor(Theme.canvas);
     }
   }
 
@@ -58,7 +66,8 @@ struct Index {
         onOpen: (id) => { this.pointId = id; this.paths.pushPathByName('point', id); } });
     };
     TabContent() {
-      TasksPage({ state: this.state, onSettings: () => { this.tab = 3; }, onRefresh: () => this.controller?.refresh() });
+      TasksPage({ state: this.state, onSettings: () => { this.tab = 3; }, onRefresh: () => this.controller?.refresh(),
+        onOpen: (id) => { this.taskId = id; this.paths.pushPathByName('inspection-task', id); } });
     };
     TabContent() {
       ProfilePage({ state: this.state, onMotion: (enabled) => this.appearance?.setMotion(enabled), onRefresh: () => this.controller?.refresh(),
