@@ -19,7 +19,8 @@ export interface Envelope<T> {
 
 export interface RequestOptions {
   method?: string;
-  body?: string;
+  body?: string | ArrayBuffer;
+  contentType?: string;
   idempotencyKey?: string;
   datasetEpoch?: number;
 }

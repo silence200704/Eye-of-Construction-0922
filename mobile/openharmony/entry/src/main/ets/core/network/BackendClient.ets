@@ -25,7 +25,7 @@ export class BackendClient implements ApiClient {
     if (!path.startsWith('/') || path.startsWith('//')) throw new ApiError('INVALID_PATH', '接口路径无效');
     const request = http.createHttp();
     this.active.add(request);
-    const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+    const headers: Record<string, string> = { 'Content-Type': options.contentType ?? 'application/json' };
     if (this.settings.token) headers['Authorization'] = `Bearer ${this.settings.token}`;
     if (options.idempotencyKey) headers['Idempotency-Key'] = options.idempotencyKey;
     if (options.datasetEpoch !== undefined) headers['X-Dataset-Epoch'] = String(options.datasetEpoch);
