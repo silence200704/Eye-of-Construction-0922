@@ -259,7 +259,7 @@ def create_issue(
     return issue, False
 
 
-def report_issue(session: Session, workspace: Workspace, payload: dict) -> dict:
+def authorize_report(session: Session, workspace: Workspace, payload: dict) -> AlarmEvent | None:
     require_role(workspace, REPORT_ROLES, "问题上上报")
     source = payload.get("source", "report")
     if source not in {"report", "sensor"}:
@@ -272,6 +272,13 @@ def report_issue(session: Session, workspace: Workspace, payload: dict) -> dict:
             raise AppError("NOT_FOUND", "预警事件不存在", 404)
         if event.point_id != payload.get("pointId"):
             raise AppError("VALIDATION_FAILED", "问题测点与预警事件测点不一致", 422)
+    _location(session, workspace, payload)
+    return event
+
+
+def report_issue(session: Session, workspace: Workspace, payload: dict) -> dict:
+    source = payload.get("source", "report")
+    event = authorize_report(session, workspace, payload)
     issue, duplicated = create_issue(
         session, workspace, payload, IssueOrigin(source=source, event=event)
     )

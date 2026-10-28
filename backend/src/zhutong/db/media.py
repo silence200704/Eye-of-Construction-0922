@@ -45,6 +45,9 @@ class SqlMediaRepository:
         row = self.db.get(Dataset, dataset_id)
         return row is not None and row.enabled
 
+    def dataset_epoch(self, dataset_id: str) -> int | None:
+        return self.db.scalar(select(Dataset.epoch).where(Dataset.id == dataset_id))
+
     def point_building(self, dataset_id: str, point_id: str) -> str | None:
         row = self.db.get(Point, (dataset_id, point_id))
         return row.building_id if row else None

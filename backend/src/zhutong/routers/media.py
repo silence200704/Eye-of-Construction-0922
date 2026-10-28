@@ -10,6 +10,7 @@ from ..db.media import SqlMediaRepository
 from ..operations.media.attachments import link_attachment
 from ..operations.media.service import MediaService
 from ..operations.media.types import AttachmentSpec, MediaContext, UploadSpec
+from ..operations.datasets.core.workspace import dataset_epoch
 from ..storage.files import FileStore
 from .dependencies import Actor
 from .media_schemas import AttachmentInput, UploadQuery
@@ -53,6 +54,7 @@ async def upload(
         origin=query.origin,
         draft_key=key,
         captured_at=query.capturedAt,
+        expected_epoch=dataset_epoch(request) if "X-Dataset-Epoch" in request.headers else None,
     )
     record, replayed = await MediaService(repository, binaries(request)).upload(
         MediaContext(dataset_id, actor), spec, request.stream()

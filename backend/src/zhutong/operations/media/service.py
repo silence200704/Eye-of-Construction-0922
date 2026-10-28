@@ -39,6 +39,15 @@ class MediaService:
         try:
             with self.repository.write():
                 require_dataset(self.repository, context.dataset_id)
+                if (
+                    spec.expected_epoch is not None
+                    and spec.expected_epoch != self.repository.dataset_epoch(context.dataset_id)
+                ):
+                    raise AppError(
+                        "DATASET_EPOCH_CONFLICT",
+                        "数据集已复位，旧版本照片不会落库，请重新读取",
+                        409,
+                    )
                 if spec.point_id:
                     building = self.repository.point_building(context.dataset_id, spec.point_id)
                     if building is None:

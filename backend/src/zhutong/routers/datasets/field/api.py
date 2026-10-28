@@ -144,6 +144,7 @@ def issue_list(request: Request, session: Read, current: Current) -> dict:
 @router.post("/issues")
 def issue_report(request: Request, session: Write, current: Current, body: IssueInput) -> dict:
     payload = body.model_dump()
+    issues.authorize_report(session, current, payload)
     data, replayed = execute_command(
         session,
         current,
