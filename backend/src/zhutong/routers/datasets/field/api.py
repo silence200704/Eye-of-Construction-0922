@@ -95,6 +95,7 @@ def generate_tasks(request: Request, session: Write, current: Current, body: Gen
 def task_check_in(
     request: Request, session: Write, current: Current, task_id: str, body: CheckInInput
 ) -> dict:
+    task_checks.authorize_task_write(session, current, task_id, body.pointId)
     payload = body.model_dump()
     data, replayed = execute_command(
         session,
@@ -109,6 +110,7 @@ def task_check_in(
 def task_complete(
     request: Request, session: Write, current: Current, task_id: str, body: CompleteInput
 ) -> dict:
+    task_checks.authorize_task_write(session, current, task_id, body.pointId)
     payload = body.model_dump()
     data, replayed = execute_command(
         session,
@@ -123,6 +125,7 @@ def task_complete(
 def task_issue(
     request: Request, session: Write, current: Current, task_id: str, body: TaskIssueInput
 ) -> dict:
+    task_checks.authorize_task_write(session, current, task_id, body.pointId)
     payload = body.model_dump()
     data, replayed = execute_command(
         session,

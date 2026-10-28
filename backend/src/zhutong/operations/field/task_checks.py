@@ -26,11 +26,10 @@ def list_tasks(session: Session, workspace: Workspace) -> list[dict]:
     return [task_out(row) for row in rows]
 
 
-def _task_context(
-    session: Session, workspace: Workspace, task_id: str, point_id: str, expected_rev: int | None
+def _authorized_context(
+    session: Session, workspace: Workspace, task_id: str, point_id: str
 ) -> tuple[InspectionTask, dict, Point]:
     task = get_task(session, workspace, task_id)
-    require_revision(expected_rev, task)
     if workspace.actor.role != task.plan_snapshot.get("executorRole"):
         raise AppError("ROLE_FORBIDDEN", "当前身份不是该任务的执行角色", 403)
     result = next((row for row in task.results or [] if row.get("pointId") == point_id), None)
@@ -39,6 +38,21 @@ def _task_context(
     point = point_of(session, workspace, point_id)
     if point.building_id != task.building_id:
         raise AppError("SCOPE_FORBIDDEN", "任务点位超出任务楼栋", 403)
+    return task, result, point
+
+
+def authorize_task_write(
+    session: Session, workspace: Workspace, task_id: str, point_id: str
+) -> None:
+    """Receipt replay must pass current target authorization without checking old rev."""
+    _authorized_context(session, workspace, task_id, point_id)
+
+
+def _task_context(
+    session: Session, workspace: Workspace, task_id: str, point_id: str, expected_rev: int | None
+) -> tuple[InspectionTask, dict, Point]:
+    task, result, point = _authorized_context(session, workspace, task_id, point_id)
+    require_revision(expected_rev, task)
     return task, result, point
 
 
