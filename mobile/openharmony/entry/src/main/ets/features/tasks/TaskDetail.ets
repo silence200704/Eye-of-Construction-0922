@@ -1,6 +1,7 @@
 import { AppState } from '../../shared/state/AppState';
 import { InspectionTask, TaskAttempt } from '../../data/models/Tasks';
 import { TaskWrite, TaskCommandResult } from '../../data/models/Inspection';
+import { ReportTarget } from '../../data/models/Reports';
 import { Theme } from '../../shared/theme/Theme';
 import { PageStage } from '../../shared/playful/PageStage';
 import { PageHeading } from '../../shared/playful/PageHeading';
@@ -16,6 +17,7 @@ export struct TaskDetail {
   onSubmit: (request: TaskWrite) => Promise<TaskCommandResult | undefined> = async () => undefined;
   onRetry: () => Promise<TaskCommandResult | undefined> = async () => undefined;
   onReload: () => void = () => {};
+  onReport: (target: ReportTarget) => void = () => {};
 
   aboutToAppear(): void {
     this.selectedPoint = this.task()?.planSnapshot.pointIds[0] ?? '';
@@ -90,7 +92,9 @@ export struct TaskDetail {
           Text('当前身份可查看任务；请切换为任务指定的执行身份办理。').fontSize(14).fontColor(Theme.warning).id('task-readonly');
         } else if (this.selectedPoint) {
           CheckEditor({ state: this.state, task: this.task()!, pointId: this.selectedPoint,
-            onSubmit: this.onSubmit, onRetry: this.onRetry, onReload: this.onReload });
+            onSubmit: this.onSubmit, onRetry: this.onRetry, onReload: this.onReload,
+            onReport: () => this.onReport({ pointId: this.selectedPoint, taskId: this.taskId, expectedRev: this.task()!.rev,
+              buildingId: this.task()!.buildingId, floorId: this.state.workspace.points.find((row) => row.id === this.selectedPoint)?.floorId ?? '' }) });
         }
         this.attempts();
       } else {

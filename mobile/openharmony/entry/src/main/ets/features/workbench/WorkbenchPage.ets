@@ -5,6 +5,7 @@ import { MetricTile } from '../../shared/components/MetricTile';
 import { PageStage } from '../../shared/playful/PageStage';
 import { StoryHero } from '../../shared/playful/StoryHero';
 import { ActionTile } from '../../shared/playful/ActionTile';
+import { PlayButton } from '../../shared/playful/PlayButton';
 import { activePoints, openEvents, timeText } from '../../shared/format/display';
 
 @Component
@@ -12,6 +13,7 @@ export struct WorkbenchPage {
   @Prop state: AppState;
   onTab: (index: number) => void = () => {};
   onRefresh: () => void = () => {};
+  onIssues: () => void = () => {};
 
   @Builder
   header() {
@@ -57,6 +59,10 @@ export struct WorkbenchPage {
           value: this.state.mode === 'ready' ? String(openEvents(this.state.workspace).length) : '—' }).layoutWeight(1);
       }.width('100%');
       this.shortcuts();
+      if (this.state.mode === 'ready') {
+        PlayButton({ title: `现场发现 · 当前 ${this.state.workspace.issues.length} 条`, secondary: true,
+          controlId: 'home-issues', onAction: this.onIssues });
+      }
       Text(this.state.mode === 'ready' ? `服务端读取于 ${timeText(this.state.loadedAt)}` : '连接后显示当前身份可见的数据')
         .fontSize(11).fontColor(Theme.secondary);
     }

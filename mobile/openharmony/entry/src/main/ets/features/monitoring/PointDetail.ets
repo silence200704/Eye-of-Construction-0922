@@ -1,5 +1,7 @@
 import { Point, Device, MonitorRecord } from '../../data/models/Monitoring';
 import { AppState } from '../../shared/state/AppState';
+import { ReportTarget } from '../../data/models/Reports';
+import { PlayButton } from '../../shared/playful/PlayButton';
 import { Theme } from '../../shared/theme/Theme';
 import { AppCard } from '../../shared/components/AppCard';
 import { PageStage } from '../../shared/playful/PageStage';
@@ -9,6 +11,7 @@ import { latestRecord, reading, label, timeText, pointLocation, freshness } from
 export struct PointDetail {
   @Prop state: AppState;
   @Prop pointId: string;
+  onReport: (target: ReportTarget) => void = () => {};
 
   point(): Point | undefined {
     return this.state.workspace.points.find((point) => point.id === this.pointId && point.status === 'active');
@@ -61,6 +64,8 @@ export struct PointDetail {
     PageStage() {
         if (this.state.mode === 'ready' && this.point()) {
           this.current();
+          PlayButton({ title: '记录这个测点的现场发现', secondary: true, controlId: 'point-report', onAction: () => this.onReport({
+            pointId: this.pointId, buildingId: this.point()!.buildingId, floorId: this.point()!.floorId, taskId: '', expectedRev: 0 }) });
           this.devices();
           Text('最近载入记录').fontSize(22).fontWeight(FontWeight.Medium).fontColor(Theme.text);
           ForEach(this.records(), (record: MonitorRecord) => { this.recordCard(record); }, (record: MonitorRecord) => record.id);

@@ -35,3 +35,10 @@ test('task origin uses its original revision; photo ownership ids stay stable', 
   const copy = draft.copy(); copy.description = 'changed'; copy.photos[0].mediaId = 'changed'
   assert.equal(draft.photos[0].mediaId, 'server-media'); assert.notEqual(copy.description, draft.description)
 })
+
+test('empty location, missing fields, duplicate photo and oversized image cannot become a report', () => {
+ const draft = new ReportDraft({ ...target, buildingId: '' })
+ assert.match(draft.validate(), /位置|楼栋|测点/)
+ draft.target.buildingId = 'b1'; assert.match(draft.validate(), /类型|描述/)
+ draft.add(photo('same')); assert.throws(() => draft.add(photo('same')), /重复/)
+})

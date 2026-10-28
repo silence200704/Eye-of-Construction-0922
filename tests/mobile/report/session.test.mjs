@@ -152,3 +152,22 @@ test('late report response after context reset does not resurrect a submitted is
  await waiting
  assert.equal(f.current().draft, null); assert.equal(f.current().issue, null)
 })
+
+test('inactive service and wrong task role never start an executable report', async () => {
+ const f = setup(); f.session.deactivate()
+ f.access.workspace.tasks = [{id:'t',planSnapshot:{executorRole:'repair',pointIds:['p1']}}]
+ assert.equal(f.session.start({...target,taskId:'t',expectedRev:1}), false)
+ assert.equal(await f.session.submit(), undefined)
+ assert.equal(await f.session.retry(), undefined)
+})
+
+test('reactive report view carries preview metadata only, never an ArrayBuffer or upload object', async () => {
+ const f = setup(); await f.session.choose(async () => photo())
+ const preview = f.current().draft.photos[0]
+ assert.equal(preview.size, 3)
+ assert.equal(preview.uri, 'file://preview')
+ assert.equal(preview.prepared, undefined)
+ assert.equal(preview.bytes, undefined)
+ await f.session.submit()
+ assert.equal(f.current().phase, 'done')
+})

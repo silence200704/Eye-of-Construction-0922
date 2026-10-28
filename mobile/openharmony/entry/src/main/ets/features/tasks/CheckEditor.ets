@@ -23,6 +23,7 @@ export struct CheckEditor {
   onSubmit: (request: TaskWrite) => Promise<TaskCommandResult | undefined> = async () => undefined;
   onRetry: () => Promise<TaskCommandResult | undefined> = async () => undefined;
   onReload: () => void = () => {};
+  onReport: () => void = () => {};
 
   aboutToAppear(): void { this.active = true; this.switchPoint(); }
   aboutToDisappear(): void { this.active = false; }
@@ -106,8 +107,8 @@ export struct CheckEditor {
         TextArea({ text: this.draft.noIssueReason, placeholder: '仅在确认无需另建问题时填写依据，不能以此跳过实际处置' })
           .height(112).fontSize(14).backgroundColor(Theme.surface).enabled(!this.locked())
           .onChange((value: string) => this.field('noIssueReason', value)).id('inspection-no-issue-reason');
-        Text('需要新问题或照片时，请先通过Web任务上报；App上报入口仍在后续批次接入。')
-          .fontSize(11).fontColor(Theme.warning);
+        PlayButton({ title: '上报这处异常，附上现场照片', secondary: true, available: !this.locked(),
+          controlId: 'inspection-report', onAction: this.onReport });
       }
     }
   }
