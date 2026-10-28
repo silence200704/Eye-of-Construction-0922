@@ -56,7 +56,7 @@ files.forEach(inspect)
 const result = { parser: `OpenHarmony SDK TypeScript ${ts.version}, ScriptKind.ETS`,
   scope: ['mobile/openharmony', 'tests/mobile', 'scripts/mobile'], files: files.length, functions,
   maxFile, maxFunction, violations }
-const directory = resolve('docs/implementation/evidence/stage8-playful/builds')
+const directory = resolve(process.env.ZHUTONG_NATIVE_EVIDENCE || 'docs/implementation/evidence/stage8-playful', 'builds')
 mkdirSync(directory, { recursive: true })
 writeFileSync(join(directory, 'structure-native.json'), JSON.stringify(result, null, 2) + '\n')
 console.log(JSON.stringify(result))

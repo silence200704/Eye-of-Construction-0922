@@ -71,6 +71,8 @@ def target_center(rows, key):
 
 
 def click_id(options, key, direction='down'):
+    if key.startswith('tab-'):
+        hide_keyboard(options)
     for attempt in range(5):
         rows = observe(options)
         try:
@@ -91,8 +93,8 @@ def click_id(options, key, direction='down'):
                     x, str(int(top + (bottom - top) * end)))
 
 
-def replace_text(options, key, text):
-    click_id(options, key, 'up')
+def replace_text(options, key, text, direction='up'):
+    click_id(options, key, direction)
     dismiss_input_consent(options, key)
     # SDK20 keyCode.KEYCODE_CTRL_LEFT + KEYCODE_A selects the existing text.
     command(options, 'shell', 'uitest', 'uiInput', 'keyEvent', '2072', '2017')
@@ -101,6 +103,16 @@ def replace_text(options, key, text):
     matching = [row for row in rows if row.get('id') == key]
     if len(matching) != 1 or matching[0].get('text') != text:
         raise ValueError('Native TextInput value did not match requested replacement')
+    hide_keyboard(options)
+
+
+def hide_keyboard(options):
+    command(options, 'shell', 'uitest', 'dumpLayout', '-p', '/data/local/tmp/zhutong-keyboard.json')
+    target = RUNTIME / 'keyboard.json'
+    command(options, 'file', 'recv', '/data/local/tmp/zhutong-keyboard.json', str(target.resolve()))
+    rows = flatten(json.loads(target.read_text(encoding='utf-8')))
+    if any(row.get('bundleName') == 'com.huawei.hmos.inputmethod' and row.get('visible') == 'true' for row in rows):
+        command(options, 'shell', 'uitest', 'uiInput', 'keyEvent', 'Back')
 
 
 def dismiss_input_consent(options, field):
@@ -113,8 +125,10 @@ def dismiss_input_consent(options, field):
         target = RUNTIME / 'input-consent.json'
         command(options, 'file', 'recv', '/data/local/tmp/zhutong-input-consent.json', str(target.resolve()))
         system_rows = flatten(json.loads(target.read_text(encoding='utf-8')))
-        known = [row for row in system_rows if row.get('id') in
-                 ['Paf.Permission.button_cancel', 'advanced_dialog_button_2'] and row.get('visible') == 'true']
+        # The simulator may report the covered first dialog as visible too.
+        exit_button = [row for row in system_rows if row.get('id') == 'advanced_dialog_button_2' and row.get('visible') == 'true']
+        known = exit_button or [row for row in system_rows
+                                if row.get('id') == 'Paf.Permission.button_cancel' and row.get('visible') == 'true']
         if len(known) != 1 or known[0].get('text') not in ['取消', '退出应用']:
             raise ValueError('Unexpected system overlay; no consent action was taken')
         command(options, 'shell', 'uitest', 'uiInput', 'click', *target_center(system_rows, known[0]['id']))

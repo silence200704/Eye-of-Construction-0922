@@ -1,0 +1,125 @@
+{
+  "id": "plan_3e1ba9ac18224a019cc91b648e74a16d@2026-10-28T01:00:00+00:00",
+  "taskNo": "TK-20261028-001",
+  "planId": "plan_3e1ba9ac18224a019cc91b648e74a16d",
+  "buildingId": "bld_dacc0f32c89f42199ab1235fd9201483",
+  "planSnapshot": {
+    "planCode": "PLAN-20261028-001",
+    "planName": "原生巡检·闭环验收",
+    "executorRole": "inspector",
+    "buildingId": "bld_dacc0f32c89f42199ab1235fd9201483",
+    "floorIds": [
+      "flr_1eb2cf9ef9e540cc986e46346a94d77f"
+    ],
+    "pointIds": [
+      "pnt_f7eb9225d285409787b25c1fc8fd570c",
+      "pnt_9e5bc7692e634352b9d16b5a3cf68ef2"
+    ],
+    "checklist": [
+      {
+        "key": "wall",
+        "label": "墙面与结构外观",
+        "required": true,
+        "hint": "查看裂缝、起鼓与松动"
+      },
+      {
+        "key": "passage",
+        "label": "通道与门窗",
+        "required": true,
+        "hint": "核对通道和门窗状态"
+      }
+    ]
+  },
+  "plannedAt": "2026-10-28T01:00:00+00:00",
+  "dueAt": "2026-10-28T15:59:59+00:00",
+  "status": "partial",
+  "results": [
+    {
+      "pointId": "pnt_f7eb9225d285409787b25c1fc8fd570c",
+      "status": "completed",
+      "checkedAt": "2026-10-28T06:22:20.133637+00:00",
+      "method": "manual",
+      "labelRead": "TAG-NATIVE-1",
+      "labelExpected": "TAG-NATIVE-1",
+      "labelVersion": 1,
+      "fallbackReason": "标签损坏后人工核对登记编号",
+      "attempts": [
+        {
+          "at": "2026-10-28T06:21:59.662474+00:00",
+          "method": "nfc",
+          "labelRead": "WRONG-TAG",
+          "labelExpected": "TAG-NATIVE-1",
+          "labelVersion": null,
+          "fallbackReason": "",
+          "passed": false,
+          "message": "标签编号不一致：读到 WRONG-TAG，该点位登记为 TAG-NATIVE-1。错点不计入到点，已留痕"
+        },
+        {
+          "at": "2026-10-28T06:22:20.133637+00:00",
+          "method": "manual",
+          "labelRead": "TAG-NATIVE-1",
+          "labelExpected": "TAG-NATIVE-1",
+          "labelVersion": 1,
+          "fallbackReason": "标签损坏后人工核对登记编号",
+          "passed": true,
+          "message": "人工兜底核对通过（标签 TAG-NATIVE-1 v1）"
+        }
+      ],
+      "checklist": [
+        {
+          "key": "wall",
+          "label": "墙面与结构外观",
+          "result": "abnormal",
+          "note": ""
+        },
+        {
+          "key": "passage",
+          "label": "通道与门窗",
+          "result": "ok",
+          "note": ""
+        }
+      ],
+      "abnormalHandling": {
+        "linkedIssueId": null,
+        "reason": "验收模拟的旧修补痕迹已核查稳定无需另建问题"
+      },
+      "issueIds": []
+    },
+    {
+      "pointId": "pnt_9e5bc7692e634352b9d16b5a3cf68ef2",
+      "status": "pending",
+      "checkedAt": null,
+      "method": null,
+      "labelRead": "",
+      "labelExpected": "",
+      "labelVersion": null,
+      "fallbackReason": "",
+      "attempts": [],
+      "checklist": [
+        {
+          "key": "wall",
+          "label": "墙面与结构外观",
+          "result": null,
+          "note": ""
+        },
+        {
+          "key": "passage",
+          "label": "通道与门窗",
+          "result": null,
+          "note": ""
+        }
+      ],
+      "abnormalHandling": {
+        "linkedIssueId": null,
+        "reason": ""
+      },
+      "issueIds": []
+    }
+  ],
+  "issueIds": [],
+  "createdAt": "2026-10-28T06:08:07.826376+00:00",
+  "createdBy": "演示学校安全管理人员",
+  "updatedAt": "2026-10-28T06:24:39.789690+00:00",
+  "updatedBy": "演示巡检人员",
+  "rev": 4
+}

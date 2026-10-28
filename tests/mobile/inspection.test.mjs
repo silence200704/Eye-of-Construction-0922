@@ -143,3 +143,52 @@ test('task reload rechecks authorization after rows arrive and cannot publish a 
   assert.equal(f.current().user, null)
   assert.deepEqual(f.current().workspace.tasks, [])
 })
+
+test('local role and task boundaries reject writes before contacting a mutation endpoint', async () => {
+  const f = await setup()
+  f.task.planSnapshot.executorRole = 'repair'
+  await f.controller.submitInspection(write())
+  assert.equal(f.current().command.phase, 'error')
+  f.task.planSnapshot.executorRole = 'inspector'
+  await f.controller.submitInspection({ ...write(), pointId: 'unrelated' })
+  assert.equal(f.current().command.phase, 'error')
+  f.current().workspace.points[0].status = 'archived'
+  await f.controller.submitInspection(write())
+  assert.equal(f.current().command.phase, 'error')
+  assert.ok(!f.server.calls.some(call => call.path.endsWith('/check-in')))
+})
+
+test('unknown write survives a role round-trip and explicitly retries the old request only under its original identity', async () => {
+  const f = await setup(), sent = []
+  f.server.intercept = call => {
+    if (call.path.endsWith('/inspection/tasks')) return { ok: true, data: [f.task], meta: { datasetEpoch: 1 } }
+    if (call.path.endsWith('/check-in')) {
+      sent.push(call)
+      if (sent.length === 1) throw new ApiError('NETWORK_UNAVAILABLE', '响应未知')
+      return respond(f)
+    }
+  }
+  await f.controller.submitInspection(write())
+  await f.controller.select('demo-device')
+  assert.equal(await f.controller.retryInspection(), undefined)
+  await f.controller.select('demo-inspector')
+  assert.equal(f.current().command.phase, 'unknown')
+  await f.controller.retryInspection()
+  assert.equal(sent.length, 2)
+  assert.equal(sent[0].options.idempotencyKey, sent[1].options.idempotencyKey)
+  assert.ok(sent.every(call => call.role === 'inspector'))
+})
+
+test('server validation errors are definitive, while malformed successful responses keep a retryable immutable request', async () => {
+  const f = await setup()
+  f.server.intercept = call => {
+    if (call.path.endsWith('/check-in')) throw new ApiError('VALIDATION_FAILED', '校验未通过', 422)
+  }
+  await f.controller.submitInspection(write())
+  assert.equal(f.current().command.phase, 'error')
+  f.server.intercept = call => call.path.endsWith('/check-in')
+    ? { ok: true, data: {}, meta: { datasetEpoch: 1 } } : undefined
+  await f.controller.submitInspection(write())
+  assert.equal(f.current().command.phase, 'unknown')
+  assert.equal(f.current().workspace.tasks[0].rev, 1)
+})

@@ -3,6 +3,7 @@
 import ast
 import hashlib
 import json
+import os
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
@@ -51,7 +52,8 @@ def check_artwork():
 
 def run():
     result = {'python': check_python(), 'artwork': check_artwork()}
-    output = ROOT / 'docs/implementation/evidence/stage8-playful/builds/structure-assets.json'
+    evidence = Path(os.environ.get('ZHUTONG_NATIVE_EVIDENCE', ROOT / 'docs/implementation/evidence/stage8-playful'))
+    output = evidence / 'builds/structure-assets.json'
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(result, indent=2) + '\n', encoding='utf-8')
     print(json.dumps(result))

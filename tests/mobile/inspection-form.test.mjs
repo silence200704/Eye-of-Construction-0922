@@ -25,6 +25,9 @@ test('manual arrival needs a reason, a read tag and a matching expected task rev
   assert.ok(form.validate('check-in', task, 'P2').includes('原因'))
   form.fallbackReason = '标签损坏，人工核对'
   assert.equal(form.validate('check-in', task, 'P2'), '')
+  const payload = JSON.parse(form.request('check-in', task.id, 'P2').body)
+  assert.equal(payload.method, 'manual')
+  assert.equal(payload.fallbackReason, form.fallbackReason)
   assert.ok(form.validate('check-in', { ...task, rev: 4 }, 'P2').includes('版本'))
 })
 
