@@ -25,6 +25,15 @@ def completed_command(api: FieldApi, action: str) -> tuple[str, dict, dict]:
     }
     if action == "check-in":
         body = arrival
+    elif action == "issues":
+        body = {
+            "expectedRev": task["rev"],
+            "pointId": point["id"],
+            "anomalyType": "墙面异常",
+            "description": "巡检回执权限核验场景",
+            "submissionId": "native-replay-issue",
+            "photos": [],
+        }
     else:
         task = api.ok_post(
             f"/inspection/tasks/{task['id']}/check-in", arrival, "replay-arrive", "demo-inspector"
@@ -57,7 +66,7 @@ def change_authorization(database_url: str, change: str, point_id: str) -> None:
     engine.dispose()
 
 
-@pytest.mark.parametrize("action", ["check-in", "complete-point"])
+@pytest.mark.parametrize("action", ["check-in", "complete-point", "issues"])
 @pytest.mark.parametrize("change", ["scope", "role", "archived"])
 def test_task_receipt_replay_rechecks_current_authorization(client, settings, action, change):
     api = FieldApi(client, str(settings.database_url))
@@ -69,7 +78,7 @@ def test_task_receipt_replay_rechecks_current_authorization(client, settings, ac
     assert counts(str(settings.database_url), "tasks", "audits", "operation_receipts") == before
 
 
-@pytest.mark.parametrize("action", ["check-in", "complete-point"])
+@pytest.mark.parametrize("action", ["check-in", "complete-point", "issues"])
 def test_authorized_replay_allows_original_stale_revision_without_duplicate_writes(
     client, settings, action
 ):

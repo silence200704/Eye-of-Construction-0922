@@ -224,7 +224,7 @@ def readonly():
 def finish():
     connect('http://127.0.0.1:18080')
     p.click('tab-3')
-    p.click('identity-demo-safety', 'up')
+    p.click('identity-demo-safety')
     p.click('tab-0')
     p.expect('学校安全管理人员')
     capture('delivery-home')
