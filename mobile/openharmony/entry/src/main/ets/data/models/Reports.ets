@@ -50,6 +50,7 @@ export interface IssueRecord {
   pointId: string | null;
   buildingId: string;
   taskId: string | null;
+  source?: string;
   anomalyType: string;
   description: string;
   status: string;

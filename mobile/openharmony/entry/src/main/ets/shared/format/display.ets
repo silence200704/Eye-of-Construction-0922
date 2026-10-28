@@ -7,6 +7,7 @@ const LABELS: Map<string, string> = new Map([
   ['normal', '判定正常'], ['yellow', '黄色关注'], ['orange', '橙色排查'], ['red', '红色紧急核查'],
   ['insufficient', '数据不足'], ['excluded', '不参与判定'],
   ['pending', '待检查'], ['checked', '已检查'], ['partial', '部分完成'], ['missed', '逾期未检'],
+  ['pending_review', '待审核'], ['investigating', '专业排查中'], ['pending_recheck', '待复查'], ['observing', '观察中'],
   ['created', '待派工'], ['assigned', '待接单'], ['repairing', '处理中'], ['submitted', '待验收'],
   ['verified', '验收通过'], ['returned', '验收退回'], ['handling', '处理中'], ['recovering', '恢复待确认'], ['closed', '已关闭'],
   ['online', '在线（模拟）'], ['offline', '离线（模拟）'], ['unknown', '未知'],
