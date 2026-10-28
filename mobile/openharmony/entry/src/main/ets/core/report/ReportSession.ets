@@ -102,7 +102,7 @@ export class ReportSession {
   }
 
   private failed(cause: ApiError, phase: string): void {
-    if (['AUTHORIZATION_CHANGED', 'EPOCH_CHANGED', 'DATASET_EPOCH_CONFLICT'].includes(cause.code) || [401, 403].includes(cause.status ?? 0)) {
+    if (['CANCELLED', 'AUTHORIZATION_CHANGED', 'EPOCH_CHANGED', 'DATASET_EPOCH_CONFLICT'].includes(cause.code) || [401, 403].includes(cause.status ?? 0)) {
       this.deactivate(); this.options.invalidate(errorMessage(cause as Error)); return;
     }
     this.phase(phase, errorMessage(cause as Error));
