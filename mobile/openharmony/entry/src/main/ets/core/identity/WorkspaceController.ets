@@ -1,7 +1,7 @@
 import { Identity, IdentitySession } from '../../data/models/Identity';
 import { ApiClient, ClientSettings } from '../../data/models/Http';
 import { readWorkspace } from '../../data/repositories/WorkspaceRepository';
-import { emptyWorkspace } from '../../data/models/Workspace';
+import { emptyWorkspace, withTasks } from '../../data/models/Workspace';
 import { InspectionTask } from '../../data/models/Tasks';
 import { TaskWrite, TaskCommandResult } from '../../data/models/Inspection';
 import { TaskCommander, TaskAccess } from '../field/TaskCommander';
@@ -46,8 +46,8 @@ export class WorkspaceController {
   private applyTask(task: InspectionTask): InspectionTask {
     const previous = this.state.workspace.tasks.find((row) => row.id === task.id);
     if (!previous || previous.rev > task.rev) return previous ?? task;
-    this.state.workspace = { ...this.state.workspace,
-      tasks: this.state.workspace.tasks.map((row) => row.id === task.id ? task : row) };
+    this.state.workspace = withTasks(this.state.workspace,
+      this.state.workspace.tasks.map((row) => row.id === task.id ? task : row));
     this.state.loadedAt = new Date().toISOString();
     this.publish();
     return task;
@@ -55,7 +55,7 @@ export class WorkspaceController {
 
   private invalidateInspection(message: string): void {
     this.commands.deactivate();
-    this.fail(this.gate.begin(), new ApiError('AUTHORIZATION_CHANGED', message));
+    this.fail(this.gate.begin(), new ApiError('AUTHORIZATION_CHANGED', message) as Error);
     this.options.onReset();
   }
 
@@ -79,7 +79,13 @@ export class WorkspaceController {
         this.invalidateInspection('演示数据已更新，请重新读取。');
         return;
       }
-      this.state.workspace = { ...this.state.workspace, tasks: response.data };
+      const confirmed = await access.client.send<Identity>('/auth/me');
+      if (this.client !== access.client) return;
+      if (authorizationOf(confirmed.data) !== authorizationOf(access.user)) {
+        this.invalidateInspection('身份授权已变化，请重新读取。');
+        return;
+      }
+      this.state.workspace = withTasks(this.state.workspace, response.data);
       this.publish();
     } catch (cause) { this.invalidateInspection(errorMessage(cause as Error)); }
   }

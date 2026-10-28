@@ -85,10 +85,10 @@ export class TaskCommander {
       this.validate(write, access);
     } catch (cause) {
       const error = cause as ApiError;
-      this.state(error.status === 409 ? 'conflict' : 'error', errorMessage(error));
+      this.state(error.status === 409 ? 'conflict' : 'error', errorMessage(error as Error));
       return undefined;
     }
-    const pending: PendingCommand = { write: { ...write }, stamp: stamp(access), sent: false,
+    const pending: PendingCommand = { write: { taskId: write.taskId, pointId: write.pointId, action: write.action, body: write.body }, stamp: stamp(access), sent: false,
       key: `native-${Date.now()}-${++this.counter}-${Math.random().toString(36).slice(2)}` };
     this.pending.set(pending.stamp, pending);
     return this.send(pending, access);
@@ -135,7 +135,7 @@ export class TaskCommander {
       }
       result.task = this.options.onTask(result.task);
       this.pending.delete(pending.stamp);
-      this.state('done', result.attempt?.message ?? '服务端已保存检查结果。', pending);
+      this.state(result.attempt?.passed === false ? 'rejected' : 'done', result.attempt?.message ?? '服务端已保存检查结果。', pending);
       return result;
     } catch (cause) {
       this.failed(pending, access, generation, cause as ApiError);
@@ -148,15 +148,15 @@ export class TaskCommander {
   private failed(pending: PendingCommand, access: TaskAccess, generation: number, cause: ApiError): void {
     if (!this.current(access, generation)) return;
     if (['AUTHORIZATION_CHANGED', 'EPOCH_CHANGED'].includes(cause.code) || cause.status === 401 || cause.status === 403) {
-      this.options.invalidate(errorMessage(cause));
+      this.options.invalidate(errorMessage(cause as Error));
       return;
     }
     if (cause.status && cause.status >= 400 && cause.status < 500) {
       this.pending.delete(pending.stamp);
-      this.state(cause.status === 409 ? 'conflict' : 'error', errorMessage(cause), pending);
+      this.state(cause.status === 409 ? 'conflict' : 'error', errorMessage(cause as Error), pending);
     } else {
       if (!pending.sent) this.pending.delete(pending.stamp);
-      this.state(pending.sent ? 'unknown' : 'error', errorMessage(cause), pending);
+      this.state(pending.sent ? 'unknown' : 'error', errorMessage(cause as Error), pending);
     }
   }
 }

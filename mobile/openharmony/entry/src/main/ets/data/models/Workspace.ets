@@ -19,3 +19,9 @@ export interface Workspace extends ArchiveSnapshot {
 export function emptyWorkspace(): Workspace {
   return { epoch: 0, buildings: [], floors: [], points: [], devices: [], records: [], events: [], tasks: [], orders: [] };
 }
+
+export function withTasks(workspace: Workspace, tasks: InspectionTask[]): Workspace {
+  return { epoch: workspace.epoch, buildings: workspace.buildings, floors: workspace.floors,
+    points: workspace.points, devices: workspace.devices, records: workspace.records,
+    events: workspace.events, orders: workspace.orders, tasks };
+}
