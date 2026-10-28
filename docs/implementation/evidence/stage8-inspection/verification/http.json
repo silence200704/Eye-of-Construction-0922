@@ -1,0 +1,119 @@
+{
+  "wrongRole403": 403,
+  "manualWithoutReasonPassed": false,
+  "beforeArrival": "CHECK_INCOMPLETE",
+  "missingRequired": "CHECK_INCOMPLETE",
+  "abnormalWithoutBasis": "CHECK_INCOMPLETE",
+  "unrelatedIssue": "CHECK_INCOMPLETE",
+  "idempotentReplayNoExtraAuditOrReceipt": true,
+  "ledger": {
+    "audits": 4,
+    "receipts": 3
+  },
+  "task": {
+    "id": "plan_6a17b61d8298463997c060f2f28372fc@2026-10-28T03:00:00+00:00",
+    "taskNo": "TK-20261028-003",
+    "planId": "plan_6a17b61d8298463997c060f2f28372fc",
+    "buildingId": "bld_dacc0f32c89f42199ab1235fd9201483",
+    "planSnapshot": {
+      "planCode": "PLAN-20261028-003",
+      "planName": "原生接口规则验收",
+      "executorRole": "inspector",
+      "buildingId": "bld_dacc0f32c89f42199ab1235fd9201483",
+      "floorIds": [
+        "flr_1eb2cf9ef9e540cc986e46346a94d77f"
+      ],
+      "pointIds": [
+        "pnt_f7eb9225d285409787b25c1fc8fd570c",
+        "pnt_9e5bc7692e634352b9d16b5a3cf68ef2"
+      ],
+      "checklist": [
+        {
+          "key": "wall",
+          "label": "墙面",
+          "required": true
+        }
+      ]
+    },
+    "plannedAt": "2026-10-28T03:00:00+00:00",
+    "dueAt": "2026-10-28T15:59:59+00:00",
+    "status": "partial",
+    "results": [
+      {
+        "pointId": "pnt_f7eb9225d285409787b25c1fc8fd570c",
+        "status": "completed",
+        "checkedAt": "2026-10-28T06:20:52.476551+00:00",
+        "method": "manual",
+        "labelRead": "TAG-NATIVE-1",
+        "labelExpected": "TAG-NATIVE-1",
+        "labelVersion": 1,
+        "fallbackReason": "标签损坏，现场人工核对",
+        "attempts": [
+          {
+            "at": "2026-10-28T06:20:52.444860+00:00",
+            "method": "manual",
+            "labelRead": "TAG-NATIVE-1",
+            "labelExpected": "TAG-NATIVE-1",
+            "labelVersion": null,
+            "fallbackReason": "",
+            "passed": false,
+            "message": "人工兜底签到必须填写原因（例如读卡失败、标签损坏），否则不予到点"
+          },
+          {
+            "at": "2026-10-28T06:20:52.476551+00:00",
+            "method": "manual",
+            "labelRead": "TAG-NATIVE-1",
+            "labelExpected": "TAG-NATIVE-1",
+            "labelVersion": 1,
+            "fallbackReason": "标签损坏，现场人工核对",
+            "passed": true,
+            "message": "人工兜底核对通过（标签 TAG-NATIVE-1 v1）"
+          }
+        ],
+        "checklist": [
+          {
+            "key": "wall",
+            "label": "墙面",
+            "result": "ok",
+            "note": "已检查"
+          }
+        ],
+        "abnormalHandling": {
+          "linkedIssueId": null,
+          "reason": ""
+        },
+        "issueIds": []
+      },
+      {
+        "pointId": "pnt_9e5bc7692e634352b9d16b5a3cf68ef2",
+        "status": "pending",
+        "checkedAt": null,
+        "method": null,
+        "labelRead": "",
+        "labelExpected": "",
+        "labelVersion": null,
+        "fallbackReason": "",
+        "attempts": [],
+        "checklist": [
+          {
+            "key": "wall",
+            "label": "墙面",
+            "result": null,
+            "note": ""
+          }
+        ],
+        "abnormalHandling": {
+          "linkedIssueId": null,
+          "reason": ""
+        },
+        "issueIds": []
+      }
+    ],
+    "issueIds": [],
+    "createdAt": "2026-10-28T06:20:52.374137+00:00",
+    "createdBy": "演示学校安全管理人员",
+    "updatedAt": "2026-10-28T06:20:52.578624+00:00",
+    "updatedBy": "演示巡检人员",
+    "rev": 4
+  }
+}

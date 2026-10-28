@@ -1,0 +1,327 @@
+{
+  "api": "http://127.0.0.1:18003",
+  "gateway": "http://127.0.0.1:18004",
+  "epoch": 1,
+  "hardware": "simulated",
+  "building": {
+    "id": "bld_516aabd3a28446248743c534b5a23c53",
+    "code": "N1028062837",
+    "name": "原生验收校园楼",
+    "purpose": "教学",
+    "buildYear": null,
+    "floorCount": null,
+    "area": null,
+    "structureType": "",
+    "managerUnit": "",
+    "userUnit": "",
+    "owner": "",
+    "ownerPhone": "",
+    "backupPerson": "",
+    "source": "",
+    "footprint": {
+      "x": 0.4,
+      "y": 0.4,
+      "w": 0.2,
+      "h": 0.2,
+      "rotate": 0
+    },
+    "dataSource": "demo",
+    "remark": "",
+    "status": "active",
+    "archiveReason": "",
+    "archivedAt": null,
+    "archivedBy": "",
+    "createdAt": "2026-10-28T06:28:37.275149+00:00",
+    "createdBy": "演示学校安全管理人员",
+    "updatedAt": "2026-10-28T06:28:37.275149+00:00",
+    "updatedBy": "演示学校安全管理人员",
+    "rev": 1
+  },
+  "points": [
+    {
+      "id": "pnt_298d11d52f974193889f0bd03f15144e",
+      "code": "N1028062837-P1",
+      "name": "走廊1号人工检查点",
+      "buildingId": "bld_516aabd3a28446248743c534b5a23c53",
+      "floorId": "flr_f1bc9e9254254dbd93f931028444b894",
+      "zoneId": "",
+      "type": "manual_check",
+      "metric": "inspection",
+      "coord": {
+        "x": 0.4,
+        "y": 0.4
+      },
+      "nfc": {
+        "code": "TAG-NATIVE-1028062837-1",
+        "version": 1,
+        "boundAt": "2026-10-28T06:28:37.335926+00:00",
+        "boundBy": "演示学校安全管理人员",
+        "remark": "建档时绑定"
+      },
+      "planVersion": 1,
+      "locationHistory": [],
+      "owner": "",
+      "backupPerson": "",
+      "installDate": "",
+      "dataSource": "demo",
+      "remark": "",
+      "status": "active",
+      "archiveReason": "",
+      "archivedAt": null,
+      "archivedBy": "",
+      "createdAt": "2026-10-28T06:28:37.335926+00:00",
+      "createdBy": "演示学校安全管理人员",
+      "updatedAt": "2026-10-28T06:28:37.335926+00:00",
+      "updatedBy": "演示学校安全管理人员",
+      "rev": 1
+    },
+    {
+      "id": "pnt_625c2e2fbcf348a884f3f7996bec9235",
+      "code": "N1028062837-P2",
+      "name": "走廊2号人工检查点",
+      "buildingId": "bld_516aabd3a28446248743c534b5a23c53",
+      "floorId": "flr_f1bc9e9254254dbd93f931028444b894",
+      "zoneId": "",
+      "type": "manual_check",
+      "metric": "inspection",
+      "coord": {
+        "x": 0.5,
+        "y": 0.4
+      },
+      "nfc": {
+        "code": "TAG-NATIVE-1028062837-2",
+        "version": 1,
+        "boundAt": "2026-10-28T06:28:37.368082+00:00",
+        "boundBy": "演示学校安全管理人员",
+        "remark": "建档时绑定"
+      },
+      "planVersion": 1,
+      "locationHistory": [],
+      "owner": "",
+      "backupPerson": "",
+      "installDate": "",
+      "dataSource": "demo",
+      "remark": "",
+      "status": "active",
+      "archiveReason": "",
+      "archivedAt": null,
+      "archivedBy": "",
+      "createdAt": "2026-10-28T06:28:37.368082+00:00",
+      "createdBy": "演示学校安全管理人员",
+      "updatedAt": "2026-10-28T06:28:37.368082+00:00",
+      "updatedBy": "演示学校安全管理人员",
+      "rev": 1
+    }
+  ],
+  "tasks": [
+    {
+      "id": "plan_4e49546d2436474fb1fe5d8a2313b034@2026-10-28T01:00:00+00:00",
+      "taskNo": "TK-20261028-004",
+      "planId": "plan_4e49546d2436474fb1fe5d8a2313b034",
+      "buildingId": "bld_516aabd3a28446248743c534b5a23c53",
+      "planSnapshot": {
+        "planCode": "PLAN-20261028-004",
+        "planName": "原生巡检·闭环验收",
+        "executorRole": "inspector",
+        "buildingId": "bld_516aabd3a28446248743c534b5a23c53",
+        "floorIds": [
+          "flr_f1bc9e9254254dbd93f931028444b894"
+        ],
+        "pointIds": [
+          "pnt_298d11d52f974193889f0bd03f15144e",
+          "pnt_625c2e2fbcf348a884f3f7996bec9235"
+        ],
+        "checklist": [
+          {
+            "key": "wall",
+            "label": "墙面与结构外观",
+            "required": true,
+            "hint": "查看裂缝、起鼓与松动"
+          },
+          {
+            "key": "passage",
+            "label": "通道与门窗",
+            "required": true,
+            "hint": "核对通道和门窗状态"
+          }
+        ]
+      },
+      "plannedAt": "2026-10-28T01:00:00+00:00",
+      "dueAt": "2026-10-28T15:59:59+00:00",
+      "status": "pending",
+      "results": [
+        {
+          "pointId": "pnt_298d11d52f974193889f0bd03f15144e",
+          "status": "pending",
+          "checkedAt": null,
+          "method": null,
+          "labelRead": "",
+          "labelExpected": "",
+          "labelVersion": null,
+          "fallbackReason": "",
+          "attempts": [],
+          "checklist": [
+            {
+              "key": "wall",
+              "label": "墙面与结构外观",
+              "result": null,
+              "note": ""
+            },
+            {
+              "key": "passage",
+              "label": "通道与门窗",
+              "result": null,
+              "note": ""
+            }
+          ],
+          "abnormalHandling": {
+            "linkedIssueId": null,
+            "reason": ""
+          },
+          "issueIds": []
+        },
+        {
+          "pointId": "pnt_625c2e2fbcf348a884f3f7996bec9235",
+          "status": "pending",
+          "checkedAt": null,
+          "method": null,
+          "labelRead": "",
+          "labelExpected": "",
+          "labelVersion": null,
+          "fallbackReason": "",
+          "attempts": [],
+          "checklist": [
+            {
+              "key": "wall",
+              "label": "墙面与结构外观",
+              "result": null,
+              "note": ""
+            },
+            {
+              "key": "passage",
+              "label": "通道与门窗",
+              "result": null,
+              "note": ""
+            }
+          ],
+          "abnormalHandling": {
+            "linkedIssueId": null,
+            "reason": ""
+          },
+          "issueIds": []
+        }
+      ],
+      "issueIds": [],
+      "createdAt": "2026-10-28T06:28:37.389647+00:00",
+      "createdBy": "演示学校安全管理人员",
+      "updatedAt": "2026-10-28T06:28:37.389647+00:00",
+      "updatedBy": "演示学校安全管理人员",
+      "rev": 1
+    },
+    {
+      "id": "plan_81a8eea2b6d342f894fc48faf00020b6@2026-10-28T01:00:00+00:00",
+      "taskNo": "TK-20261028-005",
+      "planId": "plan_81a8eea2b6d342f894fc48faf00020b6",
+      "buildingId": "bld_516aabd3a28446248743c534b5a23c53",
+      "planSnapshot": {
+        "planCode": "PLAN-20261028-005",
+        "planName": "原生巡检·冲突重试",
+        "executorRole": "inspector",
+        "buildingId": "bld_516aabd3a28446248743c534b5a23c53",
+        "floorIds": [
+          "flr_f1bc9e9254254dbd93f931028444b894"
+        ],
+        "pointIds": [
+          "pnt_298d11d52f974193889f0bd03f15144e",
+          "pnt_625c2e2fbcf348a884f3f7996bec9235"
+        ],
+        "checklist": [
+          {
+            "key": "wall",
+            "label": "墙面与结构外观",
+            "required": true,
+            "hint": "查看裂缝、起鼓与松动"
+          },
+          {
+            "key": "passage",
+            "label": "通道与门窗",
+            "required": true,
+            "hint": "核对通道和门窗状态"
+          }
+        ]
+      },
+      "plannedAt": "2026-10-28T01:00:00+00:00",
+      "dueAt": "2026-10-28T15:59:59+00:00",
+      "status": "pending",
+      "results": [
+        {
+          "pointId": "pnt_298d11d52f974193889f0bd03f15144e",
+          "status": "pending",
+          "checkedAt": null,
+          "method": null,
+          "labelRead": "",
+          "labelExpected": "",
+          "labelVersion": null,
+          "fallbackReason": "",
+          "attempts": [],
+          "checklist": [
+            {
+              "key": "wall",
+              "label": "墙面与结构外观",
+              "result": null,
+              "note": ""
+            },
+            {
+              "key": "passage",
+              "label": "通道与门窗",
+              "result": null,
+              "note": ""
+            }
+          ],
+          "abnormalHandling": {
+            "linkedIssueId": null,
+            "reason": ""
+          },
+          "issueIds": []
+        },
+        {
+          "pointId": "pnt_625c2e2fbcf348a884f3f7996bec9235",
+          "status": "pending",
+          "checkedAt": null,
+          "method": null,
+          "labelRead": "",
+          "labelExpected": "",
+          "labelVersion": null,
+          "fallbackReason": "",
+          "attempts": [],
+          "checklist": [
+            {
+              "key": "wall",
+              "label": "墙面与结构外观",
+              "result": null,
+              "note": ""
+            },
+            {
+              "key": "passage",
+              "label": "通道与门窗",
+              "result": null,
+              "note": ""
+            }
+          ],
+          "abnormalHandling": {
+            "linkedIssueId": null,
+            "reason": ""
+          },
+          "issueIds": []
+        }
+      ],
+      "issueIds": [],
+      "createdAt": "2026-10-28T06:28:37.389647+00:00",
+      "createdBy": "演示学校安全管理人员",
+      "updatedAt": "2026-10-28T06:28:37.389647+00:00",
+      "updatedBy": "演示学校安全管理人员",
+      "rev": 1
+    }
+  ],
+  "scope": "Independent temporary database; delivery demo-main untouched"
+}

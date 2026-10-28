@@ -1,8 +1,9 @@
 # 筑瞳 OpenHarmony 原生 App
 
 ArkTS + ArkUI + Stage；业务包名`org.zhutong.mobile`，版本`0.8.0-dev`。
-当前完成在线只读基础和“校园守护手账”UI，包含四入口、测点详情、五身份切换、连接设置和动效偏好。
-巡检到点、问题/照片上报、工单办理仍按阶段8继续；不把已完成UI等同全部业务闭环完成。
+当前完成在线基础、“校园守护手账”UI与巡检到点/检查写入，包含四入口、测点详情、五身份切换、连接设置和动效偏好。
+任务详情支持模拟NFC/人工核对、冻结清单、必答/异常依据、逐点完成、版本冲突及原请求重试。
+问题/照片上报、工单办理、原生预警处置和统计仍按阶段8继续；不把本批完成等同整个阶段完成。
 
 ## 已核验环境
 
@@ -50,10 +51,12 @@ App“我的→校园服务连接→设置”填写提供筑瞳同源API的电�
 首次采用服务端默认演示身份，五类身份直接切换，不用账号密码。仅保存成功服务地址、身份ID和动效偏好；令牌不落盘。
 
 网络失败、身份变动或epoch不一致不会显示本地成功；旧身份在途响应会失效，完整快照载入前不展示半批数据。
-任务/工单只展示当前授权结果；历史监测不标成实时，无设备字段不填默认正常/100%电量。
+巡检只允许任务指定角色办理，其他身份只读；工单暂只展示。历史监测不标成实时，无设备字段不填默认正常/100%电量。
 
 ## 结构与复验
 
 `core`负责网络/身份/偏好，`data`负责DTO与快照读取，`features`负责页面，`shared/playful`负责8个可复用视觉组件。
 自动复验入口为`scripts/mobile/verification/playful.py`，每个phase只操作`org.zhutong.mobile`并保存SDK布局和截图。
 具体环境、结果、限制和阶段台账见`docs/implementation/handoff/reports/mobile/04-native-online-ui.md`。
+2026-10-28巡检写入及原生实测见`docs/implementation/handoff/reports/mobile/05-native-inspection.md`。
+全业务剩余项见`docs/implementation/handoff/stages/mobile/business-coverage.md`，不省略照片、问题、工单和离线流程。

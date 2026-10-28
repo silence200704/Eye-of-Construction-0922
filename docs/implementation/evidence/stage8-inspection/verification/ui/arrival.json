@@ -1,0 +1,131 @@
+{
+  "wrongTagSavedAsFailed": true,
+  "manualMissingReasonBlocked": true,
+  "arrivedIsNotCompleted": true,
+  "missingRequiredBlocked": true,
+  "task": {
+    "id": "plan_4e49546d2436474fb1fe5d8a2313b034@2026-10-28T01:00:00+00:00",
+    "taskNo": "TK-20261028-004",
+    "planId": "plan_4e49546d2436474fb1fe5d8a2313b034",
+    "buildingId": "bld_516aabd3a28446248743c534b5a23c53",
+    "planSnapshot": {
+      "planCode": "PLAN-20261028-004",
+      "planName": "原生巡检·闭环验收",
+      "executorRole": "inspector",
+      "buildingId": "bld_516aabd3a28446248743c534b5a23c53",
+      "floorIds": [
+        "flr_f1bc9e9254254dbd93f931028444b894"
+      ],
+      "pointIds": [
+        "pnt_298d11d52f974193889f0bd03f15144e",
+        "pnt_625c2e2fbcf348a884f3f7996bec9235"
+      ],
+      "checklist": [
+        {
+          "key": "wall",
+          "label": "墙面与结构外观",
+          "required": true,
+          "hint": "查看裂缝、起鼓与松动"
+        },
+        {
+          "key": "passage",
+          "label": "通道与门窗",
+          "required": true,
+          "hint": "核对通道和门窗状态"
+        }
+      ]
+    },
+    "plannedAt": "2026-10-28T01:00:00+00:00",
+    "dueAt": "2026-10-28T15:59:59+00:00",
+    "status": "pending",
+    "results": [
+      {
+        "pointId": "pnt_298d11d52f974193889f0bd03f15144e",
+        "status": "arrived",
+        "checkedAt": "2026-10-28T06:30:54.123777+00:00",
+        "method": "manual",
+        "labelRead": "TAG-NATIVE-1028062837-1",
+        "labelExpected": "TAG-NATIVE-1028062837-1",
+        "labelVersion": 1,
+        "fallbackReason": "标签损坏后人工核对登记编号",
+        "attempts": [
+          {
+            "at": "2026-10-28T06:30:33.837762+00:00",
+            "method": "nfc",
+            "labelRead": "WRONG-TAG",
+            "labelExpected": "TAG-NATIVE-1028062837-1",
+            "labelVersion": null,
+            "fallbackReason": "",
+            "passed": false,
+            "message": "标签编号不一致：读到 WRONG-TAG，该点位登记为 TAG-NATIVE-1028062837-1。错点不计入到点，已留痕"
+          },
+          {
+            "at": "2026-10-28T06:30:54.123777+00:00",
+            "method": "manual",
+            "labelRead": "TAG-NATIVE-1028062837-1",
+            "labelExpected": "TAG-NATIVE-1028062837-1",
+            "labelVersion": 1,
+            "fallbackReason": "标签损坏后人工核对登记编号",
+            "passed": true,
+            "message": "人工兜底核对通过（标签 TAG-NATIVE-1028062837-1 v1）"
+          }
+        ],
+        "checklist": [
+          {
+            "key": "wall",
+            "label": "墙面与结构外观",
+            "result": null,
+            "note": ""
+          },
+          {
+            "key": "passage",
+            "label": "通道与门窗",
+            "result": null,
+            "note": ""
+          }
+        ],
+        "abnormalHandling": {
+          "linkedIssueId": null,
+          "reason": ""
+        },
+        "issueIds": []
+      },
+      {
+        "pointId": "pnt_625c2e2fbcf348a884f3f7996bec9235",
+        "status": "pending",
+        "checkedAt": null,
+        "method": null,
+        "labelRead": "",
+        "labelExpected": "",
+        "labelVersion": null,
+        "fallbackReason": "",
+        "attempts": [],
+        "checklist": [
+          {
+            "key": "wall",
+            "label": "墙面与结构外观",
+            "result": null,
+            "note": ""
+          },
+          {
+            "key": "passage",
+            "label": "通道与门窗",
+            "result": null,
+            "note": ""
+          }
+        ],
+        "abnormalHandling": {
+          "linkedIssueId": null,
+          "reason": ""
+        },
+        "issueIds": []
+      }
+    ],
+    "issueIds": [],
+    "createdAt": "2026-10-28T06:28:37.389647+00:00",
+    "createdBy": "演示学校安全管理人员",
+    "updatedAt": "2026-10-28T06:30:54.123777+00:00",
+    "updatedBy": "演示巡检人员",
+    "rev": 3
+  }
+}

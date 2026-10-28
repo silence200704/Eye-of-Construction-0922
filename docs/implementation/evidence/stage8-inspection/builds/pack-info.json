@@ -1,0 +1,47 @@
+{
+  "summary": {
+    "app": {
+      "bundleName": "org.zhutong.mobile",
+      "bundleType": "app",
+      "version": {
+        "code": 1000000,
+        "name": "0.8.0-dev"
+      }
+    },
+    "modules": [
+      {
+        "mainAbility": "EntryAbility",
+        "deviceType": [
+          "default"
+        ],
+        "abilities": [
+          {
+            "name": "EntryAbility",
+            "label": "$string:EntryAbility_label"
+          }
+        ],
+        "distro": {
+          "moduleType": "entry",
+          "installationFree": false,
+          "deliveryWithInstall": true,
+          "moduleName": "entry"
+        },
+        "apiVersion": {
+          "compatible": 20,
+          "releaseType": "Beta1",
+          "target": 20
+        }
+      }
+    ]
+  },
+  "packages": [
+    {
+      "deviceType": [
+        "default"
+      ],
+      "moduleType": "entry",
+      "deliveryWithInstall": true,
+      "name": "entry-default"
+    }
+  ]
+}

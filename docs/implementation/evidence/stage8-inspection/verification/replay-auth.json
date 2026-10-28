@@ -1,0 +1,26 @@
+{
+  "scope": "Isolated fixture only; restored in finally",
+  "checks": [
+    {
+      "change": "scope",
+      "status": 403,
+      "code": "SCOPE_FORBIDDEN"
+    },
+    {
+      "change": "role",
+      "status": 403,
+      "code": "ROLE_FORBIDDEN"
+    },
+    {
+      "change": "archived",
+      "status": 404,
+      "code": "NOT_FOUND"
+    }
+  ],
+  "authorizedOriginalRevisionReplay": true,
+  "noExtraAuditOrReceipt": true,
+  "ledger": {
+    "audits": 4,
+    "receipts": 3
+  }
+}

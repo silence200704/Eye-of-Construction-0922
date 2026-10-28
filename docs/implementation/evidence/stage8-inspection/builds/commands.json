@@ -1,0 +1,22 @@
+{
+  "nativeBuildExit": 0,
+  "signingExit": 0,
+  "nativeTests": 41,
+  "nativeTestsExit": 0,
+  "fieldCoreNodeCoverage": {
+    "line": 95.14,
+    "branch": 87.31
+  },
+  "backendExistingContractTests": {
+    "passed": 7,
+    "exitCode": 0
+  },
+  "backendFullRegression": {
+    "passed": 278,
+    "exitCode": 0,
+    "coveragePercent": 88.88
+  },
+  "hypiumRun": false,
+  "physicalDeviceRun": false,
+  "hardware": "simulated"
+}

@@ -1,0 +1,44 @@
+✔ inspection POST carries epoch, stable operation key and an encoded task target (4.649ms)
+✔ rapid repeated clicks issue one POST while a request is in flight (0.6112ms)
+✔ unknown network outcome retries the same immutable payload and operation key (0.7572ms)
+✔ a late write response cannot publish another identity task or success (1.3221ms)
+✔ wrong task executor is rejected locally and current server principal is checked before writes (0.5179ms)
+✔ 409 does not retry or overwrite a task; an explicit reload reads current revision (0.5096ms)
+✔ HTTP 200 with a failed attempt is shown as a failed arrival and preserves server revision (0.3663ms)
+✔ mixed dataset epochs in a successful-looking write are never applied (0.8931ms)
+✖ task reload rechecks authorization after rows arrive and cannot publish a reduced-scope snapshot (2.5399ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 8
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 530.054
+
+✖ failing tests:
+
+test at tests\mobile\inspection.test.mjs:134:1
+✖ task reload rechecks authorization after rows arrive and cannot publish a reduced-scope snapshot (2.5399ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + {
+  +   buildingIds: null,
+  +   id: 'demo-inspector',
+  +   name: 'inspector',
+  +   role: 'inspector',
+  +   roleLabel: 'inspector'
+  + }
+  - null
+  
+      at TestContext.<anonymous> (file:///C:/Users/Lenovo/Desktop/demo/tests/mobile/inspection.test.mjs:143:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { id: 'demo-inspector', name: 'inspector', role: 'inspector', roleLabel: 'inspector', buildingIds: null },
+    expected: null,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

@@ -1,0 +1,155 @@
+{
+  "capturedAt": "2026-10-28T09:16:20.337551+00:00",
+  "sourceCommit": "1b0cf11cdb9b1815b69161916c8c9db90d033362",
+  "signedSha256": "af689aa49d26a4293dd7cfdc413517d8c985292fa3b80fcab7a672752215c910",
+  "sourceSha256": {
+    "mobile/openharmony/entry/src/main/ets/core/field/CheckDraft.ets": "18a47fd4f0ca8309d8aa583ea55043cda0258e51995d189009cbf42212aaa1b4",
+    "mobile/openharmony/entry/src/main/ets/core/field/TaskCommander.ets": "1ee48deffb2572326ef096e359d56882f51ccc0435b20c163240e8bc1ca38217",
+    "mobile/openharmony/entry/src/main/ets/core/identity/authorization.ets": "79884ce3ae2872adf872e9ea768f98e5919efebb75da6788c399e0a9a680d37a",
+    "mobile/openharmony/entry/src/main/ets/core/identity/SessionGate.ets": "e122b75d0f322e4b965c02ecf892e4d4870b3699dcf593e2733a871d90136bdb",
+    "mobile/openharmony/entry/src/main/ets/core/identity/WorkspaceController.ets": "2143f2c183b7e5d137d252f300828d343d5a5fd152a8f4490e81362fce902d46",
+    "mobile/openharmony/entry/src/main/ets/core/network/ApiError.ets": "97e2b4fa95eaaa8065d4a7b4cd032c8fad66919186b3b8ef308102cbfe02361b",
+    "mobile/openharmony/entry/src/main/ets/core/network/BackendClient.ets": "cbc31e5dbad5e6674e5c126eefd7ac10ad38579528b87a0125172ff32acad18b",
+    "mobile/openharmony/entry/src/main/ets/core/network/Endpoint.ets": "cc4794dbf19cf506e960c9655878663f02a3629773050e4640f2b0396a95f6eb",
+    "mobile/openharmony/entry/src/main/ets/core/storage/AppearancePreferences.ets": "e2e12185e0d59a83c704fddc7fa60b9860ca113bd7da68e078abe10719d54a9d",
+    "mobile/openharmony/entry/src/main/ets/core/storage/ConnectionPreferences.ets": "641891a89e4ea57291c7b00a0a1d24ebb7eb8e35826f218700992f0c7fdb4268",
+    "mobile/openharmony/entry/src/main/ets/data/models/Http.ets": "5d7cc9cc95f563cb40b9234f647525869a535f0d51a44997a91cb42043f65e9f",
+    "mobile/openharmony/entry/src/main/ets/data/models/Identity.ets": "7f4be5a44c01db1d774a7d4d65a584e2e58241a9b973b69616af93e38d67f67b",
+    "mobile/openharmony/entry/src/main/ets/data/models/Inspection.ets": "4c2e9a318f1283c118651f3c731c4c2c128da020ce5b691620352e01c8b9e1b3",
+    "mobile/openharmony/entry/src/main/ets/data/models/Monitoring.ets": "f019f1c54f3c5602b261d9d178b5d21c8d94b161742d7b6d07b6f1f3c8faf4a0",
+    "mobile/openharmony/entry/src/main/ets/data/models/Tasks.ets": "492cc63bed77e8f3c555ca9dc1b47a4108aab9b2070490769c75ec2af7b9d47b",
+    "mobile/openharmony/entry/src/main/ets/data/models/Workspace.ets": "319640909d3c1b54c95e7621903a404848f31336b764629be33297b77abccc7b",
+    "mobile/openharmony/entry/src/main/ets/data/repositories/WorkspaceRepository.ets": "63d8a4d415378aa5a79d73a9cac23fb3fa2112e9bebb70dd5514067792d7e66b",
+    "mobile/openharmony/entry/src/main/ets/entryability/EntryAbility.ets": "a76a880df08bb811a994c6c760fdbb533c34de32c0ce7e62d9dec2544613bc5a",
+    "mobile/openharmony/entry/src/main/ets/features/monitoring/MonitoringPage.ets": "ac49529bc9d6984567d91d0fc7325c0acd4db5b1a5dcaf94f0eed9fde424f495",
+    "mobile/openharmony/entry/src/main/ets/features/monitoring/PointDetail.ets": "23736e55407f6b9a98b4018a6f00b88c2e2ba4fc3dd371b446b641c406d09ef4",
+    "mobile/openharmony/entry/src/main/ets/features/profile/IdentityTile.ets": "e1a23794581df3b08554022ea68b039f2f9e6b8c71dfd052dc8056f7766d0bd2",
+    "mobile/openharmony/entry/src/main/ets/features/profile/ProfilePage.ets": "cdd344e10adb5145ffce63b960c3cb3417f2302f5f17b60a07f4d362a5b7fefe",
+    "mobile/openharmony/entry/src/main/ets/features/tasks/CheckEditor.ets": "45bfe702ae54eb8919039ba0a3232899f440b50153e51214d6e412f20c3cb333",
+    "mobile/openharmony/entry/src/main/ets/features/tasks/CheckInForm.ets": "40cddd49437edefa7494f87bb2a951b0163a18ef7f0c7fd879a6e1a8cb1b843b",
+    "mobile/openharmony/entry/src/main/ets/features/tasks/ChecklistForm.ets": "475c938394672e0e1148c9bc8dffef94c3fab8aff00acb6b58db4ef7358913d2",
+    "mobile/openharmony/entry/src/main/ets/features/tasks/TaskDetail.ets": "a74ad16d65d02089c4e9f8218f5b6a8e0a5c881c746ca1818751994210697b4c",
+    "mobile/openharmony/entry/src/main/ets/features/tasks/TasksPage.ets": "8a52703991300eabd265a1ffe5075708a73aab7974331211b2ccd82379356410",
+    "mobile/openharmony/entry/src/main/ets/features/workbench/WorkbenchPage.ets": "47b1f27fb1d7c9c8abfa11c6637a8dd148b9c5c8a5656766cdf323e536d5faf0",
+    "mobile/openharmony/entry/src/main/ets/pages/Index.ets": "2a1a236c0871d1d7adf5992ff726d2091d55611194d82289038e19a8394c79b9",
+    "mobile/openharmony/entry/src/main/ets/shared/components/AppCard.ets": "4b74cda7e73ac595bf56c6fd398b1d72540f6cef0bad74539e5bc09ed153a97d",
+    "mobile/openharmony/entry/src/main/ets/shared/components/ConnectionState.ets": "f300bf00cbef806f1402948b44c27a29e947b1ae8a16506f353ecb15f655976f",
+    "mobile/openharmony/entry/src/main/ets/shared/components/MetricTile.ets": "aac43a7bfa548bd09556a055dd75a1625a38a1e74e4919c5362f17f71403402e",
+    "mobile/openharmony/entry/src/main/ets/shared/format/display.ets": "db2153f453eb251b27379c2d03f47eb180f80448f19412775747950eff5fc430",
+    "mobile/openharmony/entry/src/main/ets/shared/playful/ActionTile.ets": "67275b9a6c57219f4427eca6f4205be750e9f4fe4c06ba34c3150feeb601a049",
+    "mobile/openharmony/entry/src/main/ets/shared/playful/BottomDock.ets": "c0571dbd844641aa3697fa1c35397977e9a17a1f4aadf0adc77c45e996a7ed34",
+    "mobile/openharmony/entry/src/main/ets/shared/playful/EmptyBuddy.ets": "52133f654c0d37bb78625b5406b4330fa22a3b35d79a59e0a9a4590572c3013a",
+    "mobile/openharmony/entry/src/main/ets/shared/playful/Mascot.ets": "f13020d057c98a0793f9b8c0d8601739d2bc56d5ef8545f1574179de14edae63",
+    "mobile/openharmony/entry/src/main/ets/shared/playful/PageHeading.ets": "4bd5e514e3dba19538bb0f66f5e152fbfb9f9e114789e76bc8b4051884097b9e",
+    "mobile/openharmony/entry/src/main/ets/shared/playful/PageStage.ets": "a02a2b6a37c369694e694e2e14dba33894cccbc2b732dca487a4f89abcb8a1bd",
+    "mobile/openharmony/entry/src/main/ets/shared/playful/PlayButton.ets": "304bfb82ddbf52ab44c8e80fa6ebaea66f24d010a4d7c56454dad1920ce9be51",
+    "mobile/openharmony/entry/src/main/ets/shared/playful/StoryHero.ets": "f8f338a3d4b7caa9b3cd9a45566c96a0de352a11bd614d0b21e16a6a67631cd1",
+    "mobile/openharmony/entry/src/main/ets/shared/state/AppState.ets": "adc194b927ed2e01d4363347df11ea9b0fdc7b72adaf929a67f3cc1c44550743",
+    "mobile/openharmony/entry/src/main/ets/shared/theme/Theme.ets": "d08cd0cf9b5717ded872ac2db41b8da5aacf95130717b5f044c2c8645fc2fd78"
+  },
+  "uiPhases": [
+    "setup",
+    "arrival",
+    "completion",
+    "conflict",
+    "retry",
+    "readonly",
+    "finish"
+  ],
+  "ledgers": {
+    "plan_4e49546d2436474fb1fe5d8a2313b034@2026-10-28T01:00:00+00:00": {
+      "audits": 6,
+      "receipts": 5
+    },
+    "plan_81a8eea2b6d342f894fc48faf00020b6@2026-10-28T01:00:00+00:00": {
+      "audits": 4,
+      "receipts": 3
+    }
+  },
+  "receipts": [
+    {
+      "receiptId": "rcpt_da08e0684728452f83dbc9f695fc30db",
+      "key": "native-1793169033316-1-p88q1zk822",
+      "operation": "inspection_check_in",
+      "epoch": 1,
+      "actorId": "demo-inspector",
+      "taskId": "plan_4e49546d2436474fb1fe5d8a2313b034@2026-10-28T01:00:00+00:00"
+    },
+    {
+      "receiptId": "rcpt_40a89e4721a64b5986ac61f351572dd6",
+      "key": "native-1793169053716-2-4xysdj8vn44",
+      "operation": "inspection_check_in",
+      "epoch": 1,
+      "actorId": "demo-inspector",
+      "taskId": "plan_4e49546d2436474fb1fe5d8a2313b034@2026-10-28T01:00:00+00:00"
+    },
+    {
+      "receiptId": "rcpt_6c86ac41494d4ceabcbb219a4c1fe1c2",
+      "key": "native-1793169158531-3-6r7p04ncx84",
+      "operation": "inspection_complete",
+      "epoch": 1,
+      "actorId": "demo-inspector",
+      "taskId": "plan_4e49546d2436474fb1fe5d8a2313b034@2026-10-28T01:00:00+00:00"
+    },
+    {
+      "receiptId": "rcpt_d58856a0a3bd4e4cb361e3ef907cf81a",
+      "key": "native-1793169187063-4-6qs5o1wgfzd",
+      "operation": "inspection_check_in",
+      "epoch": 1,
+      "actorId": "demo-inspector",
+      "taskId": "plan_4e49546d2436474fb1fe5d8a2313b034@2026-10-28T01:00:00+00:00"
+    },
+    {
+      "receiptId": "rcpt_48e0f36a153c47118673d264e7093d82",
+      "key": "native-1793169202575-5-31qbpsgaqp8",
+      "operation": "inspection_complete",
+      "epoch": 1,
+      "actorId": "demo-inspector",
+      "taskId": "plan_4e49546d2436474fb1fe5d8a2313b034@2026-10-28T01:00:00+00:00"
+    },
+    {
+      "receiptId": "rcpt_8cac03ee40094ef6a8365868f578de05",
+      "key": "inspection-accept-2153483275296-2",
+      "operation": "inspection_check_in",
+      "epoch": 1,
+      "actorId": "demo-inspector",
+      "taskId": "plan_81a8eea2b6d342f894fc48faf00020b6@2026-10-28T01:00:00+00:00"
+    },
+    {
+      "receiptId": "rcpt_5a7d2b03a50c4e569ed9d3b7000ac4a8",
+      "key": "native-1793169306926-2-dyoa990jtv",
+      "operation": "inspection_complete",
+      "epoch": 1,
+      "actorId": "demo-inspector",
+      "taskId": "plan_81a8eea2b6d342f894fc48faf00020b6@2026-10-28T01:00:00+00:00"
+    },
+    {
+      "receiptId": "rcpt_e1cad1435ca34f9db5ecdbc7d146e52b",
+      "key": "native-1793169324636-3-yjdngfsbbi",
+      "operation": "inspection_check_in",
+      "epoch": 1,
+      "actorId": "demo-inspector",
+      "taskId": "plan_81a8eea2b6d342f894fc48faf00020b6@2026-10-28T01:00:00+00:00"
+    }
+  ],
+  "backendSourceSha256": {
+    "backend/src/zhutong/operations/field/task_checks.py": "a37dda9d38c5ec9301d7e68db2095c72f16117a123f1a952d9b3ae277785abb4",
+    "backend/src/zhutong/routers/datasets/field/api.py": "b333300aa26f4345cfa5cbb7f30fa6ff9ac5eea37aa859068d8a08c0e6c1e351"
+  },
+  "deployment": {
+    "imageId": "sha256:dd7e0bf2ad6ad874992f394f2c7f2b5715a72a38f19d123a558d94a0f3b616f5",
+    "health": "healthy",
+    "migrationExit": 0,
+    "probes": {
+      "http://127.0.0.1:18000/api/v1/health/ready": 200,
+      "http://127.0.0.1:8080/": 200
+    },
+    "sources": {
+      "operations/field/task_checks.py": "a37dda9d38c5ec9301d7e68db2095c72f16117a123f1a952d9b3ae277785abb4",
+      "routers/datasets/field/api.py": "b333300aa26f4345cfa5cbb7f30fa6ff9ac5eea37aa859068d8a08c0e6c1e351"
+    },
+    "migration": "0013_assistant_session_epoch"
+  },
+  "finalState": "Delivery 18080/8080, demo-safety; acceptance database kept separate",
+  "scope": "Online native inspection slice; stage 8 remains in progress"
+}

@@ -1,0 +1,124 @@
+FFFFFF..                                                                 [100%]
+================================== FAILURES ===================================
+___ test_task_receipt_replay_rechecks_current_authorization[scope-check-in] ___
+
+client = <starlette.testclient.TestClient object at 0x0000022FDA735790>
+settings = Settings(runtime_dir=WindowsPath('C:/Users/Lenovo/AppData/Local/Temp/pytest-of-Silence/pytest-17/test_task_receipt_rep..., media_max_bytes=33554432, import_max_bytes=83886080, cors_origins=['http://127.0.0.1:5180', 'http://localhost:5180'])
+action = 'check-in', change = 'scope'
+
+    @pytest.mark.parametrize("action", ["check-in", "complete-point"])
+    @pytest.mark.parametrize("change", ["scope", "role", "archived"])
+    def test_task_receipt_replay_rechecks_current_authorization(client, settings, action, change):
+        api = FieldApi(client, str(settings.database_url))
+        path, body, _ = completed_command(api, action)
+        before = counts(str(settings.database_url), "tasks", "audits", "operation_receipts")
+        change_authorization(str(settings.database_url), change, body["pointId"])
+        replay = api.fpost(path, body, "native-replay-stable", "demo-inspector")
+>       assert replay.status_code == (404 if change == "archived" else 403)
+E       assert 200 == 403
+E        +  where 200 = <Response [200 OK]>.status_code
+
+tests\field\replay\test_task_replay.py:68: AssertionError
+_ test_task_receipt_replay_rechecks_current_authorization[scope-complete-point] _
+
+client = <starlette.testclient.TestClient object at 0x0000022FDAB749E0>
+settings = Settings(runtime_dir=WindowsPath('C:/Users/Lenovo/AppData/Local/Temp/pytest-of-Silence/pytest-17/test_task_receipt_rep..., media_max_bytes=33554432, import_max_bytes=83886080, cors_origins=['http://127.0.0.1:5180', 'http://localhost:5180'])
+action = 'complete-point', change = 'scope'
+
+    @pytest.mark.parametrize("action", ["check-in", "complete-point"])
+    @pytest.mark.parametrize("change", ["scope", "role", "archived"])
+    def test_task_receipt_replay_rechecks_current_authorization(client, settings, action, change):
+        api = FieldApi(client, str(settings.database_url))
+        path, body, _ = completed_command(api, action)
+        before = counts(str(settings.database_url), "tasks", "audits", "operation_receipts")
+        change_authorization(str(settings.database_url), change, body["pointId"])
+        replay = api.fpost(path, body, "native-replay-stable", "demo-inspector")
+>       assert replay.status_code == (404 if change == "archived" else 403)
+E       assert 200 == 403
+E        +  where 200 = <Response [200 OK]>.status_code
+
+tests\field\replay\test_task_replay.py:68: AssertionError
+___ test_task_receipt_replay_rechecks_current_authorization[role-check-in] ____
+
+client = <starlette.testclient.TestClient object at 0x0000022FDAAB2C60>
+settings = Settings(runtime_dir=WindowsPath('C:/Users/Lenovo/AppData/Local/Temp/pytest-of-Silence/pytest-17/test_task_receipt_rep..., media_max_bytes=33554432, import_max_bytes=83886080, cors_origins=['http://127.0.0.1:5180', 'http://localhost:5180'])
+action = 'check-in', change = 'role'
+
+    @pytest.mark.parametrize("action", ["check-in", "complete-point"])
+    @pytest.mark.parametrize("change", ["scope", "role", "archived"])
+    def test_task_receipt_replay_rechecks_current_authorization(client, settings, action, change):
+        api = FieldApi(client, str(settings.database_url))
+        path, body, _ = completed_command(api, action)
+        before = counts(str(settings.database_url), "tasks", "audits", "operation_receipts")
+        change_authorization(str(settings.database_url), change, body["pointId"])
+        replay = api.fpost(path, body, "native-replay-stable", "demo-inspector")
+>       assert replay.status_code == (404 if change == "archived" else 403)
+E       assert 200 == 403
+E        +  where 200 = <Response [200 OK]>.status_code
+
+tests\field\replay\test_task_replay.py:68: AssertionError
+_ test_task_receipt_replay_rechecks_current_authorization[role-complete-point] _
+
+client = <starlette.testclient.TestClient object at 0x0000022FDA7AD160>
+settings = Settings(runtime_dir=WindowsPath('C:/Users/Lenovo/AppData/Local/Temp/pytest-of-Silence/pytest-17/test_task_receipt_rep..., media_max_bytes=33554432, import_max_bytes=83886080, cors_origins=['http://127.0.0.1:5180', 'http://localhost:5180'])
+action = 'complete-point', change = 'role'
+
+    @pytest.mark.parametrize("action", ["check-in", "complete-point"])
+    @pytest.mark.parametrize("change", ["scope", "role", "archived"])
+    def test_task_receipt_replay_rechecks_current_authorization(client, settings, action, change):
+        api = FieldApi(client, str(settings.database_url))
+        path, body, _ = completed_command(api, action)
+        before = counts(str(settings.database_url), "tasks", "audits", "operation_receipts")
+        change_authorization(str(settings.database_url), change, body["pointId"])
+        replay = api.fpost(path, body, "native-replay-stable", "demo-inspector")
+>       assert replay.status_code == (404 if change == "archived" else 403)
+E       assert 200 == 403
+E        +  where 200 = <Response [200 OK]>.status_code
+
+tests\field\replay\test_task_replay.py:68: AssertionError
+_ test_task_receipt_replay_rechecks_current_authorization[archived-check-in] __
+
+client = <starlette.testclient.TestClient object at 0x0000022FDB105580>
+settings = Settings(runtime_dir=WindowsPath('C:/Users/Lenovo/AppData/Local/Temp/pytest-of-Silence/pytest-17/test_task_receipt_rep..., media_max_bytes=33554432, import_max_bytes=83886080, cors_origins=['http://127.0.0.1:5180', 'http://localhost:5180'])
+action = 'check-in', change = 'archived'
+
+    @pytest.mark.parametrize("action", ["check-in", "complete-point"])
+    @pytest.mark.parametrize("change", ["scope", "role", "archived"])
+    def test_task_receipt_replay_rechecks_current_authorization(client, settings, action, change):
+        api = FieldApi(client, str(settings.database_url))
+        path, body, _ = completed_command(api, action)
+        before = counts(str(settings.database_url), "tasks", "audits", "operation_receipts")
+        change_authorization(str(settings.database_url), change, body["pointId"])
+        replay = api.fpost(path, body, "native-replay-stable", "demo-inspector")
+>       assert replay.status_code == (404 if change == "archived" else 403)
+E       assert 200 == 404
+E        +  where 200 = <Response [200 OK]>.status_code
+
+tests\field\replay\test_task_replay.py:68: AssertionError
+_ test_task_receipt_replay_rechecks_current_authorization[archived-complete-point] _
+
+client = <starlette.testclient.TestClient object at 0x0000022FDA958C80>
+settings = Settings(runtime_dir=WindowsPath('C:/Users/Lenovo/AppData/Local/Temp/pytest-of-Silence/pytest-17/test_task_receipt_rep..., media_max_bytes=33554432, import_max_bytes=83886080, cors_origins=['http://127.0.0.1:5180', 'http://localhost:5180'])
+action = 'complete-point', change = 'archived'
+
+    @pytest.mark.parametrize("action", ["check-in", "complete-point"])
+    @pytest.mark.parametrize("change", ["scope", "role", "archived"])
+    def test_task_receipt_replay_rechecks_current_authorization(client, settings, action, change):
+        api = FieldApi(client, str(settings.database_url))
+        path, body, _ = completed_command(api, action)
+        before = counts(str(settings.database_url), "tasks", "audits", "operation_receipts")
+        change_authorization(str(settings.database_url), change, body["pointId"])
+        replay = api.fpost(path, body, "native-replay-stable", "demo-inspector")
+>       assert replay.status_code == (404 if change == "archived" else 403)
+E       assert 200 == 404
+E        +  where 200 = <Response [200 OK]>.status_code
+
+tests\field\replay\test_task_replay.py:68: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/field/replay/test_task_replay.py::test_task_receipt_replay_rechecks_current_authorization[scope-check-in]
+FAILED tests/field/replay/test_task_replay.py::test_task_receipt_replay_rechecks_current_authorization[scope-complete-point]
+FAILED tests/field/replay/test_task_replay.py::test_task_receipt_replay_rechecks_current_authorization[role-check-in]
+FAILED tests/field/replay/test_task_replay.py::test_task_receipt_replay_rechecks_current_authorization[role-complete-point]
+FAILED tests/field/replay/test_task_replay.py::test_task_receipt_replay_rechecks_current_authorization[archived-check-in]
+FAILED tests/field/replay/test_task_replay.py::test_task_receipt_replay_rechecks_current_authorization[archived-complete-point]
+6 failed, 2 passed in 5.40s

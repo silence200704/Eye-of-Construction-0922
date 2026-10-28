@@ -1,0 +1,141 @@
+{
+  "responseDroppedAfterCommit": true,
+  "retryDidNotAddAttemptOrRevision": true,
+  "dropped": {
+    "method": "POST",
+    "path": "/api/v1/datasets/demo-main/inspection/tasks/plan_81a8eea2b6d342f894fc48faf00020b6%402026-10-28T01%3A00%3A00%2B00%3A00/check-in",
+    "upstreamStatus": 200,
+    "action": "Response dropped after upstream committed",
+    "idempotencyKey": "native-1793169324636-3-yjdngfsbbi"
+  },
+  "ledger": {
+    "audits": 4,
+    "receipts": 3
+  },
+  "task": {
+    "id": "plan_81a8eea2b6d342f894fc48faf00020b6@2026-10-28T01:00:00+00:00",
+    "taskNo": "TK-20261028-005",
+    "planId": "plan_81a8eea2b6d342f894fc48faf00020b6",
+    "buildingId": "bld_516aabd3a28446248743c534b5a23c53",
+    "planSnapshot": {
+      "planCode": "PLAN-20261028-005",
+      "planName": "原生巡检·冲突重试",
+      "executorRole": "inspector",
+      "buildingId": "bld_516aabd3a28446248743c534b5a23c53",
+      "floorIds": [
+        "flr_f1bc9e9254254dbd93f931028444b894"
+      ],
+      "pointIds": [
+        "pnt_298d11d52f974193889f0bd03f15144e",
+        "pnt_625c2e2fbcf348a884f3f7996bec9235"
+      ],
+      "checklist": [
+        {
+          "key": "wall",
+          "label": "墙面与结构外观",
+          "required": true,
+          "hint": "查看裂缝、起鼓与松动"
+        },
+        {
+          "key": "passage",
+          "label": "通道与门窗",
+          "required": true,
+          "hint": "核对通道和门窗状态"
+        }
+      ]
+    },
+    "plannedAt": "2026-10-28T01:00:00+00:00",
+    "dueAt": "2026-10-28T15:59:59+00:00",
+    "status": "partial",
+    "results": [
+      {
+        "pointId": "pnt_298d11d52f974193889f0bd03f15144e",
+        "status": "completed",
+        "checkedAt": "2026-10-28T06:34:42.350984+00:00",
+        "method": "nfc",
+        "labelRead": "TAG-NATIVE-1028062837-1",
+        "labelExpected": "TAG-NATIVE-1028062837-1",
+        "labelVersion": 1,
+        "fallbackReason": "",
+        "attempts": [
+          {
+            "at": "2026-10-28T06:34:42.350984+00:00",
+            "method": "nfc",
+            "labelRead": "TAG-NATIVE-1028062837-1",
+            "labelExpected": "TAG-NATIVE-1028062837-1",
+            "labelVersion": 1,
+            "fallbackReason": "",
+            "passed": true,
+            "message": "模拟读卡核对通过（标签 TAG-NATIVE-1028062837-1 v1）"
+          }
+        ],
+        "checklist": [
+          {
+            "key": "wall",
+            "label": "墙面与结构外观",
+            "result": "ok",
+            "note": ""
+          },
+          {
+            "key": "passage",
+            "label": "通道与门窗",
+            "result": "ok",
+            "note": ""
+          }
+        ],
+        "abnormalHandling": {
+          "linkedIssueId": null,
+          "reason": ""
+        },
+        "issueIds": []
+      },
+      {
+        "pointId": "pnt_625c2e2fbcf348a884f3f7996bec9235",
+        "status": "arrived",
+        "checkedAt": "2026-10-28T06:35:25.138035+00:00",
+        "method": "nfc",
+        "labelRead": "TAG-NATIVE-1028062837-2",
+        "labelExpected": "TAG-NATIVE-1028062837-2",
+        "labelVersion": 1,
+        "fallbackReason": "",
+        "attempts": [
+          {
+            "at": "2026-10-28T06:35:25.138035+00:00",
+            "method": "nfc",
+            "labelRead": "TAG-NATIVE-1028062837-2",
+            "labelExpected": "TAG-NATIVE-1028062837-2",
+            "labelVersion": 1,
+            "fallbackReason": "",
+            "passed": true,
+            "message": "模拟读卡核对通过（标签 TAG-NATIVE-1028062837-2 v1）"
+          }
+        ],
+        "checklist": [
+          {
+            "key": "wall",
+            "label": "墙面与结构外观",
+            "result": null,
+            "note": ""
+          },
+          {
+            "key": "passage",
+            "label": "通道与门窗",
+            "result": null,
+            "note": ""
+          }
+        ],
+        "abnormalHandling": {
+          "linkedIssueId": null,
+          "reason": ""
+        },
+        "issueIds": []
+      }
+    ],
+    "issueIds": [],
+    "createdAt": "2026-10-28T06:28:37.389647+00:00",
+    "createdBy": "演示学校安全管理人员",
+    "updatedAt": "2026-10-28T06:35:25.138035+00:00",
+    "updatedBy": "演示巡检人员",
+    "rev": 4
+  }
+}

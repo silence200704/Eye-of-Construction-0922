@@ -1,0 +1,67 @@
+✔ saved quiet mode is restored before native components read their shared UI state (0.8132ms)
+✔ appearance saves are ordered and only persist the motion preference (1.0364ms)
+✔ service root accepts explicit HTTP/HTTPS roots and rejects credentials, query, path and bad schemes (1.0932ms)
+✔ missing, invalid and manual readings never turn into zero or normal (0.1658ms)
+✔ latest record follows sample time rather than backfill arrival; missing and stale times are labeled (0.1805ms)
+✔ preference saves are serialized and store no access tokens or business snapshots (1.0246ms)
+✔ sensor filter also scopes alarm history, retaining matching archived-point history (0.1937ms)
+✔ native client sends bearer and exact API path without enabling cache (1.0339ms)
+✔ server status and business errors stay visible; HTML or malformed envelopes never succeed (0.856ms)
+✔ cancelled native response is rejected even when transport destruction throws (0.3178ms)
+✔ request paths cannot escape the configured origin (0.1806ms)
+✔ native command headers carry idempotency and dataset epoch without replacing bearer (0.1503ms)
+✔ inspection draft is initialized from the frozen checklist and keeps unknown answers unanswered (79.2538ms)
+✔ manual arrival needs a reason, a read tag and a matching expected task revision (0.3241ms)
+✔ completion requires arrival and an anomaly basis; only same-point issue ids are selectable (0.201ms)
+✔ request snapshots omit unanswered optional fields and changing a draft never mutates a frozen request (0.206ms)
+✔ draft copies isolate answers and completed points cannot be resubmitted (0.1538ms)
+✔ inspection POST carries epoch, stable operation key and an encoded task target (4.6366ms)
+✔ rapid repeated clicks issue one POST while a request is in flight (0.588ms)
+✔ unknown network outcome retries the same immutable payload and operation key (1.1193ms)
+✔ a late write response cannot publish another identity task or success (1.4823ms)
+✔ wrong task executor is rejected locally and current server principal is checked before writes (0.4134ms)
+✔ 409 does not retry or overwrite a task; an explicit reload reads current revision (0.4777ms)
+✔ HTTP 200 with a failed attempt is shown as a failed arrival and preserves server revision (0.2835ms)
+✔ mixed dataset epochs in a successful-looking write are never applied (0.3106ms)
+✔ task reload rechecks authorization after rows arrive and cannot publish a reduced-scope snapshot (0.2708ms)
+✔ local role and task boundaries reject writes before contacting a mutation endpoint (0.4396ms)
+✔ unknown write survives a role round-trip and explicitly retries the old request only under its original identity (0.5532ms)
+✔ server validation errors are definitive, while malformed successful responses keep a retryable immutable request (0.3237ms)
+✔ default identity is server safety identity; saves only service root and identity id (3.7675ms)
+✔ all five role changes clear protected state synchronously and select server identities (0.9099ms)
+✔ a late identity response cannot replace a newer connection (0.5062ms)
+✔ late protected rows are discarded even when native cancellation loses the race (0.4506ms)
+✔ dataset reset during a snapshot refuses mixed epochs and publishes no ready data (0.1921ms)
+✔ principal mismatch and unsupported roles cannot become an authorized session (0.1348ms)
+✔ unknown identities are rejected before issuing a shortcut (0.1101ms)
+✔ refresh revalidates same-id reduced scope and never reuses old rows (0.3109ms)
+✔ expired session refresh restores the same identity once; denied access does not change roles (0.4008ms)
+✔ late preference restoration cannot resurrect a suspended screen (0.1973ms)
+✔ configuration failure is visible and cannot publish an online success (0.2478ms)
+✔ a scope change while snapshot rows are in flight invalidates the entire batch (0.2602ms)
+ℹ tests 41
+ℹ suites 0
+ℹ pass 41
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 663.3364
+ℹ start of coverage report
+ℹ --------------------------------------------------------------------------
+ℹ file                      | line % | branch % | funcs % | uncovered lines
+ℹ --------------------------------------------------------------------------
+ℹ mobile                    |        |          |         | 
+ℹ  openharmony              |        |          |         | 
+ℹ   entry                   |        |          |         | 
+ℹ    src                    |        |          |         | 
+ℹ     main                  |        |          |         | 
+ℹ      ets                  |        |          |         | 
+ℹ       core                |        |          |         | 
+ℹ        field              |        |          |         | 
+ℹ         CheckDraft.ets    | 100.00 |    89.09 |   94.44 | 
+ℹ         TaskCommander.ets |  92.64 |    86.08 |  100.00 | 59-60 154-163
+ℹ --------------------------------------------------------------------------
+ℹ all files                 |  95.14 |    87.31 |   96.97 | 
+ℹ --------------------------------------------------------------------------
+ℹ end of coverage report
