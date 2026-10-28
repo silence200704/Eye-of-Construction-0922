@@ -78,3 +78,37 @@ test('unknown media upload retries the same bytes/key and task conflict needs ex
   const uploads = f.calls.filter(c => c.path.includes('/media?'))
   assert.equal(uploads.length, 2); assert.deepEqual(uploads[0].options, uploads[1].options)
 })
+
+test('scope revoked while archive is in flight blocks picker result publication', async () => {
+  const f = setup(); let principalCalls = 0
+  const original = f.access.user
+  f.intercept(path => {
+    if (path === '/auth/me') {
+      principalCalls++
+      return { data: principalCalls > 1 ? { ...original, buildingIds: [] } : original }
+    }
+  })
+  let selected = 0
+  await assert.rejects(f.session.choose(async () => { selected++; return photo() }), /授权/)
+  assert.equal(selected, 0)
+  assert.equal(f.current().draft, null)
+})
+
+test('task 409 preserves uploaded evidence until explicit adoption; wrong role cannot start task report', async () => {
+  const f = setup()
+  f.access.workspace.tasks = [{ id: 't1', rev: 1, buildingId: 'b1', planSnapshot: { executorRole: 'inspector', pointIds: ['p1'] } }]
+  f.session.deactivate()
+  assert.equal(f.session.start({ ...target, taskId: 't1', expectedRev: 1 }), true)
+  f.session.field('anomalyType', '裂缝'); f.session.field('description', '任务内现场异常上报')
+  await f.session.choose(async () => photo())
+  let conflict = true
+  f.intercept(path => { if (path.endsWith('/issues') && conflict) { const e = Error('版本冲突'); e.status = 409; throw e } })
+  await f.session.submit(); assert.equal(f.current().phase, 'conflict')
+  assert.equal(f.current().draft.photos[0].mediaId, 'media1')
+  conflict = false; f.session.adoptRevision(2); await f.session.submit()
+  const commands = f.calls.filter(c => c.path.endsWith('/issues'))
+  assert.equal(JSON.parse(commands[1].options.body).expectedRev, 2)
+  assert.equal(f.calls.filter(c => c.path.includes('/media?')).length, 1)
+  f.session.deactivate(); f.access.user = identity('property')
+  assert.equal(f.session.start({ ...target, taskId: 't1', expectedRev: 2 }), false)
+})
