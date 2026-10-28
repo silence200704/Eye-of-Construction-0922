@@ -67,3 +67,11 @@ test('sensor filter also scopes alarm history, retaining matching archived-point
   assert.deepEqual(visibleEvents(workspace, 'tilt', true).map(row => row.id), ['ET'])
   assert.deepEqual(visibleEvents(workspace, 'all', true).map(row => row.id), ['EC', 'ET'])
 })
+
+test('issue progress distinguishes review, investigation, recheck and observation states', () => {
+ const { label } = native('shared/format/display.ets')
+ assert.equal(label('pending_review'), '待审核')
+ assert.equal(label('investigating'), '专业排查中')
+ assert.equal(label('pending_recheck'), '待复查')
+ assert.equal(label('observing'), '观察中')
+})
