@@ -3,8 +3,9 @@ import { TaskAccess } from '../field/TaskCommander';
 import { ApiError, errorMessage } from '../network/ApiError';
 import { ReportDraft } from './ReportDraft';
 import { ReportLease } from './ReportLease';
+import { ReportView, DraftPreview } from './ReportView';
 
-export class ReportView {
+class ReportState {
   draft: ReportDraft | null = null;
   phase: string = 'idle';
   message: string = '';
@@ -21,7 +22,7 @@ export interface ReportOptions {
 
 export class ReportSession {
   private options: ReportOptions;
-  private view: ReportView = new ReportView();
+  private view: ReportState = new ReportState();
   private lease: ReportLease | null = null;
   private external: boolean = false;
   private generation: number = 0;
@@ -33,7 +34,7 @@ export class ReportSession {
   private locked(): boolean { return ['picking', 'sending', 'unknown', 'done'].includes(this.view.phase); }
   private publish(): void {
     const copy = new ReportView();
-    copy.draft = this.view.draft?.copy() ?? null; copy.phase = this.view.phase;
+    copy.draft = this.view.draft ? new DraftPreview(this.view.draft) : null; copy.phase = this.view.phase;
     copy.message = this.view.message; copy.issue = this.view.issue;
     this.options.onChange(copy);
   }
@@ -42,7 +43,7 @@ export class ReportSession {
   deactivate(): void {
     this.generation++;
     this.view.draft?.photos.forEach((photo) => this.options.disposePhoto(photo.prepared));
-    this.view = new ReportView(); this.lease = null; this.pendingBody = ''; this.pendingKey = '';
+    this.view = new ReportState(); this.lease = null; this.pendingBody = ''; this.pendingKey = '';
     this.publish();
   }
 

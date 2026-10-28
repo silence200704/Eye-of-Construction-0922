@@ -14,7 +14,8 @@ import { TaskDetail } from '../features/tasks/TaskDetail';
 import { ProfilePage } from '../features/profile/ProfilePage';
 import { ReportPage } from '../features/reports/ReportPage';
 import { IssuesPage } from '../features/reports/IssuesPage';
-import { ReportSession, ReportView } from '../core/report/ReportSession';
+import { ReportSession } from '../core/report/ReportSession';
+import { ReportView } from '../core/report/ReportView';
 import { PhotoSelector } from '../core/media/PhotoSelector';
 import { ReportTarget } from '../data/models/Reports';
 

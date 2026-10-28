@@ -1,5 +1,5 @@
 import { AppState } from '../../shared/state/AppState';
-import { ReportView } from '../../core/report/ReportSession';
+import { ReportView } from '../../core/report/ReportView';
 import { Theme } from '../../shared/theme/Theme';
 import { AppCard } from '../../shared/components/AppCard';
 import { PageStage } from '../../shared/playful/PageStage';
