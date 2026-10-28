@@ -130,3 +130,16 @@ test('mixed dataset epochs in a successful-looking write are never applied', asy
   assert.notEqual(f.current().command.phase, 'done')
   assert.ok(!f.frames.some(frame => frame.workspace.tasks.some(t => t.rev === 2)))
 })
+
+test('task reload rechecks authorization after rows arrive and cannot publish a reduced-scope snapshot', async () => {
+  const f = await setup()
+  f.server.intercept = call => {
+    if (call.path.endsWith('/inspection/tasks')) {
+      f.server.principal = { ...identity('inspector'), buildingIds: [] }
+      return { ok: true, data: [{ ...f.task, rev: 9 }], meta: { datasetEpoch: 1 } }
+    }
+  }
+  await f.controller.reloadInspection()
+  assert.equal(f.current().user, null)
+  assert.deepEqual(f.current().workspace.tasks, [])
+})
