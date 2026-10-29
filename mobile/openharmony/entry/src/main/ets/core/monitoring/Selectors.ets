@@ -1,5 +1,6 @@
-import { Point, Device } from '../../data/models/Monitoring';
+import { Point, Device, AlarmEvent } from '../../data/models/Monitoring';
 import { InspectionTask } from '../../data/models/Tasks';
+import { Workspace } from '../../data/models/Workspace';
 
 export interface PointFilter { buildingId: string; floorId: string; type: string; }
 export interface TaskFilter { date: string; status: string; kind: string; }
@@ -7,6 +8,13 @@ export interface TaskFilter { date: string; status: string; kind: string; }
 export function filterPoints(points: Point[], filter: PointFilter): Point[] {
   return points.filter((row) => row.status === 'active' && (!filter.buildingId || row.buildingId === filter.buildingId) &&
     (!filter.floorId || row.floorId === filter.floorId) && (filter.type === 'all' || row.type === filter.type));
+}
+
+export function filterEvents(workspace: Workspace, filter: PointFilter, history: boolean): AlarmEvent[] {
+  const points = new Set(workspace.points.filter((row) => (history || row.status === 'active') &&
+    (!filter.buildingId || row.buildingId === filter.buildingId) && (!filter.floorId || row.floorId === filter.floorId) &&
+    (filter.type === 'all' || row.type === filter.type)).map((row) => row.id));
+  return workspace.events.filter((row) => points.has(row.pointId) && (history || row.status !== 'closed'));
 }
 
 export function shanghaiDay(value: string): string {

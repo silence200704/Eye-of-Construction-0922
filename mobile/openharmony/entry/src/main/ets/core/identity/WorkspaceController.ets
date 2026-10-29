@@ -86,6 +86,10 @@ export class WorkspaceController {
     if (response.meta?.datasetEpoch !== access.workspace.epoch || authorizationOf(confirmed.data) !== fingerprint) {
       this.invalidateInspection('统计授权或数据版本已变化。'); return null;
     }
+    const data = response.data;
+    if (!data || data.period !== query.period || !Array.isArray(data.trend) || !Array.isArray(data.byBuilding) ||
+      !Array.isArray(data.byPoint) || !Array.isArray(data.sensorTypes) || !Number.isInteger(data.totalEvents) ||
+      !Number.isInteger(data.recordCount) || !Number.isInteger(data.openEvents)) throw new ApiError('INVALID_RESPONSE', '统计结果不完整，请重新读取。');
     return response.data;
   }
   invalidateReport(message: string): void { this.invalidateInspection(message); }
