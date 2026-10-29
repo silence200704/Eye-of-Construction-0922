@@ -45,6 +45,26 @@ export class BackendClient implements ApiClient {
     }
   }
 
+  async readBinary(path: string): Promise<ArrayBuffer> {
+    if (this.cancelled) throw new ApiError('CANCELLED', '读取已取消');
+    if (!/^\/datasets\/demo-main\/media\/[A-Za-z0-9_-]+\/content$/.test(path)) throw new ApiError('INVALID_PATH', '照片地址无效。');
+    const request = http.createHttp(); this.active.add(request);
+    try {
+      const response = await request.request(`${this.settings.baseUrl}/api/v1${path}`, {
+        method: http.RequestMethod.GET, header: { Authorization: `Bearer ${this.settings.token}` },
+        expectDataType: http.HttpDataType.ARRAY_BUFFER, usingCache: false, connectTimeout: 6000, readTimeout: 10000,
+        maxLimit: 1024 * 1024
+      });
+      if (this.cancelled) throw new ApiError('CANCELLED', '读取已取消');
+      if (response.responseCode !== 200) throw new ApiError('MEDIA_UNAVAILABLE', '当前身份无法读取这张照片。', response.responseCode);
+      if (!(response.result instanceof ArrayBuffer)) throw new ApiError('INVALID_RESPONSE', '照片内容不完整。');
+      return response.result;
+    } catch (cause) {
+      if (cause instanceof ApiError) throw cause;
+      throw new ApiError('NETWORK_UNAVAILABLE', '照片暂时无法读取，请重试。');
+    } finally { if (this.active.delete(request)) request.destroy(); }
+  }
+
   private decode<T>(response: http.HttpResponse): Envelope<T> {
     let envelope: Envelope<T>;
     try {

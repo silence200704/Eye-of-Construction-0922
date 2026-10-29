@@ -27,6 +27,7 @@ export interface RequestOptions {
 
 export interface ApiClient {
   send<T>(path: string, options?: RequestOptions): Promise<Envelope<T>>;
+  readBinary?: (path: string) => Promise<ArrayBuffer>;
   cancel(): void;
 }
 
