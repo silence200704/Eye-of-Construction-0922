@@ -14,6 +14,7 @@ from ....domain.monitoring.engine import parse_iso
 from ....domain.monitoring.events import close_guard
 from ...identity_types import ROLES
 from ..core.serialize import event_out, notification_out
+from ..core.visibility import visible_point_ids
 from ..core.workspace import (
     CLOSE_ROLES,
     NOTIFY_ROLES,
@@ -31,7 +32,10 @@ from .shared import timeline_item
 
 
 def list_events(session: Session, workspace: Workspace, status: str = "all") -> list[dict]:
-    query = select(AlarmEvent).where(AlarmEvent.dataset_id == workspace.dataset_id)
+    query = select(AlarmEvent).where(
+        AlarmEvent.dataset_id == workspace.dataset_id,
+        AlarmEvent.point_id.in_(visible_point_ids(workspace)),
+    )
     if status == "open":
         query = query.where(AlarmEvent.status != "closed")
     elif status == "closed":
@@ -43,14 +47,20 @@ def list_events(session: Session, workspace: Workspace, status: str = "all") -> 
 def list_notifications(
     session: Session, workspace: Workspace, event_id: str | None = None
 ) -> list[dict]:
-    query = select(AlarmNotification).where(AlarmNotification.dataset_id == workspace.dataset_id)
+    events = select(AlarmEvent.id).where(
+        AlarmEvent.dataset_id == workspace.dataset_id,
+        AlarmEvent.point_id.in_(visible_point_ids(workspace)),
+    )
+    query = select(AlarmNotification).where(
+        AlarmNotification.dataset_id == workspace.dataset_id, AlarmNotification.event_id.in_(events)
+    )
     if event_id:
         query = query.where(AlarmNotification.event_id == event_id)
     rows = session.scalars(query.order_by(AlarmNotification.created_at.asc()))
     return [notification_out(row) for row in rows]
 
 
-def _event_of(session: Session, workspace: Workspace, event_id: str) -> AlarmEvent:
+def event_of(session: Session, workspace: Workspace, event_id: str) -> AlarmEvent:
     row = session.get(AlarmEvent, (workspace.dataset_id, event_id))
     if row is None:
         raise AppError("NOT_FOUND", "预警事件不存在", 404, {"eventId": event_id})
@@ -63,7 +73,7 @@ def acknowledge_event(
     session: Session, workspace: Workspace, event_id: str, expected_rev: int | None
 ) -> dict:
     require_role(workspace, CLOSE_ROLES, "确认预警事件")
-    row = _event_of(session, workspace, event_id)
+    row = event_of(session, workspace, event_id)
     require_revision(expected_rev, row)
     if row.status != "pending":
         raise AppError(
@@ -140,7 +150,7 @@ def _legal_event_orders(
 
 def close_event(session: Session, workspace: Workspace, command: CloseCommand) -> dict:
     require_role(workspace, CLOSE_ROLES, "关闭预警事件")
-    row = _event_of(session, workspace, command.event_id)
+    row = event_of(session, workspace, command.event_id)
     require_revision(command.expected_rev, row)
     guard = close_guard(row.status, workspace.actor.role)
     if not guard["allowed"]:

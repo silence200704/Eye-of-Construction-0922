@@ -34,6 +34,7 @@ from .core.workspace import (
     uid,
     write_audit,
 )
+from .core.visibility import scoped_archive
 
 ARCHIVE_KINDS = {"building": Building, "floor": Floor, "point": Point, "device": Device}
 SERIALIZERS = {
@@ -68,17 +69,20 @@ def snapshot(session: Session, workspace: Workspace) -> dict:
     records = session.scalar(
         select(MonitorRecord.id).where(MonitorRecord.dataset_id == workspace.dataset_id).limit(1)
     )
-    return {
-        "epoch": workspace.epoch,
-        "buildings": [building_out(row) for row in rows(Building)],
-        "floors": [floor_out(row) for row in rows(Floor)],
-        "points": [point_out(row) for row in rows(Point)],
-        "devices": [device_out(row) for row in rows(Device)],
-        "baselines": [baseline_out(row) for row in rows(Baseline)],
-        "rules": [rule_out(row) for row in rows(MonitoringRule)],
-        "hasRecords": records is not None,
-        "audits": [audit_out(row) for row in audits],
-    }
+    return scoped_archive(
+        {
+            "epoch": workspace.epoch,
+            "buildings": [building_out(row) for row in rows(Building)],
+            "floors": [floor_out(row) for row in rows(Floor)],
+            "points": [point_out(row) for row in rows(Point)],
+            "devices": [device_out(row) for row in rows(Device)],
+            "baselines": [baseline_out(row) for row in rows(Baseline)],
+            "rules": [rule_out(row) for row in rows(MonitoringRule)],
+            "hasRecords": records is not None,
+            "audits": [audit_out(row) for row in audits],
+        },
+        workspace,
+    )
 
 
 def list_audits(session: Session, workspace: Workspace, limit: int = 200) -> list[dict]:

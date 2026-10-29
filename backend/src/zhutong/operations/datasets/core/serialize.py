@@ -89,6 +89,7 @@ def point_out(row: Any) -> dict:
 
 def device_out(row: Any) -> dict:
     return {
+        **({"telemetry": row.telemetry} if getattr(row, "telemetry", None) is not None else {}),
         "id": row.id,
         "code": row.code,
         "name": row.name,

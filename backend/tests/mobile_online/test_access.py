@@ -26,8 +26,11 @@ def test_old_alarm_receipt_cannot_bypass_a_scope_revocation(client, settings):
     event = api.get("/events")[0]
     token = api.add_scoped_user("mobile-safety", None, role="safety")
     path = f"/api/v1/datasets/demo-main/events/{event['id']}/acknowledge"
-    headers = {"Authorization": f"Bearer {token}", "Idempotency-Key": "mobile-ack",
-               "X-Dataset-Epoch": "1"}
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Idempotency-Key": "mobile-ack",
+        "X-Dataset-Epoch": "1",
+    }
     body = {"expectedRev": event["rev"]}
     assert client.post(path, json=body, headers=headers).status_code == 200
     engine = create_engine(str(settings.database_url))
@@ -35,4 +38,3 @@ def test_old_alarm_receipt_cannot_bypass_a_scope_revocation(client, settings):
         db.get(User, "mobile-safety").building_ids_json = "[]"
     engine.dispose()
     assert client.post(path, json=body, headers=headers).status_code == 403
-

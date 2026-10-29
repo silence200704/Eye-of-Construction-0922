@@ -19,6 +19,7 @@ from .core.record_queries import (
     records_of_point,
     rules_for_dataset,
 )
+from .core.visibility import visible_point_ids
 from .core.serialize import device_out, point_out, record_out
 from .core.workspace import (
     RECORD_ROLES,
@@ -396,7 +397,10 @@ def revise_record(session: Session, workspace: Workspace, command: RevisionComma
 def list_records(
     session: Session, workspace: Workspace, point_id: str | None = None, limit: int = 2000
 ) -> list[dict]:
-    query = select(MonitorRecord).where(MonitorRecord.dataset_id == workspace.dataset_id)
+    query = select(MonitorRecord).where(
+        MonitorRecord.dataset_id == workspace.dataset_id,
+        MonitorRecord.point_id.in_(visible_point_ids(workspace)),
+    )
     if point_id:
         query = query.where(MonitorRecord.point_id == point_id)
     rows = session.scalars(

@@ -113,4 +113,5 @@ class Device(DatasetRow, AuditFields, ArchiveFields, Base):
     install_date: Mapped[str] = mapped_column(default="", server_default="")
     calibrated_at: Mapped[str] = mapped_column(default="", server_default="")
     health: Mapped[str] = mapped_column(default="unknown", server_default="unknown")
+    telemetry: Mapped[dict | None] = mapped_column(JSON, nullable=True)
     remark: Mapped[str] = mapped_column(default="", server_default="")

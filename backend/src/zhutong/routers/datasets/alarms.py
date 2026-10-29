@@ -13,6 +13,8 @@ from ...operations.datasets.alarms import (
     present_notification,
 )
 from ...operations.datasets.core.workspace import Command, execute_command
+from ...operations.datasets.core.workspace import require_role
+from ...operations.datasets.alarms.commands import event_of
 from .common import Current, Read, Write, reply
 from .schemas_monitoring import EventCloseInput, EventCommand
 
@@ -36,6 +38,8 @@ def acknowledge(
     request: Request, session: Write, current: Current, event_id: str, body: EventCommand
 ) -> dict:
     payload = body.model_dump()
+    require_role(current, {"safety"}, "确认预警事件")
+    event_of(session, current, event_id)
     data, replayed = execute_command(
         session,
         current,
@@ -50,6 +54,8 @@ def close(
     request: Request, session: Write, current: Current, event_id: str, body: EventCloseInput
 ) -> dict:
     payload = body.model_dump()
+    require_role(current, {"safety"}, "关闭预警事件")
+    event_of(session, current, event_id)
     data, replayed = execute_command(
         session,
         current,
