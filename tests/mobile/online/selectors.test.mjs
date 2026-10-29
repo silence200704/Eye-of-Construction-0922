@@ -25,3 +25,11 @@ test('task date uses Shanghai calendar day and status and type are combined',()=
  {id:'b',status:'checked',plannedAt:'2026-10-29T01:00:00Z',planSnapshot:{kind:'inspection'}}]
  assert.deepEqual(filterTasks(tasks,{date:'2026-10-29',status:'pending',kind:'patrol'}).map(t=>t.id),['a'])
 })
+
+test('calendar validation rejects impossible dates and handles century leap years',()=>{
+ const {validTaskDate}=native('core/monitoring/Selectors.ets')
+ for(const date of ['', '2024-02-29', '2000-02-29', '2026-10-29']) assert.equal(validTaskDate(date),true,date)
+ for(const date of ['2026-02-29','1900-02-29','2026-04-31','2026-13-01','2026-00-10','2026-01-00','2026-1-01','0000-01-01']) {
+   assert.equal(validTaskDate(date),false,date)
+ }
+})
