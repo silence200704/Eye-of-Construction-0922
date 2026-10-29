@@ -1,0 +1,15 @@
+{
+  "file": "mobile/openharmony/entry/build/default/outputs/default/entry-default-unsigned.hap",
+  "bytes": 978769,
+  "sha256": "4e9f90e305857ae68cf9625f2010bb09931009c1db3b368ef7770a6a2c9d61f1",
+  "signed": false,
+  "buildMode": "release",
+  "profilePath": "resources/base/profile/configuration.json",
+  "packagedAppConfiguration": "$profile:configuration",
+  "packagedProfile": {
+    "configuration": {
+      "fontSizeScale": "followSystem"
+    }
+  },
+  "installedOrLaunchedThisRound": false
+}

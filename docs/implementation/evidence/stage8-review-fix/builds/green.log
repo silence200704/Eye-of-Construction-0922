@@ -1,0 +1,15 @@
+✔ AppScope resolves the packaged follow-system font profile without capping system scale (2.5164ms)
+✔ consecutive saved photos reuse an existing sandbox directory and keep distinct bytes (2.0361ms)
+✔ native create and write errors become safe actionable photo errors; incomplete files are removed (0.9582ms)
+✔ building floor and type filters intersect, and unknown device metadata stays unknown (1.9719ms)
+✔ history includes archived measurement points while current monitoring stays active-only (0.3276ms)
+✔ task date uses Shanghai calendar day and status and type are combined (3.88ms)
+✔ calendar validation rejects impossible dates and handles century leap years (0.5289ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 638.0159

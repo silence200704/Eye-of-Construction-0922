@@ -1,0 +1,20 @@
+{
+  "parser": "OpenHarmony SDK TypeScript 4.9.5, ScriptKind.ETS",
+  "scope": [
+    "mobile/openharmony",
+    "tests/mobile",
+    "scripts/mobile"
+  ],
+  "files": 95,
+  "functions": 1036,
+  "maxFile": {
+    "path": "mobile/openharmony/entry/src/main/ets/core/identity/WorkspaceController.ets",
+    "lines": 311
+  },
+  "maxFunction": {
+    "path": "mobile/openharmony/entry/src/main/ets/pages/Index.ets",
+    "line": 101,
+    "lines": 43
+  },
+  "violations": []
+}

@@ -1,0 +1,54 @@
+{
+  "codeCommit": "67f140ac00a7047ca8703ffdfc71471fd48b45bf",
+  "collectedAtUtc": "2026-10-29T08:14:34.037426+00:00",
+  "commands": [
+    {
+      "command": "node --test tests/mobile/online/preview-files.test.mjs tests/mobile/online/font-config.test.mjs tests/mobile/online/selectors.test.mjs",
+      "phase": "RED",
+      "exitCode": 1,
+      "tests": 7,
+      "passed": 3,
+      "failed": 4,
+      "log": "red.log"
+    },
+    {
+      "command": "same targeted command after minimal fix",
+      "phase": "GREEN",
+      "exitCode": 0,
+      "tests": 7,
+      "passed": 7,
+      "log": "green.log",
+      "note": "Before the two additional regression cases; full final run includes both."
+    },
+    {
+      "command": "$testFiles=rg --files tests/mobile -g '*.test.mjs'; node --test --experimental-test-coverage '--test-coverage-include=**/ets/core/**' --test-coverage-lines=80 --test-coverage-branches=80 $testFiles",
+      "exitCode": 0,
+      "tests": 99,
+      "passed": 99,
+      "log": "coverage.log",
+      "lineCoverage": 94.72,
+      "branchCoverage": 81.49,
+      "runner": "Node ETS transpilation + mocks; not Hypium or emulator"
+    },
+    {
+      "command": "node scripts/mobile/verification/structure.mjs",
+      "exitCode": 0,
+      "log": "structure-native.json"
+    },
+    {
+      "command": "D:/DevEco/Studio/tools/node/node.exe D:/DevEco/Studio/tools/hvigor/bin/hvigorw.js assembleApp --no-daemon",
+      "cwd": "mobile/openharmony",
+      "exitCode": 0,
+      "durationFromLog": "26 s 889 ms",
+      "log": "hvigor.log"
+    }
+  ],
+  "schema": {
+    "source": "D:\\DevEco\\Studio\\sdk\\default\\openharmony\\toolchains\\modulecheck\\configuration.json",
+    "sha256": "217f32261b5f7990be423524bee226731da4b9baed9d48f7593871e2c441eb4f"
+  },
+  "limits": [
+    "Individual command start/end timestamps were not separately captured; raw logs and observed exit codes retained.",
+    "No emulator interaction, signing, install, launch, backend service restart, backup restore, or Web regression performed this round."
+  ]
+}

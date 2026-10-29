@@ -1,0 +1,82 @@
+✖ AppScope resolves the packaged follow-system font profile without capping system scale (1.8399ms)
+✖ consecutive saved photos reuse an existing sandbox directory and keep distinct bytes (1.5668ms)
+✖ native create and write errors become safe actionable photo errors; incomplete files are removed (5.6619ms)
+✔ building floor and type filters intersect, and unknown device metadata stays unknown (1.9386ms)
+✔ history includes archived measurement points while current monitoring stays active-only (0.3426ms)
+✔ task date uses Shanghai calendar day and status and type are combined (2.622ms)
+✖ calendar validation rejects impossible dates and handles century leap years (0.4021ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 3
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 507.7033
+
+✖ failing tests:
+
+test at tests\mobile\online\font-config.test.mjs:6:1
+✖ AppScope resolves the packaged follow-system font profile without capping system scale (1.8399ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /^\$profile:[\w.]+$/. Input:
+  
+  ''
+  
+      at TestContext.<anonymous> (file:///C:/Users/Lenovo/Desktop/demo/tests/mobile/online/font-config.test.mjs:9:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.start (node:internal/test_runner/test:1096:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '',
+    expected: /^\$profile:[\w.]+$/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests\mobile\online\preview-files.test.mjs:33:1
+✖ consecutive saved photos reuse an existing sandbox directory and keep distinct bytes (1.5668ms)
+  Error: File exists
+      at Object.mkdirSync (file:///C:/Users/Lenovo/Desktop/demo/tests/mobile/online/preview-files.test.mjs:11:23)
+      at SandboxPreviewFiles.write (C:\Users\Lenovo\Desktop\demo\mobile\openharmony\entry\src\main\ets\core\media\PreviewFiles.ets:14:33)
+      at TestContext.<anonymous> (file:///C:/Users/Lenovo/Desktop/demo/tests/mobile/online/preview-files.test.mjs:37:48)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.start (node:internal/test_runner/test:1096:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17)
+
+test at tests\mobile\online\preview-files.test.mjs:48:1
+✖ native create and write errors become safe actionable photo errors; incomplete files are removed (5.6619ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(error instanceof ApiError)
+  
+      at Object.<anonymous> (file:///C:/Users/Lenovo/Desktop/demo/tests/mobile/online/preview-files.test.mjs:54:14)
+      at expectedException (node:assert:578:17)
+      at expectsError (node:assert:703:21)
+      at strict.throws (node:assert:759:3)
+      at TestContext.<anonymous> (file:///C:/Users/Lenovo/Desktop/demo/tests/mobile/online/preview-files.test.mjs:53:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\mobile\online\selectors.test.mjs:29:1
+✖ calendar validation rejects impossible dates and handles century leap years (0.4021ms)
+  TypeError: validTaskDate is not a function
+      at TestContext.<anonymous> (file:///C:/Users/Lenovo/Desktop/demo/tests/mobile/online/selectors.test.mjs:31:81)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7)
