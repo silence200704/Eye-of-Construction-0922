@@ -1,7 +1,7 @@
 import {test} from 'node:test'
 import assert from 'node:assert/strict'
 import {native} from '../nativeLoader.mjs'
-const {filterPoints,filterTasks,deviceSummary}=native('core/monitoring/Selectors.ets')
+const {filterPoints,filterTasks,deviceSummary,filterEvents}=native('core/monitoring/Selectors.ets')
 
 test('building floor and type filters intersect, and unknown device metadata stays unknown',()=>{
  const points=[{id:'a',status:'active',buildingId:'b',floorId:'f',type:'tilt'},
@@ -11,6 +11,13 @@ test('building floor and type filters intersect, and unknown device metadata sta
  assert.match(deviceSummary({health:'online'}),/未知/)
  assert.match(deviceSummary({telemetry:{source:'simulation',connection:'offline',batteryPercent:0,lastReportAt:null}}),/0%/)
  assert.match(deviceSummary({telemetry:{source:'simulation',connection:'offline',batteryPercent:12,lastReportAt:null}}),/低电量/)
+})
+
+test('history includes archived measurement points while current monitoring stays active-only',()=>{
+ const workspace={points:[{id:'old',buildingId:'b',floorId:'f',type:'crack',status:'archived'}],
+ events:[{id:'history',pointId:'old',status:'closed'}]}
+ assert.equal(filterEvents(workspace,{buildingId:'b',floorId:'f',type:'crack'},true).length,1)
+ assert.equal(filterEvents(workspace,{buildingId:'b',floorId:'f',type:'crack'},false).length,0)
 })
 
 test('task date uses Shanghai calendar day and status and type are combined',()=>{
