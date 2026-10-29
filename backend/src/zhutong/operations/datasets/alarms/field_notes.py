@@ -1,6 +1,7 @@
 """Append field observations without changing the alarm assessment or closing it."""
 
 from sqlalchemy.orm import Session
+
 from ....core.errors import AppError
 from ..core.serialize import event_out
 from ..core.workspace import (

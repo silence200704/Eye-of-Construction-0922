@@ -32,7 +32,7 @@ export async function readWorkspace(read: WorkspaceRead): Promise<Workspace> {
     !Array.isArray(data.points) || !Array.isArray(data.devices)) {
     throw new ApiError('INVALID_RESPONSE', '服务未返回完整档案。');
   }
-  const records = await rows<MonitorRecord>(read, '/records', data.epoch);
+  const records = await rows<MonitorRecord>(read, '/mobile/records', data.epoch);
   const events = await rows<AlarmEvent>(read, '/events?status=all', data.epoch);
   const tasks = await rows<InspectionTask>(read, '/inspection/tasks', data.epoch);
   const orders = await rows<WorkOrder>(read, '/work-orders', data.epoch);

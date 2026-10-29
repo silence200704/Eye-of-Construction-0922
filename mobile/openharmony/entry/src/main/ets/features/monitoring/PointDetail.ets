@@ -6,6 +6,7 @@ import { Theme } from '../../shared/theme/Theme';
 import { AppCard } from '../../shared/components/AppCard';
 import { PageStage } from '../../shared/playful/PageStage';
 import { latestRecord, reading, label, timeText, pointLocation, freshness } from '../../shared/format/display';
+import { deviceSummary } from '../../core/monitoring/Selectors';
 
 @Component
 export struct PointDetail {
@@ -41,8 +42,10 @@ export struct PointDetail {
       ForEach(this.state.workspace.devices.filter((device) => device.pointId === this.pointId && device.status === 'active'),
         (device: Device) => {
           Text(`${device.name} · ${label(device.health || 'unknown')}`).fontSize(14).fontColor(Theme.text);
+          Text(deviceSummary(device)).fontSize(14).fontColor(device.telemetry?.batteryPercent !== null &&
+            (device.telemetry?.batteryPercent ?? 100) <= 20 ? Theme.warning : Theme.secondary).id(`device-state-${device.id}`);
         }, (device: Device) => device.id);
-      Text('电量与最近设备上报时间：当前服务未提供，暂显示未知。').fontSize(13).fontColor(Theme.secondary);
+      Text('状态由服务端模拟台账提供；未知不等于在线，无真实硬件心跳。').fontSize(13).fontColor(Theme.secondary);
     }
   }
 

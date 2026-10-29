@@ -1,7 +1,9 @@
 from collections import Counter
 from datetime import datetime, timedelta, timezone
+
 from sqlalchemy import select
 from sqlalchemy.orm import Session
+
 from ....db.models.archive import Building, Point
 from ....db.models.monitoring import AlarmEvent, MonitorRecord
 from ..core.workspace import Workspace, can_access_building, require_building

@@ -12,9 +12,8 @@ from ...operations.datasets.alarms import (
     list_notifications,
     present_notification,
 )
-from ...operations.datasets.core.workspace import Command, execute_command
-from ...operations.datasets.core.workspace import require_role
 from ...operations.datasets.alarms.commands import event_of
+from ...operations.datasets.core.workspace import Command, execute_command, require_role
 from .common import Current, Read, Write, reply
 from .schemas_monitoring import EventCloseInput, EventCommand
 

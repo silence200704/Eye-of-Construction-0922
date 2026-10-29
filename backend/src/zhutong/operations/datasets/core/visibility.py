@@ -1,6 +1,7 @@
 """Monitoring read projections share the current building scope."""
 
 from sqlalchemy import select
+
 from ....db.models.archive import Point
 from .workspace import Workspace
 

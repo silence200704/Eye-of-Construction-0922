@@ -42,6 +42,6 @@ export class PhotoReader {
       await lease.authorize(target);
       if (generation !== this.generation) throw new ApiError('CANCELLED', '照片读取已取消。');
       this.uris.push(uri); return { uri, kind: row.kind };
-    } catch (cause) { this.options.files.remove(uri); throw cause; }
+    } catch (cause) { this.options.files.remove(uri); throw cause as Error; }
   }
 }

@@ -125,7 +125,7 @@ export struct ProfilePage {
         available: !this.state.busy && !!this.state.baseUrl, onAction: this.onRefresh, controlId: 'refresh-workspace' });
       Text(this.state.mode === 'ready' ? `最近读取 ${timeText(this.state.loadedAt)}` : '尚未读取服务端业务数据')
         .fontSize(11).fontColor(Theme.secondary);
-      Text('筑瞳原生 App 0.8.0-dev · 硬件输入模拟\n当前在线查看；上报与办理按阶段继续接入。')
+      Text('筑瞳原生 App 0.8.0 · 硬件输入模拟\n在线监测、预警、巡检、上报与工单；完整离线同步按后续阶段提供。')
         .fontSize(10).fontColor(Theme.secondary);
     }
   }

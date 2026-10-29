@@ -8,15 +8,23 @@ import { PageHeading } from '../../shared/playful/PageHeading';
 import { EmptyBuddy } from '../../shared/playful/EmptyBuddy';
 import { PlayButton } from '../../shared/playful/PlayButton';
 import { label, timeText } from '../../shared/format/display';
+import { TaskFilters } from './TaskFilters';
+import { filterTasks } from '../../core/monitoring/Selectors';
 
 @Component
 export struct TasksPage {
   @Prop state: AppState;
   @State orders: boolean = false;
+  @State status: string = 'all';
+  @State kind: string = 'all';
+  @State date: string = '';
+  @State page: number = 0;
   onSettings: () => void = () => {};
   onRefresh: () => void = () => {};
   onOpen: (id: string) => void = () => {};
   onOpenOrder: (id: string) => void = () => {};
+
+  tasks(): InspectionTask[] { return filterTasks(this.state.workspace.tasks, { date: this.date, status: this.status, kind: this.kind }); }
 
   @Builder
   taskCard(task: InspectionTask) {
@@ -59,9 +67,18 @@ export struct TasksPage {
           if (this.orders) {
             ForEach(this.state.workspace.orders, (order: WorkOrder) => { this.orderCard(order); }, (order: WorkOrder) => order.id);
           } else {
-            ForEach(this.state.workspace.tasks, (task: InspectionTask) => { this.taskCard(task); }, (task: InspectionTask) => task.id);
+            TaskFilters({ filter: { date: this.date, status: this.status, kind: this.kind },
+              onStatus: (value) => { this.status = value; this.page = 0; }, onKind: (value) => { this.kind = value; this.page = 0; },
+              onDate: (value) => { this.date = value; this.page = 0; } });
+            Text(`匹配 ${this.tasks().length} 条任务`).fontSize(14).fontColor(Theme.secondary);
+            ForEach(this.tasks().slice(this.page * 20, (this.page + 1) * 20), (task: InspectionTask) => { this.taskCard(task); }, (task: InspectionTask) => task.id);
+            if (this.tasks().length > 20) {
+              PlayButton({ title: '上一页任务', available: this.page > 0, secondary: true, onAction: () => { this.page--; }, controlId: 'tasks-previous' });
+              PlayButton({ title: '下一页任务', available: (this.page + 1) * 20 < this.tasks().length, secondary: true,
+                onAction: () => { this.page++; }, controlId: 'tasks-next' });
+            }
           }
-          if ((this.orders ? this.state.workspace.orders.length : this.state.workspace.tasks.length) === 0) {
+          if ((this.orders ? this.state.workspace.orders.length : this.tasks().length) === 0) {
             EmptyBuddy({ title: this.orders ? '工具已备好，等一份工单' : '暂时没有待办，小瞳准备好了',
               note: '当前授权范围没有对应任务。这里读取服务端记录，不会自动生成演示任务。' });
           }

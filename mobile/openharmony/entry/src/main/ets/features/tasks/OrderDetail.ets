@@ -7,6 +7,8 @@ import { PageHeading } from '../../shared/playful/PageHeading';
 import { AppCard } from '../../shared/components/AppCard';
 import { PlayButton } from '../../shared/playful/PlayButton';
 import { label, timeText } from '../../shared/format/display';
+import { SavedPhotos } from '../reports/SavedPhotos';
+import { PhotoOpen, SavedPhoto } from '../../core/media/PhotoReader';
 
 @Component
 export struct OrderDetail {
@@ -16,6 +18,8 @@ export struct OrderDetail {
   @Prop feedback: string = '';
   onHandle: (action: string) => void = () => {};
   onReload: () => void = () => {};
+  onPhoto: (request: PhotoOpen) => Promise<SavedPhoto | null> = async () => null;
+  onClearPhotos: () => void = () => {};
   order(): WorkOrder | undefined { return this.state.workspace.orders.find((row) => row.id === this.orderId); }
 
   @Builder
@@ -29,7 +33,7 @@ export struct OrderDetail {
       Text(`截止 ${timeText(this.order()!.dueAt)}`).fontSize(12).fontColor(Theme.secondary);
       if (this.order()!.measures) { Text(`维修措施：${this.order()!.measures}`).fontSize(14).fontColor(Theme.text); }
       if (this.order()!.materials) { Text(`材料：${this.order()!.materials}`).fontSize(13).fontColor(Theme.secondary); }
-      Text(`已关联 ${this.order()!.photos?.length ?? 0} 张办理/验收照片；原件可在Web同一工单查看。`).fontSize(12).fontColor(Theme.secondary);
+      Text(`已关联 ${this.order()!.photos?.length ?? 0} 张办理/验收照片。`).fontSize(12).fontColor(Theme.secondary);
     }
   }
 
@@ -73,7 +77,9 @@ export struct OrderDetail {
     PageStage() {
       if (this.state.mode === 'ready' && this.order()) {
         PageHeading({ title: '把这份守护，接续下去', subtitle: '接单 → 维修 → 提交验收', kicker: 'REPAIR / 维修手账' });
-        this.summary(); this.actions(); this.history();
+        this.summary(); this.actions();
+        SavedPhotos({ ids: this.order()!.photos ?? [], orderId: this.orderId, onOpen: this.onPhoto, onClear: this.onClearPhotos });
+        this.history();
       } else {
         AppCard() { Text('当前工单不可查看，请返回重新读取。').fontSize(17).fontColor(Theme.secondary); }
       }

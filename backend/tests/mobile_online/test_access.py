@@ -18,6 +18,7 @@ def test_empty_scope_receives_no_archive_record_alarm_or_notification_facts(clie
 def test_old_alarm_receipt_cannot_bypass_a_scope_revocation(client, settings):
     from sqlalchemy import create_engine
     from sqlalchemy.orm import Session
+
     from zhutong.db.models import User
 
     api = Api(client, str(settings.database_url))

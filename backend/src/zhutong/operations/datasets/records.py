@@ -19,8 +19,8 @@ from .core.record_queries import (
     records_of_point,
     rules_for_dataset,
 )
-from .core.visibility import visible_point_ids
 from .core.serialize import device_out, point_out, record_out
+from .core.visibility import visible_point_ids
 from .core.workspace import (
     RECORD_ROLES,
     AuditEntry,

@@ -21,6 +21,7 @@ from .core.serialize import (
     point_out,
     rule_out,
 )
+from .core.visibility import scoped_archive
 from .core.workspace import (
     ARCHIVE_ROLES,
     AuditEntry,
@@ -34,7 +35,6 @@ from .core.workspace import (
     uid,
     write_audit,
 )
-from .core.visibility import scoped_archive
 
 ARCHIVE_KINDS = {"building": Building, "floor": Floor, "point": Point, "device": Device}
 SERIALIZERS = {

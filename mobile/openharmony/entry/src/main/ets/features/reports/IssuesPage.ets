@@ -7,6 +7,8 @@ import { PageStage } from '../../shared/playful/PageStage';
 import { PageHeading } from '../../shared/playful/PageHeading';
 import { PlayButton } from '../../shared/playful/PlayButton';
 import { label } from '../../shared/format/display';
+import { SavedPhotos } from './SavedPhotos';
+import { PhotoOpen, SavedPhoto } from '../../core/media/PhotoReader';
 
 @Component
 export struct IssuesPage {
@@ -15,6 +17,8 @@ export struct IssuesPage {
   onNew: (target: ReportTarget) => void = () => {};
   onRefresh: () => void = () => {};
   onSupplement: (id: string) => void = () => {};
+  onPhoto: (request: PhotoOpen) => Promise<SavedPhoto | null> = async () => null;
+  onClearPhotos: () => void = () => {};
   @Prop feedback: string = '';
   @Prop busy: boolean = false;
 
@@ -48,6 +52,7 @@ export struct IssuesPage {
         PlayButton({ title: '补充材料', available: !this.busy, controlId: `issue-supplement-${issue.id}`,
           onAction: () => this.onSupplement(issue.id) });
       }
+      SavedPhotos({ ids: issue.photos, issueId: issue.id, onOpen: this.onPhoto, onClear: this.onClearPhotos });
     }
   }
 

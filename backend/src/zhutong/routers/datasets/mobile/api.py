@@ -1,13 +1,20 @@
 from datetime import datetime
 from typing import Literal
+
 from fastapi import APIRouter, Request
 from pydantic import BaseModel, ConfigDict, Field, field_validator
+
 from ....operations.datasets.alarms import field_notes
 from ....operations.datasets.core.workspace import Command, execute_command
-from ....operations.datasets.mobile import insights, telemetry
+from ....operations.datasets.mobile import insights, readings, telemetry
 from ..common import Current, Read, Write, reply
 
 router = APIRouter(prefix="/api/v1/datasets/{dataset_id}", tags=["原生在线业务"])
+
+
+@router.get("/mobile/records")
+def latest_records(request: Request, session: Read, current: Current) -> dict:
+    return reply(request, current, readings.latest(session, current))
 
 
 class SimulationInput(BaseModel):

@@ -49,9 +49,10 @@ export class BackendClient implements ApiClient {
     if (this.cancelled) throw new ApiError('CANCELLED', '读取已取消');
     if (!/^\/datasets\/demo-main\/media\/[A-Za-z0-9_-]+\/content$/.test(path)) throw new ApiError('INVALID_PATH', '照片地址无效。');
     const request = http.createHttp(); this.active.add(request);
+    const headers: Record<string, string> = { 'Authorization': `Bearer ${this.settings.token}` };
     try {
       const response = await request.request(`${this.settings.baseUrl}/api/v1${path}`, {
-        method: http.RequestMethod.GET, header: { Authorization: `Bearer ${this.settings.token}` },
+        method: http.RequestMethod.GET, header: headers,
         expectDataType: http.HttpDataType.ARRAY_BUFFER, usingCache: false, connectTimeout: 6000, readTimeout: 10000,
         maxLimit: 1024 * 1024
       });

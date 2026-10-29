@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+
 from ....core.errors import AppError
 from ....db.models.archive import Device, Point
 from ..core.serialize import device_out
