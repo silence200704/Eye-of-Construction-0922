@@ -1,0 +1,16 @@
+{
+  "capturedAt": "2026-10-29T03:14:21.355772+00:00",
+  "bundleName": "org.zhutong.mobile",
+  "profileType": "debug",
+  "fixtureSource": "Public SDK OpenHarmony.p12; NOT production signing identity",
+  "profileExpiresAt": "2026-11-28T03:14:16+00:00",
+  "deviceIdOmittedFromThisRecord": true,
+  "deviceBindingCount": 1,
+  "elevatedAcls": [],
+  "codeSigning": true,
+  "verified": true,
+  "install": "not_run_by_this_script",
+  "unsignedSha256": "0dfec5f42b6b1422f1c2bf1d3d0a551366322cfdb08817e69bcfe888511b3321",
+  "signedSha256": "e27e462a2c7a22cc3946c0c0decad391f1f9b9a489e7ad075c45184a75f03824",
+  "signedBytes": 813151
+}

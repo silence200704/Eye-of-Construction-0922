@@ -1,0 +1,81 @@
+{
+  "order": {
+    "id": "wo_6ed449a269184c42a243dec057df1eda",
+    "orderNo": "WO-20261029-002",
+    "origin": "manual",
+    "issueId": null,
+    "eventId": null,
+    "pointId": "pnt_cc8e5a7fe4ca4e1aae18c1e345cdbc62",
+    "title": "最终HAP无照片最短流程验收",
+    "status": "verified",
+    "assignee": "演示维修人员",
+    "assigneeId": "demo-repair",
+    "assignedBy": "演示学校安全管理人员",
+    "assignedAt": "2026-10-29T03:14:24.286901+00:00",
+    "dueAt": null,
+    "acceptedById": "demo-repair",
+    "measures": "模拟最短流程：复紧并完成逐项检查。",
+    "materials": "",
+    "photos": [],
+    "submittedAt": "2026-10-29T03:15:36.948679+00:00",
+    "reviews": [
+      {
+        "at": "2026-10-29T03:15:41.356445+00:00",
+        "by": "演示学校安全管理人员",
+        "byRole": "safety",
+        "action": "verify",
+        "result": "pass",
+        "note": "最终HAP原生文字完工验收通过。"
+      }
+    ],
+    "timeline": [
+      {
+        "at": "2026-10-29T03:14:24.242377+00:00",
+        "by": "演示学校安全管理人员",
+        "byRole": "safety",
+        "action": "创建工单",
+        "detail": "独立模拟数据，用于最新回执完整性校验后的原生写入冒烟。"
+      },
+      {
+        "at": "2026-10-29T03:14:24.286901+00:00",
+        "by": "演示学校安全管理人员",
+        "byRole": "safety",
+        "action": "派工",
+        "detail": ""
+      },
+      {
+        "at": "2026-10-29T03:15:13.670167+00:00",
+        "by": "演示维修人员",
+        "byRole": "repair",
+        "action": "接单处理",
+        "detail": ""
+      },
+      {
+        "at": "2026-10-29T03:15:36.948679+00:00",
+        "by": "演示维修人员",
+        "byRole": "repair",
+        "action": "提交待验收",
+        "detail": ""
+      },
+      {
+        "at": "2026-10-29T03:15:41.356445+00:00",
+        "by": "演示学校安全管理人员",
+        "byRole": "safety",
+        "action": "验收通过",
+        "detail": "最终HAP原生文字完工验收通过。"
+      }
+    ],
+    "createdAt": "2026-10-29T03:14:24.242377+00:00",
+    "createdBy": "演示学校安全管理人员",
+    "updatedAt": "2026-10-29T03:15:41.356445+00:00",
+    "updatedBy": "演示学校安全管理人员",
+    "rev": 5
+  },
+  "submittedByFinalHap": true,
+  "minimumRequiredFields": [
+    "measures"
+  ],
+  "acceptBusinessClicks": 1,
+  "optionalPhotosOmitted": true,
+  "finalSmokeVerification": "HTTP safety command; main scenario Web verification captured separately"
+}

@@ -1,0 +1,20 @@
+{
+  "parser": "OpenHarmony SDK TypeScript 4.9.5, ScriptKind.ETS",
+  "scope": [
+    "mobile/openharmony",
+    "tests/mobile",
+    "scripts/mobile"
+  ],
+  "files": 76,
+  "functions": 795,
+  "maxFile": {
+    "path": "mobile/openharmony/entry/src/main/ets/core/identity/WorkspaceController.ets",
+    "lines": 284
+  },
+  "maxFunction": {
+    "path": "mobile/openharmony/entry/src/main/ets/features/reports/PhotoCards.ets",
+    "line": 18,
+    "lines": 39
+  },
+  "violations": []
+}

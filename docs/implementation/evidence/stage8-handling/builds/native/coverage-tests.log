@@ -1,0 +1,108 @@
+✔ saved quiet mode is restored before native components read their shared UI state (3.4821ms)
+✔ appearance saves are ordered and only persist the motion preference (3.0953ms)
+✔ service root accepts explicit HTTP/HTTPS roots and rejects credentials, query, path and bad schemes (2.7308ms)
+✔ missing, invalid and manual readings never turn into zero or normal (0.348ms)
+✔ latest record follows sample time rather than backfill arrival; missing and stale times are labeled (0.4135ms)
+✔ preference saves are serialized and store no access tokens or business snapshots (1.9358ms)
+✔ sensor filter also scopes alarm history, retaining matching archived-point history (0.3881ms)
+✔ issue progress distinguishes review, investigation, recheck and observation states (0.295ms)
+✔ controller merges order-only command and keeps latest revision without removing issues (7.1303ms)
+✔ handling reload after an in-flight scope change clears all protected rows (5.0328ms)
+✔ supplements append note and photos to existing issue without rewriting original description (3.6682ms)
+✔ order submission requires measures and cannot forge acceptance evidence or assignment (0.4941ms)
+✔ property proxy acceptance requires a reason and existing attachments share the same quota (0.4633ms)
+✔ a property proxy who actually accepted remains the sole completion owner (1.7975ms)
+✔ verified work is read only and an absent identity never exposes a handling action (0.2949ms)
+✔ supplement context opens the existing issue, fixed location and revision; original body stays immutable (4.9002ms)
+✔ assigned repair accepts with one command and submits measures using the server identity (1.294ms)
+✔ unassigned repair cannot accept; property proxy must give reason; UI cannot forge acceptance photos (0.8789ms)
+✔ unknown order response retries exact key/body (1.9488ms)
+✔ a competing Web revision retains the completion draft until the user explicitly adopts the refreshed version (1.0553ms)
+✔ a truncated order receipt cannot become a false success or reach reactive UI state (0.4967ms)
+✔ context response after identity reset cannot repopulate an old order form (7.1287ms)
+✔ native client sends bearer and exact API path without enabling cache (2.0394ms)
+✔ server status and business errors stay visible; HTML or malformed envelopes never succeed (1.2581ms)
+✔ cancelled native response is rejected even when transport destruction throws (0.682ms)
+✔ request paths cannot escape the configured origin (0.3625ms)
+✔ native command headers carry idempotency and dataset epoch without replacing bearer (0.2664ms)
+✔ native photo upload sends original binary bytes and image content type on 201 response (0.2969ms)
+✔ inspection draft is initialized from the frozen checklist and keeps unknown answers unanswered (201.3399ms)
+✔ manual arrival needs a reason, a read tag and a matching expected task revision (1.1083ms)
+✔ completion requires arrival and an anomaly basis; only same-point issue ids are selectable (0.4453ms)
+✔ request snapshots omit unanswered optional fields and changing a draft never mutates a frozen request (0.4478ms)
+✔ draft copies isolate answers and completed points cannot be resubmitted (0.3717ms)
+✔ inspection POST carries epoch, stable operation key and an encoded task target (8.9311ms)
+✔ rapid repeated clicks issue one POST while a request is in flight (1.1055ms)
+✔ unknown network outcome retries the same immutable payload and operation key (1.1674ms)
+✔ a late write response cannot publish another identity task or success (2.0411ms)
+✔ wrong task executor is rejected locally and current server principal is checked before writes (0.7569ms)
+✔ 409 does not retry or overwrite a task; an explicit reload reads current revision (0.8182ms)
+✔ HTTP 200 with a failed attempt is shown as a failed arrival and preserves server revision (0.6279ms)
+✔ mixed dataset epochs in a successful-looking write are never applied (0.6577ms)
+✔ task reload rechecks authorization after rows arrive and cannot publish a reduced-scope snapshot (0.7744ms)
+✔ local role and task boundaries reject writes before contacting a mutation endpoint (0.5641ms)
+✔ unknown write survives a role round-trip and explicitly retries the old request only under its original identity (1.0168ms)
+✔ server validation errors are definitive, while malformed successful responses keep a retryable immutable request (0.6505ms)
+✔ report requires a real target and description, no synthetic normal or event binding (2.3703ms)
+✔ three photos and 600 KB are enforced before sending, upload is not attachment success (4.6086ms)
+✔ task origin uses its original revision; photo ownership ids stay stable (1.7958ms)
+✔ empty location, missing fields, duplicate photo and oversized image cannot become a report (3.9972ms)
+✔ native picker cancel yields no fabricated photo; selected bytes are compressed and resources closed (2.6305ms)
+✔ native camera uses the system picker; denied selection stays explicit (1.3011ms)
+✔ picker lifecycle retains text and marks external activity until safe result is reauthorized (9.6274ms)
+✔ picker cancellation and permission failure keep the draft; scope changes discard late bytes (3.5029ms)
+✔ upload then issue commit uses raw bytes and stable ids; repeated taps create one issue (6.4827ms)
+✔ committed response loss retries exactly the same issue body and key without uploading again (1.3512ms)
+✔ unknown media upload retries the same bytes/key and task conflict needs explicit revision adoption (0.7506ms)
+✔ scope revoked while archive is in flight blocks picker result publication (0.9488ms)
+✔ task 409 preserves uploaded evidence until explicit adoption; wrong role cannot start task report (1.0995ms)
+✔ unfinished draft survives reentry; a completed report permits a genuinely new submission (0.3413ms)
+✔ same-id authorization change before selection clears protected draft and old photo bytes (0.4423ms)
+✔ removed photo is disposed and is never sent as an attachment; malformed upload stays retryable (0.8463ms)
+✔ late report response after context reset does not resurrect a submitted issue (2.9489ms)
+✔ inactive service and wrong task role never start an executable report (0.301ms)
+✔ reactive report view carries preview metadata only, never an ArrayBuffer or upload object (0.4155ms)
+✔ reported issue and task are server rows in workspace, keep newer task revisions (7.7609ms)
+✔ default identity is server safety identity; saves only service root and identity id (8.544ms)
+✔ all five role changes clear protected state synchronously and select server identities (2.1074ms)
+✔ a late identity response cannot replace a newer connection (0.6966ms)
+✔ late protected rows are discarded even when native cancellation loses the race (0.7826ms)
+✔ dataset reset during a snapshot refuses mixed epochs and publishes no ready data (0.3973ms)
+✔ principal mismatch and unsupported roles cannot become an authorized session (0.2707ms)
+✔ unknown identities are rejected before issuing a shortcut (0.2441ms)
+✔ refresh revalidates same-id reduced scope and never reuses old rows (0.7128ms)
+✔ expired session refresh restores the same identity once; denied access does not change roles (1.1256ms)
+✔ late preference restoration cannot resurrect a suspended screen (0.39ms)
+✔ configuration failure is visible and cannot publish an online success (0.3751ms)
+✔ a scope change while snapshot rows are in flight invalidates the entire batch (0.4072ms)
+ℹ tests 77
+ℹ suites 0
+ℹ pass 77
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2018.2987
+ℹ start of coverage report
+ℹ --------------------------------------------------------------------------
+ℹ file                      | line % | branch % | funcs % | uncovered lines
+ℹ --------------------------------------------------------------------------
+ℹ mobile                    |        |          |         | 
+ℹ  openharmony              |        |          |         | 
+ℹ   entry                   |        |          |         | 
+ℹ    src                    |        |          |         | 
+ℹ     main                  |        |          |         | 
+ℹ      ets                  |        |          |         | 
+ℹ       core                |        |          |         | 
+ℹ        field              |        |          |         | 
+ℹ         OrderPolicy.ets   |  77.78 |   100.00 |  100.00 | 8-9
+ℹ        report             |        |          |         | 
+ℹ         Handling.ets      |  97.92 |    72.92 |  100.00 | 42
+ℹ         ReportDraft.ets   | 100.00 |    97.83 |  100.00 | 
+ℹ         ReportLease.ets   | 100.00 |    73.91 |  100.00 | 
+ℹ         ReportSession.ets |  96.49 |    89.19 |   95.83 | 92-99
+ℹ         ReportView.ets    |  82.93 |   100.00 |  100.00 | 35-41
+ℹ --------------------------------------------------------------------------
+ℹ all files                 |  95.98 |    87.10 |   98.18 | 
+ℹ --------------------------------------------------------------------------
+ℹ end of coverage report

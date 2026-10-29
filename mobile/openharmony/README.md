@@ -52,7 +52,7 @@ App“我的→校园服务连接→设置”填写提供筑瞳同源API的电�
 首次采用服务端默认演示身份，五类身份直接切换，不用账号密码。仅保存成功服务地址、身份ID和动效偏好；令牌不落盘。
 
 网络失败、身份变动或epoch不一致不会显示本地成功；旧身份在途响应会失效，完整快照载入前不展示半批数据。
-巡检只允许任务指定角色办理，其他身份只读；工单暂只展示。历史监测不标成实时，无设备字段不填默认正常/100%电量。
+巡检只允许任务指定角色办理，其他身份只读；工单按指定/实际接单人办理。历史监测不标成实时，无设备字段不填默认正常/100%电量。
 
 ## 结构与复验
 
@@ -62,3 +62,5 @@ App“我的→校园服务连接→设置”填写提供筑瞳同源API的电�
 2026-10-28巡检写入及原生实测见`docs/implementation/handoff/reports/mobile/05-native-inspection.md`。
 2026-10-29问题/照片收口见`docs/implementation/handoff/reports/mobile/06-native-reporting.md`；63项Node/mocks不代表Hypium或真机通过。
 全业务剩余项见`docs/implementation/handoff/stages/mobile/business-coverage.md`，不省略照片、问题、工单和离线流程。
+原生补证、一键接单、完工与退回重办以及Web验收/复查闭环见`docs/implementation/handoff/reports/mobile/07-native-handling.md`。
+正常接单不加确认；完工只必填措施。原生核心77项Node/mocks通过，SDK构建和模拟器安装/实际写入另有证据，非Hypium或真机。

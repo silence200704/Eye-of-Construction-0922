@@ -1,0 +1,22 @@
+{
+  "checks": {
+    "authorizedStaleReplay": {
+      "status": 200,
+      "sameLedger": true,
+      "currentStillVerified": true
+    },
+    "differentPayload": 409,
+    "scopeRevokedReplay": 403,
+    "scopeRevokedContext": 403,
+    "roleRevokedReplay": 409,
+    "nonOriginalReporter": 403
+  },
+  "sameLedger": {
+    "issues": 1,
+    "work_orders": 1,
+    "media_files": 3,
+    "attachments": 3,
+    "audits": 21,
+    "operation_receipts": 21
+  }
+}

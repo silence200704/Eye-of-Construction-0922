@@ -1,0 +1,215 @@
+Browser tab: 2, Title: "筑瞳 · 校园建筑健康监测与预警系统", URL: "http://127.0.0.1:5183/#/issues".
+1 AXWebArea 筑瞳 · 校园建筑健康监测与预警系统, URL: 127.0.0.1:5183/#/issues
+	2 container
+		3 link Description: 跳到页面内容, Value: 127.0.0.1:5183/#main-content
+		4 text 筑瞳
+		5 text 校园建筑健康监测与预警
+		6 container 主导航
+			7 container 看现场
+				8 heading 看现场, Value: 2, ID: nav-campus
+					9 text 看现场
+				10 link Description: 校园态势, Value: 127.0.0.1:5183/#/dashboard
+				11 link Description: 校园地图, Value: 127.0.0.1:5183/#/campus
+			12 container 查数据
+				13 heading 查数据, Value: 2, ID: nav-monitor
+					14 text 查数据
+				15 link Description: 监测分析, Value: 127.0.0.1:5183/#/monitor
+			16 container 办事务
+				17 heading 办事务, Value: 2, ID: nav-operations
+					18 text 办事务
+				19 link Description: 异常处置, Value: 127.0.0.1:5183/#/alarms
+				20 link Description: 现场任务, Value: 127.0.0.1:5183/#/inspection
+			21 container 做管理
+				22 heading 做管理, Value: 2, ID: nav-manage
+					23 text 做管理
+				24 link Description: 知识库, Value: 127.0.0.1:5183/#/knowledge
+				25 link Description: 管理报表, Value: 127.0.0.1:5183/#/reports
+				26 link Description: 系统设置, Value: 127.0.0.1:5183/#/settings
+		27 container 小瞳引导卡
+			28 text 校园陪伴
+			29 button Description: 关闭小瞳引导卡, Help: 关闭引导卡片
+			30 text 一起，把校园照顾好。
+			31 container
+				32 text 从留意一处变化，
+				33 text 到接续每一步处置。
+			34 button 找小瞳聊聊
+		35 text 服务端数据 · demo-main
+		36 button (collapsed) 版本与存储说明, Secondary Actions: Expand
+			37 text 版本与存储说明
+		38 button (expanded) Description: 收起或展开侧边导航, Secondary Actions: Collapse
+		39 heading 问题与工单, Value: 1
+			40 text 问题与工单
+		41 text 三类来源进同一个问题池；审核留痕后转维修工单
+		42 text 服务端数据
+		43 button 搜索页面与功能（Ctrl K）
+			44 text 搜索页面与功能
+			45 text Ctrl K
+		46 button 问小瞳
+		47 button (collapsed) Description: 预警提醒，0 条未读, Secondary Actions: Expand
+		48 button 学校安全管理人员 · 切换身份
+			49 text 学校安全管理人员
+			50 text · 切换身份
+		51 container main-content
+			52 container 当前工作台功能
+				53 text 当前工作台
+				54 link Description: 预警事件, Value: 127.0.0.1:5183/#/alarms
+				55 link Description: 问题与工单, Value: 127.0.0.1:5183/#/issues
+				56 link Description: 预警标准, Value: 127.0.0.1:5183/#/standards
+			57 container 校园守护工作台
+				58 container
+					59 text 校园守护 · 每一步，都有迹可循
+					60 heading 从发现，到妥善解决。, Value: 2
+						61 text 从发现，到妥善解决。
+					62 text 上报、维修、验收与复查，让现场的问题接续办理。
+			138 text 工单 WO-20261029-001 已流转到「已派工待接单」
+			63 container
+				64 heading 问题与工单, Value: 2
+					65 text 问题与工单
+				66 text 预警、巡检发现、人工上报进同一个池；审核留痕后转维修工单
+				67 checkbox 待审核 0, Value: 0
+				68 checkbox 处理中 1, Value: 0
+				69 checkbox 待复查 0, Value: 0
+				70 checkbox 已关闭 0, Value: 0
+				71 text 共 1 条问题｜工单 1 张 状态
+				72 pop up button (collapsed, settable) 状态, Value: 全部, Secondary Actions: Expand
+					73 menu
+						74 (selected) 全部
+						75 待审核
+						76 处理中（含排查中）
+						77 待复查
+						78 观察中
+						79 已关闭
+				80 text 来源
+				81 pop up button (collapsed, settable) 来源, Value: 全部, Secondary Actions: Expand
+					82 menu
+						83 (selected) 全部
+						84 传感器预警
+						85 巡检发现
+						86 人工上报
+						87 保养发现
+				88 text 楼栋
+				89 pop up button (collapsed, settable) 楼栋, Value: 全部, Secondary Actions: Expand
+					90 menu
+						91 (selected) 全部
+						92 APP-HANDLE 守护接续验收楼
+				93 text 异常类型
+				94 pop up button (collapsed, settable) 异常类型, Value: 全部, Secondary Actions: Expand
+					95 menu
+						96 (selected) 全部
+						97 模拟设备固定件松动
+				98 button 人工上报问题
+				99 text 当前匹配 1 条 / 共 1 条
+				100 checkbox 只看复查逾期（0）, Value: 0
+				101 button 刷新复查状态
+				102 table
+					103 row
+						104 cell
+							105 text 问题编号
+						106 cell
+							107 text 来源
+						108 cell
+							109 text 位置
+						110 cell
+							111 text 异常类型
+						112 cell
+							113 text 关联任务
+						114 cell
+							115 text 状态
+						116 cell
+							117 text 操作
+					118 row
+						119 cell
+							120 text ISS-20261029-001
+						121 cell
+							122 text 人工上报
+						123 cell
+							124 text 守护接续验收楼 一层
+							125 text 比赛模拟：检查到设备固定件疑似松动，此原始记录与照片需要完整保留。
+						126 cell
+							127 text 模拟设备固定件松动
+						128 cell
+							129 text —
+						130 cell
+							131 text 处理中
+						132 cell
+							133 button 收起
+				134 text 「关联既有对象」会保留两条记录并写上关联关系与时间线，不会把现场事实合并掉。 审核由学校安全管理人员执行（当前身份：学校安全管理人员）。
+		135 pop up button Description: 问筑瞳：打开本地数据问答, Help: 问筑瞳（轻点打开，可拖动）
+			136 image 小瞳待机
+	137 container
+		139 heading 问题 ISS-20261029-001, Value: 3
+			140 text 问题 ISS-20261029-001
+		141 button 关闭详情
+		142 text ISS-20261029-001
+		143 text 人工上报｜守护接续验收楼 一层 ｜APP-HANDLE-P1 模拟设备固定件检查点
+		144 text 处理中
+		145 button 关闭
+		146 text 比赛模拟：检查到设备固定件疑似松动，此原始记录与照片需要完整保留。
+		147 definition list
+			148 container 异常类型
+				149 text 异常类型
+			150 text 模拟设备固定件松动
+			151 container 提交人
+				152 text 提交人
+			153 text 演示巡检人员｜2026-10-29 10:04
+			154 container 关联任务
+				155 text 关联任务
+			156 text —（非巡检来源）
+			157 container 关联预警事件
+				158 text 关联预警事件
+			159 text —
+			160 container 关联原问题
+				161 text 关联原问题
+			162 text —
+			163 container 所属工单
+				164 text 所属工单
+			165 text 1 张
+		166 text 现场照片 2 张
+		167 container
+			168 image simulated-original.jpg
+			169 text simulated-original.jpg 126 KB
+		170 container
+			171 image report-1793239653871-bxxiskgjxrc.jpg
+			172 text report-1793239653871-bxxiskgjxrc.jpg 60 KB
+		173 text 维修工单
+		174 text WO-20261029-001
+		175 text 模拟设备固定件松动（ISS-20261029-001）｜APP-HANDLE-P1 模拟设备固定件检查点｜来源：人工问题转单
+		176 text 已派工待接单
+		177 container
+			178 text 流程： 1. 派工  →  2. 接单维修（当前）  →  3. 提交维修报告  →  4. 验收
+		179 definition list
+			180 container 维修人
+				181 text 维修人
+			182 text 演示维修人员
+			183 container 期限
+				184 text 期限
+			185 text —
+			186 container 完工照片
+				187 text 完工照片
+			188 text 0 张
+			189 container 验收照片
+				190 text 验收照片
+			191 text 0 张
+			192 container 提交待验收
+				193 text 提交待验收
+			194 text —
+		195 text 当前身份在该状态下没有可执行动作。
+		196 button (collapsed) 工单时间线（2 条）, Secondary Actions: Expand
+			197 text 工单时间线（2 条）
+		198 text 工单 WO-20261029-001 已流转到「已派工待接单」
+		199 text 审核记录与时间线
+		200 content list
+			201 container
+				202 text 2026-10-29 10:04 演示巡检人员（inspector） 提交问题 来源：report；比赛模拟：检查到设备固定件疑似松动，此原始记录与照片需要完整保留。
+			203 container
+				204 text 2026-10-29 10:05 演示学校安全管理人员（safety） 审核：need_evidence（image） 比赛隔离验收：请补充同一位置的模拟照片，原始记录保持完整。
+			205 container
+				206 text 2026-10-29 10:07 演示巡检人员（inspector） 提交补充材料 补充模拟观察：已检查设备固定件，补充同位置照片供审核，无真实设备隐患。
+			207 container
+				208 text 2026-10-29 10:08 演示学校安全管理人员（safety） 审核：to_repair（equipment） 隔离模拟验收：材料已补齐，按设备固定件问题转维修处理。
+			209 container
+				210 text 2026-10-29 10:08 演示学校安全管理人员（safety） 生成维修工单 WO-20261029-001 待派工
+		211 text 审核
+		212 button 审核处理
+
+The focused UI element is 1 AXWebArea 筑瞳 · 校园建筑健康监测与预警系统, URL: 127.0.0.1:5183/#/issues

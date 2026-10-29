@@ -1,0 +1,34 @@
+
+ RUN  v5.0.1 C:/Users/Lenovo/Desktop/demo
+
+ ❯ tests/http/session.test.ts (11 tests | 1 failed) 62ms
+   ❯ 服务端演示身份 (7)
+     × 刷新恢复有效身份后仍加载派工名单，无需再次切换身份 45ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/http/session.test.ts > 服务端演示身份 > 刷新恢复有效身份后仍加载派工名单，无需再次切换身份
+AssertionError: expected undefined to be 'demo-repair' // Object.is equality
+
+- Expected:
+"demo-repair"
+
++ Received:
+undefined
+
+ ❯ tests/http/session.test.ts:23:70
+     21|     const auth = useBackendSessionStore()
+     22|     await auth.initialize()
+     23|     expect(auth.identities.find(item => item.role === 'repair')?.id).t…
+       |                                                                      ^
+     24|     expect(auth.user?.id).toBe('demo-safety')
+     25|     expect(fetcher.mock.calls.map(call => call[0])).toEqual(['/api/v1/…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 10 passed (11)
+   Start at  10:09:29
+   Duration  612ms (transform 41%, import 27%, tests 15%, setup 15%, worker 2%)
+

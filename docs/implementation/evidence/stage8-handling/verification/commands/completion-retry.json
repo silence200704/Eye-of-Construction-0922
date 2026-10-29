@@ -1,0 +1,106 @@
+{
+  "order": {
+    "id": "wo_ffa82752ab614a5abaa30a0ec3bb00c1",
+    "orderNo": "WO-20261029-001",
+    "origin": "issue",
+    "issueId": "iss_2416cff49fd9465dadcee46379ea4d2b",
+    "eventId": null,
+    "pointId": "pnt_cc8e5a7fe4ca4e1aae18c1e345cdbc62",
+    "title": "模拟设备固定件松动（ISS-20261029-001）",
+    "status": "submitted",
+    "assignee": "演示维修人员",
+    "assigneeId": "demo-repair",
+    "assignedBy": "演示学校安全管理人员",
+    "assignedAt": "2026-10-29T02:11:12.131914+00:00",
+    "dueAt": null,
+    "acceptedById": "demo-repair",
+    "measures": "模拟返工：逐项复紧并补充二次复核记录，原验收退回原因保留。",
+    "materials": "模拟螺栓两枚",
+    "photos": [
+      "att_2358dd23ca084effaef38e907c751409"
+    ],
+    "submittedAt": "2026-10-29T02:17:10.484911+00:00",
+    "reviews": [
+      {
+        "at": "2026-10-29T02:16:40.775084+00:00",
+        "by": "演示学校安全管理人员",
+        "byRole": "safety",
+        "action": "return",
+        "result": "fail",
+        "note": "模拟验收退回：请补充逐项复紧及二次核对记录后重新提交。"
+      }
+    ],
+    "timeline": [
+      {
+        "at": "2026-10-29T02:08:32.849756+00:00",
+        "by": "演示学校安全管理人员",
+        "byRole": "safety",
+        "action": "创建工单",
+        "detail": "由问题 ISS-20261029-001 审核转维修生成，待派工"
+      },
+      {
+        "at": "2026-10-29T02:11:12.131914+00:00",
+        "by": "演示学校安全管理人员",
+        "byRole": "safety",
+        "action": "派工",
+        "detail": ""
+      },
+      {
+        "at": "2026-10-29T02:12:40.550926+00:00",
+        "by": "演示维修人员",
+        "byRole": "repair",
+        "action": "接单处理",
+        "detail": ""
+      },
+      {
+        "at": "2026-10-29T02:14:37.046148+00:00",
+        "by": "演示维修人员",
+        "byRole": "repair",
+        "action": "提交待验收",
+        "detail": ""
+      },
+      {
+        "at": "2026-10-29T02:16:40.775084+00:00",
+        "by": "演示学校安全管理人员",
+        "byRole": "safety",
+        "action": "验收退回",
+        "detail": "模拟验收退回：请补充逐项复紧及二次核对记录后重新提交。"
+      },
+      {
+        "at": "2026-10-29T02:16:53.016499+00:00",
+        "by": "演示维修人员",
+        "byRole": "repair",
+        "action": "接单处理",
+        "detail": ""
+      },
+      {
+        "at": "2026-10-29T02:17:10.484911+00:00",
+        "by": "演示维修人员",
+        "byRole": "repair",
+        "action": "提交待验收",
+        "detail": "已按退回意见补充办理，等待重新验收。"
+      }
+    ],
+    "createdAt": "2026-10-29T02:08:32.849756+00:00",
+    "createdBy": "演示学校安全管理人员",
+    "updatedAt": "2026-10-29T02:17:10.484911+00:00",
+    "updatedBy": "演示维修人员",
+    "rev": 7
+  },
+  "sameLedger": {
+    "issues": 1,
+    "work_orders": 1,
+    "media_files": 3,
+    "attachments": 3,
+    "audits": 17,
+    "operation_receipts": 17
+  },
+  "dropped": {
+    "path": "/api/v1/datasets/demo-main/work-orders/wo_ffa82752ab614a5abaa30a0ec3bb00c1/actions",
+    "status": 200,
+    "key": "report-1793240214483-3qp6v3t5epe-commit-6",
+    "bodySha256": "592e1ae94669b3dc465321bede3685ef6e8e13e621d9a7815e9900db9aab712a",
+    "afterCommit": true
+  },
+  "exactRetryNoDuplicate": true
+}

@@ -1,0 +1,9 @@
+
+ RUN  v5.0.1 C:/Users/Lenovo/Desktop/demo
+
+
+ Test Files  1 passed (1)
+      Tests  11 passed (11)
+   Start at  10:10:02
+   Duration  532ms (transform 42%, import 30%, setup 13%, tests 13%, worker 1%)
+

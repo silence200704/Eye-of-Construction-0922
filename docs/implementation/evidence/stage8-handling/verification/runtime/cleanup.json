@@ -1,0 +1,18 @@
+{
+  "stoppedOwnedPorts": [
+    18008,
+    18009,
+    5183
+  ],
+  "deliveryPorts": [
+    18000,
+    8080
+  ],
+  "identity": "demo-safety",
+  "deliveryHttpStatus": [
+    200,
+    200
+  ],
+  "isolatedDataRetained": true,
+  "appAddress": "http://127.0.0.1:18080"
+}

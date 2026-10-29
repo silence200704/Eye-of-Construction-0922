@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\Lenovo\Desktop\demo\scripts\mobile\handling\ui_flow.py", line 102, in <module>
+    result = globals()[phase]()
+  File "C:\Users\Lenovo\Desktop\demo\scripts\mobile\handling\ui_flow.py", line 73, in completion_loss
+    p.click('report-retry'); reveal('���ύ', 'up'); capture('completion-retried')
+                             ~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\demo\scripts\mobile\reporting\ui_flow.py", line 23, in reveal
+    raise ValueError(f'Native text not revealed: {fragment}')
+ValueError: Native text not revealed: ���ύ

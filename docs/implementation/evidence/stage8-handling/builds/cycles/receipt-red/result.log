@@ -1,0 +1,34 @@
+✔ supplement context opens the existing issue, fixed location and revision; original body stays immutable (3.6055ms)
+✔ assigned repair accepts with one command and submits measures using the server identity (1.0266ms)
+✔ unassigned repair cannot accept; property proxy must give reason; UI cannot forge acceptance photos (0.78ms)
+✔ unknown order response retries exact key/body (1.4415ms)
+✔ a competing Web revision retains the completion draft until the user explicitly adopts the refreshed version (0.7913ms)
+✖ a truncated order receipt cannot become a false success or reach reactive UI state (1.6411ms)
+✔ context response after identity reset cannot repopulate an old order form (7.0611ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 6
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 701.1765
+
+✖ failing tests:
+
+test at tests\mobile\handling\session.test.mjs:65:1
+✖ a truncated order receipt cannot become a false success or reach reactive UI state (1.6411ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'done' !== 'unknown'
+  
+      at TestContext.<anonymous> (file:///C:/Users/Lenovo/Desktop/demo/tests/mobile/handling/session.test.mjs:70:9)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'done',
+    expected: 'unknown',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

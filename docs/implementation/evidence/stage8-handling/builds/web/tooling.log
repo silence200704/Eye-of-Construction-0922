@@ -1,0 +1,17 @@
+
+> zhutong-demo@0.3.0 test:tooling
+> node --test tests/tooling/*.test.mjs
+
+✔ 复用已经运行的筑瞳，不再启动第二个预览进程 (63.5117ms)
+✔ 端口空闲时启动预览 (15.5726ms)
+✔ 其他项目占用端口时明确报错，保留其服务 (10.8797ms)
+✔ 占用服务无响应时停止启动，不静默更换端口 (58.5546ms)
+✔ 阶段 5—7A 实际改动的 TS/Vue 函数不超过 80 行、参数不超过 5 个 (234.3171ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 744.0321

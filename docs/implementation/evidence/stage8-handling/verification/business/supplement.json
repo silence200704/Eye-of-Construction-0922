@@ -1,0 +1,74 @@
+{
+  "issue": {
+    "id": "iss_2416cff49fd9465dadcee46379ea4d2b",
+    "issueNo": "ISS-20261029-001",
+    "source": "report",
+    "submissionKey": "handling-original",
+    "pointId": "pnt_cc8e5a7fe4ca4e1aae18c1e345cdbc62",
+    "buildingId": "bld_04401cf1f7f54a79ba240e7be24011c9",
+    "floorId": "flr_1ce04cc4bd7b4dd68061d29a4242e6f0",
+    "zoneId": "",
+    "eventId": null,
+    "taskId": null,
+    "maintenanceTaskId": null,
+    "anomalyType": "模拟设备固定件松动",
+    "description": "比赛模拟：检查到设备固定件疑似松动，此原始记录与照片需要完整保留。",
+    "photos": [
+      "att_407938fc7f3a49c98298f376b8fdde6d",
+      "att_c0556880e51341b395b0a8d95c24f4dc"
+    ],
+    "status": "pending_review",
+    "reviewAction": null,
+    "reviewCategory": "image",
+    "reviewedAt": "2026-10-29T02:05:28.467176+00:00",
+    "reviewedBy": "演示学校安全管理人员",
+    "reviewNote": "比赛隔离验收：请补充同一位置的模拟照片，原始记录保持完整。",
+    "duplicateOf": null,
+    "linkedEventId": null,
+    "linkedFrom": [],
+    "workOrderIds": [],
+    "rechecks": [],
+    "timeline": [
+      {
+        "at": "2026-10-29T02:04:31.764566+00:00",
+        "by": "演示巡检人员",
+        "byRole": "inspector",
+        "action": "提交问题",
+        "detail": "来源：report；比赛模拟：检查到设备固定件疑似松动，此原始记录与照片需要完整保留。"
+      },
+      {
+        "at": "2026-10-29T02:05:28.467176+00:00",
+        "by": "演示学校安全管理人员",
+        "byRole": "safety",
+        "action": "审核：need_evidence（image）",
+        "detail": "比赛隔离验收：请补充同一位置的模拟照片，原始记录保持完整。"
+      },
+      {
+        "at": "2026-10-29T02:07:42.245561+00:00",
+        "by": "演示巡检人员",
+        "byRole": "inspector",
+        "action": "提交补充材料",
+        "detail": "补充模拟观察：已检查设备固定件，补充同位置照片供审核，无真实设备隐患。",
+        "photos": [
+          "att_c0556880e51341b395b0a8d95c24f4dc"
+        ],
+        "reviewCategory": "image",
+        "reviewNote": "比赛隔离验收：请补充同一位置的模拟照片，原始记录保持完整。"
+      }
+    ],
+    "createdAt": "2026-10-29T02:04:31.764566+00:00",
+    "createdBy": "演示巡检人员",
+    "updatedAt": "2026-10-29T02:07:42.245561+00:00",
+    "updatedBy": "演示巡检人员",
+    "rev": 3
+  },
+  "ledger": {
+    "issues": 1,
+    "work_orders": 0,
+    "media_files": 2,
+    "attachments": 2,
+    "audits": 8,
+    "operation_receipts": 7
+  },
+  "originalPreserved": true
+}

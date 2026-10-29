@@ -1,0 +1,358 @@
+{
+  "/issues": [
+    {
+      "id": "iss_2416cff49fd9465dadcee46379ea4d2b",
+      "issueNo": "ISS-20261029-001",
+      "source": "report",
+      "submissionKey": "handling-original",
+      "pointId": "pnt_cc8e5a7fe4ca4e1aae18c1e345cdbc62",
+      "buildingId": "bld_04401cf1f7f54a79ba240e7be24011c9",
+      "floorId": "flr_1ce04cc4bd7b4dd68061d29a4242e6f0",
+      "zoneId": "",
+      "eventId": null,
+      "taskId": null,
+      "maintenanceTaskId": null,
+      "anomalyType": "模拟设备固定件松动",
+      "description": "比赛模拟：检查到设备固定件疑似松动，此原始记录与照片需要完整保留。",
+      "photos": [
+        "att_407938fc7f3a49c98298f376b8fdde6d",
+        "att_c0556880e51341b395b0a8d95c24f4dc"
+      ],
+      "status": "closed",
+      "reviewAction": "to_repair",
+      "reviewCategory": "equipment",
+      "reviewedAt": "2026-10-29T02:08:32.849756+00:00",
+      "reviewedBy": "演示学校安全管理人员",
+      "reviewNote": "隔离模拟验收：材料已补齐，按设备固定件问题转维修处理。",
+      "duplicateOf": null,
+      "linkedEventId": null,
+      "linkedFrom": [],
+      "workOrderIds": [
+        "wo_ffa82752ab614a5abaa30a0ec3bb00c1"
+      ],
+      "rechecks": [
+        {
+          "subject": "模拟复查：确认固定件稳定及记录完整",
+          "owner": "李老师（后勤保障处）",
+          "dueDate": "2026-10-29",
+          "at": "2026-10-29T03:03:08.881325+00:00",
+          "by": "演示学校安全管理人员",
+          "outcome": "recovered",
+          "outcomeAt": "2026-10-29T03:04:48.277012+00:00",
+          "outcomeBy": "演示学校安全管理人员",
+          "outcomeNote": "模拟复查依据：固定件逐项核对完成，返工措施与照片一致，确认恢复。"
+        }
+      ],
+      "timeline": [
+        {
+          "at": "2026-10-29T02:04:31.764566+00:00",
+          "by": "演示巡检人员",
+          "byRole": "inspector",
+          "action": "提交问题",
+          "detail": "来源：report；比赛模拟：检查到设备固定件疑似松动，此原始记录与照片需要完整保留。"
+        },
+        {
+          "at": "2026-10-29T02:05:28.467176+00:00",
+          "by": "演示学校安全管理人员",
+          "byRole": "safety",
+          "action": "审核：need_evidence（image）",
+          "detail": "比赛隔离验收：请补充同一位置的模拟照片，原始记录保持完整。"
+        },
+        {
+          "at": "2026-10-29T02:07:42.245561+00:00",
+          "by": "演示巡检人员",
+          "byRole": "inspector",
+          "action": "提交补充材料",
+          "detail": "补充模拟观察：已检查设备固定件，补充同位置照片供审核，无真实设备隐患。",
+          "photos": [
+            "att_c0556880e51341b395b0a8d95c24f4dc"
+          ],
+          "reviewCategory": "image",
+          "reviewNote": "比赛隔离验收：请补充同一位置的模拟照片，原始记录保持完整。"
+        },
+        {
+          "at": "2026-10-29T02:08:32.849756+00:00",
+          "by": "演示学校安全管理人员",
+          "byRole": "safety",
+          "action": "审核：to_repair（equipment）",
+          "detail": "隔离模拟验收：材料已补齐，按设备固定件问题转维修处理。"
+        },
+        {
+          "at": "2026-10-29T02:08:32.849756+00:00",
+          "by": "演示学校安全管理人员",
+          "byRole": "safety",
+          "action": "生成维修工单",
+          "detail": "WO-20261029-001 待派工"
+        },
+        {
+          "at": "2026-10-29T03:02:34.854299+00:00",
+          "by": "演示学校安全管理人员",
+          "byRole": "safety",
+          "action": "进入待复查",
+          "detail": "工单 WO-20261029-001 验收通过；事件关闭还需要恢复条件与处置依据"
+        },
+        {
+          "at": "2026-10-29T03:03:08.881325+00:00",
+          "by": "演示学校安全管理人员",
+          "byRole": "safety",
+          "action": "登记复查",
+          "detail": "复查事项：模拟复查：确认固定件稳定及记录完整；责任人：李老师（后勤保障处）；目标日期：2026-10-29"
+        },
+        {
+          "at": "2026-10-29T03:04:48.277012+00:00",
+          "by": "演示学校安全管理人员",
+          "byRole": "safety",
+          "action": "复查：recovered",
+          "detail": "模拟复查依据：固定件逐项核对完成，返工措施与照片一致，确认恢复。"
+        }
+      ],
+      "createdAt": "2026-10-29T02:04:31.764566+00:00",
+      "createdBy": "演示巡检人员",
+      "updatedAt": "2026-10-29T03:04:48.277012+00:00",
+      "updatedBy": "演示学校安全管理人员",
+      "rev": 7
+    }
+  ],
+  "/work-orders": [
+    {
+      "id": "wo_ffa82752ab614a5abaa30a0ec3bb00c1",
+      "orderNo": "WO-20261029-001",
+      "origin": "issue",
+      "issueId": "iss_2416cff49fd9465dadcee46379ea4d2b",
+      "eventId": null,
+      "pointId": "pnt_cc8e5a7fe4ca4e1aae18c1e345cdbc62",
+      "title": "模拟设备固定件松动（ISS-20261029-001）",
+      "status": "verified",
+      "assignee": "演示维修人员",
+      "assigneeId": "demo-repair",
+      "assignedBy": "演示学校安全管理人员",
+      "assignedAt": "2026-10-29T02:11:12.131914+00:00",
+      "dueAt": null,
+      "acceptedById": "demo-repair",
+      "measures": "模拟返工：逐项复紧并补充二次复核记录，原验收退回原因保留。",
+      "materials": "模拟螺栓两枚",
+      "photos": [
+        "att_2358dd23ca084effaef38e907c751409"
+      ],
+      "submittedAt": "2026-10-29T02:17:10.484911+00:00",
+      "reviews": [
+        {
+          "at": "2026-10-29T02:16:40.775084+00:00",
+          "by": "演示学校安全管理人员",
+          "byRole": "safety",
+          "action": "return",
+          "result": "fail",
+          "note": "模拟验收退回：请补充逐项复紧及二次核对记录后重新提交。"
+        },
+        {
+          "at": "2026-10-29T03:02:34.854299+00:00",
+          "by": "演示学校安全管理人员",
+          "byRole": "safety",
+          "action": "verify",
+          "result": "pass",
+          "note": "模拟验收通过：已核对返工措施与固定件复检记录，问题转待复查。"
+        }
+      ],
+      "timeline": [
+        {
+          "at": "2026-10-29T02:08:32.849756+00:00",
+          "by": "演示学校安全管理人员",
+          "byRole": "safety",
+          "action": "创建工单",
+          "detail": "由问题 ISS-20261029-001 审核转维修生成，待派工"
+        },
+        {
+          "at": "2026-10-29T02:11:12.131914+00:00",
+          "by": "演示学校安全管理人员",
+          "byRole": "safety",
+          "action": "派工",
+          "detail": ""
+        },
+        {
+          "at": "2026-10-29T02:12:40.550926+00:00",
+          "by": "演示维修人员",
+          "byRole": "repair",
+          "action": "接单处理",
+          "detail": ""
+        },
+        {
+          "at": "2026-10-29T02:14:37.046148+00:00",
+          "by": "演示维修人员",
+          "byRole": "repair",
+          "action": "提交待验收",
+          "detail": ""
+        },
+        {
+          "at": "2026-10-29T02:16:40.775084+00:00",
+          "by": "演示学校安全管理人员",
+          "byRole": "safety",
+          "action": "验收退回",
+          "detail": "模拟验收退回：请补充逐项复紧及二次核对记录后重新提交。"
+        },
+        {
+          "at": "2026-10-29T02:16:53.016499+00:00",
+          "by": "演示维修人员",
+          "byRole": "repair",
+          "action": "接单处理",
+          "detail": ""
+        },
+        {
+          "at": "2026-10-29T02:17:10.484911+00:00",
+          "by": "演示维修人员",
+          "byRole": "repair",
+          "action": "提交待验收",
+          "detail": "已按退回意见补充办理，等待重新验收。"
+        },
+        {
+          "at": "2026-10-29T03:02:34.854299+00:00",
+          "by": "演示学校安全管理人员",
+          "byRole": "safety",
+          "action": "验收通过",
+          "detail": "模拟验收通过：已核对返工措施与固定件复检记录，问题转待复查。"
+        }
+      ],
+      "createdAt": "2026-10-29T02:08:32.849756+00:00",
+      "createdBy": "演示学校安全管理人员",
+      "updatedAt": "2026-10-29T03:02:34.854299+00:00",
+      "updatedBy": "演示学校安全管理人员",
+      "rev": 8
+    },
+    {
+      "id": "wo_6ed449a269184c42a243dec057df1eda",
+      "orderNo": "WO-20261029-002",
+      "origin": "manual",
+      "issueId": null,
+      "eventId": null,
+      "pointId": "pnt_cc8e5a7fe4ca4e1aae18c1e345cdbc62",
+      "title": "最终HAP无照片最短流程验收",
+      "status": "verified",
+      "assignee": "演示维修人员",
+      "assigneeId": "demo-repair",
+      "assignedBy": "演示学校安全管理人员",
+      "assignedAt": "2026-10-29T03:14:24.286901+00:00",
+      "dueAt": null,
+      "acceptedById": "demo-repair",
+      "measures": "模拟最短流程：复紧并完成逐项检查。",
+      "materials": "",
+      "photos": [],
+      "submittedAt": "2026-10-29T03:15:36.948679+00:00",
+      "reviews": [
+        {
+          "at": "2026-10-29T03:15:41.356445+00:00",
+          "by": "演示学校安全管理人员",
+          "byRole": "safety",
+          "action": "verify",
+          "result": "pass",
+          "note": "最终HAP原生文字完工验收通过。"
+        }
+      ],
+      "timeline": [
+        {
+          "at": "2026-10-29T03:14:24.242377+00:00",
+          "by": "演示学校安全管理人员",
+          "byRole": "safety",
+          "action": "创建工单",
+          "detail": "独立模拟数据，用于最新回执完整性校验后的原生写入冒烟。"
+        },
+        {
+          "at": "2026-10-29T03:14:24.286901+00:00",
+          "by": "演示学校安全管理人员",
+          "byRole": "safety",
+          "action": "派工",
+          "detail": ""
+        },
+        {
+          "at": "2026-10-29T03:15:13.670167+00:00",
+          "by": "演示维修人员",
+          "byRole": "repair",
+          "action": "接单处理",
+          "detail": ""
+        },
+        {
+          "at": "2026-10-29T03:15:36.948679+00:00",
+          "by": "演示维修人员",
+          "byRole": "repair",
+          "action": "提交待验收",
+          "detail": ""
+        },
+        {
+          "at": "2026-10-29T03:15:41.356445+00:00",
+          "by": "演示学校安全管理人员",
+          "byRole": "safety",
+          "action": "验收通过",
+          "detail": "最终HAP原生文字完工验收通过。"
+        }
+      ],
+      "createdAt": "2026-10-29T03:14:24.242377+00:00",
+      "createdBy": "演示学校安全管理人员",
+      "updatedAt": "2026-10-29T03:15:41.356445+00:00",
+      "updatedBy": "演示学校安全管理人员",
+      "rev": 5
+    }
+  ],
+  "/attachments": [
+    {
+      "id": "att_2358dd23ca084effaef38e907c751409",
+      "issueId": null,
+      "workOrderId": "wo_ffa82752ab614a5abaa30a0ec3bb00c1",
+      "maintenanceTaskId": null,
+      "kind": "after",
+      "draftId": "report-1793240068609-o5hndlvoz2",
+      "mediaId": "35d12308e2cd45d78265ebe8ec95dc60",
+      "fileName": "report-1793240068609-o5hndlvoz2.jpg",
+      "mimeType": "image/jpeg",
+      "size": 61074,
+      "sha256": "a7b7e21279f3f48e58ca21638d95489845193930f0c7b4d62f1dc3ddc757ba17",
+      "width": 1600,
+      "height": 1000,
+      "uploadedAt": "2026-10-29T02:14:36.871288+00:00",
+      "uploadedBy": "demo-repair",
+      "capturedAt": null,
+      "contentUrl": "/api/v1/datasets/demo-main/media/35d12308e2cd45d78265ebe8ec95dc60/content",
+      "thumbUrl": "/api/v1/datasets/demo-main/media/35d12308e2cd45d78265ebe8ec95dc60/content",
+      "rev": 1
+    },
+    {
+      "id": "att_407938fc7f3a49c98298f376b8fdde6d",
+      "issueId": "iss_2416cff49fd9465dadcee46379ea4d2b",
+      "workOrderId": null,
+      "maintenanceTaskId": null,
+      "kind": "scene",
+      "draftId": "handling-original-photo",
+      "mediaId": "f2229beffc5b497d9df493f9de8a05a2",
+      "fileName": "simulated-original.jpg",
+      "mimeType": "image/jpeg",
+      "size": 128985,
+      "sha256": "efd97fb0b6132fa5144fa61ae08ec61cddb07811e0e762803c5d9dc0cf1fd538",
+      "width": 1600,
+      "height": 1000,
+      "uploadedAt": "2026-10-29T02:04:11.198458+00:00",
+      "uploadedBy": "demo-inspector",
+      "capturedAt": null,
+      "contentUrl": "/api/v1/datasets/demo-main/media/f2229beffc5b497d9df493f9de8a05a2/content",
+      "thumbUrl": "/api/v1/datasets/demo-main/media/f2229beffc5b497d9df493f9de8a05a2/content",
+      "rev": 1
+    },
+    {
+      "id": "att_c0556880e51341b395b0a8d95c24f4dc",
+      "issueId": "iss_2416cff49fd9465dadcee46379ea4d2b",
+      "workOrderId": null,
+      "maintenanceTaskId": null,
+      "kind": "scene",
+      "draftId": "report-1793239653871-bxxiskgjxrc",
+      "mediaId": "e27af59dc43e4fa49b9d87596f1d57bb",
+      "fileName": "report-1793239653871-bxxiskgjxrc.jpg",
+      "mimeType": "image/jpeg",
+      "size": 61074,
+      "sha256": "a7b7e21279f3f48e58ca21638d95489845193930f0c7b4d62f1dc3ddc757ba17",
+      "width": 1600,
+      "height": 1000,
+      "uploadedAt": "2026-10-29T02:07:42.073717+00:00",
+      "uploadedBy": "demo-inspector",
+      "capturedAt": null,
+      "contentUrl": "/api/v1/datasets/demo-main/media/e27af59dc43e4fa49b9d87596f1d57bb/content",
+      "thumbUrl": "/api/v1/datasets/demo-main/media/e27af59dc43e4fa49b9d87596f1d57bb/content",
+      "rev": 1
+    }
+  ]
+}

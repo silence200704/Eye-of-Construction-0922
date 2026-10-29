@@ -1,0 +1,4 @@
+
+> zhutong-demo@0.3.0 typecheck
+> vue-tsc --noEmit -p tsconfig.app.json
+

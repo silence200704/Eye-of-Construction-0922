@@ -1,0 +1,17 @@
+{
+  "apiHealthy": true,
+  "migrateExit": 0,
+  "web200": true,
+  "api200": true,
+  "businessUnchanged": true,
+  "apiImage": "sha256:ff20ad1cfb04f4a44b78a4da92944a6abc9f77901f4f4c6fb02883e0f9534799",
+  "webImage": "sha256:c0582e383527b97a877e01f8ca929ce07d26a7052a032907eed4815745970705",
+  "sha256": {
+    "operations/field/handling/access.py": "493b0ed5d09be9f4673bd6d84110a0a0e9f084bf52d13f8d31b8d40d877aba59",
+    "operations/field/handling/supplements.py": "24a490fa1c6d1b4a619b99ad066ebd50f9fc4d2f4ddbc073fdd80f73d5066aa0",
+    "operations/field/orders.py": "3dfff0a19a72c69e805e6c47f44c42677774e6a37067b40bc4d9d1f1bc1ea1c2",
+    "routers/datasets/field/handling_api.py": "8d30d868c56050e07ff2af4f159d9d880cef51e1328a832469d7d22d0d0fa375",
+    "routers/datasets/field/api.py": "6587494ff52c75c6330153536919a6a25aae7d80bc4313b1d0348f650f8764cf"
+  },
+  "migration": "0013_assistant_session_epoch"
+}

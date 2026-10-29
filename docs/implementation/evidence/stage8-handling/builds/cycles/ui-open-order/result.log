@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\Lenovo\Desktop\demo\scripts\mobile\handling\ui_flow.py", line 102, in <module>
+    result = globals()[phase]()
+  File "C:\Users\Lenovo\Desktop\demo\scripts\mobile\handling\ui_flow.py", line 55, in open_order
+    p.click(f'work-order-{order["id"]}'); p.expect('�ӵ�����ʼ����'); capture('assigned-order')
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\demo\scripts\mobile\verification\playful.py", line 47, in click
+    ui.click_id(OPTIONS, key, direction)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\demo\scripts\mobile\device_ui.py", line 79, in click_id
+    center = target_center(rows, key)
+  File "C:\Users\Lenovo\Desktop\demo\scripts\mobile\device_ui.py", line 63, in target_center
+    raise ValueError(f'Expected one visible native element {key}, found {len(matches)}')
+ValueError: Expected one visible native element work-order-wo_ffa82752ab614a5abaa30a0ec3bb00c1, found 0

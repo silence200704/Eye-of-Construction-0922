@@ -1,0 +1,17 @@
+{
+  "backendTests": 297,
+  "backendCoverage": 88.94,
+  "nativeNodeTests": 77,
+  "nativeCoreLineCoverage": 95.98,
+  "nativeCoreBranchCoverage": 87.1,
+  "webFiles": 125,
+  "webTests": 1171,
+  "toolingTests": 5,
+  "ruff": true,
+  "ruffFormat": true,
+  "typecheckExit": 0,
+  "webBuildExit": 0,
+  "hvigorExit": 0,
+  "hypium": false,
+  "physicalDevice": false
+}

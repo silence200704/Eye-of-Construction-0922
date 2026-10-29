@@ -1,0 +1,138 @@
+{
+  "python": {
+    "files": [
+      {
+        "path": "scripts/mobile/device_ui.py",
+        "lines": 176
+      },
+      {
+        "path": "scripts/mobile/prepare_online.py",
+        "lines": 53
+      },
+      {
+        "path": "scripts/mobile/prepare_probe.py",
+        "lines": 35
+      },
+      {
+        "path": "scripts/mobile/probe_environment.py",
+        "lines": 79
+      },
+      {
+        "path": "scripts/mobile/sign_online.py",
+        "lines": 11
+      },
+      {
+        "path": "scripts/mobile/sign_probe.py",
+        "lines": 11
+      },
+      {
+        "path": "scripts/mobile/artwork/build.py",
+        "lines": 103
+      },
+      {
+        "path": "scripts/mobile/handling/collect.py",
+        "lines": 107
+      },
+      {
+        "path": "scripts/mobile/handling/common.py",
+        "lines": 64
+      },
+      {
+        "path": "scripts/mobile/handling/proxy.py",
+        "lines": 14
+      },
+      {
+        "path": "scripts/mobile/handling/smoke.py",
+        "lines": 48
+      },
+      {
+        "path": "scripts/mobile/handling/ui_flow.py",
+        "lines": 134
+      },
+      {
+        "path": "scripts/mobile/handling/verify.py",
+        "lines": 122
+      },
+      {
+        "path": "scripts/mobile/inspection/collect.py",
+        "lines": 124
+      },
+      {
+        "path": "scripts/mobile/inspection/http_api.py",
+        "lines": 59
+      },
+      {
+        "path": "scripts/mobile/inspection/proxy.py",
+        "lines": 52
+      },
+      {
+        "path": "scripts/mobile/inspection/replay_http.py",
+        "lines": 68
+      },
+      {
+        "path": "scripts/mobile/inspection/seed.py",
+        "lines": 43
+      },
+      {
+        "path": "scripts/mobile/inspection/ui_flow.py",
+        "lines": 240
+      },
+      {
+        "path": "scripts/mobile/inspection/verify_http.py",
+        "lines": 92
+      },
+      {
+        "path": "scripts/mobile/reporting/collect.py",
+        "lines": 108
+      },
+      {
+        "path": "scripts/mobile/reporting/common.py",
+        "lines": 44
+      },
+      {
+        "path": "scripts/mobile/reporting/guards.py",
+        "lines": 63
+      },
+      {
+        "path": "scripts/mobile/reporting/proxy.py",
+        "lines": 45
+      },
+      {
+        "path": "scripts/mobile/reporting/ui_flow.py",
+        "lines": 193
+      },
+      {
+        "path": "scripts/mobile/reporting/verify.py",
+        "lines": 71
+      },
+      {
+        "path": "scripts/mobile/signing/common.py",
+        "lines": 100
+      },
+      {
+        "path": "scripts/mobile/signing/__init__.py",
+        "lines": 0
+      },
+      {
+        "path": "scripts/mobile/verification/delivery.py",
+        "lines": 114
+      },
+      {
+        "path": "scripts/mobile/verification/playful.py",
+        "lines": 216
+      },
+      {
+        "path": "scripts/mobile/verification/structure.py",
+        "lines": 65
+      }
+    ],
+    "violations": []
+  },
+  "artwork": {
+    "registered": 13,
+    "allHashesVerified": true,
+    "allXmlParsed": true,
+    "externalArtworkReferences": 0,
+    "aiAssisted": true
+  }
+}
