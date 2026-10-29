@@ -13,6 +13,7 @@ export interface EventOptions {
   invalidate: (message: string) => void;
 }
 interface EventPending { eventId: string; action: string; body: string; key: string; target: ReportTarget; lease: ReportLease; }
+interface EventBody { expectedRev: number; kind?: string; note?: string; basis?: string; noRepairNote?: string; }
 
 export class EventSession {
   private options: EventOptions;
@@ -51,7 +52,7 @@ export class EventSession {
       const event = this.validate(write, access);
       const point = access.workspace.points.find((row) => row.id === event.pointId);
       if (!point) throw new ApiError('NOT_FOUND', '当前测点不可查看。', 404);
-      const body: Record<string, string | number> = { expectedRev: event.rev };
+      const body: EventBody = { expectedRev: event.rev };
       if (write.action === 'field-notes') { body.kind = write.kind ?? ''; body.note = write.note?.trim() ?? ''; }
       if (write.action === 'close') { body.basis = write.basis?.trim() ?? ''; body.noRepairNote = write.noRepairNote?.trim() ?? ''; }
       this.pending = { eventId: event.id, action: write.action, body: JSON.stringify(body),
@@ -78,7 +79,9 @@ export class EventSession {
       if (generation !== this.generation) return;
       if (response.meta?.datasetEpoch !== pending.lease.access.workspace.epoch) throw new ApiError('EPOCH_CHANGED', '数据已复位。');
       const event = response.data;
-      if (event.id !== pending.eventId || !Number.isInteger(event.rev) || event.rev <= pending.target.expectedRev || !Array.isArray(event.timeline)) {
+      const expectedStatus = pending.action === 'acknowledge' ? 'handling' : pending.action === 'close' ? 'closed' : '';
+      if (event.id !== pending.eventId || !Number.isInteger(event.rev) || event.rev <= pending.target.expectedRev || !Array.isArray(event.timeline) ||
+        (expectedStatus && event.status !== expectedStatus)) {
         throw new ApiError('INVALID_RESPONSE', '办理响应不完整，请用原请求核验。');
       }
       this.options.onEvent(event); this.pending = null; this.phase('done', '服务端已保存本次办理。');
