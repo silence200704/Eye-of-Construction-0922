@@ -70,7 +70,11 @@ export const useBackendSessionStore = defineStore('backendSession', () => {
     if (busy.value || user.value) return
     message.value = ''
     await restore()
-    if (user.value || localStorage.getItem(TOKEN_KEY)) return
+    if (user.value) {
+      await loadIdentities()
+      return
+    }
+    if (localStorage.getItem(TOKEN_KEY)) return
     const current = generation
     if (!await loadIdentities() || current !== generation) return
     const lastId = localStorage.getItem(IDENTITY_KEY)
