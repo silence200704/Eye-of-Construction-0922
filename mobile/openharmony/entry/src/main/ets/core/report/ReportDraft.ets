@@ -61,7 +61,8 @@ export class ReportDraft {
     if (this.target.issueId || this.target.orderId) {
       const handling: HandlingBody = { expectedRev: this.target.expectedRev, note: this.note.trim(), photos };
       if (this.target.orderId) {
-        handling.to = this.target.action; handling.measures = this.measures.trim(); handling.materials = this.materials.trim();
+        handling.to = this.target.action;
+        if (this.target.action === 'submitted') { handling.measures = this.measures.trim(); handling.materials = this.materials.trim(); }
       }
       return JSON.stringify(handling);
     }

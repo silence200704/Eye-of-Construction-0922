@@ -73,6 +73,7 @@ export interface IssueRecord {
   description: string;
   status: string;
   reviewAction?: string | null;
+  reviewCategory?: string;
   reviewNote?: string;
   photos: string[];
   rev: number;
@@ -100,3 +101,5 @@ export interface HandlingContext {
   existingPhotoCount: number;
   existingPhotoBytes: number;
 }
+
+export interface HandlingRequest { issueId?: string; orderId?: string; action?: string; }

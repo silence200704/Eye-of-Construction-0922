@@ -23,8 +23,8 @@ export function handlingFixture(role='repair') {
  },cancel(){}}}
  const session=new ReportSession({access:()=>access,onChange:value=>views.push(value),invalidate:message=>{throw Error(message)},disposePhoto:p=>disposed.push(p),onResult:result=>{
   saved.push(result)
-  if(result.order)workspace.orders=[result.order]
-  if(result.issue)workspace.issues=[result.issue]
+  if(result.order){Object.assign(order,result.order);workspace.orders=[result.order]}
+  if(result.issue){Object.assign(issue,result.issue);workspace.issues=[result.issue]}
  }})
  return {session,access,workspace,issue,order,calls,saved,disposed,current:()=>views.at(-1),intercept:value=>{intercept=value}}
 }

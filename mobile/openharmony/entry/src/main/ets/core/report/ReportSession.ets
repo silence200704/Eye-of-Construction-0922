@@ -1,15 +1,18 @@
-import { PreparedPhoto, ReportTarget, ReportResult, IssueRecord, MediaResult } from '../../data/models/Reports';
+import { PreparedPhoto, ReportTarget, ReportResult, IssueRecord, MediaResult, HandlingRequest } from '../../data/models/Reports';
+import { WorkOrder } from '../../data/models/Tasks';
 import { TaskAccess } from '../field/TaskCommander';
 import { ApiError, errorMessage } from '../network/ApiError';
 import { ReportDraft } from './ReportDraft';
 import { ReportLease } from './ReportLease';
 import { ReportView, DraftPreview } from './ReportView';
+import { initialTarget, prepareHandling } from './Handling';
 
 class ReportState {
   draft: ReportDraft | null = null;
   phase: string = 'idle';
   message: string = '';
   issue: IssueRecord | null = null;
+  order: WorkOrder | null = null;
 }
 
 export interface ReportOptions {
@@ -31,11 +34,12 @@ export class ReportSession {
 
   constructor(options: ReportOptions) { this.options = options; }
   isExternal(): boolean { return this.external; }
-  private locked(): boolean { return ['picking', 'sending', 'unknown', 'done'].includes(this.view.phase); }
+  private locked(): boolean { return ['loading', 'picking', 'sending', 'unknown', 'done'].includes(this.view.phase); }
   private publish(): void {
     const copy = new ReportView();
     copy.draft = this.view.draft ? new DraftPreview(this.view.draft) : null; copy.phase = this.view.phase;
     copy.message = this.view.message; copy.issue = this.view.issue;
+    copy.order = this.view.order;
     this.options.onChange(copy);
   }
   private phase(phase: string, message: string): void { this.view.phase = phase; this.view.message = message; this.publish(); }
@@ -65,7 +69,37 @@ export class ReportSession {
     if (this.locked() || !this.view.draft) return;
     if (key === 'anomalyType') this.view.draft.anomalyType = value.slice(0, 80);
     if (key === 'description') this.view.draft.description = value.slice(0, 4000);
+    if (key === 'note') this.view.draft.note = value.slice(0, 4000);
+    if (key === 'measures') this.view.draft.measures = value.slice(0, 4000);
+    if (key === 'materials') this.view.draft.materials = value.slice(0, 2000);
     this.publish();
+  }
+
+  async startHandling(request: HandlingRequest): Promise<boolean> {
+    if (this.view.draft && this.view.phase !== 'done') return false;
+    if (this.locked() && this.view.phase !== 'done') return false;
+    const access = this.options.access();
+    if (!access) return false;
+    this.deactivate(); const generation = this.generation;
+    this.phase('loading', '正在读取当前办理条件…');
+    try {
+      const target = initialTarget(access, request); const lease = new ReportLease(access, this.options.access);
+      const draft = await prepareHandling(lease, target);
+      if (generation !== this.generation || !lease.current()) return false;
+      this.view.draft = draft; this.lease = lease;
+      this.phase('editing', target.issueId ? '补充材料将追加到原问题，原始描述与照片保留。' :
+        target.action === 'submitted' ? '填写维修措施后提交待验收。' : target.requireNote ? '物业代接请说明原因。' : '核对后即可接单。');
+      return true;
+    } catch (cause) {
+      if (generation === this.generation) this.failed(cause as ApiError, 'editing');
+      return false;
+    }
+  }
+
+  photoKind(id: string, kind: string): void {
+    if (this.locked() || !this.view.draft?.target.orderId || !['before', 'after'].includes(kind)) return;
+    const photo = this.view.draft.photos.find((row) => row.prepared.draftId === id);
+    if (photo) { photo.kind = kind; this.publish(); }
   }
 
   remove(id: string): void {
@@ -78,7 +112,7 @@ export class ReportSession {
   async choose(select: () => Promise<PreparedPhoto | null>): Promise<void> {
     if (this.locked() || !this.view.draft || !this.lease) return;
     const draft = this.view.draft, lease = this.lease, generation = this.generation;
-    if (draft.photos.length >= 3) { this.phase('editing', '每次上报最多3张照片。'); return; }
+    if (draft.photos.length + (draft.target.existingPhotoCount ?? 0) >= 3) { this.phase('editing', '同一业务最多3张照片，已有照片也占配额。'); return; }
     this.external = true; this.phase('picking', '正在选择照片，填写内容已保留。');
     let picked: PreparedPhoto | null = null;
     try {
@@ -130,7 +164,8 @@ export class ReportSession {
   async submit(): Promise<ReportResult | undefined> {
     if (this.locked() || !this.view.draft || !this.lease) return undefined;
     const draft = this.view.draft, lease = this.lease, generation = this.generation;
-    if (!draft.anomalyType.trim() || !draft.description.trim()) { this.phase('editing', '请填写异常类型和现场描述。'); return undefined; }
+    const validation = draft.validateText();
+    if (validation) { this.phase('editing', validation); return undefined; }
     this.phase('sending', '正在上传照片并提交，请勿重复操作。');
     try {
       await this.upload(draft, lease, generation);
@@ -155,20 +190,26 @@ export class ReportSession {
     try {
       await lease.authorize(draft.target);
       if (generation !== this.generation) return undefined;
-      const path = draft.target.taskId ? `/inspection/tasks/${encodeURIComponent(draft.target.taskId)}/issues` : '/issues';
+      const path = draft.target.issueId ? `/issues/${encodeURIComponent(draft.target.issueId)}/supplements` :
+        draft.target.orderId ? `/work-orders/${encodeURIComponent(draft.target.orderId)}/actions` :
+          draft.target.taskId ? `/inspection/tasks/${encodeURIComponent(draft.target.taskId)}/issues` : '/issues';
       sent = true;
       const response = await lease.access.client.send<ReportResult>(`/datasets/demo-main${path}`, {
         method: 'POST', body: this.pendingBody, idempotencyKey: this.pendingKey, datasetEpoch: lease.access.workspace.epoch });
       await lease.authorize(draft.target);
       if (generation !== this.generation) return undefined;
       if (response.meta?.datasetEpoch !== lease.access.workspace.epoch) throw new ApiError('EPOCH_CHANGED', '演示数据已变化。');
-      if (!response.data.issue?.id || response.data.issue.pointId !== (draft.target.pointId || null)) {
+      const result = response.data;
+      const valid = draft.target.orderId ? result.order?.id === draft.target.orderId :
+        !!result.issue?.id && result.issue.pointId === (draft.target.pointId || null) && (!draft.target.issueId || result.issue.id === draft.target.issueId);
+      if (!valid) {
         throw new ApiError('INVALID_RESPONSE', '上报响应不完整，请用原请求核验。');
       }
-      this.view.issue = response.data.issue;
-      this.options.onResult?.(response.data);
-      this.phase('done', `已提交 ${response.data.issue.issueNo}，等待审核；问题尚未关闭。`);
-      return response.data;
+      this.view.issue = result.issue ?? null; this.view.order = result.order ?? null;
+      this.options.onResult?.(result);
+      this.phase('done', result.order ? `工单 ${result.order.orderNo} 已由服务端保存；完工提交不等于验收通过。` :
+        `已提交 ${result.issue?.issueNo ?? ''}，等待审核；问题尚未关闭。`);
+      return result;
     } catch (cause) {
       if (generation !== this.generation) return undefined;
       const error = cause as ApiError;

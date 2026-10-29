@@ -34,7 +34,8 @@ export class ReportLease {
     if (archive.meta?.datasetEpoch !== this.access.workspace.epoch) throw new ApiError('EPOCH_CHANGED', '数据已复位，请重新读取。');
     const point = archive.data.points.find((row) => row.id === target.pointId && row.status === 'active');
     const building = archive.data.buildings.find((row) => row.id === target.buildingId && row.status === 'active');
-    if (!building || (target.pointId && (!point || point.buildingId !== target.buildingId))) {
+    const unlocatedOrder = !!target.orderId && !target.buildingId && this.access.user.buildingIds === null;
+    if ((!building && !unlocatedOrder) || (target.pointId && (!point || point.buildingId !== target.buildingId))) {
       throw new ApiError('AUTHORIZATION_CHANGED', '上报位置已归档或不在当前范围内。');
     }
     const confirmed = await this.access.client.send<Identity>('/auth/me');
