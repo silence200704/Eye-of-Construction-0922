@@ -1,7 +1,7 @@
 import { Identity, IdentitySession } from '../../data/models/Identity';
 import { ApiClient, ClientSettings } from '../../data/models/Http';
 import { readWorkspace } from '../../data/repositories/WorkspaceRepository';
-import { emptyWorkspace, withTasks, withIssues } from '../../data/models/Workspace';
+import { emptyWorkspace, withTasks, withIssues, withOrders } from '../../data/models/Workspace';
 import { ReportResult } from '../../data/models/Reports';
 import { InspectionTask } from '../../data/models/Tasks';
 import { TaskWrite, TaskCommandResult } from '../../data/models/Inspection';
@@ -69,11 +69,36 @@ export class WorkspaceController {
   acceptReport(result: ReportResult): void {
     if (this.state.mode !== 'ready') return;
     if (result.task) this.applyTask(result.task);
-    const previous = this.state.workspace.issues.find((row) => row.id === result.issue.id);
-    if (previous && previous.rev > result.issue.rev) return;
-    this.state.workspace = withIssues(this.state.workspace,
-      [...this.state.workspace.issues.filter((row) => row.id !== result.issue.id), result.issue]);
+    const issue = result.issue;
+    if (issue) {
+      const previous = this.state.workspace.issues.find((row) => row.id === issue.id);
+      if (!previous || previous.rev <= issue.rev) this.state.workspace = withIssues(this.state.workspace,
+        [...this.state.workspace.issues.filter((row) => row.id !== issue.id), issue]);
+    }
+    const order = result.order;
+    if (order) {
+      const previous = this.state.workspace.orders.find((row) => row.id === order.id);
+      if (!previous || previous.rev <= order.rev) this.state.workspace = withOrders(this.state.workspace,
+        [...this.state.workspace.orders.filter((row) => row.id !== order.id), order]);
+    }
     this.publish();
+  }
+
+  async reloadHandling(): Promise<void> {
+    const access = this.taskAccess();
+    if (!access) return;
+    try {
+      const principal = await access.client.send<Identity>('/auth/me');
+      if (this.client !== access.client) return;
+      if (authorizationOf(principal.data) !== authorizationOf(access.user)) throw new ApiError('AUTHORIZATION_CHANGED', '身份范围已变化。');
+      const workspace = await readWorkspace({ client: access.client, isCurrent: () => this.client === access.client });
+      const confirmed = await access.client.send<Identity>('/auth/me');
+      if (this.client !== access.client) return;
+      if (workspace.epoch !== access.workspace.epoch || authorizationOf(confirmed.data) !== authorizationOf(access.user)) {
+        throw new ApiError('AUTHORIZATION_CHANGED', '授权或数据版本已变化，请重新读取。');
+      }
+      this.state.workspace = workspace; this.publish();
+    } catch (cause) { this.invalidateInspection(errorMessage(cause as Error)); }
   }
 
   async reloadInspection(): Promise<void> {

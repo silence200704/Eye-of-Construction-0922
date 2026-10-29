@@ -33,3 +33,9 @@ export function withIssues(workspace: Workspace, issues: IssueRecord[]): Workspa
     points: workspace.points, devices: workspace.devices, records: workspace.records,
     events: workspace.events, orders: workspace.orders, tasks: workspace.tasks, issues };
 }
+
+export function withOrders(workspace: Workspace, orders: WorkOrder[]): Workspace {
+  return { epoch: workspace.epoch, buildings: workspace.buildings, floors: workspace.floors,
+    points: workspace.points, devices: workspace.devices, records: workspace.records,
+    events: workspace.events, tasks: workspace.tasks, issues: workspace.issues, orders };
+}
