@@ -39,7 +39,7 @@ def get_issue(session: Session, workspace: Workspace, issue_id: str) -> Issue:
     return row
 
 
-def _order_building(session: Session, workspace: Workspace, row: WorkOrder) -> str | None:
+def order_building(session: Session, workspace: Workspace, row: WorkOrder) -> str | None:
     if row.point_id:
         point = session.get(Point, (workspace.dataset_id, row.point_id))
         if point is not None:
@@ -55,7 +55,7 @@ def get_order(session: Session, workspace: Workspace, order_id: str) -> WorkOrde
     row = session.get(WorkOrder, (workspace.dataset_id, order_id))
     if row is None:
         raise AppError("NOT_FOUND", "工单不存在", 404, {"orderId": order_id})
-    require_target_building(workspace, _order_building(session, workspace, row), "工单")
+    require_target_building(workspace, order_building(session, workspace, row), "工单")
     return row
 
 

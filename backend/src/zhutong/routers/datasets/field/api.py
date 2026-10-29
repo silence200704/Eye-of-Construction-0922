@@ -4,7 +4,9 @@ from fastapi import APIRouter, Request
 
 from ....operations.datasets.core.workspace import Command, execute_command
 from ....operations.field import inspection, issues, maintenance, orders, reviews, task_checks
+from ....operations.field.handling.access import order_action as authorize_order_action
 from ..common import Current, Read, Write, reply
+from .handling_api import router as handling_router
 from .schemas import (
     CheckInInput,
     CompleteInput,
@@ -23,6 +25,7 @@ from .schemas import (
 )
 
 router = APIRouter(prefix="/api/v1/datasets/{dataset_id}", tags=["现场业务"])
+router.include_router(handling_router)
 
 
 @router.get("/inspection/plans")
@@ -220,6 +223,7 @@ def order_action(
     request: Request, session: Write, current: Current, order_id: str, body: OrderActionInput
 ) -> dict:
     payload = body.model_dump()
+    authorize_order_action(session, current, order_id, payload)
     data, replayed = execute_command(
         session,
         current,

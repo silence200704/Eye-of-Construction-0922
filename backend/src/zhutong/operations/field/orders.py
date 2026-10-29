@@ -11,6 +11,7 @@ from ..datasets.core.workspace import (
     AuditEntry,
     Workspace,
     bump,
+    can_access_building,
     now_iso,
     require_revision,
     require_role,
@@ -18,6 +19,7 @@ from ..datasets.core.workspace import (
     uid,
     write_audit,
 )
+from .access import order_building
 from .common import (
     PhotoOwner,
     PhotoSpec,
@@ -42,7 +44,17 @@ STATUS_ACTION = {
 
 def list_orders(session: Session, workspace: Workspace) -> list[dict]:
     rows = session.scalars(select(WorkOrder).where(WorkOrder.dataset_id == workspace.dataset_id))
-    return [work_order_out(row) for row in rows]
+    visible = []
+    for row in rows:
+        building = order_building(session, workspace, row)
+        allowed = (
+            workspace.actor.building_ids is None
+            if building is None
+            else can_access_building(workspace, building)
+        )
+        if allowed:
+            visible.append(work_order_out(row))
+    return visible
 
 
 def create_manual(session: Session, workspace: Workspace, payload: dict) -> dict:
