@@ -2,6 +2,7 @@ import { Theme } from '../../shared/theme/Theme';
 import { AppCard } from '../../shared/components/AppCard';
 import { PlayButton } from '../../shared/playful/PlayButton';
 import { PhotoOpen, SavedPhoto } from '../../core/media/PhotoReader';
+import { ApiError, errorMessage } from '../../core/network/ApiError';
 
 @Component
 export struct SavedPhotos {
@@ -21,9 +22,9 @@ export struct SavedPhotos {
     try {
       const data = await this.onOpen({ attachmentId: id, issueId: this.issueId || undefined, orderId: this.orderId || undefined });
       if (generation !== this.generation) return;
-      if (!data) throw new Error('照片暂不可用。');
+      if (!data) throw new ApiError('UNAVAILABLE', '照片暂不可用，请重新打开重试。');
       this.preview = data.uri; this.kind = data.kind;
-    } catch (cause) { if (generation === this.generation) this.message = (cause as Error).message; }
+    } catch (cause) { if (generation === this.generation) this.message = errorMessage(cause as Error); }
     finally { if (generation === this.generation) this.loading = false; }
   }
   build() {

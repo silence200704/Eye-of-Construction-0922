@@ -43,14 +43,17 @@ export struct StatisticsPage {
   counts(title: string, rows: InsightCount[], types: boolean = false) {
     AppCard() {
       Text(title).fontSize(20).fontWeight(FontWeight.Bold).fontColor(Theme.text);
-      ForEach(rows, (row: InsightCount) => {
+      ForEach(rows.filter((row: InsightCount) => row.count > 0), (row: InsightCount) => {
         Row({ space: 12 }) {
           Text(types ? label(row.label) : row.label).fontSize(15).fontColor(Theme.text).layoutWeight(1);
           Text(String(row.count)).fontSize(20).fontWeight(FontWeight.Bold).fontColor(Theme.brand);
         }.width('100%').padding({ top: 7, bottom: 7 }).accessibilityGroup(true)
           .accessibilityText(`${types ? label(row.label) : row.label}，${row.count}`);
       }, (row: InsightCount) => row.id);
-      if (!rows.length) { Text('当前范围暂无对应数据。').fontSize(15).fontColor(Theme.secondary); }
+      if (!rows.some((row: InsightCount) => row.count > 0)) {
+        Text(types ? '当前范围暂无在用传感器测点。' : '本期没有触发预警的对象。').fontSize(15).fontColor(Theme.secondary);
+      }
+      if (!types) { Text('频次列表仅展示本期触发过预警的对象；没有预警不等于已确认安全。').fontSize(12).fontColor(Theme.secondary); }
     }
   }
   @Builder

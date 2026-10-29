@@ -60,3 +60,15 @@ test('native create and write errors become safe actionable photo errors; incomp
     assert.equal(closed.length, failure === 'create' ? 0 : 1)
   }
 })
+
+test('a later failed preview never deletes a successfully cached photo', () => {
+  reset()
+  const cache = new SandboxPreviewFiles('/private/cache'), bytes = new Uint8Array([7, 8]).buffer
+  const first = cache.write(bytes)
+  failWrite = true
+  assert.throws(() => cache.write(bytes), error => error.code === 'PHOTO_CACHE_FAILED')
+  assert.equal(files.size, 1)
+  assert.deepEqual(files.get(first.slice('file://'.length)), bytes)
+  cache.remove(first)
+  assert.equal(files.size, 0)
+})

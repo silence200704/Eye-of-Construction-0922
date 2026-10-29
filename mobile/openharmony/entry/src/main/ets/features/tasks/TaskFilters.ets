@@ -1,5 +1,5 @@
 import { Theme } from '../../shared/theme/Theme';
-import { TaskFilter } from '../../core/monitoring/Selectors';
+import { TaskFilter, validTaskDate } from '../../core/monitoring/Selectors';
 
 @Component
 export struct TaskFilters {
@@ -19,8 +19,8 @@ export struct TaskFilters {
         .accessibilityText('检查类型筛选').id('tasks-kind');
       TextInput({ text: this.filter.date, placeholder: '计划日期：YYYY-MM-DD，留空看全部' }).height(54).fontSize(15)
         .onChange(this.onDate).backgroundColor(Theme.surface).accessibilityText('任务计划日期筛选').id('tasks-date');
-      if (this.filter.date && !/^\d{4}-\d{2}-\d{2}$/.test(this.filter.date)) {
-        Text('请按 YYYY-MM-DD 填写日期，或清空查看全部任务。').fontSize(13).fontColor(Theme.warning);
+      if (!validTaskDate(this.filter.date)) {
+        Text('请填写有效日期（YYYY-MM-DD），或清空查看全部任务。').fontSize(13).fontColor(Theme.warning).id('tasks-date-feedback');
       }
     }.width('100%');
   }

@@ -5,13 +5,13 @@ import { Configuration as AbilityConfiguration } from '@ohos.app.ability.Configu
 import accessibility from '@ohos.accessibility';
 
 export default class EntryAbility extends UIAbility {
-  private recordEnvironment(): void {
+  private recordEnvironment(config: AbilityConfiguration): void {
     hilog.info(0x01, 'ZhutongUX', 'fontScale=%{public}s; screenReader=%{public}s; orientation=%{public}s',
-      String(this.context.config.fontSizeScale ?? 1), String(accessibility.isScreenReaderOpenSync()), String(this.context.config.direction));
+      String(config.fontSizeScale ?? 1), String(accessibility.isScreenReaderOpenSync()), String(config.direction));
   }
-  onConfigurationUpdate(config: AbilityConfiguration): void { this.recordEnvironment(); }
+  onConfigurationUpdate(config: AbilityConfiguration): void { this.recordEnvironment(config); }
   onWindowStageCreate(stage: window.WindowStage): void {
-    this.recordEnvironment();
+    this.recordEnvironment(this.context.config);
     stage.loadContent('pages/Index', (error) => {
       if (error.code) hilog.error(0x01, 'ZhutongProbe', 'Load failed: %{public}s', error.message);
     });

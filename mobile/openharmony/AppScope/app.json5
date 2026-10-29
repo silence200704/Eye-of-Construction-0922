@@ -5,6 +5,7 @@
     "versionCode": 1000000,
     "versionName": "0.8.0-dev",
     "icon": "$media:layered_image",
-    "label": "$string:app_name"
+    "label": "$string:app_name",
+    "configuration": "$profile:configuration"
   }
 }

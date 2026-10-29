@@ -26,6 +26,16 @@ export struct EventDetail {
   event(): AlarmEvent | undefined { return this.state.workspace.events.find((row) => row.id === this.eventId); }
   locked(): boolean { return this.command.eventId === this.eventId && ['sending', 'unknown'].includes(this.command.phase); }
   @Builder
+  feedback(controlId: string) {
+    if (this.command.eventId === this.eventId && this.command.message) {
+      Text(this.command.message).fontSize(15).fontColor(['error', 'conflict'].includes(this.command.phase) ? Theme.danger : Theme.brand)
+        .id(controlId).accessibilityText(this.command.message);
+      if (this.command.phase === 'unknown') {
+        PlayButton({ title: '用原请求核验办理结果', controlId: 'alarm-retry', onAction: this.onRetry });
+      }
+    }
+  }
+  @Builder
   summary() {
     AppCard({ color: this.event()!.level === 'red' ? Theme.peach : Theme.cream }) {
       Text(this.event()!.eventNo).fontSize(23).fontWeight(FontWeight.Bold).fontColor(Theme.text);
@@ -46,6 +56,7 @@ export struct EventDetail {
         .height(50).onSelect((index: number) => { this.kind = index === 0 ? 'investigation' : 'measures'; }).id('alarm-note-kind').accessibilityText('现场记录类别');
       TextArea({ text: this.note, placeholder: '填写现场观察或已采取的措施，至少10字' }).height(160).fontSize(16)
         .enabled(!this.locked()).onChange((value: string) => { this.note = value; }).id('alarm-field-note').accessibilityText('排查或处置说明');
+      this.feedback('alarm-note-feedback');
       PlayButton({ title: '保存这次现场记录', available: !this.locked(), controlId: 'alarm-note-save', onAction: () => this.onWrite({
         eventId: this.eventId, action: 'field-notes', kind: this.kind, note: this.note }) });
       Text('保存说明不会改变监测判定、验收结果或关闭事件。').fontSize(13).fontColor(Theme.secondary);
@@ -60,6 +71,7 @@ export struct EventDetail {
       TextArea({ text: this.noRepairNote, placeholder: '无需维修的现场核查结论；已有当前关联已验收工单时可留空' })
         .height(120).fontSize(16).enabled(!this.locked()).onChange((value: string) => { this.noRepairNote = value; })
         .id('alarm-close-note').accessibilityText('无需维修现场核查结论');
+      this.feedback('alarm-close-feedback');
       PlayButton({ title: '提交恢复依据并关闭预警', available: !this.locked(), controlId: 'alarm-close-save', onAction: () => this.onWrite({
         eventId: this.eventId, action: 'close', basis: this.basis, noRepairNote: this.noRepairNote }) });
       Text('服务端复核连续恢复记录、当前工单和权限；不满足时保留填写内容并提示原因。').fontSize(13).fontColor(Theme.secondary);
@@ -67,24 +79,19 @@ export struct EventDetail {
   }
   @Builder
   actions() {
-    if (this.command.eventId === this.eventId && this.command.message) {
-      Text(this.command.message).fontSize(15).fontColor(Theme.brand).id('alarm-feedback');
-    }
-    if (this.command.eventId === this.eventId && this.command.phase === 'unknown') {
-      PlayButton({ title: '用原请求核验办理结果', controlId: 'alarm-retry', onAction: this.onRetry });
-    }
+    if ((!this.showNote && !this.showClose) || this.event()!.status === 'closed') { this.feedback('alarm-feedback'); }
     if (this.state.user?.role === 'safety' && this.event()!.status === 'pending') {
       PlayButton({ title: '确认预警，开始跟进', available: !this.locked(), controlId: 'alarm-acknowledge',
         onAction: () => this.onWrite({ eventId: this.eventId, action: 'acknowledge' }) });
     }
     if (['safety', 'property'].includes(this.state.user?.role ?? '') && this.event()!.status !== 'closed') {
       PlayButton({ title: this.showNote ? '收起现场记录' : '登记排查 / 处置措施', secondary: true, available: !this.locked(),
-        controlId: 'alarm-note-open', onAction: () => { this.showNote = !this.showNote; } });
+        controlId: 'alarm-note-open', onAction: () => { this.showNote = !this.showNote; this.showClose = false; } });
       if (this.showNote) { this.notes(); }
     }
     if (this.state.user?.role === 'safety' && this.event()!.status === 'recovering') {
       PlayButton({ title: this.showClose ? '收起恢复核查' : '核查恢复并关闭', secondary: true, available: !this.locked(),
-        controlId: 'alarm-close-open', onAction: () => { this.showClose = !this.showClose; } });
+        controlId: 'alarm-close-open', onAction: () => { this.showClose = !this.showClose; this.showNote = false; } });
       if (this.showClose) { this.closeForm(); }
     }
     PlayButton({ title: '刷新当前预警', secondary: true, available: !this.locked(), controlId: 'alarm-reload', onAction: this.onReload });

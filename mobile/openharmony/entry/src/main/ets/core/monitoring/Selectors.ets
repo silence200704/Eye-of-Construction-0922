@@ -22,6 +22,13 @@ export function shanghaiDay(value: string): string {
   return Number.isFinite(time) ? new Date(time + 8 * 3600000).toISOString().slice(0, 10) : '';
 }
 
+export function validTaskDate(value: string): boolean {
+  if (!value) return true;
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value) || value.slice(0, 4) === '0000') return false;
+  const date = new Date(`${value}T00:00:00.000Z`);
+  return Number.isFinite(date.getTime()) && date.toISOString().slice(0, 10) === value;
+}
+
 export function filterTasks(tasks: InspectionTask[], filter: TaskFilter): InspectionTask[] {
   return tasks.filter((row) => (!filter.date || shanghaiDay(row.plannedAt) === filter.date) &&
     (filter.status === 'all' || row.status === filter.status) && (filter.kind === 'all' || row.planSnapshot.kind === filter.kind));
