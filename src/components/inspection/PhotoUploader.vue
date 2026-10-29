@@ -114,8 +114,8 @@ function remove(index: number): void {
     </div>
 
     <p class="field-hint">
-      照片在本机压缩后保存（每张约 {{ formatBytes(ATTACHMENT_LIMITS.targetBytes) }}），原始大图不入库；
-      随备份一并导出。纯前端阶段没有云端上传，"已选"只表示照片在本机草稿里。
+      照片先在本机压缩（每张约 {{ formatBytes(ATTACHMENT_LIMITS.targetBytes) }}），原始大图不入库。
+      “已选”表示草稿；点击业务提交并收到成功结果后才算保存，保存的照片随备份一并导出。
     </p>
 
   </div>

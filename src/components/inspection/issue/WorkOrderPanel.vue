@@ -362,7 +362,7 @@ function personLabel(person: { name: string; duty: string }): string {
       <div v-else-if="canVerify() && order.status === 'submitted'" class="col actions">
         <input v-model="note" class="ctl grow" placeholder="验收意见（退回必填，说明哪里不合格）" />
         <PhotoUploader v-model:photos="acceptancePhotos" @error="message = $event; tone = 'bad'" />
-        <p class="muted">验收照片会与验收结论一次写入本地档案；未选照片也可记录文字验收结论。</p>
+        <p class="muted">验收照片随验收结论一并提交；未选照片也可记录文字验收结论。</p>
         <div class="row wrap">
         <AppButton size="sm" :disabled="busy" @click="run(order, 'returned')">验收退回</AppButton>
         <AppButton size="sm" variant="primary" :disabled="busy" @click="run(order, 'verified')">验收通过</AppButton>
