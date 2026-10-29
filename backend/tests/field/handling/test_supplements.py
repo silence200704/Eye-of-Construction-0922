@@ -96,8 +96,12 @@ def test_supplement_conflict_and_current_scope_guard_replay(client, settings):
     assert counts(str(settings.database_url), "issues", "audits", "operation_receipts") == before
 
 
-def test_issue_list_exposes_stable_original_actor_for_supplement_affordance(client, settings):
+def test_supplement_targets_do_not_change_legacy_issue_projection(client, settings):
     api = FieldApi(client, str(settings.database_url))
     issue = returned_issue(api)
-    row = next(item for item in api.get("/issues") if item["id"] == issue["id"])
-    assert row["createdById"] == "demo-inspector"
+    assert api.get("/issues") == [issue]
+    for account, expected in [("demo-inspector", [issue["id"]]), ("demo-safety", [])]:
+        response = client.get("/api/v1/datasets/demo-main/issues/supplement-targets", headers={
+            "Authorization": f"Bearer {api.token_for(account)}"})
+        assert response.status_code == 200
+        assert response.json()["data"] == expected
