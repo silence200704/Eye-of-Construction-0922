@@ -34,7 +34,10 @@ def photo_totals(session: Session, workspace: Workspace, field: str, object_id: 
 
 def context(session: Session, workspace: Workspace, issue_id: str) -> dict:
     issue = supplement_owner(session, workspace, issue_id)
-    return {"issue": issue_out(issue), **photo_totals(session, workspace, "issue", issue.id)}
+    return {
+        "issue": {**issue_out(issue), "createdById": workspace.actor.id},
+        **photo_totals(session, workspace, "issue", issue.id),
+    }
 
 
 def order_context(session: Session, workspace: Workspace, order_id: str) -> dict:
@@ -96,4 +99,4 @@ def submit(session: Session, workspace: Workspace, issue_id: str, payload: dict)
             at=at,
         ),
     )
-    return {"issue": issue_out(issue)}
+    return {"issue": {**issue_out(issue), "createdById": workspace.actor.id}}
