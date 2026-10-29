@@ -29,6 +29,7 @@ import { SandboxPreviewFiles } from '../core/media/PreviewFiles';
 @Component
 struct Index {
   @State state: AppState = new AppState();
+  @StorageLink('zhutong.motion') motion: boolean = true;
   @State tab: number = 0;
   @State pointId: string = '';
   @State taskId: string = '';
@@ -171,10 +172,14 @@ struct Index {
       Column() {
         Tabs({ index: this.tab }) {
           this.screens();
-        }.onChange((index: number) => { this.tab = index; }).animationDuration(180)
+        }.onChange((index: number) => { this.tab = index; }).animationDuration(this.motion ? 180 : 0)
           .barHeight(0).width('100%').layoutWeight(1);
         BottomDock({ selected: this.tab, onSelect: (index) => { this.tab = index; } });
       }.width('100%').height('100%');
-    }.navDestination(this.destination).hideTitleBar(true).width('100%').height('100%').backgroundColor(Theme.canvas);
+    }.navDestination(this.destination).hideTitleBar(true).width('100%').height('100%').backgroundColor(Theme.canvas)
+      .onAreaChange((_previous: Area, current: Area) => {
+        const width = Number(current.width);
+        if (Number.isFinite(width) && width > 0) AppStorage.setOrCreate('zhutong.windowWidth', width);
+      });
   }
 }

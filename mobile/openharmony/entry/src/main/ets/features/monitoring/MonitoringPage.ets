@@ -1,3 +1,4 @@
+import { controlHeight } from '../../shared/layout/ReadingLayout';
 import { AppState } from '../../shared/state/AppState';
 import { Point, AlarmEvent } from '../../data/models/Monitoring';
 import { Theme } from '../../shared/theme/Theme';
@@ -12,6 +13,7 @@ import { ScopePicker } from './ScopePicker';
 
 @Component
 export struct MonitoringPage {
+  @StorageProp('zhutong.fontScale') textScale: number = 1;
   @Prop state: AppState;
   @State type: string = 'all';
   @State history: boolean = false;
@@ -50,7 +52,7 @@ export struct MonitoringPage {
 
   @Builder
   filterButton(key: string, title: string) {
-    Button(title).height(48).padding({ left: 16, right: 16 })
+    Button(title).height(controlHeight(48, this.textScale)).padding({ left: 16, right: 16 })
       .backgroundColor(this.type === key ? Theme.brand : Theme.surface)
       .fontColor(this.type === key ? Color.White : Theme.text)
       .border({ width: 1.2, color: this.type === key ? Theme.ink : Theme.line })
@@ -71,9 +73,8 @@ export struct MonitoringPage {
       Text(reading(latestRecord(this.state.workspace, point.id), point.type)).fontSize(23).fontColor(Theme.text);
       Text(`${freshness(latestRecord(this.state.workspace, point.id))} · 硬件输入模拟`)
         .fontSize(12).fontColor(Theme.warning);
-      Button(this.expandedPoint === point.id ? '收起读数说明 −' : '这条读数怎么看？＋')
-        .height(48).width('100%').fontSize(13).fontColor(Theme.brand).backgroundColor(Theme.pale)
-        .onClick(() => this.toggleReading(point.id)).id(`reading-note-${point.id}`);
+      PlayButton({ title: this.expandedPoint === point.id ? '收起读数说明 −' : '这条读数怎么看？＋', secondary: true,
+        onAction: () => this.toggleReading(point.id), controlId: `reading-note-${point.id}` });
       if (this.expandedPoint === point.id) { this.readingNotes(point); }
       PlayButton({ title: '打开这处测点', secondary: true, onAction: () => this.onOpen(point.id), controlId: `point-${point.id}` });
     }

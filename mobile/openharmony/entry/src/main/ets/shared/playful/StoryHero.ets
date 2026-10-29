@@ -1,5 +1,6 @@
 import { Theme } from '../theme/Theme';
 import { Mascot } from './Mascot';
+import { PlayButton } from './PlayButton';
 
 @Component
 export struct StoryHero {
@@ -20,10 +21,9 @@ export struct StoryHero {
       Text('监测小站能查看读数与历史预警；现场任务查看检查和维修进度。')
         .fontSize(12).fontColor(Theme.secondary);
       Row({ space: 10 }) {
-        Button('带我去监测').height(48).fontSize(14).backgroundColor(Theme.brand).fontColor(Color.White)
-          .layoutWeight(1).onClick(() => { this.tips = false; this.onExplore(); }).id('guide-monitor');
-        Button('先收好').height(48).fontSize(14).backgroundColor('#F8FFEB').fontColor(Theme.brand)
-          .layoutWeight(1).onClick(() => this.toggleTips()).id('guide-dismiss');
+        PlayButton({ title: '带我去监测', controlId: 'guide-monitor',
+          onAction: () => { this.tips = false; this.onExplore(); } }).layoutWeight(1);
+        PlayButton({ title: '先收好', secondary: true, controlId: 'guide-dismiss', onAction: () => this.toggleTips() }).layoutWeight(1);
       }.width('100%');
     }.width('100%').alignItems(HorizontalAlign.Start).padding(14).backgroundColor('#FFFBEA')
       .border({ radius: 18, width: 1, color: '#BCD2B5' }).id('mascot-guide');
@@ -44,7 +44,7 @@ export struct StoryHero {
         Row({ space: 2 }) {
           Column({ space: 10 }) {
             Text('把校园里的\n每一处照顾好。').fontSize(25).fontWeight(FontWeight.Bold)
-              .lineHeight(33).fontColor(Theme.text);
+              .fontColor(Theme.text);
             Text(this.role || '小瞳，陪你一起看变化。').fontSize(12).fontColor(Theme.secondary);
             Text('戳戳小瞳，打个招呼').fontSize(11).fontColor(Theme.brand);
           }.alignItems(HorizontalAlign.Start).layoutWeight(1);

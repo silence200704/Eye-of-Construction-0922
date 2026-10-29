@@ -58,10 +58,10 @@ export struct TasksPage {
         ConnectionState({ state: this.state, onSettings: this.onSettings, onRetry: this.onRefresh });
         if (this.state.mode === 'ready') {
           Row({ space: 8 }) {
-            Button('检查任务').height(48).backgroundColor(this.orders ? Theme.surface : Theme.brand)
-              .fontColor(this.orders ? Theme.text : Color.White).onClick(() => { this.orders = false; }).id('task-inspections');
-            Button('维修工单').height(48).backgroundColor(this.orders ? Theme.brand : Theme.surface)
-              .fontColor(this.orders ? Color.White : Theme.text).onClick(() => { this.orders = true; }).id('task-orders');
+            PlayButton({ title: '检查任务', secondary: this.orders, controlId: 'task-inspections',
+              onAction: () => { this.orders = false; } }).layoutWeight(1);
+            PlayButton({ title: '维修工单', secondary: !this.orders, controlId: 'task-orders',
+              onAction: () => { this.orders = true; } }).layoutWeight(1);
           }.padding(7).width('100%').backgroundColor(Theme.surface).borderRadius(23)
             .border({ width: 1.2, color: Theme.line });
           if (this.orders) {

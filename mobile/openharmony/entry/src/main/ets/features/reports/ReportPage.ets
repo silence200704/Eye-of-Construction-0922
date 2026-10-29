@@ -1,3 +1,4 @@
+import { controlHeight } from '../../shared/layout/ReadingLayout';
 import { AppState } from '../../shared/state/AppState';
 import { ReportView } from '../../core/report/ReportView';
 import { Theme } from '../../shared/theme/Theme';
@@ -11,6 +12,7 @@ import { label } from '../../shared/format/display';
 
 @Component
 export struct ReportPage {
+  @StorageProp('zhutong.fontScale') textScale: number = 1;
   @Prop state: AppState;
   @Prop report: ReportView;
   onField: (key: string, value: string) => void = () => {};
@@ -51,10 +53,10 @@ export struct ReportPage {
     AppCard({ color: Theme.cream }) {
       Text('① 说说你看到了什么').fontSize(20).fontWeight(FontWeight.Bold).fontColor(Theme.text);
       TextInput({ text: this.report.draft?.anomalyType ?? '', placeholder: '异常类型，如墙面裂缝、设备松动' })
-        .height(54).fontSize(15).maxLength(80).enabled(!this.locked()).backgroundColor(Theme.surface)
+        .height(controlHeight(54, this.textScale)).fontSize(15).maxLength(80).enabled(!this.locked()).backgroundColor(Theme.surface)
         .onChange((value: string) => this.onField('anomalyType', value)).id('report-anomaly');
       TextArea({ text: this.report.draft?.description ?? '', placeholder: '记录位置、现象和观察情况，不需要填写专业结论' })
-        .height(155).fontSize(15).maxLength(4000).enabled(!this.locked()).backgroundColor(Theme.surface)
+        .height(controlHeight(155, this.textScale)).fontSize(15).maxLength(4000).enabled(!this.locked()).backgroundColor(Theme.surface)
         .onChange((value: string) => this.onField('description', value)).id('report-description');
       Text('仅记录真实观察；比赛素材请在描述中明确标注。').fontSize(12).fontColor(Theme.secondary);
     }
@@ -85,8 +87,8 @@ export struct ReportPage {
           this.report.draft?.target.issueId ? '提交补充材料' : this.report.draft?.target.orderId ?
             this.report.draft.target.action === 'submitted' ? '提交完工，等待验收' : '确认代接，开始处理' : '提交这份现场记录',
           available: !this.locked(), controlId: 'report-submit', onAction: this.onSubmit });
-        Button('放弃本次草稿').height(48).fontColor(Theme.secondary).backgroundColor(Theme.surface)
-          .enabled(!this.locked()).onClick(this.onDiscard).id('report-discard');
+        PlayButton({ title: '放弃本次草稿', secondary: true, available: !this.locked(),
+          onAction: this.onDiscard, controlId: 'report-discard' });
       }
     }
   }

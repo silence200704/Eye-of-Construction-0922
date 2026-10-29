@@ -1,12 +1,12 @@
 import { AppState } from '../../shared/state/AppState';
-import { InsightQuery, MobileInsights, InsightCount, InsightDay } from '../../data/models/online/Insights';
+import { InsightQuery, MobileInsights, InsightDay } from '../../data/models/online/Insights';
 import { Theme } from '../../shared/theme/Theme';
 import { PageStage } from '../../shared/playful/PageStage';
 import { PageHeading } from '../../shared/playful/PageHeading';
 import { AppCard } from '../../shared/components/AppCard';
 import { PlayButton } from '../../shared/playful/PlayButton';
 import { ScopePicker } from '../monitoring/ScopePicker';
-import { label } from '../../shared/format/display';
+import { CountCard } from './CountCard';
 
 @Component
 export struct StatisticsPage {
@@ -40,23 +40,6 @@ export struct StatisticsPage {
     }
   }
   @Builder
-  counts(title: string, rows: InsightCount[], types: boolean = false) {
-    AppCard() {
-      Text(title).fontSize(20).fontWeight(FontWeight.Bold).fontColor(Theme.text);
-      ForEach(rows.filter((row: InsightCount) => row.count > 0), (row: InsightCount) => {
-        Row({ space: 12 }) {
-          Text(types ? label(row.label) : row.label).fontSize(15).fontColor(Theme.text).layoutWeight(1);
-          Text(String(row.count)).fontSize(20).fontWeight(FontWeight.Bold).fontColor(Theme.brand);
-        }.width('100%').padding({ top: 7, bottom: 7 }).accessibilityGroup(true)
-          .accessibilityText(`${types ? label(row.label) : row.label}，${row.count}`);
-      }, (row: InsightCount) => row.id);
-      if (!rows.some((row: InsightCount) => row.count > 0)) {
-        Text(types ? '当前范围暂无在用传感器测点。' : '本期没有触发预警的对象。').fontSize(15).fontColor(Theme.secondary);
-      }
-      if (!types) { Text('频次列表仅展示本期触发过预警的对象；没有预警不等于已确认安全。').fontSize(12).fontColor(Theme.secondary); }
-    }
-  }
-  @Builder
   trend() {
     AppCard({ color: Theme.sky }) {
       Text('每天的守护足迹').fontSize(20).fontWeight(FontWeight.Bold).fontColor(Theme.text);
@@ -68,7 +51,7 @@ export struct StatisticsPage {
               Column().width(23).height(6 + 90 * row.count / Math.max(1, ...this.data!.trend.map((day) => day.count)))
                 .backgroundColor(Theme.brand).borderRadius(10);
               Text(row.date.slice(5)).fontSize(12).fontColor(Theme.secondary);
-            }.justifyContent(FlexAlign.End).height(150).accessibilityGroup(true).accessibilityText(`${row.date}，预警${row.count}次`);
+            }.justifyContent(FlexAlign.End).constraintSize({ minHeight: 150 }).accessibilityGroup(true).accessibilityText(`${row.date}，预警${row.count}次`);
           }, (row: InsightDay) => row.date);
         }
       }.scrollable(ScrollDirection.Horizontal).width('100%').scrollBar(BarState.Off);
@@ -80,16 +63,18 @@ export struct StatisticsPage {
       ScopePicker({ workspace: this.state.workspace, buildingId: this.buildingId, showFloor: false,
         onBuilding: (id) => { this.buildingId = id; this.load(); } });
       Row({ space: 12 }) {
-        Button('近7天').height(50).backgroundColor(this.period === 'week' ? Theme.brand : Theme.surface)
-          .fontColor(this.period === 'week' ? Color.White : Theme.brand).onClick(() => { this.period = 'week'; this.load(); }).id('stats-week');
-        Button('近30天').height(50).backgroundColor(this.period === 'month' ? Theme.brand : Theme.surface)
-          .fontColor(this.period === 'month' ? Color.White : Theme.brand).onClick(() => { this.period = 'month'; this.load(); }).id('stats-month');
-      }
+        PlayButton({ title: '近7天', secondary: this.period !== 'week', controlId: 'stats-week',
+          onAction: () => { this.period = 'week'; this.load(); } }).layoutWeight(1);
+        PlayButton({ title: '近30天', secondary: this.period !== 'month', controlId: 'stats-month',
+          onAction: () => { this.period = 'month'; this.load(); } }).layoutWeight(1);
+      }.width('100%');
       if (this.loading) { Text('正在读取统计…').fontSize(16).fontColor(Theme.brand); }
       if (this.message) { Text(this.message).fontSize(16).fontColor(Theme.danger); }
       if (this.data) {
-        this.totals(); this.trend(); this.counts('楼栋预警频次', this.data.byBuilding);
-        this.counts('测点预警频次', this.data.byPoint); this.counts('在用传感器测点类型', this.data.sensorTypes, true);
+        this.totals(); this.trend();
+        CountCard({ title: '楼栋预警频次', rows: this.data.byBuilding, controlId: 'stats-building' });
+        CountCard({ title: '测点预警频次', rows: this.data.byPoint, controlId: 'stats-point' });
+        CountCard({ title: '在用传感器测点类型', rows: this.data.sensorTypes, types: true, controlId: 'stats-types' });
       }
       PlayButton({ title: '刷新这份统计', secondary: true, available: !this.loading, controlId: 'stats-refresh', onAction: () => this.load() });
     }

@@ -1,3 +1,4 @@
+import { controlHeight } from '../../shared/layout/ReadingLayout';
 import { AppState } from '../../shared/state/AppState';
 import { InspectionTask } from '../../data/models/Tasks';
 import { TaskWrite, TaskCommandResult } from '../../data/models/Inspection';
@@ -11,6 +12,7 @@ import { ChecklistForm } from './ChecklistForm';
 
 @Component
 export struct CheckEditor {
+  @StorageProp('zhutong.fontScale') textScale: number = 1;
   @Prop state: AppState;
   @Prop task: InspectionTask;
   @Prop @Watch('switchPoint') pointId: string;
@@ -105,7 +107,7 @@ export struct CheckEditor {
             .onClick(() => { const draft = this.draft.copy(); draft.linkedIssueId = draft.linkedIssueId === id ? null : id; this.draft = draft; });
         }, (id: string) => id);
         TextArea({ text: this.draft.noIssueReason, placeholder: '仅在确认无需另建问题时填写依据，不能以此跳过实际处置' })
-          .height(112).fontSize(14).backgroundColor(Theme.surface).enabled(!this.locked())
+          .height(controlHeight(112, this.textScale)).fontSize(14).backgroundColor(Theme.surface).enabled(!this.locked())
           .onChange((value: string) => this.field('noIssueReason', value)).id('inspection-no-issue-reason');
         PlayButton({ title: '上报这处异常，附上现场照片', secondary: true, available: !this.locked(),
           controlId: 'inspection-report', onAction: this.onReport });
@@ -115,8 +117,8 @@ export struct CheckEditor {
 
   build() {
     Column({ space: 18 }) {
-      this.feedback();
       if (this.task.results.find((row) => row.pointId === this.pointId)?.status === 'completed') {
+        this.feedback();
         AppCard({ color: Theme.soft }) {
           Text('这一处，已认真检查完成').fontSize(20).fontWeight(FontWeight.Bold).fontColor(Theme.text);
           Text('检查结果已由服务端保存。任务完成不等于问题、工单或预警已关闭。').fontSize(13).fontColor(Theme.secondary);
@@ -130,6 +132,7 @@ export struct CheckEditor {
           CheckInForm({ draft: this.draft, locked: this.locked(),
             expectedLabel: this.state.workspace.points.find((point) => point.id === this.pointId)?.nfc?.code ?? '',
             onField: (key, value) => this.field(key, value) });
+          this.feedback();
           PlayButton({ title: this.state.command.phase === 'sending' ? '正在核对…' : '核对本次到点',
             available: !this.locked(), onAction: () => this.submit('check-in'), controlId: 'inspection-check-in' });
         } else {
@@ -138,6 +141,7 @@ export struct CheckEditor {
             onChoose: (key, value) => { const draft = this.draft.copy(); draft.choose(key, value); this.draft = draft; },
             onNote: (key, value) => { const draft = this.draft.copy(); draft.note(key, value); this.draft = draft; } });
           this.abnormal();
+          this.feedback();
           PlayButton({ title: this.state.command.phase === 'sending' ? '正在保存…' : '③ 提交本测点检查',
             available: !this.locked(), onAction: () => this.submit('complete-point'), controlId: 'inspection-complete' });
         }

@@ -1,3 +1,4 @@
+import { controlHeight } from '../../shared/layout/ReadingLayout';
 import { AppState } from '../../shared/state/AppState';
 import { AlarmEvent, AlarmTimeline } from '../../data/models/Monitoring';
 import { EventView, EventWrite } from '../../core/alerts/EventSession';
@@ -11,6 +12,7 @@ import { SignalPreview } from './SignalPreview';
 
 @Component
 export struct EventDetail {
+  @StorageProp('zhutong.fontScale') textScale: number = 1;
   @Prop state: AppState;
   @Prop eventId: string;
   @Prop command: EventView;
@@ -26,9 +28,9 @@ export struct EventDetail {
   event(): AlarmEvent | undefined { return this.state.workspace.events.find((row) => row.id === this.eventId); }
   locked(): boolean { return this.command.eventId === this.eventId && ['sending', 'unknown'].includes(this.command.phase); }
   @Builder
-  feedback(controlId: string) {
-    if (this.command.eventId === this.eventId && this.command.message) {
-      Text(this.command.message).fontSize(15).fontColor(['error', 'conflict'].includes(this.command.phase) ? Theme.danger : Theme.brand)
+  feedback(controlId: string, action: string = '') {
+    if (this.command.messageFor(this.eventId, action)) {
+      Text(this.command.messageFor(this.eventId, action)).fontSize(15).fontColor(['error', 'conflict'].includes(this.command.phase) ? Theme.danger : Theme.brand)
         .id(controlId).accessibilityText(this.command.message);
       if (this.command.phase === 'unknown') {
         PlayButton({ title: '用原请求核验办理结果', controlId: 'alarm-retry', onAction: this.onRetry });
@@ -53,10 +55,10 @@ export struct EventDetail {
     AppCard({ color: Theme.soft }) {
       Text('记录现场排查与措施').fontSize(20).fontWeight(FontWeight.Bold).fontColor(Theme.text);
       Select([{ value: '现场排查' }, { value: '处置措施' }]).value(this.kind === 'investigation' ? '现场排查' : '处置措施')
-        .height(50).onSelect((index: number) => { this.kind = index === 0 ? 'investigation' : 'measures'; }).id('alarm-note-kind').accessibilityText('现场记录类别');
-      TextArea({ text: this.note, placeholder: '填写现场观察或已采取的措施，至少10字' }).height(160).fontSize(16)
+        .height(controlHeight(50, this.textScale)).onSelect((index: number) => { this.kind = index === 0 ? 'investigation' : 'measures'; }).id('alarm-note-kind').accessibilityText('现场记录类别');
+      TextArea({ text: this.note, placeholder: '填写现场观察或已采取的措施，至少10字' }).height(controlHeight(160, this.textScale)).fontSize(16)
         .enabled(!this.locked()).onChange((value: string) => { this.note = value; }).id('alarm-field-note').accessibilityText('排查或处置说明');
-      this.feedback('alarm-note-feedback');
+      this.feedback('alarm-note-feedback', 'field-notes');
       PlayButton({ title: '保存这次现场记录', available: !this.locked(), controlId: 'alarm-note-save', onAction: () => this.onWrite({
         eventId: this.eventId, action: 'field-notes', kind: this.kind, note: this.note }) });
       Text('保存说明不会改变监测判定、验收结果或关闭事件。').fontSize(13).fontColor(Theme.secondary);
@@ -66,12 +68,12 @@ export struct EventDetail {
   closeForm() {
     AppCard({ color: Theme.cream }) {
       Text('核对恢复依据，关闭当前预警').fontSize(20).fontWeight(FontWeight.Bold).fontColor(Theme.text);
-      TextArea({ text: this.basis, placeholder: '恢复复测与复查依据（必填）' }).height(120).fontSize(16).enabled(!this.locked())
+      TextArea({ text: this.basis, placeholder: '恢复复测与复查依据（必填）' }).height(controlHeight(120, this.textScale)).fontSize(16).enabled(!this.locked())
         .onChange((value: string) => { this.basis = value; }).id('alarm-close-basis').accessibilityText('关闭复查依据');
       TextArea({ text: this.noRepairNote, placeholder: '无需维修的现场核查结论；已有当前关联已验收工单时可留空' })
-        .height(120).fontSize(16).enabled(!this.locked()).onChange((value: string) => { this.noRepairNote = value; })
+        .height(controlHeight(120, this.textScale)).fontSize(16).enabled(!this.locked()).onChange((value: string) => { this.noRepairNote = value; })
         .id('alarm-close-note').accessibilityText('无需维修现场核查结论');
-      this.feedback('alarm-close-feedback');
+      this.feedback('alarm-close-feedback', 'close');
       PlayButton({ title: '提交恢复依据并关闭预警', available: !this.locked(), controlId: 'alarm-close-save', onAction: () => this.onWrite({
         eventId: this.eventId, action: 'close', basis: this.basis, noRepairNote: this.noRepairNote }) });
       Text('服务端复核连续恢复记录、当前工单和权限；不满足时保留填写内容并提示原因。').fontSize(13).fontColor(Theme.secondary);

@@ -1,3 +1,4 @@
+import { controlHeight } from '../../shared/layout/ReadingLayout';
 import { PhotoPreview } from '../../core/report/ReportView';
 import { Theme } from '../../shared/theme/Theme';
 import { AppCard } from '../../shared/components/AppCard';
@@ -5,6 +6,7 @@ import { PlayButton } from '../../shared/playful/PlayButton';
 
 @Component
 export struct PhotoCards {
+  @StorageProp('zhutong.fontScale') textScale: number = 1;
   @Prop photos: PhotoPreview[];
   @Prop locked: boolean = false;
   @Prop existingCount: number = 0;
@@ -39,16 +41,18 @@ export struct PhotoCards {
           Text(`${index + 1} · ${photo.source === 'camera' ? '相机' : '相册'} · ${photo.mediaId ? '已上传，待关联' : '本机待上传'}`)
             .fontSize(13).fontColor(Theme.brand).id(`report-photo-state-${index}`);
           if (this.orderPhotos) {
-            Row({ space: 8 }) {
-              Button(photo.kind === 'before' ? '✓ 维修前' : '维修前').height(48).enabled(!this.locked)
+            Flex({ wrap: FlexWrap.Wrap }) {
+              Button(photo.kind === 'before' ? '✓ 维修前' : '维修前').height(controlHeight(48, this.textScale)).enabled(!this.locked)
                 .backgroundColor(photo.kind === 'before' ? Theme.cream : Theme.surface).fontColor(Theme.brand)
-                .onClick(() => this.onKind(photo.draftId, 'before')).id(`photo-kind-before-${index}`);
-              Button(photo.kind === 'after' ? '✓ 维修后' : '维修后').height(48).enabled(!this.locked)
+                .onClick(() => this.onKind(photo.draftId, 'before')).id(`photo-kind-before-${index}`).margin({ right: 8, bottom: 8 });
+              Button(photo.kind === 'after' ? '✓ 维修后' : '维修后').height(controlHeight(48, this.textScale)).enabled(!this.locked)
                 .backgroundColor(photo.kind === 'after' ? Theme.cream : Theme.surface).fontColor(Theme.brand)
-                .onClick(() => this.onKind(photo.draftId, 'after')).id(`photo-kind-after-${index}`);
+                .onClick(() => this.onKind(photo.draftId, 'after')).id(`photo-kind-after-${index}`).margin({ right: 8, bottom: 8 });
             }
           }
-          Button('移除这张照片').height(48).backgroundColor(Theme.surface).fontColor(Theme.danger)
+          Button({ type: ButtonType.Normal }) {
+            Text('移除这张照片').fontSize(16).fontColor(Theme.danger).width('100%').textAlign(TextAlign.Center);
+          }.constraintSize({ minHeight: 48 }).padding(12).width('100%').backgroundColor(Theme.surface)
             .enabled(!this.locked).onClick(() => this.onRemove(photo.draftId)).id(`report-photo-remove-${index}`);
         }.padding(12).width('100%').backgroundColor(Theme.pale).borderRadius(20);
       }, (photo: PhotoPreview) => photo.draftId);

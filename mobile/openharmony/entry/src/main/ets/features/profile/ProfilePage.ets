@@ -1,3 +1,4 @@
+import { controlHeight } from '../../shared/layout/ReadingLayout';
 import curves from '@ohos.curves';
 import { Identity } from '../../data/models/Identity';
 import { AppState } from '../../shared/state/AppState';
@@ -11,6 +12,7 @@ import { timeText } from '../../shared/format/display';
 
 @Component
 export struct ProfilePage {
+  @StorageProp('zhutong.fontScale') textScale: number = 1;
   @Prop @Watch('syncAddress') state: AppState;
   @State address: string = '';
   @State expanded: boolean = true;
@@ -44,7 +46,7 @@ export struct ProfilePage {
   @Builder
   connectionFields() {
     Text('筑瞳服务地址').fontSize(13).fontColor(Theme.text);
-    TextInput({ text: this.address, placeholder: 'http://电脑局域网IP:8080' }).height(52)
+    TextInput({ text: this.address, placeholder: 'http://电脑局域网IP:8080' }).height(controlHeight(52, this.textScale))
       .type(InputType.Normal).backgroundColor(Theme.canvas).fontColor(Theme.text)
       .border({ width: 1, color: Theme.line }).borderRadius(16)
       .onChange((text: string) => { this.address = text; }).id('service-address');
@@ -64,7 +66,7 @@ export struct ProfilePage {
           Text(this.state.mode === 'ready' ? '已连上，数据有来处' : this.state.busy ? '小瞳正在重新连线…' : '从这里，连上你的校园')
             .fontSize(12).fontColor(Theme.brand);
         }.alignItems(HorizontalAlign.Start).layoutWeight(1);
-        Button(this.expanded ? '收起' : '设置').height(48).fontSize(13).fontColor(Theme.brand)
+        Button(this.expanded ? '收起' : '设置').height(controlHeight(48, this.textScale)).fontSize(13).fontColor(Theme.brand)
           .backgroundColor(Theme.surface).border({ width: 1, color: Theme.line }).borderRadius(16)
           .onClick(() => this.toggleConnection()).id('service-settings');
       }.width('100%');

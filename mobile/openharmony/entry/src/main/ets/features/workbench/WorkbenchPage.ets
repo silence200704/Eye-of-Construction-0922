@@ -7,10 +7,13 @@ import { StoryHero } from '../../shared/playful/StoryHero';
 import { ActionTile } from '../../shared/playful/ActionTile';
 import { PlayButton } from '../../shared/playful/PlayButton';
 import { activePoints, openEvents, timeText } from '../../shared/format/display';
+import { singleColumn } from '../../shared/layout/ReadingLayout';
 
 @Component
 export struct WorkbenchPage {
   @Prop state: AppState;
+  @StorageProp('zhutong.fontScale') textScale: number = 1;
+  @StorageProp('zhutong.windowWidth') windowWidth: number = 390;
   onTab: (index: number) => void = () => {};
   onRefresh: () => void = () => {};
   onIssues: () => void = () => {};
@@ -37,13 +40,15 @@ export struct WorkbenchPage {
       Blank();
       Text('每一步，都算数').fontSize(11).fontColor(Theme.secondary);
     }.width('100%');
-    Row({ space: 12 }) {
-      ActionTile({ title: '监测小站', caption: '读数与预警', color: Theme.sky,
-        icon: $rawfile('design/svg/icons/monitoring/monitor.svg'), controlId: 'home-monitor',
-        onAction: () => this.onTab(1) }).layoutWeight(1);
-      ActionTile({ title: '现场任务', caption: '巡检与维修', color: Theme.cream,
-        icon: $rawfile('design/svg/icons/field/inspection.svg'), controlId: 'home-tasks',
-        onAction: () => this.onTab(2) }).layoutWeight(1);
+    GridRow({ columns: singleColumn(this.windowWidth, this.textScale) ? 1 : 2, gutter: { x: 12, y: 12 } }) {
+      GridCol() {
+        ActionTile({ title: '监测小站', caption: '读数与预警', color: Theme.sky,
+          icon: $rawfile('design/svg/icons/monitoring/monitor.svg'), controlId: 'home-monitor', onAction: () => this.onTab(1) });
+      }
+      GridCol() {
+        ActionTile({ title: '现场任务', caption: '巡检与维修', color: Theme.cream,
+          icon: $rawfile('design/svg/icons/field/inspection.svg'), controlId: 'home-tasks', onAction: () => this.onTab(2) });
+      }
     }.width('100%');
   }
 
@@ -52,11 +57,15 @@ export struct WorkbenchPage {
       this.header();
       StoryHero({ role: this.state.user?.roleLabel ?? '', onExplore: () => this.onTab(1) });
       ConnectionState({ state: this.state, onSettings: () => this.onTab(3), onRetry: this.onRefresh });
-      Row({ space: 12 }) {
-        MetricTile({ title: '当前可见测点', color: '#EDF4D5', note: '把细小变化记在心上',
-          value: this.state.mode === 'ready' ? String(activePoints(this.state.workspace).length) : '—' }).layoutWeight(1);
-        MetricTile({ title: '未关闭预警', color: Theme.peach, note: '需要关注的服务端记录',
-          value: this.state.mode === 'ready' ? String(openEvents(this.state.workspace).length) : '—' }).layoutWeight(1);
+      GridRow({ columns: singleColumn(this.windowWidth, this.textScale) ? 1 : 2, gutter: { x: 12, y: 12 } }) {
+        GridCol() {
+          MetricTile({ title: '当前可见测点', color: '#EDF4D5', note: '把细小变化记在心上',
+            value: this.state.mode === 'ready' ? String(activePoints(this.state.workspace).length) : '—' });
+        }
+        GridCol() {
+          MetricTile({ title: '未关闭预警', color: Theme.peach, note: '需要关注的服务端记录',
+            value: this.state.mode === 'ready' ? String(openEvents(this.state.workspace).length) : '—' });
+        }
       }.width('100%');
       this.shortcuts();
       if (this.state.mode === 'ready') {

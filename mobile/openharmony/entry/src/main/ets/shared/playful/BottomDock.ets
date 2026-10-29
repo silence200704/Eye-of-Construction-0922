@@ -13,12 +13,12 @@ export struct BottomDock {
       Column({ space: 4 }) {
         Image(icon).width(22).height(22).objectFit(ImageFit.Contain).accessibilityLevel('no');
         Text(title).fontSize(12).fontWeight(this.selected === index ? FontWeight.Bold : FontWeight.Regular)
-          .fontColor(this.selected === index ? Theme.brand : Theme.secondary);
+          .fontColor(this.selected === index ? Theme.brand : Theme.secondary).width('100%').textAlign(TextAlign.Center);
       }.width('100%').padding({ top: 9, bottom: 9 });
     }.backgroundColor(this.selected === index ? Theme.soft : Color.Transparent).borderRadius(19)
-      .layoutWeight(this.selected === index ? 1.35 : 1)
+      .layoutWeight(1).padding({ left: 4, right: 4 })
       .animation({ duration: this.motion ? 250 : 0, curve: curves.springMotion(0.35, 0.82) })
-      .onClick(() => this.onSelect(index)).id(`tab-${index}`).accessibilityText(title);
+      .onClick(() => this.onSelect(index)).id(`tab-${index}`).accessibilityText(`${title}${this.selected === index ? '，当前页面' : ''}`);
   }
 
   build() {

@@ -5,7 +5,15 @@ import { ReportTarget } from '../../data/models/Reports';
 import { ApiError, errorMessage } from '../network/ApiError';
 
 export interface EventWrite { eventId: string; action: string; kind?: string; note?: string; basis?: string; noRepairNote?: string; }
-export class EventView { eventId: string = ''; phase: string = 'idle'; message: string = ''; }
+export class EventView {
+  eventId: string = '';
+  action: string = '';
+  phase: string = 'idle';
+  message: string = '';
+  messageFor(eventId: string, action: string = ''): string {
+    return this.eventId === eventId && (!action || this.action === action) ? this.message : '';
+  }
+}
 export interface EventOptions {
   access: () => TaskAccess | null;
   onChange: (view: EventView) => void;
@@ -24,6 +32,7 @@ export class EventSession {
   deactivate(): void { this.generation++; this.pending = null; this.view = new EventView(); this.publish(); }
   private publish(): void {
     const copy = new EventView(); copy.eventId = this.view.eventId; copy.phase = this.view.phase; copy.message = this.view.message;
+    copy.action = this.view.action;
     this.options.onChange(copy);
   }
   private phase(phase: string, message: string): void { this.view.phase = phase; this.view.message = message; this.publish(); }
@@ -47,7 +56,7 @@ export class EventSession {
   async submit(write: EventWrite): Promise<void> {
     if (['sending', 'unknown'].includes(this.view.phase)) return;
     const access = this.options.access(); if (!access) return;
-    this.view.eventId = write.eventId;
+    this.view.eventId = write.eventId; this.view.action = write.action;
     try {
       const event = this.validate(write, access);
       const point = access.workspace.points.find((row) => row.id === event.pointId);
