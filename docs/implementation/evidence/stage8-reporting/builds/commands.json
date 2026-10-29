@@ -1,0 +1,17 @@
+{
+  "nativeNodeTests": 63,
+  "coreCoverage": {
+    "line": 96.51,
+    "branch": 81.03
+  },
+  "backendTests": 284,
+  "backendCoverage": 88.93,
+  "ruffCheck": true,
+  "ruffFormat": true,
+  "nativeBuildExit": 0,
+  "nativeNodeExit": 0,
+  "backendTestsExit": 0,
+  "hypium": false,
+  "physicalDevice": false,
+  "cameraCaptureOnSimulator": false
+}

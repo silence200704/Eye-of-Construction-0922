@@ -1,0 +1,13 @@
+{
+  "error": "TypeError: don't have internal slot",
+  "component": "PhotoCards",
+  "cause": "ArrayBuffer byteLength through ArkUI observed proxy",
+  "failingSignedSha256": "e123e9138576513ed3a0ae4e823e4dcbd93d68dd9ca0fbb2a6b2888adefb074b",
+  "rawRuntimeLogRetained": true,
+  "stack": [
+    "    at anonymous (entry|entry|1.0.0|src/main/ets/features/reports/PhotoCards.ts:83:1)",
+    "    at anonymous (entry|entry|1.0.0|src/main/ets/features/reports/PhotoCards.ts:83:102)",
+    "    at anonymous (entry|entry|1.0.0|src/main/ets/features/reports/PhotoCards.ts:83:1)"
+  ],
+  "fix": "Only primitive preview DTO enters reactive state; compressed bytes stay in ReportSession"
+}

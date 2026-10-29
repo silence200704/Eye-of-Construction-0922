@@ -1,0 +1,147 @@
+{
+  "api": "http://127.0.0.1:18005",
+  "gateway": "http://127.0.0.1:18006",
+  "hardware": "simulated",
+  "building": {
+    "id": "bld_a86f534bdc894274a78fa0d21b00d1ff",
+    "code": "APP-REPORT",
+    "name": "现场上报验收楼",
+    "purpose": "教学",
+    "buildYear": null,
+    "floorCount": null,
+    "area": null,
+    "structureType": "",
+    "managerUnit": "",
+    "userUnit": "",
+    "owner": "",
+    "ownerPhone": "",
+    "backupPerson": "",
+    "source": "",
+    "footprint": {
+      "x": 0.3,
+      "y": 0.3,
+      "w": 0.2,
+      "h": 0.2,
+      "rotate": 0
+    },
+    "dataSource": "demo",
+    "remark": "",
+    "status": "active",
+    "archiveReason": "",
+    "archivedAt": null,
+    "archivedBy": "",
+    "createdAt": "2026-10-28T09:37:37.208253+00:00",
+    "createdBy": "演示学校安全管理人员",
+    "updatedAt": "2026-10-28T09:37:37.208253+00:00",
+    "updatedBy": "演示学校安全管理人员",
+    "rev": 1
+  },
+  "point": {
+    "id": "pnt_3816c8d9620045f0a05e837894b800b6",
+    "code": "APP-REPORT-P1",
+    "name": "上报验收走廊测点",
+    "buildingId": "bld_a86f534bdc894274a78fa0d21b00d1ff",
+    "floorId": "flr_ae832bb1878143d19f21098c6ec36535",
+    "zoneId": "",
+    "type": "manual_check",
+    "metric": "inspection",
+    "coord": {
+      "x": 0.4,
+      "y": 0.4
+    },
+    "nfc": {
+      "code": "TAG-REPORT-1",
+      "version": 1,
+      "boundAt": "2026-10-28T09:37:37.235591+00:00",
+      "boundBy": "演示学校安全管理人员",
+      "remark": "建档时绑定"
+    },
+    "planVersion": 1,
+    "locationHistory": [],
+    "owner": "",
+    "backupPerson": "",
+    "installDate": "",
+    "dataSource": "demo",
+    "remark": "",
+    "status": "active",
+    "archiveReason": "",
+    "archivedAt": null,
+    "archivedBy": "",
+    "createdAt": "2026-10-28T09:37:37.235591+00:00",
+    "createdBy": "演示学校安全管理人员",
+    "updatedAt": "2026-10-28T09:37:37.235591+00:00",
+    "updatedBy": "演示学校安全管理人员",
+    "rev": 1
+  },
+  "task": {
+    "id": "plan_d7719eb3a72746a381caec99709e27e4@2026-10-28T01:00:00+00:00",
+    "taskNo": "TK-20261028-001",
+    "planId": "plan_d7719eb3a72746a381caec99709e27e4",
+    "buildingId": "bld_a86f534bdc894274a78fa0d21b00d1ff",
+    "planSnapshot": {
+      "planCode": "PLAN-20261028-001",
+      "planName": "原生上报关联验收",
+      "executorRole": "inspector",
+      "buildingId": "bld_a86f534bdc894274a78fa0d21b00d1ff",
+      "floorIds": [
+        "flr_ae832bb1878143d19f21098c6ec36535"
+      ],
+      "pointIds": [
+        "pnt_3816c8d9620045f0a05e837894b800b6"
+      ],
+      "checklist": [
+        {
+          "key": "wall",
+          "label": "墙面检查",
+          "required": true
+        }
+      ]
+    },
+    "plannedAt": "2026-10-28T01:00:00+00:00",
+    "dueAt": "2026-10-28T15:59:59+00:00",
+    "status": "pending",
+    "results": [
+      {
+        "pointId": "pnt_3816c8d9620045f0a05e837894b800b6",
+        "status": "arrived",
+        "checkedAt": "2026-10-28T09:37:37.364721+00:00",
+        "method": "nfc",
+        "labelRead": "TAG-REPORT-1",
+        "labelExpected": "TAG-REPORT-1",
+        "labelVersion": 1,
+        "fallbackReason": "",
+        "attempts": [
+          {
+            "at": "2026-10-28T09:37:37.364721+00:00",
+            "method": "nfc",
+            "labelRead": "TAG-REPORT-1",
+            "labelExpected": "TAG-REPORT-1",
+            "labelVersion": 1,
+            "fallbackReason": "",
+            "passed": true,
+            "message": "模拟读卡核对通过（标签 TAG-REPORT-1 v1）"
+          }
+        ],
+        "checklist": [
+          {
+            "key": "wall",
+            "label": "墙面检查",
+            "result": null,
+            "note": ""
+          }
+        ],
+        "abnormalHandling": {
+          "linkedIssueId": null,
+          "reason": ""
+        },
+        "issueIds": []
+      }
+    ],
+    "issueIds": [],
+    "createdAt": "2026-10-28T09:37:37.314551+00:00",
+    "createdBy": "演示学校安全管理人员",
+    "updatedAt": "2026-10-28T09:37:37.364721+00:00",
+    "updatedBy": "演示巡检人员",
+    "rev": 2
+  }
+}

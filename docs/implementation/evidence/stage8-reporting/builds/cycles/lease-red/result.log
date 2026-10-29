@@ -1,0 +1,37 @@
+✔ report requires a real target and description, no synthetic normal or event binding (0.7067ms)
+✔ three photos and 600 KB are enforced before sending, upload is not attachment success (0.7073ms)
+✔ task origin uses its original revision; photo ownership ids stay stable (0.6182ms)
+✔ picker lifecycle retains text and marks external activity until safe result is reauthorized (2.7108ms)
+✔ picker cancellation and permission failure keep the draft; scope changes discard late bytes (1.3322ms)
+✔ upload then issue commit uses raw bytes and stable ids; repeated taps create one issue (1.1709ms)
+✔ committed response loss retries exactly the same issue body and key without uploading again (0.4962ms)
+✔ unknown media upload retries the same bytes/key and task conflict needs explicit revision adoption (0.292ms)
+✖ scope revoked while archive is in flight blocks picker result publication (0.9542ms)
+✔ task 409 preserves uploaded evidence until explicit adoption; wrong role cannot start task report (0.4568ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 9
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 384.3353
+
+✖ failing tests:
+
+test at tests\mobile\report\session.test.mjs:82:1
+✖ scope revoked while archive is in flight blocks picker result publication (0.9542ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (file:///C:/Users/Lenovo/Desktop/demo/tests/mobile/report/session.test.mjs:93:10)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

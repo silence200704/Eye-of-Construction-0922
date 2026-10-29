@@ -1,0 +1,13 @@
+{
+  "businessSha256": "100cb56ae202f149f18e4c1b4a8b713d2ce129cf8bde30c94be8df3360646f65",
+  "counts": {
+    "buildings": 5,
+    "points": 8,
+    "/records": 18,
+    "/events?status=all": 2,
+    "/inspection/tasks": 0,
+    "/work-orders": 0,
+    "/issues": 0,
+    "/attachments": 0
+  }
+}

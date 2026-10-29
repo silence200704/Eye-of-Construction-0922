@@ -1,0 +1,19 @@
+✔ picker lifecycle retains text and marks external activity until safe result is reauthorized (5.7175ms)
+✔ picker cancellation and permission failure keep the draft; scope changes discard late bytes (2.6847ms)
+✔ upload then issue commit uses raw bytes and stable ids; repeated taps create one issue (2.109ms)
+✔ committed response loss retries exactly the same issue body and key without uploading again (1.3009ms)
+✔ unknown media upload retries the same bytes/key and task conflict needs explicit revision adoption (0.6869ms)
+✔ scope revoked while archive is in flight blocks picker result publication (0.6545ms)
+✔ task 409 preserves uploaded evidence until explicit adoption; wrong role cannot start task report (0.7981ms)
+✔ unfinished draft survives reentry; a completed report permits a genuinely new submission (0.394ms)
+✔ same-id authorization change before selection clears protected draft and old photo bytes (0.4196ms)
+✔ removed photo is disposed and is never sent as an attachment; malformed upload stays retryable (0.7854ms)
+✔ late report response after context reset does not resurrect a submitted issue (6.5528ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 550.4844

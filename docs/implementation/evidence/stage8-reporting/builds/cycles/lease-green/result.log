@@ -1,0 +1,18 @@
+✔ report requires a real target and description, no synthetic normal or event binding (0.7481ms)
+✔ three photos and 600 KB are enforced before sending, upload is not attachment success (0.8418ms)
+✔ task origin uses its original revision; photo ownership ids stay stable (0.6684ms)
+✔ picker lifecycle retains text and marks external activity until safe result is reauthorized (3.1237ms)
+✔ picker cancellation and permission failure keep the draft; scope changes discard late bytes (1.3578ms)
+✔ upload then issue commit uses raw bytes and stable ids; repeated taps create one issue (3.136ms)
+✔ committed response loss retries exactly the same issue body and key without uploading again (0.468ms)
+✔ unknown media upload retries the same bytes/key and task conflict needs explicit revision adoption (0.2966ms)
+✔ scope revoked while archive is in flight blocks picker result publication (0.3967ms)
+✔ task 409 preserves uploaded evidence until explicit adoption; wrong role cannot start task report (0.4303ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 383.4823

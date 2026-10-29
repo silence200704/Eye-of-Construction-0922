@@ -1,0 +1,39 @@
+node:internal/modules/cjs/loader:1476
+  const err = new Error(message);
+              ^
+
+Error: Cannot find module 'C:\Users\Lenovo\Desktop\demo\mobile\openharmony\entry\src\main\ets\core\media\PhotoSelector.ets'
+Require stack:
+- C:\Users\Lenovo\Desktop\demo\tests\mobile\nativeLoader.mjs
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1476:15)
+    at wrapResolveFilename (node:internal/modules/cjs/loader:1049:27)
+    at defaultResolveImplForCJSLoading (node:internal/modules/cjs/loader:1073:10)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1094:12)
+    at Module.<anonymous> (node:internal/modules/cjs/loader:1262:25)
+    at Module._load (file:///C:/Users/Lenovo/Desktop/demo/tests/mobile/nativeLoader.mjs:13:19)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+    at Module.require (node:internal/modules/cjs/loader:1576:12)
+    at require (node:internal/modules/helpers:153:16)
+    at native (file:///C:/Users/Lenovo/Desktop/demo/tests/mobile/nativeLoader.mjs:26:10) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'C:\\Users\\Lenovo\\Desktop\\demo\\tests\\mobile\\nativeLoader.mjs'
+  ]
+}
+
+Node.js v24.15.0
+✖ tests\mobile\report\picker.test.mjs (304.4215ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 309.6185
+
+✖ failing tests:
+
+test at tests\mobile\report\picker.test.mjs:1:1
+✖ tests\mobile\report\picker.test.mjs (304.4215ms)
+  'test failed'

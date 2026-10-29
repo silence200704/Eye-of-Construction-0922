@@ -1,0 +1,43 @@
+{
+  "id": "iss_0dbe5a27c3704a969882c20a212f00ea",
+  "issueNo": "ISS-20261028-002",
+  "source": "report",
+  "submissionKey": "report-1793189138270-n8yzyc2w4d",
+  "pointId": "pnt_3816c8d9620045f0a05e837894b800b6",
+  "buildingId": "bld_a86f534bdc894274a78fa0d21b00d1ff",
+  "floorId": "flr_ae832bb1878143d19f21098c6ec36535",
+  "zoneId": "",
+  "eventId": null,
+  "taskId": null,
+  "maintenanceTaskId": null,
+  "anomalyType": "照片上报（模拟素材）",
+  "description": "比赛模拟验收照片，非真实校园隐患。用于核对原生相册上传及原件哈希。",
+  "photos": [
+    "att_bbffa3626f744d03aac46906c283fff0"
+  ],
+  "status": "pending_review",
+  "reviewAction": null,
+  "reviewCategory": "",
+  "reviewedAt": null,
+  "reviewedBy": "",
+  "reviewNote": "",
+  "duplicateOf": null,
+  "linkedEventId": null,
+  "linkedFrom": [],
+  "workOrderIds": [],
+  "rechecks": [],
+  "timeline": [
+    {
+      "at": "2026-10-28T12:09:11.655004+00:00",
+      "by": "演示巡检人员",
+      "byRole": "inspector",
+      "action": "提交问题",
+      "detail": "来源：report；比赛模拟验收照片，非真实校园隐患。用于核对原生相册上传及原件哈希。"
+    }
+  ],
+  "createdAt": "2026-10-28T12:09:11.655004+00:00",
+  "createdBy": "演示巡检人员",
+  "updatedAt": "2026-10-28T12:09:11.655004+00:00",
+  "updatedBy": "演示巡检人员",
+  "rev": 1
+}

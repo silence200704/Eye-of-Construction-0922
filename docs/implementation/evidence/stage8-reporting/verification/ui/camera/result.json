@@ -1,0 +1,7 @@
+{
+  "cameraAttempted": true,
+  "cameraCapturePassed": false,
+  "result": "Capability or permission unavailable on this simulator; photographed hardware NOT verified",
+  "draftTextPreserved": true,
+  "evidence": "page/camera-unavailable/screen.png; prepare_photo.json"
+}

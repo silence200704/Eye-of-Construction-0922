@@ -1,0 +1,75 @@
+{
+  "id": "plan_d7719eb3a72746a381caec99709e27e4@2026-10-28T01:00:00+00:00",
+  "taskNo": "TK-20261028-001",
+  "planId": "plan_d7719eb3a72746a381caec99709e27e4",
+  "buildingId": "bld_a86f534bdc894274a78fa0d21b00d1ff",
+  "planSnapshot": {
+    "planCode": "PLAN-20261028-001",
+    "planName": "原生上报关联验收",
+    "executorRole": "inspector",
+    "buildingId": "bld_a86f534bdc894274a78fa0d21b00d1ff",
+    "floorIds": [
+      "flr_ae832bb1878143d19f21098c6ec36535"
+    ],
+    "pointIds": [
+      "pnt_3816c8d9620045f0a05e837894b800b6"
+    ],
+    "checklist": [
+      {
+        "key": "wall",
+        "label": "墙面检查",
+        "required": true
+      }
+    ]
+  },
+  "plannedAt": "2026-10-28T01:00:00+00:00",
+  "dueAt": "2026-10-28T15:59:59+00:00",
+  "status": "checked",
+  "results": [
+    {
+      "pointId": "pnt_3816c8d9620045f0a05e837894b800b6",
+      "status": "completed",
+      "checkedAt": "2026-10-28T09:37:37.364721+00:00",
+      "method": "nfc",
+      "labelRead": "TAG-REPORT-1",
+      "labelExpected": "TAG-REPORT-1",
+      "labelVersion": 1,
+      "fallbackReason": "",
+      "attempts": [
+        {
+          "at": "2026-10-28T09:37:37.364721+00:00",
+          "method": "nfc",
+          "labelRead": "TAG-REPORT-1",
+          "labelExpected": "TAG-REPORT-1",
+          "labelVersion": 1,
+          "fallbackReason": "",
+          "passed": true,
+          "message": "模拟读卡核对通过（标签 TAG-REPORT-1 v1）"
+        }
+      ],
+      "checklist": [
+        {
+          "key": "wall",
+          "label": "墙面检查",
+          "result": "abnormal",
+          "note": ""
+        }
+      ],
+      "abnormalHandling": {
+        "linkedIssueId": "iss_f509a009d76045fab1c6674ce7120bb7",
+        "reason": ""
+      },
+      "issueIds": [
+        "iss_f509a009d76045fab1c6674ce7120bb7"
+      ]
+    }
+  ],
+  "issueIds": [
+    "iss_f509a009d76045fab1c6674ce7120bb7"
+  ],
+  "createdAt": "2026-10-28T09:37:37.314551+00:00",
+  "createdBy": "演示学校安全管理人员",
+  "updatedAt": "2026-10-28T09:45:32.621006+00:00",
+  "updatedBy": "演示巡检人员",
+  "rev": 4
+}

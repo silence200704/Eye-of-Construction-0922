@@ -1,0 +1,18 @@
+{
+  "committedUploadResponseLost": true,
+  "noFalseIssueSuccess": true,
+  "ledger": {
+    "issues": 1,
+    "media_files": 1,
+    "attachments": 0,
+    "audits": 10,
+    "operation_receipts": 9
+  },
+  "dropped": {
+    "path": "/api/v1/datasets/demo-main/media?fileName=report-1793189308550-xgl6u4hmmbn.jpg&pointId=pnt_3816c8d9620045f0a05e837894b800b6",
+    "status": 201,
+    "key": "report-1793189308550-xgl6u4hmmbn",
+    "bodySha256": "a7b7e21279f3f48e58ca21638d95489845193930f0c7b4d62f1dc3ddc757ba17",
+    "afterCommit": true
+  }
+}

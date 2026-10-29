@@ -1,0 +1,20 @@
+{
+  "unknownThenRetry": true,
+  "issuesBefore": 2,
+  "issuesAfter": 2,
+  "sameRows": true,
+  "unchangedLedger": {
+    "issues": 2,
+    "media_files": 1,
+    "attachments": 1,
+    "audits": 11,
+    "operation_receipts": 10
+  },
+  "dropped": {
+    "path": "/api/v1/datasets/demo-main/issues",
+    "status": 200,
+    "key": "report-1793189138270-n8yzyc2w4d-commit-0",
+    "bodySha256": "3464970504c1c26335bdd5bafbaccb361fc8d9e911ce1d6b673de73f9f6b0937",
+    "afterCommit": true
+  }
+}

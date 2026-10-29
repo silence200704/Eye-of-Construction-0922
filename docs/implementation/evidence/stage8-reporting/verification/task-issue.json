@@ -1,0 +1,41 @@
+{
+  "id": "iss_f509a009d76045fab1c6674ce7120bb7",
+  "issueNo": "ISS-20261028-001",
+  "source": "inspection",
+  "submissionKey": "report-1793180465257-3uj2zyiw1eg",
+  "pointId": "pnt_3816c8d9620045f0a05e837894b800b6",
+  "buildingId": "bld_a86f534bdc894274a78fa0d21b00d1ff",
+  "floorId": "flr_ae832bb1878143d19f21098c6ec36535",
+  "zoneId": "",
+  "eventId": null,
+  "taskId": "plan_d7719eb3a72746a381caec99709e27e4@2026-10-28T01:00:00+00:00",
+  "maintenanceTaskId": null,
+  "anomalyType": "墙面异常（模拟素材）",
+  "description": "比赛模拟验收：走廊墙面疑似裂缝，待专业人员核查。",
+  "photos": [],
+  "status": "pending_review",
+  "reviewAction": null,
+  "reviewCategory": "",
+  "reviewedAt": null,
+  "reviewedBy": "",
+  "reviewNote": "",
+  "duplicateOf": null,
+  "linkedEventId": null,
+  "linkedFrom": [],
+  "workOrderIds": [],
+  "rechecks": [],
+  "timeline": [
+    {
+      "at": "2026-10-28T09:41:36.312467+00:00",
+      "by": "演示巡检人员",
+      "byRole": "inspector",
+      "action": "提交问题",
+      "detail": "来源：inspection；比赛模拟验收：走廊墙面疑似裂缝，待专业人员核查。"
+    }
+  ],
+  "createdAt": "2026-10-28T09:41:36.312467+00:00",
+  "createdBy": "演示巡检人员",
+  "updatedAt": "2026-10-28T09:41:36.312467+00:00",
+  "updatedBy": "演示巡检人员",
+  "rev": 1
+}

@@ -3,7 +3,8 @@
 ArkTS + ArkUI + Stage；业务包名`org.zhutong.mobile`，版本`0.8.0-dev`。
 当前完成在线基础、“校园守护手账”UI与巡检到点/检查写入，包含四入口、测点详情、五身份切换、连接设置和动效偏好。
 任务详情支持模拟NFC/人工核对、冻结清单、必答/异常依据、逐点完成、版本冲突及原请求重试。
-问题/照片上报、工单办理、原生预警处置和统计仍按阶段8继续；不把本批完成等同整个阶段完成。
+独立/任务问题上报、原生相册压缩/上传/关联、问题池和Web反馈回读已接入；选图/提交均有失败与重试状态。
+原生退回补证、工单办理、预警处置和统计仍按阶段8继续；相机代码已有，模拟器真实拍照未通过，不把本批完成等同整个阶段完成。
 
 ## 已核验环境
 
@@ -59,4 +60,5 @@ App“我的→校园服务连接→设置”填写提供筑瞳同源API的电�
 自动复验入口为`scripts/mobile/verification/playful.py`，每个phase只操作`org.zhutong.mobile`并保存SDK布局和截图。
 具体环境、结果、限制和阶段台账见`docs/implementation/handoff/reports/mobile/04-native-online-ui.md`。
 2026-10-28巡检写入及原生实测见`docs/implementation/handoff/reports/mobile/05-native-inspection.md`。
+2026-10-29问题/照片收口见`docs/implementation/handoff/reports/mobile/06-native-reporting.md`；63项Node/mocks不代表Hypium或真机通过。
 全业务剩余项见`docs/implementation/handoff/stages/mobile/business-coverage.md`，不省略照片、问题、工单和离线流程。

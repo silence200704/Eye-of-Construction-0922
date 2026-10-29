@@ -1,0 +1,50 @@
+✔ report requires a real target and description, no synthetic normal or event binding (1.0953ms)
+✔ three photos and 600 KB are enforced before sending, upload is not attachment success (1.1449ms)
+✔ task origin uses its original revision; photo ownership ids stay stable (1.6426ms)
+✔ empty location, missing fields, duplicate photo and oversized image cannot become a report (0.3391ms)
+✔ native picker cancel yields no fabricated photo; selected bytes are compressed and resources closed (2.3404ms)
+✔ native camera uses the system picker; denied selection stays explicit (0.683ms)
+✔ picker lifecycle retains text and marks external activity until safe result is reauthorized (5.2063ms)
+✔ picker cancellation and permission failure keep the draft; scope changes discard late bytes (1.7874ms)
+✔ upload then issue commit uses raw bytes and stable ids; repeated taps create one issue (1.4795ms)
+✔ committed response loss retries exactly the same issue body and key without uploading again (0.7807ms)
+✔ unknown media upload retries the same bytes/key and task conflict needs explicit revision adoption (0.4247ms)
+✔ scope revoked while archive is in flight blocks picker result publication (0.5654ms)
+✔ task 409 preserves uploaded evidence until explicit adoption; wrong role cannot start task report (0.6126ms)
+✔ unfinished draft survives reentry; a completed report permits a genuinely new submission (0.2662ms)
+✔ same-id authorization change before selection clears protected draft and old photo bytes (0.2956ms)
+✔ removed photo is disposed and is never sent as an attachment; malformed upload stays retryable (0.4459ms)
+✔ late report response after context reset does not resurrect a submitted issue (4.1231ms)
+✔ inactive service and wrong task role never start an executable report (0.2062ms)
+✔ reactive report view carries preview metadata only, never an ArrayBuffer or upload object (0.2243ms)
+✔ reported issue and task are server rows in workspace, keep newer task revisions (3.4301ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 708.1704
+ℹ start of coverage report
+ℹ --------------------------------------------------------------------------------
+ℹ file                      | line % | branch % | funcs % | uncovered lines
+ℹ --------------------------------------------------------------------------------
+ℹ mobile                    |        |          |         | 
+ℹ  openharmony              |        |          |         | 
+ℹ   entry                   |        |          |         | 
+ℹ    src                    |        |          |         | 
+ℹ     main                  |        |          |         | 
+ℹ      ets                  |        |          |         | 
+ℹ       core                |        |          |         | 
+ℹ        media              |        |          |         | 
+ℹ         PhotoSelector.ets |  97.73 |    62.96 |  100.00 | 56-57
+ℹ        report             |        |          |         | 
+ℹ         ReportDraft.ets   | 100.00 |    96.55 |  100.00 | 
+ℹ         ReportLease.ets   | 100.00 |    78.95 |  100.00 | 
+ℹ         ReportSession.ets |  96.76 |    80.87 |  100.00 | 76-77 135 140-141 172
+ℹ         ReportView.ets    |  82.86 |   100.00 |  100.00 | 30-35
+ℹ --------------------------------------------------------------------------------
+ℹ all files                 |  96.51 |    81.03 |  100.00 | 
+ℹ --------------------------------------------------------------------------------
+ℹ end of coverage report

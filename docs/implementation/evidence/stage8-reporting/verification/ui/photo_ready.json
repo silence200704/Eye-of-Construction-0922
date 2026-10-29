@@ -1,0 +1,13 @@
+{
+  "selectedRealGalleryAsset": true,
+  "compressedInNativeApp": true,
+  "textAndTargetSurvivedExternalPicker": true,
+  "fixture": "Synthetic test pattern, not a real defect",
+  "beforeUpload": {
+    "issues": 1,
+    "media_files": 0,
+    "attachments": 0,
+    "audits": 9,
+    "operation_receipts": 9
+  }
+}

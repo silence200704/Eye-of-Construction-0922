@@ -1,0 +1,42 @@
+✔ picker lifecycle retains text and marks external activity until safe result is reauthorized (4.7333ms)
+✔ picker cancellation and permission failure keep the draft; scope changes discard late bytes (4.4773ms)
+✔ upload then issue commit uses raw bytes and stable ids; repeated taps create one issue (5.5548ms)
+✔ committed response loss retries exactly the same issue body and key without uploading again (0.6912ms)
+✔ unknown media upload retries the same bytes/key and task conflict needs explicit revision adoption (0.4625ms)
+✔ scope revoked while archive is in flight blocks picker result publication (0.9634ms)
+✔ task 409 preserves uploaded evidence until explicit adoption; wrong role cannot start task report (0.7249ms)
+✖ unfinished draft survives reentry; a completed report permits a genuinely new submission (1.2786ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 7
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 561.6876
+
+✖ failing tests:
+
+test at tests\mobile\report\session.test.mjs:116:1
+✖ unfinished draft survives reentry; a completed report permits a genuinely new submission (1.2786ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'report-1793180045644-v685qs22uqh'
+  - 'report-1793180045644-omnk8aahxlb'
+                          ^
+  
+      at TestContext.<anonymous> (file:///C:/Users/Lenovo/Desktop/demo/tests/mobile/report/session.test.mjs:120:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'report-1793180045644-v685qs22uqh',
+    expected: 'report-1793180045644-omnk8aahxlb',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

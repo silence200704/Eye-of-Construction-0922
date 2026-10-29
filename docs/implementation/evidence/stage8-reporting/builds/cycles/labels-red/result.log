@@ -1,0 +1,39 @@
+✔ service root accepts explicit HTTP/HTTPS roots and rejects credentials, query, path and bad schemes (0.9049ms)
+✔ missing, invalid and manual readings never turn into zero or normal (0.1645ms)
+✔ latest record follows sample time rather than backfill arrival; missing and stale times are labeled (0.1781ms)
+✔ preference saves are serialized and store no access tokens or business snapshots (0.8733ms)
+✔ sensor filter also scopes alarm history, retaining matching archived-point history (0.182ms)
+✖ issue progress distinguishes review, investigation, recheck and observation states (0.8599ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 5
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 350.9173
+
+✖ failing tests:
+
+test at tests\mobile\format.test.mjs:71:1
+✖ issue progress distinguishes review, investigation, recheck and observation states (0.8599ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'pending_review'
+  - '待审核'
+  
+      at TestContext.<anonymous> (file:///C:/Users/Lenovo/Desktop/demo/tests/mobile/format.test.mjs:73:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'pending_review',
+    expected: '待审核',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

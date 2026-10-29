@@ -1,0 +1,148 @@
+........................................................................ [ 25%]
+........................................................................ [ 50%]
+........................................................................ [ 76%]
+....................................................................     [100%]
+=============================== tests coverage ================================
+______________ coverage: platform win32, python 3.12.13-final-0 _______________
+
+Name                                                           Stmts   Miss  Cover   Missing
+--------------------------------------------------------------------------------------------
+src\zhutong\__init__.py                                            0      0   100%
+src\zhutong\__main__.py                                           32     32     0%   1-38
+src\zhutong\app.py                                                43      0   100%
+src\zhutong\bootstrap.py                                          35      1    97%   24
+src\zhutong\core\__init__.py                                       0      0   100%
+src\zhutong\core\errors.py                                         9      0   100%
+src\zhutong\core\http.py                                          40      0   100%
+src\zhutong\core\security.py                                      37      2    95%   24, 46
+src\zhutong\core\settings.py                                      14      0   100%
+src\zhutong\db\__init__.py                                         0      0   100%
+src\zhutong\db\database.py                                        25      1    96%   25
+src\zhutong\db\identity.py                                        28      0   100%
+src\zhutong\db\importing\binary_rows.py                           26      6    77%   20-22, 32-34
+src\zhutong\db\importing\catalog.py                                6      0   100%
+src\zhutong\db\importing\mapping.py                               48      3    94%   34, 46, 56
+src\zhutong\db\importing\repository.py                           103     10    90%   31, 33, 52-53, 93, 104, 107, 133, 151-156
+src\zhutong\db\importing\runtime.py                               27      1    96%   50
+src\zhutong\db\media.py                                           78      3    96%   39-40, 104
+src\zhutong\db\models\__init__.py                                  3      0   100%
+src\zhutong\db\models\archive.py                                  73      0   100%
+src\zhutong\db\models\assistant.py                                24      0   100%
+src\zhutong\db\models\common.py                                   28      0   100%
+src\zhutong\db\models\field.py                                   110      0   100%
+src\zhutong\db\models\foundation.py                               57      0   100%
+src\zhutong\db\models\identity.py                                 17      0   100%
+src\zhutong\db\models\knowledge\__init__.py                        3      0   100%
+src\zhutong\db\models\knowledge\documents.py                      47      0   100%
+src\zhutong\db\models\knowledge\indexes.py                        24      0   100%
+src\zhutong\db\models\media.py                                    53      0   100%
+src\zhutong\db\models\monitoring.py                              115      0   100%
+src\zhutong\domain\__init__.py                                     0      0   100%
+src\zhutong\domain\inspection\answers.py                          19      1    95%   27
+src\zhutong\domain\inspection\issues.py                           90     18    80%   53, 58, 65, 72, 75, 77, 81, 83, 90, 107, 109, 114, 118, 120, 122, 143, 146, 149
+src\zhutong\domain\inspection\maintenance.py                      41     11    73%   9, 11, 13, 16, 18, 20, 23, 25, 28, 30, 53
+src\zhutong\domain\inspection\orders.py                           58     20    66%   19, 33, 37, 42, 44, 52, 56, 58, 77, 94-114
+src\zhutong\domain\inspection\schedule.py                         68     30    56%   22, 30, 35-42, 49, 52, 54, 58-59, 67, 72-88
+src\zhutong\domain\inspection\tasks.py                            53      7    87%   35, 38, 54, 56, 98, 100, 110
+src\zhutong\domain\knowledge\model.py                             57     28    51%   32-49, 54-72, 86, 96
+src\zhutong\domain\knowledge\text.py                              49      0   100%
+src\zhutong\domain\monitoring\__init__.py                          0      0   100%
+src\zhutong\domain\monitoring\catalog.py                          14      1    93%   79
+src\zhutong\domain\monitoring\csv.py                             177     29    84%   25-32, 34, 39, 56, 77, 83-84, 86, 95, 98, 101-102, 123, 127, 130, 141, 143-144, 147, 215, 222, 244, 246, 315
+src\zhutong\domain\monitoring\engine.py                          208     42    80%   36, 40-41, 48, 58, 82-86, 95, 104, 109, 116, 130, 143, 148, 157-159, 165, 183, 188, 193, 238, 341-359
+src\zhutong\domain\monitoring\events.py                           93      7    92%   25, 139-141, 168, 173, 210
+src\zhutong\domain\monitoring\rules.py                            45      4    91%   11, 22, 52, 62
+src\zhutong\domain\monitoring\trigger.py                          55      3    95%   53, 68, 76
+src\zhutong\domain\monitoring\validation.py                       78      9    88%   30, 40, 50, 56-57, 65, 80, 87-88
+src\zhutong\operations\__init__.py                                 0      0   100%
+src\zhutong\operations\assistant\__init__.py                       3      0   100%
+src\zhutong\operations\assistant\answer\compose.py               212     27    87%   77, 123, 264, 272-275, 279-282, 297, 301-304, 359, 361, 383-391, 401-413
+src\zhutong\operations\assistant\answer\facts.py                 139     13    91%   27, 30-31, 33, 48-49, 51, 55, 61, 96, 140, 153, 230
+src\zhutong\operations\assistant\answer\facts_extras.py           51     29    43%   13-55, 69-93
+src\zhutong\operations\assistant\answer\facts_more.py            130     23    82%   82, 120, 134, 198, 203, 296-300, 328-365
+src\zhutong\operations\assistant\answer\flows.py                  20      3    85%   13, 30-36
+src\zhutong\operations\assistant\answer\knowledge_answers.py      46      3    93%   18-19, 46
+src\zhutong\operations\assistant\parse.py                        139     10    93%   142, 196, 202, 215, 219, 231, 233, 253, 257, 264
+src\zhutong\operations\assistant\resolve.py                      283     45    84%   55, 58, 67, 76, 82, 160, 168, 181, 197-200, 207-208, 216-217, 254-256, 264-267, 297, 299-305, 328-340, 351-354, 382-384, 421-423
+src\zhutong\operations\assistant\sessions.py                     102     12    88%   95, 112, 117, 124, 126, 130, 132-133, 141, 144-146
+src\zhutong\operations\auth.py                                    37      0   100%
+src\zhutong\operations\datasets\__init__.py                        0      0   100%
+src\zhutong\operations\datasets\alarms\__init__.py                 3      0   100%
+src\zhutong\operations\datasets\alarms\apply.py                  113      2    98%   269, 294
+src\zhutong\operations\datasets\alarms\commands.py               142      9    94%   36, 38, 48, 56, 69, 151, 207, 283, 285
+src\zhutong\operations\datasets\alarms\recovery.py                40      4    90%   18, 25, 33, 52
+src\zhutong\operations\datasets\alarms\revisions.py               55      2    96%   80, 130
+src\zhutong\operations\datasets\alarms\shared.py                  26      1    96%   64
+src\zhutong\operations\datasets\archive.py                       160     43    73%   99, 102, 104, 122, 198, 217-226, 229-230, 240-248, 252-260, 264-281, 307, 310, 315-316, 319, 321, 323
+src\zhutong\operations\datasets\assets.py                        171     54    68%   84-86, 96, 105, 119, 131, 133, 140, 178-212, 224-226, 229-230, 234, 252, 260, 297-318, 328, 336-339, 342-343
+src\zhutong\operations\datasets\core\__init__.py                   0      0   100%
+src\zhutong\operations\datasets\core\helpers.py                   38      2    95%   28, 55
+src\zhutong\operations\datasets\core\record_queries.py            23      0   100%
+src\zhutong\operations\datasets\core\serialize.py                 23      0   100%
+src\zhutong\operations\datasets\core\workspace.py                132      9    93%   64, 76, 135-141, 147, 248, 260-261
+src\zhutong\operations\datasets\importer.py                       65      2    97%   85, 96
+src\zhutong\operations\datasets\records.py                       148     10    93%   69-74, 257, 344, 387, 401
+src\zhutong\operations\datasets\trials.py                         49      2    96%   81, 89
+src\zhutong\operations\datasets\versions.py                      162     36    78%   45, 47, 53, 55, 58, 68, 84, 128-132, 137, 139, 144, 153, 156, 158, 161, 168, 170, 173, 175, 177, 184, 228, 236-237, 267, 278, 281, 293, 299-300, 318-321
+src\zhutong\operations\field\access.py                            51     11    78%   21, 29, 37, 47-51, 57, 65, 73
+src\zhutong\operations\field\common.py                           138     10    93%   189, 287, 354, 358-359, 365, 367-369, 385
+src\zhutong\operations\field\inspection.py                       117     20    83%   38, 43, 45, 55, 59, 61, 63, 66, 68, 71, 73, 75, 163-180, 205, 227
+src\zhutong\operations\field\issues.py                           112      8    93%   57, 61, 64, 71, 130, 266, 272, 274
+src\zhutong\operations\field\maintenance.py                      156     18    88%   47, 50, 54, 57, 141-159, 163-166, 195, 207, 213, 220
+src\zhutong\operations\field\orders.py                            90      3    97%   55, 177, 209
+src\zhutong\operations\field\reports\__init__.py                   5      0   100%
+src\zhutong\operations\field\reports\event_report.py              67      5    93%   66, 126, 148, 258, 262
+src\zhutong\operations\field\reports\exports.py                   84     18    79%   32-71, 134, 180, 220, 222, 224, 257, 259, 261, 266, 298
+src\zhutong\operations\field\reports\metrics.py                  132     22    83%   32, 37, 40-41, 45, 77, 88, 90, 92, 99, 144, 146, 148, 151, 159, 173, 175, 177, 186, 190, 244-246
+src\zhutong\operations\field\reports\types.py                    133     25    81%   30, 32, 41, 48, 50, 52, 60, 62, 65, 121, 123, 125, 127, 133, 135, 139, 147, 149, 151, 153, 162, 164, 166, 168, 179
+src\zhutong\operations\field\reviews.py                          143      6    96%   41, 43, 50, 276, 355-356
+src\zhutong\operations\field\task_checks.py                       88      7    92%   37, 40, 105-106, 140-141, 176
+src\zhutong\operations\identity_types.py                          20      0   100%
+src\zhutong\operations\importing\files.py                         62      5    92%   26, 119-120, 146-147
+src\zhutong\operations\importing\links.py                         37     20    46%   27, 31-36, 38-46, 48-53
+src\zhutong\operations\importing\prepare.py                       41     11    73%   31, 36-37, 39-40, 42, 46-47, 55-56, 59
+src\zhutong\operations\importing\runtime_validation.py            13      1    92%   16
+src\zhutong\operations\importing\service.py                       20      0   100%
+src\zhutong\operations\importing\types.py                         19      0   100%
+src\zhutong\operations\importing\wire.py                           7      0   100%
+src\zhutong\operations\knowledge\corpus.py                        22      1    95%   38
+src\zhutong\operations\knowledge\documents.py                     58      4    93%   23, 64, 126, 128
+src\zhutong\operations\knowledge\indexing.py                      83      6    93%   32, 39, 53, 65, 79, 112
+src\zhutong\operations\knowledge\lexicon.py                       43      9    79%   23-24, 33, 35, 38, 52-55
+src\zhutong\operations\knowledge\retrieval.py                     78      5    94%   22, 24-25, 96, 120
+src\zhutong\operations\media\access.py                            18      1    94%   7
+src\zhutong\operations\media\attachments.py                       42      7    83%   29, 31, 33, 37-39, 43
+src\zhutong\operations\media\service.py                           40      1    98%   54
+src\zhutong\operations\media\session.py                          211     23    89%   17, 38, 74, 79, 107, 118, 152, 156, 166, 191-192, 202, 204, 218, 221, 225, 237, 240, 244, 310, 337, 341, 362
+src\zhutong\operations\media\types.py                             65      0   100%
+src\zhutong\routers\__init__.py                                    0      0   100%
+src\zhutong\routers\auth.py                                       21      0   100%
+src\zhutong\routers\datasets\__init__.py                           0      0   100%
+src\zhutong\routers\datasets\alarms.py                            34      0   100%
+src\zhutong\routers\datasets\archive.py                           75     10    87%   101-102, 127-128, 153-154, 185-186, 203, 222
+src\zhutong\routers\datasets\assistant\api.py                     83      0   100%
+src\zhutong\routers\datasets\assistant\schemas.py                 42      0   100%
+src\zhutong\routers\datasets\common.py                            32      0   100%
+src\zhutong\routers\datasets\field\api.py                        121      5    96%   74, 234, 269-276
+src\zhutong\routers\datasets\field\reports_api.py                 24      2    92%   23, 25
+src\zhutong\routers\datasets\field\schemas.py                    133      0   100%
+src\zhutong\routers\datasets\knowledge\api.py                     53      5    91%   36, 65-66, 71-72
+src\zhutong\routers\datasets\knowledge\schemas.py                 38      0   100%
+src\zhutong\routers\datasets\monitoring.py                        31      0   100%
+src\zhutong\routers\datasets\schemas_archive.py                  103      0   100%
+src\zhutong\routers\datasets\schemas_monitoring.py                54      0   100%
+src\zhutong\routers\dependencies.py                               21      0   100%
+src\zhutong\routers\health.py                                     20      1    95%   28
+src\zhutong\routers\importing.py                                  57      6    89%   36, 40, 78, 84-86
+src\zhutong\routers\media.py                                      54      2    96%   36, 49
+src\zhutong\routers\media_schemas.py                              23      0   100%
+src\zhutong\storage\backup.py                                     76      6    92%   32, 36-38, 44, 62
+src\zhutong\storage\backup_manifest.py                            45      7    84%   16, 18, 41, 52, 55, 57, 59
+src\zhutong\storage\files.py                                      50      1    98%   15
+src\zhutong\storage\integrity.py                                   6      0   100%
+src\zhutong\storage\knowledge_backup.py                           31      2    94%   21, 24
+src\zhutong\storage\validation.py                                 52      3    94%   34, 51, 53
+--------------------------------------------------------------------------------------------
+TOTAL                                                           8196    907    89%
+Required test coverage of 80% reached. Total coverage: 88.93%
+284 passed in 214.96s (0:03:34)

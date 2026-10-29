@@ -1,0 +1,40 @@
+✔ picker lifecycle retains text and marks external activity until safe result is reauthorized (4.356ms)
+✔ picker cancellation and permission failure keep the draft; scope changes discard late bytes (2.1922ms)
+✔ upload then issue commit uses raw bytes and stable ids; repeated taps create one issue (5.1339ms)
+✔ committed response loss retries exactly the same issue body and key without uploading again (0.7878ms)
+✔ unknown media upload retries the same bytes/key and task conflict needs explicit revision adoption (0.3617ms)
+✔ scope revoked while archive is in flight blocks picker result publication (0.5392ms)
+✔ task 409 preserves uploaded evidence until explicit adoption; wrong role cannot start task report (0.9198ms)
+✔ unfinished draft survives reentry; a completed report permits a genuinely new submission (0.3207ms)
+✔ same-id authorization change before selection clears protected draft and old photo bytes (0.2814ms)
+✔ removed photo is disposed and is never sent as an attachment; malformed upload stays retryable (0.5087ms)
+✔ late report response after context reset does not resurrect a submitted issue (1.4076ms)
+✔ inactive service and wrong task role never start an executable report (0.1464ms)
+✖ reactive report view carries preview metadata only, never an ArrayBuffer or upload object (0.7422ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 12
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 421.1746
+
+✖ failing tests:
+
+test at tests\mobile\report\session.test.mjs:164:1
+✖ reactive report view carries preview metadata only, never an ArrayBuffer or upload object (0.7422ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  undefined !== 3
+  
+      at TestContext.<anonymous> (file:///C:/Users/Lenovo/Desktop/demo/tests/mobile/report/session.test.mjs:167:9)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 3,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
