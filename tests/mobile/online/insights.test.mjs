@@ -17,3 +17,14 @@ test('incomplete statistics never masquerade as a zero chart',async()=>{
  f.server.intercept=c=>c.path.includes('/mobile/insights')?{data:{period:'week',trend:[]},meta:{datasetEpoch:1}}:undefined
  await assert.rejects(f.controller.readInsights({period:'week',buildingId:''}),error=>error.code==='INVALID_RESPONSE')
 })
+
+test('complete authorized statistics are returned and older event receipts never regress a newer event',async()=>{
+ const f=fixture();await f.controller.connect('http://localhost:8080')
+ const data={period:'week',trend:[],byBuilding:[],byPoint:[],sensorTypes:[],totalEvents:0,recordCount:0,openEvents:0}
+ f.server.intercept=c=>c.path.includes('/mobile/insights')?{data,meta:{datasetEpoch:1}}:undefined
+ assert.deepEqual(await f.controller.readInsights({period:'week',buildingId:''}),data)
+ f.current().workspace.events.push({id:'e',rev:4,status:'handling'})
+ f.controller.acceptEvent({id:'e',rev:5,status:'recovering'})
+ f.controller.acceptEvent({id:'e',rev:3,status:'pending'})
+ assert.equal(f.current().workspace.events[0].status,'recovering')
+})

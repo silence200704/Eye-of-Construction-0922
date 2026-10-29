@@ -43,3 +43,16 @@ test('late acknowledgement after identity reset cannot repopulate event state',a
  held.resolve({data:{...f.event,rev:3,status:'handling'},meta:{datasetEpoch:1}})
  await pending;assert.equal(f.saved.length,0)
 })
+
+test('field note succeeds without acknowledging the event and a closed event refuses further changes',async()=>{
+ const f=fixture();await f.session.submit({eventId:'e',action:'field-notes',kind:'measures',note:'模拟处置措施：已设置现场提示并安排复查跟进。'})
+ assert.equal(f.saved[0].status,'pending');assert.equal(f.current().phase,'done')
+ f.event.status='closed';await f.session.submit({eventId:'e',action:'acknowledge'})
+ assert.equal(f.current().phase,'error');assert.equal(f.saved.length,1)
+})
+
+test('a close response with an unchanged recovering status cannot claim that closure succeeded',async()=>{
+ const f=fixture();f.event.status='recovering'
+ await f.session.submit({eventId:'e',action:'close',basis:'核对三次模拟恢复复测',noRepairNote:'现场核查确认无需维修，安排持续观察。'})
+ assert.equal(f.current().phase,'unknown');assert.equal(f.saved.length,0)
+})
