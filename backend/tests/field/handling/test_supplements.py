@@ -94,3 +94,10 @@ def test_supplement_conflict_and_current_scope_guard_replay(client, settings):
     engine.dispose()
     assert api.fpost(path, body, "valid", "demo-inspector").status_code == 403
     assert counts(str(settings.database_url), "issues", "audits", "operation_receipts") == before
+
+
+def test_issue_list_exposes_stable_original_actor_for_supplement_affordance(client, settings):
+    api = FieldApi(client, str(settings.database_url))
+    issue = returned_issue(api)
+    row = next(item for item in api.get("/issues") if item["id"] == issue["id"])
+    assert row["createdById"] == "demo-inspector"
