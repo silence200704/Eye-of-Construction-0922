@@ -287,17 +287,8 @@ def report_issue(session: Session, workspace: Workspace, payload: dict) -> dict:
 
 def list_issues(session: Session, workspace: Workspace) -> list[dict]:
     rows = session.scalars(select(Issue).where(Issue.dataset_id == workspace.dataset_id))
-    creators = dict(
-        session.execute(
-            select(AuditLog.object_id, AuditLog.actor_id).where(
-                AuditLog.dataset_id == workspace.dataset_id,
-                AuditLog.action == "create",
-                AuditLog.object_type == "system",
-            )
-        ).all()
-    )
     return [
-        {**issue_out(row), "createdById": creators.get(row.id)}
+        issue_out(row)
         for row in rows
         if row.building_id is None or can_access_building(workspace, row.building_id)
     ]

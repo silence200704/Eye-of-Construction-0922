@@ -4,11 +4,14 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from ....core.errors import AppError
+from ....db.models.field import Issue
+from ....db.models.foundation import AuditLog
 from ....db.models.media import Attachment, MediaFile
 from ...datasets.core.workspace import (
     AuditEntry,
     Workspace,
     bump,
+    can_access_building,
     now_iso,
     require_revision,
     write_audit,
@@ -35,9 +38,26 @@ def photo_totals(session: Session, workspace: Workspace, field: str, object_id: 
 def context(session: Session, workspace: Workspace, issue_id: str) -> dict:
     issue = supplement_owner(session, workspace, issue_id)
     return {
-        "issue": {**issue_out(issue), "createdById": workspace.actor.id},
+        "issue": issue_out(issue),
         **photo_totals(session, workspace, "issue", issue.id),
     }
+
+
+def targets(session: Session, workspace: Workspace) -> list[str]:
+    rows = session.scalars(
+        select(Issue)
+        .join(
+            AuditLog, (Issue.dataset_id == AuditLog.dataset_id) & (Issue.id == AuditLog.object_id)
+        )
+        .where(
+            Issue.dataset_id == workspace.dataset_id,
+            Issue.status == "pending_review",
+            Issue.review_action == "need_evidence",
+            AuditLog.action == "create",
+            AuditLog.actor_id == workspace.actor.id,
+        )
+    )
+    return sorted({row.id for row in rows if can_access_building(workspace, row.building_id)})
 
 
 def order_context(session: Session, workspace: Workspace, order_id: str) -> dict:
@@ -99,4 +119,4 @@ def submit(session: Session, workspace: Workspace, issue_id: str, payload: dict)
             at=at,
         ),
     )
-    return {"issue": {**issue_out(issue), "createdById": workspace.actor.id}}
+    return {"issue": issue_out(issue)}

@@ -19,6 +19,11 @@ class SupplementInput(BaseModel):
     photos: list[PhotoInput] = Field(default_factory=list, max_length=3)
 
 
+@router.get("/issues/supplement-targets")
+def supplement_targets(request: Request, session: Read, current: Current) -> dict:
+    return reply(request, current, supplements.targets(session, current))
+
+
 @router.get("/issues/{issue_id}/supplement-context")
 def supplement_context(request: Request, session: Read, current: Current, issue_id: str) -> dict:
     return reply(request, current, supplements.context(session, current, issue_id))

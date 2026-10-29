@@ -101,7 +101,9 @@ def test_supplement_targets_do_not_change_legacy_issue_projection(client, settin
     issue = returned_issue(api)
     assert api.get("/issues") == [issue]
     for account, expected in [("demo-inspector", [issue["id"]]), ("demo-safety", [])]:
-        response = client.get("/api/v1/datasets/demo-main/issues/supplement-targets", headers={
-            "Authorization": f"Bearer {api.token_for(account)}"})
+        response = client.get(
+            "/api/v1/datasets/demo-main/issues/supplement-targets",
+            headers={"Authorization": f"Bearer {api.token_for(account)}"},
+        )
         assert response.status_code == 200
         assert response.json()["data"] == expected
