@@ -200,7 +200,9 @@ export class ReportSession {
       if (generation !== this.generation) return undefined;
       if (response.meta?.datasetEpoch !== lease.access.workspace.epoch) throw new ApiError('EPOCH_CHANGED', '演示数据已变化。');
       const result = response.data;
-      const valid = draft.target.orderId ? result.order?.id === draft.target.orderId :
+      const valid = draft.target.orderId ? result.order?.id === draft.target.orderId &&
+        Number.isInteger(result.order.rev) && result.order.rev > draft.target.expectedRev &&
+        result.order.status === draft.target.action && !!result.order.orderNo && Array.isArray(result.order.photos) :
         !!result.issue?.id && result.issue.pointId === (draft.target.pointId || null) && (!draft.target.issueId || result.issue.id === draft.target.issueId);
       if (!valid) {
         throw new ApiError('INVALID_RESPONSE', '上报响应不完整，请用原请求核验。');
