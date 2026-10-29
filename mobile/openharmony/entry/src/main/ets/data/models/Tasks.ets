@@ -67,4 +67,14 @@ export interface WorkOrder {
   assignee: string;
   dueAt: string | null;
   measures: string;
+  materials: string;
+  assigneeId: string;
+  acceptedById: string;
+  photos: string[];
+  reviews: OrderReview[];
+  timeline: OrderTimeline[];
+  rev: number;
 }
+
+export interface OrderReview { at: string; by: string; result: string; note: string; }
+export interface OrderTimeline { at: string; by: string; action: string; detail: string; }

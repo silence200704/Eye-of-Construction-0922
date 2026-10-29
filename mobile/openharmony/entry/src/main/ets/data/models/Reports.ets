@@ -1,4 +1,4 @@
-import { InspectionTask } from './Tasks';
+import { InspectionTask, WorkOrder } from './Tasks';
 
 export interface ReportTarget {
   pointId: string;
@@ -6,6 +6,20 @@ export interface ReportTarget {
   floorId: string;
   taskId: string;
   expectedRev: number;
+  issueId?: string;
+  orderId?: string;
+  action?: string;
+  existingPhotoCount?: number;
+  existingPhotoBytes?: number;
+  requirePhoto?: boolean;
+  requireNote?: boolean;
+}
+
+export function copyTarget(target: ReportTarget): ReportTarget {
+  return { pointId: target.pointId, buildingId: target.buildingId, floorId: target.floorId, taskId: target.taskId,
+    expectedRev: target.expectedRev, issueId: target.issueId, orderId: target.orderId, action: target.action,
+    existingPhotoCount: target.existingPhotoCount, existingPhotoBytes: target.existingPhotoBytes,
+    requirePhoto: target.requirePhoto, requireNote: target.requireNote };
 }
 
 export interface PreparedPhoto {
@@ -22,10 +36,12 @@ export class ReportPhoto {
   prepared: PreparedPhoto;
   mediaId: string = '';
   sha256: string = '';
+  kind: string = 'scene';
   constructor(photo: PreparedPhoto) { this.prepared = photo; }
   copy(): ReportPhoto {
     const result = new ReportPhoto(this.prepared);
     result.mediaId = this.mediaId; result.sha256 = this.sha256;
+    result.kind = this.kind;
     return result;
   }
 }
@@ -49,6 +65,8 @@ export interface IssueRecord {
   issueNo: string;
   pointId: string | null;
   buildingId: string;
+  floorId?: string | null;
+  createdById?: string | null;
   taskId: string | null;
   source?: string;
   anomalyType: string;
@@ -61,6 +79,24 @@ export interface IssueRecord {
 }
 
 export interface ReportResult {
-  issue: IssueRecord;
+  issue?: IssueRecord;
+  order?: WorkOrder;
   task?: InspectionTask;
+}
+
+export interface HandlingBody {
+  expectedRev: number;
+  note: string;
+  photos: PhotoLink[];
+  to?: string;
+  measures?: string;
+  materials?: string;
+}
+
+export interface HandlingContext {
+  issue?: IssueRecord;
+  order?: WorkOrder;
+  buildingId?: string;
+  existingPhotoCount: number;
+  existingPhotoBytes: number;
 }
