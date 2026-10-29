@@ -5,11 +5,21 @@ import { deferred } from './fixture.mjs'
 
 let nextResponse, destroyThrows = false, destroyed = 0, observed = null
 nativeModules.set('@ohos.net.http', {
-  RequestMethod: { GET: 'GET', POST: 'POST' }, HttpDataType: { STRING: 'STRING' },
+  RequestMethod: { GET: 'GET', POST: 'POST' }, HttpDataType: { STRING: 'STRING', ARRAY_BUFFER:'ARRAY_BUFFER' },
   createHttp: () => ({
     request: async (address, options) => { observed = { address, options }; return nextResponse },
     destroy: () => { destroyed++; if (destroyThrows) throw Error('cleanup failed') },
   }),
+})
+
+test('protected photo download uses bearer, binary mode and rejects non-content paths',async()=>{
+ const client=new BackendClient({baseUrl:'http://localhost:8080',token:'photo-token'})
+ const bytes=new Uint8Array([255,216,255,217]).buffer
+ nextResponse={responseCode:200,result:bytes}
+ assert.equal(await client.readBinary('/datasets/demo-main/media/m/content'),bytes)
+ assert.equal(observed.options.expectDataType,'ARRAY_BUFFER')
+ assert.equal(observed.options.header.Authorization,'Bearer photo-token')
+ await assert.rejects(client.readBinary('/auth/me'),error=>error.code==='INVALID_PATH')
 })
 const { BackendClient } = native('core/network/BackendClient.ets')
 
