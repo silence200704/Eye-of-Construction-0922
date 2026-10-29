@@ -37,6 +37,7 @@ export async function readWorkspace(read: WorkspaceRead): Promise<Workspace> {
   const tasks = await rows<InspectionTask>(read, '/inspection/tasks', data.epoch);
   const orders = await rows<WorkOrder>(read, '/work-orders', data.epoch);
   const issues = await rows<IssueRecord>(read, '/issues', data.epoch);
+  const supplementableIds = await rows<string>(read, '/issues/supplement-targets', data.epoch);
   return { epoch: data.epoch, buildings: data.buildings, floors: data.floors, points: data.points,
-    devices: data.devices, records, events, tasks, orders, issues };
+    devices: data.devices, records, events, tasks, orders, issues, supplementableIds };
 }

@@ -66,7 +66,6 @@ export interface IssueRecord {
   pointId: string | null;
   buildingId: string;
   floorId?: string | null;
-  createdById?: string | null;
   taskId: string | null;
   source?: string;
   anomalyType: string;

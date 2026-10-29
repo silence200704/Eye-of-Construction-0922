@@ -14,6 +14,9 @@ export struct IssuesPage {
   @State choosing: boolean = false;
   onNew: (target: ReportTarget) => void = () => {};
   onRefresh: () => void = () => {};
+  onSupplement: (id: string) => void = () => {};
+  @Prop feedback: string = '';
+  @Prop busy: boolean = false;
 
   @Builder
   locations() {
@@ -41,6 +44,10 @@ export struct IssuesPage {
       Text(`关联照片 ${issue.photos.length} 张 · ${issue.source === 'sensor' ? '预警转单' : issue.source === 'maintenance' ? '保养发现' : issue.taskId ? '巡检发现' : '独立上报'}`)
         .fontSize(12).fontColor(Theme.brand);
       if (issue.reviewNote) { Text(`审核反馈：${issue.reviewNote}`).fontSize(13).fontColor(Theme.warning); }
+      if (issue.reviewAction === 'need_evidence' && this.state.workspace.supplementableIds.includes(issue.id)) {
+        PlayButton({ title: '补充材料', available: !this.busy, controlId: `issue-supplement-${issue.id}`,
+          onAction: () => this.onSupplement(issue.id) });
+      }
     }
   }
 
@@ -48,6 +55,7 @@ export struct IssuesPage {
     PageStage() {
       PageHeading({ title: '每一份发现，都有回音', subtitle: '现场提交与服务端审核进度', kicker: 'DISCOVERY / 现场发现' });
       if (this.state.mode === 'ready') {
+        if (this.feedback) { Text(this.feedback).fontSize(13).fontColor(Theme.brand).id('handling-entry-feedback'); }
         PlayButton({ title: this.choosing ? '收起位置选择' : '记录新的现场发现', controlId: 'issue-new',
           onAction: () => { this.choosing = !this.choosing; } });
         if (this.choosing) { this.locations(); }

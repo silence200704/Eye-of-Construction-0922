@@ -7,20 +7,29 @@ import { PlayButton } from '../../shared/playful/PlayButton';
 export struct PhotoCards {
   @Prop photos: PhotoPreview[];
   @Prop locked: boolean = false;
+  @Prop existingCount: number = 0;
+  @Prop existingBytes: number = 0;
+  @Prop orderPhotos: boolean = false;
+  @Prop requiredPhoto: boolean = false;
   onChoose: (source: string) => void = () => {};
   onRemove: (id: string) => void = () => {};
+  onKind: (id: string, kind: string) => void = () => {};
 
   build() {
     AppCard({ color: Theme.sky }) {
       Text('② 给变化留一份证据').fontSize(20).fontWeight(FontWeight.Bold).fontColor(Theme.text);
-      Text(`已选择 ${this.photos.length}/3 张 · ${Math.ceil(this.photos.reduce((size, row) => size + row.size, 0) / 1024)}/600 KB`)
+      Text(`已选择 ${this.photos.length}/${3 - this.existingCount} 张 · ${Math.ceil(this.photos.reduce((size, row) => size + row.size, this.existingBytes) / 1024)}/600 KB`)
         .fontSize(13).fontColor(Theme.brand).id('report-photo-count');
-      Text('自动压缩为JPEG，单张不超过200 KB。照片可选；未上传不算已提交。')
+      Text(this.requiredPhoto ? '本次审核要求补充新照片。自动压缩，单张不超过200 KB。' :
+        '照片可选，自动压缩为JPEG，单张不超过200 KB。')
         .fontSize(12).fontColor(Theme.secondary);
+      if (this.existingCount) {
+        Text(`另有 ${this.existingCount} 张已关联证据，保留并共同占用3张/600 KB配额。`).fontSize(12).fontColor(Theme.secondary);
+      }
       Row({ space: 10 }) {
-        PlayButton({ title: '相册选图', secondary: true, available: !this.locked && this.photos.length < 3,
+        PlayButton({ title: '相册选图', secondary: true, available: !this.locked && this.photos.length + this.existingCount < 3,
           controlId: 'report-album', onAction: () => this.onChoose('album') }).layoutWeight(1);
-        PlayButton({ title: '拍一张', secondary: true, available: !this.locked && this.photos.length < 3,
+        PlayButton({ title: '拍一张', secondary: true, available: !this.locked && this.photos.length + this.existingCount < 3,
           controlId: 'report-camera', onAction: () => this.onChoose('camera') }).layoutWeight(1);
       }.width('100%');
       ForEach(this.photos, (photo: PhotoPreview, index: number) => {
@@ -29,6 +38,16 @@ export struct PhotoCards {
             .borderRadius(15).backgroundColor(Theme.surface).accessibilityText(`第${index + 1}张待提交照片`);
           Text(`${index + 1} · ${photo.source === 'camera' ? '相机' : '相册'} · ${photo.mediaId ? '已上传，待关联' : '本机待上传'}`)
             .fontSize(13).fontColor(Theme.brand).id(`report-photo-state-${index}`);
+          if (this.orderPhotos) {
+            Row({ space: 8 }) {
+              Button(photo.kind === 'before' ? '✓ 维修前' : '维修前').height(48).enabled(!this.locked)
+                .backgroundColor(photo.kind === 'before' ? Theme.cream : Theme.surface).fontColor(Theme.brand)
+                .onClick(() => this.onKind(photo.draftId, 'before')).id(`photo-kind-before-${index}`);
+              Button(photo.kind === 'after' ? '✓ 维修后' : '维修后').height(48).enabled(!this.locked)
+                .backgroundColor(photo.kind === 'after' ? Theme.cream : Theme.surface).fontColor(Theme.brand)
+                .onClick(() => this.onKind(photo.draftId, 'after')).id(`photo-kind-after-${index}`);
+            }
+          }
           Button('移除这张照片').height(48).backgroundColor(Theme.surface).fontColor(Theme.danger)
             .enabled(!this.locked).onClick(() => this.onRemove(photo.draftId)).id(`report-photo-remove-${index}`);
         }.padding(12).width('100%').backgroundColor(Theme.pale).borderRadius(20);

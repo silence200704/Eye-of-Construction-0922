@@ -11,13 +11,14 @@ import { MonitoringPage } from '../features/monitoring/MonitoringPage';
 import { PointDetail } from '../features/monitoring/PointDetail';
 import { TasksPage } from '../features/tasks/TasksPage';
 import { TaskDetail } from '../features/tasks/TaskDetail';
+import { OrderDetail } from '../features/tasks/OrderDetail';
 import { ProfilePage } from '../features/profile/ProfilePage';
 import { ReportPage } from '../features/reports/ReportPage';
 import { IssuesPage } from '../features/reports/IssuesPage';
 import { ReportSession } from '../core/report/ReportSession';
 import { ReportView } from '../core/report/ReportView';
 import { PhotoSelector } from '../core/media/PhotoSelector';
-import { ReportTarget } from '../data/models/Reports';
+import { ReportTarget, HandlingRequest } from '../data/models/Reports';
 
 @Entry
 @Component
@@ -26,6 +27,8 @@ struct Index {
   @State tab: number = 0;
   @State pointId: string = '';
   @State taskId: string = '';
+  @State orderId: string = '';
+  @State handlingId: string = '';
   @State report: ReportView = new ReportView();
   private paths: NavPathStack = new NavPathStack();
   private controller: WorkspaceController | undefined = undefined;
@@ -40,7 +43,7 @@ struct Index {
     this.photos = new PhotoSelector(context);
     this.controller = new WorkspaceController({
       storage: new ConnectionPreferences(context), createClient: (settings) => new BackendClient(settings),
-      onReset: () => { this.reporter?.deactivate(); this.paths.clear(); this.pointId = ''; this.taskId = ''; },
+      onReset: () => { this.reporter?.deactivate(); this.paths.clear(); this.pointId = ''; this.taskId = ''; this.orderId = ''; this.handlingId = ''; },
       onChange: (state: AppState) => {
         this.state = state;
         if (state.mode === 'ready' && this.showHome) { this.tab = 0; this.showHome = false; }
@@ -58,6 +61,22 @@ struct Index {
   openReport(target: ReportTarget): void {
     this.reporter?.start(target);
     if (this.report.draft) this.paths.pushPathByName('report', 'report');
+  }
+
+  handlingBusy(): boolean { return ['loading', 'sending', 'picking'].includes(this.report.phase); }
+
+  async openHandling(request: HandlingRequest): Promise<void> {
+    this.handlingId = request.issueId ?? request.orderId ?? '';
+    const opened = await this.reporter?.startHandling(request);
+    if (!opened) {
+      if (this.report.draft && this.report.phase !== 'done') this.paths.pushPathByName('report', 'report');
+      return;
+    }
+    if (request.action === 'repairing' && !this.report.draft?.target.requireNote) {
+      await this.reporter?.submit();
+      if (this.report.phase === 'done') return;
+    }
+    this.paths.pushPathByName('report', 'report');
   }
 
   discardReport(): void {
@@ -79,14 +98,22 @@ struct Index {
           onRetry: async () => this.controller?.retryInspection(), onReload: () => this.controller?.reloadInspection() });
       }.title('巡检手账').backgroundColor(Theme.canvas);
     } else if (name === 'issues') {
-      NavDestination() { IssuesPage({ state: this.state, onNew: (target) => this.openReport(target), onRefresh: () => this.controller?.refresh() }); }
-        .title('现场发现').backgroundColor(Theme.canvas);
+      NavDestination() { IssuesPage({ state: this.state, onNew: (target) => this.openReport(target), onRefresh: () => this.controller?.reloadHandling(),
+        onSupplement: (id) => this.openHandling({ issueId: id }), feedback: this.report.message, busy: this.handlingBusy() }); }
+        .title('现场发现').backgroundColor(Theme.canvas).onBackPressed(() => this.handlingBusy());
+    } else if (name === 'work-order') {
+      NavDestination() {
+        OrderDetail({ state: this.state, orderId: this.orderId, busy: this.handlingBusy(),
+          feedback: this.handlingId === this.orderId ? this.report.message : '',
+          onHandle: (action) => this.openHandling({ orderId: this.orderId, action }), onReload: () => this.controller?.reloadHandling() });
+      }.title('维修手账').backgroundColor(Theme.canvas).onBackPressed(() => this.handlingBusy());
     } else if (name === 'report') {
       NavDestination() {
         ReportPage({ state: this.state, report: this.report, onField: (key, value) => this.reporter?.field(key, value),
           onChoose: (source) => this.reporter?.choose(async () => await this.photos?.choose(source) ?? null),
           onRemove: (id) => this.reporter?.remove(id), onSubmit: () => this.reporter?.submit(), onRetry: () => this.reporter?.retry(),
-          onReload: () => this.controller?.reloadInspection(), onAdopt: (rev) => this.reporter?.adoptRevision(rev),
+          onReload: () => this.report.draft?.target.issueId || this.report.draft?.target.orderId ? this.controller?.reloadHandling() : this.controller?.reloadInspection(),
+          onAdopt: (rev) => this.reporter?.adoptRevision(rev), onKind: (id, kind) => this.reporter?.photoKind(id, kind),
           onDone: () => this.paths.pop(), onDiscard: () => this.discardReport() });
       }.title('记录现场发现').backgroundColor(Theme.canvas)
         .onBackPressed(() => ['picking', 'sending'].includes(this.report.phase));
@@ -105,6 +132,7 @@ struct Index {
     };
     TabContent() {
       TasksPage({ state: this.state, onSettings: () => { this.tab = 3; }, onRefresh: () => this.controller?.refresh(),
+        onOpenOrder: (id) => { this.orderId = id; this.paths.pushPathByName('work-order', id); },
         onOpen: (id) => { this.taskId = id; this.paths.pushPathByName('inspection-task', id); } });
     };
     TabContent() {

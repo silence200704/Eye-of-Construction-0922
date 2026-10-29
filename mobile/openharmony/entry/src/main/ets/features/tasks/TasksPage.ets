@@ -16,6 +16,7 @@ export struct TasksPage {
   onSettings: () => void = () => {};
   onRefresh: () => void = () => {};
   onOpen: (id: string) => void = () => {};
+  onOpenOrder: (id: string) => void = () => {};
 
   @Builder
   taskCard(task: InspectionTask) {
@@ -39,7 +40,7 @@ export struct TasksPage {
       Text(`办理人 ${order.assignee || '尚未指派'}`).fontSize(14).fontColor(Theme.text);
       Text(`截止 ${timeText(order.dueAt)}`).fontSize(13).fontColor(Theme.secondary);
       if (order.measures) { Text(order.measures).fontSize(14).fontColor(Theme.secondary); }
-      Text('接单、完工和退回补办将在后续批次接入；完工不等于验收通过。').fontSize(12).fontColor(Theme.secondary);
+      PlayButton({ title: '查看并办理', secondary: true, controlId: `work-order-${order.id}`, onAction: () => this.onOpenOrder(order.id) });
     }
   }
 
