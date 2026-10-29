@@ -8,27 +8,30 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from scripts.mobile.reporting.common import RUNTIME
 
 class Proxy(BaseHTTPRequestHandler):
+    upstream = 'http://127.0.0.1:18005'
+    runtime = RUNTIME
+
     def log_message(self, *_):
         pass
 
     def forward(self):
         payload = self.rfile.read(int(self.headers.get('Content-Length', 0))) if self.command == 'POST' else None
         headers = {key: value for key, value in self.headers.items() if key.lower() not in ['host','connection','content-length']}
-        request = urllib.request.Request(f'http://127.0.0.1:18005{self.path}', data=payload, headers=headers, method=self.command)
+        request = urllib.request.Request(f'{self.upstream}{self.path}', data=payload, headers=headers, method=self.command)
         try:
             response = urllib.request.urlopen(request, timeout=20)
         except urllib.error.HTTPError as error:
             response = error
         with response:
             status, data, mime = response.status, response.read(), response.headers.get('Content-Type', 'application/json')
-        marker = RUNTIME / 'drop-response.json'
+        marker = self.runtime / 'drop-response.json'
         if self.command == 'POST' and status in [200,201] and marker.exists():
             pending = json.loads(marker.read_text(encoding='utf-8'))
             if self.path.startswith(pending['path']):
                 marker.unlink()
                 record = {'path': self.path, 'status': status, 'key': self.headers.get('Idempotency-Key'),
                           'bodySha256': hashlib.sha256(payload).hexdigest(), 'afterCommit': True}
-                (RUNTIME / 'dropped-response.json').write_text(json.dumps(record), encoding='utf-8')
+                (self.runtime / 'dropped-response.json').write_text(json.dumps(record), encoding='utf-8')
                 self.connection.shutdown(socket.SHUT_RDWR); self.connection.close()
                 return
         self.send_response(status); self.send_header('Content-Type', mime)
