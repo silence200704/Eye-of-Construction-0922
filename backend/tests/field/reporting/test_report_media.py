@@ -4,9 +4,9 @@ import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
+from zhutong.db.models import User
 from zhutong.db.models.archive import Point
 from zhutong.db.models.foundation import Dataset
-from zhutong.db.models import User
 from zhutong.storage.files import FileStore
 
 from ..fixtures import PNG, FieldApi, counts

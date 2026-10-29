@@ -7,10 +7,10 @@ from fastapi.responses import FileResponse, JSONResponse
 from ..core.errors import AppError
 from ..core.http import ok
 from ..db.media import SqlMediaRepository
+from ..operations.datasets.core.workspace import dataset_epoch
 from ..operations.media.attachments import link_attachment
 from ..operations.media.service import MediaService
 from ..operations.media.types import AttachmentSpec, MediaContext, UploadSpec
-from ..operations.datasets.core.workspace import dataset_epoch
 from ..storage.files import FileStore
 from .dependencies import Actor
 from .media_schemas import AttachmentInput, UploadQuery
