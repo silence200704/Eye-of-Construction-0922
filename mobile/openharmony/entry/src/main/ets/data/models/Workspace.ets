@@ -40,3 +40,9 @@ export function withOrders(workspace: Workspace, orders: WorkOrder[]): Workspace
     points: workspace.points, devices: workspace.devices, records: workspace.records,
     events: workspace.events, tasks: workspace.tasks, issues: workspace.issues, supplementableIds: workspace.supplementableIds, orders };
 }
+
+export function withEvents(workspace: Workspace, events: AlarmEvent[]): Workspace {
+  return { epoch: workspace.epoch, buildings: workspace.buildings, floors: workspace.floors,
+    points: workspace.points, devices: workspace.devices, records: workspace.records,
+    tasks: workspace.tasks, orders: workspace.orders, issues: workspace.issues, supplementableIds: workspace.supplementableIds, events };
+}

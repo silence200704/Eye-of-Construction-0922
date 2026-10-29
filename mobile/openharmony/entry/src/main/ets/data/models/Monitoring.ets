@@ -36,6 +36,15 @@ export interface Device {
   name: string;
   status: string;
   health: string;
+  telemetry?: DeviceTelemetry | null;
+}
+
+export interface DeviceTelemetry {
+  source: string;
+  connection: string;
+  batteryPercent: number | null;
+  lastReportAt: string | null;
+  updatedAt: string;
 }
 
 export interface MetricValues {
@@ -78,4 +87,11 @@ export interface AlarmEvent {
   lastTriggerAt: string;
   ruleCode: string;
   unit: string;
+  rev: number;
+  acknowledgedBy?: string | null;
+  closeBasis?: string;
+  note?: string;
+  timeline?: AlarmTimeline[];
 }
+
+export interface AlarmTimeline { at: string; by: string; action: string; detail: string; }

@@ -1,7 +1,9 @@
 import { Identity, IdentitySession } from '../../data/models/Identity';
 import { ApiClient, ClientSettings } from '../../data/models/Http';
 import { readWorkspace } from '../../data/repositories/WorkspaceRepository';
-import { emptyWorkspace, withTasks, withIssues, withOrders } from '../../data/models/Workspace';
+import { emptyWorkspace, withTasks, withIssues, withOrders, withEvents } from '../../data/models/Workspace';
+import { AlarmEvent } from '../../data/models/Monitoring';
+import { MobileInsights, InsightQuery } from '../../data/models/online/Insights';
 import { ReportResult } from '../../data/models/Reports';
 import { InspectionTask } from '../../data/models/Tasks';
 import { TaskWrite, TaskCommandResult } from '../../data/models/Inspection';
@@ -65,6 +67,27 @@ export class WorkspaceController {
   async retryInspection(): Promise<TaskCommandResult | undefined> { return this.commands.retry(); }
 
   fieldAccess(): TaskAccess | null { return this.taskAccess(); }
+  acceptEvent(event: AlarmEvent): void {
+    const previous = this.state.workspace.events.find((row) => row.id === event.id);
+    if (this.state.mode !== 'ready' || !previous || previous.rev > event.rev) return;
+    this.state.workspace = withEvents(this.state.workspace, this.state.workspace.events.map((row) => row.id === event.id ? event : row));
+    this.publish();
+  }
+
+  async readInsights(query: InsightQuery): Promise<MobileInsights | null> {
+    const access = this.taskAccess(); if (!access) return null;
+    const fingerprint = authorizationOf(access.user);
+    const principal = await access.client.send<Identity>('/auth/me');
+    if (this.client !== access.client) return null;
+    if (authorizationOf(principal.data) !== fingerprint) { this.invalidateInspection('身份已变化。'); return null; }
+    const response = await access.client.send<MobileInsights>(`/datasets/demo-main/mobile/insights?period=${encodeURIComponent(query.period)}&buildingId=${encodeURIComponent(query.buildingId)}`);
+    const confirmed = await access.client.send<Identity>('/auth/me');
+    if (this.client !== access.client) return null;
+    if (response.meta?.datasetEpoch !== access.workspace.epoch || authorizationOf(confirmed.data) !== fingerprint) {
+      this.invalidateInspection('统计授权或数据版本已变化。'); return null;
+    }
+    return response.data;
+  }
   invalidateReport(message: string): void { this.invalidateInspection(message); }
   acceptReport(result: ReportResult): void {
     if (this.state.mode !== 'ready') return;
