@@ -1,0 +1,13 @@
+{
+  "date": "2026-10-29",
+  "stoppedOwnedTemporaryPorts": [
+    18005,
+    18006,
+    5182
+  ],
+  "processCommandLinesVerifiedBeforeStopping": true,
+  "dataDirectoriesRetained": true,
+  "deliveryApi18000": 200,
+  "deliveryWeb8080": 200,
+  "nativeConnectionRestored": "18080 -> 8080, demo-safety"
+}
