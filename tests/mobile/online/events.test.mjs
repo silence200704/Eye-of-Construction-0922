@@ -56,3 +56,13 @@ test('a close response with an unchanged recovering status cannot claim that clo
  await f.session.submit({eventId:'e',action:'close',basis:'核对三次模拟恢复复测',noRepairNote:'现场核查确认无需维修，安排持续观察。'})
  assert.equal(f.current().phase,'unknown');assert.equal(f.saved.length,0)
 })
+
+test('feedback stays bound to its event and action instead of leaking a previous success into a new form',async()=>{
+ const f=fixture();await f.session.submit({eventId:'e',action:'acknowledge'})
+ assert.match(f.current().messageFor('e','acknowledge'),/保存/)
+ assert.equal(f.current().messageFor('e','field-notes'),'')
+ assert.equal(f.current().messageFor('other','acknowledge'),'')
+ await f.session.submit({eventId:'e',action:'field-notes',kind:'investigation',note:'短句'})
+ assert.match(f.current().messageFor('e','field-notes'),/10/)
+ assert.equal(f.current().messageFor('e','close'),'')
+})

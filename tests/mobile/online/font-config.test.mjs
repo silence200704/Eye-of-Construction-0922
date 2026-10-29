@@ -15,7 +15,8 @@ test('AppScope resolves the packaged follow-system font profile without capping 
 })
 
 test('configuration updates log the newly delivered font scale rather than the stale context', () => {
-  const logs = []
+  const logs = [], storage = new Map()
+  globalThis.AppStorage = { setOrCreate: (key, value) => storage.set(key, value) }
   nativeModules.set('@ohos.app.ability.UIAbility', class {})
   nativeModules.set('@ohos.hilog', { info: (...args) => logs.push(args) })
   nativeModules.set('@ohos.accessibility', { isScreenReaderOpenSync: () => false })
@@ -24,4 +25,5 @@ test('configuration updates log the newly delivered font scale rather than the s
   ability.context = { config: { fontSizeScale: 1, direction: 0 } }
   ability.onConfigurationUpdate({ fontSizeScale: 2, direction: 1 })
   assert.deepEqual(logs[0].slice(3), ['2', 'false', '1'])
+  assert.equal(storage.get('zhutong.fontScale'), 2)
 })
