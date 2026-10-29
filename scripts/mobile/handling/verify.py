@@ -99,7 +99,24 @@ def restart():
         api.close()
 
 
+def restart_final():
+    api = Api()
+    try:
+        actual = business(api)
+        assert actual == read('runtime/final-before-restart.json')
+        for item in read('business/closed.json')['media']:
+            request = urllib.request.Request(f'{api.base}/datasets/demo-main/media/{item["media"]["id"]}/content',
+                headers={'Authorization': f'Bearer {api.token("safety")}'})
+            with urllib.request.urlopen(request, timeout=15) as response:
+                assert hashlib.sha256(response.read()).hexdigest() == item['media']['sha256']
+        result = {'sameBusinessRows': True, 'rows': actual, 'threeProtectedMediaHashesEqual': True}
+        save(EVIDENCE / 'verification/runtime/after-restart-final.json', result)
+        return {'sameBusinessRows': True, 'orders': len(actual['/work-orders']), 'protectedMedia': 3}
+    finally:
+        api.close()
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('phase', choices=['closed', 'guards', 'restart'])
+    parser.add_argument('phase', choices=['closed', 'guards', 'restart', 'restart_final'])
     print(json.dumps(globals()[parser.parse_args().phase](), ensure_ascii=True))
