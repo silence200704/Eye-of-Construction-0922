@@ -38,7 +38,7 @@ test('unassigned repair cannot accept; property proxy must give reason; UI canno
  assert.equal(f.current().phase,'done')
 })
 
-test('unknown order response retries exact key/body; known rev conflict retains measures for explicit adoption',async()=>{
+test('unknown order response retries exact key/body',async()=>{
  const f=handlingFixture();f.order.status='repairing';f.order.acceptedById='demo-repair'
  await f.session.startHandling({orderId:'o',action:'submitted'});f.session.field('measures','已复紧检查')
  let fail=true
@@ -46,6 +46,28 @@ test('unknown order response retries exact key/body; known rev conflict retains 
  await f.session.submit();assert.equal(f.current().phase,'unknown');await f.session.retry()
  const calls=f.calls.filter(c=>c.path.endsWith('/actions'))
  assert.deepEqual(calls[0].options,calls[1].options);assert.equal(f.current().phase,'done')
+})
+
+test('a competing Web revision retains the completion draft until the user explicitly adopts the refreshed version',async()=>{
+ const f=handlingFixture();f.order.status='repairing';f.order.acceptedById='demo-repair'
+ await f.session.startHandling({orderId:'o',action:'submitted'});f.session.field('measures','已填写但尚未保存的处理措施')
+ f.intercept(path=>{if(path.endsWith('/actions'))throw new ApiError('REVISION_CONFLICT','工单已更新',409)})
+ await f.session.submit();assert.equal(f.current().phase,'conflict');assert.equal(f.saved.length,0)
+ assert.equal(f.current().draft.measures,'已填写但尚未保存的处理措施')
+ f.order.rev=9;f.intercept(null);f.session.adoptRevision(9);await f.session.submit()
+ const calls=f.calls.filter(c=>c.path.endsWith('/actions'))
+ assert.equal(JSON.parse(calls[0].options.body).expectedRev,3)
+ assert.equal(JSON.parse(calls[1].options.body).expectedRev,9)
+ assert.notEqual(calls[0].options.idempotencyKey,calls[1].options.idempotencyKey)
+ assert.equal(f.current().phase,'done');assert.equal(f.current().order.rev,10)
+})
+
+test('a truncated order receipt cannot become a false success or reach reactive UI state',async()=>{
+ const f=handlingFixture()
+ await f.session.startHandling({orderId:'o',action:'repairing'})
+ f.intercept(path=>path.endsWith('/actions')?{data:{order:{id:'o'}},meta:{datasetEpoch:1}}:undefined)
+ await f.session.submit()
+ assert.equal(f.current().phase,'unknown');assert.equal(f.current().order,null);assert.equal(f.saved.length,0)
 })
 
 test('context response after identity reset cannot repopulate an old order form',async()=>{
