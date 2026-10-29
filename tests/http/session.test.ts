@@ -13,6 +13,18 @@ beforeEach(() => {
 })
 
 describe('服务端演示身份', () => {
+  it('刷新恢复有效身份后仍加载派工名单，无需再次切换身份', async () => {
+    localStorage.setItem('zhutong-api/access-token', 'saved-token')
+    const fetcher = vi.spyOn(globalThis, 'fetch')
+      .mockResolvedValueOnce(reply(user('safety')))
+      .mockResolvedValueOnce(reply([user('safety'), user('repair')]))
+    const auth = useBackendSessionStore()
+    await auth.initialize()
+    expect(auth.identities.find(item => item.role === 'repair')?.id).toBe('demo-repair')
+    expect(auth.user?.id).toBe('demo-safety')
+    expect(fetcher.mock.calls.map(call => call[0])).toEqual(['/api/v1/auth/me', '/api/v1/demo/identities'])
+  })
+
   it('首次打开自动选择默认身份，无需登录', async () => {
     const fetcher = vi.spyOn(globalThis, 'fetch')
       .mockResolvedValueOnce(reply([user('inspector'), user('safety')]))
