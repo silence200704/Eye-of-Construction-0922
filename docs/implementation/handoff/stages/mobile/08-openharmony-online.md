@@ -157,3 +157,9 @@ S8-06模拟器在线闭环自验满足，阶段8整体仍在进行中；真机�
 开发检查于2026-10-29完成，104项Node/mocks、SDK构建与结构门禁通过；本次核对源码/产物哈希未变化，未操作模拟器。
 见[本批报告](../../reports/mobile/review/08-reading-layout.md)，工程师使用[统一复验入口](../../prompts/mobile/08-emulator-combined-recheck.md)，包含第一轮照片/字号返修及新增用例。
 阶段7A、8仍待审核，不把这些开发检查升级为实际页面/读屏/宽窗/真机通过，也不提前进入阶段9。
+
+## 2026-10-30统一复验结论
+
+[工程师报告](../../reports/mobile/review/08-emulator-combined-review.md)关闭原照片/字号两个P1；本轮分页、现场闭环、备份恢复与本体重启有模拟器/服务端证据，结论为待补证据。
+仅将已发出写请求后的未知结果提示改明确，代码`845c564`，105项原生回归及SDK构建通过，新文案页面待复验。
+[补验交接](../../reports/mobile/review/08-evidence-gap-handoff.md)与[提示词](../../prompts/mobile/08-evidence-gap-check.md)集中处理宽窗、键盘、真实读屏及Web表单点击等缺口；阶段7A、8不提前通过。

@@ -1,0 +1,44 @@
+{
+  "clientDate": "2026-10-30",
+  "codeCommit": "845c56405358ac9c09f77c25bc61eaa8b2652ff8",
+  "red": {
+    "command": "node --test tests/mobile/online/events.test.mjs",
+    "exitCode": 1,
+    "passed": 5,
+    "failed": 2,
+    "log": "red.log"
+  },
+  "regression": {
+    "command": "$testFiles=rg --files tests/mobile -g '*.test.mjs'; node --test --experimental-test-coverage '--test-coverage-include=**/ets/core/**' '--test-coverage-include=**/ets/shared/layout/**' --test-coverage-lines=80 --test-coverage-branches=80 $testFiles",
+    "exitCode": 0,
+    "passed": 105,
+    "lineCoverage": 94.86,
+    "branchCoverage": 82.11,
+    "log": "coverage.log"
+  },
+  "build": {
+    "command": "D:/DevEco/Studio/tools/node/node.exe D:/DevEco/Studio/tools/hvigor/bin/hvigorw.js assembleApp --no-daemon",
+    "cwd": "mobile/openharmony",
+    "exitCode": 0,
+    "duration": "23 s 906 ms",
+    "log": "hvigor.log"
+  },
+  "structure": {
+    "command": "node scripts/mobile/verification/structure.mjs",
+    "exitCode": 0,
+    "log": "structure-native.json"
+  },
+  "hap": {
+    "path": "mobile/openharmony/entry/build/default/outputs/default/entry-default-unsigned.hap",
+    "bytes": 1022613,
+    "sha256": "8dee12ce23ef329149556e18bfc16932101f5a174a022344a11ea36dc0dd0d52",
+    "buildMode": "release",
+    "signed": false,
+    "installedThisRound": false
+  },
+  "limits": [
+    "Node ETS transpilation with mocks; not Hypium.",
+    "No simulator interaction or signature/install performed.",
+    "Individual command start/end times were not captured."
+  ]
+}

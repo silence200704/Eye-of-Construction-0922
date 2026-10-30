@@ -70,3 +70,6 @@ App“我的→校园服务连接→设置”填写提供筑瞳同源API的电�
 2026-10-30交接：以上63/77项为历史批次；最新开发检查为2026-10-29的104项Node/mocks，核心与布局行94.85%、分支81.89%，SDK构建通过。
 实际页面仍待工程师重新签名安装验证。见[本批交接](../../docs/implementation/handoff/reports/mobile/review/08-reading-layout.md)、
 [统一复验提示词](../../docs/implementation/handoff/prompts/mobile/08-emulator-combined-recheck.md)，不再只运行根目录测试而遗漏子目录业务用例。
+
+统一复验已关闭照片/字号两个P1，仍待宽窗、键盘、真实读屏及Web表单操作证据。
+最新`845c564`明确预警未知结果文案，105项Node/mocks、SDK构建通过，新文案页面未复验；使用[剩余补验提示词](../../docs/implementation/handoff/prompts/mobile/08-evidence-gap-check.md)。

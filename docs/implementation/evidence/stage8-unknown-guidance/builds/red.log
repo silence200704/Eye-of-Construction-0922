@@ -1,0 +1,51 @@
+✖ alarm acknowledgement uses explicit current revision; failed response retries the original command (1.5766ms)
+✔ field observations require adequate detail, and read-only roles never send commands (0.1845ms)
+✔ late acknowledgement after identity reset cannot repopulate event state (2.7175ms)
+✔ field note succeeds without acknowledging the event and a closed event refuses further changes (0.2549ms)
+✖ a close response with an unchanged recovering status cannot claim that closure succeeded (0.3382ms)
+✔ authorization preflight connection failure does not claim the command may have been saved (0.2085ms)
+✔ feedback stays bound to its event and action instead of leaking a previous success into a new form (0.2063ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 5
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 354.1137
+
+✖ failing tests:
+
+test at tests\mobile\online\events.test.mjs:24:1
+✖ alarm acknowledgement uses explicit current revision; failed response retries the original command (1.5766ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /结果待核验/. Input:
+  
+  '暂时无法完成读取，请检查连接后重试。'
+  
+      at TestContext.<anonymous> (file:///C:/Users/Lenovo/Desktop/demo/tests/mobile/online/events.test.mjs:27:9)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '暂时无法完成读取，请检查连接后重试。',
+    expected: /结果待核验/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests\mobile\online\events.test.mjs:58:1
+✖ a close response with an unchanged recovering status cannot claim that closure succeeded (0.3382ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /结果待核验/. Input:
+  
+  '办理响应不完整，请用原请求核验。'
+  
+      at TestContext.<anonymous> (file:///C:/Users/Lenovo/Desktop/demo/tests/mobile/online/events.test.mjs:62:9)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '办理响应不完整，请用原请求核验。',
+    expected: /结果待核验/,
+    operator: 'match',
+    diff: 'simple'
+  }
