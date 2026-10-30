@@ -61,3 +61,14 @@ test('unsupported local schema is preserved and never silently cleared',async()=
   assert.deepEqual(await db.read('SELECT CAST(version AS TEXT) AS body FROM offline_schema'),['99'])
   await vault.close()
 })
+
+test('refreshing the same task never silently rebases an existing note to a newer server revision',async()=>{
+ const {OfflineVault}=native('core/offline/OfflineVault.ets'),vault=new OfflineVault(driver(':memory:'))
+ const first=await vault.download(snapshot());await vault.saveNote(first,'t','依据版本3')
+ const update=snapshot();update.workspace.tasks[0].rev=4
+ const latest=await vault.download(update)
+ assert.equal((await vault.note(latest,'t')).expectedRev,3)
+ assert.equal((await vault.saveNote(latest,'t','继续补充原观察')).expectedRev,3)
+ await assert.rejects(vault.saveNote(latest,'t','x'.repeat(4001)),/最多4000/)
+ await vault.close()
+})
