@@ -24,6 +24,7 @@ import { StatisticsPage } from '../features/statistics/StatisticsPage';
 import { EventSession, EventView } from '../core/alerts/EventSession';
 import { PhotoReader } from '../core/media/PhotoReader';
 import { SandboxPreviewFiles } from '../core/media/PreviewFiles';
+import { OfflinePage } from '../features/offline/OfflinePage';
 
 @Entry
 @Component
@@ -118,6 +119,8 @@ struct Index {
     } else if (name === 'statistics') {
       NavDestination() { StatisticsPage({ state: this.state, onLoad: async (query) => await this.controller?.readInsights(query) ?? null }); }
         .title('守护统计').backgroundColor(Theme.canvas);
+    } else if (name === 'offline') {
+      NavDestination() { OfflinePage({ state: this.state }); }.title('离线随身包').backgroundColor(Theme.canvas);
     } else if (name === 'issues') {
       NavDestination() { IssuesPage({ state: this.state, onNew: (target) => this.openReport(target), onRefresh: () => this.controller?.reloadHandling(),
         onPhoto: async (request) => await this.reader?.open(request) ?? null, onClearPhotos: () => this.reader?.clear(),
@@ -162,6 +165,7 @@ struct Index {
     };
     TabContent() {
       ProfilePage({ state: this.state, onMotion: (enabled) => this.appearance?.setMotion(enabled), onRefresh: () => this.controller?.refresh(),
+        onOffline: () => this.paths.pushPathByName('offline', 'offline'),
         onSelect: (id) => { this.showHome = false; this.controller?.select(id); },
         onConnect: (address) => { this.showHome = true; this.controller?.connect(address); } });
     };

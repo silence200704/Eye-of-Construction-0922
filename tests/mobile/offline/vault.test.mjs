@@ -72,3 +72,26 @@ test('refreshing the same task never silently rebases an existing note to a newe
  await assert.rejects(vault.saveNote(latest,'t','x'.repeat(4001)),/最多4000/)
  await vault.close()
 })
+
+test('corrupt or cross-owner local rows are rejected rather than displayed as another identity',async()=>{
+ const {OfflineVault}=native('core/offline/OfflineVault.ets'),db=driver(':memory:'),vault=new OfflineVault(db)
+ const pack=await vault.download(snapshot()),key=JSON.stringify([pack.baseUrl,'demo-main',pack.user.id])
+ await assert.rejects(vault.download(snapshot(0)),/完整读取/)
+ await db.execute('UPDATE offline_packs SET body=? WHERE owner=?',['{',key])
+ await assert.rejects(vault.open(pack.baseUrl,pack.user.id))
+ const corrupt={...pack,user:{...pack.user,id:'other'}}
+ await db.execute('UPDATE offline_packs SET body=? WHERE owner=?',[JSON.stringify(corrupt),key])
+ await assert.rejects(vault.open(pack.baseUrl,pack.user.id),/不完整/)
+ await vault.close()
+})
+
+test('a failed local write leaves the previous note intact and the next save can recover',async()=>{
+ const {OfflineVault}=native('core/offline/OfflineVault.ets'),db=driver(':memory:');let fail=false
+ const wrapped={...db,execute:async(sql,args)=>{if(fail&&sql.startsWith('INSERT OR REPLACE INTO offline_notes'))throw Error('disk full');return db.execute(sql,args)}}
+ const vault=new OfflineVault(wrapped),pack=await vault.download(snapshot())
+ await vault.saveNote(pack,'t','已落库')
+ fail=true;await assert.rejects(vault.saveNote(pack,'t','不能假报成功'),/disk full/)
+ assert.equal((await vault.note(pack,'t')).text,'已落库')
+ fail=false;await vault.saveNote(pack,'t','恢复后可保存')
+ assert.equal((await vault.note(pack,'t')).text,'恢复后可保存');await vault.close()
+})

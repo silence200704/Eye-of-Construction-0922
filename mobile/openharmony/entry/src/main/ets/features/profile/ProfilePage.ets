@@ -23,6 +23,7 @@ export struct ProfilePage {
   onSelect: (id: string) => void = () => {};
   onRefresh: () => void = () => {};
   onMotion: (enabled: boolean) => void = () => {};
+  onOffline: () => void = () => {};
 
   aboutToAppear(): void { this.syncAddress(); }
 
@@ -123,6 +124,7 @@ export struct ProfilePage {
       this.connection();
       this.identities();
       this.preferences();
+      PlayButton({ title: '离线随身包 · 任务与现场笔记', secondary: true, controlId: 'open-offline', onAction: this.onOffline });
       PlayButton({ title: '刷新当前授权范围', secondary: true,
         available: !this.state.busy && !!this.state.baseUrl, onAction: this.onRefresh, controlId: 'refresh-workspace' });
       Text(this.state.mode === 'ready' ? `最近读取 ${timeText(this.state.loadedAt)}` : '尚未读取服务端业务数据')
