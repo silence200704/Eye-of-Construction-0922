@@ -1,7 +1,18 @@
 import { TaskAccess } from '../field/TaskCommander';
 import { ReportLease } from '../report/ReportLease';
 import { ReportTarget } from '../../data/models/Reports';
-import { ApiError } from '../network/ApiError';
+import { ApiError, errorMessage } from '../network/ApiError';
+
+export function photoErrorMessage(cause: Error): string {
+  if (cause instanceof ApiError) {
+    if (cause.code === 'AUTHORIZATION_CHANGED' || [401, 403].includes(cause.status)) {
+      return '权限已变化，照片未打开；请重新读取。';
+    }
+    if (cause.code === 'CANCELLED') return '照片读取已取消，请重新打开。';
+    if (cause.code === 'EPOCH_CHANGED') return '数据已更新，照片未打开；请重新读取。';
+  }
+  return errorMessage(cause);
+}
 
 interface AttachmentRow { id: string; issueId: string | null; workOrderId: string | null; mediaId: string; size: number; kind: string; }
 export interface PhotoOpen { attachmentId: string; issueId?: string; orderId?: string; }
