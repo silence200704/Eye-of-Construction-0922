@@ -1,0 +1,33 @@
+✔ upload and commit loss retry with fixed keys and body; concurrent clicks do not create operations (61.899ms)
+✔ reopening SQLite after commit-response loss restores uploaded IDs and exact frozen body (144.3345ms)
+✔ epoch changes isolate, 409 conflicts stop, and connection failures obey retry limits (3.5037ms)
+✔ different identity cannot submit an old queue and scope revocation blocks before upload (0.9608ms)
+✔ preflight failure does not claim a sent result and damaged local media stops without upload (1.5007ms)
+✖ confirmed receipts update the live view; a view callback error cannot undo durable completion (1.6534ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 5
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 564.3818
+
+✖ failing tests:
+
+test at tests\mobile\offline\executor.test.mjs:113:1
+✖ confirmed receipts update the live view; a view callback error cannot undo durable completion (1.6534ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  undefined !== 'i1'
+  
+      at TestContext.<anonymous> (file:///C:/Users/Lenovo/Desktop/demo/tests/mobile/offline/executor.test.mjs:119:9)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'i1',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

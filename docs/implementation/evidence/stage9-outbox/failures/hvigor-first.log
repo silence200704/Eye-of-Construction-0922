@@ -1,0 +1,132 @@
+> hvigor [32mFinished ::PreBuildApp... after 1 ms [39m
+> hvigor [32mUP-TO-DATE :entry:default@PreBuild...  [39m
+> hvigor [32mFinished ::DuplicateDependencyCheck... after 1 ms [39m
+> hvigor [32mFinished :entry:default@CreateModuleInfo... after 2 ms [39m
+> hvigor [32mUP-TO-DATE :entry:default@GenerateMetadata...  [39m
+> hvigor [32mFinished :entry:default@ConfigureCmake... after 1 ms [39m
+> hvigor [32mUP-TO-DATE :entry:default@MergeProfile...  [39m
+> hvigor [32mUP-TO-DATE :entry:default@CreateBuildProfile...  [39m
+> hvigor [32mFinished :entry:default@PreCheckSyscap... after 1 ms [39m
+> hvigor [32mUP-TO-DATE :entry:default@GeneratePkgContextInfo...  [39m
+> hvigor [32mFinished :entry:default@GeneratePkgSdkInfo... after 6 ms [39m
+> hvigor [32mFinished :entry:default@ProcessIntegratedHsp... after 1 ms [39m
+> hvigor [32mFinished :entry:default@BuildNativeWithCmake... after 1 ms [39m
+> hvigor [32mUP-TO-DATE :entry:default@MakePackInfo...  [39m
+> hvigor [32mUP-TO-DATE :entry:default@SyscapTransform...  [39m
+> hvigor [32mUP-TO-DATE :entry:default@ProcessProfile...  [39m
+> hvigor [32mUP-TO-DATE :entry:default@ProcessRouterMap...  [39m
+> hvigor [32mUP-TO-DATE :entry:default@ProcessShareConfig...  [39m
+> hvigor [32mFinished :entry:default@ProcessStartupConfig... after 3 ms [39m
+> hvigor [32mFinished :entry:default@BuildNativeWithNinja... after 1 ms [39m
+> hvigor [32mUP-TO-DATE :entry:default@ProcessResource...  [39m
+> hvigor [32mUP-TO-DATE :entry:default@GenerateLoaderJson...  [39m
+> hvigor [32mUP-TO-DATE :entry:default@ProcessLibs...  [39m
+> hvigor [32mFinished :entry:default@CompileResource... after 347 ms [39m
+> hvigor [32mUP-TO-DATE :entry:default@DoNativeStrip...  [39m
+> hvigor [32mFinished :entry:default@BuildJS... after 8 ms [39m
+> hvigor [32mUP-TO-DATE :entry:default@CacheNativeLibs...  [39m
+> hvigor ERROR: Failed :entry:default@CompileArkTS... 
+> hvigor WARN: 
+1 WARN: ArkTS:WARN: For details about ArkTS syntax errors, see FAQs
+2 WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/openharmony/entry/src/main/ets/core/storage/ConnectionPreferences.ets:19:23
+ Function may throw exceptions. Special handling is required.
+
+3 WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/openharmony/entry/src/main/ets/core/storage/ConnectionPreferences.ets:20:19
+ Function may throw exceptions. Special handling is required.
+
+4 WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/openharmony/entry/src/main/ets/core/media/PhotoSelector.ets:54:36
+ 'packing' has been deprecated.
+
+5 WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/openharmony/entry/src/main/ets/core/media/PhotoSelector.ets:62:18
+ Function may throw exceptions. Special handling is required.
+
+6 WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/openharmony/entry/src/main/ets/core/media/PhotoSelector.ets:79:7
+ Function may throw exceptions. Special handling is required.
+
+7 WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/openharmony/entry/src/main/ets/core/offline/NativeLocalSql.ets:10:69
+ Function may throw exceptions. Special handling is required.
+
+8 WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/openharmony/entry/src/main/ets/core/offline/NativeLocalSql.ets:12:24
+ Function may throw exceptions. Special handling is required.
+
+9 WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/openharmony/entry/src/main/ets/core/offline/NativeLocalSql.ets:15:14
+ Function may throw exceptions. Special handling is required.
+
+10 WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/openharmony/entry/src/main/ets/core/offline/NativeLocalSql.ets:15:46
+ Function may throw exceptions. Special handling is required.
+
+11 WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/openharmony/entry/src/main/ets/core/offline/NativeLocalSql.ets:15:61
+ Function may throw exceptions. Special handling is required.
+
+12 WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/openharmony/entry/src/main/ets/core/offline/NativeLocalSql.ets:17:17
+ Function may throw exceptions. Special handling is required.
+
+13 WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/openharmony/entry/src/main/ets/core/offline/NativeLocalSql.ets:19:40
+ Function may throw exceptions. Special handling is required.
+
+14 WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/openharmony/entry/src/main/ets/core/offline/media/NativeDurableFiles.ets:9:14
+ Function may throw exceptions. Special handling is required.
+
+15 WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/openharmony/entry/src/main/ets/core/offline/media/NativeDurableFiles.ets:10:9
+ Function may throw exceptions. Special handling is required.
+
+16 WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/openharmony/entry/src/main/ets/core/offline/media/NativeDurableFiles.ets:11:28
+ Function may throw exceptions. Special handling is required.
+
+17 WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/openharmony/entry/src/main/ets/core/offline/media/NativeDurableFiles.ets:21:18
+ Function may throw exceptions. Special handling is required.
+
+18 WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/openharmony/entry/src/main/ets/core/offline/media/NativeDurableFiles.ets:23:49
+ Function may throw exceptions. Special handling is required.
+
+19 WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/openharmony/entry/src/main/ets/core/offline/media/NativeDurableFiles.ets:24:15
+ Function may throw exceptions. Special handling is required.
+
+20 WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/openharmony/entry/src/main/ets/core/offline/media/NativeDurableFiles.ets:25:15
+ Function may throw exceptions. Special handling is required.
+
+21 WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/openharmony/entry/src/main/ets/core/offline/media/NativeDurableFiles.ets:34:10
+ Function may throw exceptions. Special handling is required.
+
+22 WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/openharmony/entry/src/main/ets/core/offline/media/NativeDurableFiles.ets:34:41
+ Function may throw exceptions. Special handling is required.
+
+23 WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/openharmony/entry/src/main/ets/core/offline/media/NativeDurableFiles.ets:35:9
+ Function may throw exceptions. Special handling is required.
+
+24 WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/openharmony/entry/src/main/ets/core/offline/media/NativeDurableFiles.ets:45:49
+ Function may throw exceptions. Special handling is required.
+
+25 WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/openharmony/entry/src/main/ets/pages/Index.ets:99:17
+ 'show' has been deprecated.
+
+> hvigor ERROR: 00305015 Rollup Error
+Error Message: Unexpected token (Note that you need plugins to import files that are not JavaScript)
+. At file: C:\Users\Lenovo\Desktop\demo\mobile\openharmony\entry\src\main\ets\features\offline\OutboxCards.ets:23
+1 ERROR: 10605030 ArkTS Compiler Error
+Error Message: Structural typing is not supported (arkts-no-structural-typing) At File: C:/Users/Lenovo/Desktop/demo/mobile/openharmony/entry/src/main/ets/core/offline/queue/OutboxExecutor.ets:71:94
+
+
+2 ERROR: 10605030 ArkTS Compiler Error
+Error Message: Structural typing is not supported (arkts-no-structural-typing) At File: C:/Users/Lenovo/Desktop/demo/mobile/openharmony/entry/src/main/ets/core/offline/queue/OutboxExecutor.ets:80:69
+
+
+3 ERROR: 10605030 ArkTS Compiler Error
+Error Message: Structural typing is not supported (arkts-no-structural-typing) At File: C:/Users/Lenovo/Desktop/demo/mobile/openharmony/entry/src/main/ets/features/offline/OfflineReportPanel.ets:48:96
+
+
+4 ERROR: 10905210 ArkTS Compiler Error
+Error Message: In an '@Entry' decorated component, the 'build' method can have only one root node, which must be a container component. At File: C:/Users/Lenovo/Desktop/demo/mobile/openharmony/entry/src/main/ets/features/offline/OfflineReportPanel.ets:143:12
+
+
+5 ERROR: 10905210 ArkTS Compiler Error
+Error Message: In an '@Entry' decorated component, the 'build' method can have only one root node, which must be a container component. At File: C:/Users/Lenovo/Desktop/demo/mobile/openharmony/entry/src/main/ets/features/offline/OutboxCards.ets:22:12
+
+
+COMPILE RESULT:FAIL {ERROR:6 WARN:25}
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --debug option to get more log output.
+
+> hvigor ERROR: BUILD FAILED in 11 s 787 ms 

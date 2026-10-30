@@ -1,0 +1,50 @@
+{
+  "clientDate": "2026-10-31",
+  "codeCommit": "47e5f174fe4543e577affd224a33f9693e79b68e",
+  "redCheckpoints": [
+    "87e9aba",
+    "d583441",
+    "39fd53a",
+    "38114ae",
+    "a6c2756"
+  ],
+  "tests": {
+    "command": "$testFiles=rg --files tests/mobile -g '*.test.mjs'; node --test --experimental-test-coverage '--test-coverage-include=**/ets/core/**' '--test-coverage-include=**/ets/shared/layout/**' --test-coverage-lines=80 --test-coverage-branches=80 $testFiles",
+    "exitCode": 0,
+    "passed": 125,
+    "lineCoverage": 95.33,
+    "branchCoverage": 84.09,
+    "runner": "Node ETS transpilation, actual SQLite file reopen and native API/transport mocks; not Hypium"
+  },
+  "build": {
+    "command": "D:/DevEco/Studio/tools/node/node.exe D:/DevEco/Studio/tools/hvigor/bin/hvigorw.js assembleApp --no-daemon",
+    "cwd": "mobile/openharmony",
+    "firstExitCode": -1,
+    "finalExitCode": 0,
+    "finalDuration": "14 s 170 ms"
+  },
+  "structure": {
+    "command": "node scripts/mobile/verification/structure.mjs",
+    "exitCode": 0,
+    "files": 118,
+    "functions": 1310,
+    "maxFileLines": 311,
+    "maxFunctionLines": 46,
+    "violations": []
+  },
+  "hap": {
+    "bytes": 1193433,
+    "sha256": "d6040c6eb221c7734ce757db04b00f52eebfbe68790b1fdc27a1636fb068eabd",
+    "buildMode": "release",
+    "signed": false,
+    "installedThisRound": false
+  },
+  "limits": [
+    "No simulator install or acceptance; user authorized continuing without waiting for verification.",
+    "Transport uses an in-process idempotent receipt fake; real backend replay evidence belongs to earlier phases.",
+    "Persistent photos are prepared upload JPEGs, not untouched original camera files.",
+    "Only independent issue reports at downloaded active points; offline checklist and work-order commands remain future work.",
+    "No multi-command dependency graph, background auto sync, or conflict-rebase UI yet.",
+    "Unreferenced persistent media is retained; no automatic garbage collection."
+  ]
+}

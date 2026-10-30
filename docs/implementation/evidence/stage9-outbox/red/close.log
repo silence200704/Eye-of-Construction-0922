@@ -1,0 +1,34 @@
+✔ a real SQLite file survives close/reopen with an identity-scoped snapshot and local-only task note (61.0552ms)
+✔ new epoch or narrowed scope isolates old notes and rejects writes from a stale snapshot (1.3989ms)
+✔ unsupported local schema is preserved and never silently cleared (0.6156ms)
+✔ refreshing the same task never silently rebases an existing note to a newer server revision (0.6264ms)
+✔ corrupt or cross-owner local rows are rejected rather than displayed as another identity (0.5955ms)
+✔ a failed local write leaves the previous note intact and the next save can recover (0.7167ms)
+✖ leaving the page immediately waits for schema initialization before closing the database (2.6057ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 6
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 412.6874
+
+✖ failing tests:
+
+test at tests\mobile\offline\vault.test.mjs:99:1
+✖ leaving the page immediately waits for schema initialization before closing the database (2.6057ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file:///C:/Users/Lenovo/Desktop/demo/tests/mobile/offline/vault.test.mjs:103:52)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

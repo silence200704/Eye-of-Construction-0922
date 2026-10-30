@@ -1,0 +1,32 @@
+✔ upload and commit loss retry with fixed keys and body; concurrent clicks do not create operations (50.1146ms)
+✔ reopening SQLite after commit-response loss restores uploaded IDs and exact frozen body (131.4484ms)
+✔ epoch changes isolate, 409 conflicts stop, and connection failures obey retry limits (3.5615ms)
+✔ different identity cannot submit an old queue and scope revocation blocks before upload (0.9694ms)
+✖ preflight failure does not claim a sent result and damaged local media stops without upload (1.3468ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 4
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 507.2782
+
+✖ failing tests:
+
+test at tests\mobile\offline\executor.test.mjs:99:1
+✖ preflight failure does not claim a sent result and damaged local media stops without upload (1.3468ms)
+  AssertionError [ERR_ASSERTION]: The input was expected to not match the regular expression /结果待核验|可能已保存/. Input:
+  
+  '同步结果待核验；原照片与原请求已保留，请稍后重试，不另建重复操作。'
+  
+      at TestContext.<anonymous> (file:///C:/Users/Lenovo/Desktop/demo/tests/mobile/offline/executor.test.mjs:103:9)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '同步结果待核验；原照片与原请求已保留，请稍后重试，不另建重复操作。',
+    expected: /结果待核验|可能已保存/,
+    operator: 'doesNotMatch',
+    diff: 'simple'
+  }

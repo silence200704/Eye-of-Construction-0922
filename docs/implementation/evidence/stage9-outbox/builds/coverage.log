@@ -1,0 +1,193 @@
+✔ system scale grows input height without shrinking text or capping a large user setting (59.2076ms)
+✔ narrow or enlarged workbenches stack cards while a wide window keeps two columns (0.334ms)
+✔ saved quiet mode is restored before native components read their shared UI state (1.5449ms)
+✔ appearance saves are ordered and only persist the motion preference (1.464ms)
+✔ service root accepts explicit HTTP/HTTPS roots and rejects credentials, query, path and bad schemes (1.1854ms)
+✔ missing, invalid and manual readings never turn into zero or normal (0.1705ms)
+✔ latest record follows sample time rather than backfill arrival; missing and stale times are labeled (0.1948ms)
+✔ preference saves are serialized and store no access tokens or business snapshots (1.1182ms)
+✔ sensor filter also scopes alarm history, retaining matching archived-point history (0.2095ms)
+✔ issue progress distinguishes review, investigation, recheck and observation states (0.1441ms)
+✔ controller merges order-only command and keeps latest revision without removing issues (6.3931ms)
+✔ handling reload after an in-flight scope change clears all protected rows (5.3047ms)
+✔ supplements append note and photos to existing issue without rewriting original description (2.5521ms)
+✔ order submission requires measures and cannot forge acceptance evidence or assignment (0.4953ms)
+✔ property proxy acceptance requires a reason and existing attachments share the same quota (0.3918ms)
+✔ a property proxy who actually accepted remains the sole completion owner (1.723ms)
+✔ verified work is read only and an absent identity never exposes a handling action (0.2523ms)
+✔ supplement context opens the existing issue, fixed location and revision; original body stays immutable (5.0962ms)
+✔ assigned repair accepts with one command and submits measures using the server identity (1.584ms)
+✔ unassigned repair cannot accept; property proxy must give reason; UI cannot forge acceptance photos (1.127ms)
+✔ unknown order response retries exact key/body (2.1797ms)
+✔ a competing Web revision retains the completion draft until the user explicitly adopts the refreshed version (1.1018ms)
+✔ a truncated order receipt cannot become a false success or reach reactive UI state (0.5243ms)
+✔ context response after identity reset cannot repopulate an old order form (7.4294ms)
+✔ protected photo download uses bearer, binary mode and rejects non-content paths (3.0549ms)
+✔ native client sends bearer and exact API path without enabling cache (0.7837ms)
+✔ server status and business errors stay visible; HTML or malformed envelopes never succeed (0.6376ms)
+✔ cancelled native response is rejected even when transport destruction throws (1.017ms)
+✔ request paths cannot escape the configured origin (0.4514ms)
+✔ native command headers carry idempotency and dataset epoch without replacing bearer (0.2973ms)
+✔ native photo upload sends original binary bytes and image content type on 201 response (0.3531ms)
+✔ 500 nonzero frequency objects are ranked and paged without losing any object or changing input (113.4843ms)
+✔ empty, zero-frequency and stale page positions produce an honest bounded view (0.5971ms)
+✔ inspection draft is initialized from the frozen checklist and keeps unknown answers unanswered (146.6631ms)
+✔ manual arrival needs a reason, a read tag and a matching expected task revision (0.6658ms)
+✔ completion requires arrival and an anomaly basis; only same-point issue ids are selectable (0.3496ms)
+✔ request snapshots omit unanswered optional fields and changing a draft never mutates a frozen request (0.3564ms)
+✔ draft copies isolate answers and completed points cannot be resubmitted (0.2725ms)
+✔ inspection POST carries epoch, stable operation key and an encoded task target (9.7549ms)
+✔ rapid repeated clicks issue one POST while a request is in flight (1.3168ms)
+✔ unknown network outcome retries the same immutable payload and operation key (1.4343ms)
+✔ a late write response cannot publish another identity task or success (2.2892ms)
+✔ wrong task executor is rejected locally and current server principal is checked before writes (0.8699ms)
+✔ 409 does not retry or overwrite a task; an explicit reload reads current revision (0.944ms)
+✔ HTTP 200 with a failed attempt is shown as a failed arrival and preserves server revision (0.7699ms)
+✔ mixed dataset epochs in a successful-looking write are never applied (0.7189ms)
+✔ task reload rechecks authorization after rows arrive and cannot publish a reduced-scope snapshot (0.8589ms)
+✔ local role and task boundaries reject writes before contacting a mutation endpoint (0.6067ms)
+✔ unknown write survives a role round-trip and explicitly retries the old request only under its original identity (1.0915ms)
+✔ server validation errors are definitive, while malformed successful responses keep a retryable immutable request (0.8347ms)
+✔ upload and commit loss retry with fixed keys and body; concurrent clicks do not create operations (271.0988ms)
+✔ reopening SQLite after commit-response loss restores uploaded IDs and exact frozen body (234.8183ms)
+✔ epoch changes isolate, 409 conflicts stop, and connection failures obey retry limits (10.484ms)
+✔ different identity cannot submit an old queue and scope revocation blocks before upload (2.5158ms)
+✔ preflight failure does not claim a sent result and damaged local media stops without upload (3.5676ms)
+✔ confirmed receipts update the live view; a view callback error cannot undo durable completion (3.0707ms)
+✔ photo bytes survive cache removal and reopen; tampering and arbitrary file paths are rejected (194.2457ms)
+✔ native RDB adapter binds values, closes result sets even on decode failure and closes its store (120.7094ms)
+✔ enqueue freezes one operation transactionally and survives real SQLite reopening (285.5119ms)
+✔ invalid target or empty draft cannot enqueue; schema migration preserves existing notes (3.3442ms)
+✔ schema 1 upgrades to 2 without erasing notes and failed enqueue rolls back both queue and draft (5.9309ms)
+✔ a real SQLite file survives close/reopen with an identity-scoped snapshot and local-only task note (156.6528ms)
+✔ new epoch or narrowed scope isolates old notes and rejects writes from a stale snapshot (3.7353ms)
+✔ unsupported local schema is preserved and never silently cleared (2.2482ms)
+✔ refreshing the same task never silently rebases an existing note to a newer server revision (2.494ms)
+✔ corrupt or cross-owner local rows are rejected rather than displayed as another identity (1.5299ms)
+✔ a failed local write leaves the previous note intact and the next save can recover (2.2263ms)
+✔ leaving the page immediately waits for schema initialization before closing the database (7.1285ms)
+✔ alarm acknowledgement uses explicit current revision; failed response retries the original command (5.4443ms)
+✔ field observations require adequate detail, and read-only roles never send commands (0.5491ms)
+✔ late acknowledgement after identity reset cannot repopulate event state (6.1051ms)
+✔ field note succeeds without acknowledging the event and a closed event refuses further changes (0.6506ms)
+✔ a close response with an unchanged recovering status cannot claim that closure succeeded (0.5269ms)
+✔ authorization preflight connection failure does not claim the command may have been saved (0.5468ms)
+✔ feedback stays bound to its event and action instead of leaking a previous success into a new form (0.4704ms)
+✔ AppScope resolves the packaged follow-system font profile without capping system scale (2.9078ms)
+✔ configuration updates log the newly delivered font scale rather than the stale context (137.9031ms)
+✔ statistics response arriving after identity switch cannot reach the page (9.3918ms)
+✔ incomplete statistics never masquerade as a zero chart (1.328ms)
+✔ complete authorized statistics are returned and older event receipts never regress a newer event (1.0829ms)
+✔ photo failures explain permission changes without exposing internal errors or mislabeling cancellation (1.9584ms)
+✔ submitted photo is authorized before and after download and only a sandbox URI reaches the UI (3.5404ms)
+✔ late protected bytes after a view closes are discarded and never written to the sandbox (5.9537ms)
+✔ archiving a point while bytes are held refuses the old image before any cache write (1.8508ms)
+✔ consecutive saved photos reuse an existing sandbox directory and keep distinct bytes (2.888ms)
+✔ native create and write errors become safe actionable photo errors; incomplete files are removed (1.4994ms)
+✔ a later failed preview never deletes a successfully cached photo (0.3628ms)
+✔ building floor and type filters intersect, and unknown device metadata stays unknown (3.1322ms)
+✔ history includes archived measurement points while current monitoring stays active-only (0.4378ms)
+✔ task date uses Shanghai calendar day and status and type are combined (3.6561ms)
+✔ calendar validation rejects impossible dates and handles century leap years (0.6477ms)
+✔ sound cue is a short local PCM buffer and stops/releases after one playback (5.4203ms)
+✔ leaving the event before renderer creation finishes prevents late sound playback (3.8775ms)
+✔ report requires a real target and description, no synthetic normal or event binding (1.9541ms)
+✔ three photos and 600 KB are enforced before sending, upload is not attachment success (1.5872ms)
+✔ task origin uses its original revision; photo ownership ids stay stable (1.6625ms)
+✔ empty location, missing fields, duplicate photo and oversized image cannot become a report (0.3091ms)
+✔ native picker cancel yields no fabricated photo; selected bytes are compressed and resources closed (2.4192ms)
+✔ native camera uses the system picker; denied selection stays explicit (1.1833ms)
+✔ picker lifecycle retains text and marks external activity until safe result is reauthorized (4.4106ms)
+✔ picker cancellation and permission failure keep the draft; scope changes discard late bytes (1.7387ms)
+✔ upload then issue commit uses raw bytes and stable ids; repeated taps create one issue (4.4992ms)
+✔ committed response loss retries exactly the same issue body and key without uploading again (0.7461ms)
+✔ unknown media upload retries the same bytes/key and task conflict needs explicit revision adoption (0.4273ms)
+✔ scope revoked while archive is in flight blocks picker result publication (0.5668ms)
+✔ task 409 preserves uploaded evidence until explicit adoption; wrong role cannot start task report (0.5519ms)
+✔ unfinished draft survives reentry; a completed report permits a genuinely new submission (0.1944ms)
+✔ same-id authorization change before selection clears protected draft and old photo bytes (0.2494ms)
+✔ removed photo is disposed and is never sent as an attachment; malformed upload stays retryable (0.4361ms)
+✔ late report response after context reset does not resurrect a submitted issue (1.4194ms)
+✔ inactive service and wrong task role never start an executable report (0.1769ms)
+✔ reactive report view carries preview metadata only, never an ArrayBuffer or upload object (0.2223ms)
+✔ reported issue and task are server rows in workspace, keep newer task revisions (3.4918ms)
+✔ default identity is server safety identity; saves only service root and identity id (6.9342ms)
+✔ all five role changes clear protected state synchronously and select server identities (1.2065ms)
+✔ a late identity response cannot replace a newer connection (0.4956ms)
+✔ late protected rows are discarded even when native cancellation loses the race (0.4825ms)
+✔ dataset reset during a snapshot refuses mixed epochs and publishes no ready data (0.219ms)
+✔ principal mismatch and unsupported roles cannot become an authorized session (0.167ms)
+✔ unknown identities are rejected before issuing a shortcut (0.1406ms)
+✔ refresh revalidates same-id reduced scope and never reuses old rows (0.385ms)
+✔ expired session refresh restores the same identity once; denied access does not change roles (0.568ms)
+✔ late preference restoration cannot resurrect a suspended screen (0.2304ms)
+✔ configuration failure is visible and cannot publish an online success (0.2412ms)
+✔ a scope change while snapshot rows are in flight invalidates the entire batch (0.2572ms)
+ℹ tests 125
+ℹ suites 0
+ℹ pass 125
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2214.5018
+ℹ start of coverage report
+ℹ -----------------------------------------------------------------------------------------------------------------------------
+ℹ file                               | line % | branch % | funcs % | uncovered lines
+ℹ -----------------------------------------------------------------------------------------------------------------------------
+ℹ mobile                             |        |          |         | 
+ℹ  openharmony                       |        |          |         | 
+ℹ   entry                            |        |          |         | 
+ℹ    src                             |        |          |         | 
+ℹ     main                           |        |          |         | 
+ℹ      ets                           |        |          |         | 
+ℹ       core                         |        |          |         | 
+ℹ        alerts                      |        |          |         | 
+ℹ         EventSession.ets           |  97.22 |    74.07 |  100.00 | 36-37 39
+ℹ         SoundCue.ets               |  97.73 |    91.67 |  100.00 | 38
+ℹ        field                       |        |          |         | 
+ℹ         CheckDraft.ets             | 100.00 |    89.09 |   94.44 | 
+ℹ         OrderPolicy.ets            |  77.78 |   100.00 |  100.00 | 8-9
+ℹ         TaskCommander.ets          |  92.64 |    86.08 |  100.00 | 59-60 154-163
+ℹ        identity                    |        |          |         | 
+ℹ         authorization.ets          |  76.92 |   100.00 |  100.00 | 11-13
+ℹ         SessionGate.ets            | 100.00 |   100.00 |  100.00 | 
+ℹ         WorkspaceController.ets    |  92.60 |    72.50 |   92.86 | 68 88 129-131 138-140 150-152 196-199 201-204 213-215 289
+ℹ        media                       |        |          |         | 
+ℹ         PhotoReader.ets            |  91.38 |    56.76 |  100.00 | 22 55-58
+ℹ         PhotoSelector.ets          |  97.73 |    62.96 |  100.00 | 56-57
+ℹ         PreviewFiles.ets           | 100.00 |    93.75 |  100.00 | 
+ℹ        monitoring                  |        |          |         | 
+ℹ         InsightPaging.ets          | 100.00 |    90.91 |  100.00 | 
+ℹ         Selectors.ets              |  93.33 |    81.82 |  100.00 | 43-45
+ℹ        network                     |        |          |         | 
+ℹ         ApiError.ets               | 100.00 |   100.00 |  100.00 | 
+ℹ         BackendClient.ets          |  94.32 |    87.50 |  100.00 | 67-68 75 78-79
+ℹ         Endpoint.ets               | 100.00 |    92.31 |  100.00 | 
+ℹ        offline                     |        |          |         | 
+ℹ         media                      |        |          |         | 
+ℹ          NativeDurableFiles.ets    | 100.00 |    86.67 |  100.00 | 
+ℹ         NativeLocalSql.ets         | 100.00 |    88.89 |  100.00 | 
+ℹ         OfflineModels.ets          |  42.11 |   100.00 |  100.00 | 9-19
+ℹ         OfflineSchema.ets          | 100.00 |   100.00 |  100.00 | 
+ℹ         OfflineScope.ets           | 100.00 |   100.00 |  100.00 | 
+ℹ         OfflineVault.ets           | 100.00 |   100.00 |  100.00 | 
+ℹ         queue                      |        |          |         | 
+ℹ          OutboxExecutor.ets        |  97.89 |    84.72 |   90.91 | 8 49
+ℹ          OutboxStore.ets           |  98.85 |    87.76 |  100.00 | 59
+ℹ        report                      |        |          |         | 
+ℹ         Handling.ets               |  97.92 |    72.92 |  100.00 | 42
+ℹ         ReportDraft.ets            | 100.00 |    97.83 |  100.00 | 
+ℹ         ReportLease.ets            | 100.00 |    80.00 |  100.00 | 
+ℹ         ReportSession.ets          |  96.49 |    89.19 |   95.83 | 92-99
+ℹ         ReportView.ets             |  82.93 |   100.00 |  100.00 | 35-41
+ℹ        storage                     |        |          |         | 
+ℹ         AppearancePreferences.ets  | 100.00 |    85.71 |  100.00 | 
+ℹ         ConnectionPreferences.ets  |  87.50 |    87.50 |   85.71 | 29-32
+ℹ       shared                       |        |          |         | 
+ℹ        layout                      |        |          |         | 
+ℹ         ReadingLayout.ets          | 100.00 |   100.00 |  100.00 | 
+ℹ -----------------------------------------------------------------------------------------------------------------------------
+ℹ all files                          |  95.33 |    84.09 |   97.67 | 
+ℹ -----------------------------------------------------------------------------------------------------------------------------
+ℹ end of coverage report
