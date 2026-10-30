@@ -109,3 +109,14 @@ test('preflight failure does not claim a sent result and damaged local media sto
  assert.equal((await f.store.operation(f.pack,f.op.id)).phase,'failed')
  assert.equal(f.calls.length,0);await f.vault.close()
 })
+
+test('confirmed receipts update the live view; a view callback error cannot undo durable completion',async()=>{
+ const f=await fixture();f.noLoss();const results=[]
+ const {OutboxExecutor}=native('core/offline/queue/OutboxExecutor.ets')
+ const executor=new OutboxExecutor({store:f.store,files:{read:async()=>bytes},access:()=>f.access,
+  onResult:result=>{results.push(result);throw Error('view disappeared')}})
+ await executor.sync(f.pack,f.op.id)
+ assert.equal(results[0]?.issue.id,'i1')
+ assert.equal((await f.store.operation(f.pack,f.op.id)).phase,'done')
+ await f.vault.close()
+})
