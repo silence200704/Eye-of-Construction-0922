@@ -1,0 +1,11 @@
+test_bytes_are_held_until_matching_release_and_other_requests_still_work (test_media_hold.MediaHoldTests.test_bytes_are_held_until_matching_release_and_other_requests_still_work) ... ok
+test_denied_media_is_never_held (test_media_hold.MediaHoldTests.test_denied_media_is_never_held) ... C:\Users\Lenovo\AppData\Local\Programs\Python\Python314\Lib\tempfile.py:484: ResourceWarning: Implicitly cleaning up <HTTPError 403: 'Forbidden'>
+  _warnings.warn(self.warn_message, ResourceWarning)
+ok
+test_hold_times_out_and_preserves_exact_bytes (test_media_hold.MediaHoldTests.test_hold_times_out_and_preserves_exact_bytes) ... ok
+test_invalid_or_non_media_configuration_is_inert (test_media_hold.MediaHoldTests.test_invalid_or_non_media_configuration_is_inert) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 3.304s
+
+OK

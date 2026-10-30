@@ -1,0 +1,12 @@
+......                                                                   [100%]
+=============================== tests coverage ================================
+______________ coverage: platform win32, python 3.12.13-final-0 _______________
+
+Name                                                                   Stmts   Miss  Cover   Missing
+----------------------------------------------------------------------------------------------------
+C:\Users\Lenovo\Desktop\demo\scripts\mobile\completion\media_hold.py      51      0   100%
+C:\Users\Lenovo\Desktop\demo\scripts\mobile\completion\proxy.py           22      1    95%   30
+----------------------------------------------------------------------------------------------------
+TOTAL                                                                     73      1    99%
+Required test coverage of 80% reached. Total coverage: 98.63%
+6 passed in 5.63s

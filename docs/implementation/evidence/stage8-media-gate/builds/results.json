@@ -1,0 +1,39 @@
+{
+  "clientDate": "2026-10-30",
+  "codeCommit": "053caaf3db325cd6acfbbfae8811153df88f42da",
+  "red": {
+    "command": "python -m unittest discover -s tests/tooling/gateway -v",
+    "exitCode": 1,
+    "tests": 4,
+    "failed": 2
+  },
+  "final": {
+    "command": "uv run python -m pytest ../tests/tooling/gateway -q --cov=scripts.mobile.completion.media_hold --cov=scripts.mobile.completion.proxy --cov-report=term-missing --cov-fail-under=80",
+    "cwd": "backend",
+    "exitCode": 0,
+    "passed": 6,
+    "coveragePercent": 98.63,
+    "mediaHoldCoveragePercent": 100
+  },
+  "ruff": {
+    "exitCode": 0,
+    "scope": [
+      "scripts/mobile/completion/media_hold.py",
+      "scripts/mobile/completion/proxy.py",
+      "scripts/mobile/reporting/proxy.py",
+      "tests/tooling/gateway/test_media_hold.py"
+    ]
+  },
+  "structure": {
+    "pythonFiles": 4,
+    "maxFunctionLines": 48,
+    "violations": [],
+    "nativeScopeExitCode": 0
+  },
+  "limits": [
+    "Only ephemeral loopback HTTP test servers with synthetic media were run.",
+    "No existing gateway/API was restarted or modified at runtime.",
+    "App source, simulator and application database were untouched.",
+    "No simulator permission-race evidence claimed; engineer execution still required."
+  ]
+}

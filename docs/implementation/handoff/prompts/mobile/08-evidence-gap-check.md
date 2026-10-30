@@ -1,7 +1,7 @@
 # 转交工程师：阶段7A/8剩余证据补验
 
 本轮仅补缺口与新文案，不修改业务代码、不进入阶段9、不因环境受限而假报通过。
-工作区`C:/Users/Lenovo/Desktop/demo`，分支`codex/fullstack-competition`；代码基线`845c564`，前轮报告`docs/implementation/handoff/reports/mobile/review/08-emulator-combined-review.md`，新交接`08-evidence-gap-handoff.md`。
+工作区`C:/Users/Lenovo/Desktop/demo`，分支`codex/fullstack-competition`；App代码基线`845c564`，网关工具`053caaf`（包含该App修复），以实际HEAD与源码哈希共同记录；前轮报告`docs/implementation/handoff/reports/mobile/review/08-emulator-combined-review.md`，新交接`08-evidence-gap-handoff.md`。
 保留已有Web视觉/文档改动及全部旧证据，不reset/clean/stash，不写交付库，不清数据卷、不重置模拟器，不改AI或账号密码设计。
 
 ## 准备
@@ -39,7 +39,27 @@
 
 ## 5. 可选补证与范围
 
-若能通过既有故障网关安全延迟媒体响应，补取图途中切身份/收回范围，旧图不能回填；不能制造时如实保留未验证。
+媒体途中权限现有单次暂留工具，说明见`docs/implementation/handoff/reports/mobile/review/08-media-gate.md`。这是测试网关，不是App功能，也不是已取得的原生证据。
+
+确认18014未占用后，在仓库根目录另启网关（可用独立终端，不重启18011）：
+
+```powershell
+python -m scripts.mobile.completion.proxy --port 18014 --runtime C:/Users/Lenovo/Desktop/demo/backend/.runtime-stage8-media-check
+```
+
+它仅转发到隔离API18010。确认device18094未占用后，用实际HDC target建立`rport tcp:18094 tcp:18014`，App临时连接`http://127.0.0.1:18094`。记录原连接以便恢复。
+准备一个仍有权限查看的测试照片，查询真实mediaId。把下面JSON写到新runtime的`hold-media.json`（建议先写临时文件再原子替换）：
+
+```json
+{"path":"/api/v1/datasets/demo-main/media/<真实mediaId>/content","gateId":"<本轮唯一字母数字标识>","timeoutSeconds":8}
+```
+
+先记下原身份/范围以便恢复，在App打开照片。以`held-media.json`的本轮gateId与`outcome=holding`作为已收到上游字节但尚未发给App的信号。
+立即用已有合法的身份/范围管理命令收回该测试身份权限，再写`release-media.json`：`{"gateId":"<同一标识>"}`。可预先写脚本轮询holding后执行，避免人工操作超过8秒；不要猜测路由，按现有身份契约使用实际命令。
+网关记录应变为released，返回字节SHA保持不变。核实App的后置授权拦截、无旧照片回填/缓存残留，并记录收权时间、放行时间、请求与身份范围前后状态。另可测试下载中返回或切身份的取消路径，单独标注。
+若记录为timeout，或App在放行前已超时/取消，只证明超时/取消路径，不能宣称收到旧响应后授权校验通过；最长8秒，不调大App超时来绕过限制。
+只会消费一次匹配GET；错误状态、其他接口、POST不暂停，旧gateId不能放行新请求。日志无token/照片字节，报告也不要导出这些内容。
+完成后恢复原身份范围、App18090连接，仅停止自己启动的18014网关并移除18094映射，保留标记文件与证据。现有18010/18011保持原归属。
 缓存失败注入受沙箱限制时，不改应用绕过、不破坏目录权限；保留开发回归证据，不用它冒充真实页面错误。
 连续照片、1.45字号布局、47对象三页统计、备份/重启已有统一复验证据，除新问题影响这些路径外不要求整轮重跑；引用具体版本。
 真机拍照/安装/实录继续未验证，用户暂无设备。宣传模板匿名性若未重新检查也标明证据版本；不将软件模拟写成实体硬件接通。

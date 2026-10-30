@@ -1,0 +1,37 @@
+test_bytes_are_held_until_matching_release_and_other_requests_still_work (test_media_hold.MediaHoldTests.test_bytes_are_held_until_matching_release_and_other_requests_still_work) ... FAIL
+test_denied_media_is_never_held (test_media_hold.MediaHoldTests.test_denied_media_is_never_held) ... C:\Users\Lenovo\AppData\Local\Programs\Python\Python314\Lib\tempfile.py:484: ResourceWarning: Implicitly cleaning up <HTTPError 403: 'Forbidden'>
+  _warnings.warn(self.warn_message, ResourceWarning)
+ok
+test_hold_times_out_and_preserves_exact_bytes (test_media_hold.MediaHoldTests.test_hold_times_out_and_preserves_exact_bytes) ... ERROR
+test_invalid_or_non_media_configuration_is_inert (test_media_hold.MediaHoldTests.test_invalid_or_non_media_configuration_is_inert) ... ok
+
+======================================================================
+ERROR: test_hold_times_out_and_preserves_exact_bytes (test_media_hold.MediaHoldTests.test_hold_times_out_and_preserves_exact_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Lenovo\Desktop\demo\tests\tooling\gateway\test_media_hold.py", line 89, in test_hold_times_out_and_preserves_exact_bytes
+    result = json.loads((self.runtime / 'held-media.json').read_text(encoding='utf-8'))
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 787, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 771, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\Lenovo\\AppData\\Local\\Temp\\tmp6l8xdt1a\\held-media.json'
+
+======================================================================
+FAIL: test_bytes_are_held_until_matching_release_and_other_requests_still_work (test_media_hold.MediaHoldTests.test_bytes_are_held_until_matching_release_and_other_requests_still_work)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Lenovo\Desktop\demo\tests\tooling\gateway\test_media_hold.py", line 72, in test_bytes_are_held_until_matching_release_and_other_requests_still_work
+    held = self.wait_held()
+  File "C:\Users\Lenovo\Desktop\demo\tests\tooling\gateway\test_media_hold.py", line 63, in wait_held
+    self.fail('Media request never entered the configured hold')
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Media request never entered the configured hold
+
+----------------------------------------------------------------------
+Ran 4 tests in 3.710s
+
+FAILED (failures=1, errors=1)

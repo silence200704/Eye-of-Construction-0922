@@ -163,3 +163,6 @@ S8-06模拟器在线闭环自验满足，阶段8整体仍在进行中；真机�
 [工程师报告](../../reports/mobile/review/08-emulator-combined-review.md)关闭原照片/字号两个P1；本轮分页、现场闭环、备份恢复与本体重启有模拟器/服务端证据，结论为待补证据。
 仅将已发出写请求后的未知结果提示改明确，代码`845c564`，105项原生回归及SDK构建通过，新文案页面待复验。
 [补验交接](../../reports/mobile/review/08-evidence-gap-handoff.md)与[提示词](../../prompts/mobile/08-evidence-gap-check.md)集中处理宽窗、键盘、真实读屏及Web表单点击等缺口；阶段7A、8不提前通过。
+
+后续补验工具：`053caaf`为隔离网关增加单次媒体响应暂留、同标识放行与8秒上限，可另端口启动，不改App或现有服务。
+6项本机HTTP测试、Ruff及结构门禁通过，见[工具交接](../../reports/mobile/review/08-media-gate.md)；它仅提供途中权限复现条件，不替代工程师原生实测，阶段结论不变。
