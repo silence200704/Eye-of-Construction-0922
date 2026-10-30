@@ -1,0 +1,126 @@
+✖ system scale grows input height without shrinking text or capping a large user setting (1.5619ms)
+✖ narrow or enlarged workbenches stack cards while a wide window keeps two columns (0.5432ms)
+✖ 500 nonzero frequency objects are ranked and paged without losing any object or changing input (1.6727ms)
+✖ empty, zero-frequency and stale page positions produce an honest bounded view (0.5875ms)
+✔ alarm acknowledgement uses explicit current revision; failed response retries the original command (3.8217ms)
+✔ field observations require adequate detail, and read-only roles never send commands (0.5028ms)
+✔ late acknowledgement after identity reset cannot repopulate event state (6.4158ms)
+✔ field note succeeds without acknowledging the event and a closed event refuses further changes (0.6093ms)
+✔ a close response with an unchanged recovering status cannot claim that closure succeeded (0.5237ms)
+✖ feedback stays bound to its event and action instead of leaking a previous success into a new form (1.4934ms)
+✔ AppScope resolves the packaged follow-system font profile without capping system scale (2.4107ms)
+✖ configuration updates log the newly delivered font scale rather than the stale context (87.4285ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 6
+ℹ fail 6
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 917.7205
+
+✖ failing tests:
+
+test at tests\mobile\accessibility\layout.test.mjs:5:1
+✖ system scale grows input height without shrinking text or capping a large user setting (1.5619ms)
+  Error: Cannot find module 'C:\Users\Lenovo\Desktop\demo\mobile\openharmony\entry\src\main\ets\shared\layout\ReadingLayout.ets'
+  Require stack:
+  - C:\Users\Lenovo\Desktop\demo\tests\mobile\nativeLoader.mjs
+      at Module._resolveFilename (node:internal/modules/cjs/loader:1476:15)
+      at wrapResolveFilename (node:internal/modules/cjs/loader:1049:27)
+      at defaultResolveImplForCJSLoading (node:internal/modules/cjs/loader:1073:10)
+      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1094:12)
+      at Module.<anonymous> (node:internal/modules/cjs/loader:1262:25)
+      at Module._load (file:///C:/Users/Lenovo/Desktop/demo/tests/mobile/nativeLoader.mjs:13:19)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+      at Module.require (node:internal/modules/cjs/loader:1576:12)
+      at require (node:internal/modules/helpers:153:16)
+      at native (file:///C:/Users/Lenovo/Desktop/demo/tests/mobile/nativeLoader.mjs:26:10) {
+    code: 'MODULE_NOT_FOUND',
+    requireStack: [ 'C:\\Users\\Lenovo\\Desktop\\demo\\tests\\mobile\\nativeLoader.mjs' ]
+  }
+
+test at tests\mobile\accessibility\layout.test.mjs:15:1
+✖ narrow or enlarged workbenches stack cards while a wide window keeps two columns (0.5432ms)
+  Error: Cannot find module 'C:\Users\Lenovo\Desktop\demo\mobile\openharmony\entry\src\main\ets\shared\layout\ReadingLayout.ets'
+  Require stack:
+  - C:\Users\Lenovo\Desktop\demo\tests\mobile\nativeLoader.mjs
+      at Module._resolveFilename (node:internal/modules/cjs/loader:1476:15)
+      at wrapResolveFilename (node:internal/modules/cjs/loader:1049:27)
+      at defaultResolveImplForCJSLoading (node:internal/modules/cjs/loader:1073:10)
+      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1094:12)
+      at Module.<anonymous> (node:internal/modules/cjs/loader:1262:25)
+      at Module._load (file:///C:/Users/Lenovo/Desktop/demo/tests/mobile/nativeLoader.mjs:13:19)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+      at Module.require (node:internal/modules/cjs/loader:1576:12)
+      at require (node:internal/modules/helpers:153:16)
+      at native (file:///C:/Users/Lenovo/Desktop/demo/tests/mobile/nativeLoader.mjs:26:10) {
+    code: 'MODULE_NOT_FOUND',
+    requireStack: [ 'C:\\Users\\Lenovo\\Desktop\\demo\\tests\\mobile\\nativeLoader.mjs' ]
+  }
+
+test at tests\mobile\insights\paging.test.mjs:5:1
+✖ 500 nonzero frequency objects are ranked and paged without losing any object or changing input (1.6727ms)
+  Error: Cannot find module 'C:\Users\Lenovo\Desktop\demo\mobile\openharmony\entry\src\main\ets\core\monitoring\InsightPaging.ets'
+  Require stack:
+  - C:\Users\Lenovo\Desktop\demo\tests\mobile\nativeLoader.mjs
+      at Module._resolveFilename (node:internal/modules/cjs/loader:1476:15)
+      at wrapResolveFilename (node:internal/modules/cjs/loader:1049:27)
+      at defaultResolveImplForCJSLoading (node:internal/modules/cjs/loader:1073:10)
+      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1094:12)
+      at Module.<anonymous> (node:internal/modules/cjs/loader:1262:25)
+      at Module._load (file:///C:/Users/Lenovo/Desktop/demo/tests/mobile/nativeLoader.mjs:13:19)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+      at Module.require (node:internal/modules/cjs/loader:1576:12)
+      at require (node:internal/modules/helpers:153:16)
+      at native (file:///C:/Users/Lenovo/Desktop/demo/tests/mobile/nativeLoader.mjs:26:10) {
+    code: 'MODULE_NOT_FOUND',
+    requireStack: [ 'C:\\Users\\Lenovo\\Desktop\\demo\\tests\\mobile\\nativeLoader.mjs' ]
+  }
+
+test at tests\mobile\insights\paging.test.mjs:24:1
+✖ empty, zero-frequency and stale page positions produce an honest bounded view (0.5875ms)
+  Error: Cannot find module 'C:\Users\Lenovo\Desktop\demo\mobile\openharmony\entry\src\main\ets\core\monitoring\InsightPaging.ets'
+  Require stack:
+  - C:\Users\Lenovo\Desktop\demo\tests\mobile\nativeLoader.mjs
+      at Module._resolveFilename (node:internal/modules/cjs/loader:1476:15)
+      at wrapResolveFilename (node:internal/modules/cjs/loader:1049:27)
+      at defaultResolveImplForCJSLoading (node:internal/modules/cjs/loader:1073:10)
+      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1094:12)
+      at Module.<anonymous> (node:internal/modules/cjs/loader:1262:25)
+      at Module._load (file:///C:/Users/Lenovo/Desktop/demo/tests/mobile/nativeLoader.mjs:13:19)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+      at Module.require (node:internal/modules/cjs/loader:1576:12)
+      at require (node:internal/modules/helpers:153:16)
+      at native (file:///C:/Users/Lenovo/Desktop/demo/tests/mobile/nativeLoader.mjs:26:10) {
+    code: 'MODULE_NOT_FOUND',
+    requireStack: [ 'C:\\Users\\Lenovo\\Desktop\\demo\\tests\\mobile\\nativeLoader.mjs' ]
+  }
+
+test at tests\mobile\online\events.test.mjs:60:1
+✖ feedback stays bound to its event and action instead of leaking a previous success into a new form (1.4934ms)
+  TypeError: f.current(...).messageFor is not a function
+      at TestContext.<anonymous> (file:///C:/Users/Lenovo/Desktop/demo/tests/mobile/online/events.test.mjs:62:27)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7)
+
+test at tests\mobile\online\font-config.test.mjs:17:1
+✖ configuration updates log the newly delivered font scale rather than the stale context (87.4285ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  undefined !== 2
+  
+      at TestContext.<anonymous> (file:///C:/Users/Lenovo/Desktop/demo/tests/mobile/online/font-config.test.mjs:28:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 2,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

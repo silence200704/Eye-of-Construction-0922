@@ -1,0 +1,13 @@
+{
+  "path": "mobile/openharmony/entry/build/default/outputs/default/entry-default-unsigned.hap",
+  "bytes": 1022485,
+  "sha256": "1e23c373cc25a17f90afd2222b922d3662b3bbaf6d41d51a37d122c0e519e816",
+  "buildMode": "release",
+  "signed": false,
+  "installedThisRound": false,
+  "configuration": {
+    "configuration": {
+      "fontSizeScale": "followSystem"
+    }
+  }
+}

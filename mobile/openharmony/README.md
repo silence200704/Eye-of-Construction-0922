@@ -4,7 +4,8 @@ ArkTS + ArkUI + Stage；业务包名`org.zhutong.mobile`，版本`0.8.0-dev`。
 当前完成在线基础、“校园守护手账”UI与巡检到点/检查写入，包含四入口、测点详情、五身份切换、连接设置和动效偏好。
 任务详情支持模拟NFC/人工核对、冻结清单、必答/异常依据、逐点完成、版本冲突及原请求重试。
 独立/任务问题上报、原生相册压缩/上传/关联、问题池和Web反馈回读已接入；选图/提交均有失败与重试状态。
-原生退回补证、工单办理、预警处置和统计仍按阶段8继续；相机代码已有，模拟器真实拍照未通过，不把本批完成等同整个阶段完成。
+原生退回补证、工单办理、预警处置、设备状态、筛选与统计均已接入，部分闭环有独立模拟器证据。
+照片回读/字号配置及大字号布局、就地反馈、统计分页已返修，等待新包复验；相机代码已有，模拟器真实拍照未通过，阶段7A、8仍待审核。
 
 ## 已核验环境
 
@@ -21,7 +22,8 @@ ArkTS + ArkUI + Stage；业务包名`org.zhutong.mobile`，版本`0.8.0-dev`。
 ```powershell
 python scripts/mobile/artwork/build.py
 python scripts/mobile/prepare_online.py
-node --test tests/mobile/*.test.mjs
+$nativeTests = rg --files tests/mobile -g '*.test.mjs'
+node --test $nativeTests
 node scripts/mobile/verification/structure.mjs
 python scripts/mobile/verification/structure.py
 ```
@@ -64,3 +66,7 @@ App“我的→校园服务连接→设置”填写提供筑瞳同源API的电�
 全业务剩余项见`docs/implementation/handoff/stages/mobile/business-coverage.md`，不省略照片、问题、工单和离线流程。
 原生补证、一键接单、完工与退回重办以及Web验收/复查闭环见`docs/implementation/handoff/reports/mobile/07-native-handling.md`。
 正常接单不加确认；完工只必填措施。原生核心77项Node/mocks通过，SDK构建和模拟器安装/实际写入另有证据，非Hypium或真机。
+
+2026-10-30交接：以上63/77项为历史批次；最新开发检查为2026-10-29的104项Node/mocks，核心与布局行94.85%、分支81.89%，SDK构建通过。
+实际页面仍待工程师重新签名安装验证。见[本批交接](../../docs/implementation/handoff/reports/mobile/review/08-reading-layout.md)、
+[统一复验提示词](../../docs/implementation/handoff/prompts/mobile/08-emulator-combined-recheck.md)，不再只运行根目录测试而遗漏子目录业务用例。

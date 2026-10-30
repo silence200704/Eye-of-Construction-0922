@@ -1,0 +1,20 @@
+✔ system scale grows input height without shrinking text or capping a large user setting (39.2001ms)
+✔ narrow or enlarged workbenches stack cards while a wide window keeps two columns (0.1761ms)
+✔ 500 nonzero frequency objects are ranked and paged without losing any object or changing input (49.5448ms)
+✔ empty, zero-frequency and stale page positions produce an honest bounded view (0.2106ms)
+✔ alarm acknowledgement uses explicit current revision; failed response retries the original command (1.7156ms)
+✔ field observations require adequate detail, and read-only roles never send commands (0.2591ms)
+✔ late acknowledgement after identity reset cannot repopulate event state (2.5232ms)
+✔ field note succeeds without acknowledging the event and a closed event refuses further changes (0.5582ms)
+✔ a close response with an unchanged recovering status cannot claim that closure succeeded (0.2558ms)
+✔ feedback stays bound to its event and action instead of leaking a previous success into a new form (0.2217ms)
+✔ AppScope resolves the packaged follow-system font profile without capping system scale (1.4845ms)
+✔ configuration updates log the newly delivered font scale rather than the stale context (55.6097ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 469.4331

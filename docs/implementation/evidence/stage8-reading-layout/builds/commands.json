@@ -1,0 +1,55 @@
+{
+  "codeCommit": "8fc621005f24787e73e45ae1b0157763c236d4b6",
+  "collectedAtUtc": "2026-10-29T10:20:50.098903+00:00",
+  "commands": [
+    {
+      "command": "node --test tests/mobile/accessibility/layout.test.mjs tests/mobile/insights/paging.test.mjs tests/mobile/online/events.test.mjs tests/mobile/online/font-config.test.mjs",
+      "phase": "RED",
+      "exitCode": 1,
+      "tests": 12,
+      "passed": 6,
+      "failed": 6,
+      "log": "red.log"
+    },
+    {
+      "command": "same targeted command after implementation",
+      "phase": "GREEN",
+      "exitCode": 0,
+      "tests": 12,
+      "passed": 12,
+      "log": "green.log"
+    },
+    {
+      "command": "$testFiles=rg --files tests/mobile -g '*.test.mjs'; node --test --experimental-test-coverage '--test-coverage-include=**/ets/core/**' '--test-coverage-include=**/ets/shared/layout/**' --test-coverage-lines=80 --test-coverage-branches=80 $testFiles",
+      "exitCode": 0,
+      "tests": 104,
+      "passed": 104,
+      "lineCoverage": 94.85,
+      "branchCoverage": 81.89,
+      "log": "coverage.log"
+    },
+    {
+      "command": "node scripts/mobile/verification/structure.mjs",
+      "exitCode": 0,
+      "log": "structure-native.json"
+    },
+    {
+      "command": "D:/DevEco/Studio/tools/node/node.exe D:/DevEco/Studio/tools/hvigor/bin/hvigorw.js assembleApp --no-daemon",
+      "cwd": "mobile/openharmony",
+      "exitCode": -1,
+      "result": "ArkUI reserved scale member collision; fields renamed to textScale",
+      "log": "hvigor-before-rename.log"
+    },
+    {
+      "command": "same SDK build after renaming the conflicting fields",
+      "exitCode": 0,
+      "durationFromLog": "29 s 814 ms",
+      "log": "hvigor.log"
+    }
+  ],
+  "limits": [
+    "Node ETS transpilation and mocks, not Hypium or emulator acceptance.",
+    "No signing, installation, emulator interaction, service changes, database writes, or Web/backend regression this round.",
+    "Command start/end timestamps were not captured separately."
+  ]
+}
