@@ -23,7 +23,11 @@ function fixture(){
 
 test('alarm acknowledgement uses explicit current revision; failed response retries the original command',async()=>{
  const f=fixture();f.lose();await f.session.submit({eventId:'e',action:'acknowledge'})
- assert.equal(f.current().phase,'unknown');await f.session.retry()
+ assert.equal(f.current().phase,'unknown')
+ assert.match(f.current().message,/结果待核验/)
+ assert.match(f.current().message,/可能已保存/)
+ assert.match(f.current().message,/原请求/)
+ await f.session.retry()
  const writes=f.calls.filter(c=>c.options?.method==='POST')
  assert.deepEqual(writes[0],writes[1]);assert.equal(f.current().phase,'done')
  assert.equal(f.saved[0].status,'handling')
@@ -55,6 +59,16 @@ test('a close response with an unchanged recovering status cannot claim that clo
  const f=fixture();f.event.status='recovering'
  await f.session.submit({eventId:'e',action:'close',basis:'核对三次模拟恢复复测',noRepairNote:'现场核查确认无需维修，安排持续观察。'})
  assert.equal(f.current().phase,'unknown');assert.equal(f.saved.length,0)
+ assert.match(f.current().message,/结果待核验/)
+})
+
+test('authorization preflight connection failure does not claim the command may have been saved',async()=>{
+ const f=fixture()
+ f.access.client.send=async()=>{throw Error('connection lost before POST')}
+ await f.session.submit({eventId:'e',action:'acknowledge'})
+ assert.equal(f.current().phase,'error')
+ assert.doesNotMatch(f.current().message,/可能已保存|结果待核验/)
+ assert.equal(f.saved.length,0)
 })
 
 test('feedback stays bound to its event and action instead of leaking a previous success into a new form',async()=>{
