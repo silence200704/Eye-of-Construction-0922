@@ -1,0 +1,23 @@
+✖ photo failures explain permission changes without exposing internal errors or mislabeling cancellation (0.567ms)
+✔ submitted photo is authorized before and after download and only a sandbox URI reaches the UI (1.2042ms)
+✔ late protected bytes after a view closes are discarded and never written to the sandbox (2.7561ms)
+✔ archiving a point while bytes are held refuses the old image before any cache write (0.9128ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 3
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 371.3737
+
+✖ failing tests:
+
+test at tests\mobile\online\photos.test.mjs:9:1
+✖ photo failures explain permission changes without exposing internal errors or mislabeling cancellation (0.567ms)
+  TypeError: photoErrorMessage is not a function
+      at TestContext.<anonymous> (file:///C:/Users/Lenovo/Desktop/demo/tests/mobile/online/photos.test.mjs:11:15)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.start (node:internal/test_runner/test:1096:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17)

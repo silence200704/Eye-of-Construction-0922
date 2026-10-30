@@ -1,0 +1,45 @@
+{
+  "clientDate": "2026-10-30",
+  "codeCommit": "97f8ddcddd5a8b8010a9ba6a05ce5886785b7f3d",
+  "red": {
+    "command": "node --test tests/mobile/online/photos.test.mjs",
+    "exitCode": 1,
+    "passed": 3,
+    "failed": 1
+  },
+  "regression": {
+    "command": "$testFiles=rg --files tests/mobile -g '*.test.mjs'; node --test --experimental-test-coverage '--test-coverage-include=**/ets/core/**' '--test-coverage-include=**/ets/shared/layout/**' --test-coverage-lines=80 --test-coverage-branches=80 $testFiles",
+    "exitCode": 0,
+    "passed": 107,
+    "lineCoverage": 95.08,
+    "branchCoverage": 82.39
+  },
+  "build": {
+    "command": "D:/DevEco/Studio/tools/node/node.exe D:/DevEco/Studio/tools/hvigor/bin/hvigorw.js assembleApp --no-daemon",
+    "cwd": "mobile/openharmony",
+    "exitCode": 0,
+    "duration": "13 s 377 ms"
+  },
+  "structure": {
+    "command": "node scripts/mobile/verification/structure.mjs",
+    "exitCode": 0,
+    "files": 100,
+    "functions": 1070,
+    "maxFileLines": 311,
+    "maxFunctionLines": 43,
+    "violations": []
+  },
+  "hap": {
+    "path": "mobile/openharmony/entry/build/default/outputs/default/entry-default-unsigned.hap",
+    "bytes": 1023357,
+    "sha256": "e31b8e8ae9c549a29393080e824daad88d641913f23dade0a36c3c2333ea1f93",
+    "buildMode": "release",
+    "signed": false,
+    "installedThisRound": false
+  },
+  "limits": [
+    "Node/mocks, not Hypium or actual photo-feedback UI evidence.",
+    "No simulator or existing service was operated.",
+    "No backend/Web full regression rerun; unchanged code."
+  ]
+}

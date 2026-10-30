@@ -73,3 +73,6 @@ App“我的→校园服务连接→设置”填写提供筑瞳同源API的电�
 
 统一复验已关闭照片/字号两个P1，仍待宽窗、键盘、真实读屏及Web表单操作证据。
 最新`845c564`明确预警未知结果文案，105项Node/mocks、SDK构建通过，新文案页面未复验；使用[剩余补验提示词](../../docs/implementation/handoff/prompts/mobile/08-evidence-gap-check.md)。
+
+后续工程师已取得未知结果文案、Web真实表单和媒体途中归档拦截证据。最新`97f8ddc`补充照片权限变化的中性提示/当前窗口toast，107项Node/mocks和SDK构建通过，提示页面待验。
+宽窗、软键盘、真实读屏与真机仍未验证；见[最新交接](../../docs/implementation/handoff/reports/mobile/review/followups/photo-feedback.md)。

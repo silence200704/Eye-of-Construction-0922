@@ -1,13 +1,22 @@
 # 转交工程师：阶段7A/8剩余证据补验
 
 本轮仅补缺口与新文案，不修改业务代码、不进入阶段9、不因环境受限而假报通过。
-工作区`C:/Users/Lenovo/Desktop/demo`，分支`codex/fullstack-competition`；App代码基线`845c564`，网关工具`053caaf`（包含该App修复），以实际HEAD与源码哈希共同记录；前轮报告`docs/implementation/handoff/reports/mobile/review/08-emulator-combined-review.md`，新交接`08-evidence-gap-handoff.md`。
+工作区`C:/Users/Lenovo/Desktop/demo`，分支`codex/fullstack-competition`；最新App代码`97f8ddc`，网关工具`053caaf`已包含，以实际HEAD与源码哈希共同记录。最新交接`docs/implementation/handoff/reports/mobile/review/followups/photo-feedback.md`。
 保留已有Web视觉/文档改动及全部旧证据，不reset/clean/stash，不写交付库，不清数据卷、不重置模拟器，不改AI或账号密码设计。
+
+**当前执行范围**：`08-evidence-gap-review.md`已取得第1节、Web第4节及媒体途中归档拦截证据，无需整轮重复。优先验证下面的最新照片提示，再补宽窗/键盘/真实读屏；未覆盖分支仍如实列出，不默认全阶段通过。
+
+## 最新照片提示必验
+
+重新安装`97f8ddc`对应新包，沿第5节单次暂留方法复现“下载期间归档测点→放行”。旧图不应显示/写缓存，同时当前操作应立即出现“权限已变化，照片未打开；请重新读取。”。
+本轮增加了3秒toast和按钮前的卡片提示，需录屏或及时截图；不要只在toast消失后读取一次DOM。保留卡片反馈与原始layout，核查屏幕外提示不会造成按钮似无反应。
+恢复测点后重新读图成功、原件SHA一致；错误原因不同应区分：主动取消不称权限变化，数据复位说明数据已更新，网络失败仍提示重试。
+再做暂留期间主动返回/切身份：迟到结果不在新页面回填照片或弹出新提示，不残留缓存。正常读取不出现错误toast；取消时只允许仍留在当前页面的当前代次显示取消原因。
 
 ## 准备
 
 沿用DevEco`D:/DevEco/Studio`、SDK`D:/DevEco/OpenHarmonySdk/20`、包`org.zhutong.mobile`，构建/签名方法见`mobile/openharmony/README.md`。
-先记录实际HEAD/diff/源码SHA、设备与系统API。重新构建、签名、安装最新包，记录起止/退出码/包SHA；不能复用旧`414be590…`签名包证明新文案。
+先记录实际HEAD/diff/源码SHA、设备与系统API。重新构建、签名、安装最新包，记录起止/退出码/包SHA；不能复用旧`7ff52c16…`签名包证明新照片提示。
 原环境为API18010、网关18011、App18090→18011、safety、标准字号、读屏关闭；先查实际状态，不假定在线。测试库`backend/.runtime-stage8-finish/api`，只操作独立验收数据。
 原事件/问题已关闭，验收/复查须选合法新对象，不把已关闭对象改回状态伪造起点。
 
@@ -66,6 +75,6 @@ python -m scripts.mobile.completion.proxy --port 18014 --runtime C:/Users/Lenovo
 
 ## 交付
 
-新报告`docs/implementation/handoff/reports/mobile/review/08-evidence-gap-review.md`；新证据`docs/implementation/evidence/stage8-engineer-gaps/`，旧证据不覆盖，每目录直接文件尽量≤8。
+新报告`docs/implementation/handoff/reports/mobile/review/followups/photo-feedback-review.md`；新证据`docs/implementation/evidence/stage8-engineer-photo-feedback/`，旧证据不覆盖，每目录直接文件尽量≤8。
 逐项通过/失败/未验证及原因；附真实截图/layout、请求与计数、命令退出码，保留失败日志。S7A/S8总表标清本轮补验和沿用证据。
 恢复原App连接/身份、字号、读屏状态；只清理自己启动的临时服务和映射。仅给“通过/不通过/待补证据”建议，最终阶段结论由负责人裁定。

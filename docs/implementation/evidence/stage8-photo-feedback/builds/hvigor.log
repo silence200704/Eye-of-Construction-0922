@@ -1,0 +1,70 @@
+> hvigor [32mFinished ::PreBuildApp... after 1 ms [39m
+> hvigor [32mUP-TO-DATE :entry:default@PreBuild...  [39m
+> hvigor [32mFinished ::DuplicateDependencyCheck... after 1 ms [39m
+> hvigor [32mFinished :entry:default@CreateModuleInfo... after 1 ms [39m
+> hvigor [32mUP-TO-DATE :entry:default@GenerateMetadata...  [39m
+> hvigor [32mFinished :entry:default@ConfigureCmake... after 1 ms [39m
+> hvigor [32mUP-TO-DATE :entry:default@MergeProfile...  [39m
+> hvigor [32mUP-TO-DATE :entry:default@CreateBuildProfile...  [39m
+> hvigor [32mFinished :entry:default@PreCheckSyscap... after 1 ms [39m
+> hvigor [32mUP-TO-DATE :entry:default@GeneratePkgContextInfo...  [39m
+> hvigor [32mFinished :entry:default@GeneratePkgSdkInfo... after 6 ms [39m
+> hvigor [32mFinished :entry:default@ProcessIntegratedHsp... after 1 ms [39m
+> hvigor [32mFinished :entry:default@BuildNativeWithCmake... after 1 ms [39m
+> hvigor [32mUP-TO-DATE :entry:default@MakePackInfo...  [39m
+> hvigor [32mUP-TO-DATE :entry:default@SyscapTransform...  [39m
+> hvigor [32mUP-TO-DATE :entry:default@ProcessProfile...  [39m
+> hvigor [32mUP-TO-DATE :entry:default@ProcessRouterMap...  [39m
+> hvigor [32mUP-TO-DATE :entry:default@ProcessShareConfig...  [39m
+> hvigor [32mFinished :entry:default@ProcessStartupConfig... after 3 ms [39m
+> hvigor [32mFinished :entry:default@BuildNativeWithNinja... after 1 ms [39m
+> hvigor [32mUP-TO-DATE :entry:default@ProcessResource...  [39m
+> hvigor [32mUP-TO-DATE :entry:default@GenerateLoaderJson...  [39m
+> hvigor [32mUP-TO-DATE :entry:default@ProcessLibs...  [39m
+> hvigor [32mFinished :entry:default@CompileResource... after 286 ms [39m
+> hvigor [32mUP-TO-DATE :entry:default@DoNativeStrip...  [39m
+> hvigor [32mFinished :entry:default@BuildJS... after 5 ms [39m
+> hvigor [32mUP-TO-DATE :entry:default@CacheNativeLibs...  [39m
+> hvigor WARN: WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/openharmony/entry/src/main/ets/core/storage/ConnectionPreferences.ets:19:23
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/openharmony/entry/src/main/ets/core/storage/ConnectionPreferences.ets:20:19
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/openharmony/entry/src/main/ets/core/media/PhotoSelector.ets:54:36
+ 'packing' has been deprecated.
+
+WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/openharmony/entry/src/main/ets/core/media/PhotoSelector.ets:62:18
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/openharmony/entry/src/main/ets/core/media/PhotoSelector.ets:79:7
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/openharmony/entry/src/main/ets/pages/Index.ets:97:17
+ 'show' has been deprecated.
+
+
+> hvigor [32mFinished :entry:default@CompileArkTS... after 5 s 72 ms [39m
+> hvigor [32mFinished :entry:default@GeneratePkgModuleJson... after 4 ms [39m
+> hvigor [32mFinished :entry:default@ProcessCompiledResources... after 1 ms [39m
+> hvigor WARN: If obfuscation is needed, enable obfuscation settings in this build process; failing to do so may prevent future obfuscation. 
+               Properly configure obfuscation rules to avoid runtime issues.
+> hvigor [32mFinished :entry:default@PackageHap... after 566 ms [39m
+> hvigor [32mFinished :entry:default@PackingCheck... after 11 ms [39m
+> hvigor WARN: Will skip sign 'hap'. No signingConfigs profile is configured in current project.
+             If needed, configure the signingConfigs in C:\Users\Lenovo\Desktop\demo\mobile\openharmony\build-profile.json5.
+> hvigor [32mFinished :entry:default@SignHap... after 2 ms [39m
+> hvigor [32mFinished :entry:default@CollectDebugSymbol... after 5 ms [39m
+> hvigor [32mFinished :entry:assembleHap... after 1 ms [39m
+> hvigor [32mUP-TO-DATE ::MakeProjectPackInfo...  [39m
+> hvigor [32mFinished ::ProcessProjectPrivacyProfile... after 3 ms [39m
+> hvigor [32mUP-TO-DATE ::GeneratePackRes...  [39m
+> hvigor WARN: 2026/10/30 21:53:44.089 - Ohos BundleTool [Warning]: Hap debug is true or Hsp verify infos is empty
+
+> hvigor [32mFinished ::PackageApp... after 437 ms [39m
+> hvigor [32mFinished ::SignPackagesFromApp... after 2 ms [39m
+> hvigor WARN: Will skip sign 'app'. No signingConfigs profile is configured in current project.
+             If needed, configure the signingConfigs in C:\Users\Lenovo\Desktop\demo\mobile\openharmony\build-profile.json5.
+> hvigor [32mFinished ::SignApp... after 3 ms [39m
+> hvigor [32mFinished ::assembleApp... after 1 ms [39m
+> hvigor [32mBUILD SUCCESSFUL in 13 s 377 ms [39m
