@@ -40,3 +40,24 @@ test('invalid target or empty draft cannot enqueue; schema migration preserves e
  await assert.rejects(f.store.list(f.pack),/变化/)
  await f.vault.close()
 })
+
+test('schema 1 upgrades to 2 without erasing notes and failed enqueue rolls back both queue and draft',async()=>{
+ const {OfflineVault}=native('core/offline/OfflineVault.ets'),db=sql()
+ await db.execute('CREATE TABLE offline_schema (id INTEGER PRIMARY KEY, version INTEGER NOT NULL)')
+ await db.execute('INSERT INTO offline_schema VALUES (1,1)')
+ await db.execute('CREATE TABLE offline_notes (scope TEXT NOT NULL,target TEXT NOT NULL,body TEXT NOT NULL,PRIMARY KEY(scope,target))')
+ await db.execute('INSERT INTO offline_notes VALUES (?,?,?)',['old','t','original-note'])
+ const vault=new OfflineVault(db);assert.equal(await vault.open('http://localhost:8080','user'),null)
+ assert.deepEqual(await db.read('SELECT CAST(version AS TEXT) AS body FROM offline_schema'),['2'])
+ assert.deepEqual(await db.read('SELECT body FROM offline_notes'),['original-note']);await vault.close()
+ const f=await queueFixture();const draft=await f.store.create(f.pack,'p')
+ draft.anomalyType='模拟';draft.description='原稿'
+ await f.store.save(f.pack,draft)
+ const execute=f.db.execute;let fail=true
+ f.db.execute=async(query,args)=>{if(fail&&query.startsWith('UPDATE offline_reports'))throw Error('disk full');return execute(query,args)}
+ await assert.rejects(f.store.enqueue(f.pack,draft.id),/disk full/)
+ assert.equal((await f.store.list(f.pack)).length,0)
+ assert.equal((await f.store.drafts(f.pack))[0].phase,'editing')
+ fail=false;await f.store.enqueue(f.pack,draft.id)
+ assert.equal((await f.store.list(f.pack)).length,1);await f.vault.close()
+})

@@ -5,7 +5,7 @@ import { mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { native } from '../nativeLoader.mjs'
-import { identity } from '../fixture.mjs'
+import { identity, deferred } from '../fixture.mjs'
 
 function driver(path) {
   const db = new DatabaseSync(path)
@@ -94,4 +94,14 @@ test('a failed local write leaves the previous note intact and the next save can
  assert.equal((await vault.note(pack,'t')).text,'已落库')
  fail=false;await vault.saveNote(pack,'t','恢复后可保存')
  assert.equal((await vault.note(pack,'t')).text,'恢复后可保存');await vault.close()
+})
+
+test('leaving the page immediately waits for schema initialization before closing the database',async()=>{
+ const {OfflineVault}=native('core/offline/OfflineVault.ets'),held=deferred();let closed=false
+ const vault=new OfflineVault({execute:async()=>{await held.promise},read:async()=>[],close:async()=>{closed=true}})
+ const pending=vault.close()
+ try {await new Promise(r=>setImmediate(r));assert.equal(closed,false)}
+ finally {held.resolve();await pending}
+ assert.equal(closed,true)
+ await assert.rejects(vault.open('http://localhost:8080','user'),/已关闭/)
 })

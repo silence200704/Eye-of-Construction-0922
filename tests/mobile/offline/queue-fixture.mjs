@@ -9,9 +9,9 @@ export function sql(path=':memory:') {
 export async function queueFixture(path) {
  const {OfflineVault}=native('core/offline/OfflineVault.ets')
  const {OutboxStore}=native('core/offline/queue/OutboxStore.ets')
- const vault=new OfflineVault(sql(path)),user=identity('inspector')
+ const db=sql(path),vault=new OfflineVault(db),user=identity('inspector')
  const workspace={epoch:1,buildings:[{id:'b',status:'active'}],floors:[{id:'f',buildingId:'b',status:'active'}],points:[{id:'p',buildingId:'b',floorId:'f',status:'active'}],devices:[],records:[],events:[],tasks:[],issues:[],orders:[],supplementableIds:[]}
  const pack=await vault.download({baseUrl:'http://localhost:8080',user,workspace})
  const store=new OutboxStore(vault)
- return {vault,pack,store,user,workspace}
+ return {vault,pack,store,user,workspace,db}
 }
