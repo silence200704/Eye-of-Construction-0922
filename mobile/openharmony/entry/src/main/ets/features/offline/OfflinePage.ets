@@ -15,6 +15,9 @@ import { AppCard } from '../../shared/components/AppCard';
 import { PlayButton } from '../../shared/playful/PlayButton';
 import { latestRecord, reading, timeText } from '../../shared/format/display';
 import { controlHeight } from '../../shared/layout/ReadingLayout';
+import { OfflineReportPanel } from './OfflineReportPanel';
+import { TaskAccess } from '../../core/field/TaskCommander';
+import { ReportResult } from '../../data/models/Reports';
 
 @Component
 export struct OfflinePage {
@@ -27,6 +30,10 @@ export struct OfflinePage {
   @State busy: boolean = false;
   @State page: number = 0;
   @State monitoring: boolean = false;
+  @State reports: boolean = false;
+  onAccess: () => TaskAccess | null = () => null;
+  onExternal: (value: boolean) => void = () => {};
+  onSynced: (result: ReportResult) => void = () => {};
   @StorageProp('zhutong.fontScale') textScale: number = 1;
   private vault: OfflineVault | undefined = undefined;
   private settings: ConnectionPreferences | undefined = undefined;
@@ -114,6 +121,8 @@ export struct OfflinePage {
         PlayButton({ title: '缓存监测', secondary: !this.monitoring, controlId: 'offline-monitoring',
           onAction: () => { this.monitoring = true; this.page = 0; } }).layoutWeight(1);
       }
+      PlayButton({ title: this.reports ? '返回任务与缓存读数' : '离线上报 · 草稿与同步队列', secondary: true,
+        available: !this.busy, controlId: 'offline-report-open', onAction: () => { this.reports = !this.reports; } });
     }
   }
   @Builder
@@ -164,7 +173,12 @@ export struct OfflinePage {
         controlId: 'offline-download', onAction: () => this.download() });
       PlayButton({ title: '读取本机随身包', secondary: true, available: !this.busy, controlId: 'offline-load', onAction: () => this.load() });
       if (this.message) { Text(this.message).fontSize(15).fontColor(Theme.brand).id('offline-feedback'); }
-      if (this.pack) { this.summary(); this.content(); }
+      if (this.pack) {
+        this.summary();
+        if (this.reports) { OfflineReportPanel({ pack: this.pack, vault: this.vault, state: this.state,
+          onAccess: this.onAccess, onExternal: this.onExternal, onSynced: this.onSynced }); }
+        else { this.content(); }
+      }
     }
   }
 }

@@ -1,38 +1,37 @@
 import { OfflineInput, OfflinePack, LocalNote, LocalSql, ownerKey, scopeKey } from './OfflineModels';
 import { ApiError } from '../network/ApiError';
 import { normalizeEndpoint } from '../network/Endpoint';
+import { initializeOffline } from './OfflineSchema';
+import { readLocalPack, confirmLocalPack } from './OfflineScope';
 
 export class OfflineVault {
   private db: LocalSql;
   private ready: Promise<void>;
   private queue: Promise<void> = Promise.resolve();
-  constructor(db: LocalSql) { this.db = db; this.ready = this.initialize(); }
-  private async initialize(): Promise<void> {
-    await this.db.execute('CREATE TABLE IF NOT EXISTS offline_schema (id INTEGER PRIMARY KEY, version INTEGER NOT NULL)', []);
-    const version = await this.db.read('SELECT CAST(version AS TEXT) AS body FROM offline_schema WHERE id=1', []);
-    if (version.length && version[0] !== '1') throw new ApiError('OFFLINE_SCHEMA', '离线库版本不支持，请保留数据并更新应用。');
-    if (!version.length) await this.db.execute('INSERT INTO offline_schema (id,version) VALUES (1,1)', []);
-    await this.db.execute('CREATE TABLE IF NOT EXISTS offline_packs (owner TEXT PRIMARY KEY, body TEXT NOT NULL)', []);
-    await this.db.execute('CREATE TABLE IF NOT EXISTS offline_notes (scope TEXT NOT NULL, target TEXT NOT NULL, body TEXT NOT NULL, PRIMARY KEY(scope,target))', []);
-  }
+  private closing: Promise<void> | null = null;
+  constructor(db: LocalSql) { this.db = db; this.ready = initializeOffline(db); }
   private run<T>(work: () => Promise<T>): Promise<T> {
+    if (this.closing) return Promise.reject(new ApiError('LOCAL_CLOSED', '本地库已关闭，请重新打开随身包。'));
     const next = this.queue.then(async () => { await this.ready; return work(); });
     this.queue = next.then(() => {}, () => {}); return next;
   }
-  close(): Promise<void> { return this.queue.then(() => this.db.close()); }
-  private async readPack(baseUrl: string, userId: string): Promise<OfflinePack | null> {
-    const rows = await this.db.read('SELECT body FROM offline_packs WHERE owner=?', [ownerKey(baseUrl, userId)]);
-    if (!rows.length) return null;
-    const pack = JSON.parse(rows[0]) as OfflinePack;
-    if (!pack || pack.datasetId !== 'demo-main' || !pack.user || !pack.workspace ||
-      ownerKey(pack.baseUrl, pack.user.id) !== ownerKey(baseUrl, userId) || pack.scope !== scopeKey(pack) ||
-      !Array.isArray(pack.workspace.tasks) || !Number.isInteger(pack.workspace.epoch)) {
-      throw new ApiError('OFFLINE_CORRUPT', '离线随身包不完整，请联网重新下载；原笔记保留。');
-    }
-    return pack;
+  close(): Promise<void> {
+    if (!this.closing) this.closing = this.queue.then(async () => {
+      try { await this.ready; } catch (_) { /* Unsupported schema still closes without changing data. */ }
+      await this.db.close();
+    });
+    return this.closing;
+  }
+  query<T>(work: (db: LocalSql) => Promise<T>): Promise<T> { return this.run(async () => work(this.db)); }
+  transact<T>(work: (db: LocalSql) => Promise<T>): Promise<T> {
+    return this.run(async () => {
+      await this.db.execute('BEGIN TRANSACTION', []);
+      try { const result = await work(this.db); await this.db.execute('COMMIT', []); return result; }
+      catch (cause) { await this.db.execute('ROLLBACK', []); throw cause as Error; }
+    });
   }
   open(baseUrl: string, userId: string): Promise<OfflinePack | null> {
-    return this.run(async () => this.readPack(baseUrl, userId));
+    return this.run(async () => readLocalPack(this.db, baseUrl, userId));
   }
   download(input: OfflineInput): Promise<OfflinePack> {
     return this.run(async () => {
@@ -49,8 +48,7 @@ export class OfflineVault {
     });
   }
   private async confirm(pack: OfflinePack): Promise<void> {
-    const latest = await this.readPack(pack.baseUrl, pack.user.id);
-    if (!latest || latest.scope !== pack.scope) throw new ApiError('OFFLINE_SCOPE_CHANGED', '本地数据版本或身份范围已变化，请重新打开随身包。');
+    await confirmLocalPack(this.db, pack);
   }
   private async readNote(pack: OfflinePack, taskId: string): Promise<LocalNote | null> {
     const rows = await this.db.read('SELECT body FROM offline_notes WHERE scope=? AND target=?', [pack.scope, taskId]);

@@ -47,6 +47,7 @@ struct Index {
   private photos: PhotoSelector | undefined = undefined;
   private events: EventSession | undefined = undefined;
   private reader: PhotoReader | undefined = undefined;
+  private offlinePicking: boolean = false;
 
   aboutToAppear(): void {
     const context = this.getUIContext().getHostContext() as common.UIAbilityContext;
@@ -70,8 +71,8 @@ struct Index {
     this.controller.initialize();
   }
 
-  onPageHide(): void { if (!this.reporter?.isExternal()) this.controller?.suspend(); }
-  onPageShow(): void { if (!this.reporter?.isExternal()) this.controller?.resume(); }
+  onPageHide(): void { if (!this.reporter?.isExternal() && !this.offlinePicking) this.controller?.suspend(); }
+  onPageShow(): void { if (!this.reporter?.isExternal() && !this.offlinePicking) this.controller?.resume(); }
 
   openReport(target: ReportTarget): void {
     this.reporter?.start(target);
@@ -120,7 +121,8 @@ struct Index {
       NavDestination() { StatisticsPage({ state: this.state, onLoad: async (query) => await this.controller?.readInsights(query) ?? null }); }
         .title('守护统计').backgroundColor(Theme.canvas);
     } else if (name === 'offline') {
-      NavDestination() { OfflinePage({ state: this.state }); }.title('离线随身包').backgroundColor(Theme.canvas);
+      NavDestination() { OfflinePage({ state: this.state, onAccess: () => this.controller?.fieldAccess() ?? null,
+        onExternal: (value) => { this.offlinePicking = value; }, onSynced: (result) => this.controller?.acceptReport(result) }); }.title('离线随身包').backgroundColor(Theme.canvas);
     } else if (name === 'issues') {
       NavDestination() { IssuesPage({ state: this.state, onNew: (target) => this.openReport(target), onRefresh: () => this.controller?.reloadHandling(),
         onPhoto: async (request) => await this.reader?.open(request) ?? null, onClearPhotos: () => this.reader?.clear(),
