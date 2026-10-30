@@ -1,0 +1,70 @@
+✖ a real SQLite file survives close/reopen with an identity-scoped snapshot and local-only task note (0.7989ms)
+✖ new epoch or narrowed scope isolates old notes and rejects writes from a stale snapshot (0.2466ms)
+✖ unsupported local schema is preserved and never silently cleared (0.2139ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 0
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 315.4649
+
+✖ failing tests:
+
+test at tests\mobile\offline\vault.test.mjs:19:1
+✖ a real SQLite file survives close/reopen with an identity-scoped snapshot and local-only task note (0.7989ms)
+  Error: Cannot find module 'C:\Users\Lenovo\Desktop\demo\mobile\openharmony\entry\src\main\ets\core\offline\OfflineVault.ets'
+  Require stack:
+  - C:\Users\Lenovo\Desktop\demo\tests\mobile\nativeLoader.mjs
+      at Module._resolveFilename (node:internal/modules/cjs/loader:1476:15)
+      at wrapResolveFilename (node:internal/modules/cjs/loader:1049:27)
+      at defaultResolveImplForCJSLoading (node:internal/modules/cjs/loader:1073:10)
+      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1094:12)
+      at Module.<anonymous> (node:internal/modules/cjs/loader:1262:25)
+      at Module._load (file:///C:/Users/Lenovo/Desktop/demo/tests/mobile/nativeLoader.mjs:13:19)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+      at Module.require (node:internal/modules/cjs/loader:1576:12)
+      at require (node:internal/modules/helpers:153:16)
+      at native (file:///C:/Users/Lenovo/Desktop/demo/tests/mobile/nativeLoader.mjs:26:10) {
+    code: 'MODULE_NOT_FOUND',
+    requireStack: [ 'C:\\Users\\Lenovo\\Desktop\\demo\\tests\\mobile\\nativeLoader.mjs' ]
+  }
+
+test at tests\mobile\offline\vault.test.mjs:40:1
+✖ new epoch or narrowed scope isolates old notes and rejects writes from a stale snapshot (0.2466ms)
+  Error: Cannot find module 'C:\Users\Lenovo\Desktop\demo\mobile\openharmony\entry\src\main\ets\core\offline\OfflineVault.ets'
+  Require stack:
+  - C:\Users\Lenovo\Desktop\demo\tests\mobile\nativeLoader.mjs
+      at Module._resolveFilename (node:internal/modules/cjs/loader:1476:15)
+      at wrapResolveFilename (node:internal/modules/cjs/loader:1049:27)
+      at defaultResolveImplForCJSLoading (node:internal/modules/cjs/loader:1073:10)
+      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1094:12)
+      at Module.<anonymous> (node:internal/modules/cjs/loader:1262:25)
+      at Module._load (file:///C:/Users/Lenovo/Desktop/demo/tests/mobile/nativeLoader.mjs:13:19)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+      at Module.require (node:internal/modules/cjs/loader:1576:12)
+      at require (node:internal/modules/helpers:153:16)
+      at native (file:///C:/Users/Lenovo/Desktop/demo/tests/mobile/nativeLoader.mjs:26:10) {
+    code: 'MODULE_NOT_FOUND',
+    requireStack: [ 'C:\\Users\\Lenovo\\Desktop\\demo\\tests\\mobile\\nativeLoader.mjs' ]
+  }
+
+test at tests\mobile\offline\vault.test.mjs:55:1
+✖ unsupported local schema is preserved and never silently cleared (0.2139ms)
+  Error: Cannot find module 'C:\Users\Lenovo\Desktop\demo\mobile\openharmony\entry\src\main\ets\core\offline\OfflineVault.ets'
+  Require stack:
+  - C:\Users\Lenovo\Desktop\demo\tests\mobile\nativeLoader.mjs
+      at Module._resolveFilename (node:internal/modules/cjs/loader:1476:15)
+      at wrapResolveFilename (node:internal/modules/cjs/loader:1049:27)
+      at defaultResolveImplForCJSLoading (node:internal/modules/cjs/loader:1073:10)
+      at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1094:12)
+      at Module.<anonymous> (node:internal/modules/cjs/loader:1262:25)
+      at Module._load (file:///C:/Users/Lenovo/Desktop/demo/tests/mobile/nativeLoader.mjs:13:19)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+      at Module.require (node:internal/modules/cjs/loader:1576:12)
+      at require (node:internal/modules/helpers:153:16)
+      at native (file:///C:/Users/Lenovo/Desktop/demo/tests/mobile/nativeLoader.mjs:26:10) {
+    code: 'MODULE_NOT_FOUND',
+    requireStack: [ 'C:\\Users\\Lenovo\\Desktop\\demo\\tests\\mobile\\nativeLoader.mjs' ]
+  }

@@ -1,0 +1,11 @@
+✔ a real SQLite file survives close/reopen with an identity-scoped snapshot and local-only task note (67.6651ms)
+✔ new epoch or narrowed scope isolates old notes and rejects writes from a stale snapshot (1.4659ms)
+✔ unsupported local schema is preserved and never silently cleared (0.8902ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 389.5923

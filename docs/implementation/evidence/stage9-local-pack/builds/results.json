@@ -1,0 +1,42 @@
+{
+  "clientDate": "2026-10-30",
+  "codeCommit": "1bb38458b3fc227903004ba14d22cd8309e6585c",
+  "red": {
+    "command": "node --test tests/mobile/offline/vault.test.mjs",
+    "exitCode": 1,
+    "initialFailures": 3,
+    "revisionFailures": 1
+  },
+  "regression": {
+    "command": "$testFiles=rg --files tests/mobile -g '*.test.mjs'; node --test --experimental-test-coverage '--test-coverage-include=**/ets/core/**' '--test-coverage-include=**/ets/shared/layout/**' --test-coverage-lines=80 --test-coverage-branches=80 $testFiles",
+    "exitCode": 0,
+    "passed": 114,
+    "lineCoverage": 94.77,
+    "branchCoverage": 83.49
+  },
+  "build": {
+    "command": "D:/DevEco/Studio/tools/node/node.exe D:/DevEco/Studio/tools/hvigor/bin/hvigorw.js assembleApp --no-daemon",
+    "cwd": "mobile/openharmony",
+    "exitCode": 0,
+    "duration": "21 s 4 ms"
+  },
+  "structure": {
+    "command": "node scripts/mobile/verification/structure.mjs",
+    "exitCode": 0,
+    "violations": []
+  },
+  "hap": {
+    "bytes": 1088637,
+    "sha256": "07018664b653823f74f7ac99c33d0f797f385d472f1a1be5cc46119594f21036",
+    "buildMode": "release",
+    "signed": false,
+    "installedThisRound": false
+  },
+  "limits": [
+    "Node SQLite file close/reopen and native API mocks, not Hypium or real device process-kill evidence.",
+    "No simulator acceptance required before further development per user instruction.",
+    "No photos, complete checklists or upload/command outbox in this first batch.",
+    "Unsaved typing is not durable; explicit Save writes local notes.",
+    "Offline cached scope is last-known authorization; current authorization cannot be verified offline."
+  ]
+}

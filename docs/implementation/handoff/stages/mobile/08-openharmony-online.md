@@ -170,3 +170,6 @@ S8-06模拟器在线闭环自验满足，阶段8整体仍在进行中；真机�
 最新[工程师补验](../../reports/mobile/review/08-evidence-gap-review.md)已取得Web真实验收/复查及媒体途中归档拦截证据，原未知结果文案与重试缺口关闭。
 代码`97f8ddc`补充权限变化的中性照片提示及当前视口toast，107项原生回归和SDK构建通过，实际提示仍待复验。
 见[返修交接](../../reports/mobile/review/followups/photo-feedback.md)，宽窗、软键盘、真实读屏、真机仍未验证；阶段7A、8继续待补证据，未进入9。
+
+后续用户明确“不用验证，继续开始”：现已直接进入[阶段9研发](09-offline-sync.md)，以上“未进入9”仅描述之前批次。
+阶段7A/8未验项继续保留，不伪改为通过；离线随身包首批见[阶段9报告](../../reports/mobile/offline/01-local-pack.md)。
