@@ -101,7 +101,8 @@ export class EventSession {
         this.deactivate(); this.options.invalidate(errorMessage(error as Error)); return;
       }
       if (error.status && error.status >= 400 && error.status < 500) this.pending = null;
-      this.phase(error.status === 409 ? 'conflict' : this.pending && sent ? 'unknown' : 'error', errorMessage(error as Error));
+      const phase = error.status === 409 ? 'conflict' : this.pending && sent ? 'unknown' : 'error';
+      this.phase(phase, phase === 'unknown' ? '办理结果待核验，服务端可能已保存。请用原请求核验，勿另建重复操作。' : errorMessage(error as Error));
     }
   }
 }
