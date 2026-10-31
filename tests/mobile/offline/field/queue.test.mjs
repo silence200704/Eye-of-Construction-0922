@@ -30,3 +30,12 @@ test('a complete inspection workflow is enqueued atomically and idempotently', a
   assert.equal(rows.length, 2); assert.deepEqual(rows[1].dependencies, [rows[0].id])
   await f.vault.close()
 })
+test('reopening a draft after enqueue cannot create a second logical field command', async () => {
+  const { FieldQueue } = native('core/offline/field/FieldQueue.ets')
+  const f = await queueFixture(), queue = new FieldQueue(f.vault)
+  const write = { path: '/issues', kind: 'issue', targetId: '', body: '{"submissionId":"stable-draft"}' }
+  const first = await queue.enqueue(f.pack.scope, write, [])
+  const second = await queue.enqueue(f.pack.scope, write, [])
+  assert.equal(first.id, second.id); assert.equal((await queue.list(f.pack.scope)).length, 1)
+  await f.vault.close()
+})
