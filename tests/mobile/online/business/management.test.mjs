@@ -2,6 +2,16 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import { native } from '../../nativeLoader.mjs'
 
+test('assigned owner can prepare a repair draft without acquiring completion permission', () => {
+  const { startBusiness } = native('core/business/BusinessStart.ets')
+  const { orderAllowed } = native('core/field/OrderPolicy.ets')
+  const order = { id: 'w', status: 'assigned', rev: 2, assigneeId: 'r', measures: '', materials: '' }
+  const state = { user: { id: 'r', role: 'repair' }, workspace: { orders: [order] } }
+  assert.equal(JSON.parse(startBusiness(state, 'order', 'w', 'draft')).action, 'submitted')
+  assert.equal(orderAllowed(order, state.user, 'submitted'), false)
+  assert.throws(() => startBusiness({ ...state, user: { id: 'other', role: 'repair' } }, 'order', 'w', 'draft'))
+})
+
 test('mobile management exposes the six review exits and identity based order actions', () => {
   const { reviewActions, orderActions, selectOrders } = native('core/business/BusinessPolicy.ets')
   assert.equal(reviewActions({ status: 'pending_review' }, { role: 'safety' }).length, 6)
