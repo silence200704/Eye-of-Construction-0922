@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { native } from '../nativeLoader.mjs'
+import { native } from '../../nativeLoader.mjs'
 test('visible refresh is single flight, backs off and cancels background scheduling', async () => {
   const { LiveRefresh } = native('core/business/refresh/LiveRefresh.ets')
   const jobs = new Map(); let n = 0; const delays = []; let calls = 0

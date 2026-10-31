@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { native } from '../nativeLoader.mjs'
+import { native } from '../../nativeLoader.mjs'
 
 test('mobile management exposes the six review exits and identity based order actions', () => {
   const { reviewActions, orderActions, selectOrders } = native('core/business/BusinessPolicy.ets')
@@ -61,4 +61,16 @@ test('native inspection commander restores a sent request after process recreati
   const next = new TaskCommander(options); await next.restore()
   assert.equal(state.phase, 'unknown'); fail = false; await next.retry()
   assert.equal(keys[0], keys[1]); assert.equal(saved.phase, 'done')
+})
+test('an incomplete action response never claims success, while rendering errors cannot undo confirmation', async () => {
+  const { BusinessSession } = native('core/business/BusinessSession.ets')
+  const user = { id: 's', role: 'safety', buildingIds: null }
+  let state, valid = false
+  const access = { baseUrl: 'http://localhost', user, workspace: { epoch: 1 } }
+  access.client = { send: async path => path === '/auth/me' ? { data: user } :
+    { meta: { datasetEpoch: 1 }, data: { order: { id: 'w', rev: valid ? 2 : 1, status: valid ? 'assigned' : 'created' } } } }
+  const session = new BusinessSession({ access: () => access, onChange: v => { state = v }, onResult: () => { throw new Error('render failed') } })
+  await session.submit({ path: '/work-orders/w/actions', kind: 'order', targetId: 'w', body: '{"expectedRev":1,"to":"assigned"}' })
+  assert.equal(state.phase, 'unknown')
+  valid = true; await session.retry(); assert.equal(state.phase, 'done')
 })

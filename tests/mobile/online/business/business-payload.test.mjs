@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { native } from '../nativeLoader.mjs'
+import { native } from '../../nativeLoader.mjs'
 
 test('review, dispatch, acceptance and recheck produce existing API commands', () => {
   const { BusinessDraft, businessWrite } = native('core/business/BusinessDraft.ets')
