@@ -1,6 +1,7 @@
 import { OfflineVault } from '../offline/OfflineVault';
 import { PendingBusiness, BusinessJournal } from './BusinessModels';
 import { ApiError } from '../network/ApiError';
+import { requestDigest } from './persistence/RequestDigest';
 
 export class BusinessStore {
   private vault: OfflineVault;
@@ -12,9 +13,14 @@ export class BusinessStore {
   }
   commands(scope: string): Promise<PendingBusiness[]> {
     return this.vault.query(async (db) => (await db.read('SELECT body FROM business_commands WHERE scope=? ORDER BY rowid', [scope]))
-      .map((body) => JSON.parse(body) as PendingBusiness));
+      .map((body) => {
+        const row = JSON.parse(body) as PendingBusiness;
+        if (row.requestHash && row.requestHash !== requestDigest(row.write.body)) throw new Error('本地请求校验失败，请保留数据。');
+        return row;
+      }));
   }
   save(pending: PendingBusiness): Promise<void> {
+    pending.requestHash = requestDigest(pending.write.body);
     const body = JSON.stringify(pending);
     return this.vault.transact(async (db) => {
       const rows = await db.read('SELECT body FROM business_commands WHERE id=?', [pending.key]);

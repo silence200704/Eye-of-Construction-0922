@@ -59,7 +59,10 @@ export class BusinessSession {
   private validate(result: BusinessResult, write: BusinessWrite): void {
     const row = write.kind === 'order' ? result.order : write.kind === 'issue' ? result.issue :
       write.kind === 'event' ? result.event : result.task ?? result.maintenance;
-    if (!row || !row.id || (write.targetId && row.id !== write.targetId) || !Number.isInteger(row.rev)) {
+    const body = JSON.parse(write.body) as Record<string, string | number>;
+    if (!row || !row.id || (write.targetId && row.id !== write.targetId) || !Number.isInteger(row.rev) ||
+      typeof body['expectedRev'] === 'number' && row.rev <= Number(body['expectedRev']) ||
+      write.kind === 'order' && body['to'] && row.status !== body['to']) {
       throw new ApiError('INVALID_RESPONSE', '返回内容不完整，请用原请求核验。');
     }
   }
@@ -79,12 +82,13 @@ export class BusinessSession {
       pending.phase = 'done'; pending.result = response.data; await this.options.journal?.save(pending);
       if (!this.current(access, generation)) return undefined;
       this.pending = null; this.publish('done', '服务端已保存，关联进度正在更新。');
-      this.options.onResult(response.data); return response.data;
+      try { this.options.onResult(response.data); } catch (_) { /* UI refresh cannot undo the persisted confirmation. */ }
+      return response.data;
     } catch (cause) {
       if (!this.current(access, generation)) return undefined;
       const error = cause as ApiError;
       const phase = error.status === 409 ? 'conflict' : error.status && error.status >= 400 && error.status < 500 ? 'error' : pending.sent ? 'unknown' : 'error';
-      pending.phase = phase;
+      pending.phase = pending.sent && [401, 403].includes(error.status ?? 0) ? 'unknown' : phase;
       try { await this.options.journal?.save(pending); } catch (_) { /* Keep the original request in memory. */ }
       if (phase !== 'unknown') this.pending = null;
       this.publish(phase, phase === 'unknown' ? '办理结果待核验，服务端可能已保存。请用原请求核验，勿重复新建。' : errorMessage(error as Error));
