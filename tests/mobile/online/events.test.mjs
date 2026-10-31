@@ -4,7 +4,7 @@ import {native} from '../nativeLoader.mjs'
 import {deferred,identity} from '../fixture.mjs'
 const {EventSession}=native('core/alerts/EventSession.ets')
 
-function fixture(){
+function fixture(journal){
  const views=[],saved=[],calls=[];let lost=false,wait=null
  const event={id:'e',eventNo:'E-1',pointId:'p',status:'pending',level:'red',rev:2,timeline:[]}
  const access={user:identity(),baseUrl:'http://localhost:8080',workspace:{epoch:1,events:[event],
@@ -17,7 +17,7 @@ function fixture(){
    data={...event,status:path.endsWith('/acknowledge')?'handling':event.status,rev:event.rev+1}}
   return {data,meta:{datasetEpoch:1}}
  }}
- const session=new EventSession({access:()=>access,onChange:s=>views.push(s),onEvent:e=>saved.push(e),invalidate:()=>session.deactivate()})
+ const session=new EventSession({journal,access:()=>access,onChange:s=>views.push(s),onEvent:e=>saved.push(e),invalidate:()=>session.deactivate()})
  return {session,access,event,views,saved,calls,lose:()=>lost=true,hold:p=>wait=p,current:()=>views.at(-1)}
 }
 
@@ -79,4 +79,14 @@ test('feedback stays bound to its event and action instead of leaking a previous
  await f.session.submit({eventId:'e',action:'field-notes',kind:'investigation',note:'短句'})
  assert.match(f.current().messageFor('e','field-notes'),/10/)
  assert.equal(f.current().messageFor('e','close'),'')
+})
+
+
+test('alarm unknown receipt survives a new session with the same frozen key',async()=>{
+ let stored;const journal={load:async()=>stored,save:async(row)=>{stored=structuredClone(row)}}
+ const first=fixture(journal);first.lose();await first.session.submit({eventId:'e',action:'acknowledge'})
+ assert.equal(stored?.phase,'unknown')
+ const second=fixture(journal);await second.session.restore();await second.session.retry()
+ assert.equal(second.calls.find(c=>c.options?.method==='POST').options.idempotencyKey,stored.key)
+ assert.equal(stored.phase,'done')
 })
