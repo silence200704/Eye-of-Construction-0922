@@ -13,6 +13,7 @@ export async function initializeOffline(db: LocalSql): Promise<void> {
     await db.execute('CREATE TABLE IF NOT EXISTS offline_operations (id TEXT PRIMARY KEY, scope TEXT NOT NULL, body TEXT NOT NULL)', []);
     await db.execute('CREATE TABLE IF NOT EXISTS business_forms (scope TEXT NOT NULL, target TEXT NOT NULL, body TEXT NOT NULL, PRIMARY KEY(scope,target))', []);
     await db.execute('CREATE TABLE IF NOT EXISTS business_commands (id TEXT PRIMARY KEY, scope TEXT NOT NULL, body TEXT NOT NULL)', []);
+    await db.execute('CREATE TABLE IF NOT EXISTS field_operations (id TEXT PRIMARY KEY, scope TEXT NOT NULL, body TEXT NOT NULL)', []);
     await db.execute('INSERT OR REPLACE INTO offline_schema (id,version) VALUES (1,3)', []);
     await db.execute('COMMIT', []);
   } catch (cause) { await db.execute('ROLLBACK', []); throw cause as Error; }
