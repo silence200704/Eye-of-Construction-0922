@@ -128,6 +128,9 @@ export function createHttpClient(options: ClientOptions = {}) {
       if (!response.ok || success.ok !== true || !('data' in success)) {
         throw transportError('INVALID_RESPONSE', '服务响应与 HTTP 状态不一致')
       }
+      if (!input.anonymous && options.token?.() !== token) {
+        throw transportError('STALE_IDENTITY', '身份已切换，本次旧响应已丢弃')
+      }
       return {
         data: success.data,
         rev: success.rev ?? null,
@@ -147,7 +150,10 @@ export function createHttpClient(options: ClientOptions = {}) {
 
   /** 受身份保护的内容读取（媒体原件/缩略图），直接返回 Blob。 */
   async function blob(path: string): Promise<Blob> {
-    return fetchProtectedBlob(fetcher, base, options.token?.() ?? null, path)
+    const token = options.token?.() ?? null
+    const bytes = await fetchProtectedBlob(fetcher, base, token, path)
+    if ((options.token?.() ?? null) !== token) throw transportError('STALE_IDENTITY', '身份已切换，照片未打开')
+    return bytes
   }
 
   return { request, command: send, blob }
