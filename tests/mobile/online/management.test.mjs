@@ -40,3 +40,25 @@ test('management writes preserve a fixed request across response loss and reject
   await session.retry()
   assert.equal(calls.length, 2)
 })
+test('native inspection commander restores a sent request after process recreation', async () => {
+  const { TaskCommander } = native('core/field/TaskCommander.ets')
+  const user = { id: 'i', role: 'inspector', buildingIds: null }
+  const task = { id: 't', rev: 1, buildingId: 'b', planSnapshot: { executorRole: 'inspector', pointIds: ['p'] } }
+  const access = { user, baseUrl: 'http://localhost', workspace: { epoch: 1, tasks: [task], points: [{ id: 'p', buildingId: 'b', status: 'active' }] } }
+  let saved; const keys = []; let fail = true
+  access.client = { send: async (path, opts) => {
+    if (path === '/auth/me') return { data: user }
+    keys.push(opts.idempotencyKey)
+    if (fail) throw new Error('response lost')
+    return { meta: { datasetEpoch: 1 }, data: { task: { ...task, rev: 2 } } }
+  } }
+  const journal = { load: async () => saved, save: async value => { saved = structuredClone(value) } }
+  let state
+  const options = { access: () => access, onState: s => { state = s }, onTask: t => t, invalidate: () => {}, journal }
+  const first = new TaskCommander(options)
+  await first.submit({ taskId: 't', pointId: 'p', action: 'check-in', body: '{"expectedRev":1,"pointId":"p"}' })
+  assert.equal(saved?.phase, 'unknown')
+  const next = new TaskCommander(options); await next.restore()
+  assert.equal(state.phase, 'unknown'); fail = false; await next.retry()
+  assert.equal(keys[0], keys[1]); assert.equal(saved.phase, 'done')
+})
