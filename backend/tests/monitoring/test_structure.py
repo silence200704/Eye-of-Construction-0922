@@ -12,6 +12,7 @@ DIRECTORIES = [
     ROOT / "operations" / "assistant",
     ROOT / "operations" / "datasets",
     ROOT / "operations" / "field",
+    ROOT / "operations" / "showcase",
     ROOT / "operations" / "knowledge",
     ROOT / "operations" / "media",
     ROOT / "db" / "models" / "knowledge",

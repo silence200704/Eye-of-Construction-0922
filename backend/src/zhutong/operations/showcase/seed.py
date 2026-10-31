@@ -58,32 +58,7 @@ def seed_sensor(session, workspace, location, spec):
                 "effectiveFrom": at(-1440),
             },
         )
-    versions.create_rule(
-        session,
-        workspace,
-        {
-            "code": f"SHOW-RULE-{kind}",
-            "name": "比赛模拟分级",
-            "metric": metric,
-            "unit": unit,
-            "enabled": True,
-            "buildingIds": [location["building"]],
-            "pointIds": [point["id"]],
-            "thresholds": {"yellow": 0.1, "orange": 0.2, "red": 0.3},
-            "rateThreshold": None,
-            "persistence": {
-                "minRecords": 3,
-                "minSpanMinutes": 10,
-                "maxGapMinutes": 5,
-                "level": "orange",
-            },
-            "recovery": {"yellowRatio": 0.8, "minRecords": 3, "minSpanMinutes": 0},
-            "baselineSource": "none" if kind == "vibration" else "point",
-            "effectiveFrom": at(-1440),
-            "source": "比赛模拟",
-            "note": "仅演示软件链路，不作为工程安全阈值",
-        },
-    )
+    seed_rule(session, workspace, point, spec)
     records.create_record(
         session,
         workspace,
@@ -101,6 +76,36 @@ def seed_sensor(session, workspace, location, spec):
     )
     location["points"].append(point["id"])
     location["devices"].append(device["id"])
+
+
+def seed_rule(session, workspace, point, spec):
+    kind, metric, _, unit = spec
+    versions.create_rule(
+        session,
+        workspace,
+        {
+            "code": f"SHOW-RULE-{kind}",
+            "name": "比赛模拟分级",
+            "metric": metric,
+            "unit": unit,
+            "enabled": True,
+            "buildingIds": [point["buildingId"]],
+            "pointIds": [point["id"]],
+            "thresholds": {"yellow": 0.1, "orange": 0.2, "red": 0.3},
+            "rateThreshold": None,
+            "persistence": {
+                "minRecords": 3,
+                "minSpanMinutes": 10,
+                "maxGapMinutes": 5,
+                "level": "orange",
+            },
+            "recovery": {"yellowRatio": 0.8, "minRecords": 3, "minSpanMinutes": 0},
+            "baselineSource": "none" if kind == "vibration" else "point",
+            "effectiveFrom": at(-1440),
+            "source": "比赛模拟",
+            "note": "仅演示软件链路，不作为工程安全阈值",
+        },
+    )
 
 
 def seed_tasks(session, workspace, location):

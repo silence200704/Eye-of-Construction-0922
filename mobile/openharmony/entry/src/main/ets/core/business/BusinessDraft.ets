@@ -1,6 +1,7 @@
 import { PhotoLink } from '../../data/models/Reports';
 import { ChecklistAnswer } from '../../data/models/Tasks';
 import { BusinessWrite } from './BusinessModels';
+import { reportId } from '../report/ReportDraft';
 
 export class BusinessDraft {
   kind: string = ''; targetId: string = ''; rev: number = 0; action: string = 'to_repair';
@@ -9,11 +10,25 @@ export class BusinessDraft {
   outcome: string = 'recovered'; nextDueDate: string = ''; duplicateOf: string = ''; linkedEventId: string = '';
   noPhotoReason: string = ''; measures: string = ''; materials: string = ''; abnormalNote: string = '';
   createIssue: boolean = false; photos: PhotoLink[] = []; answers: ChecklistAnswer[] = [];
+  anomalyType: string = ''; description: string = ''; buildingId: string = ''; floorId: string = '';
+  taskId: string = ''; submissionId: string = reportId();
+  eventId: string = '';
+  existingPhotoCount: number = 0; existingPhotoBytes: number = 0; requirePhoto: boolean = false;
+  requiredAnswerKeys: string[] = [];
 }
 export function validDay(value: string): boolean {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
   const date = new Date(`${value}T00:00:00Z`);
   return !Number.isNaN(date.getTime()) && date.toISOString().slice(0, 10) === value;
+}
+export function businessFormKey(draft: BusinessDraft): string {
+  return `${draft.kind}:${draft.targetId || draft.taskId || draft.buildingId}:${draft.pointId}:${draft.action}`;
+}
+export function deadline(value: string): string | null {
+  if (!value.trim()) return null;
+  if (validDay(value)) return `${value}T18:00:00+08:00`;
+  if (!Number.isNaN(new Date(value).getTime()) && /^\d{4}-\d{2}-\d{2}T/.test(value)) return value;
+  throw new Error('截止日期无效，请选择快捷日期或填写 YYYY-MM-DD。');
 }
 export interface ReviewPayload {
   expectedRev: number; action: string; category: string; note: string; duplicateOf: string | null;
@@ -34,17 +49,30 @@ function orderBody(d: BusinessDraft): string {
   if (['returned', 'verified'].includes(d.action) && !d.note.trim()) throw new Error('请填写验收意见。');
   if (d.action === 'submitted' && !d.measures.trim()) throw new Error('请填写维修措施。');
   return JSON.stringify({ expectedRev: d.rev, to: d.action, note: d.note.trim(),
-    assigneeId: d.action === 'assigned' ? d.assigneeId : undefined, dueAt: d.dueAt || undefined,
+    assigneeId: d.action === 'assigned' ? d.assigneeId : undefined, dueAt: deadline(d.dueAt) ?? undefined,
     measures: d.action === 'submitted' ? d.measures.trim() : undefined,
     materials: d.action === 'submitted' ? d.materials.trim() : undefined, photos: d.photos });
 }
 export function businessWrite(d: BusinessDraft): BusinessWrite {
   let path = '', body = '', kind = 'issue'; const id = encodeURIComponent(d.targetId);
   if (d.kind === 'review') { path = `/issues/${id}/review`; body = JSON.stringify(reviewBody(d)); }
+  if (d.kind === 'report') {
+    if (!d.anomalyType.trim() || !d.description.trim() || !d.buildingId) throw new Error('请填写异常类型、现场描述及位置。');
+    path = d.taskId ? `/inspection/tasks/${encodeURIComponent(d.taskId)}/issues` : '/issues'; kind = d.taskId ? 'task' : 'issue';
+    body = JSON.stringify({ expectedRev: d.taskId ? d.rev : undefined, pointId: d.pointId || null,
+      buildingId: d.taskId ? undefined : d.buildingId, floorId: d.taskId ? undefined : d.floorId,
+      source: d.taskId ? undefined : d.eventId ? 'sensor' : 'report', eventId: d.eventId || undefined,
+      anomalyType: d.anomalyType, description: d.description, submissionId: d.submissionId, photos: d.photos });
+  }
+  if (d.kind === 'supplement') {
+    if (d.note.trim().length < 10) throw new Error('补充说明至少10字，请按审核要求补充。');
+    if (d.requirePhoto && !d.photos.length) throw new Error('本次审核要求补充新的现场照片。');
+    path = `/issues/${id}/supplements`; body = JSON.stringify({ expectedRev: d.rev, note: d.note, photos: d.photos });
+  }
   if (d.kind === 'order') { path = `/work-orders/${id}/actions`; body = orderBody(d); kind = 'order'; }
   if (d.kind === 'manual') {
     if (!d.title.trim()) throw new Error('请填写工单标题。');
-    path = '/work-orders'; kind = 'order'; body = JSON.stringify({ title: d.title.trim(), pointId: d.pointId || null, dueAt: d.dueAt || null, note: d.note });
+    path = '/work-orders'; kind = 'order'; body = JSON.stringify({ title: d.title.trim(), pointId: d.pointId || null, dueAt: deadline(d.dueAt), note: d.note });
   }
   if (d.kind === 'recheck') {
     if (!d.subject.trim() || !d.owner.trim() || !validDay(d.dueDate)) throw new Error('请填写复查事项、责任人和有效日期。');
@@ -58,12 +86,13 @@ export function businessWrite(d: BusinessDraft): BusinessWrite {
   }
   if (d.kind === 'maintenance') {
     if (!d.measures.trim() || !validDay(d.nextDueDate)) throw new Error('请填写保养措施和下次保养日期。');
-    if (d.answers.some((row) => !row.result || row.result === 'abnormal' && !row.note.trim())) throw new Error('请完成清单，异常项填写依据。');
+    if (d.answers.some((row) => !row.result && (d.requiredAnswerKeys ?? []).includes(row.key) || row.result === 'abnormal' && !row.note.trim())) throw new Error('请完成必答清单，异常项填写依据。');
+    if (d.answers.some((row) => row.result === 'abnormal') && !d.abnormalNote.trim()) throw new Error('存在异常，请填写异常说明。');
     if (d.createIssue && !d.abnormalNote.trim()) throw new Error('异常转问题请填写异常说明。');
     path = `/maintenance/tasks/${id}/execute`; kind = 'maintenance';
-    body = JSON.stringify({ expectedRev: d.rev, answers: d.answers, measures: d.measures, materials: d.materials,
+    body = JSON.stringify({ expectedRev: d.rev, answers: d.answers.filter((row) => !!row.result), measures: d.measures, materials: d.materials,
       nextDueDate: d.nextDueDate, note: d.note, abnormalNote: d.abnormalNote, createIssue: d.createIssue, photos: d.photos });
   }
   if (!path) throw new Error('当前办理方式不可用。');
-  return { path, body, kind, targetId: d.kind === 'manual' ? '' : d.targetId };
+  return { path, body, kind, targetId: d.kind === 'manual' || d.kind === 'report' && !d.taskId ? '' : d.kind === 'report' ? d.taskId : d.targetId };
 }

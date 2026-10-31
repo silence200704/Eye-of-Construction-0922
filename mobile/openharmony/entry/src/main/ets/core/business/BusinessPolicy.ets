@@ -20,6 +20,10 @@ export function orderActions(order: WorkOrder, user: Identity | null): string[] 
     order.status === 'submitted' ? ['verified', 'returned'] : [];
   return ['repairing', 'submitted'].filter((action) => orderAllowed(order, user, action));
 }
+export function canPrepareRepair(order: WorkOrder, user: Identity | null): boolean {
+  return !!user && ['repair', 'property'].includes(user.role) && order.assigneeId === user.id &&
+    ['assigned', 'returned'].includes(order.status);
+}
 export interface OrderFilter { userId: string; mine: boolean; status: string; search: string; pointId: string; }
 export function selectOrders(orders: WorkOrder[], query: OrderFilter): WorkOrder[] {
   const text = query.search.trim().toLowerCase();

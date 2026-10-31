@@ -1,0 +1,237 @@
+ Image zhutong-web:stage1 Building 
+ Image zhutong-api:stage1 Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.41kB 0.0s done
+#1 DONE 0.0s
+
+#2 [api internal] load build definition from api.Dockerfile
+#2 transferring dockerfile: 708B done
+#2 DONE 0.1s
+
+#3 [web internal] load build definition from web.Dockerfile
+#3 transferring dockerfile: 408B done
+#3 DONE 0.1s
+
+#4 [api internal] load metadata for ghcr.io/astral-sh/uv:0.11.7
+#4 DONE 3.3s
+
+#5 [web internal] load metadata for docker.io/library/nginx:1.28-alpine
+#5 DONE 4.4s
+
+#6 [web internal] load metadata for docker.io/library/node:24-alpine
+#6 DONE 4.5s
+
+#7 [api internal] load metadata for docker.io/library/python:3.12.13-slim
+#7 ...
+
+#8 [web internal] load .dockerignore
+#8 transferring context: 152B done
+#8 DONE 0.1s
+
+#9 [web internal] load build context
+#9 DONE 0.0s
+
+#10 [web stage-1 1/3] FROM docker.io/library/nginx:1.28-alpine@sha256:a8b39bd9cf0f83869a2162827a0caf6137ddf759d50a171451b335cecc87d236
+#10 resolve docker.io/library/nginx:1.28-alpine@sha256:a8b39bd9cf0f83869a2162827a0caf6137ddf759d50a171451b335cecc87d236 0.1s done
+#10 DONE 0.1s
+
+#11 [web build 1/8] FROM docker.io/library/node:24-alpine@sha256:8a32c8cf649a49915a66e81e7a609223c708d0adabf288ee3f4077d765542f85
+#11 resolve docker.io/library/node:24-alpine@sha256:8a32c8cf649a49915a66e81e7a609223c708d0adabf288ee3f4077d765542f85 0.1s done
+#11 DONE 0.1s
+
+#9 [web internal] load build context
+#9 ...
+
+#7 [api internal] load metadata for docker.io/library/python:3.12.13-slim
+#7 DONE 5.0s
+
+#12 [api internal] load .dockerignore
+#12 transferring context: 151B done
+#12 DONE 0.1s
+
+#13 [api internal] load build context
+#13 DONE 0.0s
+
+#14 [api uv 1/1] FROM ghcr.io/astral-sh/uv:0.11.7@sha256:240fb85ab0f263ef12f492d8476aa3a2e4e1e333f7d67fbdd923d00a506a516a
+#14 resolve ghcr.io/astral-sh/uv:0.11.7@sha256:240fb85ab0f263ef12f492d8476aa3a2e4e1e333f7d67fbdd923d00a506a516a 0.1s done
+#14 DONE 0.1s
+
+#15 [api stage-1 1/9] FROM docker.io/library/python:3.12.13-slim@sha256:229a2c5bfa27522db7815ea81f9bed70af17ccb9de9fc7ad142b1877b5830d36
+#15 resolve docker.io/library/python:3.12.13-slim@sha256:229a2c5bfa27522db7815ea81f9bed70af17ccb9de9fc7ad142b1877b5830d36 0.1s done
+#15 DONE 0.1s
+
+#13 [api internal] load build context
+#13 transferring context: 2.12MB 0.2s done
+#13 DONE 0.2s
+
+#16 [api stage-1 2/9] COPY --from=uv /uv /uvx /bin/
+#16 CACHED
+
+#17 [api stage-1 3/9] WORKDIR /app
+#17 CACHED
+
+#18 [api stage-1 4/9] COPY pyproject.toml uv.lock ./
+#18 CACHED
+
+#19 [api stage-1 5/9] RUN uv sync --frozen --no-dev --no-install-project
+#19 CACHED
+
+#20 [api stage-1 6/9] COPY src ./src
+#20 DONE 0.3s
+
+#9 [web internal] load build context
+#9 transferring context: 17.55MB 1.1s done
+#9 DONE 1.1s
+
+#21 [api stage-1 7/9] COPY migrations ./migrations
+#21 DONE 0.1s
+
+#22 [web build 2/8] WORKDIR /app
+#22 CACHED
+
+#23 [web build 3/8] COPY package.json package-lock.json ./
+#23 CACHED
+
+#24 [web build 4/8] RUN npm ci
+#24 CACHED
+
+#25 [web build 5/8] COPY index.html tsconfig*.json vite.config.ts ./
+#25 CACHED
+
+#26 [web build 6/8] COPY src ./src
+#26 DONE 0.2s
+
+#27 [api stage-1 8/9] COPY alembic.ini ./
+#27 DONE 0.1s
+
+#28 [api stage-1 9/9] RUN uv sync --frozen --no-dev && useradd --uid 10001 --create-home zhutong     && mkdir /data && chown -R zhutong:zhutong /data /app
+#28 ...
+
+#29 [web build 7/8] COPY public ./public
+#29 DONE 0.2s
+
+#30 [web build 8/8] RUN npm run build
+#30 0.761 
+#30 0.761 > zhutong-demo@0.3.0 build
+#30 0.761 > vue-tsc --noEmit -p tsconfig.app.json && vite build
+#30 0.761 
+#30 ...
+
+#28 [api stage-1 9/9] RUN uv sync --frozen --no-dev && useradd --uid 10001 --create-home zhutong     && mkdir /data && chown -R zhutong:zhutong /data /app
+#28 0.855    Building zhutong-backend @ file:///app
+#28 8.964       Built zhutong-backend @ file:///app
+#28 8.966 Prepared 1 package in 8.11s
+#28 8.969 Installed 1 package in 3ms
+#28 9.380 Bytecode compiled 2139 files in 411ms
+#28 9.380  + zhutong-backend==0.1.0 (from file:///app)
+#28 ...
+
+#30 [web build 8/8] RUN npm run build
+#30 14.22 vite v6.4.3 building for production...
+#30 14.41 transforming...
+#30 23.63 ✓ 1285 modules transformed.
+#30 24.21 rendering chunks...
+#30 24.45 [plugin vite:reporter] 
+#30 24.45 (!) /app/src/stores/inspection/issues.ts is dynamically imported by /app/src/stores/inspection/workOrders.ts but also statically imported by /app/src/App.vue?vue&type=script&setup=true&lang.ts, /app/src/assistant/selectors/snapshot.ts, /app/src/components/demo/ResponseJourney.vue?vue&type=script&setup=true&lang.ts, /app/src/components/inspection/issue/EventIssueForm.vue?vue&type=script&setup=true&lang.ts, /app/src/components/inspection/issue/IssueDetail.vue?vue&type=script&setup=true&lang.ts, /app/src/components/inspection/issue/IssueRecheckPanel.vue?vue&type=script&setup=true&lang.ts, /app/src/components/inspection/issue/IssueReviewPanel.vue?vue&type=script&setup=true&lang.ts, /app/src/components/inspection/issue/ManualIssueForm.vue?vue&type=script&setup=true&lang.ts, /app/src/components/inspection/issue/WorkOrderPanel.vue?vue&type=script&setup=true&lang.ts, /app/src/components/inspection/task/TaskDetail.vue?vue&type=script&setup=true&lang.ts, /app/src/components/maintenance/MaintenanceTaskDetail.vue?vue&type=script&setup=true&lang.ts, /app/src/components/panels/EventDetailPanel.vue?vue&type=script&setup=true&lang.ts, /app/src/components/settings/IntegrityPanel.vue?vue&type=script&setup=true&lang.ts, /app/src/core/app/live/businessRefresh.ts, /app/src/stores/demo/scenarios.ts, /app/src/stores/demo/showcase/mainChain.ts, /app/src/stores/demo/showcase/session.ts, /app/src/stores/events.ts, /app/src/stores/inspection/tasks.ts, /app/src/stores/maintenance/tasks.ts, /app/src/stores/writes/demo/chain.ts, /app/src/stores/writes/demo/coverage/history.ts, /app/src/stores/writes/demo/coverage/index.ts, /app/src/stores/writes/demo/coverage/inspection.ts, /app/src/stores/writes/demo/issue.ts, /app/src/stores/writes/demo/liveResponse.ts, /app/src/stores/writes/demo/service.ts, /app/src/stores/writes/demo/workOrder.ts, /app/src/views/SettingsView.vue?vue&type=script&setup=true&lang.ts, /app/src/views/operations/EventReportView.vue?vue&type=script&setup=true&lang.ts, /app/src/views/operations/IssuePoolView.vue?vue&type=script&setup=true&lang.ts, /app/src/views/operations/ReportsView.vue?vue&type=script&setup=true&lang.ts, dynamic import will not move module into another chunk.
+#30 24.45 
+#30 24.45 [plugin vite:reporter] 
+#30 24.45 (!) /app/src/stores/media.ts is dynamically imported by /app/src/assistant/director/entry.ts but also statically imported by /app/src/assistant/linkage/run.ts, /app/src/assistant/selectors/snapshot.ts, /app/src/assistant/video/task.ts, /app/src/components/assistant/AssistantPanel.vue?vue&type=script&setup=true&lang.ts, /app/src/components/assistant/preview/MediaPairPreview.vue?vue&type=script&setup=true&lang.ts, /app/src/components/assistant/preview/VisualEvidencePreview.vue?vue&type=script&setup=true&lang.ts, /app/src/components/media/MediaComparePanel.vue?vue&type=script&setup=true&lang.ts, /app/src/components/media/MediaSourcePanel.vue?vue&type=script&setup=true&lang.ts, /app/src/components/media/video/VideoEvidence.vue?vue&type=script&setup=true&lang.ts, /app/src/components/media/video/VideoPanel.vue?vue&type=script&setup=true&lang.ts, /app/src/db/migration/runtime.ts, /app/src/stores/demo/preparation/adapters.ts, /app/src/stores/demo/preparation/execute.ts, /app/src/stores/demo/preparation/objects.ts, /app/src/stores/demo/showcase/prepare.ts, /app/src/stores/demo/showcase/session.ts, /app/src/views/media/MediaView.vue?vue&type=script&setup=true&lang.ts, dynamic import will not move module into another chunk.
+#30 24.45 
+#30 24.45 [plugin vite:reporter] 
+#30 24.45 (!) /app/src/stores/demo/showcase/prepare.ts is dynamically imported by /app/src/assistant/director/entry.ts but also statically imported by /app/src/stores/demo/showcase/session.ts, dynamic import will not move module into another chunk.
+#30 24.45 
+#30 24.45 [plugin vite:reporter] 
+#30 24.45 (!) /app/src/stores/demo/showcase/session.ts is dynamically imported by /app/src/assistant/session.ts but also statically imported by /app/src/components/AppShell.vue?vue&type=script&setup=true&lang.ts, /app/src/components/demo/ShowcaseControls.vue?vue&type=script&setup=true&lang.ts, dynamic import will not move module into another chunk.
+#30 24.45 
+#30 24.45 [plugin vite:reporter] 
+#30 24.45 (!) /app/src/router/index.ts is dynamically imported by /app/src/stores/demo/showcase/session.ts but also statically imported by /app/src/main.ts, dynamic import will not move module into another chunk.
+#30 24.45 
+#30 24.49 computing gzip size...
+#30 24.53 dist/index.html                                     0.74 kB │ gzip:   0.46 kB
+#30 24.53 dist/assets/xiaotong-DsEQMHPA.png                 999.08 kB
+#30 24.53 dist/assets/PointTrendPreview-DC6bT750.css          1.50 kB │ gzip:   0.59 kB
+#30 24.53 dist/assets/WallSectionCard-DlaJ89Mx.css            2.13 kB │ gzip:   0.83 kB
+#30 24.53 dist/assets/KnowledgeView-DbJlpadE.css              2.62 kB │ gzip:   0.87 kB
+#30 24.53 dist/assets/MediaPairPreview-CnVaCUkl.css           4.09 kB │ gzip:   1.24 kB
+#30 24.53 dist/assets/VisualEvidencePreview-Coeegkza.css      4.10 kB │ gzip:   1.01 kB
+#30 24.53 dist/assets/MediaView-DMOwg9fI.css                  7.66 kB │ gzip:   1.75 kB
+#30 24.53 dist/assets/SpatialPanel-CwER4EMt.css               7.95 kB │ gzip:   2.10 kB
+#30 24.53 dist/assets/index-DIud-dDI.css                    131.48 kB │ gzip:  23.60 kB
+#30 24.53 dist/assets/VideoEvidencePreview-B-puCHu6.js        0.13 kB │ gzip:   0.12 kB
+#30 24.53 dist/assets/evidence-CIU8i4Tg.js                    0.25 kB │ gzip:   0.21 kB
+#30 24.53 dist/assets/WallSectionCard-iijhclox.js             1.59 kB │ gzip:   0.77 kB
+#30 24.53 dist/assets/answers-D6ZqGoId.js                     2.22 kB │ gzip:   1.43 kB
+#30 24.53 dist/assets/task-CSW3wq4W.js                        2.34 kB │ gzip:   1.38 kB
+#30 24.53 dist/assets/PointTrendPreview-CZyMoV_o.js           2.40 kB │ gzip:   1.39 kB
+#30 24.53 dist/assets/recovery-B8ucUC4m.js                    4.99 kB │ gzip:   2.37 kB
+#30 24.53 dist/assets/answer-i5knKFzV.js                      5.65 kB │ gzip:   2.94 kB
+#30 24.53 dist/assets/VisualEvidencePreview-sk_AP_XM.js       8.34 kB │ gzip:   3.42 kB
+#30 24.53 dist/assets/MediaPairPreview-Cg6BsYQ-.js            8.93 kB │ gzip:   3.85 kB
+#30 24.53 dist/assets/run-Ce5o-V96.js                        11.92 kB │ gzip:   5.53 kB
+#30 24.54 dist/assets/KnowledgeView-ubAJyWas.js              13.82 kB │ gzip:   5.57 kB
+#30 24.54 dist/assets/task-DNY5tRa4.js                       16.50 kB │ gzip:   7.19 kB
+#30 24.54 dist/assets/MediaView-CagZONia.js                  22.47 kB │ gzip:   9.12 kB
+#30 24.54 dist/assets/SpatialPanel-W_UbyG3E.js               27.30 kB │ gzip:  10.91 kB
+#30 24.54 dist/assets/ui-runtime-DsKP9-86.js                113.14 kB │ gzip:  44.12 kB
+#30 24.54 dist/assets/echarts-BD7g0mvQ.js                   587.66 kB │ gzip: 201.96 kB
+#30 24.54 dist/assets/sceneBuild-BcUmDA3-.js                631.17 kB │ gzip: 163.77 kB
+#30 24.54 dist/assets/index-B-FooGo8.js                   1,073.07 kB │ gzip: 358.84 kB
+#30 24.54 
+#30 24.54 (!) Some chunks are larger than 900 kB after minification. Consider:
+#30 24.54 - Using dynamic import() to code-split the application
+#30 24.54 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+#30 24.54 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+#30 24.54 ✓ built in 10.28s
+#30 DONE 24.7s
+
+#28 [api stage-1 9/9] RUN uv sync --frozen --no-dev && useradd --uid 10001 --create-home zhutong     && mkdir /data && chown -R zhutong:zhutong /data /app
+#28 ...
+
+#31 [web stage-1 2/3] COPY deploy/nginx.conf /etc/nginx/nginx.conf
+#31 CACHED
+
+#32 [web stage-1 3/3] COPY --from=build /app/dist /usr/share/nginx/html
+#32 DONE 0.2s
+
+#28 [api stage-1 9/9] RUN uv sync --frozen --no-dev && useradd --uid 10001 --create-home zhutong     && mkdir /data && chown -R zhutong:zhutong /data /app
+#28 ...
+
+#33 [web] exporting to image
+#33 exporting layers
+#33 exporting layers 0.8s done
+#33 exporting manifest sha256:7734959c9e7bdd7d81a9740ac3e87397643342b8f978e7e0f86330532f823b4a 0.1s done
+#33 exporting config sha256:e3413c8bab85c17ef0fc42cf62af288d9dd79bc303d3fcad81b47d67de11f51d 0.1s done
+#33 exporting attestation manifest sha256:04c2dbff11e6e3ee99353692ec0ead4631e89cbac593533988b56729a75b29bc 0.1s done
+#33 exporting manifest list sha256:7644986b497ef95e8266bb9ef445f9df9b84ac8fd995cc7592280eff4f5f5cdf
+#33 exporting manifest list sha256:7644986b497ef95e8266bb9ef445f9df9b84ac8fd995cc7592280eff4f5f5cdf 0.1s done
+#33 naming to docker.io/library/zhutong-web:stage1 done
+#33 unpacking to docker.io/library/zhutong-web:stage1
+#33 unpacking to docker.io/library/zhutong-web:stage1 0.2s done
+#33 DONE 1.3s
+
+#28 [api stage-1 9/9] RUN uv sync --frozen --no-dev && useradd --uid 10001 --create-home zhutong     && mkdir /data && chown -R zhutong:zhutong /data /app
+#28 ...
+
+#34 [web] resolving provenance for metadata file
+#34 DONE 0.0s
+
+#28 [api stage-1 9/9] RUN uv sync --frozen --no-dev && useradd --uid 10001 --create-home zhutong     && mkdir /data && chown -R zhutong:zhutong /data /app
+#28 DONE 45.0s
+
+#35 [api] exporting to image
+#35 exporting layers
+#35 exporting layers 9.3s done
+#35 exporting manifest sha256:8b1395144ece524a61f6a0a42d0f9fa89a1c60e21e2084fb169877e6c1f17566 0.0s done
+#35 exporting config sha256:728118d7173e0b88ed3f5587eb4db1a96e76814edbb89062537f146ed279b5b1 0.0s done
+#35 exporting attestation manifest sha256:42ae408d7f825b15fc7ce0e302546bbb4c2a4967ffe161863a6e7f65bea13a18
+#35 exporting attestation manifest sha256:42ae408d7f825b15fc7ce0e302546bbb4c2a4967ffe161863a6e7f65bea13a18 0.0s done
+#35 exporting manifest list sha256:84bf201219b0bdab9162e9d17a673913581bec6028402bd03cdd7eeba8f5fe9c 0.0s done
+#35 naming to docker.io/library/zhutong-api:stage1 done
+#35 unpacking to docker.io/library/zhutong-api:stage1
+#35 unpacking to docker.io/library/zhutong-api:stage1 2.0s done
+#35 DONE 11.6s
+
+#36 [api] resolving provenance for metadata file
+#36 DONE 0.0s
+ Image zhutong-api:stage1 Built 
+ Image zhutong-web:stage1 Built 

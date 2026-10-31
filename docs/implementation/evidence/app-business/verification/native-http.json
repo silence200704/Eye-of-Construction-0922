@@ -1,0 +1,282 @@
+{
+  "source": "real loopback HTTP + production ArkTS builders/runners, not simulator UI",
+  "entries": [
+    {
+      "kind": "report",
+      "action": "to_repair",
+      "role": "safety",
+      "issueId": "iss_a437f8cd01da42279fae2357a3db8586",
+      "phase": "done",
+      "lostRetry": true
+    },
+    {
+      "kind": "review",
+      "action": "to_repair",
+      "role": "safety",
+      "issueId": "iss_a437f8cd01da42279fae2357a3db8586",
+      "orderId": "wo_47e1c6a139d24c2f98de7d75e63acccb",
+      "phase": "done",
+      "lostRetry": false
+    },
+    {
+      "kind": "order",
+      "action": "assigned",
+      "role": "safety",
+      "orderId": "wo_47e1c6a139d24c2f98de7d75e63acccb",
+      "phase": "done",
+      "lostRetry": false
+    },
+    {
+      "kind": "order",
+      "action": "repairing",
+      "role": "repair",
+      "orderId": "wo_47e1c6a139d24c2f98de7d75e63acccb",
+      "phase": "done",
+      "lostRetry": false
+    },
+    {
+      "kind": "order",
+      "action": "submitted",
+      "role": "repair",
+      "orderId": "wo_47e1c6a139d24c2f98de7d75e63acccb",
+      "phase": "done",
+      "lostRetry": false
+    },
+    {
+      "kind": "order",
+      "action": "returned",
+      "role": "safety",
+      "orderId": "wo_47e1c6a139d24c2f98de7d75e63acccb",
+      "phase": "done",
+      "lostRetry": false
+    },
+    {
+      "kind": "order",
+      "action": "repairing",
+      "role": "repair",
+      "orderId": "wo_47e1c6a139d24c2f98de7d75e63acccb",
+      "phase": "done",
+      "lostRetry": false
+    },
+    {
+      "kind": "order",
+      "action": "submitted",
+      "role": "repair",
+      "orderId": "wo_47e1c6a139d24c2f98de7d75e63acccb",
+      "phase": "done",
+      "lostRetry": false
+    },
+    {
+      "kind": "order",
+      "action": "verified",
+      "role": "safety",
+      "orderId": "wo_47e1c6a139d24c2f98de7d75e63acccb",
+      "phase": "done",
+      "lostRetry": false
+    },
+    {
+      "kind": "recheck",
+      "action": "to_repair",
+      "role": "safety",
+      "issueId": "iss_a437f8cd01da42279fae2357a3db8586",
+      "phase": "done",
+      "lostRetry": false
+    },
+    {
+      "kind": "outcome",
+      "action": "to_repair",
+      "role": "safety",
+      "issueId": "iss_a437f8cd01da42279fae2357a3db8586",
+      "phase": "done",
+      "lostRetry": false
+    },
+    {
+      "kind": "outcome",
+      "action": "to_repair",
+      "role": "safety",
+      "issueId": "iss_a437f8cd01da42279fae2357a3db8586",
+      "phase": "done",
+      "lostRetry": false
+    },
+    {
+      "originalPhotoReadback": [
+        "e6bc563fe09a923eae0e79a13305f403bd2f4c5197d8eb4c6d023644d617a6c5",
+        "e6bc563fe09a923eae0e79a13305f403bd2f4c5197d8eb4c6d023644d617a6c5",
+        "e6bc563fe09a923eae0e79a13305f403bd2f4c5197d8eb4c6d023644d617a6c5"
+      ],
+      "kinds": [
+        "before",
+        "after",
+        "acceptance"
+      ]
+    },
+    {
+      "mainChain": "closed",
+      "issueId": "iss_a437f8cd01da42279fae2357a3db8586",
+      "orderId": "wo_47e1c6a139d24c2f98de7d75e63acccb",
+      "eventId": "evt_cf5b3724873745f2a1bf05097fb7d5b2"
+    },
+    {
+      "kind": "maintenance",
+      "action": "to_repair",
+      "role": "device",
+      "phase": "done",
+      "lostRetry": false
+    },
+    {
+      "offlineWorkflow": [
+        {
+          "id": "http-offline-inspection-5-0",
+          "key": "http-offline-inspection-5-0-commit",
+          "phase": "done",
+          "requestHash": "b4dc6a013fe744036beae0a1c06b5e26bf137ad29909237575ab4c1c52977afb"
+        },
+        {
+          "id": "http-offline-inspection-5-1",
+          "key": "http-offline-inspection-5-1-commit",
+          "phase": "done",
+          "requestHash": "5ab7d6808272926fb9b126346e1da4bf06502607952ab366f3c465c0b509d33d"
+        },
+        {
+          "id": "http-offline-inspection-5-2",
+          "key": "http-offline-inspection-5-2-commit",
+          "phase": "done",
+          "requestHash": "293d1f232bf364477f87c7903b5a19ecebd5f5bae0208115403939556e7f1af4"
+        }
+      ],
+      "maintenanceId": "mp_13a9c6252e6a40f18fb023cd4884ba14@2026-11-01T01:00:00+00:00"
+    },
+    {
+      "kind": "report",
+      "action": "to_repair",
+      "role": "inspector",
+      "issueId": "iss_fad6d4f084b9415e935384e2f1e3adab",
+      "phase": "done",
+      "lostRetry": false
+    },
+    {
+      "kind": "review",
+      "action": "need_evidence",
+      "role": "safety",
+      "issueId": "iss_fad6d4f084b9415e935384e2f1e3adab",
+      "phase": "done",
+      "lostRetry": false
+    },
+    {
+      "kind": "supplement",
+      "action": "to_repair",
+      "role": "inspector",
+      "issueId": "iss_fad6d4f084b9415e935384e2f1e3adab",
+      "phase": "done",
+      "lostRetry": false
+    },
+    {
+      "kind": "review",
+      "action": "to_investigate",
+      "role": "safety",
+      "issueId": "iss_fad6d4f084b9415e935384e2f1e3adab",
+      "phase": "done",
+      "lostRetry": false
+    },
+    {
+      "kind": "report",
+      "action": "to_repair",
+      "role": "inspector",
+      "issueId": "iss_d78ce548e3a1489f94ddc5283d430284",
+      "phase": "done",
+      "lostRetry": false
+    },
+    {
+      "kind": "review",
+      "action": "recheck",
+      "role": "safety",
+      "issueId": "iss_d78ce548e3a1489f94ddc5283d430284",
+      "phase": "done",
+      "lostRetry": false
+    },
+    {
+      "kind": "recheck",
+      "action": "to_repair",
+      "role": "safety",
+      "issueId": "iss_d78ce548e3a1489f94ddc5283d430284",
+      "phase": "done",
+      "lostRetry": false
+    },
+    {
+      "kind": "outcome",
+      "action": "to_repair",
+      "role": "safety",
+      "issueId": "iss_d78ce548e3a1489f94ddc5283d430284",
+      "phase": "done",
+      "lostRetry": false
+    },
+    {
+      "kind": "report",
+      "action": "to_repair",
+      "role": "inspector",
+      "issueId": "iss_274548c58d4d48c7b5d4395f5c3e1d65",
+      "phase": "done",
+      "lostRetry": false
+    },
+    {
+      "kind": "review",
+      "action": "link_object",
+      "role": "safety",
+      "issueId": "iss_274548c58d4d48c7b5d4395f5c3e1d65",
+      "phase": "done",
+      "lostRetry": false
+    },
+    {
+      "kind": "report",
+      "action": "to_repair",
+      "role": "inspector",
+      "issueId": "iss_de091da46acf4b76bafb0182d64179d1",
+      "phase": "done",
+      "lostRetry": false
+    },
+    {
+      "kind": "review",
+      "action": "close_no_fault",
+      "role": "safety",
+      "issueId": "iss_de091da46acf4b76bafb0182d64179d1",
+      "phase": "done",
+      "lostRetry": false
+    },
+    {
+      "kind": "report",
+      "action": "to_repair",
+      "role": "inspector",
+      "issueId": "iss_f9a82c9641644c6db99cf98ee2f1539d",
+      "phase": "done",
+      "lostRetry": false
+    },
+    {
+      "kind": "review",
+      "action": "close_no_fault",
+      "role": "safety",
+      "issueId": "iss_f9a82c9641644c6db99cf98ee2f1539d",
+      "phase": "done",
+      "lostRetry": false
+    },
+    {
+      "kind": "manual",
+      "action": "to_repair",
+      "role": "safety",
+      "orderId": "wo_1cd090fb6ad848eaba052b0a14916838",
+      "phase": "done",
+      "lostRetry": false
+    },
+    {
+      "reviewBranches": [
+        "need_evidence+supplement",
+        "to_investigate",
+        "recheck+recurred",
+        "link_object",
+        "close_no_fault",
+        "handled"
+      ],
+      "manualOrderId": "wo_1cd090fb6ad848eaba052b0a14916838"
+    }
+  ],
+  "passed": true
+}

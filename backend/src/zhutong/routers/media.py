@@ -59,7 +59,9 @@ async def upload(
     record, replayed = await MediaService(repository, binaries(request)).upload(
         MediaContext(dataset_id, actor), spec, request.stream()
     )
-    envelope = ok(request, record.public(), meta={"datasetEpoch": repository.dataset_epoch(dataset_id)})
+    envelope = ok(
+        request, record.public(), meta={"datasetEpoch": repository.dataset_epoch(dataset_id)}
+    )
     envelope["replayed"] = replayed
     return JSONResponse(envelope, status_code=200 if replayed else 201)
 
