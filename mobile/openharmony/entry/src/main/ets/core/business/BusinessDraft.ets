@@ -1,0 +1,69 @@
+import { PhotoLink } from '../../data/models/Reports';
+import { ChecklistAnswer } from '../../data/models/Tasks';
+import { BusinessWrite } from './BusinessModels';
+
+export class BusinessDraft {
+  kind: string = ''; targetId: string = ''; rev: number = 0; action: string = 'to_repair';
+  category: string = 'equipment'; note: string = ''; assigneeId: string = ''; dueAt: string = '';
+  title: string = ''; pointId: string = ''; subject: string = ''; owner: string = ''; dueDate: string = '';
+  outcome: string = 'recovered'; nextDueDate: string = ''; duplicateOf: string = ''; linkedEventId: string = '';
+  noPhotoReason: string = ''; measures: string = ''; materials: string = ''; abnormalNote: string = '';
+  createIssue: boolean = false; photos: PhotoLink[] = []; answers: ChecklistAnswer[] = [];
+}
+export function validDay(value: string): boolean {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const date = new Date(`${value}T00:00:00Z`);
+  return !Number.isNaN(date.getTime()) && date.toISOString().slice(0, 10) === value;
+}
+export interface ReviewPayload {
+  expectedRev: number; action: string; category: string; note: string; duplicateOf: string | null;
+  linkedEventId: string | null; photos: PhotoLink[]; noPhotoReason: string;
+}
+function reviewBody(d: BusinessDraft): ReviewPayload {
+  const minimum = ['need_evidence', 'to_investigate', 'close_no_fault'].includes(d.action) ? 10 : 4;
+  if (d.note.trim().length < minimum) throw new Error(`审核意见至少${minimum}字，请说明判断依据。`);
+  if (d.action === 'link_object' && !(d.category === 'event' ? d.linkedEventId : d.duplicateOf)) throw new Error('请选择关联对象。');
+  if (d.action === 'close_no_fault' && d.category === 'handled' && !d.photos.length && d.noPhotoReason.trim().length < 10) {
+    throw new Error('当场处理请提供照片或至少10字的无法拍照原因。');
+  }
+  return { expectedRev: d.rev, action: d.action, category: d.category, note: d.note.trim(),
+    duplicateOf: d.duplicateOf || null, linkedEventId: d.linkedEventId || null, photos: d.photos, noPhotoReason: d.noPhotoReason };
+}
+function orderBody(d: BusinessDraft): string {
+  if (d.action === 'assigned' && !d.assigneeId) throw new Error('请选择维修人。');
+  if (['returned', 'verified'].includes(d.action) && !d.note.trim()) throw new Error('请填写验收意见。');
+  if (d.action === 'submitted' && !d.measures.trim()) throw new Error('请填写维修措施。');
+  return JSON.stringify({ expectedRev: d.rev, to: d.action, note: d.note.trim(),
+    assigneeId: d.action === 'assigned' ? d.assigneeId : undefined, dueAt: d.dueAt || undefined,
+    measures: d.action === 'submitted' ? d.measures.trim() : undefined,
+    materials: d.action === 'submitted' ? d.materials.trim() : undefined, photos: d.photos });
+}
+export function businessWrite(d: BusinessDraft): BusinessWrite {
+  let path = '', body = '', kind = 'issue'; const id = encodeURIComponent(d.targetId);
+  if (d.kind === 'review') { path = `/issues/${id}/review`; body = JSON.stringify(reviewBody(d)); }
+  if (d.kind === 'order') { path = `/work-orders/${id}/actions`; body = orderBody(d); kind = 'order'; }
+  if (d.kind === 'manual') {
+    if (!d.title.trim()) throw new Error('请填写工单标题。');
+    path = '/work-orders'; kind = 'order'; body = JSON.stringify({ title: d.title.trim(), pointId: d.pointId || null, dueAt: d.dueAt || null, note: d.note });
+  }
+  if (d.kind === 'recheck') {
+    if (!d.subject.trim() || !d.owner.trim() || !validDay(d.dueDate)) throw new Error('请填写复查事项、责任人和有效日期。');
+    path = `/issues/${id}/rechecks`; body = JSON.stringify({ expectedRev: d.rev, subject: d.subject, owner: d.owner, dueDate: d.dueDate });
+  }
+  if (d.kind === 'outcome') {
+    if (d.note.trim().length < 4) throw new Error('复查意见至少4字。');
+    if (d.outcome === 'observing' && !validDay(d.nextDueDate)) throw new Error('继续观察请填写有效的下次日期。');
+    path = `/issues/${id}/rechecks/outcome`; body = JSON.stringify({ expectedRev: d.rev, outcome: d.outcome,
+      note: d.note, nextDueDate: d.outcome === 'observing' ? d.nextDueDate : null });
+  }
+  if (d.kind === 'maintenance') {
+    if (!d.measures.trim() || !validDay(d.nextDueDate)) throw new Error('请填写保养措施和下次保养日期。');
+    if (d.answers.some((row) => !row.result || row.result === 'abnormal' && !row.note.trim())) throw new Error('请完成清单，异常项填写依据。');
+    if (d.createIssue && !d.abnormalNote.trim()) throw new Error('异常转问题请填写异常说明。');
+    path = `/maintenance/tasks/${id}/execute`; kind = 'maintenance';
+    body = JSON.stringify({ expectedRev: d.rev, answers: d.answers, measures: d.measures, materials: d.materials,
+      nextDueDate: d.nextDueDate, note: d.note, abnormalNote: d.abnormalNote, createIssue: d.createIssue, photos: d.photos });
+  }
+  if (!path) throw new Error('当前办理方式不可用。');
+  return { path, body, kind, targetId: d.kind === 'manual' ? '' : d.targetId };
+}
