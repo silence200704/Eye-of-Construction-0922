@@ -1,5 +1,7 @@
 """维修工单：派工、接单、完工、验收与退回。"""
 
+import json
+
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -207,7 +209,7 @@ def _advance_issue(
 
 
 def _dispatch_assignee(
-    session: Session, workspace: Workspace, payload: dict, to: str
+    session: Session, workspace: Workspace, payload: dict, to: str, order: WorkOrder
 ) -> dict | None:
     if to != "assigned":
         if payload.get("assigneeId"):
@@ -219,6 +221,10 @@ def _dispatch_assignee(
     user = session.get(User, assignee_id)
     if user is None or not user.enabled or user.role not in order_rules.REPAIR_ROLES:
         raise AppError("VALIDATION_FAILED", "指定人员不存在、已停用或不具备维修/物业角色", 422)
+    building = order_building(session, workspace, order)
+    scope = json.loads(user.building_ids_json) if user.building_ids_json else None
+    if scope is not None and (building is None or building not in scope):
+        raise AppError("VALIDATION_FAILED", "指定维修人不具备工单所在楼栋范围，请选择其他人员", 422)
     return {"id": user.id, "name": user.name, "by": workspace.actor.name}
 
 
@@ -228,7 +234,7 @@ def advance_order(session: Session, workspace: Workspace, order_id: str, payload
     to = payload.get("to")
     at = now_iso()
     note = str(payload.get("note", ""))
-    assignee = _dispatch_assignee(session, workspace, payload, to)
+    assignee = _dispatch_assignee(session, workspace, payload, to, order)
     candidate = _candidate_order(order, payload, at, assignee)
     try:
         accepted = order_rules.advance(
