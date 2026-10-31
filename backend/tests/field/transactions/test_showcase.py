@@ -31,3 +31,16 @@ def test_showcase_prepare_is_repeat_safe_and_reset_is_scoped(client, settings):
     assert send(api, "reset", "reset-1").json()["meta"]["datasetEpoch"] == 2
     assert send(api, "prepare", "stale-prepare", epoch=1).status_code == 409
     assert api.get("/archive")["epoch"] == 1
+
+
+def test_showcase_samples_use_real_assessment_and_pause_blocks_sampling(client, settings):
+    api = FieldApi(client, str(settings.database_url))
+    send(api, "prepare", "prepare-samples")
+    headers = {"Authorization": f"Bearer {api.token}", "X-Dataset-Epoch": "1", "Idempotency-Key": "red-sample"}
+    url = "/api/v1/datasets/demo-showcase/showcase/sample"
+    red = client.post(url, json={"sensor": "crack", "level": "red"}, headers=headers)
+    assert red.status_code == 200, red.text
+    assert red.json()["data"]["results"][0]["record"]["assessment"]["level"] == "red"
+    send(api, "pause", "pause-samples")
+    headers["Idempotency-Key"] = "paused-sample"
+    assert client.post(url, json={"sensor": "crack", "level": "normal"}, headers=headers).status_code == 409
