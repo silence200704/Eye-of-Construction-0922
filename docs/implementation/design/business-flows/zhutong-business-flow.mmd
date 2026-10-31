@@ -1,0 +1,170 @@
+flowchart TB
+  subgraph ENTRY["① 双端入口与业务身份"]
+    direction LR
+    W["网页 Web<br/>校园总览 / 建筑设备 / 监测趋势 / 影像<br/>预警中心 / 问题与工单 / 点检巡检<br/>设备保养 / 知识库 / 报表 / 设置"]
+    ID["身份切换，无账号密码<br/>安全管理 / 物业 / 设备管理 / 巡检 / 维修<br/>两端选择同一服务、同一数据集<br/>所有办理按身份 ID、楼栋范围和对象状态授权"]
+    A["鸿蒙原生 App<br/>工作台 / 监测 / 任务 / 小瞳 / 我的<br/>待审核 / 待派工 / 我的待接单<br/>待验收 / 待复查 / 补证 / 同步异常"]
+    W --- ID --- A
+  end
+
+  subgraph BASE["② 管理准备与监测（配置在 Web，App 查看与现场办理）"]
+    direction LR
+    CFG["Web · 安全管理 / 设备管理<br/>建筑与设备：新建、编辑、归档/恢复<br/>预警标准：基准版本、规则版本及生效范围<br/>App：查看位置、测点、设备及授权信息"]
+    RECORD["Web · 安全管理 / 物业 / 设备管理 / 巡检<br/>监测数据：录入 / 修订并说明原因<br/>CSV 预检 → 选有效行 → 提交<br/>当前硬件输入明确标为模拟"]
+    ASSESS{"服务端保存监测记录<br/>按采样时刻基准/规则判定"}
+    MON["Web：监测数据 / 趋势 / 校园地图定位<br/>App：监测 → 测点详情 / 趋势<br/>正常、异常、存疑/无效分别显示<br/>历史补录只归档，不改写当前事件"]
+    CFG --> RECORD --> ASSESS --> MON
+  end
+
+  subgraph INS["③ 点检 / 巡检：到点、异常上报与任务完成"]
+    direction LR
+    PLAN["Web · 安全管理 / 设备管理配置计划<br/>点检巡检 → 周期、执行角色、测点、清单<br/>安全管理 / 物业 / 设备管理生成任务<br/>计划启停限安全管理；App 不配置周期计划"]
+    TASK["任务快照与逐点结果<br/>Web：点检巡检 → 任务详情<br/>App：任务 → 检查任务 → 巡检手账"]
+    CHECK{"任务指定执行角色<br/>模拟 NFC 核对标签<br/>或人工到点并填写原因"}
+    LIST["核对通过后填写清单<br/>完成必答项；异常项写依据<br/>到点成功本身不等于检查完成"]
+    ABN{"是否发现异常？"}
+    IP["执行角色：上报这处异常<br/>描述 + 照片，自动带任务/测点<br/>服务端关联问题与原任务"]
+    DONE["执行角色：提交本测点<br/>异常须有本任务本点位问题或合法说明<br/>部分测点完成 → 进行中<br/>全部完成 → 任务已检查"]
+    PLAN --> TASK --> CHECK
+    CHECK -- "不通过：修正标签/人工原因" --> CHECK
+    CHECK -- "通过" --> LIST --> ABN
+    ABN -- "是" --> IP --> DONE
+    ABN -- "否" --> DONE
+  end
+
+  subgraph MAINT["④ 设备保养：正常执行与异常转问题"]
+    direction LR
+    MP["Web · 安全管理 / 设备管理配置保养计划<br/>安全管理 / 物业 / 设备管理生成任务<br/>计划启停限安全管理"]
+    ME["安全管理 / 物业 / 设备管理 / 维修<br/>Web：设备保养 → 执行<br/>App：任务 → 设备保养任务<br/>清单、措施、材料、下次日期、照片"]
+    MQ{"保养发现异常？"}
+    MI["填写异常说明<br/>选择异常转问题并提交<br/>问题保留原设备/保养关联"]
+    MD["服务端确认 → 保养任务已完成<br/>异常问题另走审核/维修闭环<br/>保养完成不等于问题关闭"]
+    MP --> ME --> MQ
+    MQ -- "是，转问题" --> MI --> MD
+    MQ -- "否 / 仅登记异常" --> MD
+  end
+
+  subgraph ISSUE["⑤ 发现问题与六类审核出口（Web / App 都可接续）"]
+    direction TB
+    REPORT["五种身份：独立现场上报<br/>Web：问题与工单 → 上报问题<br/>App：工作台 → 现场发现，或测点详情上报<br/>填写位置、类型、描述，可添加现场照片"]
+    PENDING["同一问题 ID：待审核<br/>Web：问题与工单 → 问题详情<br/>App：工作台 → 待审核发现 → 问题详情"]
+    REVIEW{"学校安全管理：审核并安排下一步<br/>选择方向、二级情况，填写审核意见"}
+    NEED["退回补充材料<br/>仅原上报身份本人补证<br/>要求照片时必须加新照片<br/>原描述与原照片保留"]
+    PROF["转专业排查 → 排查中<br/>安全管理根据排查结果<br/>再转维修、复查、补证、关联或关闭"]
+    DIRECT["安排复查<br/>问题进入待复查"]
+    LINK["关联已有问题 / 预警<br/>选择合法目标 + 审核依据<br/>关闭本问题并保留关联与时间线<br/>不替代目标对象办理"]
+    NOFAULT["核查后关闭<br/>无故障 / 误报 / 稳定 / 非结构 / 已处理<br/>填写充分依据；已处理须照片或无法拍照原因<br/>关闭本问题，不自动关闭预警"]
+    REPAIR["安排维修<br/>问题变为维修处置中<br/>同事务生成待派工工单<br/>审核成功 ≠ 已派工"]
+    REPORT --> PENDING --> REVIEW
+    REVIEW -- "退回补证" --> NEED -- "补证后再审" --> PENDING
+    REVIEW -- "专业排查" --> PROF -- "回到审核选择" --> REVIEW
+    REVIEW -- "安排复查" --> DIRECT
+    REVIEW -- "关联已有对象" --> LINK
+    REVIEW -- "核查后关闭" --> NOFAULT
+    REVIEW -- "安排维修" --> REPAIR
+  end
+
+  subgraph ORDER["⑥ 工单主链与退回返工（两端可交替办理，权限不变）"]
+    direction LR
+    MANUAL["安全管理：手工新建维修单<br/>App：任务 → 维修工单 → 新建维修工单<br/>标题、测点、说明，可设置期限<br/>Web独立建单/无来源工单详情入口待补<br/>当前无来源手工单以App办理为主"]
+    CREATED["工单：待派工<br/>安全管理选择合法维修/物业身份<br/>填写说明，可设置截止日期<br/>Web：问题与工单 / App：工作台待派工"]
+    ASSIGNED["工单：待接单<br/>指定维修/物业本人：接单，开始处理<br/>物业可说明原因代接<br/>同名身份不授予接单权限"]
+    WORK["工单：维修中<br/>实际接单人填写措施、材料、维修前后照片<br/>措施必填；材料和照片选填<br/>Web：工单办理 / App：填写措施，提交完工"]
+    SUBMITTED["工单：待验收<br/>安全管理查看维修记录与照片<br/>填写验收意见<br/>Web / App 都有验收入口"]
+    ACCEPT{"安全管理验收结论"}
+    RETURN["验收退回<br/>记录返工原因，保留历次意见<br/>被派工人或依法代接物业<br/>重新接续办理 → 再次维修送验"]
+    VERIFIED["验收通过 → 工单已验收<br/>有关联问题 → 问题进入待复查<br/>无来源问题的手工单 → 工单流程完成<br/>不会虚构问题或预警关系"]
+    MANUAL --> CREATED --> ASSIGNED --> WORK --> SUBMITTED --> ACCEPT
+    ACCEPT -- "不通过" --> RETURN --> WORK
+    ACCEPT -- "通过" --> VERIFIED
+  end
+
+  subgraph RECHECK["⑦ 问题复查（安全管理提交，复查责任人字段本身不授予操作权限）"]
+    direction LR
+    REGISTER["安全管理：登记复查事项、责任人、日期<br/>Web：问题详情 → 复查<br/>App：待复查 / 工单 → 打开来源问题与复查"]
+    OUTCOME{"安全管理提交本轮复查依据与结论"}
+    CLOSED["确认恢复 → 问题已关闭<br/>保留本轮复查结论与历史记录"]
+    OBSERVE["继续观察 → 观察中<br/>填写下次日期，登记下一轮复查"]
+    RECUR["复发转处置 → 待审核<br/>原问题继续办理，不新建无关问题<br/>重新决定维修/专业排查等方向"]
+    REGISTER --> OUTCOME
+    OUTCOME -- "确认恢复" --> CLOSED
+    OUTCOME -- "继续观察" --> OBSERVE --> OUTCOME
+    OUTCOME -- "复发" --> RECUR
+  end
+
+  subgraph ALARM["⑧ 预警、通知与独立关闭条件"]
+    direction LR
+    EVENT["当前有效异常采样 → 创建/升级预警<br/>同一开放事件保留证据与等级变化<br/>生成站内通知，不代表已确认"]
+    NOTICE["有权限身份：查看/确认通知<br/>未确认开放事件通知按规则核验升级<br/>已关闭事件通知保留历史、停止升级"]
+    ACK["安全管理：确认预警<br/>Web：预警中心 → 事件详情<br/>App：监测 → 预警详情"]
+    HANDLE["安全管理 / 物业：登记现场排查与措施<br/>需要维修时，由安全管理<br/>从当前预警关联上报问题，再审核派单"]
+    RECOVERY{"当前事件进入恢复待确认<br/>连续有效恢复复测满足规则<br/>有当前事件已验收工单<br/>或合法的无需维修现场核查结论"}
+    ECLOSE["安全管理：核查恢复并关闭<br/>预警已关闭；保留证据、通知和时间线<br/>新异常推翻恢复时不得关闭"]
+    EVENT --> NOTICE
+    EVENT --> ACK --> HANDLE --> RECOVERY
+    RECOVERY -- "条件满足，提交关闭" --> ECLOSE
+    RECOVERY -- "条件不足 / 新异常" --> HANDLE
+  end
+
+  subgraph SUPPORT["⑨ 小瞳、影像、地图与统计：辅助办理，不替人作业务决定"]
+    direction LR
+    AI["Web 问筑瞳 / App 小瞳 · 按当前身份授权<br/>提问或携带问题/工单/测点<br/>本地知识检索 + 当前业务事实 → 回答与引用<br/>定位相关对象；建议可追加可编辑草稿<br/>不自动审核、派工、验收、关闭"]
+    VISION["Web：影像对比 / 校园地图与空间定位<br/>照片、视频帧、区域比对 → 查看结果及来源<br/>App：现场/维修/验收照片采集和回读<br/>当前视频为预设区域/像素统计，不进入预警链"]
+    STATS["Web：管理报表 / 单事件报告与打印<br/>App：守护统计 / 趋势 / 周月及楼栋筛选<br/>读取同一授权业务事实<br/>无数据明确空态，不补造监测或办理结果"]
+  end
+
+  subgraph LINKAGE["⑩ 网页 ↔ App 联动与可靠同步（同一业务 ID、照片、意见、状态）"]
+    direction LR
+    WWRITE["网页提交<br/>例如：派单 / 验收退回 / 复查结论"]
+    SERVER["同一个 FastAPI + SQLite 服务端<br/>权限 + 楼栋范围 + 版本 + 幂等校验<br/>业务、关联、附件、审计、回执同事务<br/>服务端确认后，才能显示正式成功"]
+    AREAD["App 前台读取 → 我的待办 / 详情更新<br/>例如：网页派单 → App 接单维修<br/>网页退回 → App 查看原因并返工"]
+    AWRITE["App 提交<br/>例如：上报 / 派单 / 维修完工 / 验收"]
+    WREAD["网页前台读取 → 问题 / 工单 / 照片更新<br/>例如：App 完工 → 网页验收、复查<br/>App 验收 → 网页看到同一意见与状态"]
+    READRULE["双端前台正常每 5 秒读取相关业务状态<br/>进入页面、回前台、手动刷新立即读取<br/>后台暂停；失败退避至最多 30 秒<br/>不覆盖正在填写的草稿，不回填旧身份/旧版本响应"]
+    DRAFT["App 本机持久草稿 + 私有照片<br/>未接单可写维修草稿，不显示已接单<br/>审核/派单/验收/复查结论/预警关闭须在线确认"]
+    QUEUE["巡检 / 上报补证 / 保养 / 本人已接单完工<br/>可保存待同步；重启继续，联网重新授权<br/>巡检依赖：到点 → 问题及照片 → 逐点完成<br/>照片先上传关联，固定正文与原幂等键提交"]
+    EXCEPTION["结果不明：用原请求核验，勿另建重复操作<br/>版本冲突：保留本地内容，核对新状态后明确采用<br/>切身份/服务/数据集：暂停旧队列，原身份明确恢复<br/>待同步、已上传照片 ≠ 业务已完成"]
+    WWRITE --> SERVER --> AREAD
+    AWRITE --> SERVER --> WREAD
+    READRULE --- SERVER
+    DRAFT -- "允许排队的现场动作" --> QUEUE --> SERVER
+    SERVER -- "冲突 / 结果不明" --> EXCEPTION
+    EXCEPTION -- "核验原请求或明确处理冲突" --> SERVER
+  end
+
+  subgraph DEMO["⑪ 比赛演示与数据维护边界"]
+    direction LR
+    DCONTROL["完整范围安全管理 · 两端选择 demo-showcase<br/>Web：系统设置 → 演示控制<br/>App：我的 → 比赛演示准备与进度<br/>准备待办 / 模拟采样 / 暂停继续 / 查看进度"]
+    DRESET["专用演示集：明确确认后复位，epoch 递增<br/>旧草稿/队列不得写入新一轮数据<br/>不复位主业务集，不自动替人审核/维修/验收<br/>备份、校验与恢复由维护工具办理，非 App 入口"]
+    DCONTROL --> DRESET
+  end
+
+  ID --> CFG
+  CFG --> PLAN
+  CFG --> MP
+  IP --> PENDING
+  MI --> PENDING
+  REPAIR --> CREATED
+  VERIFIED -- "有关联问题" --> REGISTER
+  DIRECT --> REGISTER
+  RECUR --> PENDING
+  ASSESS -- "当前有效异常" --> EVENT
+  HANDLE -- "需要处置，关联当前事件上报" --> PENDING
+  VERIFIED -. "仅当前事件关联工单，提供处置依据" .-> RECOVERY
+  CLOSED -. "问题关闭不自动关闭预警" .-> RECOVERY
+  DCONTROL -- "明确模拟采样，走同一判定" --> ASSESS
+  AI -. "导航 / 草稿建议" .-> PENDING
+  SERVER -. "共同业务事实" .-> STATS
+
+  classDef web fill:#e8f0fe,stroke:#839ab7,color:#19334b;
+  classDef app fill:#e4f5ee,stroke:#86aaa0,color:#1e463a;
+  classDef shared fill:#f8faf9,stroke:#a6b6b1,color:#233c35;
+  classDef decision fill:#fff1d6,stroke:#bc9c62,color:#5a4726;
+  classDef success fill:#dcefe4,stroke:#7e9d8e,color:#274434;
+  classDef caution fill:#fff0e9,stroke:#bc9b8a,color:#5b4035;
+  class W,CFG,RECORD,PLAN,MP,WWRITE,WREAD web;
+  class A,AREAD,AWRITE,DRAFT,QUEUE app;
+  class ID,MON,TASK,LIST,IP,ME,MI,REPORT,PENDING,PROF,DIRECT,REPAIR,MANUAL,CREATED,ASSIGNED,WORK,SUBMITTED,REGISTER,OBSERVE,RECUR,EVENT,NOTICE,ACK,HANDLE,AI,VISION,STATS,SERVER,READRULE,DCONTROL shared;
+  class ASSESS,CHECK,ABN,MQ,REVIEW,ACCEPT,OUTCOME,RECOVERY decision;
+  class DONE,MD,VERIFIED,CLOSED,ECLOSE,LINK,NOFAULT success;
+  class NEED,RETURN,EXCEPTION,DRESET caution;

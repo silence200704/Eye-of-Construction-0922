@@ -1,0 +1,7 @@
+{
+  "theme": "base",
+  "look": "classic",
+  "themeVariables": { "fontFamily": "Microsoft YaHei, sans-serif", "fontSize": "18px", "primaryTextColor": "#233c35", "lineColor": "#85958f", "clusterBkg": "#f8faf9", "clusterBorder": "#cbd8d2" },
+  "flowchart": { "htmlLabels": false, "wrappingWidth": 380, "curve": "basis", "nodeSpacing": 28, "rankSpacing": 45, "padding": 18, "useMaxWidth": false },
+  "securityLevel": "loose"
+}
