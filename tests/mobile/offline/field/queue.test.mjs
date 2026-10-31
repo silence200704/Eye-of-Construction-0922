@@ -18,3 +18,15 @@ test('field dependency binds confirmed revision once and cannot overwrite a froz
   await assert.rejects(queue.update({ ...again, body: '{"expectedRev":99}' }), /冻结/)
   await f.vault.close()
 })
+test('a complete inspection workflow is enqueued atomically and idempotently', async () => {
+  const { FieldQueue } = native('core/offline/field/FieldQueue.ets')
+  const f = await queueFixture(); const queue = new FieldQueue(f.vault)
+  const plan = { id: 'inspection-fixed', scope: f.pack.scope, photos: [], writes: [
+    { path: '/inspection/tasks/t/check-in', kind: 'task', targetId: 't', body: '{"expectedRev":1}' },
+    { path: '/inspection/tasks/t/complete-point', kind: 'task', targetId: 't', body: '{"expectedRev":1}' },
+  ] }
+  await queue.workflow(plan); await queue.workflow(plan)
+  const rows = await queue.list(plan.scope)
+  assert.equal(rows.length, 2); assert.deepEqual(rows[1].dependencies, [rows[0].id])
+  await f.vault.close()
+})
