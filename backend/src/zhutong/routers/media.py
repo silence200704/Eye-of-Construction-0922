@@ -59,7 +59,7 @@ async def upload(
     record, replayed = await MediaService(repository, binaries(request)).upload(
         MediaContext(dataset_id, actor), spec, request.stream()
     )
-    envelope = ok(request, record.public())
+    envelope = ok(request, record.public(), meta={"datasetEpoch": repository.dataset_epoch(dataset_id)})
     envelope["replayed"] = replayed
     return JSONResponse(envelope, status_code=200 if replayed else 201)
 
@@ -71,7 +71,7 @@ def metadata(
     record = MediaService(repository, binaries(request)).read(
         MediaContext(dataset_id, actor), file_id
     )
-    return ok(request, record.public())
+    return ok(request, record.public(), meta={"datasetEpoch": repository.dataset_epoch(dataset_id)})
 
 
 @router.get("/datasets/{dataset_id}/media/{file_id}/content")
@@ -105,6 +105,6 @@ def attach(
         maintenance_task_id=body.maintenanceTaskId,
     )
     result, replayed = link_attachment(repository, MediaContext(dataset_id, actor), spec)
-    envelope = ok(request, result)
+    envelope = ok(request, result, meta={"datasetEpoch": repository.dataset_epoch(dataset_id)})
     envelope["replayed"] = replayed
     return JSONResponse(envelope, status_code=200 if replayed else 201)
