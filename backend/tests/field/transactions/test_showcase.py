@@ -7,8 +7,11 @@ def send(api, action, key, epoch=1, dataset="demo-showcase", account="demo-safet
     return api.client.post(
         f"/api/v1/datasets/{dataset}/showcase/{action}",
         json={"confirmDataset": dataset} if action == "reset" else {},
-        headers={"Authorization": f"Bearer {api.token_for(account)}",
-                 "X-Dataset-Epoch": str(epoch), "Idempotency-Key": key},
+        headers={
+            "Authorization": f"Bearer {api.token_for(account)}",
+            "X-Dataset-Epoch": str(epoch),
+            "Idempotency-Key": key,
+        },
     )
 
 
@@ -36,11 +39,18 @@ def test_showcase_prepare_is_repeat_safe_and_reset_is_scoped(client, settings):
 def test_showcase_samples_use_real_assessment_and_pause_blocks_sampling(client, settings):
     api = FieldApi(client, str(settings.database_url))
     send(api, "prepare", "prepare-samples")
-    headers = {"Authorization": f"Bearer {api.token}", "X-Dataset-Epoch": "1", "Idempotency-Key": "red-sample"}
+    headers = {
+        "Authorization": f"Bearer {api.token}",
+        "X-Dataset-Epoch": "1",
+        "Idempotency-Key": "red-sample",
+    }
     url = "/api/v1/datasets/demo-showcase/showcase/sample"
     red = client.post(url, json={"sensor": "crack", "level": "red"}, headers=headers)
     assert red.status_code == 200, red.text
-    assert red.json()["data"]["results"][0]["record"]["assessment"]["level"] == "red"
+    assert red.json()["data"]["results"][0]["assessment"]["state"] == "red"
     send(api, "pause", "pause-samples")
     headers["Idempotency-Key"] = "paused-sample"
-    assert client.post(url, json={"sensor": "crack", "level": "normal"}, headers=headers).status_code == 409
+    assert (
+        client.post(url, json={"sensor": "crack", "level": "normal"}, headers=headers).status_code
+        == 409
+    )

@@ -16,6 +16,7 @@ from .routers.datasets.field import api as field_api
 from .routers.datasets.field import reports_api
 from .routers.datasets.knowledge import api as knowledge_api
 from .routers.datasets.mobile import api as mobile_api
+from .routers.datasets.showcase import api as showcase_api
 
 
 def create_app(settings: Settings | None = None) -> FastAPI:
@@ -62,4 +63,5 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(assistant_api.media_router)
     app.include_router(knowledge_api.router)
     app.include_router(mobile_api.router)
+    app.include_router(showcase_api.router)
     return app
