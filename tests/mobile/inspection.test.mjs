@@ -17,6 +17,24 @@ async function setup() {
   return f
 }
 
+for (const method of ['reloadInspection', 'reloadHandling']) {
+  test(`${method} cannot replace a confirmed command with an older in-flight read`, async () => {
+    const f = await setup(), entered = deferred(), held = deferred()
+    f.server.intercept = call => {
+      if (call.path.endsWith('/inspection/tasks')) { entered.resolve(); return held.promise }
+      if (call.path.endsWith('/check-in')) return respond(f, call)
+    }
+    const reading = f.controller[method]()
+    await entered.promise
+    await f.controller.submitInspection(write())
+    assert.equal(f.current().workspace.tasks[0].rev, 2)
+    held.resolve({ ok: true, data: [f.task], meta: { datasetEpoch: 1 } })
+    await reading
+    assert.equal(f.current().workspace.tasks[0].rev, 2)
+    assert.equal(f.current().workspace.tasks[0].results[0].status, 'arrived')
+  })
+}
+
 const write = () => ({ taskId: task().id, pointId: 'point-inspector', action: 'check-in',
   body: JSON.stringify({ expectedRev: 1, pointId: 'point-inspector', method: 'nfc',
     labelRead: 'TAG-01', fallbackReason: '' }) })
