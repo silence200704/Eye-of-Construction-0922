@@ -1,0 +1,98 @@
+[
+  {
+    "id": "",
+    "text": "预警处置",
+    "bounds": "[0,137][1320,332]",
+    "type": "TitleBar"
+  },
+  {
+    "id": "__NavdestinationField__BackButton__Back__",
+    "text": "",
+    "bounds": "[56,164][196,304]",
+    "type": "BackButton"
+  },
+  {
+    "id": "__NavdestinationField__Text__MainTitle__",
+    "text": "预警处置",
+    "bounds": "[224,193][504,275]",
+    "type": "Text"
+  },
+  {
+    "id": "alarm-note-open",
+    "text": "",
+    "bounds": "[63,332][1257,462]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "登记排查 / 处置措施",
+    "bounds": "[123,342][1197,408]",
+    "type": "Text"
+  },
+  {
+    "id": "alarm-close-open",
+    "text": "",
+    "bounds": "[63,525][1257,700]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "收起恢复核查",
+    "bounds": "[123,580][1197,646]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "核对恢复依据，关闭当前预警",
+    "bounds": "[130,830][1040,912]",
+    "type": "Text"
+  },
+  {
+    "id": "alarm-close-basis",
+    "text": "已核对三次模拟恢复复测及现场观察，确认恢复。",
+    "bounds": "[130,954][1190,1374]",
+    "type": "TextArea"
+  },
+  {
+    "id": "alarm-close-note",
+    "text": "",
+    "bounds": "[130,1416][1190,1836]",
+    "type": "TextArea"
+  },
+  {
+    "id": "alarm-close-feedback",
+    "text": "关闭事件必须有当前事件关联且验收通过的工单，或填写“无需维修”现场核查结论",
+    "bounds": "[130,1878][1181,2002]",
+    "type": "Text"
+  },
+  {
+    "id": "alarm-close-save",
+    "text": "",
+    "bounds": "[130,2044][1190,2219]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "提交恢复依据并关闭预警",
+    "bounds": "[190,2099][1130,2165]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "服务端复核连续恢复记录、当前工单和权限；不满足时保留填写内容并提示原因。",
+    "bounds": "[130,2261][1177,2367]",
+    "type": "Text"
+  },
+  {
+    "id": "alarm-reload",
+    "text": "",
+    "bounds": "[63,2497][1257,2672]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "刷新当前预警",
+    "bounds": "[123,2552][1197,2618]",
+    "type": "Text"
+  }
+]

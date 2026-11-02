@@ -16,12 +16,17 @@ export interface SceneUpdate {
   selectedPointId: string
   /** 选中测点的**实时信息摘要**（读数 + 采样时间），画在编号下面；空串则不画 */
   selectedSummary: string
+  /** 点击房间后要显示名称的区域键（楼层 + 区域下标）；空串时全部房间名隐藏 */
+  selectedZoneKey?: string
 }
 
 export interface PickResult {
   pointId: string
   buildingId: string
   floorId: string
+  /** 命中的是房间区域时返回；只用于显示房间名，不改变业务选择 */
+  zoneKey?: string
+  zoneLabel?: string
 }
 
 export interface SceneHandle {
@@ -50,6 +55,7 @@ const BUILDING_TINT: Record<string, number> = {
   B02: 0xa9bea9, // 实验楼 · 鼠尾草绿
   B03: 0x7eafbe, // 教学楼 · 青灰蓝
   B04: 0xc99d86, // 体育馆 · 陶土色
+  B05: 0xb9b6ad, // 图书馆 · 暖灰石材
 }
 const TINT_FALLBACK = 0xd7dee2
 
@@ -70,7 +76,7 @@ export function eventColor(level: string | null | undefined): number | null {
 
 /**
  * 细节量：同一套几何在校园总览与单栋视图下画到什么程度。
- * 校园总览用矮墙、不铺文字（四栋一起看时文字会糊成一片），单栋视图给足信息。
+ * 校园总览用矮墙、不铺文字（多栋一起看时文字会糊成一片），单栋视图给足信息。
  */
 export interface LevelDetail {
   zoneLabels: boolean

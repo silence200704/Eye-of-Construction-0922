@@ -1,0 +1,35 @@
+{
+  "observations": [
+    {
+      "state": "initial cold start",
+      "logFontScale": 1,
+      "source": "hilog"
+    },
+    {
+      "state": "system 特大 hot update",
+      "logFontScale": 1.45,
+      "sliderLabel": "特大",
+      "sliderValue": "5.000000"
+    },
+    {
+      "state": "cold start at 特大",
+      "logFontScale": 1.45
+    },
+    {
+      "state": "over-drag minimum",
+      "logFontScale": 0.85
+    },
+    {
+      "state": "restored standard cold start",
+      "logFontScale": 1,
+      "sliderLabel": "标准",
+      "sliderValue": "2.000000"
+    }
+  ],
+  "layout": {
+    "standard": "home-monitor x=63..639, home-tasks x=681..1257 (two columns)",
+    "large": "home-monitor y=1507..1993, home-tasks y=2035..2422 (one column)",
+    "nav": "four tabs visible and clickable at large font"
+  },
+  "keyboard": "Soft keyboard did not appear; only text-selection toolbar. Occlusion unverified."
+}

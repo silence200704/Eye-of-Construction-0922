@@ -1,0 +1,104 @@
+[
+  {
+    "id": "",
+    "text": "预警处置",
+    "bounds": "[0,137][1320,332]",
+    "type": "TitleBar"
+  },
+  {
+    "id": "__NavdestinationField__BackButton__Back__",
+    "text": "",
+    "bounds": "[56,164][196,304]",
+    "type": "BackButton"
+  },
+  {
+    "id": "__NavdestinationField__Text__MainTitle__",
+    "text": "预警处置",
+    "bounds": "[224,193][504,275]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "ALERT / 预警手账",
+    "bounds": "[63,402][606,473]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "把异常，认真接住",
+    "bounds": "[63,498][987,808]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "确认、排查与恢复，各有记录",
+    "bounds": "[63,832][921,909]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "E20261029-002",
+    "bounds": "[130,1053][1029,1190]",
+    "type": "Text"
+  },
+  {
+    "id": "alarm-status",
+    "text": "黄色关注 · 待确认",
+    "bounds": "[130,1232][947,1351]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "模拟vibration监测站",
+    "bounds": "[130,1393][908,1494]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "首次 2026/10/29 上午11:53:37\n最近 2026/10/29 上午11:33:37",
+    "bounds": "[130,1536][1042,1690]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "规则 FINISH-vibration-RULE · 模拟监测触发",
+    "bounds": "[130,1732][1184,1886]",
+    "type": "Text"
+  },
+  {
+    "id": "alarm-acknowledge",
+    "text": "",
+    "bounds": "[63,2016][1257,2209]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "确认预警，开始跟进",
+    "bounds": "[123,2065][1197,2160]",
+    "type": "Text"
+  },
+  {
+    "id": "alarm-note-open",
+    "text": "",
+    "bounds": "[63,2272][1257,2465]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "登记排查 / 处置措施",
+    "bounds": "[123,2321][1197,2416]",
+    "type": "Text"
+  },
+  {
+    "id": "alarm-reload",
+    "text": "",
+    "bounds": "[63,2528][1257,2721]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "刷新当前预警",
+    "bounds": "[123,2577][1197,2672]",
+    "type": "Text"
+  }
+]

@@ -11,10 +11,15 @@ export struct ConnectionState {
   onRetry: () => void = () => {};
 
   build() {
-    if (this.state.mode !== 'ready') {
+    if (this.state.mode === 'ready' && this.state.message) {
+      AppCard({ color: Theme.cream }) {
+        Text(this.state.message).fontSize(14).fontColor(Theme.warning);
+        PlayButton({ title: '重新读取最新进度', secondary: true, onAction: this.onRetry });
+      }
+    } else if (this.state.mode !== 'ready') {
       AppCard({ color: this.state.mode === 'error' ? '#FFF1E5' : '#FFF9DF' }) {
         Row({ space: 10 }) {
-          Mascot({ art: $rawfile('playful/characters/rest.svg'), dimension: 68 });
+          Mascot({ art: $rawfile('playful/characters/xiaotong.png'), dimension: 68 });
           Column({ space: 6 }) {
             Text(this.state.busy ? '小瞳正在读数据…' : this.state.mode === 'error' ? '连接暂时打了个盹' : '先连上校园服务吧')
               .fontSize(18).fontWeight(FontWeight.Bold).fontColor(Theme.text);

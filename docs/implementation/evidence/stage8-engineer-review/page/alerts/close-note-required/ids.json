@@ -1,0 +1,104 @@
+[
+  {
+    "id": "",
+    "text": "预警处置",
+    "bounds": "[0,137][1320,332]",
+    "type": "TitleBar"
+  },
+  {
+    "id": "__NavdestinationField__BackButton__Back__",
+    "text": "",
+    "bounds": "[56,164][196,304]",
+    "type": "BackButton"
+  },
+  {
+    "id": "__NavdestinationField__Text__MainTitle__",
+    "text": "预警处置",
+    "bounds": "[224,193][504,275]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "ALERT / 预警手账",
+    "bounds": "[63,332][438,339]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "把异常，认真接住",
+    "bounds": "[63,364][792,471]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "确认、排查与恢复，各有记录",
+    "bounds": "[63,495][655,548]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "E20261029-001",
+    "bounds": "[130,692][750,786]",
+    "type": "Text"
+  },
+  {
+    "id": "alarm-status",
+    "text": "红色紧急核查 · 恢复待确认",
+    "bounds": "[130,828][973,910]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "模拟crack监测站",
+    "bounds": "[130,952][570,1022]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "首次 2026/10/29 上午11:52:19\n最近 2026/10/29 上午11:32:19",
+    "bounds": "[130,1064][759,1170]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "规则 FINISH-crack-RULE · 模拟监测触发",
+    "bounds": "[130,1212][964,1265]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "确认人：演示学校安全管理人员",
+    "bounds": "[130,1307][817,1364]",
+    "type": "Text"
+  },
+  {
+    "id": "alarm-feedback",
+    "text": "关闭事件必须有当前事件关联且验收通过的工单，或填写“无需维修”现场核查结论",
+    "bounds": "[63,1494][1219,1618]",
+    "type": "Text"
+  },
+  {
+    "id": "alarm-note-open",
+    "text": "收起现场记录",
+    "bounds": "[63,1681][1257,1856]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "记录现场排查与措施",
+    "bounds": "[130,1986][760,2068]",
+    "type": "Text"
+  },
+  {
+    "id": "alarm-note-kind",
+    "text": "现场排查",
+    "bounds": "[130,2110][532,2285]",
+    "type": "Select"
+  },
+  {
+    "id": "alarm-field-note",
+    "text": "比赛模拟现场排查：已核对测点与读数，设置现场提示并安排恢复复测。",
+    "bounds": "[130,2327][1190,2758]",
+    "type": "TextArea"
+  }
+]

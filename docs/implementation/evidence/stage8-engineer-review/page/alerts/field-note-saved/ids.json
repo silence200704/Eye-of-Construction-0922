@@ -1,0 +1,104 @@
+[
+  {
+    "id": "",
+    "text": "预警处置",
+    "bounds": "[0,137][1320,332]",
+    "type": "TitleBar"
+  },
+  {
+    "id": "__NavdestinationField__BackButton__Back__",
+    "text": "",
+    "bounds": "[56,164][196,304]",
+    "type": "BackButton"
+  },
+  {
+    "id": "__NavdestinationField__Text__MainTitle__",
+    "text": "预警处置",
+    "bounds": "[224,193][504,275]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "ALERT / 预警手账",
+    "bounds": "[63,363][438,412]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "把异常，认真接住",
+    "bounds": "[63,437][792,544]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "确认、排查与恢复，各有记录",
+    "bounds": "[63,568][655,621]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "E20261029-001",
+    "bounds": "[130,765][750,859]",
+    "type": "Text"
+  },
+  {
+    "id": "alarm-status",
+    "text": "红色紧急核查 · 处理中",
+    "bounds": "[130,901][833,983]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "模拟crack监测站",
+    "bounds": "[130,1025][570,1095]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "首次 2026/10/29 上午11:52:19\n最近 2026/10/29 上午11:32:19",
+    "bounds": "[130,1137][759,1243]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "规则 FINISH-crack-RULE · 模拟监测触发",
+    "bounds": "[130,1285][964,1338]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "确认人：演示学校安全管理人员",
+    "bounds": "[130,1380][817,1437]",
+    "type": "Text"
+  },
+  {
+    "id": "alarm-feedback",
+    "text": "服务端已保存本次办理。",
+    "bounds": "[63,1567][641,1629]",
+    "type": "Text"
+  },
+  {
+    "id": "alarm-note-open",
+    "text": "收起现场记录",
+    "bounds": "[63,1692][1257,1867]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "记录现场排查与措施",
+    "bounds": "[130,1997][760,2079]",
+    "type": "Text"
+  },
+  {
+    "id": "alarm-note-kind",
+    "text": "现场排查",
+    "bounds": "[130,2121][532,2296]",
+    "type": "Select"
+  },
+  {
+    "id": "alarm-field-note",
+    "text": "比赛模拟现场排查：已核对测点与读数，设置现场提示并安排恢复复测。",
+    "bounds": "[130,2338][1190,2758]",
+    "type": "TextArea"
+  }
+]

@@ -52,6 +52,18 @@ SVG可编辑；PNG供兼容导入，实际像素密度和资源分组由锁定SD
 
 ## 阶段8前置现状
 
+2026-10-26最新：独立OpenHarmony公共SDK6.0.0.47/API20已构建并调试签名，Pura 90模拟器安装启动通过。
+104项SVG/PNG原生解码、网络、沙箱文件与关系库进程重启核验通过；见[平台核验](../handoff/reports/mobile/03-native-platform-probe.md)。
+2026-10-26后续：正式业务包org.zhutong.mobile已接入在线只读数据、五身份和卡通界面，并完成手机模拟器核验；
+见[在线基础与UI报告](../handoff/reports/mobile/04-native-online-ui.md)、[本轮设计规范](app-cartoon-ui.md)。
+照片/相机、业务写入、系统字号、宽窗与真机仍待验收；下方为此前环境准备历史。
+
+2026-10-26后续：Pura 90模拟器已创建并启动，HDC连接127.0.0.1:5555，运行时API24、核心标识OpenHarmony-6.1.1.125；DevEco简体中文已核验。
+见[模拟器核验](../handoff/reports/mobile/02-emulator-connected.md)。原生工程编译与安装仍待下一步，以下为空目录的记录保留为早先预检历史。
+
+2026-10-26更新：已检测到D:/DevEco/Studio的DevEco Studio6.1.1.418及自带HarmonyOS6.1.1/API24 SDK；Node/OHPM/HDC/JBR版本命令通过。
+当前配置的本地模拟器部署目录为空，目标OpenHarmony兼容性与实际构建/安装仍未验证，见[环境预检](../handoff/reports/mobile/01-environment-preflight.md)。
+
 2026-10-25用户明确确认：DevEco Studio和OpenHarmony SDK尚未安装，当前先完成设计交接。
 本批不安装SDK、不创建云账号、不伪造原生工程；工具链准备与编译安装在阶段8独立办理。
 在工具链与运行环境确认之前，原型不能充当HAP构建与安装验收。

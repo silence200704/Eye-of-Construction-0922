@@ -1,0 +1,10 @@
+{
+  "counts": {
+    "points": 500,
+    "devices": 501,
+    "records": 5006
+  },
+  "samplePoint": "pnt_stress_0000",
+  "sampleDevice": "dev_stress_0000",
+  "seededAt": "2026-10-29T06:35:12.466048+00:00"
+}

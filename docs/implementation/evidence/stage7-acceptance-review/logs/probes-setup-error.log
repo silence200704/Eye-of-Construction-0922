@@ -1,0 +1,66 @@
+INFO:zhutong.http:POST /api/v1/demo/identity 200 request=444747d174804f87a3e9a672434a4ce6 elapsed_ms=16.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/demo/identity "HTTP/1.1 200 OK"
+INFO:zhutong.http:GET /api/v1/datasets/demo-main/state 200 request=68cec454e5e24c18801799471cb9b42c elapsed_ms=31.0
+INFO:httpx2:HTTP Request: GET http://testserver/api/v1/datasets/demo-main/state "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/buildings 200 request=e4ea07947bad437fa14d1052378a6064 elapsed_ms=31.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/buildings "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/floors 200 request=5819511a96a3434ca36d1debd6d9f4cd elapsed_ms=16.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/floors "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/points 200 request=76cc7ff17c2c4eba8d162bba229996a7 elapsed_ms=15.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/points "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/devices 200 request=8240050c8e4d4158a1bd9fc918fbdfb8 elapsed_ms=16.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/devices "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/rules 200 request=37c548a922ec46bd834d185074a64b18 elapsed_ms=16.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/rules "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/baselines 200 request=44f87f3c336f4ff6a00bd768afa475c6 elapsed_ms=15.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/baselines "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/points 200 request=25b8bc0119f042d4a5e8f51c7bc0395b elapsed_ms=16.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/points "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/records 200 request=b7314cec6c29476bacc4e5a7d89d3d23 elapsed_ms=31.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/records "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/demo/identity 200 request=55298213d394486cafa48da33a96ba10 elapsed_ms=15.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/demo/identity "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/demo/identity 200 request=6c8ebf4a70cd456f886fbad4ee12e745 elapsed_ms=16.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/demo/identity "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/demo/identity 200 request=eb82e172359d4cd5800ad91c23cd6519 elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/demo/identity "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media 201 request=b15059d56f404065a5307411ac44aadb elapsed_ms=47.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media?fileName=owner-private.png "HTTP/1.1 201 Created"
+INFO:zhutong.http:POST /api/v1/demo/identity 200 request=5cc8bf89d08e4e6bb9519e03712325c0 elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/demo/identity "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media-sessions/frames 200 request=db923876697f4dc5863b5c9aecf31720 elapsed_ms=78.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media-sessions/frames "HTTP/1.1 200 OK"
+INFO:zhutong.http:GET /api/v1/datasets/demo-main/media-sessions/frames 200 request=b7e2b3c608ea4c17b31260973815bfab elapsed_ms=16.0
+INFO:httpx2:HTTP Request: GET http://testserver/api/v1/datasets/demo-main/media-sessions/frames "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media-sessions/frames 403 request=9ed7129fd26546e0a0a1bf73596179bd elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media-sessions/frames "HTTP/1.1 403 Forbidden"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media-sessions/frames 403 request=6905f52ca98046b08ce61301f2f98ff7 elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media-sessions/frames "HTTP/1.1 403 Forbidden"
+INFO:zhutong.http:POST /api/v1/demo/identity 200 request=c35679b65abc476f93f8740f67742ddd elapsed_ms=15.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/demo/identity "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/demo/identity 200 request=24abe2ddc9f34abca926830bf2884534 elapsed_ms=16.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/demo/identity "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/demo/identity 200 request=7b00e99f6fda4cb49cf05d037c9ac8b8 elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/demo/identity "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media 201 request=800132e9cf8d43d9ac43ca471741d4d8 elapsed_ms=31.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media?fileName=owner-only.mp4 "HTTP/1.1 201 Created"
+INFO:zhutong.http:POST /api/v1/demo/identity 200 request=160e29605aee46f694bfc9a8e0c4dff8 elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/demo/identity "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media-sessions/videos 409 request=a358e727c8454c098576ea5aacfcde29 elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media-sessions/videos "HTTP/1.1 409 Conflict"
+Traceback (most recent call last):
+  File "C:\Users\Lenovo\Desktop\demo\docs\implementation\evidence\stage7-acceptance-review\probes.py", line 176, in <module>
+    main()
+  File "C:\Users\Lenovo\Desktop\demo\docs\implementation\evidence\stage7-acceptance-review\probes.py", line 168, in main
+    "mediaReplay": media, "ownershipBranches": ownership_branches(api, ids),
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\demo\docs\implementation\evidence\stage7-acceptance-review\probes.py", line 73, in ownership_branches
+    operations = media_operations(api, ids, reader, owner)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\demo\docs\implementation\evidence\stage7-acceptance-review\probes.py", line 48, in media_operations
+    video = register(api, video_op, reader)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\Desktop\demo\docs\implementation\evidence\stage7-acceptance-review\probes.py", line 39, in register
+    assert response.status_code == 200, response.text
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {"ok":false,"error":{"code":"STATE_CONFLICT","message":"��Ƶý�����㲻һ�£��ұ����� MP4","retryable":false,"details":{}},"meta":{"requestId":"a358e727c8454c098576ea5aacfcde29"}}

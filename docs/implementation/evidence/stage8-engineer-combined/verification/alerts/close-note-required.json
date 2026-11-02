@@ -1,0 +1,23 @@
+{
+  "feedback": [
+    "关闭事件必须有当前事件关联且验收通过的工单，或填写“无需维修”现场核查结论"
+  ],
+  "before": {
+    "events": 2,
+    "issues": 1,
+    "work_orders": 1,
+    "media_files": 4,
+    "attachments": 4,
+    "audits": 54,
+    "operation_receipts": 47
+  },
+  "after": {
+    "events": 2,
+    "issues": 1,
+    "work_orders": 1,
+    "media_files": 4,
+    "attachments": 4,
+    "audits": 54,
+    "operation_receipts": 47
+  }
+}

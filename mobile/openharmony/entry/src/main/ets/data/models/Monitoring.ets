@@ -62,6 +62,21 @@ export interface Assessment {
   reason?: string;
 }
 
+export interface RuleThresholdSnapshot {
+  yellow?: number;
+  orange?: number;
+  red?: number;
+}
+
+export interface RuleSnapshot {
+  ruleId?: string;
+  ruleCode?: string;
+  ruleVersion?: string;
+  thresholds?: RuleThresholdSnapshot | null;
+  unit?: string;
+  source?: string;
+}
+
 export interface MonitorRecord {
   id: string;
   recordNo: string;
@@ -75,6 +90,9 @@ export interface MonitorRecord {
   isBackfill: boolean;
   ruleVersion: string | null;
   assessment?: Assessment | null;
+  metric?: string;
+  baselineValues?: MetricValues | null;
+  ruleSnapshot?: RuleSnapshot | null;
 }
 
 export interface AlarmEvent {

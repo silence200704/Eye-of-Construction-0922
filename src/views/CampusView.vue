@@ -15,6 +15,7 @@ import DescList from '@/components/ui/info/DescList.vue'
 import EmptyState from '@/components/ui/EmptyState.vue'
 import StatusTag from '@/components/ui/StatusTag.vue'
 import CampusMap from '@/components/map/CampusMap.vue'
+import FloorDrawer, { type FloorDrawerFloor } from '@/components/map/FloorDrawer.vue'
 import FloorMap from '@/components/map/FloorMap.vue'
 import type { SpatialInitial } from '@/components/map/spatial/SpatialPanel.vue'
 import PointDetailPanel from '@/components/panels/PointDetailPanel.vue'
@@ -29,12 +30,13 @@ const archive = useArchiveStore()
 const records = useRecordsStore()
 
 /**
- * 视图三档：2D 平面（默认）／校园 3D（看四栋完整建筑外观）／3D 楼层（进单栋看逐层与传感器）。
+ * 视图三档：2D 平面（默认）／校园 3D（看五栋完整建筑外观）／3D 楼层（进单栋看逐层与传感器）。
  * 都只是同一份档案的不同看法，不改档案、不写库。
  */
 const stage = ref<SpatialStage>('2d')
 const view3d = computed(() => stage.value !== '2d')
 const spatialNotice = ref('')
+const floorDrawerOpen = ref(false)
 const spatialInitial = ref<SpatialInitial>({ stage: 'campus', buildingId: '', floorId: '', pointId: '' })
 
 const selectedBuildingId = ref('')
@@ -50,6 +52,30 @@ const floor = computed(() => archive.floorById(selectedFloorId.value) ?? null)
 const floorPoints = computed(() => (floor.value === null ? [] : archive.pointsOfFloor(floor.value.id, true)))
 const selectedPoint = computed(() => archive.pointById(selectedPointId.value) ?? null)
 const levelLabel = computed(() => (building.value === null ? '' : `${building.value.name} ${floor.value?.name ?? ''}`.trim()))
+
+const drawerFloors = computed<FloorDrawerFloor[]>(() =>
+  floors.value.map((row) => ({
+    id: row.id,
+    floorNo: row.floorNo,
+    name: row.name,
+    built: true,
+  })),
+)
+
+function selectBuilding(id: string): void {
+  selectedBuildingId.value = id
+  selectedPointId.value = ''
+  floorDrawerOpen.value = true
+}
+
+function selectDrawerFloor(id: string): void {
+  selectedFloorId.value = id
+  selectedPointId.value = ''
+}
+
+watch(selectedBuildingId, (id) => {
+  if (id === '') floorDrawerOpen.value = false
+})
 
 const badges = computed(() => {
   const map: Record<string, number> = {}
@@ -141,7 +167,7 @@ function syncFromRoute(): void {
   stage.value = stageOf(target)
   spatialNotice.value = target.reason
   // 3D 楼层档：链接没点名楼栋/楼层时，沿用 2D 当前钻取到的那一栋那一层；
-  // 校园 3D 档不看楼栋，直接就是四栋外观。
+  // 校园 3D 档不看楼栋，直接就是五栋外观。
   spatialInitial.value = {
     stage: stage.value === 'campus' ? 'campus' : 'building',
     buildingId: stage.value === 'campus'
@@ -158,6 +184,8 @@ function syncFromRoute(): void {
 }
 
 function setView(next: SpatialStage): void {
+  // 进入 3D 后由 3D 面板自己的楼层抽屉接管，避免 2D 抽屉浮在上面
+  if (next !== '2d') floorDrawerOpen.value = false
   // 先备好初始选择，再切档位：面板是 v-if 挂载的，顺序反了会先按旧值挂上去
   if (next === 'campus') spatialInitial.value = { stage: 'campus', buildingId: '', floorId: '', pointId: '' }
   stage.value = next
@@ -225,7 +253,7 @@ function fallbackTo2d(reason: string): void {
       v-if="view3d"
       :title="stage === 'campus' ? '校园 3D' : '3D 楼层'"
       :sub="stage === 'campus'
-        ? '四栋建筑的完整外观模型，位置按楼栋档案的校园占位摆放，与 2D 校园图一一对应；点楼栋进入楼层视图'
+        ? '五栋建筑的完整外观模型，位置按楼栋档案的校园占位摆放，与 2D 校园图一一对应；点楼栋进入楼层视图'
         : '按档案生成的演示示意：校园 → 楼栋 → 楼层 → 测点；选中的对象与小瞳、看板用同一个编号'"
       marked
     >
@@ -250,16 +278,11 @@ function fallbackTo2d(reason: string): void {
           :badges="badges"
           :active-id="selectedBuildingId"
           :height="456"
-          @select="
-            (id) => {
-              selectedBuildingId = id
-              selectedPointId = ''
-            }
-          "
+          @select="selectBuilding"
         />
       </SectionCard>
 
-      <SectionCard :title="building === null ? '楼栋档案' : `${building.code} ${building.name}`" sub="点击楼层标签切换楼层图">
+      <SectionCard :title="building === null ? '楼栋档案' : `${building.code} ${building.name}`" sub="打开楼层抽屉切换楼层图">
         <EmptyState v-if="building === null" title="尚未选择楼栋" sub="在左侧校园图上点击任意楼栋" />
         <template v-else>
           <div class="row wrap head-row">
@@ -274,23 +297,11 @@ function fallbackTo2d(reason: string): void {
 
           <DescList :items="buildingItems" />
 
-          <div class="tabs">
-            <button
-              v-for="row in floors"
-              :key="row.id"
-              type="button"
-              class="tab"
-              :class="{ 'tab--on': row.id === selectedFloorId }"
-              @click="
-                () => {
-                  selectedFloorId = row.id
-                  selectedPointId = ''
-                }
-              "
-            >
-              {{ row.name }}
+          <div class="floor-launch">
+            <span class="muted">当前楼层：{{ floor?.name ?? '未选择' }}</span>
+            <button type="button" class="view-btn" @click="floorDrawerOpen = true">
+              展开楼层抽屉 · {{ floors.length }} 层
             </button>
-            <span v-if="floors.length === 0" class="muted">该楼栋尚未建立楼层</span>
           </div>
 
           <DataTable
@@ -337,6 +348,18 @@ function fallbackTo2d(reason: string): void {
 
       <PointDetailPanel :point="selectedPoint" @record="openRecord" @baseline="openBaseline" />
     </div>
+
+    <FloorDrawer
+      v-if="!view3d"
+      :open="floorDrawerOpen"
+      :building-code="building?.code ?? ''"
+      :building-name="building?.name ?? ''"
+      :floors="drawerFloors"
+      :active-floor-id="selectedFloorId"
+      @open="floorDrawerOpen = true"
+      @close="floorDrawerOpen = false"
+      @select-floor="selectDrawerFloor"
+    />
 
     <RecordDialog :open="recordOpen" :point-id="recordPointId" :record="null" @close="recordOpen = false" />
     <BaselineDialog
@@ -395,36 +418,15 @@ function fallbackTo2d(reason: string): void {
   margin-bottom: 12px;
 }
 
-.tabs {
+.floor-launch {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
   margin: 14px 0 12px;
   padding-top: 12px;
   border-top: 1px solid var(--line);
-}
-
-.tab {
-  height: 28px;
-  padding: 0 12px;
-  border: 1px solid var(--line-strong);
-  border-radius: var(--r-sm);
-  background: var(--paper);
-  color: var(--text-2);
-  font-size: 12.5px;
-  cursor: pointer;
-}
-
-.tab:hover {
-  border-color: var(--brand-500);
-  color: var(--brand-700);
-}
-
-.tab--on {
-  background: var(--brand-050);
-  border-color: var(--brand-600);
-  color: var(--brand-700);
-  font-weight: 600;
 }
 
 .clickable {

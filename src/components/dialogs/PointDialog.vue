@@ -42,7 +42,7 @@ const fields = computed(() => {
   }
   return list
 })
-const { model, errors, submitError, reset, mergeIssues, run } = useFormModel(() => fields.value)
+const { model, errors, submitError, pending, reset, mergeIssues, run } = useFormModel(() => fields.value)
 const coord = ref<NormPoint>({ x: 0.5, y: 0.5 })
 
 const selectedFloor = computed(() => archive.floorById(String(model.value.floorId ?? '')) ?? null)
@@ -217,7 +217,7 @@ async function submit(): Promise<void> {
 
     <template #footer>
       <AppButton @click="emit('close')">取消</AppButton>
-      <AppButton variant="primary" @click="submit">保存测点</AppButton>
+      <AppButton variant="primary" :loading="pending" @click="submit">保存测点</AppButton>
     </template>
   </AppModal>
 </template>

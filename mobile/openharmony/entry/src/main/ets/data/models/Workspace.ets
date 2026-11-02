@@ -1,6 +1,7 @@
 import { Building, Floor, Point, Device, MonitorRecord, AlarmEvent } from './Monitoring';
 import { InspectionTask, WorkOrder } from './Tasks';
 import { IssueRecord } from './Reports';
+import { MaintenanceTask } from './business/Maintenance';
 
 export interface ArchiveSnapshot {
   epoch: number;
@@ -17,6 +18,7 @@ export interface Workspace extends ArchiveSnapshot {
   orders: WorkOrder[];
   issues: IssueRecord[];
   supplementableIds: string[];
+  maintenance?: MaintenanceTask[];
 }
 
 export function emptyWorkspace(): Workspace {
@@ -26,23 +28,23 @@ export function emptyWorkspace(): Workspace {
 export function withTasks(workspace: Workspace, tasks: InspectionTask[]): Workspace {
   return { epoch: workspace.epoch, buildings: workspace.buildings, floors: workspace.floors,
     points: workspace.points, devices: workspace.devices, records: workspace.records,
-    events: workspace.events, orders: workspace.orders, issues: workspace.issues, supplementableIds: workspace.supplementableIds, tasks };
+    events: workspace.events, orders: workspace.orders, issues: workspace.issues, supplementableIds: workspace.supplementableIds, maintenance: workspace.maintenance, tasks };
 }
 
 export function withIssues(workspace: Workspace, issues: IssueRecord[]): Workspace {
   return { epoch: workspace.epoch, buildings: workspace.buildings, floors: workspace.floors,
     points: workspace.points, devices: workspace.devices, records: workspace.records,
-    events: workspace.events, orders: workspace.orders, tasks: workspace.tasks, supplementableIds: workspace.supplementableIds, issues };
+    events: workspace.events, orders: workspace.orders, tasks: workspace.tasks, supplementableIds: workspace.supplementableIds, maintenance: workspace.maintenance, issues };
 }
 
 export function withOrders(workspace: Workspace, orders: WorkOrder[]): Workspace {
   return { epoch: workspace.epoch, buildings: workspace.buildings, floors: workspace.floors,
     points: workspace.points, devices: workspace.devices, records: workspace.records,
-    events: workspace.events, tasks: workspace.tasks, issues: workspace.issues, supplementableIds: workspace.supplementableIds, orders };
+    events: workspace.events, tasks: workspace.tasks, issues: workspace.issues, supplementableIds: workspace.supplementableIds, maintenance: workspace.maintenance, orders };
 }
 
 export function withEvents(workspace: Workspace, events: AlarmEvent[]): Workspace {
   return { epoch: workspace.epoch, buildings: workspace.buildings, floors: workspace.floors,
     points: workspace.points, devices: workspace.devices, records: workspace.records,
-    tasks: workspace.tasks, orders: workspace.orders, issues: workspace.issues, supplementableIds: workspace.supplementableIds, events };
+    tasks: workspace.tasks, orders: workspace.orders, issues: workspace.issues, supplementableIds: workspace.supplementableIds, maintenance: workspace.maintenance, events };
 }

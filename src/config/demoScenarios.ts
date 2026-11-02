@@ -281,19 +281,6 @@ export const DEMO_SCENARIOS: DemoScenarioMeta[] = [
   },
 ]
 
-/** 页面路径 → 该页面右上角展示的场景。 */
-export const PAGE_SCENARIOS: { path: string; key: DemoScenarioKey }[] = [
-  { path: '/', key: 'campus' },
-  { path: '/campus', key: 'campus' },
-  { path: '/monitor', key: 'records' },
-  { path: '/trend', key: 'trend' },
-  { path: '/alarms', key: 'alarm' },
-  { path: '/inspection', key: 'inspection' },
-  { path: '/issues', key: 'issuePool' },
-  { path: '/maintenance', key: 'maintenance' },
-  { path: '/reports', key: 'reports' },
-]
-
 export function scenarioMeta(key: DemoScenarioKey): DemoScenarioMeta {
   const found = DEMO_SCENARIOS.find((row) => row.key === key)
   if (found === undefined) throw new Error(`未知的演示场景：${key}`)

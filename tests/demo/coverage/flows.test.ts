@@ -73,8 +73,8 @@ describe('唯一全链入口的数据全面化', () => {
   it('新增档案覆盖不同楼栋与楼层，2D/3D读取同一归一化坐标，不改变人工检查点', async () => {
     await loadCoverageScenario()
     const archive = useArchiveStore()
-    expect(archive.activePoints).toHaveLength(13)
-    expect(archive.activePoints.filter((row) => row.metric === 'inspection')).toHaveLength(4)
+    expect(archive.activePoints).toHaveLength(14)
+    expect(archive.activePoints.filter((row) => row.metric === 'inspection')).toHaveLength(5)
     for (const spec of EXTRA_POINTS) {
       const point = archive.pointById(spec.id)
       expect(point).toMatchObject({ buildingId: spec.buildingId, floorId: spec.floorId, coord: { x: spec.x, y: spec.y } })

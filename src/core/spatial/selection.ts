@@ -40,7 +40,7 @@ export function parseSpatialQuery(query: Record<string, unknown>): SpatialSelect
 
 /**
  * 3D 的两个档位：
- * - `campus`：校园 3D —— 四栋**完整建筑的外观**，位置按 `footprint` 与 2D 校园图一一对应；
+ * - `campus`：校园 3D —— 全部楼栋**完整建筑的外观**，位置按 `footprint` 与 2D 校园图一一对应；
  * - `building`：3D 楼层 —— 进到某一栋看逐层剖面与贴墙的传感器。
  *
  * 判定只用"有没有点名楼栋"：`view=3d` 不带 `b` 就是校园，带 `b` 才进单栋。

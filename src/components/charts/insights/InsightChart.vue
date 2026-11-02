@@ -16,7 +16,7 @@ function select(params: unknown): void {
 
 <template>
   <ChartPanel :empty="model.total === 0 ? model.empty : ''">
-    <div class="plot" :aria-label="`${kind === 'coverage' ? '测点' : kind === 'alerts' ? '未关闭事件' : '工单'}合计${model.total}`">
+    <div class="plot" role="img" :aria-label="`${kind === 'coverage' ? '测点' : kind === 'alerts' ? '未关闭事件' : '工单'}合计${model.total}`">
       <VChart :option="option" class="chart" autoresize @click="select" />
       <div v-if="kind === 'coverage'" class="center"><b>{{ model.total }}</b><span>传感器测点</span></div>
     </div>

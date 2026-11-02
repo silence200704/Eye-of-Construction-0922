@@ -58,11 +58,6 @@ export function mediaPairIsAvailable(pair: AskMediaPairPreview, frames: MediaFra
   )
 }
 
-/** 单张内置素材的登记区域；人工上传的照片没有登记区域，返回 null。 */
-export function regionsOf(frame: MediaFrameRef): BuiltinSpec['regions'] | null {
-  return BUILTIN_SPECS[frame.origin]?.regions ?? null
-}
-
 /** 两张图的来源决定这份预览的口径：是不是内置演示素材、有没有登记区域。 */
 function describe(pair: [MediaFrameRef, MediaFrameRef]): { source: MediaPairSource; note: string; regions: BuiltinSpec['regions'] | null } {
   const [before, after] = pair

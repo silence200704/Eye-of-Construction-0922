@@ -1,0 +1,152 @@
+[
+  {
+    "id": "",
+    "text": "我的守护手账",
+    "bounds": "[63,206][610,313]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "身份、连接和小偏好，都在这里。",
+    "bounds": "[63,334][694,383]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "校园服务连接",
+    "bounds": "[130,527][508,601]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "已连上，数据有来处",
+    "bounds": "[130,619][509,668]",
+    "type": "Text"
+  },
+  {
+    "id": "service-settings",
+    "text": "设置",
+    "bounds": "[980,513][1190,681]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "当前服务 http://127.0.0.1:18090",
+    "bounds": "[130,723][683,768]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "今天，由谁来守护？",
+    "bounds": "[403,1014][1002,1092]",
+    "type": "Text"
+  },
+  {
+    "id": "current-identity",
+    "text": "当前：学校安全管理人员",
+    "bounds": "[403,1110][866,1159]",
+    "type": "Text"
+  },
+  {
+    "id": "identity-demo-safety",
+    "text": "",
+    "bounds": "[130,1250][1190,1500]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "学校安全管理人员",
+    "bounds": "[374,1344][1030,1406]",
+    "type": "Text"
+  },
+  {
+    "id": "identity-demo-property",
+    "text": "",
+    "bounds": "[130,1542][1190,1786]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "物业值班人员",
+    "bounds": "[371,1633][1047,1695]",
+    "type": "Text"
+  },
+  {
+    "id": "identity-demo-device",
+    "text": "",
+    "bounds": "[130,1828][1190,2072]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "设备管理人员",
+    "bounds": "[371,1919][1047,1981]",
+    "type": "Text"
+  },
+  {
+    "id": "identity-demo-inspector",
+    "text": "",
+    "bounds": "[130,2114][1190,2358]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "巡检人员",
+    "bounds": "[371,2205][1047,2267]",
+    "type": "Text"
+  },
+  {
+    "id": "identity-demo-repair",
+    "text": "",
+    "bounds": "[130,2400][1190,2444]",
+    "type": "Button"
+  },
+  {
+    "id": "tab-0",
+    "text": "",
+    "bounds": "[68,2493][348,2695]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "工作台",
+    "bounds": "[82,2615][334,2664]",
+    "type": "Text"
+  },
+  {
+    "id": "tab-1",
+    "text": "",
+    "bounds": "[369,2493][650,2695]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "监测",
+    "bounds": "[383,2615][635,2664]",
+    "type": "Text"
+  },
+  {
+    "id": "tab-2",
+    "text": "",
+    "bounds": "[671,2493][951,2695]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "任务",
+    "bounds": "[685,2615][937,2664]",
+    "type": "Text"
+  },
+  {
+    "id": "tab-3",
+    "text": "",
+    "bounds": "[972,2493][1253,2695]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "我的",
+    "bounds": "[986,2615][1238,2664]",
+    "type": "Text"
+  }
+]

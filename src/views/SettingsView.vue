@@ -29,6 +29,7 @@ import DemoChainPanel from '@/components/demo/DemoChainPanel.vue'
 import { backendEnabled } from '@/api/http/runtime'
 import BackendIdentity from '@/components/session/BackendIdentity.vue'
 import LegacyMigrationPanel from '@/components/settings/LegacyMigrationPanel.vue'
+import ShowcaseControl from '@/components/showcase/ShowcaseControl.vue'
 
 const archive = useArchiveStore()
 const plans = usePlanStore()
@@ -225,6 +226,7 @@ const notYet = [
     </p>
 
     <DemoChainPanel />
+    <ShowcaseControl v-if="backendEnabled" @changed="reloadAllStores" />
     <LegacyMigrationPanel v-if="backendEnabled" />
 
     <div class="two">
@@ -291,7 +293,7 @@ const notYet = [
 
     <SectionCard title="操作日志" :sub="`共 ${archive.audits.length} 条，展示最近 60 条`">
       <template #actions>
-        <select v-model="auditFilter" class="ctl filter-ctl">
+        <select v-model="auditFilter" class="ctl filter-ctl" aria-label="按操作对象筛选日志">
           <option value="">全部对象</option>
           <option v-for="item in auditOptions" :key="item" :value="item">{{ item }}</option>
         </select>

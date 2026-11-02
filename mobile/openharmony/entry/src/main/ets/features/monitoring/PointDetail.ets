@@ -13,6 +13,7 @@ export struct PointDetail {
   @Prop state: AppState;
   @Prop pointId: string;
   onReport: (target: ReportTarget) => void = () => {};
+  onTrend: (id: string) => void = () => {};
 
   point(): Point | undefined {
     return this.state.workspace.points.find((point) => point.id === this.pointId && point.status === 'active');
@@ -67,6 +68,10 @@ export struct PointDetail {
     PageStage() {
         if (this.state.mode === 'ready' && this.point()) {
           this.current();
+          if (this.point()?.type !== 'manual_check') {
+            PlayButton({ title: '查看这处测点的监测趋势', secondary: true, controlId: 'point-trend',
+              onAction: () => this.onTrend(this.pointId) });
+          }
           PlayButton({ title: '记录这个测点的现场发现', secondary: true, controlId: 'point-report', onAction: () => this.onReport({
             pointId: this.pointId, buildingId: this.point()!.buildingId, floorId: this.point()!.floorId, taskId: '', expectedRev: 0 }) });
           this.devices();

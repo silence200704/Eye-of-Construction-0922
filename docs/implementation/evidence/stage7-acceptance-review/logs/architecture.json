@@ -1,0 +1,26 @@
+[
+  {
+    "file": "src/zhutong/operations/assistant/resolve.py",
+    "lines": 424,
+    "maxFunctionLines": 47,
+    "maxParams": 5
+  },
+  {
+    "file": "src/zhutong/operations/media/session.py",
+    "lines": 368,
+    "maxFunctionLines": 34,
+    "maxParams": 5
+  },
+  {
+    "file": "scripts/stage7/stage7_seeds.py",
+    "lines": 291,
+    "maxFunctionLines": 62,
+    "maxParams": 4
+  },
+  {
+    "file": "../docs/implementation/evidence/stage7-acceptance-review/probes.py",
+    "lines": 230,
+    "maxFunctionLines": 45,
+    "maxParams": 4
+  }
+]

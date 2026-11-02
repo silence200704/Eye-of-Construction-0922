@@ -1,0 +1,22 @@
+{
+  "method": "Headless Chrome on this computer; default 1440x1000, no CPU/network throttling",
+  "clickToNextAnimationFrameMs": [
+    4.099999999627471,
+    3.199999999254942,
+    2.900000000372529,
+    3.8999999994412065,
+    2.7999999998137355,
+    5.5,
+    3.1000000005587935,
+    3.2999999998137355
+  ],
+  "medianFrameMs": 5.2000000000000455,
+  "p95FrameMs": 6.2000000000000455,
+  "framesOver50ms": 0,
+  "frameCount": 90,
+  "outboundRequests": [],
+  "queryKeptPageInstance": true,
+  "queryPreservedScroll": 80,
+  "pathChangeResetScroll": true,
+  "caveat": "Local smoke measurement, not a universal FPS or INP guarantee; first-load/chart performance differs."
+}

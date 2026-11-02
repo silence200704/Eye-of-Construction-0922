@@ -1,0 +1,17 @@
+{
+  "apiCounts": {
+    "/issues": 1,
+    "/work-orders": 2,
+    "/events": 2,
+    "/attachments": 4
+  },
+  "dbCounts": {
+    "events": 2,
+    "issues": 1,
+    "work_orders": 2,
+    "media_files": 4,
+    "attachments": 4,
+    "audits": 71,
+    "operation_receipts": 63
+  }
+}

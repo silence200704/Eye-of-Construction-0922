@@ -109,6 +109,30 @@ export class ReportSession {
     this.view.draft.photos = this.view.draft.photos.filter((row) => row.prepared.draftId !== id); this.publish();
   }
 
+  /** 把 AI 结论作为建议填入当前草稿；只填文字，不提交、不覆盖已有说明。 */
+  applySuggestion(text: string): boolean {
+    if (this.locked() || !this.view.draft) return false;
+    const clean = text.trim().slice(0, 4000);
+    if (!clean) return false;
+    if (this.view.draft.target.orderId && this.view.draft.target.action === 'submitted') {
+      this.view.draft.measures = this.view.draft.measures.trim()
+        ? `${this.view.draft.measures.trim()}
+${clean}` : clean;
+    } else if (this.view.draft.target.issueId || this.view.draft.target.orderId) {
+      this.view.draft.note = this.view.draft.note.trim()
+        ? `${this.view.draft.note.trim()}
+${clean}` : clean;
+    } else if (!this.view.draft.description.trim()) {
+      this.view.draft.description = clean;
+    } else {
+      this.view.draft.note = this.view.draft.note.trim()
+        ? `${this.view.draft.note.trim()}
+${clean}` : clean;
+    }
+    this.publish();
+    return true;
+  }
+
   async choose(select: () => Promise<PreparedPhoto | null>): Promise<void> {
     if (this.locked() || !this.view.draft || !this.lease) return;
     const draft = this.view.draft, lease = this.lease, generation = this.generation;

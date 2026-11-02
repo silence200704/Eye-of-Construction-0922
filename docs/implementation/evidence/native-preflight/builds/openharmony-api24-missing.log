@@ -1,0 +1,40 @@
+> hvigor ERROR: Error Code: 00308018 Unknown Error
+Cause: Unable to find the following components:
+		toolchains:24
+		ArkTS:24
+		js:24
+		native:24
+		previewer:24
+Solution: 
+		1.Go to File > Settings > OpenHarmony SDK, download the components, and sync the project. Open SDK Manager
+		2.Alternatively, modify the compileSdkVersion settings in the project-level build-profile.json5 file.
+
+* Try the following:
+  > This error is unknown, view the detailed error logs in the '.hvigor > outputs > build-logs' directory in the project directory for analysis, or contact the developer's official website for help.
+  > More info: https://developer.huawei.com/consumer/cn/doc/harmonyos-faqs/faqs-compiling-and-building
+
+
+* Try:
+> Run with --debug option to get more log output.
+
+> hvigor ERROR: Error: Error Code: 00308018 Unknown Error
+Cause: Unable to find the following components:
+		toolchains:24
+		ArkTS:24
+		js:24
+		native:24
+		previewer:24
+Solution: 
+		1.Go to File > Settings > OpenHarmony SDK, download the components, and sync the project. Open SDK Manager
+		2.Alternatively, modify the compileSdkVersion settings in the project-level build-profile.json5 file.
+
+* Try the following:
+  > This error is unknown, view the detailed error logs in the '.hvigor > outputs > build-logs' directory in the project directory for analysis, or contact the developer's official website for help.
+  > More info: https://developer.huawei.com/consumer/cn/doc/harmonyos-faqs/faqs-compiling-and-building
+
+    at OhSdkInfoHandler._throwNotFoundException (D:\DevEco\Studio\tools\hvigor\hvigor-ohos-plugin\node_modules\@ohos\sdkmanager-common\build\src\core\api\common-sdk-info-handler.js:142:30)
+    at OhSdkInfoHandler.<anonymous> (D:\DevEco\Studio\tools\hvigor\hvigor-ohos-plugin\node_modules\@ohos\sdkmanager-common\build\src\core\api\common-sdk-info-handler.js:88:29)
+    at Generator.next (<anonymous>)
+    at fulfilled (D:\DevEco\Studio\tools\hvigor\hvigor-ohos-plugin\node_modules\@ohos\sdkmanager-common\build\src\core\api\common-sdk-info-handler.js:5:58)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+> hvigor ERROR: BUILD FAILED in 5 s 224 ms 

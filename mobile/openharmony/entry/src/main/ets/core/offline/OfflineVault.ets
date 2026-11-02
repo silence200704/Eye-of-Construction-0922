@@ -3,6 +3,7 @@ import { ApiError } from '../network/ApiError';
 import { normalizeEndpoint } from '../network/Endpoint';
 import { initializeOffline } from './OfflineSchema';
 import { readLocalPack, confirmLocalPack } from './OfflineScope';
+import { selectedDataset } from '../network/DatasetSelection';
 
 export class OfflineVault {
   private db: LocalSql;
@@ -38,7 +39,7 @@ export class OfflineVault {
       if (!input.user.id || !Number.isInteger(input.workspace.epoch) || input.workspace.epoch < 1) {
         throw new ApiError('INVALID_SNAPSHOT', '请先完整读取当前身份的数据。');
       }
-      const pack: OfflinePack = { baseUrl: normalizeEndpoint(input.baseUrl), datasetId: 'demo-main',
+      const pack: OfflinePack = { baseUrl: normalizeEndpoint(input.baseUrl), datasetId: selectedDataset(),
         user: { id: input.user.id, name: input.user.name, role: input.user.role,
           roleLabel: input.user.roleLabel, buildingIds: input.user.buildingIds },
         workspace: input.workspace, scope: scopeKey(input), downloadedAt: new Date().toISOString() };

@@ -3,7 +3,7 @@
  * 楼层平面示意图：按区域名称生成走廊与房间分隔，支持测点点击定位与新增落点。
  * 底图由程序生成，换真实楼层图时替换底图并递增底图版本，坐标约定不变。
  */
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import type { Floor, NormPoint, Point, PointType } from '@/types/domain'
 import { VIEW_H, VIEW_W } from '@/core/map/viewport'
 import { FLOOR_PLAN as PLAN, floorLayoutOf } from '@/core/spatial/layout'
@@ -52,6 +52,9 @@ const {
 /** 楼层几何来自 `core/spatial/layout.ts`（2D 与 3D 的唯一来源），这里只负责画 */
 const layout = computed(() => floorLayoutOf(props.floor?.zones ?? []))
 const rooms = computed(() => layout.value.rooms)
+/** 房间名称默认隐藏；点哪个房间才显示哪个，避免平面图一上来全是字。 */
+const selectedRoom = ref<number | null>(null)
+watch(() => props.floor?.id, () => { selectedRoom.value = null })
 
 const doors = computed(() =>
   rooms.value.map((room) => {
@@ -133,10 +136,12 @@ const demoCount = computed(() => props.points.filter((row) => row.dataSource ===
           />
 
           <template v-for="(room, index) in rooms" :key="`room-${index}`">
-            <rect :x="room.box.x" :y="room.box.y" :width="room.box.w" :height="room.box.h" fill="#ffffff" stroke="#8fa3ac" stroke-width="1.6" />
-            <text :x="room.box.x + room.box.w / 2" :y="room.box.y + 24" text-anchor="middle" font-size="12" fill="#5a6b73">
+            <g class="room" @pointerdown.stop="selectedRoom = index">
+            <rect :x="room.box.x" :y="room.box.y" :width="room.box.w" :height="room.box.h" :fill="selectedRoom === index ? '#eef7f5' : '#ffffff'" stroke="#8fa3ac" stroke-width="1.6" />
+            <text v-if="selectedRoom === index" :x="room.box.x + room.box.w / 2" :y="room.box.y + 24" text-anchor="middle" font-size="12" fill="#0b5762">
               {{ room.label }}
             </text>
+            </g>
             <g v-if="room.stairs" :stroke="'#a8b8bf'" stroke-width="1.2">
               <line
                 v-for="tread in 6"
@@ -149,6 +154,7 @@ const demoCount = computed(() => props.points.filter((row) => row.dataSource ===
             </g>
           </template>
 
+          <g class="room" @pointerdown.stop="selectedRoom = -1">
           <rect
             :x="PLAN.left"
             :y="PLAN.corridorTop"
@@ -158,9 +164,10 @@ const demoCount = computed(() => props.points.filter((row) => row.dataSource ===
             stroke="#8fa3ac"
             stroke-width="1.6"
           />
-          <text :x="PLAN.left + 30" :y="PLAN.corridorTop + 24" font-size="12" fill="#0f6e7c">
+          <text v-if="selectedRoom === -1" :x="PLAN.left + 30" :y="PLAN.corridorTop + 24" font-size="12" fill="#0f6e7c">
             {{ layout.zones[0].label }}
           </text>
+          </g>
           <line
             :x1="PLAN.left + 120"
             :y1="(PLAN.corridorTop + PLAN.corridorBottom) / 2"
@@ -272,6 +279,7 @@ const demoCount = computed(() => props.points.filter((row) => row.dataSource ===
 </template>
 
 <style scoped>
+.room { cursor: pointer; }
 .marker {
   cursor: pointer;
 }

@@ -1,0 +1,306 @@
+{
+  "files": [
+    {
+      "file": "src/App.vue",
+      "lines": 80,
+      "maxFunction": 14,
+      "maxParameters": 0,
+      "sha256": "f1302668c6704ea9fba8c4567a06f2a8afdf11ee7f58c60bd7e0b0b4fd42f608"
+    },
+    {
+      "file": "src/components/AppShell.vue",
+      "lines": 289,
+      "maxFunction": 7,
+      "maxParameters": 1,
+      "sha256": "427b7cbea73e0038c4cd7938b88320cdc3b8cbe117afd0548cc57c27c0aa97eb"
+    },
+    {
+      "file": "src/components/charts/insights/InsightChart.vue",
+      "lines": 32,
+      "maxFunction": 4,
+      "maxParameters": 1,
+      "sha256": "8a8e1dea7fe1f04d0356d62686ca2474c465c26e2ec5b15ff80b56bd37cef545"
+    },
+    {
+      "file": "src/components/dashboard/InsightBoards.vue",
+      "lines": 71,
+      "maxFunction": 6,
+      "maxParameters": 2,
+      "sha256": "de04163f9655c443c7a5f67793f77b05eb6d5b6a2d03038dd56c950e4a43aa01"
+    },
+    {
+      "file": "src/components/dashboard/SensorCardWall.vue",
+      "lines": 222,
+      "maxFunction": 44,
+      "maxParameters": 1,
+      "sha256": "5fd47dac6c5aeb9424892cc0006a4ffc3d7bae9fbd0dd77effb17b07d2525b7f"
+    },
+    {
+      "file": "src/components/dialogs/BaselineDialog.vue",
+      "lines": 124,
+      "maxFunction": 18,
+      "maxParameters": 1,
+      "sha256": "80d861b9a4dc805c21fb82af71311e1063766878b21e4c6cf3bf73073c808b56"
+    },
+    {
+      "file": "src/components/dialogs/BuildingDialog.vue",
+      "lines": 221,
+      "maxFunction": 43,
+      "maxParameters": 2,
+      "sha256": "35cca48039d11c778dec092c7d8f9f0e0e4fd9e11d9fd9a6677abebebea46e16"
+    },
+    {
+      "file": "src/components/dialogs/DeviceDialog.vue",
+      "lines": 156,
+      "maxFunction": 45,
+      "maxParameters": 1,
+      "sha256": "435e56dcb260188bf91f953a94d9b225d26387a722b250a933d1c6c9fb3327fe"
+    },
+    {
+      "file": "src/components/dialogs/FloorDialog.vue",
+      "lines": 142,
+      "maxFunction": 38,
+      "maxParameters": 1,
+      "sha256": "732c20d18d5dab213c207a6fd0fcf6242c6d25c72aebb3338424dd696e437121"
+    },
+    {
+      "file": "src/components/dialogs/PointDialog.vue",
+      "lines": 250,
+      "maxFunction": 45,
+      "maxParameters": 1,
+      "sha256": "6fd62e75748df41c8d7e7040a9c7f837a1434c5a11814f4ff36b2a4fc8f68ba7"
+    },
+    {
+      "file": "src/components/dialogs/RecordDialog.vue",
+      "lines": 428,
+      "maxFunction": 67,
+      "maxParameters": 1,
+      "sha256": "86e7c36628af0d845e8b7a277ec13f2ed92632d54cafb503c7632d99b0660845"
+    },
+    {
+      "file": "src/components/dialogs/RuleDialog.vue",
+      "lines": 175,
+      "maxFunction": 55,
+      "maxParameters": 1,
+      "sha256": "649109687b52fa7b736995ce26c4627c58c818a6e2a01be6676f4dd1c58431ce"
+    },
+    {
+      "file": "src/components/media/video/VideoPanel.vue",
+      "lines": 197,
+      "maxFunction": 15,
+      "maxParameters": 1,
+      "sha256": "e4037c9a1ae7695f3c9b1dafdd67ed5d36a7a041cca3557c67955f030ca54978"
+    },
+    {
+      "file": "src/components/session/BackendIdentity.vue",
+      "lines": 27,
+      "maxFunction": 0,
+      "maxParameters": 0,
+      "sha256": "8f4693a65afc74aa6a57c5117d0097d04579499ef332425a51a7d7b00932326b"
+    },
+    {
+      "file": "src/components/shell/FeatureLinks.vue",
+      "lines": 99,
+      "maxFunction": 24,
+      "maxParameters": 1,
+      "sha256": "e08fcf86d9c7f8a3ba5836b2ce434bcbce4ee75c9dca516b9d9d28bd14aa8727"
+    },
+    {
+      "file": "src/components/shell/NavGroups.vue",
+      "lines": 92,
+      "maxFunction": 1,
+      "maxParameters": 0,
+      "sha256": "08f4c0021742e49445525e0eb9a0b0dbfef6321e840d9e5bd33c2335ba718e90"
+    },
+    {
+      "file": "src/components/shell/PageStage.vue",
+      "lines": 29,
+      "maxFunction": 5,
+      "maxParameters": 0,
+      "sha256": "87ca7d693beb76372b2d95681c3d81791f4a503b48dad9100cc57ede7a6f4a74"
+    },
+    {
+      "file": "src/components/ui/AppButton.vue",
+      "lines": 109,
+      "maxFunction": 0,
+      "maxParameters": 0,
+      "sha256": "2135dc368e9519699f2bd9d353930876e1e64f0a8c49aaa78cb89d7c5aee2ec0"
+    },
+    {
+      "file": "src/components/ui/AppModal.vue",
+      "lines": 227,
+      "maxFunction": 21,
+      "maxParameters": 1,
+      "sha256": "3229e4296e2772e971593fe32bc85223b7c0ed2b2b8f0673ebe12806f2bc4348"
+    },
+    {
+      "file": "src/components/ui/EmptyState.vue",
+      "lines": 32,
+      "maxFunction": 0,
+      "maxParameters": 0,
+      "sha256": "9f4f9a69195efc1c648bede39412626bf2f0f5d3c49dbebf3dfce10a70f1461c"
+    },
+    {
+      "file": "src/components/ui/SectionCard.vue",
+      "lines": 45,
+      "maxFunction": 0,
+      "maxParameters": 0,
+      "sha256": "a64b1d56b0edb83909681d4151e54cdeec7cddb96d53bc57d626db0e36daf871"
+    },
+    {
+      "file": "src/core/useForm.ts",
+      "lines": 54,
+      "maxFunction": 49,
+      "maxParameters": 1,
+      "sha256": "51c7ced67516f4f7fcfe34fdc64339e512b02ddd0fbb5efd03b8ed07ac745df1"
+    },
+    {
+      "file": "src/main.ts",
+      "lines": 21,
+      "maxFunction": 4,
+      "maxParameters": 3,
+      "sha256": "e7a20ef54a1b928b35d2ea25f39b23c02ff359fa7883a111d0cdde167fa29a73"
+    },
+    {
+      "file": "src/styles/tokens.css",
+      "lines": 69,
+      "maxFunction": 0,
+      "maxParameters": 0,
+      "sha256": "170a2006391c382f4518a9f552f4443952e4090fbe427929852200d363c25190"
+    },
+    {
+      "file": "src/views/OverviewView.vue",
+      "lines": 249,
+      "maxFunction": 7,
+      "maxParameters": 2,
+      "sha256": "fe8c9a084c73e83ef8869302c7c3fbc3381fc4f10ad3346518fdeee57ef40c1b"
+    },
+    {
+      "file": "src/views/SettingsView.vue",
+      "lines": 438,
+      "maxFunction": 26,
+      "maxParameters": 2,
+      "sha256": "5eecc0c01ce379c13206851535b72777b579ca5b21487ca42e1ce3f372098d80"
+    },
+    {
+      "file": "src/views/dashboard/DashboardView.vue",
+      "lines": 323,
+      "maxFunction": 10,
+      "maxParameters": 2,
+      "sha256": "0acf1ad24425289b8760a3669b11901eccaa686aeee4ee58a6ecea60ea1c230e"
+    },
+    {
+      "file": "src/views/operations/ReportsView.vue",
+      "lines": 356,
+      "maxFunction": 15,
+      "maxParameters": 3,
+      "sha256": "4de2054dc00137492d3b2c90bb46b4a0771c39e943c9806dbd717a4172e3ca5e"
+    },
+    {
+      "file": "tests/tooling/structure.test.mjs",
+      "lines": 121,
+      "maxFunction": 38,
+      "maxParameters": 1,
+      "sha256": "727113a36f81810d6fbc81e42661fea6dff2e4187a109d00b8bb77ad49769418"
+    },
+    {
+      "file": "src/components/shell/QuickNavigation.vue",
+      "lines": 220,
+      "maxFunction": 11,
+      "maxParameters": 1,
+      "sha256": "56c8cfd9f2b22917e8e541bec45562fe9f1aeeb8b225d91f8e3649babe58d38c"
+    },
+    {
+      "file": "src/components/shell/RouteProgress.vue",
+      "lines": 49,
+      "maxFunction": 0,
+      "maxParameters": 0,
+      "sha256": "87adff35b16e794047be1c5976990ef25c292fc97a584aa949abfe738e3b8a4a"
+    },
+    {
+      "file": "src/components/visual/CampusBackdrop.vue",
+      "lines": 55,
+      "maxFunction": 0,
+      "maxParameters": 0,
+      "sha256": "4dbedffacc5fdf5a90058cc12af442d261a7d42f10daf1b1f07c7e5baa966b42"
+    },
+    {
+      "file": "src/components/visual/CampusScene.vue",
+      "lines": 99,
+      "maxFunction": 0,
+      "maxParameters": 0,
+      "sha256": "21ae7302c4e0a17cec75a688be183c7ea49892617969fd30d9f6c3ec2fd61fbf"
+    },
+    {
+      "file": "src/components/visual/QuickActions.vue",
+      "lines": 161,
+      "maxFunction": 0,
+      "maxParameters": 0,
+      "sha256": "cc497daaacd0e3537092d52e47e0ae184cbe9b4fca3bfcc8333b456b3bf070e9"
+    },
+    {
+      "file": "src/components/visual/UiGlyph.vue",
+      "lines": 35,
+      "maxFunction": 0,
+      "maxParameters": 0,
+      "sha256": "967b6da5633fa2a772bed8aef71ffe73d28099030d14687be7476e81100eb8b7"
+    },
+    {
+      "file": "src/components/visual/WorkspaceIntro.vue",
+      "lines": 75,
+      "maxFunction": 7,
+      "maxParameters": 0,
+      "sha256": "32bd83f03e791b6eb51ddba2a83fd74f332bfd5051e8534c590cdae332858a73"
+    },
+    {
+      "file": "src/components/visual/WorkspaceWelcome.vue",
+      "lines": 177,
+      "maxFunction": 0,
+      "maxParameters": 0,
+      "sha256": "51a93db94504f21b240bceed3f12c8c69d32a7301c341aa8c1ceb28e411c3305"
+    },
+    {
+      "file": "src/core/ui/navigationActivity.ts",
+      "lines": 34,
+      "maxFunction": 26,
+      "maxParameters": 3,
+      "sha256": "870ac5bfd833792718cc79c6a4564921fafaf7e6698103a493b1d19ac0b837ff"
+    },
+    {
+      "file": "src/directives/edgeLight.ts",
+      "lines": 57,
+      "maxFunction": 42,
+      "maxParameters": 1,
+      "sha256": "94410baa4e186f778fbcc4704cf27361797230c67ca79f2e5770a52d6b58aed5"
+    },
+    {
+      "file": "src/styles/refresh/shell.css",
+      "lines": 391,
+      "maxFunction": 0,
+      "maxParameters": 0,
+      "sha256": "cfc067a0baebd4dfddf7ec9272dee53dd1e3c3df6aaab7432bedd79ca922d387"
+    },
+    {
+      "file": "src/styles/refresh/surfaces.css",
+      "lines": 327,
+      "maxFunction": 0,
+      "maxParameters": 0,
+      "sha256": "274bbfef1190b75a897bbb5f5453cccf14100b6badc0049cb68a71588874c114"
+    },
+    {
+      "file": "tests/ui/formSubmission.test.ts",
+      "lines": 35,
+      "maxFunction": 32,
+      "maxParameters": 1,
+      "sha256": "a981d55321a224d33ee1184b3c9a433719a0eab6271a05d0554f65862c51e2ff"
+    },
+    {
+      "file": "tests/ui/navigationActivity.test.ts",
+      "lines": 42,
+      "maxFunction": 38,
+      "maxParameters": 1,
+      "sha256": "34b04b6158874afbb86ff5ebb40d2ee01583f48407307beb0cd6cf5c5fa5fe19"
+    }
+  ],
+  "problems": []
+}

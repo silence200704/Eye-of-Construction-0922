@@ -1,0 +1,1301 @@
+{
+  "initialAxe": [
+    {
+      "path": "/",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "nodes": [
+            {
+              "target": [
+                ".brand-sub"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.85 (foreground color: #728478, background color: #fbfcf8, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "#nav-monitor"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.2 (foreground color: #839185, background color: #fbfcf8, font size: 7.5pt (10px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "#nav-operations"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.2 (foreground color: #839185, background color: #fbfcf8, font size: 7.5pt (10px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "#nav-manage"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.2 (foreground color: #839185, background color: #fbfcf8, font size: 7.5pt (10px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "span[data-v-a2bcd24f=\"\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.42 (foreground color: #637780, background color: #f7f9f6, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".kpi.kpi--link[href$=\"#/campus\"] > .kpi-foot"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.02 (foreground color: #718276, background color: #fdfefa, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".kpi.kpi--link[href$=\"#/monitor\"]:nth-child(2) > .kpi-label"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.33 (foreground color: #637b6b, background color: #f5f9fc, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".kpi.kpi--link[href$=\"#/monitor\"]:nth-child(2) > .kpi-foot"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.84 (foreground color: #718276, background color: #f5f9fc, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "a[href$=\"#/maintenance\"] > .kpi-label"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.43 (foreground color: #637b6b, background color: #fffbf0, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "a[href$=\"#/maintenance\"] > .kpi-foot"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.93 (foreground color: #718276, background color: #fffbf0, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".kpi.kpi--link[href$=\"#/monitor\"]:nth-child(4) > .kpi-label"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.24 (foreground color: #637b6b, background color: #f7f5fb, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".kpi.kpi--link[href$=\"#/monitor\"]:nth-child(4) > .kpi-foot"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.76 (foreground color: #718276, background color: #f7f5fb, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/monitor",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "nodes": [
+            {
+              "target": [
+                ".brand-sub"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.85 (foreground color: #728478, background color: #fbfcf8, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "#nav-campus"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.2 (foreground color: #839185, background color: #fbfcf8, font size: 7.5pt (10px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "section[aria-labelledby=\"nav-campus\"] > a[href$=\"#/dashboard\"][title=\"校园态势\"][aria-label=\"校园态势\"] > span[data-v-90e58246=\"\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.83 (foreground color: #647a6e, background color: #e3ece9, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "#nav-operations"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.2 (foreground color: #839185, background color: #fbfcf8, font size: 7.5pt (10px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "#nav-manage"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.2 (foreground color: #839185, background color: #fbfcf8, font size: 7.5pt (10px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "span[data-v-a2bcd24f=\"\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.42 (foreground color: #637780, background color: #f7f9f6, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/alarms",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "nodes": [
+            {
+              "target": [
+                ".brand-sub"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.85 (foreground color: #728478, background color: #fbfcf8, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "#nav-campus"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.2 (foreground color: #839185, background color: #fbfcf8, font size: 7.5pt (10px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "#nav-monitor"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.2 (foreground color: #839185, background color: #fbfcf8, font size: 7.5pt (10px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "section[aria-labelledby=\"nav-monitor\"] > a[href$=\"#/monitor\"][title=\"监测分析\"][aria-label=\"监测分析\"] > span"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.13 (foreground color: #60776b, background color: #e8efec, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "#nav-manage"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.2 (foreground color: #839185, background color: #fbfcf8, font size: 7.5pt (10px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "span[data-v-a2bcd24f=\"\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.42 (foreground color: #637780, background color: #f7f9f6, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".notice"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.85 (foreground color: #b28c5f, background color: #f9f6ec, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".notice > b:nth-child(1)"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.85 (foreground color: #b28c5f, background color: #f9f6ec, font size: 9.0pt (12px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".notice > b:nth-child(2)"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.85 (foreground color: #b28c5f, background color: #f9f6ec, font size: 9.0pt (12px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".kpi:nth-child(1) > .kpi-label"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.34 (foreground color: #9aaa9e, background color: #f9fbf7, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".kpi:nth-child(1) > .kpi-foot"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.2 (foreground color: #a3aea5, background color: #f9fbf7, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".kpi:nth-child(2) > .kpi-label"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.34 (foreground color: #9aaa9e, background color: #f9fbf7, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".kpi:nth-child(2) > .kpi-foot"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.2 (foreground color: #a3aea5, background color: #f9fbf7, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".kpi:nth-child(3) > .kpi-label"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.34 (foreground color: #9aaa9e, background color: #f9fbf7, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".kpi:nth-child(3) > .kpi-foot"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.2 (foreground color: #a3aea5, background color: #f9fbf7, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".kpi:nth-child(4) > .kpi-label"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.34 (foreground color: #9aaa9e, background color: #f9fbf7, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".kpi:nth-child(4) > .kpi-foot"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.2 (foreground color: #a3aea5, background color: #f9fbf7, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/inspection",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "nodes": [
+            {
+              "target": [
+                ".brand-sub"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.85 (foreground color: #728478, background color: #fbfcf8, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "#nav-campus"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.2 (foreground color: #839185, background color: #fbfcf8, font size: 7.5pt (10px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "#nav-monitor"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.2 (foreground color: #839185, background color: #fbfcf8, font size: 7.5pt (10px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "section[aria-labelledby=\"nav-operations\"] > a[href$=\"#/alarms\"][title=\"异常处置\"][aria-label=\"异常处置\"] > span"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.51 (foreground color: #778a80, background color: #c9d9d9, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "section[aria-labelledby=\"nav-operations\"] > .nav-item--active[title=\"现场任务\"][aria-label=\"现场任务\"] > span"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.65 (foreground color: #dbe0dd, background color: #3d7a82, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "#nav-manage"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.2 (foreground color: #839185, background color: #fbfcf8, font size: 7.5pt (10px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "span[data-v-a2bcd24f=\"\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.42 (foreground color: #637780, background color: #f7f9f6, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/issues",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "nodes": [
+            {
+              "target": [
+                ".brand-sub"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.85 (foreground color: #728478, background color: #fbfcf8, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "#nav-campus"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.2 (foreground color: #839185, background color: #fbfcf8, font size: 7.5pt (10px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "#nav-monitor"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.2 (foreground color: #839185, background color: #fbfcf8, font size: 7.5pt (10px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "section[aria-labelledby=\"nav-operations\"] > a[href$=\"#/inspection\"][title=\"现场任务\"][aria-label=\"现场任务\"] > span"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.52 (foreground color: #687d71, background color: #dee8e6, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "#nav-manage"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.2 (foreground color: #839185, background color: #fbfcf8, font size: 7.5pt (10px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "span[data-v-a2bcd24f=\"\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.42 (foreground color: #637780, background color: #f7f9f6, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/knowledge",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "nodes": [
+            {
+              "target": [
+                ".brand-sub"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.85 (foreground color: #728478, background color: #fbfcf8, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "#nav-campus"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.2 (foreground color: #839185, background color: #fbfcf8, font size: 7.5pt (10px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "#nav-monitor"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.2 (foreground color: #839185, background color: #fbfcf8, font size: 7.5pt (10px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "#nav-operations"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.2 (foreground color: #839185, background color: #fbfcf8, font size: 7.5pt (10px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "section[aria-labelledby=\"nav-operations\"] > a[href$=\"#/alarms\"][title=\"异常处置\"][aria-label=\"异常处置\"] > span"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.38 (foreground color: #5e7568, background color: #ecf2ef, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "span[data-v-a2bcd24f=\"\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.42 (foreground color: #637780, background color: #f7f9f6, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".knowledge-heading > button"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.44 (foreground color: #5f9096, background color: #fbfcfa, font size: 10.0pt (13.3333px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "section[aria-live=\"polite\"] > .knowledge-meta"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.7 (foreground color: #919da1, background color: #fbfcfa, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "section[aria-live=\"polite\"] > button"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.44 (foreground color: #5f9096, background color: #fbfcfa, font size: 10.0pt (13.3333px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".knowledge-panel:nth-child(1) > button"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.44 (foreground color: #5f9096, background color: #fbfcfa, font size: 10.0pt (13.3333px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "li:nth-child(1) > div > button"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.44 (foreground color: #5f9096, background color: #fbfcfa, font size: 10.0pt (13.3333px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "li:nth-child(1) > .knowledge-meta"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.7 (foreground color: #919da1, background color: #fbfcfa, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".knowledge-panel:nth-child(1) > ul > li:nth-child(1) > button"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.44 (foreground color: #5f9096, background color: #fbfcfa, font size: 10.0pt (13.3333px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "li:nth-child(2) > div > button"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.44 (foreground color: #5f9096, background color: #fbfcfa, font size: 10.0pt (13.3333px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "li:nth-child(2) > .knowledge-meta"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.7 (foreground color: #919da1, background color: #fbfcfa, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".knowledge-panel:nth-child(1) > ul > li:nth-child(2) > button"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.44 (foreground color: #5f9096, background color: #fbfcfa, font size: 10.0pt (13.3333px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "label[for=\"knowledge-query\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.7 (foreground color: #919da1, background color: #fbfcfa, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "form > button"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.44 (foreground color: #5f9096, background color: #fbfcfa, font size: 10.0pt (13.3333px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/settings",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "nodes": [
+            {
+              "target": [
+                ".brand-sub"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.85 (foreground color: #728478, background color: #fbfcf8, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "#nav-campus"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.2 (foreground color: #839185, background color: #fbfcf8, font size: 7.5pt (10px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "#nav-monitor"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.2 (foreground color: #839185, background color: #fbfcf8, font size: 7.5pt (10px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "#nav-operations"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.2 (foreground color: #839185, background color: #fbfcf8, font size: 7.5pt (10px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "span[data-v-a2bcd24f=\"\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.42 (foreground color: #637780, background color: #f7f9f6, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        },
+        {
+          "id": "select-name",
+          "impact": "critical",
+          "help": "Select element must have an accessible name",
+          "nodes": [
+            {
+              "target": [
+                "select"
+              ],
+              "summary": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/dashboard",
+      "violations": [
+        {
+          "id": "aria-prohibited-attr",
+          "impact": "serious",
+          "help": "Elements must only use permitted ARIA attributes",
+          "nodes": [
+            {
+              "target": [
+                "div[aria-label=\"未关闭事件合计1\"]"
+              ],
+              "summary": "Fix all of the following:\n  aria-label attribute cannot be used on \"div\" elements with no valid role attribute."
+            }
+          ]
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "nodes": [
+            {
+              "target": [
+                ".brand-sub"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.85 (foreground color: #728478, background color: #fbfcf8, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "section[aria-labelledby=\"nav-campus\"] > .nav-item--active[title=\"校园态势\"][aria-label=\"校园态势\"] > span[data-v-90e58246=\"\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.14 (foreground color: #d4dad7, background color: #478088, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "#nav-monitor"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.2 (foreground color: #839185, background color: #fbfcf8, font size: 7.5pt (10px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "#nav-operations"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.2 (foreground color: #839185, background color: #fbfcf8, font size: 7.5pt (10px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "#nav-manage"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.2 (foreground color: #839185, background color: #fbfcf8, font size: 7.5pt (10px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "section[aria-labelledby=\"nav-manage\"] > a[href$=\"#/settings\"][title=\"系统设置\"][aria-label=\"系统设置\"] > span[data-v-90e58246=\"\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.16 (foreground color: #7e9086, background color: #bfd3d3, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "span[data-v-a2bcd24f=\"\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.42 (foreground color: #637780, background color: #f7f9f6, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "summary > b"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.8 (foreground color: #909899, background color: #f8faf8, font size: 9.0pt (12px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "summary > span[data-v-ed7dad95=\"\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 1.92 (foreground color: #afb8b9, background color: #f8faf8, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        },
+        {
+          "id": "nested-interactive",
+          "impact": "serious",
+          "help": "Interactive controls must not be nested",
+          "nodes": [
+            {
+              "target": [
+                ".sensor--orange"
+              ],
+              "summary": "Fix any of the following:\n  Element has focusable descendants. Move them outside of the element, or remove them."
+            },
+            {
+              "target": [
+                ".sensor--gray:nth-child(2)"
+              ],
+              "summary": "Fix any of the following:\n  Element has focusable descendants. Move them outside of the element, or remove them."
+            },
+            {
+              "target": [
+                ".sensor--gray:nth-child(3)"
+              ],
+              "summary": "Fix any of the following:\n  Element has focusable descendants. Move them outside of the element, or remove them."
+            },
+            {
+              "target": [
+                ".sensor--gray:nth-child(4)"
+              ],
+              "summary": "Fix any of the following:\n  Element has focusable descendants. Move them outside of the element, or remove them."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "expandedAxe": [
+    {
+      "path": "/",
+      "violations": []
+    },
+    {
+      "path": "/monitor",
+      "violations": []
+    },
+    {
+      "path": "/alarms",
+      "violations": []
+    },
+    {
+      "path": "/inspection",
+      "violations": []
+    },
+    {
+      "path": "/issues",
+      "violations": []
+    },
+    {
+      "path": "/knowledge",
+      "violations": []
+    },
+    {
+      "path": "/settings",
+      "violations": []
+    },
+    {
+      "path": "/dashboard",
+      "violations": []
+    },
+    {
+      "path": "/maintenance",
+      "violations": []
+    },
+    {
+      "path": "/reports",
+      "violations": [
+        {
+          "id": "select-name",
+          "impact": "critical",
+          "help": "Select element must have an accessible name",
+          "nodes": [
+            {
+              "target": [
+                ".export-row:nth-child(1) > select"
+              ],
+              "summary": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            },
+            {
+              "target": [
+                ".export-row:nth-child(2) > select"
+              ],
+              "summary": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            },
+            {
+              "target": [
+                ".export-row:nth-child(3) > select"
+              ],
+              "summary": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            },
+            {
+              "target": [
+                ".export-row:nth-child(4) > select"
+              ],
+              "summary": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/campus",
+      "violations": []
+    },
+    {
+      "path": "/archive",
+      "violations": []
+    },
+    {
+      "path": "/trend",
+      "violations": []
+    },
+    {
+      "path": "/media",
+      "violations": []
+    },
+    {
+      "path": "/standards",
+      "violations": []
+    }
+  ],
+  "layoutBeforeFix": {
+    "base": "http://127.0.0.1:8080",
+    "errors": [],
+    "failures": [
+      {
+        "name": "Layout 375 /media",
+        "width": 375,
+        "docWidth": 375,
+        "contentWidth": 365,
+        "contentScrollWidth": 479,
+        "overflows": []
+      }
+    ],
+    "interactions": [
+      {
+        "name": "Sidebar collapse/expand",
+        "passed": true
+      },
+      {
+        "name": "Skip link focuses content without corrupting hash route",
+        "passed": true
+      },
+      {
+        "name": "Ctrl K search, input focus, Enter navigates",
+        "passed": true
+      },
+      {
+        "name": "Escape closes search and restores focus",
+        "passed": true
+      },
+      {
+        "name": "Card rim follows pointer",
+        "passed": true
+      },
+      {
+        "name": "Record dialog validation, no successful writes",
+        "passed": true
+      },
+      {
+        "name": "Identity picker retains no-login workflow",
+        "passed": true
+      },
+      {
+        "name": "Assistant opens and closes without sending a new question",
+        "passed": true
+      },
+      {
+        "name": "Sensor title keyboard focus and independent trend action",
+        "passed": true
+      },
+      {
+        "name": "Insight card expansion uses real classified targets",
+        "passed": true
+      },
+      {
+        "name": "Reduced motion disables decorative hover work",
+        "passed": true
+      }
+    ],
+    "pages": [
+      {
+        "path": "/",
+        "width": 375,
+        "docWidth": 375,
+        "contentWidth": 365,
+        "contentScrollWidth": 365,
+        "overflows": []
+      },
+      {
+        "path": "/dashboard",
+        "width": 375,
+        "docWidth": 375,
+        "contentWidth": 365,
+        "contentScrollWidth": 365,
+        "overflows": []
+      },
+      {
+        "path": "/monitor",
+        "width": 375,
+        "docWidth": 375,
+        "contentWidth": 365,
+        "contentScrollWidth": 365,
+        "overflows": []
+      },
+      {
+        "path": "/alarms",
+        "width": 375,
+        "docWidth": 375,
+        "contentWidth": 365,
+        "contentScrollWidth": 365,
+        "overflows": []
+      },
+      {
+        "path": "/inspection",
+        "width": 375,
+        "docWidth": 375,
+        "contentWidth": 365,
+        "contentScrollWidth": 365,
+        "overflows": []
+      },
+      {
+        "path": "/issues",
+        "width": 375,
+        "docWidth": 375,
+        "contentWidth": 365,
+        "contentScrollWidth": 365,
+        "overflows": []
+      },
+      {
+        "path": "/maintenance",
+        "width": 375,
+        "docWidth": 375,
+        "contentWidth": 365,
+        "contentScrollWidth": 365,
+        "overflows": []
+      },
+      {
+        "path": "/knowledge",
+        "width": 375,
+        "docWidth": 375,
+        "contentWidth": 365,
+        "contentScrollWidth": 365,
+        "overflows": []
+      },
+      {
+        "path": "/settings",
+        "width": 375,
+        "docWidth": 375,
+        "contentWidth": 365,
+        "contentScrollWidth": 365,
+        "overflows": []
+      },
+      {
+        "path": "/reports",
+        "width": 375,
+        "docWidth": 375,
+        "contentWidth": 365,
+        "contentScrollWidth": 365,
+        "overflows": []
+      },
+      {
+        "path": "/campus",
+        "width": 375,
+        "docWidth": 375,
+        "contentWidth": 365,
+        "contentScrollWidth": 365,
+        "overflows": []
+      },
+      {
+        "path": "/archive",
+        "width": 375,
+        "docWidth": 375,
+        "contentWidth": 365,
+        "contentScrollWidth": 365,
+        "overflows": []
+      },
+      {
+        "path": "/trend",
+        "width": 375,
+        "docWidth": 375,
+        "contentWidth": 365,
+        "contentScrollWidth": 365,
+        "overflows": []
+      },
+      {
+        "path": "/media",
+        "width": 375,
+        "docWidth": 375,
+        "contentWidth": 365,
+        "contentScrollWidth": 479,
+        "overflows": []
+      },
+      {
+        "path": "/standards",
+        "width": 375,
+        "docWidth": 375,
+        "contentWidth": 365,
+        "contentScrollWidth": 365,
+        "overflows": []
+      },
+      {
+        "path": "/",
+        "width": 768,
+        "docWidth": 768,
+        "contentWidth": 758,
+        "contentScrollWidth": 758,
+        "overflows": []
+      },
+      {
+        "path": "/dashboard",
+        "width": 768,
+        "docWidth": 768,
+        "contentWidth": 758,
+        "contentScrollWidth": 758,
+        "overflows": []
+      },
+      {
+        "path": "/monitor",
+        "width": 768,
+        "docWidth": 768,
+        "contentWidth": 758,
+        "contentScrollWidth": 758,
+        "overflows": []
+      },
+      {
+        "path": "/alarms",
+        "width": 768,
+        "docWidth": 768,
+        "contentWidth": 758,
+        "contentScrollWidth": 758,
+        "overflows": []
+      },
+      {
+        "path": "/inspection",
+        "width": 768,
+        "docWidth": 768,
+        "contentWidth": 758,
+        "contentScrollWidth": 758,
+        "overflows": []
+      },
+      {
+        "path": "/issues",
+        "width": 768,
+        "docWidth": 768,
+        "contentWidth": 758,
+        "contentScrollWidth": 758,
+        "overflows": []
+      },
+      {
+        "path": "/maintenance",
+        "width": 768,
+        "docWidth": 768,
+        "contentWidth": 758,
+        "contentScrollWidth": 758,
+        "overflows": []
+      },
+      {
+        "path": "/knowledge",
+        "width": 768,
+        "docWidth": 768,
+        "contentWidth": 758,
+        "contentScrollWidth": 758,
+        "overflows": []
+      },
+      {
+        "path": "/settings",
+        "width": 768,
+        "docWidth": 768,
+        "contentWidth": 758,
+        "contentScrollWidth": 758,
+        "overflows": []
+      },
+      {
+        "path": "/reports",
+        "width": 768,
+        "docWidth": 768,
+        "contentWidth": 758,
+        "contentScrollWidth": 758,
+        "overflows": []
+      },
+      {
+        "path": "/campus",
+        "width": 768,
+        "docWidth": 768,
+        "contentWidth": 758,
+        "contentScrollWidth": 758,
+        "overflows": []
+      },
+      {
+        "path": "/archive",
+        "width": 768,
+        "docWidth": 768,
+        "contentWidth": 758,
+        "contentScrollWidth": 758,
+        "overflows": []
+      },
+      {
+        "path": "/trend",
+        "width": 768,
+        "docWidth": 768,
+        "contentWidth": 758,
+        "contentScrollWidth": 758,
+        "overflows": []
+      },
+      {
+        "path": "/media",
+        "width": 768,
+        "docWidth": 768,
+        "contentWidth": 758,
+        "contentScrollWidth": 758,
+        "overflows": []
+      },
+      {
+        "path": "/standards",
+        "width": 768,
+        "docWidth": 768,
+        "contentWidth": 758,
+        "contentScrollWidth": 758,
+        "overflows": []
+      },
+      {
+        "path": "/",
+        "width": 1280,
+        "docWidth": 1280,
+        "contentWidth": 1022,
+        "contentScrollWidth": 1022,
+        "overflows": []
+      },
+      {
+        "path": "/dashboard",
+        "width": 1280,
+        "docWidth": 1280,
+        "contentWidth": 1022,
+        "contentScrollWidth": 1022,
+        "overflows": []
+      },
+      {
+        "path": "/monitor",
+        "width": 1280,
+        "docWidth": 1280,
+        "contentWidth": 1022,
+        "contentScrollWidth": 1022,
+        "overflows": []
+      },
+      {
+        "path": "/alarms",
+        "width": 1280,
+        "docWidth": 1280,
+        "contentWidth": 1022,
+        "contentScrollWidth": 1022,
+        "overflows": []
+      },
+      {
+        "path": "/inspection",
+        "width": 1280,
+        "docWidth": 1280,
+        "contentWidth": 1022,
+        "contentScrollWidth": 1022,
+        "overflows": []
+      },
+      {
+        "path": "/issues",
+        "width": 1280,
+        "docWidth": 1280,
+        "contentWidth": 1022,
+        "contentScrollWidth": 1022,
+        "overflows": []
+      },
+      {
+        "path": "/maintenance",
+        "width": 1280,
+        "docWidth": 1280,
+        "contentWidth": 1022,
+        "contentScrollWidth": 1022,
+        "overflows": []
+      },
+      {
+        "path": "/knowledge",
+        "width": 1280,
+        "docWidth": 1280,
+        "contentWidth": 1022,
+        "contentScrollWidth": 1022,
+        "overflows": []
+      },
+      {
+        "path": "/settings",
+        "width": 1280,
+        "docWidth": 1280,
+        "contentWidth": 1022,
+        "contentScrollWidth": 1022,
+        "overflows": []
+      },
+      {
+        "path": "/reports",
+        "width": 1280,
+        "docWidth": 1280,
+        "contentWidth": 1022,
+        "contentScrollWidth": 1022,
+        "overflows": []
+      },
+      {
+        "path": "/campus",
+        "width": 1280,
+        "docWidth": 1280,
+        "contentWidth": 1022,
+        "contentScrollWidth": 1022,
+        "overflows": []
+      },
+      {
+        "path": "/archive",
+        "width": 1280,
+        "docWidth": 1280,
+        "contentWidth": 1022,
+        "contentScrollWidth": 1022,
+        "overflows": []
+      },
+      {
+        "path": "/trend",
+        "width": 1280,
+        "docWidth": 1280,
+        "contentWidth": 1022,
+        "contentScrollWidth": 1022,
+        "overflows": []
+      },
+      {
+        "path": "/media",
+        "width": 1280,
+        "docWidth": 1280,
+        "contentWidth": 1022,
+        "contentScrollWidth": 1022,
+        "overflows": []
+      },
+      {
+        "path": "/standards",
+        "width": 1280,
+        "docWidth": 1280,
+        "contentWidth": 1022,
+        "contentScrollWidth": 1022,
+        "overflows": []
+      },
+      {
+        "path": "/",
+        "width": 1920,
+        "docWidth": 1920,
+        "contentWidth": 1662,
+        "contentScrollWidth": 1662,
+        "overflows": []
+      },
+      {
+        "path": "/dashboard",
+        "width": 1920,
+        "docWidth": 1920,
+        "contentWidth": 1662,
+        "contentScrollWidth": 1662,
+        "overflows": []
+      },
+      {
+        "path": "/monitor",
+        "width": 1920,
+        "docWidth": 1920,
+        "contentWidth": 1662,
+        "contentScrollWidth": 1662,
+        "overflows": []
+      },
+      {
+        "path": "/alarms",
+        "width": 1920,
+        "docWidth": 1920,
+        "contentWidth": 1662,
+        "contentScrollWidth": 1662,
+        "overflows": []
+      },
+      {
+        "path": "/inspection",
+        "width": 1920,
+        "docWidth": 1920,
+        "contentWidth": 1662,
+        "contentScrollWidth": 1662,
+        "overflows": []
+      },
+      {
+        "path": "/issues",
+        "width": 1920,
+        "docWidth": 1920,
+        "contentWidth": 1662,
+        "contentScrollWidth": 1662,
+        "overflows": []
+      },
+      {
+        "path": "/maintenance",
+        "width": 1920,
+        "docWidth": 1920,
+        "contentWidth": 1662,
+        "contentScrollWidth": 1662,
+        "overflows": []
+      },
+      {
+        "path": "/knowledge",
+        "width": 1920,
+        "docWidth": 1920,
+        "contentWidth": 1662,
+        "contentScrollWidth": 1662,
+        "overflows": []
+      },
+      {
+        "path": "/settings",
+        "width": 1920,
+        "docWidth": 1920,
+        "contentWidth": 1662,
+        "contentScrollWidth": 1662,
+        "overflows": []
+      },
+      {
+        "path": "/reports",
+        "width": 1920,
+        "docWidth": 1920,
+        "contentWidth": 1662,
+        "contentScrollWidth": 1662,
+        "overflows": []
+      },
+      {
+        "path": "/campus",
+        "width": 1920,
+        "docWidth": 1920,
+        "contentWidth": 1662,
+        "contentScrollWidth": 1662,
+        "overflows": []
+      },
+      {
+        "path": "/archive",
+        "width": 1920,
+        "docWidth": 1920,
+        "contentWidth": 1662,
+        "contentScrollWidth": 1662,
+        "overflows": []
+      },
+      {
+        "path": "/trend",
+        "width": 1920,
+        "docWidth": 1920,
+        "contentWidth": 1662,
+        "contentScrollWidth": 1662,
+        "overflows": []
+      },
+      {
+        "path": "/media",
+        "width": 1920,
+        "docWidth": 1920,
+        "contentWidth": 1662,
+        "contentScrollWidth": 1662,
+        "overflows": []
+      },
+      {
+        "path": "/standards",
+        "width": 1920,
+        "docWidth": 1920,
+        "contentWidth": 1662,
+        "contentScrollWidth": 1662,
+        "overflows": []
+      }
+    ],
+    "writes": [
+      {
+        "method": "POST",
+        "path": "/api/v1/demo/identity"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/datasets/demo-main/notifications/escalate"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/datasets/demo-main/notifications/escalate"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/datasets/demo-main/notifications/escalate"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/datasets/demo-main/notifications/escalate"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/datasets/demo-main/notifications/escalate"
+      }
+    ],
+    "validBusinessWrites": [],
+    "note": "Navigation/dialogs/invalid validation only. Auth sessions and automatic notification receipts may be created by normal page startup; no valid records/issues/orders/media writes submitted."
+  }
+}

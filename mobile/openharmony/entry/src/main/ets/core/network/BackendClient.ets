@@ -1,11 +1,13 @@
 import http from '@ohos.net.http';
 import { ApiClient, ClientSettings, Envelope, RequestOptions } from '../../data/models/Http';
 import { ApiError } from './ApiError';
+import { selectedDataset, datasetPath } from './DatasetSelection';
 
 export class BackendClient implements ApiClient {
   private settings: ClientSettings;
   private active: Set<http.HttpRequest> = new Set();
   private cancelled: boolean = false;
+  private dataset: string = selectedDataset();
 
   constructor(settings: ClientSettings) {
     this.settings = settings;
@@ -30,7 +32,7 @@ export class BackendClient implements ApiClient {
     if (options.idempotencyKey) headers['Idempotency-Key'] = options.idempotencyKey;
     if (options.datasetEpoch !== undefined) headers['X-Dataset-Epoch'] = String(options.datasetEpoch);
     try {
-      const response = await request.request(`${this.settings.baseUrl}/api/v1${path}`, {
+      const response = await request.request(`${this.settings.baseUrl}/api/v1${datasetPath(path, this.dataset)}`, {
         method: options.method === 'POST' ? http.RequestMethod.POST : http.RequestMethod.GET,
         header: headers, extraData: options.body ?? '', expectDataType: http.HttpDataType.STRING,
         connectTimeout: 6000, readTimeout: 10000, usingCache: false
@@ -51,7 +53,7 @@ export class BackendClient implements ApiClient {
     const request = http.createHttp(); this.active.add(request);
     const headers: Record<string, string> = { 'Authorization': `Bearer ${this.settings.token}` };
     try {
-      const response = await request.request(`${this.settings.baseUrl}/api/v1${path}`, {
+      const response = await request.request(`${this.settings.baseUrl}/api/v1${datasetPath(path, this.dataset)}`, {
         method: http.RequestMethod.GET, header: headers,
         expectDataType: http.HttpDataType.ARRAY_BUFFER, usingCache: false, connectTimeout: 6000, readTimeout: 10000,
         maxLimit: 1024 * 1024

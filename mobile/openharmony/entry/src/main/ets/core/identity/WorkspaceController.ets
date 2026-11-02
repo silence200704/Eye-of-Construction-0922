@@ -2,7 +2,7 @@ import { Identity, IdentitySession } from '../../data/models/Identity';
 import { ApiClient, ClientSettings } from '../../data/models/Http';
 import { readWorkspace } from '../../data/repositories/WorkspaceRepository';
 import { emptyWorkspace, withTasks, withIssues, withOrders, withEvents } from '../../data/models/Workspace';
-import { AlarmEvent } from '../../data/models/Monitoring';
+import { AlarmEvent, MonitorRecord, Point } from '../../data/models/Monitoring';
 import { MobileInsights, InsightQuery } from '../../data/models/online/Insights';
 import { ReportResult } from '../../data/models/Reports';
 import { InspectionTask } from '../../data/models/Tasks';
@@ -14,6 +14,8 @@ import { ApiError, errorMessage } from '../network/ApiError';
 import { normalizeEndpoint } from '../network/Endpoint';
 import { SessionGate } from './SessionGate';
 import { authorizationOf } from './authorization';
+import { mergeWorkspace } from '../business/refresh/MergeWorkspace';
+import { BusinessJournal } from '../business/BusinessModels';
 
 const ROLES: string[] = ['safety', 'property', 'device', 'inspector', 'repair'];
 
@@ -65,6 +67,7 @@ export class WorkspaceController {
   async submitInspection(write: TaskWrite): Promise<TaskCommandResult | undefined> { return this.commands.submit(write); }
 
   async retryInspection(): Promise<TaskCommandResult | undefined> { return this.commands.retry(); }
+  setJournal(journal: BusinessJournal): void { this.commands.setJournal(journal); }
 
   fieldAccess(): TaskAccess | null { return this.taskAccess(); }
   acceptEvent(event: AlarmEvent): void {
@@ -90,6 +93,29 @@ export class WorkspaceController {
     if (!data || data.period !== query.period || !Array.isArray(data.trend) || !Array.isArray(data.byBuilding) ||
       !Array.isArray(data.byPoint) || !Array.isArray(data.sensorTypes) || !Number.isInteger(data.totalEvents) ||
       !Number.isInteger(data.recordCount) || !Number.isInteger(data.openEvents)) throw new ApiError('INVALID_RESPONSE', '统计结果不完整，请重新读取。');
+    return response.data;
+  }
+
+  /** 读单测点全部历史记录，供趋势页按时间段本地筛选；授权与数据集版本前后都复核。 */
+  async readTrend(pointId: string): Promise<MonitorRecord[] | null> {
+    const access = this.taskAccess();
+    if (!access || !pointId) return null;
+    const point = access.workspace.points.find((row: Point) => row.id === pointId && row.status === 'active');
+    if (!point) return null;
+    const fingerprint = authorizationOf(access.user);
+    const principal = await access.client.send<Identity>('/auth/me');
+    if (this.client !== access.client) return null;
+    if (authorizationOf(principal.data) !== fingerprint) { this.invalidateInspection('身份已变化。'); return null; }
+    const response = await access.client.send<MonitorRecord[]>(
+      `/datasets/demo-main/records?pointId=${encodeURIComponent(pointId)}&limit=5000`);
+    const confirmed = await access.client.send<Identity>('/auth/me');
+    if (this.client !== access.client) return null;
+    if (response.meta?.datasetEpoch !== access.workspace.epoch || authorizationOf(confirmed.data) !== fingerprint) {
+      this.invalidateInspection('趋势授权或数据版本已变化。'); return null;
+    }
+    if (!Array.isArray(response.data) || response.data.some((row: MonitorRecord) => row.pointId !== pointId)) {
+      throw new ApiError('INVALID_RESPONSE', '趋势记录不完整，请重新读取。');
+    }
     return response.data;
   }
   invalidateReport(message: string): void { this.invalidateInspection(message); }
@@ -124,8 +150,31 @@ export class WorkspaceController {
       if (workspace.epoch !== access.workspace.epoch || authorizationOf(confirmed.data) !== authorizationOf(access.user)) {
         throw new ApiError('AUTHORIZATION_CHANGED', '授权或数据版本已变化，请重新读取。');
       }
-      this.state.workspace = workspace; this.publish();
+      this.state.workspace = mergeWorkspace(workspace, this.state.workspace); this.publish();
     } catch (cause) { this.invalidateInspection(errorMessage(cause as Error)); }
+  }
+
+  async refreshVisible(): Promise<void> {
+    const access = this.taskAccess(); if (!access) return;
+    try {
+      const principal = await access.client.send<Identity>('/auth/me');
+      if (this.client !== access.client) return;
+      if (authorizationOf(principal.data) !== authorizationOf(access.user)) throw new ApiError('AUTHORIZATION_CHANGED', '身份授权已变化。', 403);
+      const workspace = await readWorkspace({ client: access.client, isCurrent: () => this.client === access.client });
+      const confirmed = await access.client.send<Identity>('/auth/me');
+      if (this.client !== access.client) return;
+      if (authorizationOf(confirmed.data) !== authorizationOf(access.user) || workspace.epoch !== access.workspace.epoch) {
+        throw new ApiError('AUTHORIZATION_CHANGED', '身份范围或演示数据已变化，请重新连接。', 403);
+      }
+      this.state.workspace = mergeWorkspace(workspace, this.state.workspace);
+      this.state.loadedAt = new Date().toISOString(); this.state.message = ''; this.publish();
+    } catch (cause) {
+      if (this.client !== access.client) return;
+      const error = cause as ApiError;
+      if (['AUTHORIZATION_CHANGED', 'EPOCH_CHANGED'].includes(error.code) || [401, 403].includes(error.status ?? 0)) this.invalidateInspection(errorMessage(error as Error));
+      else { this.state.message = '暂时无法更新，当前显示上次读取的信息；草稿已保留。'; this.publish(); }
+      throw error as Error;
+    }
   }
 
   async reloadInspection(): Promise<void> {
@@ -150,7 +199,7 @@ export class WorkspaceController {
         this.invalidateInspection('身份授权已变化，请重新读取。');
         return;
       }
-      this.state.workspace = withTasks(this.state.workspace, response.data);
+      this.state.workspace = mergeWorkspace(withTasks(this.state.workspace, response.data), this.state.workspace);
       this.publish();
     } catch (cause) { this.invalidateInspection(errorMessage(cause as Error)); }
   }
@@ -261,7 +310,7 @@ export class WorkspaceController {
     this.state.mode = 'ready';
     this.state.busy = false;
     this.state.message = '';
-    this.commands.restore();
+    await this.commands.restore();
     this.publish();
   }
 

@@ -5,6 +5,8 @@ import { InspectionTask } from '../../data/models/Tasks';
 import { TaskWrite, TaskCommandState, TaskCommandResult } from '../../data/models/Inspection';
 import { ApiError, errorMessage } from '../network/ApiError';
 import { authorizationOf } from '../identity/authorization';
+import { BusinessJournal, PendingBusiness } from '../business/BusinessModels';
+import { selectedDataset } from '../network/DatasetSelection';
 
 export interface TaskAccess {
   client: ApiClient;
@@ -18,6 +20,7 @@ export interface CommanderOptions {
   onState: (state: TaskCommandState) => void;
   onTask: (task: InspectionTask) => InspectionTask;
   invalidate: (message: string) => void;
+  journal?: BusinessJournal;
 }
 
 interface PendingCommand {
@@ -28,7 +31,7 @@ interface PendingCommand {
 }
 
 function stamp(access: TaskAccess): string {
-  return `${access.baseUrl}|${access.workspace.epoch}|${authorizationOf(access.user)}`;
+  return `${access.baseUrl}|${selectedDataset()}|${access.workspace.epoch}|${authorizationOf(access.user)}`;
 }
 
 export class TaskCommander {
@@ -39,6 +42,7 @@ export class TaskCommander {
   private counter: number = 0;
 
   constructor(options: CommanderOptions) { this.options = options; }
+  setJournal(journal: BusinessJournal): void { this.options.journal = journal; }
 
   deactivate(): void { this.generation++; this.busy = false; }
 
@@ -52,10 +56,26 @@ export class TaskCommander {
     this.options.onState(state);
   }
 
-  restore(): void {
+  async restore(): Promise<void> {
     const access = this.options.access();
+    if (access && this.options.journal && !this.pending.has(stamp(access))) {
+      const saved = await this.options.journal.load(stamp(access));
+      if (this.options.access()?.client !== access.client) return;
+      if (saved && saved.write.kind === 'task') {
+        const payload = JSON.parse(saved.write.body) as Record<string, string | number>;
+        this.pending.set(saved.scope, { stamp: saved.scope, key: saved.key, sent: saved.sent,
+          write: { taskId: saved.write.targetId, pointId: String(payload['pointId']),
+            action: saved.write.path.split('/').pop() ?? '', body: saved.write.body } });
+      }
+    }
     const pending = access ? this.pending.get(stamp(access)) : undefined;
     if (pending) this.state('unknown', '有一次提交尚待服务端核验，请使用原请求重试。', pending);
+  }
+  private persist(pending: PendingCommand, phase: string): Promise<void> {
+    const saved: PendingBusiness = { scope: pending.stamp, key: pending.key, sent: pending.sent, phase,
+      write: { path: `/inspection/tasks/${encodeURIComponent(pending.write.taskId)}/${pending.write.action}`,
+        kind: 'task', targetId: pending.write.taskId, body: pending.write.body } };
+    return this.options.journal?.save(saved) ?? Promise.resolve();
   }
 
   private validate(write: TaskWrite, access: TaskAccess): void {
@@ -120,8 +140,11 @@ export class TaskCommander {
     const generation = ++this.generation;
     this.state('sending', '正在提交，请稍候…', pending);
     try {
+      await this.persist(pending, 'prepared');
       await this.authorize(access, generation);
       pending.sent = true;
+      await this.persist(pending, 'sending');
+      if (!this.current(access, generation)) return undefined;
       const response = await access.client.send<TaskCommandResult>(
         `/datasets/demo-main/inspection/tasks/${encodeURIComponent(pending.write.taskId)}/${pending.write.action}`,
         { method: 'POST', body: pending.write.body, idempotencyKey: pending.key, datasetEpoch: access.workspace.epoch });
@@ -134,11 +157,16 @@ export class TaskCommander {
       if (!result.task || result.task.id !== pending.write.taskId || !Number.isInteger(result.task.rev)) {
         throw new ApiError('INVALID_RESPONSE', '提交响应不完整，请用原请求核验。');
       }
+      await this.persist(pending, 'done');
+      if (!this.current(access, generation)) return undefined;
       result.task = this.options.onTask(result.task);
       this.pending.delete(pending.stamp);
       this.state(result.attempt?.passed === false ? 'rejected' : 'done', result.attempt?.message ?? '服务端已保存检查结果。', pending);
       return result;
     } catch (cause) {
+      const error = cause as ApiError;
+      try { await this.persist(pending, pending.sent && (!error.status || [401, 403].includes(error.status)) ? 'unknown' : 'error'); }
+      catch (_) { /* Earlier frozen request remains available for recovery. */ }
       this.failed(pending, access, generation, cause as ApiError);
       return undefined;
     } finally {

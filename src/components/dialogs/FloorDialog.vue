@@ -24,7 +24,7 @@ const fields = computed(() =>
       .map((row) => ({ value: row.id, label: `${row.code} ${row.name}` })),
   ),
 )
-const { model, errors, submitError, reset, mergeIssues, run } = useFormModel(() => fields.value)
+const { model, errors, submitError, pending, reset, mergeIssues, run } = useFormModel(() => fields.value)
 
 function str(key: string): string {
   return String(model.value[key] ?? '').trim()
@@ -136,7 +136,7 @@ async function submit(): Promise<void> {
     <p v-if="submitError !== ''" class="notice notice--warn submit-error">保存失败：{{ submitError }}</p>
     <template #footer>
       <AppButton @click="emit('close')">取消</AppButton>
-      <AppButton variant="primary" @click="submit">保存楼层</AppButton>
+      <AppButton variant="primary" :loading="pending" @click="submit">保存楼层</AppButton>
     </template>
   </AppModal>
 </template>

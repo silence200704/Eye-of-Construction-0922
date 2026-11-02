@@ -1,0 +1,116 @@
+[
+  {
+    "id": "",
+    "text": "FIELD / 现场任务",
+    "bounds": "[63,204][587,275]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "一处一处，认真照看",
+    "bounds": "[63,300][987,610]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "检查和维修，都有自己的进度",
+    "bounds": "[63,634][921,711]",
+    "type": "Text"
+  },
+  {
+    "id": "task-inspections",
+    "text": "",
+    "bounds": "[91,816][646,1009]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "检查任务",
+    "bounds": "[151,865][586,960]",
+    "type": "Text"
+  },
+  {
+    "id": "task-orders",
+    "text": "",
+    "bounds": "[674,816][1229,1009]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "维修工单",
+    "bounds": "[734,865][1169,960]",
+    "type": "Text"
+  },
+  {
+    "id": "tasks-status",
+    "text": "全部进度",
+    "bounds": "[63,1100][1257,1317]",
+    "type": "Select"
+  },
+  {
+    "id": "tasks-kind",
+    "text": "全部检查类型",
+    "bounds": "[63,1352][1257,1569]",
+    "type": "Select"
+  },
+  {
+    "id": "tasks-date",
+    "text": "",
+    "bounds": "[63,1604][1257,1842]",
+    "type": "TextInput"
+  },
+  {
+    "id": "",
+    "text": "匹配 0 条任务",
+    "bounds": "[63,1905][498,1988]",
+    "type": "Text"
+  },
+  {
+    "id": "tab-0",
+    "text": "",
+    "bounds": "[68,2471][348,2695]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "工作台",
+    "bounds": "[82,2593][334,2664]",
+    "type": "Text"
+  },
+  {
+    "id": "tab-1",
+    "text": "",
+    "bounds": "[369,2471][650,2695]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "监测",
+    "bounds": "[383,2593][635,2664]",
+    "type": "Text"
+  },
+  {
+    "id": "tab-2",
+    "text": "",
+    "bounds": "[671,2471][951,2695]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "任务",
+    "bounds": "[685,2593][937,2664]",
+    "type": "Text"
+  },
+  {
+    "id": "tab-3",
+    "text": "",
+    "bounds": "[972,2471][1253,2695]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "我的",
+    "bounds": "[986,2593][1238,2664]",
+    "type": "Text"
+  }
+]

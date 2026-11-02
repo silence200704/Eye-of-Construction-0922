@@ -1,0 +1,21 @@
+{
+  "http": 403,
+  "body": {
+    "ok": false,
+    "error": {
+      "code": "ROLE_FORBIDDEN",
+      "message": "当前身份不能执行确认预警事件",
+      "retryable": false,
+      "details": {
+        "role": "inspector",
+        "allowed": [
+          "safety"
+        ]
+      }
+    },
+    "meta": {
+      "requestId": "833c98f7961045c2b8f7c423a83b0eb5"
+    }
+  },
+  "sameCounts": true
+}

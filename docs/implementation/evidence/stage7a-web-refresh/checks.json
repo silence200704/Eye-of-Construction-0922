@@ -1,0 +1,123 @@
+{
+  "date": "2026-10-25",
+  "collectedAt": "2026-10-25T18:01:40.661486+08:00",
+  "baseCommit": "e8b40b980d05168626ff1e20620f995e88803d74",
+  "scope": "Stage 7A Web UI batch implemented and verified; full stage 7A still in progress",
+  "productUrl": "http://127.0.0.1:8080/#/",
+  "frontendFiles": 124,
+  "frontendTests": 1168,
+  "frontendExit": 0,
+  "validationExits": {
+    "typecheck": 0,
+    "tooling": 0,
+    "build": 0
+  },
+  "browserExit": 0,
+  "browserInteractions": 11,
+  "layouts": 60,
+  "viewportWidths": [
+    375,
+    768,
+    1280,
+    1920
+  ],
+  "routeCount": 15,
+  "pageErrors": [],
+  "layoutFailures": [],
+  "axeExit": 0,
+  "axePages": 15,
+  "axeViolations": 0,
+  "axeScope": "Default views, wcag2a/wcag2aa/wcag21aa, after entry animations settle",
+  "outboundPageRequests": [],
+  "validBusinessWrites": [],
+  "mcpReferences": 16,
+  "runtimeDependenciesAdded": false,
+  "structure": {
+    "files": 43,
+    "problems": [],
+    "fullVueFileLimit": 450,
+    "functionLineLimit": 80,
+    "parameterLimit": 5
+  },
+  "deployment": {
+    "buildExit": 0,
+    "upExit": 0,
+    "servicesRebuilt": [
+      "web"
+    ],
+    "coreCountsEqual": true,
+    "coreCounts": {
+      "alembic_version": 1,
+      "users": 5,
+      "datasets": 2,
+      "import_batches": 2,
+      "preferences": 4,
+      "session_states": 2,
+      "buildings": 5,
+      "floors": 8,
+      "points": 8,
+      "devices": 4,
+      "rule_definitions": 4,
+      "rules": 5,
+      "baselines": 3,
+      "events": 2,
+      "notifications": 9,
+      "records": 18,
+      "plans": 0,
+      "tasks": 0,
+      "maintenance_plans": 0,
+      "maintenance_tasks": 0,
+      "issues": 0,
+      "work_orders": 0,
+      "media_files": 10,
+      "media_videos": 0,
+      "media_frames": 2,
+      "media_comparisons": 1,
+      "attachments": 0,
+      "knowledge_documents": 20,
+      "knowledge_versions": 20,
+      "knowledge_chunks": 20,
+      "knowledge_faqs": 20,
+      "knowledge_synonyms": 11,
+      "knowledge_indexes": 1,
+      "knowledge_vectors": 20,
+      "knowledge_state": 1,
+      "assistant_sessions": 4,
+      "assistant_turns": 75
+    },
+    "mediaShaEqual": true,
+    "mediaFiles": 10,
+    "mediaSha256": {
+      "media/files/48/48a51ea5026d4138bfe757db1ae4f2df": "c47dd9465c00e9a0c8b85e9ea58d3034a0d23b9cf926113602f3460752a4eb96",
+      "media/files/8d/8d088f0b9d014b5aaa7ee51731f9a2f1": "3ddcf4b1feb74e94096405a2ae84a51bf8df8b0318b10d9cd389a2040626b047",
+      "media/files/11/11906a5ebb7640608fabc110698b7a63": "74cb80e2c3e78615f049bef4f66893254043fec7c3d28057f3eb144c8149e931",
+      "media/files/74/748f946354e545a1a21c7cca7d37dda1": "c47dd9465c00e9a0c8b85e9ea58d3034a0d23b9cf926113602f3460752a4eb96",
+      "media/files/fa/fa6d2d6ee5eb4f70b810dfc30da242b1": "4ae2fa56d1474d479f1f3d556b46993f8b670ecc51a4dce40fcc011d82e73825",
+      "media/files/c2/c27200cad7d44f8399f67661e26bed4f": "0650c9ad24b6b776e682300b01d88427821ebac991fe1f8d7ba1017dd7155ee1",
+      "media/files/5a/5abc2397d75a40c6ad05317c2c095181": "c47dd9465c00e9a0c8b85e9ea58d3034a0d23b9cf926113602f3460752a4eb96",
+      "media/files/16/16366dce52c24f6491aed735c68d659e": "afbf2b02843939a06d9ba03bb65629abc909eef80fa608b1e4a043a2198c2865",
+      "media/files/90/9057638f6b9a430c8cce73f784c44113": "646a81da8a6d6149e58efcb8d73183b317fc800ad16fdb5d8df842cd09fb7a64",
+      "media/files/33/33722f2656814231b32156ea0d30319f": "284b6abfab42b95bf3f36c6b235a9246c0487b0bb82c49073a87233b04e8e88e"
+    },
+    "excludedVolatileCounts": [
+      "login_sessions",
+      "audits",
+      "operation_receipts"
+    ],
+    "schemaRevision": "0013_assistant_session_epoch"
+  },
+  "limits": [
+    "Local performance sample is not universal FPS/INP certification",
+    "Default-page axe scan does not cover every dynamic state or native platform",
+    "Existing 900kB chunk warning retained",
+    "Backend full suite not rerun: backend source unchanged",
+    "Dormitory 8000/5173 were not started or stopped; no coexistence claim",
+    "Native App prototypes, full art kit and promotional templates remain in stage 7A"
+  ],
+  "httpChecks": {
+    "dormitory8000": "connection refused",
+    "dormitory5173": "connection refused",
+    "web8080": 200,
+    "api18000Ready": 200
+  }
+}

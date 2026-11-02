@@ -1,0 +1,62 @@
+{
+  "python": {
+    "files": [
+      {
+        "path": "scripts/mobile/device_ui.py",
+        "lines": 162
+      },
+      {
+        "path": "scripts/mobile/prepare_online.py",
+        "lines": 53
+      },
+      {
+        "path": "scripts/mobile/prepare_probe.py",
+        "lines": 35
+      },
+      {
+        "path": "scripts/mobile/probe_environment.py",
+        "lines": 79
+      },
+      {
+        "path": "scripts/mobile/sign_online.py",
+        "lines": 11
+      },
+      {
+        "path": "scripts/mobile/sign_probe.py",
+        "lines": 11
+      },
+      {
+        "path": "scripts/mobile/artwork/build.py",
+        "lines": 103
+      },
+      {
+        "path": "scripts/mobile/signing/common.py",
+        "lines": 100
+      },
+      {
+        "path": "scripts/mobile/signing/__init__.py",
+        "lines": 0
+      },
+      {
+        "path": "scripts/mobile/verification/delivery.py",
+        "lines": 114
+      },
+      {
+        "path": "scripts/mobile/verification/playful.py",
+        "lines": 216
+      },
+      {
+        "path": "scripts/mobile/verification/structure.py",
+        "lines": 63
+      }
+    ],
+    "violations": []
+  },
+  "artwork": {
+    "registered": 13,
+    "allHashesVerified": true,
+    "allXmlParsed": true,
+    "externalArtworkReferences": 0,
+    "aiAssisted": true
+  }
+}

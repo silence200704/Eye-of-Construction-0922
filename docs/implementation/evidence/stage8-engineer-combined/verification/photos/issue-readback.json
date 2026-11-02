@@ -1,0 +1,24 @@
+{
+  "issueId": "iss_a4d02452cb714ff0acc1571a42ae5b69",
+  "label": "现场照片",
+  "feedback": [],
+  "preview": true,
+  "beforeCounts": {
+    "events": 2,
+    "issues": 1,
+    "work_orders": 1,
+    "media_files": 4,
+    "attachments": 4,
+    "audits": 48,
+    "operation_receipts": 42
+  },
+  "afterCounts": {
+    "events": 2,
+    "issues": 1,
+    "work_orders": 1,
+    "media_files": 4,
+    "attachments": 4,
+    "audits": 48,
+    "operation_receipts": 42
+  }
+}

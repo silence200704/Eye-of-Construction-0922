@@ -283,14 +283,6 @@ class PhotoOwner:
     building_id: str | None = None
 
 
-def _owner_fields(owner: PhotoOwner) -> dict:
-    return {
-        "issue_id": owner.issue_id,
-        "work_order_id": owner.work_order_id,
-        "maintenance_task_id": owner.maintenance_task_id,
-    }
-
-
 def _owner_context(
     session: Session, workspace: Workspace, owner: PhotoOwner
 ) -> tuple[Any, str | None, str | None]:

@@ -1,0 +1,76 @@
+{
+  "orderId": "wo_628896dd4d1847e09ff59b5633f6a41f",
+  "cacheCleared": false,
+  "round1": [
+    {
+      "index": 0,
+      "expected": "维修前照片",
+      "labels": [
+        "维修前照片"
+      ],
+      "feedback": [],
+      "preview": true,
+      "bounds": null
+    },
+    {
+      "index": 1,
+      "expected": "维修后照片",
+      "labels": [
+        "维修后照片"
+      ],
+      "feedback": [],
+      "preview": true,
+      "bounds": "[130,1359][1190,2129]"
+    },
+    {
+      "index": 2,
+      "expected": "验收照片",
+      "labels": [
+        "验收照片"
+      ],
+      "feedback": [],
+      "preview": true,
+      "bounds": "[130,1359][1190,2129]"
+    }
+  ],
+  "round2": [
+    {
+      "index": 0,
+      "expected": "维修前照片",
+      "labels": [
+        "维修前照片"
+      ],
+      "feedback": [],
+      "preview": true,
+      "bounds": "[130,1359][1190,2129]"
+    },
+    {
+      "index": 1,
+      "expected": "维修后照片",
+      "labels": [
+        "维修后照片"
+      ],
+      "feedback": [],
+      "preview": true,
+      "bounds": "[130,1358][1190,2128]"
+    },
+    {
+      "index": 2,
+      "expected": "验收照片",
+      "labels": [
+        "验收照片"
+      ],
+      "feedback": [],
+      "preview": true,
+      "bounds": "[130,1358][1190,2128]"
+    }
+  ],
+  "screenshots": [
+    "page/photos/round1-0",
+    "page/photos/round1-1",
+    "page/photos/round1-2",
+    "page/photos/round2-0",
+    "page/photos/round2-1",
+    "page/photos/round2-2"
+  ]
+}

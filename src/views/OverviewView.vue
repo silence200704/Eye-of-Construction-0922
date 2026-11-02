@@ -17,6 +17,9 @@ import EmptyState from '@/components/ui/EmptyState.vue'
 import CampusMap from '@/components/map/CampusMap.vue'
 import RecordDialog from '@/components/dialogs/RecordDialog.vue'
 import { ref } from 'vue'
+import WorkspaceWelcome from '@/components/visual/WorkspaceWelcome.vue'
+import QuickActions from '@/components/visual/QuickActions.vue'
+import UiGlyph from '@/components/visual/UiGlyph.vue'
 
 const router = useRouter()
 const archive = useArchiveStore()
@@ -67,32 +70,41 @@ function openBuilding(id: string): void {
 
 <template>
   <div class="stack">
+    <WorkspaceWelcome title="把校园的每一处，放在心上。" description="看见建筑的细微变化，接续现场的每一步行动。让监测有依据，让守护有回音。">
+      <AppButton variant="primary" @click="router.push('/dashboard')">查看校园态势 <UiGlyph name="arrow" :size="16" /></AppButton>
+      <AppButton @click="quickRecordOpen = true">录入一条记录</AppButton>
+    </WorkspaceWelcome>
+    <QuickActions />
     <p class="notice notice--warn"><b>数据口径：</b>{{ PLACEHOLDER_NOTICE }}</p>
     <div class="grid-4">
-      <div class="kpi">
+      <RouterLink to="/campus" class="kpi kpi--link">
+        <UiGlyph class="kpi-icon" name="campus" />
         <div class="kpi-label">在册楼栋</div>
         <div class="kpi-value">{{ activeBuildingCount }}</div>
         <div class="kpi-foot">另有已归档 {{ archive.stats.archivedBuildings }} 栋</div>
-      </div>
-      <div class="kpi">
+      </RouterLink>
+      <RouterLink to="/monitor" class="kpi kpi--link">
+        <UiGlyph class="kpi-icon" name="points" />
         <div class="kpi-label">在册测点</div>
         <div class="kpi-value">{{ archive.stats.points }}</div>
         <div class="kpi-foot">
           传感器 {{ archive.stats.sensorPoints }}｜人工检查点 {{ archive.stats.manualPoints }}｜分布 {{ archive.stats.floors }} 个楼层
         </div>
-      </div>
-      <div class="kpi">
+      </RouterLink>
+      <RouterLink to="/archive" class="kpi kpi--link">
+        <UiGlyph class="kpi-icon" name="device" />
         <div class="kpi-label">登记设备</div>
         <div class="kpi-value">{{ archive.stats.devices }}</div>
         <div class="kpi-foot">设备状态为人工登记，未接入自动心跳</div>
-      </div>
-      <div class="kpi">
+      </RouterLink>
+      <RouterLink to="/monitor" class="kpi kpi--link">
+        <UiGlyph class="kpi-icon" name="trend" />
         <div class="kpi-label">监测记录</div>
         <div class="kpi-value">{{ records.total }}</div>
         <div class="kpi-foot">
           已设基准 {{ baselineCount }}｜存疑或无效 {{ records.suspectCount }}｜已修订 {{ records.revisedCount }}
         </div>
-      </div>
+      </RouterLink>
     </div>
 
     <div class="two">

@@ -1,0 +1,36 @@
+{
+  "gateId": "gapmedia1",
+  "mediaId": "d6d6fd068aa94b5b8325ce1d4ca9485c",
+  "attachment": "att_7c237212970b47f8a352de974bdb3c25",
+  "held": {
+    "gateId": "gapmedia1",
+    "timeoutSeconds": 8,
+    "path": "/api/v1/datasets/demo-main/media/d6d6fd068aa94b5b8325ce1d4ca9485c/content",
+    "bytes": 28791,
+    "sha256": "275567c7fd85b941083bcfe9aadd167ec8e85b7aa6d1abbea66b2fec0d8b13dd",
+    "outcome": "released"
+  },
+  "holdObservedSeconds": 2.3,
+  "archiveSeconds": 0.04,
+  "actions": [
+    "hold-media.json written",
+    "App opened saved photo",
+    "held-media outcome=holding",
+    "archived point pnt_d462... via POST /archive/{id}/archive",
+    "release-media.json written"
+  ],
+  "appAfterRelease": {
+    "preview": false,
+    "feedback": [],
+    "newCacheFile": false
+  },
+  "afterRestore": {
+    "pointStatus": "active",
+    "rev": 4,
+    "preview": true,
+    "cacheFile": "preview-1793367716212-4fmi8wx0d3a.jpg",
+    "cacheSha256": "275567c7fd85b941083bcfe9aadd167ec8e85b7aa6d1abbea66b2fec0d8b13dd",
+    "bytes": 28791
+  },
+  "note": "Gateway is test tooling, not App feature. Held response SHA unchanged."
+}

@@ -2,8 +2,6 @@
 
 from typing import Any
 
-Number = int | float
-
 
 def number(value: Any) -> float | None:
     if isinstance(value, bool) or not isinstance(value, (int, float)):

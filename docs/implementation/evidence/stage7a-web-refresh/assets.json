@@ -1,0 +1,47 @@
+{
+  "date": "2026-10-25",
+  "assets": [
+    {
+      "source": "src/components/visual/CampusScene.vue",
+      "label": "校园主题插画",
+      "format": "480x270 scalable SVG",
+      "author": "本项目代码绘制，AI辅助",
+      "license": "Project-original, no third-party component/image source copied",
+      "sha256": "21ae7302c4e0a17cec75a688be183c7ea49892617969fd30d9f6c3ec2fd61fbf"
+    },
+    {
+      "source": "src/components/visual/CampusBackdrop.vue",
+      "label": "背景图案组合",
+      "format": "Dots, contour lines, concentric arcs, campus silhouette",
+      "author": "本项目代码绘制，AI辅助",
+      "license": "Project-original, no third-party component/image source copied",
+      "sha256": "4dbedffacc5fdf5a90058cc12af442d261a7d42f10daf1b1f07c7e5baa966b42"
+    },
+    {
+      "source": "src/components/visual/UiGlyph.vue",
+      "label": "11个线性图标",
+      "format": "24x24 scalable SVG paths",
+      "author": "本项目代码绘制，AI辅助",
+      "license": "Project-original, no third-party component/image source copied",
+      "sha256": "967b6da5633fa2a772bed8aef71ffe73d28099030d14687be7476e81100eb8b7"
+    },
+    {
+      "source": "src/components/visual/WorkspaceWelcome.vue",
+      "label": "欢迎卡及层次图案",
+      "format": "Responsive local CSS/SVG",
+      "author": "本项目代码绘制，AI辅助",
+      "license": "Project-original, no third-party component/image source copied",
+      "sha256": "51a93db94504f21b240bceed3f12c8c69d32a7301c341aa8c1ceb28e411c3305"
+    },
+    {
+      "source": "src/components/ui/EmptyState.vue",
+      "label": "资料盒空态插画",
+      "format": "100x80 scalable SVG",
+      "author": "本项目代码绘制，AI辅助",
+      "license": "Project-original",
+      "sha256": "9f4f9a69195efc1c648bede39412626bf2f0f5d3c49dbebf3dfce10a70f1461c"
+    }
+  ],
+  "existingMascot": "Existing Xiaotong artwork retained; not represented as newly produced assets",
+  "scope": "Web batch; native exports, full mascot/illustration/icon kit and promotional templates remain in stage 7A"
+}

@@ -1,0 +1,30 @@
+{
+  "scene": {
+    "mediaId": "d6d6fd068aa94b5b8325ce1d4ca9485c",
+    "size": 28791,
+    "sha256": "275567c7fd85b941083bcfe9aadd167ec8e85b7aa6d1abbea66b2fec0d8b13dd",
+    "uploadedSha256": "275567c7fd85b941083bcfe9aadd167ec8e85b7aa6d1abbea66b2fec0d8b13dd",
+    "match": true
+  },
+  "before": {
+    "mediaId": "69b03767832e47fab0a3fc94e1b16ff8",
+    "size": 30819,
+    "sha256": "72671b6d4846d2b8b379e76d12ad26271171d8dadc0341c619118728bd2193dc",
+    "uploadedSha256": "72671b6d4846d2b8b379e76d12ad26271171d8dadc0341c619118728bd2193dc",
+    "match": true
+  },
+  "after": {
+    "mediaId": "1a55f83243c44da295b1be861fb8f16c",
+    "size": 30990,
+    "sha256": "2791ad37d05d0e8ae2f4dc51fe7d2c2ca8c2de58dee30d306e51c32fa6730e0c",
+    "uploadedSha256": "2791ad37d05d0e8ae2f4dc51fe7d2c2ca8c2de58dee30d306e51c32fa6730e0c",
+    "match": true
+  },
+  "acceptance": {
+    "mediaId": "bfb02e55456f429384dba9291da65919",
+    "size": 28914,
+    "sha256": "2cf2893b69e728f0c8b692628f8ff08fec5794d813950f530b4ca3b316a5613c",
+    "uploadedSha256": "2cf2893b69e728f0c8b692628f8ff08fec5794d813950f530b4ca3b316a5613c",
+    "match": true
+  }
+}

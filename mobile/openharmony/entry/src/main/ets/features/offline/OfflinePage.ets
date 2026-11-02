@@ -1,3 +1,10 @@
+import { FieldQueue } from '../../core/offline/field/FieldQueue';
+import { FieldExecutor } from '../../core/offline/field/FieldExecutor';
+import { FieldOperation } from '../../core/offline/field/FieldModels';
+import { FieldSync } from './FieldSync';
+import { WorkOrder } from '../../data/models/Tasks';
+import { canPrepareRepair } from '../../core/business/BusinessPolicy';
+import { MaintenanceTask } from '../../data/models/business/Maintenance';
 import common from '@ohos.app.ability.common';
 import { AppState } from '../../shared/state/AppState';
 import { OfflineVault } from '../../core/offline/OfflineVault';
@@ -17,7 +24,7 @@ import { latestRecord, reading, timeText } from '../../shared/format/display';
 import { controlHeight } from '../../shared/layout/ReadingLayout';
 import { OfflineReportPanel } from './OfflineReportPanel';
 import { TaskAccess } from '../../core/field/TaskCommander';
-import { ReportResult } from '../../data/models/Reports';
+import { ReportResult, IssueRecord } from '../../data/models/Reports';
 
 @Component
 export struct OfflinePage {
@@ -31,6 +38,15 @@ export struct OfflinePage {
   @State page: number = 0;
   @State monitoring: boolean = false;
   @State reports: boolean = false;
+  @State syncCenter: boolean = false;
+  @Prop initialSync: boolean = false;
+  fieldQueue: FieldQueue | undefined = undefined;
+  sharedVault: OfflineVault | undefined = undefined;
+  fieldExecutor: FieldExecutor | undefined = undefined;
+  onOpenCached: (pack: OfflinePack, kind: string, id: string) => void = () => {};
+  onResolve: (row: FieldOperation) => void = () => {};
+  onResume: (scope: string) => void = () => {};
+  onCleanup: (scope: string) => void = () => {};
   onAccess: () => TaskAccess | null = () => null;
   onExternal: (value: boolean) => void = () => {};
   onSynced: (result: ReportResult) => void = () => {};
@@ -41,11 +57,12 @@ export struct OfflinePage {
   private stamp: string = '';
 
   aboutToAppear(): void {
+    this.syncCenter = this.initialSync;
     const context = this.getUIContext().getHostContext() as common.UIAbilityContext;
-    this.vault = new OfflineVault(new NativeLocalSql(context)); this.settings = new ConnectionPreferences(context);
+    this.vault = this.sharedVault ?? new OfflineVault(new NativeLocalSql(context)); this.settings = new ConnectionPreferences(context);
     this.identityChanged();
   }
-  aboutToDisappear(): void { this.generation++; this.vault?.close().catch(() => {}); }
+  aboutToDisappear(): void { this.generation++; if (!this.sharedVault) this.vault?.close().catch(() => {}); }
   identityChanged(): void {
     if (!this.vault) return;
     const stamp = `${this.state.baseUrl}|${this.state.user ? authorizationOf(this.state.user) : this.state.mode}|${this.state.workspace.epoch}`;
@@ -123,6 +140,9 @@ export struct OfflinePage {
       }
       PlayButton({ title: this.reports ? '返回任务与缓存读数' : '离线上报 · 草稿与同步队列', secondary: true,
         available: !this.busy, controlId: 'offline-report-open', onAction: () => { this.reports = !this.reports; } });
+      PlayButton({ title: this.syncCenter ? '返回已下载任务' : '打开同步中心 · 冲突与待核验', secondary: true,
+        onAction: () => { this.syncCenter = !this.syncCenter; this.reports = false; } });
+      PlayButton({ title: '清理7天前未被引用的照片文件', secondary: true, available: !this.busy, onAction: () => this.onCleanup(this.pack!.scope) });
     }
   }
   @Builder
@@ -154,17 +174,27 @@ export struct OfflinePage {
         }
       }, (point: Point) => point.id);
     } else {
+      ForEach(this.pack!.workspace.orders.filter((row) => canPrepareRepair(row, this.pack!.user) || row.status === 'repairing' && row.acceptedById === this.pack!.user.id).slice(this.page * 20, (this.page + 1) * 20), (order: WorkOrder) => {
+        PlayButton({ title: `${order.orderNo} · 离线维修草稿`, secondary: true, onAction: () => this.onOpenCached(this.pack!, 'order', order.id) });
+      });
+      ForEach(this.pack!.workspace.maintenance?.filter((row) => row.status === 'pending' && ['safety', 'property', 'device', 'repair'].includes(this.pack!.user.role)).slice(this.page * 20, (this.page + 1) * 20) ?? [], (task: MaintenanceTask) => {
+        PlayButton({ title: `${task.taskNo} · 离线保养草稿`, secondary: true, onAction: () => this.onOpenCached(this.pack!, 'maintenance', task.id) });
+      });
+      ForEach(this.pack!.workspace.issues.filter((row) => row.reviewAction === 'need_evidence' && this.pack!.workspace.supplementableIds.includes(row.id)).slice(this.page * 20, (this.page + 1) * 20), (issue: IssueRecord) => {
+        PlayButton({ title: `${issue.issueNo} · 离线补充材料草稿`, secondary: true, onAction: () => this.onOpenCached(this.pack!, 'supplement', issue.id) });
+      });
       this.notes();
       ForEach(this.pack!.workspace.tasks.slice(this.page * 20, (this.page + 1) * 20), (task: InspectionTask) => {
-        PlayButton({ title: `${task.taskNo} · 本地笔记`, secondary: true, available: !this.busy,
-          controlId: `offline-task-${task.id}`, onAction: () => this.choose(task.id) });
+        PlayButton({ title: `${task.taskNo} · 离线填写清单与异常`, secondary: true, available: !this.busy,
+          controlId: `offline-task-${task.id}`, onAction: () => this.onOpenCached(this.pack!, 'inspection', task.id) });
       }, (task: InspectionTask) => task.id);
     }
     Text(`已缓存 ${this.pack!.workspace.tasks.length} 条任务 / ${this.pack!.workspace.points.length} 个测点；每页20项`)
       .fontSize(13).fontColor(Theme.secondary);
     PlayButton({ title: '上一页', secondary: true, available: !this.busy && this.page > 0, onAction: () => { this.page--; }, controlId: 'offline-previous' });
     PlayButton({ title: '下一页', secondary: true, available: !this.busy && (this.page + 1) * 20 <
-      (this.monitoring ? this.pack!.workspace.points.length : this.pack!.workspace.tasks.length), onAction: () => { this.page++; }, controlId: 'offline-next' });
+      (this.monitoring ? this.pack!.workspace.points.length : Math.max(this.pack!.workspace.tasks.length, this.pack!.workspace.orders.length,
+        this.pack!.workspace.maintenance?.length ?? 0, this.pack!.workspace.issues.length)), onAction: () => { this.page++; }, controlId: 'offline-next' });
   }
   build() {
     PageStage() {
@@ -177,6 +207,8 @@ export struct OfflinePage {
         this.summary();
         if (this.reports) { OfflineReportPanel({ pack: this.pack, vault: this.vault, state: this.state,
           onAccess: this.onAccess, onExternal: this.onExternal, onSynced: this.onSynced }); }
+        else if (this.syncCenter) { FieldSync({ scope: this.pack.scope, tick: this.state.loadedAt, queue: this.fieldQueue,
+          executor: this.fieldExecutor, access: this.onAccess, onResolve: this.onResolve, onResume: this.onResume }); }
         else { this.content(); }
       }
     }

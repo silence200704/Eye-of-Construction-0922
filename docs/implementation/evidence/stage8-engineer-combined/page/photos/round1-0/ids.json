@@ -1,0 +1,104 @@
+[
+  {
+    "id": "",
+    "text": "维修手账",
+    "bounds": "[0,137][1320,332]",
+    "type": "TitleBar"
+  },
+  {
+    "id": "__NavdestinationField__BackButton__Back__",
+    "text": "",
+    "bounds": "[56,164][196,304]",
+    "type": "BackButton"
+  },
+  {
+    "id": "__NavdestinationField__Text__MainTitle__",
+    "text": "维修手账",
+    "bounds": "[224,193][504,275]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "工单已验收，关联问题仍须按复查结论办理。",
+    "bounds": "[63,332][1044,346]",
+    "type": "Text"
+  },
+  {
+    "id": "order-reload",
+    "text": "",
+    "bounds": "[63,409][1257,584]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "刷新办理进度",
+    "bounds": "[123,464][1197,530]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "已提交的现场证据",
+    "bounds": "[130,714][662,792]",
+    "type": "Text"
+  },
+  {
+    "id": "saved-photo-0",
+    "text": "",
+    "bounds": "[130,834][1190,1009]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "查看第 1 张照片",
+    "bounds": "[190,889][1130,955]",
+    "type": "Text"
+  },
+  {
+    "id": "saved-photo-1",
+    "text": "",
+    "bounds": "[130,1051][1190,1226]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "查看第 2 张照片",
+    "bounds": "[190,1106][1130,1172]",
+    "type": "Text"
+  },
+  {
+    "id": "saved-photo-2",
+    "text": "",
+    "bounds": "[130,1268][1190,1443]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "查看第 3 张照片",
+    "bounds": "[190,1323][1130,1389]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "维修前照片",
+    "bounds": "[130,1485][393,1547]",
+    "type": "Text"
+  },
+  {
+    "id": "saved-photo-preview",
+    "text": "",
+    "bounds": "[130,1589][1190,2359]",
+    "type": "Image"
+  },
+  {
+    "id": "",
+    "text": "验收通过",
+    "bounds": "[130,2556][382,2630]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "模拟验收通过。",
+    "bounds": "[130,2672][474,2729]",
+    "type": "Text"
+  }
+]

@@ -1,0 +1,354 @@
+{
+  "issues": [
+    {
+      "id": "iss_a4d02452cb714ff0acc1571a42ae5b69",
+      "issueNo": "ISS-20261029-001",
+      "source": "report",
+      "submissionKey": "review-photo-issue",
+      "pointId": "pnt_d462d6c50005437ca6b39878165eeada",
+      "buildingId": "bld_e47e9bff5a0740f8b7a1f8a89cded28b",
+      "floorId": "flr_1b43b55d5f9749c883429913855d3ce2",
+      "zoneId": "",
+      "eventId": null,
+      "taskId": null,
+      "maintenanceTaskId": null,
+      "anomalyType": "模拟裂缝观察",
+      "description": "比赛模拟：裂缝观测点现场照片，用于核对原生已提交照片回读，非真实校园隐患。",
+      "photos": [
+        "att_7c237212970b47f8a352de974bdb3c25"
+      ],
+      "status": "pending_review",
+      "reviewAction": null,
+      "reviewCategory": "",
+      "reviewedAt": null,
+      "reviewedBy": "",
+      "reviewNote": "",
+      "duplicateOf": null,
+      "linkedEventId": null,
+      "linkedFrom": [],
+      "workOrderIds": [],
+      "rechecks": [],
+      "timeline": [
+        {
+          "at": "2026-10-29T06:20:06.008148+00:00",
+          "by": "演示巡检人员",
+          "byRole": "inspector",
+          "action": "提交问题",
+          "detail": "来源：report；比赛模拟：裂缝观测点现场照片，用于核对原生已提交照片回读，非真实校园隐患。"
+        }
+      ],
+      "createdAt": "2026-10-29T06:20:06.008148+00:00",
+      "createdBy": "演示巡检人员",
+      "updatedAt": "2026-10-29T06:20:06.008148+00:00",
+      "updatedBy": "演示巡检人员",
+      "rev": 1
+    }
+  ],
+  "orders": [
+    {
+      "id": "wo_628896dd4d1847e09ff59b5633f6a41f",
+      "orderNo": "WO-20261029-001",
+      "origin": "manual",
+      "issueId": null,
+      "eventId": null,
+      "pointId": "pnt_d462d6c50005437ca6b39878165eeada",
+      "title": "原生照片回读验收工单",
+      "status": "verified",
+      "assignee": "演示维修人员",
+      "assigneeId": "demo-repair",
+      "assignedBy": "演示学校安全管理人员",
+      "assignedAt": "2026-10-29T06:20:06.072597+00:00",
+      "dueAt": null,
+      "acceptedById": "demo-repair",
+      "measures": "模拟复紧固定件并完成外观检查。",
+      "materials": "",
+      "photos": [
+        "att_5d02d763f18c4aec9ac02943da2df375",
+        "att_fcbb79c4874740dea5103c483b1d7d1c",
+        "att_d0b90aa8b71247d6969f476fd48b431f"
+      ],
+      "submittedAt": "2026-10-29T06:20:06.215581+00:00",
+      "reviews": [
+        {
+          "at": "2026-10-29T06:20:06.267906+00:00",
+          "by": "演示学校安全管理人员",
+          "byRole": "safety",
+          "action": "verify",
+          "result": "pass",
+          "note": "模拟验收通过。"
+        }
+      ],
+      "timeline": [
+        {
+          "at": "2026-10-29T06:20:06.045997+00:00",
+          "by": "演示学校安全管理人员",
+          "byRole": "safety",
+          "action": "创建工单",
+          "detail": "比赛模拟，用于核对维修前/后/验收标签。"
+        },
+        {
+          "at": "2026-10-29T06:20:06.072597+00:00",
+          "by": "演示学校安全管理人员",
+          "byRole": "safety",
+          "action": "派工",
+          "detail": "指定维修人验收模拟"
+        },
+        {
+          "at": "2026-10-29T06:20:06.108172+00:00",
+          "by": "演示维修人员",
+          "byRole": "repair",
+          "action": "接单处理",
+          "detail": ""
+        },
+        {
+          "at": "2026-10-29T06:20:06.215581+00:00",
+          "by": "演示维修人员",
+          "byRole": "repair",
+          "action": "提交待验收",
+          "detail": ""
+        },
+        {
+          "at": "2026-10-29T06:20:06.267906+00:00",
+          "by": "演示学校安全管理人员",
+          "byRole": "safety",
+          "action": "验收通过",
+          "detail": "模拟验收通过。"
+        }
+      ],
+      "createdAt": "2026-10-29T06:20:06.045997+00:00",
+      "createdBy": "演示学校安全管理人员",
+      "updatedAt": "2026-10-29T06:20:06.267906+00:00",
+      "updatedBy": "演示学校安全管理人员",
+      "rev": 5
+    }
+  ],
+  "events": [
+    {
+      "id": "evt_6ba7dbe6d3a941048ced55df94195a72",
+      "eventNo": "E20261029-002",
+      "pointId": "pnt_e319729b18c046949dbcd6b0dae5f6b3",
+      "ruleId": "rule_finish_vibration_rule",
+      "ruleCode": "FINISH-vibration-RULE",
+      "level": "yellow",
+      "peakLevel": "yellow",
+      "status": "pending",
+      "unit": "m/s²",
+      "openedAt": "2026-10-29T03:53:37.296623+00:00",
+      "openedBy": "演示学校安全管理人员",
+      "lastTriggerAt": "2026-10-29T03:33:37.263309+00:00",
+      "lastTriggerValue": 0.05,
+      "evidences": [
+        {
+          "recordId": "rec_fcbd3fc24fea4190bf9eb5cbf2e6bdc8",
+          "recordNo": "R20261029-003",
+          "sampleTime": "2026-10-29T03:33:37.263309+00:00",
+          "level": "yellow",
+          "triggerValue": 0.05,
+          "baselineValue": null,
+          "ruleCode": "FINISH-vibration-RULE",
+          "ruleVersion": "V1.0",
+          "thresholds": {
+            "yellow": 0.03,
+            "orange": 0.08,
+            "red": 0.12
+          },
+          "basis": "固定统计窗口动态加速度有效值（绝对判定）",
+          "reason": "判定值 0.05 m/s² 达到黄色关注门槛",
+          "addedAt": "2026-10-29T03:53:37.296623+00:00",
+          "addedBy": "演示学校安全管理人员",
+          "addedByRole": "学校安全管理人员"
+        }
+      ],
+      "supersededEvidences": [],
+      "upgrades": [],
+      "timeline": [
+        {
+          "at": "2026-10-29T03:53:37.296623+00:00",
+          "by": "演示学校安全管理人员",
+          "action": "生成黄色关注事件",
+          "detail": "R20261029-003 触发值 0.05 m/s²；规则 FINISH-vibration-RULE V1.0"
+        }
+      ],
+      "acknowledgedAt": null,
+      "acknowledgedBy": "",
+      "closedAt": null,
+      "closedBy": "",
+      "closeBasis": "",
+      "note": "",
+      "createdAt": "2026-10-29T03:53:37.296623+00:00",
+      "createdBy": "演示学校安全管理人员",
+      "updatedAt": "2026-10-29T03:53:37.296623+00:00",
+      "updatedBy": "演示学校安全管理人员",
+      "rev": 1
+    },
+    {
+      "id": "evt_fbc46c84dd974167bf9693465e6d35c7",
+      "eventNo": "E20261029-001",
+      "pointId": "pnt_d462d6c50005437ca6b39878165eeada",
+      "ruleId": "rule_finish_crack_rule",
+      "ruleCode": "FINISH-crack-RULE",
+      "level": "red",
+      "peakLevel": "red",
+      "status": "closed",
+      "unit": "mm",
+      "openedAt": "2026-10-29T03:52:19.612770+00:00",
+      "openedBy": "演示学校安全管理人员",
+      "lastTriggerAt": "2026-10-29T03:32:19.559206+00:00",
+      "lastTriggerValue": 0.4,
+      "evidences": [
+        {
+          "recordId": "rec_9fa3ba8fb16a43f08bc07d4e6f1ceffe",
+          "recordNo": "R20261029-001",
+          "sampleTime": "2026-10-29T03:32:19.559206+00:00",
+          "level": "red",
+          "triggerValue": 0.4,
+          "baselineValue": 0.5,
+          "ruleCode": "FINISH-crack-RULE",
+          "ruleVersion": "V1.0",
+          "thresholds": {
+            "yellow": 0.1,
+            "orange": 0.2,
+            "red": 0.3
+          },
+          "basis": "相对基准变化量绝对值",
+          "reason": "判定值 0.40 mm 达到红色紧急核查门槛",
+          "addedAt": "2026-10-29T03:52:19.612770+00:00",
+          "addedBy": "演示学校安全管理人员",
+          "addedByRole": "学校安全管理人员"
+        }
+      ],
+      "supersededEvidences": [],
+      "upgrades": [],
+      "timeline": [
+        {
+          "at": "2026-10-29T03:52:19.612770+00:00",
+          "by": "演示学校安全管理人员",
+          "action": "生成红色紧急核查事件",
+          "detail": "R20261029-001 触发值 0.4 mm；规则 FINISH-crack-RULE V1.0"
+        },
+        {
+          "at": "2026-10-29T06:08:56.796297+00:00",
+          "by": "演示学校安全管理人员",
+          "action": "确认事件，转入处理中",
+          "detail": "学校安全管理人员 确认"
+        },
+        {
+          "at": "2026-10-29T06:10:37.884284+00:00",
+          "by": "演示学校安全管理人员",
+          "action": "现场排查",
+          "detail": "比赛模拟现场排查：已核对测点与读数，设置现场提示并安排恢复复测。"
+        },
+        {
+          "at": "2026-10-29T06:10:55.965964+00:00",
+          "by": "演示学校安全管理人员",
+          "action": "进入恢复待确认",
+          "detail": "R20261029-006 连续低于恢复阈值，只改变数据状态，不自动关闭事件"
+        },
+        {
+          "at": "2026-10-29T06:13:10.055158+00:00",
+          "by": "演示学校安全管理人员",
+          "action": "关闭事件",
+          "detail": "事件 E20261029-001 授权关闭；复查结论：已核对三次模拟恢复复测及现场观察，确认恢复。；现场核查：模拟现场核查确认无需维修，继续观察并保留后续巡检安排。"
+        }
+      ],
+      "acknowledgedAt": "2026-10-29T06:08:56.796297+00:00",
+      "acknowledgedBy": "演示学校安全管理人员",
+      "closedAt": "2026-10-29T06:13:10.055158+00:00",
+      "closedBy": "演示学校安全管理人员",
+      "closeBasis": "已核对三次模拟恢复复测及现场观察，确认恢复。",
+      "note": "",
+      "createdAt": "2026-10-29T03:52:19.612770+00:00",
+      "createdBy": "演示学校安全管理人员",
+      "updatedAt": "2026-10-29T06:13:10.055158+00:00",
+      "updatedBy": "演示学校安全管理人员",
+      "rev": 5
+    }
+  ],
+  "attachments": [
+    {
+      "id": "att_5d02d763f18c4aec9ac02943da2df375",
+      "issueId": null,
+      "workOrderId": "wo_628896dd4d1847e09ff59b5633f6a41f",
+      "maintenanceTaskId": null,
+      "kind": "before",
+      "draftId": "review-before",
+      "mediaId": "69b03767832e47fab0a3fc94e1b16ff8",
+      "fileName": "repair-before.jpg",
+      "mimeType": "image/jpeg",
+      "size": 30819,
+      "sha256": "72671b6d4846d2b8b379e76d12ad26271171d8dadc0341c619118728bd2193dc",
+      "width": 900,
+      "height": 640,
+      "uploadedAt": "2026-10-29T06:20:06.152762+00:00",
+      "uploadedBy": "demo-repair",
+      "capturedAt": null,
+      "contentUrl": "/api/v1/datasets/demo-main/media/69b03767832e47fab0a3fc94e1b16ff8/content",
+      "thumbUrl": "/api/v1/datasets/demo-main/media/69b03767832e47fab0a3fc94e1b16ff8/content",
+      "rev": 1
+    },
+    {
+      "id": "att_fcbb79c4874740dea5103c483b1d7d1c",
+      "issueId": null,
+      "workOrderId": "wo_628896dd4d1847e09ff59b5633f6a41f",
+      "maintenanceTaskId": null,
+      "kind": "after",
+      "draftId": "review-after",
+      "mediaId": "1a55f83243c44da295b1be861fb8f16c",
+      "fileName": "repair-after.jpg",
+      "mimeType": "image/jpeg",
+      "size": 30990,
+      "sha256": "2791ad37d05d0e8ae2f4dc51fe7d2c2ca8c2de58dee30d306e51c32fa6730e0c",
+      "width": 900,
+      "height": 640,
+      "uploadedAt": "2026-10-29T06:20:06.202598+00:00",
+      "uploadedBy": "demo-repair",
+      "capturedAt": null,
+      "contentUrl": "/api/v1/datasets/demo-main/media/1a55f83243c44da295b1be861fb8f16c/content",
+      "thumbUrl": "/api/v1/datasets/demo-main/media/1a55f83243c44da295b1be861fb8f16c/content",
+      "rev": 1
+    },
+    {
+      "id": "att_d0b90aa8b71247d6969f476fd48b431f",
+      "issueId": null,
+      "workOrderId": "wo_628896dd4d1847e09ff59b5633f6a41f",
+      "maintenanceTaskId": null,
+      "kind": "acceptance",
+      "draftId": "review-acceptance",
+      "mediaId": "bfb02e55456f429384dba9291da65919",
+      "fileName": "acceptance.jpg",
+      "mimeType": "image/jpeg",
+      "size": 28914,
+      "sha256": "2cf2893b69e728f0c8b692628f8ff08fec5794d813950f530b4ca3b316a5613c",
+      "width": 900,
+      "height": 640,
+      "uploadedAt": "2026-10-29T06:20:06.252931+00:00",
+      "uploadedBy": "demo-safety",
+      "capturedAt": null,
+      "contentUrl": "/api/v1/datasets/demo-main/media/bfb02e55456f429384dba9291da65919/content",
+      "thumbUrl": "/api/v1/datasets/demo-main/media/bfb02e55456f429384dba9291da65919/content",
+      "rev": 1
+    },
+    {
+      "id": "att_7c237212970b47f8a352de974bdb3c25",
+      "issueId": "iss_a4d02452cb714ff0acc1571a42ae5b69",
+      "workOrderId": null,
+      "maintenanceTaskId": null,
+      "kind": "scene",
+      "draftId": "review-scene",
+      "mediaId": "d6d6fd068aa94b5b8325ce1d4ca9485c",
+      "fileName": "issue-scene.jpg",
+      "mimeType": "image/jpeg",
+      "size": 28791,
+      "sha256": "275567c7fd85b941083bcfe9aadd167ec8e85b7aa6d1abbea66b2fec0d8b13dd",
+      "width": 900,
+      "height": 640,
+      "uploadedAt": "2026-10-29T06:20:05.986971+00:00",
+      "uploadedBy": "demo-inspector",
+      "capturedAt": null,
+      "contentUrl": "/api/v1/datasets/demo-main/media/d6d6fd068aa94b5b8325ce1d4ca9485c/content",
+      "thumbUrl": "/api/v1/datasets/demo-main/media/d6d6fd068aa94b5b8325ce1d4ca9485c/content",
+      "rev": 1
+    }
+  ],
+  "epoch": 1
+}

@@ -24,6 +24,7 @@ import SectionCard from '@/components/ui/SectionCard.vue'
 import StatusTag from '@/components/ui/StatusTag.vue'
 import AppButton from '@/components/ui/AppButton.vue'
 import { NO_HEARTBEAT_NOTE } from '@/components/dashboard/text'
+import WorkspaceWelcome from '@/components/visual/WorkspaceWelcome.vue'
 
 const router = useRouter()
 const snapshot = useDashboardSnapshot()
@@ -184,6 +185,7 @@ function resetFilters(): void {
 
 <template>
   <div class="stack">
+    <WorkspaceWelcome title="细微的变化，也值得被看见。" description="从同一份监测记录出发，查看测点、趋势与待办事件；有异常时，继续跟进现场处置。" compact />
     <details class="scope-info">
       <summary><b>数据与状态口径</b><span>演示数据 · 看板与小瞳同源</span></summary>
       <p>卡片、队列与图表读取当前数据集的有效记录和判定结果。这里不自动判断在线或离线。{{ NO_HEARTBEAT_NOTE }}</p>

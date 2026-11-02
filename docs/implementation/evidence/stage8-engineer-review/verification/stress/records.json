@@ -1,0 +1,59 @@
+{
+  "archiveMs": 25.7,
+  "archiveCounts": {
+    "buildings": 2,
+    "floors": 2,
+    "points": 500,
+    "devices": 501,
+    "baselines": 2,
+    "rules": 3,
+    "audits": 48
+  },
+  "mobileRecordRows": 2492,
+  "pointsWithRows": 500,
+  "samplePoint": "pnt_stress_0000",
+  "sampleLatest": [
+    {
+      "recordNo": "RS000000",
+      "sampleTime": "2026-10-29T06:32:12.466048+00:00"
+    },
+    {
+      "recordNo": "RS000001",
+      "sampleTime": "2026-10-29T06:15:12.466048+00:00"
+    },
+    {
+      "recordNo": "RS000002",
+      "sampleTime": "2026-10-29T05:58:12.466048+00:00"
+    },
+    {
+      "recordNo": "RS000003",
+      "sampleTime": "2026-10-29T05:41:12.466048+00:00"
+    },
+    {
+      "recordNo": "RS000004",
+      "sampleTime": "2026-10-29T05:24:12.466048+00:00"
+    }
+  ],
+  "dbLatest": [
+    {
+      "recordNo": "RS000000",
+      "sampleTime": "2026-10-29T06:32:12.466048+00:00"
+    },
+    {
+      "recordNo": "RS000001",
+      "sampleTime": "2026-10-29T06:15:12.466048+00:00"
+    },
+    {
+      "recordNo": "RS000002",
+      "sampleTime": "2026-10-29T05:58:12.466048+00:00"
+    },
+    {
+      "recordNo": "RS000003",
+      "sampleTime": "2026-10-29T05:41:12.466048+00:00"
+    },
+    {
+      "recordNo": "RS000004",
+      "sampleTime": "2026-10-29T05:24:12.466048+00:00"
+    }
+  ]
+}

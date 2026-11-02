@@ -1,0 +1,134 @@
+[
+  {
+    "id": "",
+    "text": "巡检手账",
+    "bounds": "[0,137][1320,332]",
+    "type": "TitleBar"
+  },
+  {
+    "id": "__NavdestinationField__BackButton__Back__",
+    "text": "",
+    "bounds": "[56,164][196,304]",
+    "type": "BackButton"
+  },
+  {
+    "id": "__NavdestinationField__Text__MainTitle__",
+    "text": "巡检手账",
+    "bounds": "[224,193][504,275]",
+    "type": "Text"
+  },
+  {
+    "id": "task-point-pnt_d462d6c50005437ca6b39878165eeada",
+    "text": "",
+    "bounds": "[63,332][1257,504]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "1",
+    "bounds": "[116,349][154,423]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "模拟crack监测站",
+    "bounds": "[189,332][577,384]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "待到点",
+    "bounds": "[189,402][316,451]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "当前",
+    "bounds": "[1119,362][1204,411]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "① 先核对到点",
+    "bounds": "[130,634][569,716]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "模拟NFC不代表真实读卡或实际到场；人工签到必须说明原因。",
+    "bounds": "[130,758][1178,856]",
+    "type": "Text"
+  },
+  {
+    "id": "arrival-nfc",
+    "text": "模拟 NFC",
+    "bounds": "[130,898][480,1066]",
+    "type": "Button"
+  },
+  {
+    "id": "arrival-manual",
+    "text": "人工签到",
+    "bounds": "[508,898][844,1066]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "本次核对的标签编号",
+    "bounds": "[130,1136][540,1189]",
+    "type": "Text"
+  },
+  {
+    "id": "arrival-label",
+    "text": "",
+    "bounds": "[130,1231][1190,1413]",
+    "type": "TextInput"
+  },
+  {
+    "id": "arrival-use-label",
+    "text": "",
+    "bounds": "[130,1455][1190,1630]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "填入档案编号（模拟）",
+    "bounds": "[190,1510][1130,1576]",
+    "type": "Text"
+  },
+  {
+    "id": "arrival-reason",
+    "text": "",
+    "bounds": "[130,1672][1190,1994]",
+    "type": "TextArea"
+  },
+  {
+    "id": "inspection-feedback",
+    "text": "请填写本次读取或核对的标签编号。",
+    "bounds": "[63,2124][848,2181]",
+    "type": "Text"
+  },
+  {
+    "id": "inspection-check-in",
+    "text": "",
+    "bounds": "[63,2244][1257,2419]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "核对本次到点",
+    "bounds": "[123,2299][1197,2365]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "本测点到点记录",
+    "bounds": "[130,2549][571,2623]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "还没有到点尝试；失败尝试也会由服务端保留。",
+    "bounds": "[130,2665][1013,2714]",
+    "type": "Text"
+  }
+]

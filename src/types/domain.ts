@@ -278,12 +278,6 @@ export interface AuditLog {
   reason: string
 }
 
-/** 操作人身份；V0.1 通过演示身份切换区分，V2.0 由服务端账号与权限控制。 */
-export interface Actor {
-  name: string
-  role: string
-}
-
 import type { MonitoringRule } from './rules'
 import type { AlarmEvent, AlarmNotification } from './events'
 import type { InspectionIssue, InspectionPlan, InspectionTask, IssueAttachment, WorkOrder } from './inspection'

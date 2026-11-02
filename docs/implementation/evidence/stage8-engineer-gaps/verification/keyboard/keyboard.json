@@ -1,0 +1,10 @@
+{
+  "pura90": "Tap text field shows only text-selection toolbar (粘贴/自动填充/拍摄输入); no soft keyboard.",
+  "foldable": "First text input triggered 小艺输入法 privacy consent (取消/同意); not accepted; dialog captured.",
+  "conclusion": "Soft keyboard did not actually appear; keyboard occlusion/submit reachability unverified. Requires user authorization for IME privacy terms.",
+  "screenshots": [
+    "page/font/hot-alert-keyboard/screen.png (combined round)",
+    "page/window/fold-current.png",
+    "page/window/fold-consent-layout.json"
+  ]
+}

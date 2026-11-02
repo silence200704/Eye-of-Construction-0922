@@ -14,9 +14,8 @@ import type { Footprint, NormPoint } from '@/types/domain'
 /** 校园平面演示尺度（世界单位）；只影响观感比例，不代表实测尺寸 */
 export const CAMPUS_W = 100
 export const CAMPUS_D = 70
-/** 演示层高与楼板厚度（世界单位），与 §15 的"统一演示层高"一致 */
+/** 演示层高（世界单位），与 §15 的"统一演示层高"一致 */
 export const FLOOR_HEIGHT = 4.2
-export const SLAB_THICKNESS = 0.3
 /** 地面抬升：让楼栋略高于场地网格，避免与地面 z-fighting */
 export const BASE_Y = 0.5
 
@@ -121,4 +120,5 @@ export function mountHeightOf(pointType: string): number {
 }
 
 /** 测点离最近墙面超过这个距离（内容坐标单位，平面宽 1000）就不再硬凑到墙上 */
-export const MAX_MOUNT_DISTANCE = 90
+/** 测点离最近墙面超过这个距离（内容坐标单位，平面宽 1000）就不再硬凑到墙上；走廊放宽后留出余量 */
+export const MAX_MOUNT_DISTANCE = 100

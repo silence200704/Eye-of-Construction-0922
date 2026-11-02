@@ -134,19 +134,14 @@ function openPoint(row: CardView): void {
         :key="row.id"
         class="sensor"
         :class="[`sensor--${row.tone}`, { 'sensor--on': row.id === focusedPointId }]"
-        role="button"
-        tabindex="0"
-        :aria-pressed="row.id === focusedPointId"
-        :aria-label="`${row.code} ${row.name}：点一下让下方趋势图切到这个测点`"
         @click="emit('focus', row.id)"
-        @keydown.enter.prevent="emit('focus', row.id)"
-        @keydown.space.prevent="emit('focus', row.id)"
       >
         <header class="head">
-          <div class="title">
+          <button type="button" class="title" :aria-pressed="row.id === focusedPointId"
+            :aria-label="`${row.code} ${row.name}：点一下让下方趋势图切到这个测点`" @click.stop="emit('focus', row.id)">
             <b>{{ row.code }}</b>
             <span class="muted">{{ row.name }}</span>
-          </div>
+          </button>
           <StatusTag :tone="row.tone" :text="row.eventText" :dot="row.tone !== 'gray'" />
         </header>
         <p class="place muted">{{ row.place }}｜{{ row.metric }}</p>
@@ -188,8 +183,9 @@ function openPoint(row: CardView): void {
 
 <style scoped>
 .wall { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(258px, 1fr)); }
-.sensor { display: grid; gap: 12px; padding: 16px; border: 1px solid var(--line); border-left-width: 4px; border-radius: var(--r-md); background: var(--paper); cursor: pointer; }
-.sensor:hover { border-color: var(--line-strong); }
+.sensor { display: grid; gap: 12px; padding: 18px; border: 1px solid var(--line); border-left-width: 4px; border-radius: var(--r-md); background: #fcfdfa; cursor: pointer; box-shadow: var(--shadow-card); transition: transform var(--motion-ui) var(--ease-out), box-shadow var(--motion-ui); }
+.sensor:hover { box-shadow: var(--shadow-lift); }
+@media (hover: hover) { .sensor:hover { transform: translateY(-2px); } }
 .sensor:focus-visible { outline: 2px solid var(--brand-500); outline-offset: 2px; }
 /* 聚焦态：图表正画着这一条 */
 .sensor--on { border-color: var(--brand-600); box-shadow: 0 0 0 3px var(--brand-050); }
@@ -199,19 +195,19 @@ function openPoint(row: CardView): void {
 .sensor--orange { border-left-color: var(--st-orange); }
 .sensor--red { border-left-color: var(--st-red); }
 .head { display: grid; justify-items: start; gap: 8px; }
-.title { display: grid; gap: 1px; }
+.title { display: grid; gap: 1px; padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
 .title b { font-family: var(--font-mono); font-size: 12.5px; }
 .title .muted { font-size: 11.5px; }
 .place { margin: 0; font-size: 11.5px; }
-.reading { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px; padding: 16px; border-radius: var(--r-sm); background: var(--ink-800); }
+.reading { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px; padding: 16px; border-radius: var(--r-sm); background: linear-gradient(120deg, #eaf3ef, #f4f8ee); border: 1px solid #dce8dd; }
 .live-badge { display: inline-flex; align-items: center; gap: 4px; border-radius: 999px; padding: 3px 7px; background: var(--brand-050); color: var(--brand-700); font-size: 10.5px; font-weight: 700; }
 .live-badge i { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
 .live-badge small { color: var(--text-3); font-size: 10px; font-weight: 400; }
 .fact { display: inline-flex; align-items: baseline; gap: 3px; }
-.fact-label { color: var(--brand-200); font-size: 11px; font-style: normal; }
-.value { font-family: var(--font-mono); font-size: 30px; color: var(--paper); line-height: 1.3; letter-spacing: -.04em; }
-.value--empty { color: var(--brand-200); font-size: 13px; }
-.unit { color: var(--brand-200); font-size: 12px; }
+.fact-label { color: #637f6d; font-size: 11px; font-style: normal; }
+.value { font-family: var(--font-mono); font-size: 30px; color: #284d43; line-height: 1.3; letter-spacing: -.04em; }
+.value--empty { color: var(--text-3); font-size: 13px; }
+.unit { color: #637f6d; font-size: 12px; }
 .rows { display: grid; gap: 2px; margin: 0; }
 .row { display: grid; grid-template-columns: 62px minmax(0, 1fr); gap: 6px; font-size: 11.5px; }
 .row dt { color: var(--text-3); }
@@ -222,4 +218,5 @@ function openPoint(row: CardView): void {
 .link:hover { text-decoration: underline; }
 .muted { color: var(--text-3); }
 @media (max-width: 600px) { .link { min-height: 44px; }.wall { grid-template-columns: minmax(0, 1fr); } }
+@media (prefers-reduced-motion: reduce) { .sensor { transition: none; transform: none !important; } }
 </style>

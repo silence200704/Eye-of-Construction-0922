@@ -1,0 +1,12 @@
+{
+  "package": "com.huawei.hmos.screenreader",
+  "installed": true,
+  "stateBefore": "设置→关怀和无障碍→屏幕朗读=已关闭；EntryAbility 日志 screenReader=false",
+  "attempt": "点击屏幕朗读开关后出现系统确认“是否开启屏幕朗读？”与“开启 (5 秒)”",
+  "decision": "未代替用户接受该系统级确认；实际语音播报/焦点顺序未验证。",
+  "notVerifiedReason": "需要用户在本机确认开启并具备音频回放/听辨条件；HDC 自动化无法核验语音内容。",
+  "evidence": [
+    "page/screenreader-consent/screen.png",
+    "page/settings-a11y/screen.png"
+  ]
+}

@@ -1,3 +1,4 @@
+import { BusinessStore } from '../../core/business/BusinessStore';
 import { AppState } from '../../shared/state/AppState';
 import { InspectionTask, TaskAttempt } from '../../data/models/Tasks';
 import { TaskWrite, TaskCommandResult } from '../../data/models/Inspection';
@@ -6,11 +7,13 @@ import { Theme } from '../../shared/theme/Theme';
 import { PageStage } from '../../shared/playful/PageStage';
 import { PageHeading } from '../../shared/playful/PageHeading';
 import { AppCard } from '../../shared/components/AppCard';
+import { PlayButton } from '../../shared/playful/PlayButton';
 import { CheckEditor } from './CheckEditor';
 import { timeText, label } from '../../shared/format/display';
 
 @Component
 export struct TaskDetail {
+  store: BusinessStore | undefined = undefined;
   @Prop state: AppState;
   @Prop taskId: string;
   @State selectedPoint: string = '';
@@ -18,6 +21,7 @@ export struct TaskDetail {
   onRetry: () => Promise<TaskCommandResult | undefined> = async () => undefined;
   onReload: () => void = () => {};
   onReport: (target: ReportTarget) => void = () => {};
+  onAsk: (label: string, pointId: string) => void = () => {};
 
   aboutToAppear(): void {
     this.selectedPoint = this.task()?.planSnapshot.pointIds[0] ?? '';
@@ -41,6 +45,25 @@ export struct TaskDetail {
       Text(`执行身份：${this.state.identities.find((row) => row.role === this.task()!.planSnapshot.executorRole)?.roleLabel ?? this.task()!.planSnapshot.executorRole}`)
         .fontSize(12).fontColor(Theme.secondary);
       Text('到点、完成检查与问题关闭分别核验；硬件输入使用显式模拟。').fontSize(12).fontColor(Theme.brand);
+    }
+  }
+
+  private executorRole(): string {
+    return this.task()?.planSnapshot.executorRole ?? '';
+  }
+
+  private executorLabel(): string {
+    return this.state.identities.find((row) => row.role === this.executorRole())?.roleLabel ?? this.executorRole();
+  }
+
+  @Builder
+  identityNotice() {
+    AppCard({ color: '#FFF8E8' }) {
+      Text('当前身份不能办理这次巡检').fontSize(17).fontWeight(FontWeight.Bold).fontColor(Theme.text).id('task-readonly');
+      Text(`这次任务指定「${this.executorLabel()}」办理；当前身份是「${this.state.user?.roleLabel ?? '未选择'}」。`)
+        .fontSize(13).fontColor(Theme.warning);
+      Text('请到「我的」切换为任务指定身份，再返回任务办理；任务内容不会被改动。')
+        .fontSize(13).fontColor(Theme.secondary);
     }
   }
 
@@ -87,11 +110,14 @@ export struct TaskDetail {
       if (this.state.mode === 'ready' && this.task()) {
         PageHeading({ title: '带着清单，照看每一处', subtitle: '到点 → 检查 → 服务端保存', kicker: 'FIELD NOTE / 巡检手账' });
         this.summary();
-        this.points(this.task()!);
         if (this.state.user?.role !== this.task()!.planSnapshot.executorRole) {
-          Text('当前身份可查看任务；请切换为任务指定的执行身份办理。').fontSize(14).fontColor(Theme.warning).id('task-readonly');
-        } else if (this.selectedPoint) {
-          CheckEditor({ state: this.state, task: this.task()!, pointId: this.selectedPoint,
+          this.identityNotice();
+        }
+        PlayButton({ title: '问小瞳：这次巡检怎么查', secondary: true, controlId: 'task-ask-ai',
+          onAction: () => this.onAsk(`${this.task()!.taskNo} ${this.task()!.planSnapshot.planName}`, this.selectedPoint) });
+        this.points(this.task()!);
+        if (this.state.user?.role === this.task()!.planSnapshot.executorRole && this.selectedPoint) {
+          CheckEditor({ state: this.state, store: this.store, task: this.task()!, pointId: this.selectedPoint,
             onSubmit: this.onSubmit, onRetry: this.onRetry, onReload: this.onReload,
             onReport: () => this.onReport({ pointId: this.selectedPoint, taskId: this.taskId, expectedRev: this.task()!.rev,
               buildingId: this.task()!.buildingId, floorId: this.state.workspace.points.find((row) => row.id === this.selectedPoint)?.floorId ?? '' }) });

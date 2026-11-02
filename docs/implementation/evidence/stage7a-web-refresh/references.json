@@ -1,0 +1,103 @@
+{
+  "date": "2026-10-25",
+  "method": "Two batched Exa MCP web_fetch_exa calls, 16 successfully retrieved component/topic URLs",
+  "references": [
+    {
+      "url": "https://bencho.dev/blocks/edge-light",
+      "batch": 1,
+      "readVia": "Exa MCP web_fetch_exa",
+      "retrieved": true
+    },
+    {
+      "url": "https://bencho.dev/blocks/tab-bar",
+      "batch": 1,
+      "readVia": "Exa MCP web_fetch_exa",
+      "retrieved": true
+    },
+    {
+      "url": "https://bencho.dev/blocks/collapsing-sidebar",
+      "batch": 1,
+      "readVia": "Exa MCP web_fetch_exa",
+      "retrieved": true
+    },
+    {
+      "url": "https://ui.aceternity.com/components/expandable-card",
+      "batch": 1,
+      "readVia": "Exa MCP web_fetch_exa",
+      "retrieved": true
+    },
+    {
+      "url": "https://ui.aceternity.com/components/stateful-button",
+      "batch": 1,
+      "readVia": "Exa MCP web_fetch_exa",
+      "retrieved": true
+    },
+    {
+      "url": "https://kinetics.colorion.co/#library",
+      "batch": 1,
+      "readVia": "Exa MCP web_fetch_exa",
+      "retrieved": true
+    },
+    {
+      "url": "https://uiverse.io/ui/animated-buttons",
+      "batch": 1,
+      "readVia": "Exa MCP web_fetch_exa",
+      "retrieved": true
+    },
+    {
+      "url": "https://uiverse.io/ui/background-patterns",
+      "batch": 1,
+      "readVia": "Exa MCP web_fetch_exa",
+      "retrieved": true
+    },
+    {
+      "url": "https://ui.aceternity.com/components/tabs",
+      "batch": 2,
+      "readVia": "Exa MCP web_fetch_exa",
+      "retrieved": true
+    },
+    {
+      "url": "https://ui.aceternity.com/components/card-spotlight",
+      "batch": 2,
+      "readVia": "Exa MCP web_fetch_exa",
+      "retrieved": true
+    },
+    {
+      "url": "https://ui.aceternity.com/components/animated-tooltip",
+      "batch": 2,
+      "readVia": "Exa MCP web_fetch_exa",
+      "retrieved": true
+    },
+    {
+      "url": "https://ui.aceternity.com/components/file-upload",
+      "batch": 2,
+      "readVia": "Exa MCP web_fetch_exa",
+      "retrieved": true
+    },
+    {
+      "url": "https://bencho.dev/blocks/loading-state",
+      "batch": 2,
+      "readVia": "Exa MCP web_fetch_exa",
+      "retrieved": true
+    },
+    {
+      "url": "https://bencho.dev/blocks/selection-actions",
+      "batch": 2,
+      "readVia": "Exa MCP web_fetch_exa",
+      "retrieved": true
+    },
+    {
+      "url": "https://bencho.dev/blocks/faq-accordion",
+      "batch": 2,
+      "readVia": "Exa MCP web_fetch_exa",
+      "retrieved": true
+    },
+    {
+      "url": "https://bencho.dev/blocks/form-error",
+      "batch": 2,
+      "readVia": "Exa MCP web_fetch_exa",
+      "retrieved": true
+    }
+  ],
+  "implementation": "Independent Vue 3, CSS and project-original SVG; inspiration and interaction patterns, no copied third-party component implementation"
+}

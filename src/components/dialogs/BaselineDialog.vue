@@ -27,7 +27,7 @@ const def = computed(() => metricDef(metric.value))
 const supported = computed(() => def.value.baselineFields.length > 0)
 
 const fields = computed(() => (props.point === null ? [] : baselineFields(metric.value, current.value)))
-const { model, errors, submitError, reset, mergeIssues, run } = useFormModel(() => fields.value)
+const { model, errors, submitError, pending, reset, mergeIssues, run } = useFormModel(() => fields.value)
 
 watch(
   () => props.open,
@@ -105,7 +105,7 @@ async function submit(): Promise<void> {
 
     <template #footer>
       <AppButton @click="emit('close')">取消</AppButton>
-      <AppButton v-if="supported" variant="primary" @click="submit">
+      <AppButton v-if="supported" variant="primary" :loading="pending" @click="submit">
         {{ current === undefined ? '设置基准' : `保存为 v${current.version + 1}` }}
       </AppButton>
     </template>

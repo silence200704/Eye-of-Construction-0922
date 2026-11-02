@@ -1,0 +1,22 @@
+{
+  "orderId": "wo_628896dd4d1847e09ff59b5633f6a41f",
+  "orderNo": "WO-20261029-001",
+  "orderStatus": "verified",
+  "attachments": [
+    "att_5d02d763f18c4aec9ac02943da2df375",
+    "att_fcbb79c4874740dea5103c483b1d7d1c",
+    "att_d0b90aa8b71247d6969f476fd48b431f"
+  ],
+  "labelsVerified": {
+    "0": "维修前照片",
+    "1": "维修后照片",
+    "2": "验收照片"
+  },
+  "method": "Each label verified after clearing app cache/protected-photos immediately before the tap because consecutive reads fail (see defects/photo-cache.json).",
+  "screenshots": [
+    "page/photos/order-before-first/screen.png",
+    "page/photos/order-after/screen.png",
+    "page/photos/order-acceptance/screen.png"
+  ],
+  "imageElement": true
+}

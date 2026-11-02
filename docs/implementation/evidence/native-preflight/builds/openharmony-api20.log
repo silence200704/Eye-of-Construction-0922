@@ -1,0 +1,127 @@
+> hvigor [32mFinished ::PreBuildApp... after 1 ms [39m
+> hvigor [32mFinished :entry:default@PreBuild... after 103 ms [39m
+> hvigor [32mFinished ::DuplicateDependencyCheck... after 1 ms [39m
+> hvigor [32mFinished :entry:default@CreateModuleInfo... after 1 ms [39m
+> hvigor [32mUP-TO-DATE :entry:default@GenerateMetadata...  [39m
+> hvigor [32mFinished :entry:default@ConfigureCmake... after 1 ms [39m
+> hvigor [32mFinished :entry:default@MergeProfile... after 7 ms [39m
+> hvigor [32mFinished :entry:default@CreateBuildProfile... after 3 ms [39m
+> hvigor [32mFinished :entry:default@PreCheckSyscap... after 1 ms [39m
+> hvigor [32mUP-TO-DATE :entry:default@GeneratePkgContextInfo...  [39m
+> hvigor [32mFinished :entry:default@GeneratePkgSdkInfo... after 4 ms [39m
+> hvigor [32mFinished :entry:default@ProcessIntegratedHsp... after 1 ms [39m
+> hvigor [32mFinished :entry:default@BuildNativeWithCmake... after 1 ms [39m
+> hvigor [32mFinished :entry:default@MakePackInfo... after 3 ms [39m
+> hvigor [32mUP-TO-DATE :entry:default@SyscapTransform...  [39m
+> hvigor [32mFinished :entry:default@ProcessProfile... after 137 ms [39m
+> hvigor [32mFinished :entry:default@ProcessRouterMap... after 6 ms [39m
+> hvigor [32mUP-TO-DATE :entry:default@ProcessShareConfig...  [39m
+> hvigor [32mFinished :entry:default@ProcessStartupConfig... after 3 ms [39m
+> hvigor [32mFinished :entry:default@BuildNativeWithNinja... after 1 ms [39m
+> hvigor [32mFinished :entry:default@ProcessResource... after 6 ms [39m
+> hvigor [32mFinished :entry:default@GenerateLoaderJson... after 16 ms [39m
+> hvigor [32mUP-TO-DATE :entry:default@ProcessLibs...  [39m
+> hvigor [32mFinished :entry:default@CompileResource... after 420 ms [39m
+> hvigor [32mUP-TO-DATE :entry:default@DoNativeStrip...  [39m
+> hvigor [32mFinished :entry:default@BuildJS... after 5 ms [39m
+> hvigor [32mUP-TO-DATE :entry:default@CacheNativeLibs...  [39m
+> hvigor WARN: WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/platform-probe/entry/src/main/ets/pages/probe/AssetProbe.ets:36:23
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/platform-probe/entry/src/main/ets/pages/probe/AssetProbe.ets:37:31
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/platform-probe/entry/src/main/ets/pages/probe/AssetProbe.ets:37:31
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/platform-probe/entry/src/main/ets/pages/probe/AssetProbe.ets:60:16
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/platform-probe/entry/src/main/ets/pages/probe/AssetProbe.ets:62:5
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/platform-probe/entry/src/main/ets/pages/probe/AssetProbe.ets:64:5
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/platform-probe/entry/src/main/ets/pages/probe/StorageProbe.ets:11:22
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/platform-probe/entry/src/main/ets/pages/probe/StorageProbe.ets:13:12
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/platform-probe/entry/src/main/ets/pages/probe/StorageProbe.ets:13:34
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/platform-probe/entry/src/main/ets/pages/probe/StorageProbe.ets:13:47
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/platform-probe/entry/src/main/ets/pages/probe/StorageProbe.ets:15:5
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/platform-probe/entry/src/main/ets/pages/probe/StorageProbe.ets:20:23
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/platform-probe/entry/src/main/ets/pages/probe/StorageProbe.ets:23:11
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/platform-probe/entry/src/main/ets/pages/probe/StorageProbe.ets:25:11
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/platform-probe/entry/src/main/ets/pages/probe/StorageProbe.ets:27:11
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/platform-probe/entry/src/main/ets/pages/probe/StorageProbe.ets:29:26
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/platform-probe/entry/src/main/ets/pages/probe/StorageProbe.ets:33:11
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/platform-probe/entry/src/main/ets/pages/probe/StorageProbe.ets:40:16
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/platform-probe/entry/src/main/ets/pages/probe/StorageProbe.ets:42:5
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/platform-probe/entry/src/main/ets/pages/probe/StorageProbe.ets:44:5
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/platform-probe/entry/src/main/ets/pages/probe/StorageProbe.ets:46:10
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/platform-probe/entry/src/main/ets/pages/probe/StorageProbe.ets:51:16
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/platform-probe/entry/src/main/ets/pages/probe/StorageProbe.ets:53:5
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/platform-probe/entry/src/main/ets/pages/probe/StorageProbe.ets:55:5
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: C:/Users/Lenovo/Desktop/demo/mobile/platform-probe/entry/src/main/ets/pages/probe/CapabilityProbe.ets:14:28
+ Function may throw exceptions. Special handling is required.
+
+
+> hvigor [32mFinished :entry:default@CompileArkTS... after 3 s 808 ms [39m
+> hvigor [32mFinished :entry:default@GeneratePkgModuleJson... after 3 ms [39m
+> hvigor [32mFinished :entry:default@ProcessCompiledResources... after 1 ms [39m
+> hvigor WARN: If obfuscation is needed, enable obfuscation settings in this build process; failing to do so may prevent future obfuscation. 
+               Properly configure obfuscation rules to avoid runtime issues.
+> hvigor [32mFinished :entry:default@PackageHap... after 541 ms [39m
+> hvigor [32mFinished :entry:default@PackingCheck... after 15 ms [39m
+> hvigor WARN: Will skip sign 'hap'. No signingConfigs profile is configured in current project.
+             If needed, configure the signingConfigs in C:\Users\Lenovo\Desktop\demo\mobile\platform-probe\build-profile.json5.
+> hvigor [32mFinished :entry:default@SignHap... after 3 ms [39m
+> hvigor [32mFinished :entry:default@CollectDebugSymbol... after 5 ms [39m
+> hvigor [32mFinished :entry:assembleHap... after 1 ms [39m
+> hvigor [32mFinished ::MakeProjectPackInfo... after 8 ms [39m
+> hvigor [32mFinished ::ProcessProjectPrivacyProfile... after 3 ms [39m
+> hvigor [32mFinished ::GeneratePackRes... after 2 ms [39m
+> hvigor WARN: 2026/10/26 13:50:37.914 - Ohos BundleTool [Warning]: Hap debug is true or Hsp verify infos is empty
+
+> hvigor [32mFinished ::PackageApp... after 555 ms [39m
+> hvigor [32mFinished ::SignPackagesFromApp... after 3 ms [39m
+> hvigor WARN: Will skip sign 'app'. No signingConfigs profile is configured in current project.
+             If needed, configure the signingConfigs in C:\Users\Lenovo\Desktop\demo\mobile\platform-probe\build-profile.json5.
+> hvigor [32mFinished ::SignApp... after 2 ms [39m
+> hvigor [32mFinished ::assembleApp... after 1 ms [39m
+> hvigor [32mBUILD SUCCESSFUL in 11 s 538 ms [39m

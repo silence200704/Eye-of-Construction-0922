@@ -1,14 +1,13 @@
 /**
- * 楼栋的外部体量：外墙 + 每层窗带 + 屋顶女儿墙 + 入口雨篷（校园总览用）。
- *
- * 低多边形校园模型读起来像不像"楼"，主要看层高节奏、窗带是否成排、屋顶有没有处理过 ——
- * 这里只做这三件：不贴贴图、不导入外部模型，尺寸仍来自档案的程序化值。
- * 进单栋后改用剖层内部视图（sceneParts），供"选楼层看测点"。
+ * 楼栋的外部体量：优先使用 Blender GLB；缺失时退回外墙 + 窗带 + 屋顶女儿墙 + 雨篷的程序化外壳
+ * （校园总览用）。进单栋后改用剖层内部视图（sceneParts），供“选楼层看测点”。
  */
 import * as THREE from "three"
 import type { CampusModel } from "@/core/spatial/project"
 import { labelSprite } from "./sceneText"
 import { ROOF_TINT, eventColor, tintOf, type LevelDetail, type SceneUpdate } from "./sceneShared"
+import { isLibrary, libraryShell } from "./library/libraryShell"
+import { modelFromTemplate } from "./buildings/modelShell"
 
 /** 每层窗带的高度与窗洞尺寸（世界单位）：低多边形体量模型靠"窗带节奏"被读成一栋楼 */
 const WINDOW = { height: 1.05, width: 1.5, gap: 1.25, sill: 1.15 }
@@ -57,6 +56,7 @@ function addFacadeDetails(group: THREE.Group, world: { w: number; d: number }, f
  * 几何仍由档案的程序化尺寸生成，进单栋后再换成剖层内部视图。
  */
 function buildingShell(building: CampusModel['buildings'][number]): THREE.Group {
+  if (isLibrary(building.building)) return libraryShell(building)
   const group = new THREE.Group()
   const { world } = building
   const floors = Math.max(1, building.levels.length)
@@ -122,11 +122,17 @@ function buildingShell(building: CampusModel['buildings'][number]): THREE.Group 
 /** 外壳封顶后的高度：名字标签就挂在这之上 */
 function shellTopOf(building: CampusModel['buildings'][number]): number {
   const h = Math.max(1, building.levels.length) * 4.2
+  // 图书馆正面已有一块校名/馆名金匾，白色数据标签再抬高一些，避免压住牌匾
+  if (isLibrary(building.building)) return h + 4.2
   const gym = building.building.purpose === '体育'
   return (gym ? h + 2.6 : h) + SHELL.plinth + SHELL.parapet + 1.4
 }
 
-function buildingGroup(building: CampusModel['buildings'][number], update: SceneUpdate): THREE.Group {
+function buildingGroup(
+  building: CampusModel['buildings'][number],
+  update: SceneUpdate,
+  templates: ReadonlyMap<string, THREE.Object3D>,
+): THREE.Group {
   const group = new THREE.Group()
   const { world } = building
   group.position.set(world.cx, 0, world.cz)
@@ -149,7 +155,7 @@ function buildingGroup(building: CampusModel['buildings'][number], update: Scene
   const focused = update.scope.kind === 'building' && update.scope.buildingId === building.building.id
   let nameHeight = shellTopOf(building)
   const detail: LevelDetail = {
-    zoneLabels: focused && update.mode === 'floor',
+    zoneLabels: focused,
     deviceLabels: focused,
   }
 
@@ -158,8 +164,9 @@ function buildingGroup(building: CampusModel['buildings'][number], update: Scene
     // 进单栋：剖层内部（楼板 + 分区 + 贴墙的传感器），供"选楼层看测点"
     for (const level of building.levels) group.add(levelGroup(level, building, update, detail))
   } else {
-    // 校园总览：用外部体量模型，四栋才各自读成一栋楼
-    group.add(buildingShell(building))
+    // 校园总览：有 Blender 模型就替换；未加载/加载失败时保留程序化外壳
+    const template = templates.get(building.building.code)
+    group.add(template !== undefined ? modelFromTemplate(building, template) : buildingShell(building))
     const shellHeight = (building.building.purpose === '体育' ? height + 2.6 : height) + SHELL.plinth + SHELL.parapet
     nameHeight = shellHeight + (eventColor(building.maxEventLevel) === null ? 1.4 : 4.4)
   }
@@ -176,14 +183,17 @@ function buildingGroup(building: CampusModel['buildings'][number], update: Scene
     group.add(cone)
   }
 
-  const name = labelSprite({
-    text: `${building.building.code} ${building.building.name}`,
-    height: focused ? 1.55 : 1.65,
-    color: '#16232a',
-    background: '#ffffff',
-  })
-  name.position.set(0, nameHeight, 0)
-  group.add(name)
+  // 图书馆正面已有校名/馆名金匾，不再叠加一张白底数据标签压住牌匾
+  if (!isLibrary(building.building)) {
+    const name = labelSprite({
+      text: `${building.building.code} ${building.building.name}`,
+      height: focused ? 1.55 : 1.65,
+      color: '#16232a',
+      background: '#ffffff',
+    })
+    name.position.set(0, nameHeight, 0)
+    group.add(name)
+  }
   return group
 }
 

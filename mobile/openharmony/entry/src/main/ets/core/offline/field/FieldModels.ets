@@ -4,6 +4,7 @@ export interface FieldOperation {
   id: string; scope: string; write: BusinessWrite; dependencies: string[]; photos: BusinessPhoto[];
   body: string; key: string; phase: string; attempts: number; nextAttempt: number;
   message: string; result: string; sent: boolean; replaces?: string;
+  requestHash?: string;
 }
 export interface FieldEntity { id: string; rev: number; }
 export interface FieldResult {

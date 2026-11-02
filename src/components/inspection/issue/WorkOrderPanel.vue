@@ -12,6 +12,7 @@ import { backendActive } from '@/api/backend/runtime'
 import { useArchiveStore } from '@/stores/archive'
 import { useSessionStore } from '@/stores/session'
 import { useBackendSessionStore } from '@/stores/backend/session'
+import { useIssueStore } from '@/stores/inspection/issues'
 import { useWorkOrderStore } from '@/stores/inspection/workOrders'
 import { useAttachmentStore } from '@/stores/inspection/attachments'
 import { isAssignedTo } from '@/core/inspection/workOrderFlow'
@@ -96,7 +97,8 @@ function thumbOf(id: string): string {
 const orders = computed(() => workOrders.ordersOfIssue(props.issueId))
 const repairRoles = ROLES.filter((row) => row.key === 'repair' || row.key === 'property')
 const serverWorkers = computed(() =>
-  backend.identities.filter((row) => row.role === 'repair' || row.role === 'property'),
+  backend.identities.filter(row => (row.role === 'repair' || row.role === 'property') &&
+    (row.buildingIds === null || row.buildingIds?.includes(useIssueStore().byId(props.issueId)?.buildingId ?? ''))),
 )
 
 const STATUS_TEXT: Record<WorkOrderStatus, string> = {

@@ -9,7 +9,8 @@ export const CAMPUS_ROADS: readonly SiteRect[] = [
 ]
 
 export const CAMPUS_GREENS: readonly SiteRect[] = [
-  { x: 0.075, y: 0.49, w: 0.15, h: 0.3 },
-  { x: 0.515, y: 0.53, w: 0.11, h: 0.27 },
+  // 图书馆（B05）落在南侧中轴：两侧草坪给建筑与入口前场留出完整轮廓
+  { x: 0.075, y: 0.755, w: 0.15, h: 0.07 },
+  { x: 0.515, y: 0.40, w: 0.11, h: 0.10 },
   { x: 0.7, y: 0.11, w: 0.19, h: 0.24 },
 ]

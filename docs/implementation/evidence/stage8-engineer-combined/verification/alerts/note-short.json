@@ -1,0 +1,24 @@
+{
+  "feedback": [
+    "排查或措施说明至少10字。"
+  ],
+  "before": {
+    "events": 2,
+    "issues": 1,
+    "work_orders": 1,
+    "media_files": 4,
+    "attachments": 4,
+    "audits": 49,
+    "operation_receipts": 43
+  },
+  "after": {
+    "events": 2,
+    "issues": 1,
+    "work_orders": 1,
+    "media_files": 4,
+    "attachments": 4,
+    "audits": 49,
+    "operation_receipts": 43
+  },
+  "scrolled": false
+}

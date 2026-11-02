@@ -1,0 +1,12 @@
+{
+  "eventId": "evt_fbc46c84dd974167bf9693465e6d35c7",
+  "message": "短音输出 4800 字节，色块保持模拟提示。",
+  "statusBefore": "closed",
+  "statusAfter": "closed",
+  "revBefore": 5,
+  "revAfter": 5,
+  "auditsBefore": 34,
+  "auditsAfter": 34,
+  "stateChanged": false,
+  "audioApi": "@ohos.multimedia.audio createAudioRenderer, 16kHz mono S16LE raw, 4800 bytes written"
+}

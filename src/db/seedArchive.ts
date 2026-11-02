@@ -39,6 +39,7 @@ import {
   floor,
   point,
 } from './seedFactories'
+import { libraryBuilding, libraryFloors, libraryPoint } from './seeds/library'
 
 const PLACEHOLDER_SOURCE = '明确标识的虚构占位资料，待学校实际资料替换'
 
@@ -57,10 +58,11 @@ export function seedBuildings(): Building[] {
       backupPerson: '王老师（物业值班）',
       dataSource: 'real',
       source: `实测点位所在楼栋；楼栋档案字段为${PLACEHOLDER_SOURCE}`,
-      x: 0.38,
-      y: 0.6,
-      w: 0.24,
-      h: 0.19,
+      // 教学楼西移，避开南侧中轴图书馆的遮挡；B01 在北侧，二者保留一条通道
+      x: 0.18,
+      y: 0.50,
+      w: 0.22,
+      h: 0.17,
       rotate: 0,
     }),
     building({
@@ -114,12 +116,14 @@ export function seedBuildings(): Building[] {
       backupPerson: '冯老师',
       dataSource: 'demo',
       source: PLACEHOLDER_SOURCE,
-      x: 0.76,
+      // 体育馆东移并收窄，给南侧中轴的图书馆留出完整 footprint，避免两栋楼模型相交
+      x: 0.85,
       y: 0.62,
-      w: 0.17,
+      w: 0.12,
       h: 0.26,
       rotate: 0,
     }),
+    libraryBuilding(),
   ]
 }
 
@@ -183,6 +187,7 @@ export function seedFloors(): Floor[] {
       name: '一层',
       zones: ['一层主馆区', '一层器材区', '一层楼梯间', '一层更衣区', '一层门厅', '一层库房', '一层备用间'],
     }),
+    ...libraryFloors(),
   ]
 }
 
@@ -319,6 +324,7 @@ function seedManualCheckPoints(): Point[] {
       dataSource: 'demo',
       remark: '仅人工检查区域。',
     }),
+    libraryPoint(),
   ]
 }
 

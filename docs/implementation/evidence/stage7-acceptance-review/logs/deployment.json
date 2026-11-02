@@ -1,0 +1,112 @@
+{
+  "currentMediaCount": 10,
+  "observedAt": "2026-10-25T16:42:35.9076051+08:00",
+  "schemaRevision": "0013_assistant_session_epoch",
+  "mediaChecks": [
+    {
+      "path": "media/files/11/11906a5ebb7640608fabc110698b7a63",
+      "expected": "74cb80e2c3e78615f049bef4f66893254043fec7c3d28057f3eb144c8149e931",
+      "actual": "74cb80e2c3e78615f049bef4f66893254043fec7c3d28057f3eb144c8149e931",
+      "matches": true
+    },
+    {
+      "path": "media/files/16/16366dce52c24f6491aed735c68d659e",
+      "expected": "afbf2b02843939a06d9ba03bb65629abc909eef80fa608b1e4a043a2198c2865",
+      "actual": "afbf2b02843939a06d9ba03bb65629abc909eef80fa608b1e4a043a2198c2865",
+      "matches": true
+    },
+    {
+      "path": "media/files/33/33722f2656814231b32156ea0d30319f",
+      "expected": "284b6abfab42b95bf3f36c6b235a9246c0487b0bb82c49073a87233b04e8e88e",
+      "actual": "284b6abfab42b95bf3f36c6b235a9246c0487b0bb82c49073a87233b04e8e88e",
+      "matches": true
+    },
+    {
+      "path": "media/files/48/48a51ea5026d4138bfe757db1ae4f2df",
+      "expected": "c47dd9465c00e9a0c8b85e9ea58d3034a0d23b9cf926113602f3460752a4eb96",
+      "actual": "c47dd9465c00e9a0c8b85e9ea58d3034a0d23b9cf926113602f3460752a4eb96",
+      "matches": true
+    },
+    {
+      "path": "media/files/5a/5abc2397d75a40c6ad05317c2c095181",
+      "expected": "c47dd9465c00e9a0c8b85e9ea58d3034a0d23b9cf926113602f3460752a4eb96",
+      "actual": "c47dd9465c00e9a0c8b85e9ea58d3034a0d23b9cf926113602f3460752a4eb96",
+      "matches": true
+    },
+    {
+      "path": "media/files/74/748f946354e545a1a21c7cca7d37dda1",
+      "expected": "c47dd9465c00e9a0c8b85e9ea58d3034a0d23b9cf926113602f3460752a4eb96",
+      "actual": "c47dd9465c00e9a0c8b85e9ea58d3034a0d23b9cf926113602f3460752a4eb96",
+      "matches": true
+    },
+    {
+      "path": "media/files/8d/8d088f0b9d014b5aaa7ee51731f9a2f1",
+      "expected": "3ddcf4b1feb74e94096405a2ae84a51bf8df8b0318b10d9cd389a2040626b047",
+      "actual": "3ddcf4b1feb74e94096405a2ae84a51bf8df8b0318b10d9cd389a2040626b047",
+      "matches": true
+    },
+    {
+      "path": "media/files/90/9057638f6b9a430c8cce73f784c44113",
+      "expected": "646a81da8a6d6149e58efcb8d73183b317fc800ad16fdb5d8df842cd09fb7a64",
+      "actual": "646a81da8a6d6149e58efcb8d73183b317fc800ad16fdb5d8df842cd09fb7a64",
+      "matches": true
+    },
+    {
+      "path": "media/files/c2/c27200cad7d44f8399f67661e26bed4f",
+      "expected": "0650c9ad24b6b776e682300b01d88427821ebac991fe1f8d7ba1017dd7155ee1",
+      "actual": "0650c9ad24b6b776e682300b01d88427821ebac991fe1f8d7ba1017dd7155ee1",
+      "matches": true
+    },
+    {
+      "path": "media/files/fa/fa6d2d6ee5eb4f70b810dfc30da242b1",
+      "expected": "4ae2fa56d1474d479f1f3d556b46993f8b670ecc51a4dce40fcc011d82e73825",
+      "actual": "4ae2fa56d1474d479f1f3d556b46993f8b670ecc51a4dce40fcc011d82e73825",
+      "matches": true
+    }
+  ],
+  "containers": [
+    {
+      "Service": "api",
+      "State": "running",
+      "Health": "healthy",
+      "ExitCode": 0
+    },
+    {
+      "Service": "migrate",
+      "State": "exited",
+      "Health": "",
+      "ExitCode": 0
+    },
+    {
+      "Service": "web",
+      "State": "running",
+      "Health": "",
+      "ExitCode": 0
+    }
+  ],
+  "imageIds": [
+    "/zhutong-api-1 sha256:7ba3ad2e2299c8eeb0cecfa6b509970282fc5cfb64d7dc7ab04f1f5a5f1ef1c2",
+    "/zhutong-web-1 sha256:ba3932e34b4357e918364fccee85d9f990c7c52d3d94be1c98c9bda42d12b405"
+  ],
+  "sourceChecks": [
+    {
+      "localSha256": "457d2416d1e559a5e21d1c3ec8a5bfb87a83b509245fc131f0c53ef35280112d",
+      "path": "operations/media/session.py",
+      "containerSha256": "457d2416d1e559a5e21d1c3ec8a5bfb87a83b509245fc131f0c53ef35280112d",
+      "matches": true
+    },
+    {
+      "localSha256": "632ec035df1f83c77e6f08e0c65557c419716d73ecb6efbfb28eaabe2e043985",
+      "path": "operations/assistant/resolve.py",
+      "containerSha256": "632ec035df1f83c77e6f08e0c65557c419716d73ecb6efbfb28eaabe2e043985",
+      "matches": true
+    },
+    {
+      "localSha256": "65c78193ded89c622e954f25082bf7ab2812614dd2ba32845d2eb6795232bc3e",
+      "path": "routers/datasets/assistant/api.py",
+      "containerSha256": "65c78193ded89c622e954f25082bf7ab2812614dd2ba32845d2eb6795232bc3e",
+      "matches": true
+    }
+  ],
+  "expectedMediaCount": 10
+}

@@ -1,0 +1,31 @@
+✔ saved quiet mode is restored before native components read their shared UI state (0.8671ms)
+✔ appearance saves are ordered and only persist the motion preference (0.9413ms)
+✔ service root accepts explicit HTTP/HTTPS roots and rejects credentials, query, path and bad schemes (1.1206ms)
+✔ missing, invalid and manual readings never turn into zero or normal (0.1766ms)
+✔ latest record follows sample time rather than backfill arrival; missing and stale times are labeled (0.2425ms)
+✔ preference saves are serialized and store no access tokens or business snapshots (0.9561ms)
+✔ sensor filter also scopes alarm history, retaining matching archived-point history (0.2322ms)
+✔ native client sends bearer and exact API path without enabling cache (1.2331ms)
+✔ server status and business errors stay visible; HTML or malformed envelopes never succeed (0.7552ms)
+✔ cancelled native response is rejected even when transport destruction throws (0.3839ms)
+✔ request paths cannot escape the configured origin (0.2271ms)
+✔ default identity is server safety identity; saves only service root and identity id (4.9586ms)
+✔ all five role changes clear protected state synchronously and select server identities (1.3697ms)
+✔ a late identity response cannot replace a newer connection (0.5893ms)
+✔ late protected rows are discarded even when native cancellation loses the race (0.8113ms)
+✔ dataset reset during a snapshot refuses mixed epochs and publishes no ready data (0.3789ms)
+✔ principal mismatch and unsupported roles cannot become an authorized session (0.2399ms)
+✔ unknown identities are rejected before issuing a shortcut (0.2031ms)
+✔ refresh revalidates same-id reduced scope and never reuses old rows (0.5068ms)
+✔ expired session refresh restores the same identity once; denied access does not change roles (0.6137ms)
+✔ late preference restoration cannot resurrect a suspended screen (0.3676ms)
+✔ configuration failure is visible and cannot publish an online success (0.336ms)
+✔ a scope change while snapshot rows are in flight invalidates the entire batch (0.3244ms)
+ℹ tests 23
+ℹ suites 0
+ℹ pass 23
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 598.0092

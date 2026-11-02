@@ -1,0 +1,90 @@
+{
+  "code": "9d1cb8f",
+  "submittedDocuments": "e8b40b9",
+  "reviewedAt": "2026-10-25T16:42:35.9252999+08:00",
+  "conclusion": "passed",
+  "repairClosure": {
+    "RR3": "verified",
+    "structureP2": "verified",
+    "RR1": "verified"
+  },
+  "backend": {
+    "log": "logs/backend.log",
+    "passed": 266,
+    "started": "2026-10-25T16:31:57.7811078+08:00",
+    "coverage": 88.86,
+    "command": "uv run pytest --cov=zhutong --cov-report=term --cov-fail-under=80 -q",
+    "exitCode": 0,
+    "finished": "2026-10-25T16:34:15.815353+08:00"
+  },
+  "web": {
+    "passed": 1165,
+    "exitCode": 0,
+    "files": 122,
+    "log": "logs/web.log"
+  },
+  "originalFrontendRegressions": {
+    "passed": 4,
+    "exitCode": 0,
+    "log": "logs/original-four.log"
+  },
+  "targeted": {
+    "structureChecks": 2,
+    "exitCode": 0,
+    "originalBackendRegressions": 2
+  },
+  "validation": {
+    "formattedFiles": 248,
+    "buildExit": 0,
+    "formatExit": 0,
+    "toolingPassed": 5,
+    "typecheckExit": 0,
+    "toolingExit": 0,
+    "ruffExit": 0,
+    "log": "logs/validation.log"
+  },
+  "probes": {
+    "initialHarnessCorrection": "Unbound video registration correctly rejected 409; corrected to bound video required by contract. Initial error preserved.",
+    "exitCode": 0,
+    "results": "results.json",
+    "method": "ASGI TestClient with independent temporary SQLite, not TCP/browser"
+  },
+  "deployment": {
+    "matchingMedia": 10,
+    "sourceChecksAllMatch": true,
+    "head": "0013_assistant_session_epoch",
+    "log": "logs/deployment.json"
+  },
+  "ports": [
+    {
+      "url": "http://127.0.0.1:18000/api/v1/health/ready",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8080",
+      "status": 200
+    },
+    {
+      "error": "由于目标计算机积极拒绝，无法连接。 (127.0.0.1:8000)",
+      "url": "http://127.0.0.1:8000"
+    },
+    {
+      "error": "由于目标计算机积极拒绝，无法连接。 (127.0.0.1:5173)",
+      "url": "http://127.0.0.1:5173"
+    }
+  ],
+  "submittedEvidenceOnly": [
+    "44 business questions",
+    "20 FAQ in both paths",
+    "60 frozen questions: 57 in both paths",
+    "outbound guard, restart, backup/restore",
+    "existing wide/narrow browser interactions"
+  ],
+  "knownLimits": [
+    "accept-9/25/36 remain known misses",
+    "Video analysis remains preset region/pixel statistics",
+    "No real hardware integration",
+    "Dormitory 8000/5173 not running; no services started or stopped"
+  ],
+  "productChanges": "No product source changes needed; review/status documentation updated. Delivery database and volumes unchanged by this review."
+}

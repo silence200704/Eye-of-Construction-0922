@@ -1,0 +1,41 @@
+{
+  "eventId": "evt_6ba7dbe6d3a941048ced55df94195a72",
+  "unknownFeedback": [
+    "暂时无法连接筑瞳服务，请检查服务地址与网络。"
+  ],
+  "before": {
+    "events": 2,
+    "issues": 1,
+    "work_orders": 1,
+    "media_files": 4,
+    "attachments": 4,
+    "audits": 49,
+    "operation_receipts": 43
+  },
+  "afterDrop": {
+    "events": 2,
+    "issues": 1,
+    "work_orders": 1,
+    "media_files": 4,
+    "attachments": 4,
+    "audits": 50,
+    "operation_receipts": 44
+  },
+  "afterRetry": {
+    "events": 2,
+    "issues": 1,
+    "work_orders": 1,
+    "media_files": 4,
+    "attachments": 4,
+    "audits": 50,
+    "operation_receipts": 44
+  },
+  "sameAuditReceipt": true,
+  "dropped": {
+    "path": "/api/v1/datasets/demo-main/events/evt_6ba7dbe6d3a941048ced55df94195a72/field-notes",
+    "status": 200,
+    "key": "alarm-1793331925243-fbiryjg7gi9",
+    "bodySha256": "ba24dfb3d9595d0d3ff17524c5aafd7cd087b2971275fe348e822b96fc87e17e",
+    "afterCommit": true
+  }
+}

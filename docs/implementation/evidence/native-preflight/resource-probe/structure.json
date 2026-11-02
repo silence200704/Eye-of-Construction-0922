@@ -1,0 +1,124 @@
+{
+  "parser": "Installed SDK ohos-typescript AST for non-UI ArkTS",
+  "functions": [
+    {
+      "file": "mobile\\platform-probe\\entry\\src\\main\\ets\\entryability\\EntryAbility.ets",
+      "name": "onWindowStageCreate",
+      "start": 6,
+      "end": 10,
+      "lines": 5,
+      "parameters": 1
+    },
+    {
+      "file": "mobile\\platform-probe\\entry\\src\\main\\ets\\entryability\\EntryAbility.ets",
+      "name": "callback",
+      "start": 7,
+      "end": 9,
+      "lines": 3,
+      "parameters": 1
+    },
+    {
+      "file": "mobile\\platform-probe\\entry\\src\\main\\ets\\pages\\probe\\AssetProbe.ets",
+      "name": "decodeAsset",
+      "start": 14,
+      "end": 33,
+      "lines": 20,
+      "parameters": 3
+    },
+    {
+      "file": "mobile\\platform-probe\\entry\\src\\main\\ets\\pages\\probe\\AssetProbe.ets",
+      "name": "runAssetProbe",
+      "start": 35,
+      "end": 56,
+      "lines": 22,
+      "parameters": 1
+    },
+    {
+      "file": "mobile\\platform-probe\\entry\\src\\main\\ets\\pages\\probe\\AssetProbe.ets",
+      "name": "saveReport",
+      "start": 58,
+      "end": 67,
+      "lines": 10,
+      "parameters": 2
+    },
+    {
+      "file": "mobile\\platform-probe\\entry\\src\\main\\ets\\pages\\probe\\CapabilityProbe.ets",
+      "name": "getJson",
+      "start": 11,
+      "end": 23,
+      "lines": 13,
+      "parameters": 1
+    },
+    {
+      "file": "mobile\\platform-probe\\entry\\src\\main\\ets\\pages\\probe\\CapabilityProbe.ets",
+      "name": "probeNetwork",
+      "start": 25,
+      "end": 39,
+      "lines": 15,
+      "parameters": 1
+    },
+    {
+      "file": "mobile\\platform-probe\\entry\\src\\main\\ets\\pages\\probe\\CapabilityProbe.ets",
+      "name": "callback",
+      "start": 31,
+      "end": 31,
+      "lines": 1,
+      "parameters": 1
+    },
+    {
+      "file": "mobile\\platform-probe\\entry\\src\\main\\ets\\pages\\probe\\CapabilityProbe.ets",
+      "name": "callback",
+      "start": 33,
+      "end": 33,
+      "lines": 1,
+      "parameters": 1
+    },
+    {
+      "file": "mobile\\platform-probe\\entry\\src\\main\\ets\\pages\\probe\\CapabilityProbe.ets",
+      "name": "runCapabilities",
+      "start": 41,
+      "end": 59,
+      "lines": 19,
+      "parameters": 1
+    },
+    {
+      "file": "mobile\\platform-probe\\entry\\src\\main\\ets\\pages\\probe\\StorageProbe.ets",
+      "name": "readRun",
+      "start": 10,
+      "end": 17,
+      "lines": 8,
+      "parameters": 1
+    },
+    {
+      "file": "mobile\\platform-probe\\entry\\src\\main\\ets\\pages\\probe\\StorageProbe.ets",
+      "name": "probeDatabase",
+      "start": 19,
+      "end": 35,
+      "lines": 17,
+      "parameters": 1
+    },
+    {
+      "file": "mobile\\platform-probe\\entry\\src\\main\\ets\\pages\\probe\\StorageProbe.ets",
+      "name": "probeFile",
+      "start": 37,
+      "end": 47,
+      "lines": 11,
+      "parameters": 1
+    },
+    {
+      "file": "mobile\\platform-probe\\entry\\src\\main\\ets\\pages\\probe\\StorageProbe.ets",
+      "name": "saveCapabilities",
+      "start": 49,
+      "end": 57,
+      "lines": 9,
+      "parameters": 2
+    }
+  ],
+  "manualUiReview": {
+    "file": "pages/Index.ets",
+    "maxFunctionLines": 22,
+    "maxParameters": 0,
+    "note": "ArkUI declarative builders reviewed from source; not counted by a TS-only parser"
+  },
+  "passed": true
+}

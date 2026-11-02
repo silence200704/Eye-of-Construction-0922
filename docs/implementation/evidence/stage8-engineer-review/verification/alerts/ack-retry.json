@@ -1,0 +1,132 @@
+{
+  "before": {
+    "status": "pending",
+    "rev": 1,
+    "acknowledgedBy": "",
+    "timeline": [
+      {
+        "at": "2026-10-29T03:52:19.612770+00:00",
+        "by": "演示学校安全管理人员",
+        "action": "生成红色紧急核查事件",
+        "detail": "R20261029-001 触发值 0.4 mm；规则 FINISH-crack-RULE V1.0"
+      }
+    ],
+    "closeBasis": "",
+    "audits": 27,
+    "receipts": 25,
+    "notifications": [
+      {
+        "id": "ntf_6656ecb2b40740a4a0602907da21d16a",
+        "eventId": "evt_fbc46c84dd974167bf9693465e6d35c7",
+        "acknowledgedAt": null,
+        "acknowledgedBy": ""
+      },
+      {
+        "id": "ntf_b22946e90cb04b098e28fc0a3ec55f9a",
+        "eventId": "evt_fbc46c84dd974167bf9693465e6d35c7",
+        "acknowledgedAt": null,
+        "acknowledgedBy": ""
+      },
+      {
+        "id": "ntf_bd15df94d9834cc782fbaed193a050b2",
+        "eventId": "evt_fbc46c84dd974167bf9693465e6d35c7",
+        "acknowledgedAt": null,
+        "acknowledgedBy": ""
+      }
+    ]
+  },
+  "afterDroppedResponse": {
+    "status": "handling",
+    "rev": 2,
+    "acknowledgedBy": "演示学校安全管理人员",
+    "timeline": [
+      {
+        "at": "2026-10-29T03:52:19.612770+00:00",
+        "by": "演示学校安全管理人员",
+        "action": "生成红色紧急核查事件",
+        "detail": "R20261029-001 触发值 0.4 mm；规则 FINISH-crack-RULE V1.0"
+      },
+      {
+        "at": "2026-10-29T06:08:56.796297+00:00",
+        "by": "演示学校安全管理人员",
+        "action": "确认事件，转入处理中",
+        "detail": "学校安全管理人员 确认"
+      }
+    ],
+    "closeBasis": "",
+    "audits": 28,
+    "receipts": 26,
+    "notifications": [
+      {
+        "id": "ntf_6656ecb2b40740a4a0602907da21d16a",
+        "eventId": "evt_fbc46c84dd974167bf9693465e6d35c7",
+        "acknowledgedAt": "2026-10-29T06:08:56.796297+00:00",
+        "acknowledgedBy": "演示学校安全管理人员"
+      },
+      {
+        "id": "ntf_b22946e90cb04b098e28fc0a3ec55f9a",
+        "eventId": "evt_fbc46c84dd974167bf9693465e6d35c7",
+        "acknowledgedAt": "2026-10-29T06:08:56.796297+00:00",
+        "acknowledgedBy": "演示学校安全管理人员"
+      },
+      {
+        "id": "ntf_bd15df94d9834cc782fbaed193a050b2",
+        "eventId": "evt_fbc46c84dd974167bf9693465e6d35c7",
+        "acknowledgedAt": "2026-10-29T06:08:56.796297+00:00",
+        "acknowledgedBy": "演示学校安全管理人员"
+      }
+    ]
+  },
+  "afterRetry": {
+    "status": "handling",
+    "rev": 2,
+    "acknowledgedBy": "演示学校安全管理人员",
+    "timeline": [
+      {
+        "at": "2026-10-29T03:52:19.612770+00:00",
+        "by": "演示学校安全管理人员",
+        "action": "生成红色紧急核查事件",
+        "detail": "R20261029-001 触发值 0.4 mm；规则 FINISH-crack-RULE V1.0"
+      },
+      {
+        "at": "2026-10-29T06:08:56.796297+00:00",
+        "by": "演示学校安全管理人员",
+        "action": "确认事件，转入处理中",
+        "detail": "学校安全管理人员 确认"
+      }
+    ],
+    "closeBasis": "",
+    "audits": 28,
+    "receipts": 26,
+    "notifications": [
+      {
+        "id": "ntf_6656ecb2b40740a4a0602907da21d16a",
+        "eventId": "evt_fbc46c84dd974167bf9693465e6d35c7",
+        "acknowledgedAt": "2026-10-29T06:08:56.796297+00:00",
+        "acknowledgedBy": "演示学校安全管理人员"
+      },
+      {
+        "id": "ntf_b22946e90cb04b098e28fc0a3ec55f9a",
+        "eventId": "evt_fbc46c84dd974167bf9693465e6d35c7",
+        "acknowledgedAt": "2026-10-29T06:08:56.796297+00:00",
+        "acknowledgedBy": "演示学校安全管理人员"
+      },
+      {
+        "id": "ntf_bd15df94d9834cc782fbaed193a050b2",
+        "eventId": "evt_fbc46c84dd974167bf9693465e6d35c7",
+        "acknowledgedAt": "2026-10-29T06:08:56.796297+00:00",
+        "acknowledgedBy": "演示学校安全管理人员"
+      }
+    ]
+  },
+  "dropped": {
+    "path": "/api/v1/datasets/demo-main/events/evt_fbc46c84dd974167bf9693465e6d35c7/acknowledge",
+    "status": 200,
+    "key": "alarm-1793254136342-d1fv6v16p2j",
+    "bodySha256": "37d553e921fb2e6ce58740389c084467f9ec001aafac6c03a69986aabc48d650",
+    "afterCommit": true
+  },
+  "sameAuditsAndReceipts": true,
+  "sameTimeline": true,
+  "noDuplicate": true
+}

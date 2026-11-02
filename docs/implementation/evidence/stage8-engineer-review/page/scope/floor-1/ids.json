@@ -1,0 +1,152 @@
+[
+  {
+    "id": "",
+    "text": "MONITOR / 监测小站",
+    "bounds": "[63,206][511,255]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "把变化，看清楚",
+    "bounds": "[63,280][701,387]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "三类监测 · 硬件输入模拟",
+    "bounds": "[63,411][566,464]",
+    "type": "Text"
+  },
+  {
+    "id": "scope-building",
+    "text": "小瞳守护教学楼",
+    "bounds": "[63,541][1257,716]",
+    "type": "Select"
+  },
+  {
+    "id": "scope-floor",
+    "text": "1层",
+    "bounds": "[63,751][1257,926]",
+    "type": "Select"
+  },
+  {
+    "id": "monitor-statistics",
+    "text": "看看本周 / 本月守护统计",
+    "bounds": "[63,989][1257,1164]",
+    "type": "Button"
+  },
+  {
+    "id": "filter-all",
+    "text": "全部",
+    "bounds": "[154,1227][386,1395]",
+    "type": "Button"
+  },
+  {
+    "id": "filter-crack",
+    "text": "裂缝",
+    "bounds": "[414,1227][646,1395]",
+    "type": "Button"
+  },
+  {
+    "id": "filter-tilt",
+    "text": "倾角",
+    "bounds": "[674,1227][906,1395]",
+    "type": "Button"
+  },
+  {
+    "id": "filter-vibration",
+    "text": "振动",
+    "bounds": "[934,1227][1166,1395]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "当前可见 2 个测点",
+    "bounds": "[63,1458][461,1515]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "裂缝 · FINISH-crack",
+    "bounds": "[312,1696][1190,1745]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "模拟crack监测站",
+    "bounds": "[130,1838][651,1920]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "小瞳守护教学楼 · 1层",
+    "bounds": "[130,1962][568,2015]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "0.5 mm",
+    "bounds": "[130,2057][400,2151]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "近一小时采样 · 硬件输入模拟",
+    "bounds": "[130,2193][678,2242]",
+    "type": "Text"
+  },
+  {
+    "id": "reading-note-pnt_d462d6c50005437ca6b39878165eeada",
+    "text": "这条读数怎么看？＋",
+    "bounds": "[130,2284][1190,2444]",
+    "type": "Button"
+  },
+  {
+    "id": "tab-0",
+    "text": "",
+    "bounds": "[68,2493][326,2695]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "工作台",
+    "bounds": "[133,2615][260,2664]",
+    "type": "Text"
+  },
+  {
+    "id": "tab-1",
+    "text": "",
+    "bounds": "[347,2493][695,2695]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "监测",
+    "bounds": "[479,2615][564,2664]",
+    "type": "Text"
+  },
+  {
+    "id": "tab-2",
+    "text": "",
+    "bounds": "[716,2493][974,2695]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "任务",
+    "bounds": "[802,2615][887,2664]",
+    "type": "Text"
+  },
+  {
+    "id": "tab-3",
+    "text": "",
+    "bounds": "[995,2493][1253,2695]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "我的",
+    "bounds": "[1081,2615][1166,2664]",
+    "type": "Text"
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "statsLoadMs": 2959.8,
+  "nextPageMs": 2921.8,
+  "totalOnPage2": [],
+  "pid": "29875",
+  "memory": [
+    "VmSize:\t 4264852 kB",
+    "VmHWM:\t  373732 kB",
+    "VmRSS:\t  349512 kB"
+  ],
+  "caveat": "Wall clock includes HDC layout dumps; not frame time or FPS."
+}

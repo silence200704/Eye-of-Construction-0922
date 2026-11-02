@@ -1,0 +1,42 @@
+{
+  "eventId": "evt_6c1b6742e8b44a2cb618ea67cdd2c4bf",
+  "feedback": [
+    "办理结果待核验，服务端可能已保存。请用原请求核验，勿另建重复操作。"
+  ],
+  "retryVisible": true,
+  "before": {
+    "events": 3,
+    "issues": 1,
+    "work_orders": 2,
+    "media_files": 4,
+    "attachments": 4,
+    "audits": 74,
+    "operation_receipts": 65
+  },
+  "afterDrop": {
+    "events": 3,
+    "issues": 1,
+    "work_orders": 2,
+    "media_files": 4,
+    "attachments": 4,
+    "audits": 75,
+    "operation_receipts": 66
+  },
+  "afterRetry": {
+    "events": 3,
+    "issues": 1,
+    "work_orders": 2,
+    "media_files": 4,
+    "attachments": 4,
+    "audits": 75,
+    "operation_receipts": 66
+  },
+  "same": true,
+  "dropped": {
+    "path": "/api/v1/datasets/demo-main/events/evt_6c1b6742e8b44a2cb618ea67cdd2c4bf/field-notes",
+    "status": 200,
+    "key": "alarm-1793358710886-1ms5l4jjq4q",
+    "bodySha256": "6876c65129810df8300056c3b77bde4028b7f92bdba905d9a0ffb0e8eff6d08b",
+    "afterCommit": true
+  }
+}

@@ -21,6 +21,7 @@ import { useAlertStore } from '@/stores/alerts'
 import AskAnswer from './AskAnswer.vue'
 import AskComposer from './AskComposer.vue'
 import AssistantHeader from './presentation/AssistantHeader.vue'
+import AssistantWelcome from './presentation/AssistantWelcome.vue'
 import { navigateFromAnswer } from './presentation/navigation'
 import GuideCard from './guide/GuideCard.vue'
 import TaskStatusCard from './tasks/TaskStatusCard.vue'
@@ -260,16 +261,13 @@ const paused = computed(() => alerts.activeStrong !== null)
   >
     <AssistantHeader :context="contextHint" :active="preparation.active" :paused="paused" @close="emit('close')" />
 
-    <div ref="bodyEl" class="body">
+    <div ref="bodyEl" class="body" :class="{ 'body--empty': assistant.turns.length === 0 }">
       <p v-if="assistant.notice !== ''" class="notice notice--brand notice--tight">{{ assistant.notice }}</p>
       <GuideCard @navigate="onNavigate" />
       <TaskStatusCard />
 
-      <p v-if="assistant.turns.length === 0" class="intro">
-        我是小瞳，可以查看异常传感器、分析裂缝照片和视频，定位3D中的测点，并核对问题处理进度。
-        <b>告诉我要分析的对象，我会读取系统数据、执行任务，再把结论与证据一起给你。</b>
-        从测点卡或事件详情打开我，可直接沿用当前对象；临时素材补齐须先在设置页唯一入口授权。
-      </p>
+      <AssistantWelcome v-if="assistant.turns.length === 0" :questions="exampleQuestions" :scope-note="exampleScope"
+        :busy="assistant.busy" :paused="paused" @ask="assistant.ask($event)" />
 
       <div v-for="(turn, index) in assistant.turns" :key="turn.id" class="turn">
         <button
@@ -302,74 +300,11 @@ const paused = computed(() => alerts.activeStrong !== null)
       </div>
     </div>
 
-    <AskComposer :busy="assistant.busy" :examples="exampleQuestions" :scope-note="exampleScope" @ask="assistant.ask($event)" @refresh="onRefresh" />
+    <AskComposer :busy="assistant.busy" :examples="exampleQuestions" :scope-note="exampleScope"
+      :show-suggestions="assistant.turns.length > 0" :asked-questions="assistant.turns.map(turn => turn.question)"
+      @ask="assistant.ask($event)" @refresh="onRefresh" />
   </aside>
   </Transition>
 </template>
 
-<style scoped>
-.panel {
-  position: fixed;
-  /*
-   * 层级刻意压在弹窗与抽屉之下（AppModal 60 / AppDrawer 55）：
-   * 红色预警弹窗出现时必须完整盖住面板 —— 助手不遮挡预警，装饰动画还要暂停。
-   */
-  z-index: 50;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: min(50vw, 720px);
-  min-width: 420px;
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
-  border-left: 1px solid var(--line-strong);
-  background: var(--canvas);
-  box-shadow: var(--shadow-pop);
-}
-
-/* 窄屏改全屏：这时它盖住页面，Esc 与关闭按钮是唯一出口 */
-.panel--full { width: 100%; min-width: 0; }
-
-.assistant-slide-enter-active, .assistant-slide-leave-active { transition: transform 180ms ease-out, opacity 180ms ease-out; }
-.assistant-slide-enter-from, .assistant-slide-leave-to { opacity: 0; transform: translateX(24px); }
-.assistant-slide-leave-active { pointer-events: none; }
-@media (prefers-reduced-motion: reduce) {
-  .assistant-slide-enter-active, .assistant-slide-leave-active { transition: none; }
-  .assistant-slide-enter-from, .assistant-slide-leave-to { transform: none; }
-}
-
-/* 关掉浏览器的滚动锚定：这个面板的滚动位置由我们自己接管，
-   不让浏览器在内容插入时再按它的策略改一次 scrollTop（护栏，不承担修 bug 的功劳）。 */
-.body { overflow-y: auto; overflow-anchor: none; padding: 18px; display: grid; gap: 16px; align-content: start; }
-
-.intro { margin: 0; padding: 16px 18px; border: 1px dashed var(--line-strong); border-radius: var(--r-md); background: var(--paper); color: var(--text-2); font-size: 12.5px; line-height: 1.7; }
-.intro b { color: var(--text); }
-
-.notice--tight { margin: 0; font-size: 12px; }
-
-.turn { display: grid; gap: 6px; }
-.turn-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  padding: 6px 10px;
-  border: 1px solid var(--line);
-  border-radius: var(--r-sm);
-  background: var(--paper);
-  color: var(--text-2);
-  font: inherit;
-  font-size: 11.5px;
-  text-align: left;
-  cursor: pointer;
-}
-.turn-row:hover, .turn-row:focus-visible { border-color: var(--brand-500); color: var(--brand-700); }
-.turn-q { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.turn-more { flex: none; color: var(--brand-700); }
-
-@media (max-width: 900px) {
-  .panel { width: 100%; min-width: 0; }
-}
-@media (max-width: 600px) { .body { padding: 12px; } }
-</style>
+<style scoped src="./presentation/styles/panel.css"></style>

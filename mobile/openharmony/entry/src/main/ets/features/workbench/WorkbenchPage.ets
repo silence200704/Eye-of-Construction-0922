@@ -8,6 +8,7 @@ import { ActionTile } from '../../shared/playful/ActionTile';
 import { PlayButton } from '../../shared/playful/PlayButton';
 import { activePoints, openEvents, timeText } from '../../shared/format/display';
 import { singleColumn } from '../../shared/layout/ReadingLayout';
+import { businessTodos, BusinessTodo } from '../../core/business/BusinessTodos';
 
 @Component
 export struct WorkbenchPage {
@@ -17,6 +18,8 @@ export struct WorkbenchPage {
   onTab: (index: number) => void = () => {};
   onRefresh: () => void = () => {};
   onIssues: () => void = () => {};
+  onWork: (kind: string, status: string) => void = () => {};
+  onSync: () => void = () => {};
 
   @Builder
   header() {
@@ -56,7 +59,7 @@ export struct WorkbenchPage {
     PageStage() {
       this.header();
       StoryHero({ role: this.state.user?.roleLabel ?? '', onExplore: () => this.onTab(1) });
-      ConnectionState({ state: this.state, onSettings: () => this.onTab(3), onRetry: this.onRefresh });
+      ConnectionState({ state: this.state, onSettings: () => this.onTab(4), onRetry: this.onRefresh });
       GridRow({ columns: singleColumn(this.windowWidth, this.textScale) ? 1 : 2, gutter: { x: 12, y: 12 } }) {
         GridCol() {
           MetricTile({ title: '当前可见测点', color: '#EDF4D5', note: '把细小变化记在心上',
@@ -69,6 +72,10 @@ export struct WorkbenchPage {
       }.width('100%');
       this.shortcuts();
       if (this.state.mode === 'ready') {
+        ForEach(businessTodos(this.state.workspace, this.state.user), (todo: BusinessTodo) => {
+          PlayButton({ title: `${todo.title} · ${todo.count}`, secondary: true, onAction: () => this.onWork(todo.kind, todo.status) });
+        });
+        PlayButton({ title: '离线草稿与同步异常', secondary: true, onAction: this.onSync });
         PlayButton({ title: `现场发现 · 当前 ${this.state.workspace.issues.length} 条`, secondary: true,
           controlId: 'home-issues', onAction: this.onIssues });
       }

@@ -20,16 +20,6 @@ STATE_LABEL = {
     "excluded": "不参与判定",
 }
 
-STATE_ACTION = {
-    "normal": "继续监测，无需处置",
-    "yellow": "已生成预警事件，等待责任人确认",
-    "orange": "已升级预警事件，安排定向排查",
-    "red": "已生成红色事件，立即通知并现场核查",
-    "recovering": "恢复待确认，须授权人员填写关闭依据后才能关闭",
-    "unknown": "补充数据后再判断，不得显示为正常",
-    "excluded": "先做数据核查，不参与判定",
-}
-
 
 def parse_iso(value: Any) -> datetime | None:
     if not isinstance(value, str) or value == "":
@@ -335,25 +325,3 @@ def assess_record(input: dict) -> dict:
     if rule.get("metric") == "environment":
         return assess_environment(valid_input)
     return assess_structure(valid_input, base)
-
-
-def level_of_record(rule: dict, record: dict) -> str | None:
-    if record.get("quality") != "valid":
-        return "excluded"
-    if rule.get("metric") == "environment":
-        condition = rule.get("environment")
-        if condition is None:
-            return None
-        temperature = number(record.get("values", {}).get("temperature"))
-        humidity = number(record.get("values", {}).get("humidity"))
-        hit = _in_environment_range(
-            temperature, condition.get("tempMin"), condition.get("tempMax")
-        ) or _in_environment_range(humidity, None, condition.get("humidityMax"))
-        return "yellow" if hit else "normal"
-    thresholds = rule.get("thresholds")
-    if thresholds is None:
-        return None
-    trigger = trigger_of(rule, record.get("values") or {}, record.get("baselineValues"))
-    if trigger["value"] is None:
-        return None
-    return level_of(trigger["value"], thresholds)

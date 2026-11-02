@@ -1,0 +1,8 @@
+{
+  "blocked": true,
+  "reason": "System confirmation 是否开启屏幕朗读 / 开启 (5 秒) requires user consent; not accepted.",
+  "observed": [
+    "是否开启屏幕朗读？",
+    "开启 (7 秒)"
+  ]
+}

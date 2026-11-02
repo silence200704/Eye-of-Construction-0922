@@ -1,0 +1,11 @@
+{
+  "url": "https://repo.huaweicloud.com/openharmony/os/6.0-Release/ohos-sdk-windows_linux-public.tar.gz",
+  "checksumUrl": "https://repo.huaweicloud.com/openharmony/os/6.0-Release/ohos-sdk-windows_linux-public.tar.gz.sha256",
+  "expectedSha256": "a315834ac133625efc912bd078f3e2b2550868d04aef1b5aa4f9679c8b3c9d8e",
+  "actualSha256": "a315834ac133625efc912bd078f3e2b2550868d04aef1b5aa4f9679c8b3c9d8e",
+  "bytes": 2487576829,
+  "resumedFromBytes": 1030750208,
+  "resumeSeconds": 295.4,
+  "verified": true,
+  "method": "Official HTTPS, validated HTTP byte ranges, whole archive SHA-256"
+}

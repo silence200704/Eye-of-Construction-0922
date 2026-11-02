@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { nextTick, onBeforeUnmount, ref, watch } from 'vue'
+import { nextTick, onBeforeUnmount, ref, useId, watch } from 'vue'
 import { demoActivity } from '@/core/demo/workspace'
 
 const props = withDefaults(
@@ -9,6 +9,7 @@ const props = withDefaults(
     sub?: string
     width?: number
     closeOnBackdrop?: boolean
+    initialFocus?: string
   }>(),
   { sub: '', width: 720, closeOnBackdrop: true },
 )
@@ -16,6 +17,7 @@ const props = withDefaults(
 const emit = defineEmits<{ close: [] }>()
 
 const panelRef = ref<HTMLElement | null>(null)
+const titleId = useId()
 let previouslyFocused: HTMLElement | null = null
 
 const FOCUSABLE = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
@@ -58,7 +60,8 @@ async function bind(active: boolean): Promise<void> {
     document.body.style.overflow = 'hidden'
     await nextTick()
     const list = focusables()
-    ;(list[0] ?? panelRef.value)?.focus()
+    const preferred = props.initialFocus ? panelRef.value?.querySelector<HTMLElement>(props.initialFocus) : null
+    ;(preferred ?? list[0] ?? panelRef.value)?.focus()
     return
   }
   document.removeEventListener('keydown', onKey)
@@ -83,13 +86,15 @@ onBeforeUnmount(() => {
         class="panel"
         :style="{ maxWidth: `${width}px` }"
         role="dialog"
+        :aria-labelledby="titleId"
+        :aria-describedby="sub ? `${titleId}-sub` : undefined"
         aria-modal="true"
         tabindex="-1"
       >
         <header class="panel-head">
           <div>
-            <h3 class="panel-title">{{ title }}</h3>
-            <p v-if="sub" class="panel-sub">{{ sub }}</p>
+            <h3 :id="titleId" class="panel-title">{{ title }}</h3>
+            <p v-if="sub" :id="`${titleId}-sub`" class="panel-sub">{{ sub }}</p>
           </div>
           <button class="panel-close" type="button" aria-label="关闭" @click="emit('close')">×</button>
         </header>
@@ -109,7 +114,7 @@ onBeforeUnmount(() => {
   position: fixed;
   inset: 0;
   z-index: 60;
-  background: rgba(9, 18, 23, 0.5);
+  background: rgba(21, 45, 35, 0.38);
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -140,6 +145,8 @@ onBeforeUnmount(() => {
   gap: 16px;
   padding: 20px 24px 18px;
   border-bottom: 1px solid var(--line);
+  background: radial-gradient(ellipse at 100% 0, #e9f0db 0, transparent 65%);
+  border-radius: var(--r-lg) var(--r-lg) 0 0;
 }
 
 .panel-title {

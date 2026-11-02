@@ -4,9 +4,10 @@ import { ArchiveSnapshot } from '../../data/models/Workspace';
 import { ReportTarget } from '../../data/models/Reports';
 import { authorizationOf } from '../identity/authorization';
 import { ApiError } from '../network/ApiError';
+import { selectedDataset } from '../network/DatasetSelection';
 
 export function reportStamp(access: TaskAccess): string {
-  return `${access.baseUrl}|${access.workspace.epoch}|${authorizationOf(access.user)}`;
+  return `${access.baseUrl}|${selectedDataset()}|${access.workspace.epoch}|${authorizationOf(access.user)}`;
 }
 
 export class ReportLease {

@@ -1,0 +1,26 @@
+{
+  "roles": [
+    {
+      "role": "property",
+      "label": "物业值班人员"
+    },
+    {
+      "role": "device",
+      "label": "设备管理人员"
+    },
+    {
+      "role": "inspector",
+      "label": "巡检人员"
+    },
+    {
+      "role": "repair",
+      "label": "维修人员"
+    },
+    {
+      "role": "safety",
+      "label": "学校安全管理人员"
+    }
+  ],
+  "noPasswordForm": true,
+  "finalRole": "safety"
+}

@@ -1,0 +1,38 @@
+{
+  "/datasets/demo-main/mobile/records": {
+    "ms": [
+      177.5,
+      103.2,
+      82.0
+    ],
+    "count": 2492,
+    "ok": true
+  },
+  "/datasets/demo-main/archive": {
+    "ms": [
+      65.7,
+      25.3,
+      42.1
+    ],
+    "count": 0,
+    "ok": true
+  },
+  "/datasets/demo-main/mobile/insights?period=week": {
+    "ms": [
+      116.6,
+      105.4,
+      108.2
+    ],
+    "count": 7,
+    "ok": true
+  },
+  "/datasets/demo-main/records": {
+    "ms": [
+      75.3,
+      55.5,
+      73.9
+    ],
+    "count": 2000,
+    "ok": true
+  }
+}

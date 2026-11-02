@@ -8,10 +8,12 @@
  */
 import * as THREE from "three"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js"
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
 import { CAMPUS_D, CAMPUS_W } from "@/core/spatial/coordinates"
 import { CAMPUS_GREENS, CAMPUS_ROADS, type SiteRect } from "@/core/map/campusDecor"
 import { disposeLabelCache } from "./sceneText"
 import { buildingGroup } from "./sceneShell"
+import { BUILDING_MODELS } from "./buildings/catalog"
 import { createCameraMotion } from './camera/motion'
 import type { PickResult, SceneHandle, SceneUpdate } from "./sceneShared"
 
@@ -31,6 +33,26 @@ function addSiteDetails(environment: THREE.Group): void {
   for (const green of CAMPUS_GREENS) addRect(green, greenMat, 0.03)
 }
 
+/** 天光渐变：比纯色清屏多一层校园晨光感，不引用外部天空盒或图片。 */
+function skyTexture(): THREE.CanvasTexture {
+  const canvas = document.createElement('canvas')
+  canvas.width = 2
+  canvas.height = 256
+  const ctx = canvas.getContext('2d')
+  if (ctx !== null) {
+    const gradient = ctx.createLinearGradient(0, 0, 0, 256)
+    gradient.addColorStop(0, '#f8fbfa')
+    gradient.addColorStop(0.55, '#e8f1f2')
+    gradient.addColorStop(1, '#d7e5e8')
+    ctx.fillStyle = gradient
+    ctx.fillRect(0, 0, 2, 256)
+  }
+  const texture = new THREE.CanvasTexture(canvas)
+  texture.colorSpace = THREE.SRGBColorSpace
+  texture.needsUpdate = true
+  return texture
+}
+
 export function createScene(container: HTMLElement): SceneHandle {
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false })
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
@@ -43,6 +65,9 @@ export function createScene(container: HTMLElement): SceneHandle {
   container.appendChild(renderer.domElement)
 
   const scene = new THREE.Scene()
+  const sky = skyTexture()
+  scene.background = sky
+  scene.fog = new THREE.Fog(0xe4eef0, 150, 340)
   const camera = new THREE.OrthographicCamera(-50, 50, 35, -35, 0.1, 800)
   scene.add(new THREE.HemisphereLight(0xffffff, 0xb4c9d0, 1.5))
   const sun = new THREE.DirectionalLight(0xfff7e9, 2.4)
@@ -55,6 +80,10 @@ export function createScene(container: HTMLElement): SceneHandle {
   sun.shadow.camera.bottom = -100
   sun.shadow.normalBias = 0.035
   scene.add(sun)
+  // 反向补光把背光面从死黑里拉回来；强度低，只服务于体量与玻璃的层次
+  const fill = new THREE.DirectionalLight(0xcfe4ef, 0.55)
+  fill.position.set(55, 35, -45)
+  scene.add(fill)
 
   const controls = new OrbitControls(camera, renderer.domElement)
   controls.enableDamping = false
@@ -66,7 +95,10 @@ export function createScene(container: HTMLElement): SceneHandle {
   controls.maxZoom = 8
   controls.zoomSpeed = 1.1
   controls.rotateSpeed = 0.9
-  controls.enablePan = false
+  // 演示需要自由拖动：右键/双指平移，左键旋转；水平方向允许完整 360°。
+  controls.enablePan = true
+  controls.screenSpacePanning = true
+  controls.panSpeed = 1
   controls.addEventListener('change', () => render())
 
   const root = new THREE.Group()
@@ -90,6 +122,23 @@ export function createScene(container: HTMLElement): SceneHandle {
   }
   environment.add(grid)
   addSiteDetails(environment)
+
+  const templates = new Map<string, THREE.Object3D>()
+  let lastUpdate: SceneUpdate | null = null
+  let disposed = false
+  let drawerFrame = 0
+  const loader = new GLTFLoader()
+  for (const spec of BUILDING_MODELS) {
+    loader.load(`${import.meta.env.BASE_URL}${spec.file}`, (gltf) => {
+      if (disposed) {
+        disposeTree(gltf.scene)
+        return
+      }
+      templates.set(spec.code, gltf.scene)
+      gltf.scene.userData.depthBasis = spec.depthBasis ?? 0
+      if (lastUpdate !== null) update(lastUpdate)
+    }, undefined, () => { /* 单栋 GLB 不可用时保留该栋的程序化外壳 */ })
+  }
 
   const raycaster = new THREE.Raycaster()
   const pointer = new THREE.Vector2()
@@ -193,7 +242,35 @@ export function createScene(container: HTMLElement): SceneHandle {
     render()
   }
 
+  /** 选中的楼层从楼体里抽出；只在楼层/范围/视图变化时播放，选测点不重复抽动。 */
+  function applyFloorDrawer(root: THREE.Group, animate: boolean): void {
+    if (drawerFrame !== 0) cancelAnimationFrame(drawerFrame)
+    const levels: { object: THREE.Object3D; target: number }[] = []
+    root.traverse((node) => {
+      const target = node.userData.drawerTarget
+      if (typeof target === 'number') levels.push({ object: node, target })
+    })
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (!animate || reduced) {
+      for (const row of levels) row.object.position.z = row.target
+      render()
+      return
+    }
+    for (const row of levels) row.object.position.z = 0
+    const started = performance.now()
+    const duration = 260
+    const step = (now: number): void => {
+      const t = Math.min(1, (now - started) / duration)
+      const eased = t * t * (3 - 2 * t)
+      for (const row of levels) row.object.position.z = row.target * eased
+      render()
+      drawerFrame = t < 1 ? requestAnimationFrame(step) : 0
+    }
+    drawerFrame = requestAnimationFrame(step)
+  }
+
   function update(input: SceneUpdate): void {
+    lastUpdate = input
     for (const child of [...root.children]) {
       root.remove(child)
       disposeTree(child)
@@ -201,9 +278,9 @@ export function createScene(container: HTMLElement): SceneHandle {
     const buildingId = input.scope.kind === 'building' ? input.scope.buildingId : ''
     focusedBuilding = buildingId !== ''
     const target = buildingId === ''
-      ? input.model.buildings
+      ? input.model.buildings.filter((row) => !row.archived)
       : input.model.buildings.filter((row) => row.building.id === buildingId)
-    for (const building of target) root.add(buildingGroup(building, input))
+    for (const building of target) root.add(buildingGroup(building, input, templates))
     root.traverse((node) => {
       if (!(node instanceof THREE.Mesh)) return
       const material = node.material
@@ -217,13 +294,15 @@ export function createScene(container: HTMLElement): SceneHandle {
     // 只在"换了范围/视图/楼层"时重新取景。选中某台设备只是换高亮，
     // 这时候绝不能重设相机 —— 否则用户刚转好、放大好的视角会被一次次弹回去。
     const key = framingKeyOf(input)
-    if (key !== lastFrameKey) {
+    const refreshed = key !== lastFrameKey
+    if (refreshed) {
       const animated = lastFrameKey !== ''
       lastFrameKey = key
       frameContent(animated)
     } else {
       render()
     }
+    applyFloorDrawer(root, refreshed)
   }
 
   /** 取景只在这些条件变化时发生（选中对象不算） */
@@ -247,12 +326,21 @@ export function createScene(container: HTMLElement): SceneHandle {
     for (const hit of hits) {
       let node: THREE.Object3D | null = hit.object
       while (node !== null) {
-        const data = node.userData as { kind?: string; pointId?: string; buildingId?: string; floorId?: string }
+        const data = node.userData as { kind?: string; pointId?: string; buildingId?: string; floorId?: string; zoneKey?: string; zoneLabel?: string }
         if (data.kind === 'marker' && typeof data.pointId === 'string' && data.pointId !== '') {
           return { pointId: data.pointId, buildingId: data.buildingId ?? '', floorId: data.floorId ?? '' }
         }
         if ((data.kind === 'building' || data.kind === 'badge') && typeof data.buildingId === 'string') {
           return { pointId: '', buildingId: data.buildingId, floorId: '' }
+        }
+        if (data.kind === 'zone' && typeof data.zoneKey === 'string') {
+          return {
+            pointId: '',
+            buildingId: typeof data.buildingId === 'string' ? data.buildingId : '',
+            floorId: typeof data.floorId === 'string' ? data.floorId : '',
+            zoneKey: data.zoneKey,
+            zoneLabel: typeof data.zoneLabel === 'string' ? data.zoneLabel : '',
+          }
         }
         node = node.parent
       }
@@ -279,13 +367,19 @@ export function createScene(container: HTMLElement): SceneHandle {
   }
 
   function dispose(): void {
+    disposed = true
+    if (drawerFrame !== 0) cancelAnimationFrame(drawerFrame)
+    drawerFrame = 0
     motion.stop()
     controls.removeEventListener('start', motion.stop)
     for (const child of [...root.children]) disposeTree(child)
     root.clear()
     disposeTree(environment)
     environment.clear()
+    for (const template of templates.values()) disposeTree(template)
+    templates.clear()
     controls.dispose()
+    sky.dispose()
     renderer.dispose()
     renderer.domElement.remove()
     disposeLabelCache()

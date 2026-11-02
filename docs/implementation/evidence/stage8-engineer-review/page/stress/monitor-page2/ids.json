@@ -1,0 +1,140 @@
+[
+  {
+    "id": "monitor-statistics",
+    "text": "看看本周 / 本月守护统计",
+    "bounds": "[0,0][0,0]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "裂缝 · STRESS-0036",
+    "bounds": "[312,143][1190,192]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "压力测点 037",
+    "bounds": "[130,285][551,367]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "小瞳守护教学楼 · 2层",
+    "bounds": "[130,409][568,462]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "0.11 mm",
+    "bounds": "[130,504][446,598]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "近一小时采样 · 硬件输入模拟",
+    "bounds": "[130,640][678,689]",
+    "type": "Text"
+  },
+  {
+    "id": "reading-note-pnt_stress_0036",
+    "text": "这条读数怎么看？＋",
+    "bounds": "[130,731][1190,899]",
+    "type": "Button"
+  },
+  {
+    "id": "point-pnt_stress_0036",
+    "text": "打开这处测点",
+    "bounds": "[130,941][1190,1116]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "第 2 / 25 页 · 每页20处",
+    "bounds": "[63,1245][567,1302]",
+    "type": "Text"
+  },
+  {
+    "id": "points-previous",
+    "text": "上一页测点",
+    "bounds": "[63,1365][1257,1540]",
+    "type": "Button"
+  },
+  {
+    "id": "points-next",
+    "text": "下一页测点",
+    "bounds": "[63,1603][1257,1778]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "预警记录",
+    "bounds": "[63,1841][371,1931]",
+    "type": "Text"
+  },
+  {
+    "id": "toggle-event-history",
+    "text": "翻开历史预警",
+    "bounds": "[63,1994][1257,2169]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "E20261029-002",
+    "bounds": "[130,2299][523,2361]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "黄色关注 · 待确认",
+    "bounds": "[130,2403][581,2444]",
+    "type": "Text"
+  },
+  {
+    "id": "tab-0",
+    "text": "",
+    "bounds": "[68,2493][326,2695]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "工作台",
+    "bounds": "[133,2615][260,2664]",
+    "type": "Text"
+  },
+  {
+    "id": "tab-1",
+    "text": "",
+    "bounds": "[347,2493][695,2695]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "监测",
+    "bounds": "[479,2615][564,2664]",
+    "type": "Text"
+  },
+  {
+    "id": "tab-2",
+    "text": "",
+    "bounds": "[716,2493][974,2695]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "任务",
+    "bounds": "[802,2615][887,2664]",
+    "type": "Text"
+  },
+  {
+    "id": "tab-3",
+    "text": "",
+    "bounds": "[995,2493][1253,2695]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "我的",
+    "bounds": "[1081,2615][1166,2664]",
+    "type": "Text"
+  }
+]

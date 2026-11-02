@@ -1,0 +1,110 @@
+[
+  {
+    "id": "",
+    "text": "维修手账",
+    "bounds": "[0,137][1320,332]",
+    "type": "TitleBar"
+  },
+  {
+    "id": "__NavdestinationField__BackButton__Back__",
+    "text": "",
+    "bounds": "[56,164][196,304]",
+    "type": "BackButton"
+  },
+  {
+    "id": "__NavdestinationField__Text__MainTitle__",
+    "text": "维修手账",
+    "bounds": "[224,193][504,275]",
+    "type": "Text"
+  },
+  {
+    "id": "order-reload",
+    "text": "刷新办理进度",
+    "bounds": "[63,388][1257,563]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "已提交的现场证据",
+    "bounds": "[130,693][662,771]",
+    "type": "Text"
+  },
+  {
+    "id": "saved-photo-0",
+    "text": "查看第 1 张照片",
+    "bounds": "[130,813][1190,988]",
+    "type": "Button"
+  },
+  {
+    "id": "saved-photo-1",
+    "text": "查看第 2 张照片",
+    "bounds": "[130,1030][1190,1205]",
+    "type": "Button"
+  },
+  {
+    "id": "saved-photo-2",
+    "text": "查看第 3 张照片",
+    "bounds": "[130,1247][1190,1422]",
+    "type": "Button"
+  },
+  {
+    "id": "saved-photo-feedback",
+    "text": "File exists",
+    "bounds": "[130,1464][347,1521]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "验收通过",
+    "bounds": "[130,1718][382,1792]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "模拟验收通过。",
+    "bounds": "[130,1834][474,1891]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "演示学校安全管理人员 · 2026/10/29 下午2:20:06",
+    "bounds": "[130,1933][1055,1982]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "办理足迹",
+    "bounds": "[130,2179][396,2257]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "创建工单 · 演示学校安全管理人员",
+    "bounds": "[130,2299][867,2356]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "比赛模拟，用于核对维修前/后/验收标签。",
+    "bounds": "[130,2398][985,2451]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "派工 · 演示学校安全管理人员",
+    "bounds": "[130,2493][769,2550]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "指定维修人验收模拟",
+    "bounds": "[130,2592][540,2645]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "接单处理 · 演示维修人员",
+    "bounds": "[130,2687][671,2744]",
+    "type": "Text"
+  }
+]

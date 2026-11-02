@@ -4,13 +4,17 @@ import cryptoFramework from '@ohos.security.cryptoFramework';
 import { PreparedPhoto } from '../../../data/models/Reports';
 import { DurablePhoto, DurableReader } from '../queue/QueueModels';
 import { ApiError } from '../../network/ApiError';
+import { MediaRemover } from './MediaLedger';
+export interface FileJournalEntry { id: string; path: string; phase: string; at: number; }
+let journal: ((entry: FileJournalEntry) => Promise<void>) | undefined = undefined;
+export function setFileJournal(record: (entry: FileJournalEntry) => Promise<void>): void { journal = record; }
 
 async function digest(bytes: ArrayBuffer): Promise<string> {
   const md = cryptoFramework.createMd('SHA256');
   await md.update({ data: new Uint8Array(bytes) });
   return Array.from((await md.digest()).data).map((byte) => byte.toString(16).padStart(2, '0')).join('');
 }
-export class NativeDurableFiles implements DurableReader {
+export class NativeDurableFiles implements DurableReader, MediaRemover {
   private directory: string;
   constructor(filesDir: string) { this.directory = `${filesDir}/offline-media`; }
   private path(id: string): string {
@@ -31,6 +35,7 @@ export class NativeDurableFiles implements DurableReader {
       throw new ApiError('PHOTO_SIZE', '请选择已压缩为JPEG且不超过200KB的照片。');
     }
     const sha256 = await digest(photo.bytes);
+    await journal?.({ id: photo.draftId, path, phase: 'writing', at: Date.now() });
     if (!fs.accessSync(this.directory)) fs.mkdirSync(this.directory);
     if (fs.accessSync(path)) {
       if (await digest(this.bytes(path)) !== sha256) throw new ApiError('PHOTO_CONFLICT', '同一照片标识的字节冲突，原件已保留。');
@@ -42,6 +47,7 @@ export class NativeDurableFiles implements DurableReader {
         fs.renameSync(temp, path);
       } catch (cause) { try { fs.unlinkSync(temp); } catch (_) {} throw cause as Error; }
     }
+    await journal?.({ id: photo.draftId, path, phase: 'durable', at: Date.now() });
     return { draftId: photo.draftId, path, uri: fileUri.getUriFromPath(path), fileName: `${photo.draftId}.jpg`,
       mimeType: 'image/jpeg', source: photo.source, size: photo.bytes.byteLength, sha256 };
   }
@@ -50,5 +56,10 @@ export class NativeDurableFiles implements DurableReader {
     const bytes = this.bytes(photo.path);
     if (bytes.byteLength !== photo.size || await digest(bytes) !== photo.sha256) throw new ApiError('PHOTO_INTEGRITY', '照片完整性检查失败，原稿保留，停止上传。');
     return bytes;
+  }
+  remove(id: string, path: string): void {
+    if (path !== this.path(id)) throw new ApiError('PHOTO_PATH', '不清理持久目录外的文件。');
+    if (fs.accessSync(path)) fs.unlinkSync(path);
+    if (fs.accessSync(`${path}.tmp`)) fs.unlinkSync(`${path}.tmp`);
   }
 }

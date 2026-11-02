@@ -1,6 +1,7 @@
 import { AlarmEvent } from '../../data/models/Monitoring';
 import { TaskAccess } from '../field/TaskCommander';
-import { ReportLease } from '../report/ReportLease';
+import { ReportLease, reportStamp } from '../report/ReportLease';
+import { BusinessJournal, PendingBusiness } from '../business/BusinessModels';
 import { ReportTarget } from '../../data/models/Reports';
 import { ApiError, errorMessage } from '../network/ApiError';
 
@@ -19,8 +20,9 @@ export interface EventOptions {
   onChange: (view: EventView) => void;
   onEvent: (event: AlarmEvent) => void;
   invalidate: (message: string) => void;
+  journal?: BusinessJournal;
 }
-interface EventPending { eventId: string; action: string; body: string; key: string; target: ReportTarget; lease: ReportLease; }
+interface EventPending { eventId: string; action: string; body: string; key: string; target: ReportTarget; lease: ReportLease; sent?: boolean; }
 interface EventBody { expectedRev: number; kind?: string; note?: string; basis?: string; noRepairNote?: string; }
 
 export class EventSession {
@@ -29,6 +31,26 @@ export class EventSession {
   private view: EventView = new EventView();
   private generation: number = 0;
   constructor(options: EventOptions) { this.options = options; }
+  async restore(): Promise<void> {
+    const access = this.options.access(), generation = this.generation;
+    if (!access || !this.options.journal || this.pending) return;
+    const saved = await this.options.journal.load(`alarm:${reportStamp(access)}`);
+    if (!saved || saved.write.kind !== 'event' || generation !== this.generation || this.options.access()?.client !== access.client) return;
+    const event = access.workspace.events.find((row) => row.id === saved.write.targetId);
+    const point = access.workspace.points.find((row) => row.id === event?.pointId);
+    if (!point) return;
+    const body = JSON.parse(saved.write.body) as EventBody;
+    this.pending = { eventId: saved.write.targetId, action: saved.write.path.split('/').pop() ?? '', body: saved.write.body, key: saved.key, sent: saved.sent,
+      target: { pointId: point.id, buildingId: point.buildingId, floorId: point.floorId, taskId: '', expectedRev: body.expectedRev },
+      lease: new ReportLease(access, this.options.access) };
+    this.view.eventId = this.pending.eventId; this.view.action = this.pending.action;
+    this.phase('unknown', '有一笔预警办理待核验，请用原请求核验结果。');
+  }
+  private persist(pending: EventPending, phase: string, sent: boolean): Promise<void> {
+    const row: PendingBusiness = { key: pending.key, scope: `alarm:${reportStamp(pending.lease.access)}`, sent, phase,
+      write: { targetId: pending.eventId, kind: 'event', body: pending.body, path: `/events/${encodeURIComponent(pending.eventId)}/${pending.action}` } };
+    return this.options.journal?.save(row) ?? Promise.resolve();
+  }
   deactivate(): void { this.generation++; this.pending = null; this.view = new EventView(); this.publish(); }
   private publish(): void {
     const copy = new EventView(); copy.eventId = this.view.eventId; copy.phase = this.view.phase; copy.message = this.view.message;
@@ -76,12 +98,15 @@ export class EventSession {
 
   private async send(): Promise<void> {
     const pending = this.pending; if (!pending) return;
-    const generation = this.generation; let sent = false;
+    const generation = this.generation; let sent = pending.sent ?? false;
     this.phase('sending', '正在保存当前办理，请稍候…');
     try {
+      await this.persist(pending, 'prepared', sent);
       await pending.lease.authorize(pending.target);
       if (generation !== this.generation) return;
-      sent = true;
+      sent = true; pending.sent = true;
+      await this.persist(pending, 'sending', true);
+      if (generation !== this.generation) return;
       const response = await pending.lease.access.client.send<AlarmEvent>(`/datasets/demo-main/events/${encodeURIComponent(pending.eventId)}/${pending.action}`, {
         method: 'POST', body: pending.body, idempotencyKey: pending.key, datasetEpoch: pending.lease.access.workspace.epoch });
       await pending.lease.authorize(pending.target);
@@ -93,10 +118,14 @@ export class EventSession {
         (expectedStatus && event.status !== expectedStatus)) {
         throw new ApiError('INVALID_RESPONSE', '办理响应不完整，请用原请求核验。');
       }
+      await this.persist(pending, 'done', true);
+      if (generation !== this.generation) return;
       this.options.onEvent(event); this.pending = null; this.phase('done', '服务端已保存本次办理。');
     } catch (cause) {
       if (generation !== this.generation) return;
       const error = cause as ApiError;
+      try { await this.persist(pending, sent && (!error.status || [401, 403].includes(error.status)) ? 'unknown' : 'error', sent); }
+      catch (_) { /* The earlier frozen entry remains recoverable. */ }
       if (['CANCELLED', 'AUTHORIZATION_CHANGED', 'EPOCH_CHANGED', 'DATASET_EPOCH_CONFLICT'].includes(error.code) || [401, 403].includes(error.status ?? 0)) {
         this.deactivate(); this.options.invalidate(errorMessage(error as Error)); return;
       }

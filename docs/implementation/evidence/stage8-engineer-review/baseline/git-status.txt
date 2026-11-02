@@ -1,0 +1,88 @@
+ M README.md
+ M docs/implementation/README.md
+ M docs/implementation/design/app-design-handoff.md
+ M docs/implementation/handoff/README.md
+ M docs/implementation/handoff/completion-report.md
+ M docs/implementation/handoff/prompts/05-field-work.md
+ M docs/implementation/handoff/prompts/07-assistant.md
+ M docs/implementation/handoff/reports/07-assistant.md
+ M docs/implementation/handoff/reports/design/03-app-prototypes-assets.md
+ M docs/implementation/handoff/stages/05-field-work.md
+ M docs/implementation/handoff/stages/07-assistant.md
+ D docs/implementation/handoff/stages/08-android-online.md
+ D docs/implementation/handoff/stages/09-offline-sync.md
+ M docs/implementation/handoff/stages/10-demo-control.md
+ M docs/implementation/handoff/stages/11-delivery.md
+ M docs/implementation/roadmap.md
+ M src/App.vue
+ M src/components/AppShell.vue
+ M src/components/assistant/AskAnswer.vue
+ M src/components/assistant/AskComposer.vue
+ M src/components/assistant/AssistantPanel.vue
+ M src/components/assistant/presentation/AssistantHeader.vue
+ M src/components/charts/insights/InsightChart.vue
+ M src/components/dashboard/InsightBoards.vue
+ M src/components/dashboard/SensorCardWall.vue
+ M src/components/dialogs/BaselineDialog.vue
+ M src/components/dialogs/BuildingDialog.vue
+ M src/components/dialogs/DeviceDialog.vue
+ M src/components/dialogs/FloorDialog.vue
+ M src/components/dialogs/PointDialog.vue
+ M src/components/dialogs/RecordDialog.vue
+ M src/components/dialogs/RuleDialog.vue
+ M src/components/media/video/VideoPanel.vue
+ M src/components/session/BackendIdentity.vue
+ M src/components/shell/FeatureLinks.vue
+ M src/components/shell/NavGroups.vue
+ M src/components/shell/PageStage.vue
+ M src/components/ui/AppButton.vue
+ M src/components/ui/AppModal.vue
+ M src/components/ui/EmptyState.vue
+ M src/components/ui/SectionCard.vue
+ M src/core/useForm.ts
+ M src/main.ts
+ M src/styles/tokens.css
+ M src/views/OverviewView.vue
+ M src/views/SettingsView.vue
+ M src/views/dashboard/DashboardView.vue
+ M src/views/operations/ReportsView.vue
+ M tests/tooling/structure.test.mjs
+?? docs/implementation/contracts/native-foundation-v1.md
+?? docs/implementation/design/app-cartoon-ui.md
+?? docs/implementation/design/competition-scope.md
+?? docs/implementation/design/competition-visual-system.md
+?? docs/implementation/design/harmonyos-native-app.md
+?? docs/implementation/design/web-interaction-system.md
+?? docs/implementation/evidence/native-preflight/
+?? docs/implementation/evidence/stage7-acceptance-review/
+?? docs/implementation/evidence/stage7a-assistant-ui/
+?? docs/implementation/evidence/stage7a-web-refresh/
+?? docs/implementation/evidence/stage8-engineer-review/
+?? docs/implementation/evidence/stage8-foundation/
+?? docs/implementation/evidence/stage8-online-completion/
+?? docs/implementation/evidence/stage8-playful/
+?? docs/implementation/handoff/prompts/07-assistant-rereview-fix.md
+?? docs/implementation/handoff/prompts/07-assistant-rr-final-fix.md
+?? docs/implementation/handoff/prompts/07a-friendly-ui.md
+?? docs/implementation/handoff/prompts/08-openharmony-online.md
+?? docs/implementation/handoff/reports/design/01-web-refresh.md
+?? docs/implementation/handoff/reports/design/02-assistant-refresh.md
+?? docs/implementation/handoff/reports/mobile/01-environment-preflight.md
+?? docs/implementation/handoff/reports/mobile/02-emulator-connected.md
+?? docs/implementation/handoff/reports/mobile/03-native-platform-probe.md
+?? docs/implementation/handoff/reports/mobile/04-native-online-ui.md
+?? docs/implementation/handoff/reports/stage7/
+?? docs/implementation/handoff/stages/design/
+?? docs/implementation/handoff/stages/mobile/09-offline-sync.md
+?? mobile/platform-probe/
+?? src/components/assistant/presentation/AssistantWelcome.vue
+?? src/components/assistant/presentation/composerKeys.ts
+?? src/components/assistant/presentation/styles/
+?? src/components/shell/CompanionCard.vue
+?? src/components/shell/QuickNavigation.vue
+?? src/components/shell/RouteProgress.vue
+?? src/components/visual/
+?? src/core/ui/
+?? src/directives/
+?? src/styles/refresh/
+?? tests/ui/

@@ -18,12 +18,13 @@ import { formatDateTime } from '@/core/time'
 import { buildSpatialTour, type SpatialTourResult, type SpatialTourStep } from '@/assistant/guide/spatialTour'
 import { buildCampusModel, higherEventLevel } from '@/core/spatial/project'
 import SpatialScene from './SpatialScene.vue'
+import FloorDrawer, { type FloorDrawerFloor } from '@/components/map/FloorDrawer.vue'
 import SpatialFacts from './SpatialFacts.vue'
 import SpatialTourPanel from './tour/SpatialTourPanel.vue'
 import type { PickResult, SceneScope, ViewMode } from './sceneBuild'
 
 export interface SpatialInitial {
-  /** campus = 校园 3D（看四栋完整建筑外观）；building = 3D 楼层（进单栋看逐层与传感器） */
+  /** campus = 校园 3D（看五栋完整建筑外观）；building = 3D 楼层（进单栋看逐层与传感器） */
   stage: 'campus' | 'building'
   buildingId: string
   floorId: string
@@ -55,13 +56,13 @@ const archive = useArchiveStore()
 const events = useEventsStore()
 
 /**
- * 入场默认进**一栋楼的模型**（而不是四栋体量的校园鸟瞰）：
+ * 入场默认进**一栋楼的模型**（而不是全部楼栋体量的校园鸟瞰）：
  * 3D 与 2D 是同一层级的两种看法 —— 2D 已经能在校园图上选楼栋、再进楼层图，
  * 3D 就直接给这栋楼的完整建模，右边选楼层看该层传感器装在哪面墙上。
  * 想看全校体量时用工具栏的「校园总览」。
  */
 const fallbackBuildingId = archive.activeBuildings[0]?.id ?? archive.buildings[0]?.id ?? ''
-// 校园 3D 档位下**不要**塞进第一栋：那样"看四栋完整建筑外观"就没有入口了（用户报过这一点）
+// 校园 3D 档位下**不要**塞进第一栋：那样"看五栋完整建筑外观"就没有入口了（用户报过这一点）
 const buildingId = ref(
   props.initial.stage === 'campus'
     ? ''
@@ -75,6 +76,8 @@ const mode = ref<ViewMode>('whole')
 const tour = ref<Extract<SpatialTourResult, { ok: true }> | null>(null)
 const tourNotice = ref('')
 const focusToken = ref(0)
+const floorDrawerOpen = ref(props.stage === 'building')
+const selectedZoneKey = ref('')
 
 function startTour(auto = false): void {
   const result = buildSpatialTour({
@@ -156,6 +159,15 @@ const breadcrumb = computed(() => {
 
 const levelPoints = computed(() => activeLevel.value?.markers ?? [])
 
+const drawerFloors = computed<FloorDrawerFloor[]>(() =>
+  (building.value?.levels ?? []).map((level) => ({
+    id: level.floor?.id ?? `level-${level.floorNo}`,
+    floorNo: level.floorNo,
+    name: level.name,
+    built: level.floor !== null,
+  })),
+)
+
 /**
  * 本层有几个测点在附近找不到可取用的墙面（离墙太远或垂足落在墙段外）。
  * 这些点不硬按到别的房间的墙上：按平面坐标落位，并在这里如实说明。
@@ -192,12 +204,14 @@ watch(
       buildingId.value = ''
       floorId.value = ''
       pointId.value = ''
+      floorDrawerOpen.value = false
       return
     }
     if (buildingId.value === '') {
       buildingId.value = props.initial.buildingId !== '' ? props.initial.buildingId : fallbackBuildingId
       floorId.value = props.initial.floorId
     }
+    floorDrawerOpen.value = true
   },
 )
 
@@ -231,14 +245,25 @@ function enterBuilding(id: string): void {
   const row = model.value.buildings.find((item) => item.building.id === id)
   floorId.value = row?.levels.find((level) => level.floor !== null)?.floor?.id ?? ''
   pointId.value = ''
+  floorDrawerOpen.value = true
 }
 
 function focusLevel(floor: string): void {
   floorId.value = floor
   pointId.value = ''
+  selectedZoneKey.value = ''
 }
 
+watch(buildingId, (id) => {
+  selectedZoneKey.value = ''
+  if (id === '') floorDrawerOpen.value = false
+})
+
 function onPick(hit: PickResult): void {
+  if (hit.zoneKey !== undefined) {
+    selectedZoneKey.value = hit.zoneKey
+    return
+  }
   if (hit.pointId !== '') {
     pointId.value = hit.pointId
     if (hit.floorId !== '') floorId.value = hit.floorId
@@ -290,6 +315,7 @@ const MODE_LABEL: Record<ViewMode, string> = { whole: '整栋', floor: '仅本�
           :active-level-index="activeLevelIndex"
           :selected-point-id="pointId"
           :selected-summary="selectedSummary"
+          :selected-zone-key="selectedZoneKey"
           :selected-device="selectedDevice"
           :focus-token="focusToken"
           @pick="onPick"
@@ -308,6 +334,7 @@ const MODE_LABEL: Record<ViewMode, string> = { whole: '整栋', floor: '仅本�
         <p class="muted hint">
           档案驱动的示意模型，非实测图纸或 BIM；测点位置沿用 2D 坐标。墙面圆点用于定位，选中后的线框与芯体为墙内透视示意，实际安装方式和埋深尚未登记。颜色只表示测点类型或未关闭预警，不表示设备在线。
         </p>
+        <p class="muted hint">操作：左键旋转 360° · 右键/双指自由平移 · 滚轮缩放；房间名称点击后显示。</p>
         <p v-if="offWallCount > 0" class="muted hint">
           本层有 {{ offWallCount }} 个测点附近没有可取用的墙面，按平面坐标落位（<strong>未贴合墙面</strong>），没有硬按到别的房间的墙上。
         </p>
@@ -339,20 +366,9 @@ const MODE_LABEL: Record<ViewMode, string> = { whole: '整栋', floor: '仅本�
 
         <div v-if="building !== null" class="list">
           <p class="block-title">{{ building.building.code }} {{ building.building.name }} · 楼层</p>
-          <div class="chips chips--stack">
-            <button
-              v-for="level in [...building.levels].reverse()"
-              :key="level.floorNo"
-              type="button"
-              class="chip"
-              :class="{ 'chip--on': level.floor?.id === floorId, 'chip--off': level.floor === null }"
-              :disabled="level.floor === null"
-              @click="level.floor !== null && focusLevel(level.floor.id)"
-            >
-              <span>{{ level.name }}</span>
-              <span v-if="level.floor === null" class="muted">未建档</span>
-              <span v-else class="muted">{{ level.markers.length === 0 ? '本层无测点' : `${level.markers.length} 个测点` }}</span>
-            </button>
+          <div class="floor-launch">
+            <span class="muted">当前：{{ activeLevel?.name ?? '未选择' }}</span>
+            <button type="button" class="chip" @click="floorDrawerOpen = true">展开楼层抽屉</button>
           </div>
         </div>
 
@@ -384,6 +400,17 @@ const MODE_LABEL: Record<ViewMode, string> = { whole: '整栋', floor: '仅本�
         />
       </aside>
     </div>
+
+    <FloorDrawer
+      :open="floorDrawerOpen"
+      :building-code="building?.building.code ?? ''"
+      :building-name="building?.building.name ?? ''"
+      :floors="drawerFloors"
+      :active-floor-id="floorId"
+      @open="floorDrawerOpen = true"
+      @close="floorDrawerOpen = false"
+      @select-floor="focusLevel"
+    />
   </div>
 </template>
 
@@ -410,9 +437,7 @@ const MODE_LABEL: Record<ViewMode, string> = { whole: '整栋', floor: '仅本�
 .block-title { margin: 0 0 4px; font-size: 12px; font-weight: 700; color: var(--text-2); display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .link { border: 0; background: none; padding: 0; color: var(--brand-700); font: inherit; font-size: 11.5px; font-weight: 400; cursor: pointer; }
 .chips { display: flex; flex-wrap: wrap; gap: 4px; }
-/* 楼层按"自下而上"排成一列：与楼栋的竖向顺序一致，观众不用在脑子里换算 */
-.chips--stack { flex-direction: column; align-items: stretch; }
-.chips--stack .chip { justify-content: space-between; }
+.floor-launch { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 0 4px; }
 .chip {
   display: inline-flex; align-items: center; gap: 4px; height: 26px; padding: 0 9px;
   border: 1px solid var(--line-strong); border-radius: var(--r-sm); background: var(--paper);

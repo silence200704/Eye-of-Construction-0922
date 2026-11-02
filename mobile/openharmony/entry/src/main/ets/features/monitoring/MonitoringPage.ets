@@ -25,11 +25,17 @@ export struct MonitoringPage {
   onOpen: (id: string) => void = () => {};
   onEvent: (id: string) => void = () => {};
   onStats: () => void = () => {};
+  onTrend: (id: string) => void = () => {};
   onSettings: () => void = () => {};
   onRefresh: () => void = () => {};
 
   points(): Point[] {
     return filterPoints(this.state.workspace.points, { buildingId: this.buildingId, floorId: this.floorId, type: this.type });
+  }
+
+  firstTrendPoint(): string {
+    const row = this.points().find((point: Point) => ['crack', 'tilt', 'vibration', 'temp_humidity'].includes(point.type));
+    return row?.id ?? '';
   }
 
   events(): AlarmEvent[] {
@@ -99,6 +105,8 @@ export struct MonitoringPage {
       onBuilding: (id) => { this.buildingId = id; this.floorId = ''; this.page = 0; },
       onFloor: (id) => { this.floorId = id; this.page = 0; } });
     PlayButton({ title: '看看本周 / 本月守护统计', secondary: true, controlId: 'monitor-statistics', onAction: this.onStats });
+    PlayButton({ title: '查看监测趋势', secondary: true, controlId: 'monitor-trend',
+      available: this.firstTrendPoint() !== '', onAction: () => this.onTrend(this.firstTrendPoint()) });
     Scroll() {
       Row({ space: 8 }) {
         this.filterButton('all', '全部');

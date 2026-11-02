@@ -1,3 +1,6 @@
 # Preserve artwork, manifest and ZIP member bytes across Windows/Linux checkouts.
 public/design-studio/** -text
 mobile/openharmony/artwork/** -text
+# Windows double-click launchers need CRLF; LF-only .cmd files get parsed as broken commands.
+*.cmd text eol=crlf
+*.bat text eol=crlf

@@ -1,0 +1,20 @@
+{
+  "exitCodes": {
+    "assembleApp --no-daemon": 0,
+    "sign_online.py (verify-app)": 0,
+    "HDC install/start": 0,
+    "node --test tests/mobile/*.test.mjs": 0,
+    "structure.mjs": 0,
+    "structure.py": 0
+  },
+  "nativeUiPhases": [
+    "home",
+    "monitor",
+    "tasks",
+    "identities",
+    "appearance",
+    "error"
+  ],
+  "hypiumRun": false,
+  "physicalDeviceRun": false
+}

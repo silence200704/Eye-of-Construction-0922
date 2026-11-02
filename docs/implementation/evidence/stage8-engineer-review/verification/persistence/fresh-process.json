@@ -1,0 +1,30 @@
+{
+  "sameBusinessRows": {
+    "issues": true,
+    "orders": true,
+    "events": true
+  },
+  "counts": {
+    "issues": 1,
+    "orders": 1,
+    "events": 2
+  },
+  "issueIds": [
+    "iss_a4d02452cb714ff0acc1571a42ae5b69"
+  ],
+  "orderIds": [
+    "wo_628896dd4d1847e09ff59b5633f6a41f"
+  ],
+  "eventStatus": [
+    {
+      "id": "evt_6ba7dbe6d3a941048ced55df94195a72",
+      "status": "pending",
+      "rev": 1
+    },
+    {
+      "id": "evt_fbc46c84dd974167bf9693465e6d35c7",
+      "status": "closed",
+      "rev": 5
+    }
+  ]
+}

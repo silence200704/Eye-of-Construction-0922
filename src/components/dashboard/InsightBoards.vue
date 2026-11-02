@@ -34,12 +34,12 @@ function open(kind: InsightKind, id: string): void {
       <InsightChart :kind="board.key" :model="board.model" @select="pick(board.key, $event)" />
       <div class="counts" :class="{ 'counts--compact': board.key === 'orders' }" :aria-label="`${board.title}分类明细`">
         <button v-for="row in board.model.rows" :key="row.key" type="button" :disabled="row.count === 0"
-          :aria-expanded="selected[board.key] === row.key" @click="pick(board.key, row.key)">
+          :aria-expanded="selected[board.key] === row.key" :aria-controls="`insight-${board.key}-${row.key}`" @click="pick(board.key, row.key)">
           <span class="dot" :style="{ background: row.color }" /><span>{{ row.label }}</span><b>{{ row.count }}</b>
         </button>
       </div>
       <template v-for="row in board.model.rows" :key="row.key">
-        <div v-if="selected[board.key] === row.key && row.targets.length > 0" class="details">
+        <div v-if="selected[board.key] === row.key && row.targets.length > 0" :id="`insight-${board.key}-${row.key}`" class="details">
           <b>{{ row.label }} · {{ row.count }} {{ board.key === 'coverage' ? '个测点' : '条' }}</b>
           <button v-for="target in row.targets" :key="target.id" type="button" @click="open(board.key, target.id)">{{ target.label }} <span>查看 →</span></button>
         </div>
@@ -62,6 +62,9 @@ function open(kind: InsightKind, id: string): void {
 .details { display: grid; gap: 6px; max-height: 240px; overflow: auto; margin-top: 10px; padding: 12px; border-radius: var(--r-sm); background: var(--canvas); font-size: 12px; }
 .details button { padding: 8px 0; border: 0; border-bottom: 1px solid var(--line); background: none; font: inherit; color: var(--text); cursor: pointer; text-align: left; overflow-wrap: anywhere; }
 .details button span { color: var(--brand-700); white-space: nowrap; }
+.details { animation: details-arrive 180ms var(--ease-out); }
+@keyframes details-arrive { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .details { animation: none; } }
 @media (max-width: 1180px) { .boards { grid-template-columns: repeat(2, minmax(0, 1fr)); }.boards > :last-child { grid-column: 1 / -1; } }
 @media (max-width: 650px) { .boards { grid-template-columns: minmax(0, 1fr); }.counts button, .details button { min-height: 44px; } }
 @media (min-width: 1181px) and (max-width: 1350px) { .counts--compact { grid-template-columns: minmax(0, 1fr); } }

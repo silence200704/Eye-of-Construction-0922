@@ -1,0 +1,288 @@
+{
+  "base": "http://127.0.0.1:8080",
+  "checks": [
+    "welcome accessible, no overflow on 7 screen sizes",
+    "starter card sends exactly one actual server query and busy locks composer",
+    "IME confirmation and Shift Enter do not send; Enter submits real FAQ",
+    "real knowledge citation opens original text",
+    "recommendations and data explanation remain usable",
+    "Escape closes and reopen restores current conversation",
+    "desktop drawer allows underlying page interaction",
+    "page reload restores server conversation without resubmitting questions",
+    "reduced motion disables decorative card transition"
+  ],
+  "layouts": [
+    {
+      "width": 1440,
+      "doc": 1440,
+      "panel": 747,
+      "scroll": 747,
+      "bodyTop": 149.46875,
+      "firstTop": 173.46875,
+      "footerBottom": 987,
+      "height": 1000
+    },
+    {
+      "width": 1280,
+      "doc": 1280,
+      "panel": 664,
+      "scroll": 664,
+      "bodyTop": 149.46875,
+      "firstTop": 173.46875,
+      "footerBottom": 707,
+      "height": 720
+    },
+    {
+      "width": 1024,
+      "doc": 1024,
+      "panel": 530,
+      "scroll": 530,
+      "bodyTop": 149.46875,
+      "firstTop": 173.46875,
+      "footerBottom": 587,
+      "height": 600
+    },
+    {
+      "width": 900,
+      "doc": 900,
+      "panel": 900,
+      "scroll": 900,
+      "bodyTop": 136.46875,
+      "firstTop": 160.46875,
+      "footerBottom": 700,
+      "height": 700
+    },
+    {
+      "width": 768,
+      "doc": 768,
+      "panel": 768,
+      "scroll": 768,
+      "bodyTop": 136.46875,
+      "firstTop": 181.0625,
+      "footerBottom": 1024,
+      "height": 1024
+    },
+    {
+      "width": 390,
+      "doc": 390,
+      "panel": 390,
+      "scroll": 390,
+      "bodyTop": 139.15625,
+      "firstTop": 157.15625,
+      "footerBottom": 844,
+      "height": 844
+    },
+    {
+      "width": 375,
+      "doc": 375,
+      "panel": 375,
+      "scroll": 375,
+      "bodyTop": 139.15625,
+      "firstTop": 157.15625,
+      "footerBottom": 667,
+      "height": 667
+    }
+  ],
+  "a11y": [
+    {
+      "name": "welcome-375",
+      "violations": []
+    },
+    {
+      "name": "welcome-wide",
+      "violations": []
+    },
+    {
+      "name": "answer-wide",
+      "violations": []
+    },
+    {
+      "name": "answer-narrow",
+      "violations": []
+    }
+  ],
+  "errors": [],
+  "writes": [
+    {
+      "method": "POST",
+      "path": "/api/v1/demo/identity"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/datasets/demo-main/notifications/escalate"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/datasets/demo-main/assistant/query"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/datasets/demo-main/assistant/query"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/datasets/demo-main/notifications/escalate"
+    }
+  ],
+  "replies": [
+    {
+      "status": 200,
+      "body": {
+        "ok": true,
+        "data": {
+          "sessionId": "as_14ed54e7abdd496ea576d8f691d84c03",
+          "turnId": "at_ab95de4e52484876b7d326f206286350",
+          "answer": {
+            "conclusion": "全校在册 4 栋楼、8 个测点；未关闭事件 1 条、问题 0 条、工单 0 张。",
+            "facts": [
+              {
+                "label": "在册楼栋 / 测点 / 设备",
+                "value": "4 / 8 / 4",
+                "unit": ""
+              },
+              {
+                "label": "有效监测记录",
+                "value": "18",
+                "unit": "条"
+              },
+              {
+                "label": "未关闭事件 / 问题 / 工单",
+                "value": "1 / 0 / 0",
+                "unit": "条"
+              }
+            ],
+            "evidence": [],
+            "extras": {
+              "queriedAt": "2026-10-25T10:34:10.328469+00:00"
+            },
+            "status": "answered",
+            "candidates": [],
+            "sources": {
+              "facts": "server_db",
+              "queriedAt": "2026-10-25T10:34:10.328469+00:00"
+            },
+            "snapshot": {
+              "queriedAt": "2026-10-25T10:34:10.328469+00:00",
+              "objects": {},
+              "records": [],
+              "rules": [],
+              "baselines": []
+            },
+            "intent": "campus_overview",
+            "question": "全校有哪些异常？",
+            "objects": {
+              "pointId": null,
+              "eventId": null,
+              "issueId": null,
+              "workOrderId": null,
+              "buildingId": null
+            },
+            "links": [
+              {
+                "kind": "overview",
+                "objectId": ""
+              }
+            ],
+            "followups": [
+              "全校现在概况如何",
+              "现在有哪些未关闭预警"
+            ],
+            "dataNotes": [
+              "业务事实来自服务端数据库本次查询；知识解释来自本地知识库引用；建议不等于已执行。"
+            ]
+          }
+        },
+        "rev": null,
+        "replayed": false,
+        "meta": {
+          "requestId": "84539301c8934c669978bfce5fc81629",
+          "datasetEpoch": 1
+        }
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "ok": true,
+        "data": {
+          "sessionId": "as_14ed54e7abdd496ea576d8f691d84c03",
+          "turnId": "at_f22fac7286ad46299184495aeac50cc8",
+          "answer": {
+            "intent": "knowledge",
+            "status": "answered",
+            "conclusion": "演示身份与权限\n\n系统不提供登录页、账号或密码。启动后使用预置演示身份，可切换学校安全管理人员、物业值班、设备管理、巡检、维修五类身份。界面身份提示不能作为授权依据；服务端按稳定身份 ID、角色和楼栋范围校验每次写入。维修人员不能自行验收工单；角色或范围不符时拒绝写入并显示原因。",
+            "facts": [],
+            "evidence": [],
+            "citations": [
+              {
+                "documentId": "knowledge_149ad2fe27b74f5e9083badff490aaa5",
+                "chunkId": "knowledge_149ad2fe27b74f5e9083badff490aaa5:v1:0",
+                "title": "演示身份与权限",
+                "version": 1,
+                "sha256": "21a0a1442e26f1bea8516fc04bffc267731cef70821056b7c8279e52205f0e16",
+                "lineStart": 1,
+                "lineEnd": 3,
+                "sourcePath": "docs/knowledge/platform/identity.md",
+                "methods": [
+                  "faq",
+                  "keyword",
+                  "vector"
+                ]
+              },
+              {
+                "documentId": "knowledge_837cd050da884d3f8ff540a763a84bb3",
+                "chunkId": "knowledge_837cd050da884d3f8ff540a763a84bb3:v1:0",
+                "title": "问题四来源与独立上报",
+                "version": 1,
+                "sha256": "b601042aaa194afd4fdff995a30e8c35a4c788488664281f8de07e85918985b5",
+                "lineStart": 1,
+                "lineEnd": 3,
+                "sourcePath": "docs/knowledge/operations/issues.md",
+                "methods": [
+                  "keyword",
+                  "vector"
+                ]
+              }
+            ],
+            "knowledge": {
+              "decision": "answer",
+              "mode": "hybrid",
+              "indexVersion": "index_328ffb7c047c4c268a57469bbfb9069b",
+              "reason": "标准 FAQ 命中；请核对原文引用",
+              "excerpt": "演示身份与权限\n\n系统不提供登录页、账号或密码。启动后使用预置演示身份，可切换学校安全管理人员、物业值班、设备管理、巡检、维修五类身份。界面身份提示不能作为授权依据；服务端按稳定身份 ID、角色和楼栋范围校验每次写入。维修人员不能自行验收工单；角色或范围不符时拒绝写入并显示原因。"
+            },
+            "gaps": [],
+            "sources": {
+              "facts": "none",
+              "knowledge": "local_kb",
+              "queriedAt": "2026-10-25T10:34:10.462576+00:00"
+            },
+            "dataNotes": [
+              "结论来自本地知识库原文，不是现场实时数据；引用可查看原文核对。",
+              "知识回答来自本地知识库引用，不是现场实时数据；建议不等于已执行。"
+            ],
+            "question": "系统有哪些演示身份？",
+            "objects": {
+              "pointId": null,
+              "eventId": null,
+              "issueId": null,
+              "workOrderId": null,
+              "buildingId": null
+            },
+            "links": [],
+            "followups": [
+              "全校现在概况如何",
+              "现在有哪些未关闭预警"
+            ]
+          }
+        },
+        "rev": null,
+        "replayed": false,
+        "meta": {
+          "requestId": "a27faf81c09c49ce815183acb0bd5182",
+          "datasetEpoch": 1
+        }
+      }
+    }
+  ]
+}

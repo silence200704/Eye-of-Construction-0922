@@ -1,0 +1,137 @@
+INFO:zhutong.http:POST /api/v1/demo/identity 200 request=be2039eac5264346bf6bf2078e83f815 elapsed_ms=16.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/demo/identity "HTTP/1.1 200 OK"
+INFO:zhutong.http:GET /api/v1/datasets/demo-main/state 200 request=762bd75d9a5144658a8df0dd03a01f75 elapsed_ms=15.0
+INFO:httpx2:HTTP Request: GET http://testserver/api/v1/datasets/demo-main/state "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/buildings 200 request=9e02e40557e64dfcb1f793e97c72c181 elapsed_ms=32.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/buildings "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/floors 200 request=82df52a58b724d33a3b427cfeaccd880 elapsed_ms=15.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/floors "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/points 200 request=212d5942a74743308878d470ab6f2656 elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/points "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/devices 200 request=3631cdb0e2cd4a569470f7390747a053 elapsed_ms=16.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/devices "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/rules 200 request=f176f73ad03b472982c09340b7aef112 elapsed_ms=16.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/rules "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/baselines 200 request=50c8538316b94c5b87e180485d4fcd1c elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/baselines "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/points 200 request=302a79f75ce84fb8843097ed6d285ce7 elapsed_ms=15.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/points "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/records 200 request=9e0dc8ad3fe14cfd8c4cf737134b5902 elapsed_ms=31.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/records "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/demo/identity 200 request=2ca57b910bb7462cb9daabcb3e6ba703 elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/demo/identity "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/demo/identity 200 request=536729488bdf48e6b82176c5f00ef64a elapsed_ms=16.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/demo/identity "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/demo/identity 200 request=f4259a833b0646bb8dede8b19be4e258 elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/demo/identity "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media 201 request=e94a83ae505b4c7d826e24b509425a4f elapsed_ms=31.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media?fileName=owner-private.png "HTTP/1.1 201 Created"
+INFO:zhutong.http:POST /api/v1/demo/identity 200 request=c8911596acaf463983ba9ba84a08a020 elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/demo/identity "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media-sessions/frames 200 request=e1373ceeb61f495abc38a0192e74f2a9 elapsed_ms=47.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media-sessions/frames "HTTP/1.1 200 OK"
+INFO:zhutong.http:GET /api/v1/datasets/demo-main/media-sessions/frames 200 request=6b0843814deb43048d2ef18e7d6e119d elapsed_ms=16.0
+INFO:httpx2:HTTP Request: GET http://testserver/api/v1/datasets/demo-main/media-sessions/frames "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media-sessions/frames 403 request=c8db8d248b2a4f40ad1978c30e78d2fb elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media-sessions/frames "HTTP/1.1 403 Forbidden"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media-sessions/frames 403 request=9f8a83d88cef4750959a0b70d132dd48 elapsed_ms=15.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media-sessions/frames "HTTP/1.1 403 Forbidden"
+INFO:zhutong.http:POST /api/v1/demo/identity 200 request=7d860c50852c4778a67898abb897e35c elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/demo/identity "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/demo/identity 200 request=f1eceabaff1a40d198233d762a4e6e72 elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/demo/identity "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/demo/identity 200 request=065b043cd054461c930bd911fd779e65 elapsed_ms=16.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/demo/identity "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media 201 request=7c284d34e68d45d287dd7ce7332b79c6 elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media?fileName=bound-video.mp4&pointId=pnt_de9795754764473a931a225c935e8fed "HTTP/1.1 201 Created"
+INFO:zhutong.http:POST /api/v1/demo/identity 200 request=e9be58d9f2674093a084312ea36d4906 elapsed_ms=15.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/demo/identity "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media-sessions/videos 200 request=037864dcebc64f4c86cff29a25a3458b elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media-sessions/videos "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media 201 request=da7a6508574b4b04a44ce07035cab73e elapsed_ms=16.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media?fileName=%E7%8E%B0%E5%9C%BA.png "HTTP/1.1 201 Created"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media-sessions/frames 200 request=ae588c1096124209a0798520b411da28 elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media-sessions/frames "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media 201 request=04437da1fa134c50ac4d9f57c3cad892 elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media?fileName=%E7%8E%B0%E5%9C%BA.png "HTTP/1.1 201 Created"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media-sessions/frames 200 request=5621833b9f154856bdecffe09bc895ed elapsed_ms=15.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media-sessions/frames "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media-sessions/comparisons 200 request=4bac32c034124a9aa87fdd7eb48902d6 elapsed_ms=16.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media-sessions/comparisons "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media-sessions/videos/mv_890178e736de4da1bd2760a8573c584f/analysis 200 request=077f6ef1c7f9429bb43851498578466c elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media-sessions/videos/mv_890178e736de4da1bd2760a8573c584f/analysis "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media-sessions/videos 200 request=aee39c708c2f471dbdeadd07b0be6fa8 elapsed_ms=15.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media-sessions/videos "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media-sessions/frames 200 request=36766c09dbd4411b9f39235cf53a2cee elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media-sessions/frames "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media-sessions/frames 200 request=b02b439f0f134cf38a26fd01bde65b8c elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media-sessions/frames "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media-sessions/comparisons 200 request=195ba15b05f141259255c19affd3d1cc elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media-sessions/comparisons "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media-sessions/videos/mv_890178e736de4da1bd2760a8573c584f/analysis 200 request=e34d9fad56c44e7bab8481c6ed2627c9 elapsed_ms=16.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media-sessions/videos/mv_890178e736de4da1bd2760a8573c584f/analysis "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media-sessions/videos 200 request=7e6ba88a01ad4688ae07b66f14d06989 elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media-sessions/videos "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media-sessions/frames 200 request=827bb391101b473e9f082f8bfe5c91c6 elapsed_ms=16.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media-sessions/frames "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media-sessions/frames 403 request=d7446279c48e41c2a21a8f86ac2352da elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media-sessions/frames "HTTP/1.1 403 Forbidden"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media-sessions/comparisons 403 request=63eeb4f4a25e4bd1b697870d55f23b03 elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media-sessions/comparisons "HTTP/1.1 403 Forbidden"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media-sessions/videos/mv_890178e736de4da1bd2760a8573c584f/analysis 200 request=45759cf651e848dda316db27a30aea77 elapsed_ms=15.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media-sessions/videos/mv_890178e736de4da1bd2760a8573c584f/analysis "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media-sessions/videos 404 request=dae0ae00eecc4be78994f30d9af82d3a elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media-sessions/videos "HTTP/1.1 404 Not Found"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media-sessions/frames 404 request=5ac204a551bb425c89925b06563f07cc elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media-sessions/frames "HTTP/1.1 404 Not Found"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media-sessions/frames 404 request=b2987a36f7e641979e653f0d711ca5c6 elapsed_ms=16.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media-sessions/frames "HTTP/1.1 404 Not Found"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media-sessions/comparisons 404 request=32c7d79aee6a45d788af68d1a960a6cc elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media-sessions/comparisons "HTTP/1.1 404 Not Found"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media-sessions/videos/mv_890178e736de4da1bd2760a8573c584f/analysis 404 request=8d6134ebea9d4253ae26f35b50604094 elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media-sessions/videos/mv_890178e736de4da1bd2760a8573c584f/analysis "HTTP/1.1 404 Not Found"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/issues 200 request=cc7ba1209eaf4c9fb2d971b9f301bb20 elapsed_ms=16.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/issues "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/issues/iss_f31e66f97b274d7da819c039eff26902/review 200 request=02f1c165ff1840a59f4dcb7d1bf08034 elapsed_ms=15.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/issues/iss_f31e66f97b274d7da819c039eff26902/review "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/demo/identity 200 request=c9af4e69ffa540dfbb0962b28f95c129 elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/demo/identity "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/demo/identity 200 request=38d26a7ce3ae4c9593ee37f0a1c8e6c5 elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/demo/identity "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/demo/identity 200 request=eea84a33f4cf44939a884df3517c24bd elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/demo/identity "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/assistant/query 200 request=370672821e7047b1b703949c4f139a01 elapsed_ms=15.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/assistant/query "HTTP/1.1 200 OK"
+INFO:zhutong.http:GET /api/v1/datasets/demo-main/issues 200 request=bc2445928b9f48cdbd29502b02671318 elapsed_ms=16.0
+INFO:httpx2:HTTP Request: GET http://testserver/api/v1/datasets/demo-main/issues "HTTP/1.1 200 OK"
+INFO:zhutong.http:GET /api/v1/datasets/demo-main/events 200 request=c8fdfa8134834aada69566af6ca9f826 elapsed_ms=0.0
+INFO:httpx2:HTTP Request: GET http://testserver/api/v1/datasets/demo-main/events "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/demo/identity 200 request=dd56bb8f8c6347c2b2dbc2c728b9dd21 elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/demo/identity "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/assistant/query 200 request=2837c840563840aab3984424d580448b elapsed_ms=16.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/assistant/query "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/demo/identity 200 request=29dfe95c14414c34942d59d6d5ddbe0a elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/demo/identity "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/assistant/query 200 request=4f9a08480af94fdcab1e60a51eaae513 elapsed_ms=15.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/assistant/query "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/demo/identity 200 request=808c00ab12ee43c794d8365dc43b6523 elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/demo/identity "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/assistant/query 200 request=2d8eadd572ba448ca12b77b4f47110f2 elapsed_ms=16.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/assistant/query "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media 201 request=3da85dcfe0cb4308845d7fb72dcf8c0b elapsed_ms=16.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media?pointId=pnt_1ad4d1b5580444dcb115e0dc157db2b1&fileName=stage7.mp4&origin=demo_generated "HTTP/1.1 201 Created"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media 201 request=6ee7e576fe1d42f3b9b70c7518b17847 elapsed_ms=15.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media?pointId=pnt_1ad4d1b5580444dcb115e0dc157db2b1&fileName=stage7-frame.png&origin=demo_generated "HTTP/1.1 201 Created"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media-sessions/videos 200 request=250a23da0e204ca882654dfc7f906f1a elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media-sessions/videos "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media-sessions/frames 200 request=345f1eb50aed4667a4c284f79f963ff9 elapsed_ms=16.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media-sessions/frames "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media-sessions/frames 200 request=7ac67fde7e4244d39e1f57ba5057ea86 elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media-sessions/frames "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media-sessions/frames 200 request=7d7788dfeb8b4a3cb45879f5e9348299 elapsed_ms=15.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media-sessions/frames "HTTP/1.1 200 OK"
+INFO:zhutong.http:POST /api/v1/datasets/demo-main/media-sessions/videos/mv_b31096558175460cab537bf227f07477/analysis 200 request=36955cac2d3340b5a74a8fb606797f74 elapsed_ms=0.0
+INFO:httpx2:HTTP Request: POST http://testserver/api/v1/datasets/demo-main/media-sessions/videos/mv_b31096558175460cab537bf227f07477/analysis "HTTP/1.1 200 OK"
+INFO:zhutong.http:GET /api/v1/datasets/demo-main/media-sessions/videos 200 request=e451ba15d9b94262ac97b1c27073c590 elapsed_ms=16.0
+INFO:httpx2:HTTP Request: GET http://testserver/api/v1/datasets/demo-main/media-sessions/videos "HTTP/1.1 200 OK"
+All independent repair probes passed; results.json saved

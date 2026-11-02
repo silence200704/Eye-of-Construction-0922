@@ -1,10 +1,16 @@
 # 筑瞳 OpenHarmony 原生 App
 
-ArkTS + ArkUI + Stage；业务包名`org.zhutong.mobile`，版本`0.8.0-dev`。
-当前完成在线基础、“校园守护手账”UI与巡检到点/检查写入，包含四入口、测点详情、五身份切换、连接设置和动效偏好。
+ArkTS + ArkUI + Stage；业务包名`org.zhutong.mobile`，版本`0.9.0-dev`。
+2026-11-01全业务补齐：原生审核六类分流、派工、手工建单、维修返工、验收、复查与保养；两端前台5秒读取、持久草稿与依赖同步、专用演示集控制已实现，待集中界面验收。
+请先读[功能身份操作表](../../docs/implementation/handoff/reports/mobile/business/02-role-guide.md)、[交付报告](../../docs/implementation/handoff/reports/mobile/business/01-completion.md)及[统一验收提示词](../../docs/implementation/handoff/prompts/mobile/business/01-unified-acceptance.md)。以下保留历次实现与证据边界。
+当前完成在线基础、“校园守护手账”UI与巡检到点/检查写入，包含五个底部入口、测点详情、五身份切换、连接设置和动效偏好。
 任务详情支持模拟NFC/人工核对、冻结清单、必答/异常依据、逐点完成、版本冲突及原请求重试。
 独立/任务问题上报、原生相册压缩/上传/关联、问题池和Web反馈回读已接入；选图/提交均有失败与重试状态。
 原生退回补证、工单办理、预警处置、设备状态、筛选与统计均已接入，部分闭环有独立模拟器证据。
+底部新增「小瞳」：输入条固定为底部单行，提问先展示约 1.5 秒三步思考卡；形象直接使用电脑端 `src/components/assistant/xiaotong.png`（移动端复制为 `rawfile/playful/characters/xiaotong.png`），调用与 Web 同源的 `/datasets/demo-main/assistant/query`，支持通用问答和带 `workOrderId/issueId/pointId` 的上下文问答；工单/问题/巡检页有“问小瞳”入口，回答可定位到相关页面。当前上报草稿存在时，可把建议填入备注/描述，仍由人核对后提交，不会自动代办。
+
+「监测趋势」已接入监测页与测点详情：选择单个传感器测点后查看近 7 天/30 天历史采样，按裂缝宽度、倾角双轴、振动有效值/峰值、温湿度分别出图；默认把上海时区同一天的多条采样合成日均点，也可切换回原始采样点，并显示基准线、规则快照中的三级阈值线、最近记录和有效/存疑/无效质量计数。趋势走现有 `/datasets/demo-main/records`，读取前后复核身份与数据集版本；无效质量记录不画入曲线，历史采样明确标为非实时，人工检查点不提供数值趋势。
+
 照片回读/字号配置及大字号布局、就地反馈、统计分页已返修，等待新包复验；相机代码已有，模拟器真实拍照未通过，阶段7A、8仍待审核。
 
 ## 已核验环境

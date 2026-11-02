@@ -1,0 +1,15 @@
+{
+  "stage": "commit",
+  "rows": 528,
+  "preview": {
+    "ok": 0,
+    "warn": 168,
+    "error": 360
+  },
+  "status": 200,
+  "commit": {
+    "imported": 168,
+    "skipped": 360,
+    "events": 1
+  }
+}

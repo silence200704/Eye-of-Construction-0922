@@ -256,18 +256,8 @@ export async function putPlan(row: InspectionPlan): Promise<void> {
   announceChange()
 }
 
-export async function putTask(row: InspectionTask): Promise<void> {
-  await db.tasks.put(toPlain(row))
-  announceChange()
-}
-
 export async function putIssue(row: InspectionIssue): Promise<void> {
   await db.issues.put(toPlain(row))
-  announceChange()
-}
-
-export async function putWorkOrder(row: WorkOrder): Promise<void> {
-  await db.workOrders.put(toPlain(row))
   announceChange()
 }
 

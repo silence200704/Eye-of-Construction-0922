@@ -1,0 +1,62 @@
+{
+  "capturedAt": "2026-10-26T14:16:25.596749+00:00",
+  "identities": [
+    {
+      "identityId": "demo-safety",
+      "role": "safety",
+      "epoch": 1,
+      "activePoints": 8,
+      "openEvents": 1,
+      "records": 18,
+      "events": 2,
+      "tasks": 0,
+      "orders": 0
+    },
+    {
+      "identityId": "demo-property",
+      "role": "property",
+      "epoch": 1,
+      "activePoints": 8,
+      "openEvents": 1,
+      "records": 18,
+      "events": 2,
+      "tasks": 0,
+      "orders": 0
+    },
+    {
+      "identityId": "demo-device",
+      "role": "device",
+      "epoch": 1,
+      "activePoints": 8,
+      "openEvents": 1,
+      "records": 18,
+      "events": 2,
+      "tasks": 0,
+      "orders": 0
+    },
+    {
+      "identityId": "demo-inspector",
+      "role": "inspector",
+      "epoch": 1,
+      "activePoints": 8,
+      "openEvents": 1,
+      "records": 18,
+      "events": 2,
+      "tasks": 0,
+      "orders": 0
+    },
+    {
+      "identityId": "demo-repair",
+      "role": "repair",
+      "epoch": 1,
+      "activePoints": 8,
+      "openEvents": 1,
+      "records": 18,
+      "events": 2,
+      "tasks": 0,
+      "orders": 0
+    }
+  ],
+  "verificationSessionsLoggedOut": true,
+  "businessWrites": 0
+}

@@ -1,0 +1,603 @@
+{
+  "code": "9d1cb8f",
+  "docs": "e8b40b9",
+  "method": "Temporary SQLite, ASGI",
+  "mediaReplay": {
+    "initial": {
+      "status": 200,
+      "response": {
+        "ok": true,
+        "data": {
+          "id": "mf_a9d9f6de48bc4ae29807809107950fad",
+          "pointId": "pnt_de9795754764473a931a225c935e8fed",
+          "mediaId": "a7a959ceb37c479e99368d6be6891d3a",
+          "label": "private-frame",
+          "capturedAt": "2026-10-25T08:36:40.498849+00:00",
+          "timeCode": null,
+          "videoId": null,
+          "origin": "upload",
+          "fileName": "owner-private.png",
+          "size": 69,
+          "mimeType": "image/png",
+          "width": 1,
+          "height": 1,
+          "contentUrl": "/api/v1/datasets/demo-main/media/a7a959ceb37c479e99368d6be6891d3a/content"
+        },
+        "rev": null,
+        "replayed": false,
+        "meta": {
+          "requestId": "e1373ceeb61f495abc38a0192e74f2a9",
+          "datasetEpoch": 1
+        }
+      }
+    },
+    "currentRead": {
+      "status": 200,
+      "response": {
+        "ok": true,
+        "data": [],
+        "rev": null,
+        "replayed": false,
+        "meta": {
+          "requestId": "6b0843814deb43048d2ef18e7d6e119d",
+          "datasetEpoch": 1
+        }
+      }
+    },
+    "currentNewCommand": {
+      "status": 403,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "ROLE_FORBIDDEN",
+          "message": "无权读取该媒体",
+          "retryable": false,
+          "details": {}
+        },
+        "meta": {
+          "requestId": "c8db8d248b2a4f40ad1978c30e78d2fb"
+        }
+      }
+    },
+    "replay": {
+      "status": 403,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "ROLE_FORBIDDEN",
+          "message": "无权读取该媒体",
+          "retryable": false,
+          "details": {
+            "frameId": "mf_a9d9f6de48bc4ae29807809107950fad"
+          }
+        },
+        "meta": {
+          "requestId": "9f8a83d88cef4750959a0b70d132dd48"
+        }
+      }
+    },
+    "countsBeforeReplay": {
+      "media_frames": 1,
+      "audits": 11,
+      "operation_receipts": 9
+    },
+    "countsAfterReplay": {
+      "media_frames": 1,
+      "audits": 11,
+      "operation_receipts": 9
+    }
+  },
+  "ownershipBranches": {
+    "operations": [
+      "acceptance-video",
+      "acceptance-frame-0",
+      "acceptance-frame-1",
+      "acceptance-compare",
+      "acceptance-analysis"
+    ],
+    "authorizedReplayStatuses": [
+      200,
+      200,
+      200,
+      200,
+      200
+    ],
+    "narrowedReplayStatuses": [
+      200,
+      200,
+      403,
+      403,
+      200
+    ],
+    "scopeRevokedStatuses": [
+      404,
+      404,
+      404,
+      404,
+      404
+    ],
+    "countsBefore": {
+      "media_frames": 3,
+      "media_videos": 1,
+      "media_comparisons": 1,
+      "audits": 19,
+      "operation_receipts": 14
+    },
+    "countsAfter": {
+      "media_frames": 3,
+      "media_videos": 1,
+      "media_comparisons": 1,
+      "audits": 19,
+      "operation_receipts": 14
+    }
+  },
+  "objectGraph": {
+    "order": {
+      "id": "wo_6f55870c5d5948a991f94e60d36621e2",
+      "orderNo": "WO-20261025-001",
+      "origin": "issue",
+      "issueId": "iss_f31e66f97b274d7da819c039eff26902",
+      "eventId": null,
+      "pointId": null,
+      "title": "墙面裂缝（ISS-20261025-001）",
+      "status": "created",
+      "assignee": "",
+      "assigneeId": "",
+      "assignedBy": "",
+      "assignedAt": null,
+      "dueAt": null,
+      "acceptedById": "",
+      "measures": "",
+      "materials": "",
+      "photos": [],
+      "submittedAt": null,
+      "reviews": [],
+      "timeline": [
+        {
+          "at": "2026-10-25T08:36:40.792218+00:00",
+          "by": "演示学校安全管理人员",
+          "byRole": "safety",
+          "action": "创建工单",
+          "detail": "由问题 ISS-20261025-001 审核转维修生成，待派工"
+        }
+      ],
+      "createdAt": "2026-10-25T08:36:40.792218+00:00",
+      "createdBy": "演示学校安全管理人员",
+      "updatedAt": "2026-10-25T08:36:40.792218+00:00",
+      "updatedBy": "演示学校安全管理人员",
+      "rev": 1
+    },
+    "actualIssue": {
+      "id": "iss_f31e66f97b274d7da819c039eff26902",
+      "issueNo": "ISS-20261025-001",
+      "source": "report",
+      "submissionKey": "rereview-no-point",
+      "pointId": null,
+      "buildingId": "bld_bda7d741a15c47eabb50eed9fd8de6af",
+      "floorId": "flr_918808f9014e4666a89beb727b448635",
+      "zoneId": "",
+      "eventId": null,
+      "taskId": null,
+      "maintenanceTaskId": null,
+      "anomalyType": "墙面裂缝",
+      "description": "现场发现新增裂缝",
+      "photos": [],
+      "status": "pending_review",
+      "reviewAction": null,
+      "reviewCategory": "",
+      "reviewedAt": null,
+      "reviewedBy": "",
+      "reviewNote": "",
+      "duplicateOf": null,
+      "linkedEventId": null,
+      "linkedFrom": [],
+      "workOrderIds": [],
+      "rechecks": [],
+      "timeline": [
+        {
+          "at": "2026-10-25T08:36:40.782184+00:00",
+          "by": "演示学校安全管理人员",
+          "byRole": "safety",
+          "action": "提交问题",
+          "detail": "来源：report；现场发现新增裂缝"
+        }
+      ],
+      "createdAt": "2026-10-25T08:36:40.782184+00:00",
+      "createdBy": "演示学校安全管理人员",
+      "updatedAt": "2026-10-25T08:36:40.782184+00:00",
+      "updatedBy": "演示学校安全管理人员",
+      "rev": 1
+    },
+    "unrelatedOldEvent": "evt_fca0ee17d1a54f44926806bdb12a900e",
+    "unrelatedOldPoint": "pnt_de9795754764473a931a225c935e8fed",
+    "result": {
+      "status": 200,
+      "response": {
+        "ok": true,
+        "data": {
+          "sessionId": "as_14c79e2aa06848808ae874cf061fd368",
+          "turnId": "at_0a7e3743ab724759a8b49de909a4c67d",
+          "answer": {
+            "conclusion": "问题 ISS-20261025-001 当前为「repairing」；工单维修完成后提交验收，验收通过只进入待复查，不直接关闭问题。",
+            "facts": [
+              {
+                "label": "问题",
+                "value": "ISS-20261025-001（墙面裂缝）",
+                "unit": ""
+              },
+              {
+                "label": "状态",
+                "value": "repairing",
+                "unit": ""
+              },
+              {
+                "label": "来源",
+                "value": "report",
+                "unit": ""
+              },
+              {
+                "label": "审核出口",
+                "value": "to_repair／general",
+                "unit": ""
+              },
+              {
+                "label": "工单",
+                "value": "WO-20261025-001（created）",
+                "unit": ""
+              },
+              {
+                "label": "维修人",
+                "value": "待派工",
+                "unit": ""
+              }
+            ],
+            "evidence": [
+              {
+                "kind": "issue",
+                "ref": "ISS-20261025-001",
+                "id": "iss_f31e66f97b274d7da819c039eff26902",
+                "detail": "提交问题：来源：report；现场发现新增裂缝"
+              },
+              {
+                "kind": "issue",
+                "ref": "ISS-20261025-001",
+                "id": "iss_f31e66f97b274d7da819c039eff26902",
+                "detail": "审核：to_repair（general）：审核意见：现场情况已核对，按本出口处理"
+              },
+              {
+                "kind": "issue",
+                "ref": "ISS-20261025-001",
+                "id": "iss_f31e66f97b274d7da819c039eff26902",
+                "detail": "生成维修工单：WO-20261025-001 待派工"
+              }
+            ],
+            "extras": {
+              "queriedAt": "2026-10-25T08:36:40.856764+00:00"
+            },
+            "status": "answered",
+            "candidates": [],
+            "sources": {
+              "facts": "server_db",
+              "queriedAt": "2026-10-25T08:36:40.856764+00:00"
+            },
+            "snapshot": {
+              "queriedAt": "2026-10-25T08:36:40.856764+00:00",
+              "objects": {
+                "issueId": {
+                  "id": "iss_f31e66f97b274d7da819c039eff26902",
+                  "rev": 2
+                },
+                "workOrderId": {
+                  "id": "wo_6f55870c5d5948a991f94e60d36621e2",
+                  "rev": 1
+                }
+              },
+              "records": [],
+              "rules": [],
+              "baselines": []
+            },
+            "intent": "issue_status",
+            "question": "WO-20261025-001 现在怎么样",
+            "objects": {
+              "pointId": null,
+              "eventId": null,
+              "issueId": "iss_f31e66f97b274d7da819c039eff26902",
+              "workOrderId": "wo_6f55870c5d5948a991f94e60d36621e2",
+              "buildingId": "bld_bda7d741a15c47eabb50eed9fd8de6af"
+            },
+            "links": [
+              {
+                "kind": "issue_detail",
+                "objectId": "iss_f31e66f97b274d7da819c039eff26902"
+              },
+              {
+                "kind": "workorder_detail",
+                "objectId": "wo_6f55870c5d5948a991f94e60d36621e2"
+              }
+            ],
+            "followups": [
+              "这张工单验收了吗",
+              "复查安排是什么",
+              "打开完整处置报告"
+            ],
+            "dataNotes": [
+              "业务事实来自服务端数据库本次查询；知识解释来自本地知识库引用；建议不等于已执行。"
+            ]
+          }
+        },
+        "rev": null,
+        "replayed": false,
+        "meta": {
+          "requestId": "2837c840563840aab3984424d580448b",
+          "datasetEpoch": 1
+        }
+      }
+    },
+    "explicitIssue": {
+      "conclusion": "问题 ISS-20261025-001 当前为「repairing」；工单维修完成后提交验收，验收通过只进入待复查，不直接关闭问题。",
+      "facts": [
+        {
+          "label": "问题",
+          "value": "ISS-20261025-001（墙面裂缝）",
+          "unit": ""
+        },
+        {
+          "label": "状态",
+          "value": "repairing",
+          "unit": ""
+        },
+        {
+          "label": "来源",
+          "value": "report",
+          "unit": ""
+        },
+        {
+          "label": "审核出口",
+          "value": "to_repair／general",
+          "unit": ""
+        },
+        {
+          "label": "工单",
+          "value": "WO-20261025-001（created）",
+          "unit": ""
+        },
+        {
+          "label": "维修人",
+          "value": "待派工",
+          "unit": ""
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "issue",
+          "ref": "ISS-20261025-001",
+          "id": "iss_f31e66f97b274d7da819c039eff26902",
+          "detail": "提交问题：来源：report；现场发现新增裂缝"
+        },
+        {
+          "kind": "issue",
+          "ref": "ISS-20261025-001",
+          "id": "iss_f31e66f97b274d7da819c039eff26902",
+          "detail": "审核：to_repair（general）：审核意见：现场情况已核对，按本出口处理"
+        },
+        {
+          "kind": "issue",
+          "ref": "ISS-20261025-001",
+          "id": "iss_f31e66f97b274d7da819c039eff26902",
+          "detail": "生成维修工单：WO-20261025-001 待派工"
+        }
+      ],
+      "extras": {
+        "queriedAt": "2026-10-25T08:36:40.869649+00:00"
+      },
+      "status": "answered",
+      "candidates": [],
+      "sources": {
+        "facts": "server_db",
+        "queriedAt": "2026-10-25T08:36:40.869649+00:00"
+      },
+      "snapshot": {
+        "queriedAt": "2026-10-25T08:36:40.869649+00:00",
+        "objects": {
+          "issueId": {
+            "id": "iss_f31e66f97b274d7da819c039eff26902",
+            "rev": 2
+          }
+        },
+        "records": [],
+        "rules": [],
+        "baselines": []
+      },
+      "intent": "issue_status",
+      "question": "ISS-20261025-001 现在怎么样",
+      "objects": {
+        "pointId": null,
+        "eventId": null,
+        "issueId": "iss_f31e66f97b274d7da819c039eff26902",
+        "workOrderId": null,
+        "buildingId": null
+      },
+      "links": [
+        {
+          "kind": "issue_detail",
+          "objectId": "iss_f31e66f97b274d7da819c039eff26902"
+        }
+      ],
+      "followups": [
+        "这张工单验收了吗",
+        "复查安排是什么",
+        "打开完整处置报告"
+      ],
+      "dataNotes": [
+        "业务事实来自服务端数据库本次查询；知识解释来自本地知识库引用；建议不等于已执行。"
+      ]
+    },
+    "ordinaryFollowup": {
+      "conclusion": "问题 ISS-20261025-001 当前为「repairing」；工单维修完成后提交验收，验收通过只进入待复查，不直接关闭问题。",
+      "facts": [
+        {
+          "label": "问题",
+          "value": "ISS-20261025-001（墙面裂缝）",
+          "unit": ""
+        },
+        {
+          "label": "状态",
+          "value": "repairing",
+          "unit": ""
+        },
+        {
+          "label": "来源",
+          "value": "report",
+          "unit": ""
+        },
+        {
+          "label": "审核出口",
+          "value": "to_repair／general",
+          "unit": ""
+        },
+        {
+          "label": "工单",
+          "value": "WO-20261025-001（created）",
+          "unit": ""
+        },
+        {
+          "label": "维修人",
+          "value": "待派工",
+          "unit": ""
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "issue",
+          "ref": "ISS-20261025-001",
+          "id": "iss_f31e66f97b274d7da819c039eff26902",
+          "detail": "提交问题：来源：report；现场发现新增裂缝"
+        },
+        {
+          "kind": "issue",
+          "ref": "ISS-20261025-001",
+          "id": "iss_f31e66f97b274d7da819c039eff26902",
+          "detail": "审核：to_repair（general）：审核意见：现场情况已核对，按本出口处理"
+        },
+        {
+          "kind": "issue",
+          "ref": "ISS-20261025-001",
+          "id": "iss_f31e66f97b274d7da819c039eff26902",
+          "detail": "生成维修工单：WO-20261025-001 待派工"
+        }
+      ],
+      "extras": {
+        "queriedAt": "2026-10-25T08:36:40.885682+00:00"
+      },
+      "status": "answered",
+      "candidates": [],
+      "sources": {
+        "facts": "server_db",
+        "queriedAt": "2026-10-25T08:36:40.885682+00:00"
+      },
+      "snapshot": {
+        "queriedAt": "2026-10-25T08:36:40.885682+00:00",
+        "objects": {
+          "issueId": {
+            "id": "iss_f31e66f97b274d7da819c039eff26902",
+            "rev": 2
+          },
+          "workOrderId": {
+            "id": "wo_6f55870c5d5948a991f94e60d36621e2",
+            "rev": 1
+          }
+        },
+        "records": [],
+        "rules": [],
+        "baselines": []
+      },
+      "intent": "issue_status",
+      "question": "这张工单验收了吗",
+      "objects": {
+        "pointId": null,
+        "eventId": null,
+        "issueId": "iss_f31e66f97b274d7da819c039eff26902",
+        "workOrderId": "wo_6f55870c5d5948a991f94e60d36621e2",
+        "buildingId": null
+      },
+      "links": [
+        {
+          "kind": "issue_detail",
+          "objectId": "iss_f31e66f97b274d7da819c039eff26902"
+        },
+        {
+          "kind": "workorder_detail",
+          "objectId": "wo_6f55870c5d5948a991f94e60d36621e2"
+        }
+      ],
+      "followups": [
+        "这张工单验收了吗",
+        "复查安排是什么",
+        "打开完整处置报告"
+      ],
+      "dataNotes": [
+        "业务事实来自服务端数据库本次查询；知识解释来自本地知识库引用；建议不等于已执行。"
+      ]
+    }
+  },
+  "seedVideo": {
+    "frameTimes": [
+      3.0,
+      6.0,
+      9.0
+    ],
+    "video": {
+      "id": "mv_b31096558175460cab537bf227f07477",
+      "pointId": "pnt_1ad4d1b5580444dcb115e0dc157db2b1",
+      "mediaId": "940de0c0d89c4bfd9045551f401784c3",
+      "metadata": {
+        "fileName": "stage7.mp4",
+        "title": "固定机位演示视频",
+        "source": "随包演示素材",
+        "assetKey": "stage7",
+        "comparable": true,
+        "note": "合成演示视频，非真实连续拍摄"
+      },
+      "analysis": {
+        "videoId": "mv_b31096558175460cab537bf227f07477",
+        "pointId": "pnt_1ad4d1b5580444dcb115e0dc157db2b1",
+        "frameIds": [
+          "mf_8e3670d121914d54b1529b2f596039d8",
+          "mf_ab82bbd4fc624df49bcc51e23ecc838e",
+          "mf_e28e5ae00a95453daa0be551867e90b7"
+        ],
+        "regions": {
+          "crack": {
+            "beforeId": "mf_8e3670d121914d54b1529b2f596039d8",
+            "afterId": "mf_e28e5ae00a95453daa0be551867e90b7",
+            "region": {
+              "x": 0.1,
+              "y": 0.1,
+              "w": 0.4,
+              "h": 0.4
+            },
+            "changedRatio": 0.12,
+            "status": "changed",
+            "summary": "区域像素差统计，不给毫米数"
+          },
+          "control": {
+            "beforeId": "mf_8e3670d121914d54b1529b2f596039d8",
+            "afterId": "mf_e28e5ae00a95453daa0be551867e90b7",
+            "region": {
+              "x": 0.5,
+              "y": 0.1,
+              "w": 0.3,
+              "h": 0.3
+            },
+            "changedRatio": 0,
+            "status": "stable",
+            "summary": "完好墙面未见明显差异"
+          }
+        },
+        "reason": "合成演示视频，非真实连续拍摄"
+      },
+      "contentUrl": "/api/v1/datasets/demo-main/media/940de0c0d89c4bfd9045551f401784c3/content"
+    },
+    "minimalMp4": "Container storage only, not browser decode evidence"
+  }
+}

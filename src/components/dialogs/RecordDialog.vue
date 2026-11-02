@@ -144,7 +144,7 @@ const deviceOptions = computed(() => {
   return archive.devicesOfPoint(target.id).map((row) => ({ value: row.id, label: `${row.code} ${row.name}` }))
 })
 
-const { model, errors, submitError, reset, mergeIssues, run } = useFormModel(() => fields.value)
+const { model, errors, submitError, pending, reset, mergeIssues, run } = useFormModel(() => fields.value)
 
 /** 人工检查点不产生数值记录，无法录入。 */
 const numeric = computed(() => hasNumericReadings(metric.value))
@@ -379,7 +379,7 @@ async function submit(): Promise<void> {
 
     <template #footer>
       <AppButton @click="emit('close')">取消</AppButton>
-      <AppButton variant="primary" @click="submit">
+      <AppButton variant="primary" :loading="pending" @click="submit">
         {{ record === null ? '保存记录' : '保存修订' }}
       </AppButton>
     </template>

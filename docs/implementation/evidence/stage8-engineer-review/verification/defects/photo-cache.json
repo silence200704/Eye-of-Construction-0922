@@ -1,0 +1,21 @@
+{
+  "severity": "P1",
+  "area": "原生已提交照片回读",
+  "objectId": "wo_628896dd4d1847e09ff59b5633f6a41f",
+  "symptom": "First protected-photo read succeeds; every later read fails with red feedback \"File exists\" until app data/cache directory is removed.",
+  "repro": [
+    "以 safety 打开维修手账 WO-20261029-001（3 张照片）",
+    "删除 /data/app/el2/100/base/org.zhutong.mobile/haps/entry/cache/protected-photos（或新装应用首次）",
+    "点“查看第 1 张照片” → 显示“维修前照片”与图片",
+    "点“查看第 2 张照片” → 卡片显示红色“File exists”，无图片",
+    "点“查看第 3 张照片” → 仍为“File exists”"
+  ],
+  "observed": "protected-photos 目录在首次成功后保留为空目录；第二次写入前目录创建抛 File exists。",
+  "rootCause": "mobile/openharmony/entry/src/main/ets/core/media/PreviewFiles.ets:10 fs.mkdirSync(directory, true) 在目录已存在时于本机 API24 运行时抛 EEXIST，未被捕获。",
+  "minimalFix": "写入前先 fs.accessSync 判断，或捕获 EEXIST 后继续；也可在构造函数一次性建目录并吞掉已存在错误。示例：try { fs.accessSync(dir) } catch { fs.mkdirSync(dir, true) }",
+  "impact": "已提交问题/工单只能查看第一张照片，维修前/后/验收标签无法连续核验；演示中第二次点击即报错。",
+  "evidence": [
+    "page/photos/order-before-first/screen.png",
+    "page/photos/order-second-fails/screen.png"
+  ]
+}

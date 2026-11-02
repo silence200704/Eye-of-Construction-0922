@@ -18,13 +18,6 @@ def rule_applies_to(rule: dict, point: dict) -> bool:
     return True
 
 
-def rules_for_point(rules: list[dict], point: dict) -> list[dict]:
-    return sorted(
-        (rule for rule in rules if rule_applies_to(rule, point)),
-        key=lambda rule: rule.get("effectiveFrom", ""),
-    )
-
-
 def _identity(rule: dict) -> str:
     return str(rule.get("ruleId") or rule.get("id") or "")
 

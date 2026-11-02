@@ -8,6 +8,7 @@ import type { Building, Footprint, NormPoint } from '@/types/domain'
 import { VIEW_H, VIEW_W } from '@/core/map/viewport'
 import { useMapInteraction } from '@/core/map/useMapInteraction'
 import CampusBackdrop from './CampusBackdrop.vue'
+import BuildingPlan from './BuildingPlan.vue'
 import MapControls from './MapControls.vue'
 
 const props = withDefaults(
@@ -91,17 +92,6 @@ const archivedViews = computed<BuildingView[]>(() =>
 
 const draftRect = computed(() => (props.draft === null ? null : rectOf(props.draft)))
 
-function fillOf(building: Building): string {
-  if (building.status === 'archived') return '#f0f2f3'
-  return building.dataSource === 'real' ? '#d8ebee' : 'url(#cm-hatch-demo)'
-}
-
-function strokeOf(building: Building): string {
-  if (building.status === 'archived') return '#c6d1d6'
-  if (props.activeId === building.id) return '#0b5762'
-  return building.dataSource === 'real' ? '#0f6e7c' : '#8fa3ac'
-}
-
 </script>
 
 <template>
@@ -151,19 +141,21 @@ function strokeOf(building: Building): string {
           class="bld"
           @pointerdown="onObjectDown($event, () => emit('select', view.building.id))"
         >
-          <rect
-            :x="view.rect.x"
-            :y="view.rect.y"
-            :width="view.rect.width"
-            :height="view.rect.height"
-            :transform="`rotate(${view.building.footprint.rotate} ${view.rect.centerX} ${view.rect.centerY})`"
-            :fill="fillOf(view.building)"
-            :stroke="strokeOf(view.building)"
-            :stroke-width="activeId === view.building.id ? 2.6 : 1.6"
-            :stroke-dasharray="view.building.dataSource === 'real' ? undefined : '7 5'"
-            rx="3"
-          />
           <g :transform="`rotate(${view.building.footprint.rotate} ${view.rect.centerX} ${view.rect.centerY})`">
+            <rect
+              :x="view.rect.x"
+              :y="view.rect.y"
+              :width="view.rect.width"
+              :height="view.rect.height"
+              rx="6"
+              fill="transparent"
+              pointer-events="all"
+            />
+            <BuildingPlan
+              :building="view.building"
+              :box="view.rect"
+              :active="activeId === view.building.id"
+            />
             <text
               :x="view.rect.centerX"
               :y="view.rect.centerY - 6"
@@ -171,10 +163,11 @@ function strokeOf(building: Building): string {
               font-size="13"
               font-weight="600"
               fill="#16232a"
+              pointer-events="none"
             >
               {{ view.building.name }}
             </text>
-            <text :x="view.rect.centerX" :y="view.rect.centerY + 11" text-anchor="middle" font-size="10.5" fill="#5a6b73">
+            <text :x="view.rect.centerX" :y="view.rect.centerY + 11" text-anchor="middle" font-size="10.5" fill="#5a6b73" pointer-events="none">
               {{ view.building.code }}
               <tspan v-if="badges[view.building.id]"> · {{ badges[view.building.id] }} 个测点</tspan>
             </text>

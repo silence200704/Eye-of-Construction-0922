@@ -1,0 +1,11 @@
+{
+  "capturedAt": "2026-10-26T14:07:58.145957+00:00",
+  "bundle": "org.zhutong.mobile",
+  "phase": "home",
+  "result": {
+    "points": 8,
+    "openEvents": 1,
+    "mascotGuide": "opens, dismisses and navigates to live monitoring",
+    "performance": "No FPS claim"
+  }
+}

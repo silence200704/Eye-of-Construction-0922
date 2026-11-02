@@ -9,7 +9,8 @@ import { backendEnabled } from '@/api/http/runtime'
 import type { CommandResult } from '@/api/http/client'
 import { useBackendSessionStore } from '@/stores/backend/session'
 
-export const DATASET_ID = 'demo-main'
+const selected = localStorage.getItem('zhutong-api/dataset-id')
+export const DATASET_ID = selected === 'demo-showcase' ? 'demo-showcase' : 'demo-main'
 let epoch = 1
 
 /** 数据集 epoch 的响应式镜像：复位后问答上下文必须失效。 */

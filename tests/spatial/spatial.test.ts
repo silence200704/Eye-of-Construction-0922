@@ -115,10 +115,10 @@ describe('墙面与贴墙安装', () => {
   })
 
   it('给平面上的点找到最近的可挂载墙面，并算出垂足与距离', () => {
-    // 走廊正中（x 500, y 350）：离上下两面墙各 50，取最近的一面
+    // 走廊正中：离上下两面墙各走廊半宽，取最近的一面
     const mount = mountOnWall(faces, { x: 500, y: 350 })
     expect(mount).not.toBeNull()
-    expect(mount?.distance).toBeCloseTo(50, 6)
+    expect(mount?.distance).toBeCloseTo((FLOOR_PLAN.corridorBottom - FLOOR_PLAN.corridorTop) / 2, 6)
     expect(mount?.inside).toBe(true)
     expect(mount?.withinSpan).toBe(true)
     expect([mount?.face.ny]).toEqual([1])
@@ -129,11 +129,11 @@ describe('墙面与贴墙安装', () => {
     const inCorridor = mountOnWall(faces, { x: 500, y: FLOOR_PLAN.corridorTop })
     expect(inCorridor?.distance).toBeCloseTo(0, 6)
     expect(inCorridor?.face.ny).toBe(1)
-    // 同样贴着 y=300 这堵墙，但站在上排教室里：应取教室那一侧的墙面（法线朝下）
+    // 同样贴着走廊上边这堵墙，但站在上排教室里：应取教室那一侧墙面（法线朝下）
     const inRoom = mountOnWall(faces, { x: 200, y: 250 })
     expect(inRoom?.face.zoneLabel).toBe('西教室')
     expect(inRoom?.face.ny).toBe(-1)
-    expect(inRoom?.distance).toBeCloseTo(50, 6)
+    expect(inRoom?.distance).toBeCloseTo(FLOOR_PLAN.corridorTop - 250, 6)
   })
 
   it('垂足落在墙段之外时如实标注，不假装命中', () => {
@@ -183,10 +183,19 @@ describe('校园模型投影（示例校区档案）', () => {  const model = bu
     eventLevelByPoint: { [P_CRACK]: 'red' },
   })
 
-  it('4 栋楼、8 层已建档楼、8 个测点', () => {
-    expect(model.buildings).toHaveLength(4)
-    expect(model.builtFloorCount).toBe(8)
-    expect(model.buildings.reduce((sum, row) => sum + row.pointCount, 0)).toBe(8)
+  it('5 栋楼、13 层已建档楼、9 个测点', () => {
+    expect(model.buildings).toHaveLength(5)
+    expect(model.builtFloorCount).toBe(13)
+    expect(model.buildings.reduce((sum, row) => sum + row.pointCount, 0)).toBe(9)
+  })
+
+  it('图书馆是第 5 栋，5 层、仅 1 个人工检查点', () => {
+    const library = model.buildings.find((row) => row.building.purpose === '图书馆')
+    expect(library?.building.code).toBe('B05')
+    expect(library?.levels.map((row) => row.floorNo)).toEqual([1, 2, 3, 4, 5])
+    expect(library?.missingFloorNos).toEqual([])
+    expect(library?.pointCount).toBe(1)
+    expect(library?.levels[0].markers[0].point.type).toBe('manual_check')
   })
 
   it('B01 / B02 的第二个层已补上，没有未建档占位层', () => {

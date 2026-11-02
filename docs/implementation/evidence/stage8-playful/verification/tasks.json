@@ -1,0 +1,10 @@
+{
+  "capturedAt": "2026-10-26T14:10:17.243459+00:00",
+  "bundle": "org.zhutong.mobile",
+  "phase": "tasks",
+  "result": {
+    "inspectionEmpty": true,
+    "ordersEmpty": true,
+    "demoTasksCreated": false
+  }
+}

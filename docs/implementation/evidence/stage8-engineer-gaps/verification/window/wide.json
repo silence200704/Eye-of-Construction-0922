@@ -1,0 +1,28 @@
+{
+  "attempts": [
+    "Pura 90 -rotation left/right: success but 1320x2856 unchanged (combined round)",
+    "aa start --ww/--wh: Error 10106107 device does not support window options",
+    "Created temporary foldable GapFold Mate X7 from downloaded image; unfolded to 2210x2416"
+  ],
+  "foldable": {
+    "screen": "2210x2416",
+    "density": 500,
+    "appRootBounds": "[0,122][2210,2416]",
+    "observedAppContentWidthPx": 703,
+    "systemWindowMenu": [
+      "悬浮窗",
+      "分屏",
+      "全景多窗",
+      "关闭"
+    ],
+    "result": "App opened in a phone-width floating/split window; full-width app layout not produced"
+  },
+  "conclusion": "Wide/landscape app layout still unverified; no stretched image used. Temporary instance stopped and deleted.",
+  "screenshots": [
+    "page/window/fold-open.png",
+    "page/window/fold-app-profile.png",
+    "page/window/fold-panorama.png",
+    "page/window/fold-split.png",
+    "page/window/fold-tree.json"
+  ]
+}

@@ -1,0 +1,122 @@
+[
+  {
+    "id": "",
+    "text": "测点详情",
+    "bounds": "[0,137][1320,332]",
+    "type": "TitleBar"
+  },
+  {
+    "id": "__NavdestinationField__BackButton__Back__",
+    "text": "",
+    "bounds": "[56,164][196,304]",
+    "type": "BackButton"
+  },
+  {
+    "id": "__NavdestinationField__Text__MainTitle__",
+    "text": "测点详情",
+    "bounds": "[224,193][504,275]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "模拟vibration监测站",
+    "bounds": "[130,469][944,572]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "FINISH-vibration",
+    "bounds": "[130,614][506,671]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "0.05 m/s² · RMS",
+    "bounds": "[130,713][769,816]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "历史采样，非实时数据",
+    "bounds": "[130,858][621,915]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "比赛演示 · 硬件输入模拟",
+    "bounds": "[130,957][633,1010]",
+    "type": "Text"
+  },
+  {
+    "id": "point-report",
+    "text": "记录这个测点的现场发现",
+    "bounds": "[63,1140][1257,1315]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "设备台账",
+    "bounds": "[130,1445][396,1523]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "模拟vibration传感器 · 未知",
+    "bounds": "[130,1565][721,1622]",
+    "type": "Text"
+  },
+  {
+    "id": "device-state-dev_5a6ff9c51b664154829917000e8e2a89",
+    "text": "连接未知（模拟） · 电量 未知 · 最近上报 未知",
+    "bounds": "[130,1664][1141,1721]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "状态由服务端模拟台账提供；未知不等于在线，无真实硬件心跳。",
+    "bounds": "[130,1763][1177,1869]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "最近载入记录",
+    "bounds": "[63,1999][525,2089]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "R20261029-003",
+    "bounds": "[130,2219][552,2285]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "0.05 m/s² · RMS",
+    "bounds": "[130,2327][616,2405]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "采样 2026/10/29 上午11:33:37",
+    "bounds": "[130,2447][759,2500]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "设备接口（模拟） · 质量有效",
+    "bounds": "[130,2542][724,2595]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "黄色关注",
+    "bounds": "[130,2637][327,2694]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "规则版本 V1.0",
+    "bounds": "[130,2736][395,2758]",
+    "type": "Text"
+  }
+]

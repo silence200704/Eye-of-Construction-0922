@@ -50,7 +50,8 @@ describe('示例数据集下的回答', () => {
   it('空库后重问，同一句话的数字随之归零', async () => {
     const h = await setupHarness(seedInput())
     const before = await h.ask('全校现在监测如何')
-    expect(before.facts.map((row) => row.value)).toContain(String(seedDataset().records.length))
+    const sourceLine = before.facts.find((row) => row.label === '记录来源构成')
+    expect(sourceLine?.value).toContain(`传感器数据（演示）${seedDataset().records.length}`)
 
     const empty = await setupHarness({
       buildings: [makeBuilding()],

@@ -26,7 +26,8 @@ export struct BottomDock {
       this.item(0, '工作台', $rawfile('design/svg/icons/monitoring/campus.svg'));
       this.item(1, '监测', $rawfile('design/svg/icons/monitoring/monitor.svg'));
       this.item(2, '任务', $rawfile('design/svg/icons/field/inspection.svg'));
-      this.item(3, '我的', $rawfile('design/svg/icons/common/identity.svg'));
+      this.item(3, '小瞳', $rawfile('playful/characters/xiaotong-icon.png'));
+      this.item(4, '我的', $rawfile('design/svg/icons/common/identity.svg'));
     }.padding(7).width('94%').constraintSize({ maxWidth: 620 }).backgroundColor(Theme.surface)
       .border({ width: 1.4, color: Theme.line }).borderRadius(27)
       .shadow({ radius: 16, offsetY: 4, color: '#162D5A46' }).margin({ top: 6, bottom: 10 });

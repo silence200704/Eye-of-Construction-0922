@@ -1,0 +1,85 @@
+{
+  "issue": {
+    "id": "iss_a52ce9b10ab24d18ab69c0cd4a54936a",
+    "issueNo": "ISS-20261030-001",
+    "source": "report",
+    "submissionKey": "gap-web-form-issue",
+    "pointId": "pnt_d462d6c50005437ca6b39878165eeada",
+    "buildingId": "bld_e47e9bff5a0740f8b7a1f8a89cded28b",
+    "floorId": "flr_1b43b55d5f9749c883429913855d3ce2",
+    "zoneId": "",
+    "eventId": null,
+    "taskId": null,
+    "maintenanceTaskId": null,
+    "anomalyType": "Web表单验收测试",
+    "description": "缺口补验：用于真实点按Web验收与复查表单，独立测试数据。",
+    "photos": [],
+    "status": "pending_review",
+    "reviewAction": null,
+    "reviewCategory": "",
+    "reviewedAt": null,
+    "reviewedBy": "",
+    "reviewNote": "",
+    "duplicateOf": null,
+    "linkedEventId": null,
+    "linkedFrom": [],
+    "workOrderIds": [],
+    "rechecks": [],
+    "timeline": [
+      {
+        "at": "2026-10-30T13:30:27.225916+00:00",
+        "by": "演示巡检人员",
+        "byRole": "inspector",
+        "action": "提交问题",
+        "detail": "来源：report；缺口补验：用于真实点按Web验收与复查表单，独立测试数据。"
+      }
+    ],
+    "createdAt": "2026-10-30T13:30:27.225916+00:00",
+    "createdBy": "演示巡检人员",
+    "updatedAt": "2026-10-30T13:30:27.225916+00:00",
+    "updatedBy": "演示巡检人员",
+    "rev": 1
+  },
+  "order": {
+    "id": "wo_8fb290c667b643298140aee0e931c123",
+    "orderNo": "WO-20261030-002",
+    "origin": "issue",
+    "issueId": "iss_a52ce9b10ab24d18ab69c0cd4a54936a",
+    "eventId": null,
+    "pointId": "pnt_d462d6c50005437ca6b39878165eeada",
+    "title": "Web表单验收测试（ISS-20261030-001）",
+    "status": "assigned",
+    "assignee": "演示维修人员",
+    "assigneeId": "demo-repair",
+    "assignedBy": "演示学校安全管理人员",
+    "assignedAt": "2026-10-30T13:30:27.291454+00:00",
+    "dueAt": null,
+    "acceptedById": "",
+    "measures": "",
+    "materials": "",
+    "photos": [],
+    "submittedAt": null,
+    "reviews": [],
+    "timeline": [
+      {
+        "at": "2026-10-30T13:30:27.273453+00:00",
+        "by": "演示学校安全管理人员",
+        "byRole": "safety",
+        "action": "创建工单",
+        "detail": "由问题 ISS-20261030-001 审核转维修生成，待派工"
+      },
+      {
+        "at": "2026-10-30T13:30:27.291454+00:00",
+        "by": "演示学校安全管理人员",
+        "byRole": "safety",
+        "action": "派工",
+        "detail": "缺口补验派工"
+      }
+    ],
+    "createdAt": "2026-10-30T13:30:27.273453+00:00",
+    "createdBy": "演示学校安全管理人员",
+    "updatedAt": "2026-10-30T13:30:27.291454+00:00",
+    "updatedBy": "演示学校安全管理人员",
+    "rev": 2
+  }
+}

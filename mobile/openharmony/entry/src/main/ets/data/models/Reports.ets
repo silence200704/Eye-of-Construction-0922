@@ -74,9 +74,21 @@ export interface IssueRecord {
   reviewAction?: string | null;
   reviewCategory?: string;
   reviewNote?: string;
+  eventId?: string | null;
+  duplicateOf?: string | null;
+  linkedEventId?: string | null;
+  workOrderIds?: string[];
+  rechecks?: RecheckRound[];
+  timeline?: IssueTimeline[];
   photos: string[];
   rev: number;
 }
+
+export interface RecheckRound {
+  subject: string; owner: string; dueDate: string; outcomeNote?: string;
+  outcome?: string | null; note?: string; concludedAt?: string | null;
+}
+export interface IssueTimeline { at: string; by: string; action: string; detail: string; }
 
 export interface ReportResult {
   issue?: IssueRecord;

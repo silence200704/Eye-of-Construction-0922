@@ -1,0 +1,6 @@
+{
+  "role": "inspector",
+  "previewResidue": false,
+  "feedback": [],
+  "note": "Preview cleared when leaving page; mid-flight identity switch not achievable over loopback."
+}

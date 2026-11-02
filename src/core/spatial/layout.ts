@@ -44,8 +44,9 @@ export const FLOOR_PLAN = {
   right: 910,
   top: 110,
   bottom: 590,
-  corridorTop: 300,
-  corridorBottom: 400,
+  // 走廊从 100 放宽到 180：3D 里绕轴/拖动时，两侧墙面上的传感器有足够前方空间可见
+  corridorTop: 260,
+  corridorBottom: 440,
 } as const
 
 const FLOOR_COLS = [90, 370, 640, 910] as const
@@ -199,15 +200,6 @@ export function mountOnWall(faces: WallFace[], at: { x: number; y: number }, spa
     if (mount.inside && mount.withinSpan && (bestInside === null || distance < bestInside.distance)) bestInside = mount
   }
   return bestInside ?? bestAny
-}
-
-/** 垂足相对墙段起点的比例（0~1），用于沿墙排布时错开位置 */
-export function alongWallRatio(mount: WallMount): number {
-  const dx = mount.face.x2 - mount.face.x1
-  const dy = mount.face.y2 - mount.face.y1
-  const len2 = dx * dx + dy * dy
-  if (len2 === 0) return 0
-  return Math.min(1, Math.max(0, ((mount.x - mount.face.x1) * dx + (mount.y - mount.face.y1) * dy) / len2))
 }
 
 /** 内容坐标 → 该楼层局部平面坐标（-0.5~0.5），3D 与 2D 因此指向同一个位置 */

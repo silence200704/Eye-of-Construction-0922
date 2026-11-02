@@ -13,10 +13,21 @@ import { PhotoOpen, SavedPhoto } from '../../core/media/PhotoReader';
 @Component
 export struct IssuesPage {
   @Prop state: AppState;
+  @Prop filter: string = 'all';
+  @State page: number = 0;
+  @State search: string = '';
+  visibleIssues(): IssueRecord[] {
+    return this.state.workspace.issues.filter((row) => (this.filter === 'all' || (this.filter === 'supplement' ?
+      row.reviewAction === 'need_evidence' && this.state.workspace.supplementableIds.includes(row.id) :
+      this.filter === 'pending_recheck' ? ['pending_recheck', 'observing'].includes(row.status) : row.status === this.filter)) &&
+      `${row.issueNo} ${row.anomalyType} ${row.description}`.includes(this.search));
+  }
   @State choosing: boolean = false;
   onNew: (target: ReportTarget) => void = () => {};
   onRefresh: () => void = () => {};
   onSupplement: (id: string) => void = () => {};
+  onOpen: (id: string) => void = () => {};
+  onAsk: (issueId: string, label: string) => void = () => {};
   onPhoto: (request: PhotoOpen) => Promise<SavedPhoto | null> = async () => null;
   onClearPhotos: () => void = () => {};
   @Prop feedback: string = '';
@@ -45,6 +56,7 @@ export struct IssuesPage {
       Text(label(issue.status))
         .fontSize(13).fontColor(Theme.brand);
       Text(issue.description).fontSize(14).fontColor(Theme.secondary);
+      PlayButton({ title: '打开详情，接续审核或复查', secondary: true, onAction: () => this.onOpen(issue.id), controlId: `issue-open-${issue.id}` });
       Text(`关联照片 ${issue.photos.length} 张 · ${issue.source === 'sensor' ? '预警转单' : issue.source === 'maintenance' ? '保养发现' : issue.taskId ? '巡检发现' : '独立上报'}`)
         .fontSize(12).fontColor(Theme.brand);
       if (issue.reviewNote) { Text(`审核反馈：${issue.reviewNote}`).fontSize(13).fontColor(Theme.warning); }
@@ -53,6 +65,8 @@ export struct IssuesPage {
           onAction: () => this.onSupplement(issue.id) });
       }
       SavedPhotos({ ids: issue.photos, issueId: issue.id, onOpen: this.onPhoto, onClear: this.onClearPhotos });
+      PlayButton({ title: '问小瞳：这条问题怎么办', secondary: true, controlId: `issue-ask-${issue.id}`,
+        onAction: () => this.onAsk(issue.id, `${issue.issueNo} ${issue.anomalyType}`) });
     }
   }
 
@@ -64,7 +78,11 @@ export struct IssuesPage {
         PlayButton({ title: this.choosing ? '收起位置选择' : '记录新的现场发现', controlId: 'issue-new',
           onAction: () => { this.choosing = !this.choosing; } });
         if (this.choosing) { this.locations(); }
-        ForEach(this.state.workspace.issues, (issue: IssueRecord) => { this.issueCard(issue); }, (issue: IssueRecord) => issue.id);
+        TextInput({ text: this.search, placeholder: '搜索问题编号、类型或描述' }).height(52).onChange((value: string) => { this.search = value; this.page = 0; });
+        Text(`当前匹配 ${this.visibleIssues().length} 条`).fontSize(13).fontColor(Theme.secondary);
+        ForEach(this.visibleIssues().slice(this.page * 20, (this.page + 1) * 20), (issue: IssueRecord) => { this.issueCard(issue); }, (issue: IssueRecord) => issue.id);
+        PlayButton({ title: '上一页问题', secondary: true, available: this.page > 0, onAction: () => { this.page--; } });
+        PlayButton({ title: '下一页问题', secondary: true, available: (this.page + 1) * 20 < this.visibleIssues().length, onAction: () => { this.page++; } });
         if (!this.state.workspace.issues.length) {
           AppCard() { Text('暂无当前范围的问题记录。发现异常时，可从上方开始记录。').fontSize(15).fontColor(Theme.secondary); }
         }

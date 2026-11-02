@@ -1,0 +1,15 @@
+{
+  "severity": "P1",
+  "area": "系统字号放大",
+  "objectId": "org.zhutong.mobile",
+  "systemSetting": "设置→字体大小和界面缩放→字体大小=特大 (5.0)",
+  "observed": "EntryAbility ZhutongUX 日志仍为 fontScale=1；强制停止并重启应用后仍 fontScale=1；同一界面截图字节数与标准字号一致（1,316,071 bytes）。",
+  "rootCause": "AppScope 未提供 configuration.json（fontSizeScale=followSystem）且 app.json5 未引用 configuration，应用不跟随系统字体缩放。",
+  "minimalFix": "新增 AppScope/resources/base/profile/configuration.json：{\"configuration\":{\"fontSizeScale\":\"followSystem\",\"fontSizeMaxScale\":\"2\"}}，并在 AppScope/app.json5 增加 \"configuration\": \"$profile:configuration\"。",
+  "impact": "S7A-05/S8-14 字体放大要求无法满足；老年/低视力用户调大系统字号后应用文字不变。",
+  "evidence": [
+    "page/settings-font/screen-large.png",
+    "page/ux/font-large-home/screen.png",
+    "builds/web-verify.log"
+  ]
+}

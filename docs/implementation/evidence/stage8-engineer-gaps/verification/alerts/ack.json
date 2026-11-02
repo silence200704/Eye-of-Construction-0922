@@ -1,0 +1,21 @@
+{
+  "eventId": "evt_6c1b6742e8b44a2cb618ea67cdd2c4bf",
+  "before": {
+    "events": 3,
+    "issues": 1,
+    "work_orders": 2,
+    "media_files": 4,
+    "attachments": 4,
+    "audits": 73,
+    "operation_receipts": 64
+  },
+  "after": {
+    "events": 3,
+    "issues": 1,
+    "work_orders": 2,
+    "media_files": 4,
+    "attachments": 4,
+    "audits": 74,
+    "operation_receipts": 65
+  }
+}

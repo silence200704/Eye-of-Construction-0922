@@ -1,0 +1,122 @@
+[
+  {
+    "id": "",
+    "text": "维修手账",
+    "bounds": "[0,137][1320,332]",
+    "type": "TitleBar"
+  },
+  {
+    "id": "__NavdestinationField__BackButton__Back__",
+    "text": "",
+    "bounds": "[56,164][196,304]",
+    "type": "BackButton"
+  },
+  {
+    "id": "__NavdestinationField__Text__MainTitle__",
+    "text": "维修手账",
+    "bounds": "[224,193][504,275]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "指定维修人：演示维修人员",
+    "bounds": "[130,332][983,377]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "实际接单人：演示维修人员",
+    "bounds": "[130,419][983,502]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "截止 未提供",
+    "bounds": "[130,544][451,615]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "维修措施：模拟复紧固定件并完成外观检查。",
+    "bounds": "[130,657][1125,823]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "已关联 3 张办理/验收照片。",
+    "bounds": "[130,865][892,936]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "工单已验收，关联问题仍须按复查结论办理。",
+    "bounds": "[63,1066][1200,1232]",
+    "type": "Text"
+  },
+  {
+    "id": "order-reload",
+    "text": "",
+    "bounds": "[63,1295][1257,1488]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "刷新办理进度",
+    "bounds": "[123,1344][1197,1439]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "已提交的现场证据",
+    "bounds": "[130,1618][902,1731]",
+    "type": "Text"
+  },
+  {
+    "id": "saved-photo-0",
+    "text": "",
+    "bounds": "[130,1773][1190,1966]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "查看第 1 张照片",
+    "bounds": "[190,1822][1130,1917]",
+    "type": "Text"
+  },
+  {
+    "id": "saved-photo-1",
+    "text": "",
+    "bounds": "[130,2008][1190,2201]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "查看第 2 张照片",
+    "bounds": "[190,2057][1130,2152]",
+    "type": "Text"
+  },
+  {
+    "id": "saved-photo-2",
+    "text": "",
+    "bounds": "[130,2243][1190,2436]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "查看第 3 张照片",
+    "bounds": "[190,2292][1130,2387]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "维修前照片",
+    "bounds": "[130,2478][511,2567]",
+    "type": "Text"
+  },
+  {
+    "id": "saved-photo-preview",
+    "text": "",
+    "bounds": "[130,2609][1190,2758]",
+    "type": "Image"
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "wrongPort": "18081",
+  "networkErrorVisible": true,
+  "oldIdentityCleared": true,
+  "oldCountsCleared": true,
+  "processRestarted": true,
+  "lastSuccessfulConnectionRestored": true,
+  "restoredRole": "safety",
+  "visiblePoints": 8,
+  "openEvents": 1,
+  "failedAddressWasNotPersisted": true
+}

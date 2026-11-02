@@ -1,0 +1,19 @@
+{
+  "attempts": [
+    {
+      "command": "-rotation left",
+      "reported": "Scenario simulation success",
+      "screen": "1320x2856"
+    },
+    {
+      "command": "-rotation right",
+      "reported": "Scenario simulation success",
+      "screen": "1320x2856"
+    }
+  ],
+  "conclusion": "Wide/landscape not produced; unverified",
+  "screenshots": [
+    "page/window/rotation-left.png",
+    "page/window/rotation-right.png"
+  ]
+}

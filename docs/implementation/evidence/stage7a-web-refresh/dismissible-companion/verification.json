@@ -1,0 +1,16 @@
+{
+  "base": "http://127.0.0.1:8080",
+  "checks": [
+    "Close by keyboard hides only the card and focuses restore",
+    "Dismissal survives reload",
+    "Dismissal survives navigation",
+    "Restore shows card and focuses actual assistant entry",
+    "Restored state survives reload",
+    "Existing assistant entry still opens panel",
+    "Sidebar collapse and expand preserve card state",
+    "Card remains dismissible when preference storage is blocked"
+  ],
+  "errors": [],
+  "preferenceKey": "zhutong-ui-companion-dismissed",
+  "scope": "Browser display preference only; no business data or assistant sessions modified."
+}

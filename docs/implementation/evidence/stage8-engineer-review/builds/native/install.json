@@ -1,0 +1,9 @@
+{
+  "versionName": "0.8.0-dev",
+  "versionCode": 1000000,
+  "apiTarget": 20,
+  "apiCompatible": 20,
+  "apiReleaseType": "Beta1",
+  "appProvisionType": "debug",
+  "bundleName": null
+}

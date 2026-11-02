@@ -1,0 +1,51 @@
+{
+  "http": 200,
+  "body": {
+    "ok": true,
+    "data": {
+      "id": "pnt_d462d6c50005437ca6b39878165eeada",
+      "code": "FINISH-crack",
+      "name": "模拟crack监测站",
+      "buildingId": "bld_e47e9bff5a0740f8b7a1f8a89cded28b",
+      "floorId": "flr_1b43b55d5f9749c883429913855d3ce2",
+      "zoneId": "",
+      "type": "crack",
+      "metric": "crack_width",
+      "coord": {
+        "x": 0.4,
+        "y": 0.4
+      },
+      "nfc": {
+        "code": "TAG-UNIFIED-CRACK",
+        "version": 2,
+        "boundAt": "2026-10-30T03:49:54.167931+00:00",
+        "boundBy": "演示学校安全管理人员",
+        "remark": "换绑标签，历史打卡保留当时编号与版本"
+      },
+      "planVersion": 1,
+      "locationHistory": [],
+      "owner": "",
+      "backupPerson": "",
+      "installDate": "",
+      "dataSource": "demo",
+      "remark": "",
+      "status": "archived",
+      "archiveReason": "缺口补验：暂留照片途中收回点位范围",
+      "archivedAt": "2026-10-30T13:40:51.473567+00:00",
+      "archivedBy": "演示学校安全管理人员",
+      "createdAt": "2026-10-29T03:51:23.180573+00:00",
+      "createdBy": "演示学校安全管理人员",
+      "updatedAt": "2026-10-30T13:40:51.473567+00:00",
+      "updatedBy": "演示学校安全管理人员",
+      "rev": 3
+    },
+    "rev": 3,
+    "replayed": false,
+    "meta": {
+      "requestId": "579e08fc5b7d4bdb825cd938f23bfa40",
+      "datasetEpoch": 1
+    }
+  },
+  "archiveSeconds": 0.04,
+  "point": "pnt_d462d6c50005437ca6b39878165eeada"
+}

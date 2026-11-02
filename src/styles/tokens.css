@@ -12,8 +12,8 @@
 
   /* 纸面层 */
   --paper: #ffffff;
-  --canvas: #f5f7f8;
-  --canvas-deep: #edf2f4;
+  --canvas: #f3f6f2;
+  --canvas-deep: #eaf0eb;
 
   /* 品牌青（仪器感，非通用后台蓝） */
   --brand-700: #0b5762;
@@ -23,11 +23,11 @@
   --brand-050: #eaf5f7;
 
   /* 描边与文字 */
-  --line: #dfe5e8;
-  --line-strong: #c6d1d6;
+  --line: #e0e8e3;
+  --line-strong: #c8d7d0;
   --text: #16232a;
   --text-2: #5a6b73;
-  --text-3: #637780;
+  --text-3: #586e73;
 
   /* 业务状态色 */
   --st-red: #c0362c;
@@ -42,13 +42,13 @@
   --st-gray-bg: #eef1f3;
 
   /* 尺寸 */
-  --r-sm: 8px;
-  --r-md: 14px;
-  --r-lg: 20px;
-  --h-control: 40px;
-  --h-control-sm: 34px;
-  --sidebar-w: 232px;
-  --topbar-h: 64px;
+  --r-sm: 12px;
+  --r-md: 22px;
+  --r-lg: 28px;
+  --h-control: 42px;
+  --h-control-sm: 36px;
+  --sidebar-w: 248px;
+  --topbar-h: 84px;
 
   /* 字体 */
   --font-sans: "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei UI", "Microsoft YaHei",
@@ -57,5 +57,13 @@
 
   --shadow-pop: 0 16px 48px rgba(9, 18, 23, 0.18);
   --focus-ring: 0 0 0 3px rgba(20, 134, 149, 0.18);
-  --shadow-card: 0 2px 6px rgba(9, 18, 23, 0.025);
+  --shadow-card: 0 4px 24px -12px rgba(25, 66, 54, 0.14);
+  --shadow-lift: 0 12px 28px -14px rgba(25, 66, 54, 0.22);
+  --motion-fast: 120ms;
+  --motion-ui: 200ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --accent-apricot: #f4ddac;
+  --accent-sky: #e6f0f6;
+  --accent-mint: #e0eee4;
 }

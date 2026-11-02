@@ -5,7 +5,6 @@ from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta, timezone
 
 from .catalog import CSV_QUALITY_TEXT, CSV_VALUE_COLUMNS, has_numeric_readings, metric_def
-from .engine import parse_iso
 from .rules import rule_for_point
 from .validation import check_reading
 
@@ -309,7 +308,3 @@ def stale_marker(context: dict) -> dict:
     )
     records = sorted((row["id"], row.get("recordRevision", 0)) for row in context["existing"])
     return {"points": points, "rules": rules, "baselines": baselines, "records": records}
-
-
-def parse_iso_safe(value: str) -> bool:
-    return parse_iso(value) is not None

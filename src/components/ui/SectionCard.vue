@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { vEdgeLight } from '@/directives/edgeLight'
 defineProps<{
   title: string
   sub?: string
@@ -8,10 +9,10 @@ defineProps<{
 </script>
 
 <template>
-  <section class="card" :class="{ 'card--marked': marked, 'card--flush': flush }">
+  <section v-edge-light class="card" :class="{ 'card--marked': marked, 'card--flush': flush }">
     <div class="card-head">
       <div>
-        <div class="card-title">{{ title }}</div>
+        <h2 class="card-title">{{ title }}</h2>
         <div v-if="sub" class="card-sub">{{ sub }}</div>
       </div>
       <div class="row">

@@ -1,0 +1,37 @@
+{
+  "http": 409,
+  "body": {
+    "ok": false,
+    "error": {
+      "code": "REVISION_CONFLICT",
+      "message": "对象已被其他操作修改，请刷新后重试",
+      "retryable": false,
+      "details": {
+        "expected": 4,
+        "actual": 5
+      }
+    },
+    "meta": {
+      "requestId": "f1d120dec7214d2ea72aa10659817682"
+    }
+  },
+  "before": {
+    "events": 2,
+    "issues": 1,
+    "work_orders": 2,
+    "media_files": 4,
+    "attachments": 4,
+    "audits": 71,
+    "operation_receipts": 62
+  },
+  "after": {
+    "events": 2,
+    "issues": 1,
+    "work_orders": 2,
+    "media_files": 4,
+    "attachments": 4,
+    "audits": 71,
+    "operation_receipts": 62
+  },
+  "sameCounts": true
+}

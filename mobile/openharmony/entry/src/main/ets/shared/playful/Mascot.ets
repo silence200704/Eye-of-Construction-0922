@@ -2,7 +2,7 @@ import curves from '@ohos.curves';
 
 @Component
 export struct Mascot {
-  @Prop art: Resource = $rawfile('playful/characters/scout.svg');
+  @Prop art: Resource = $rawfile('playful/characters/xiaotong.png');
   @Prop dimension: number = 132;
   @Prop interactive: boolean = false;
   @Prop floating: boolean = false;

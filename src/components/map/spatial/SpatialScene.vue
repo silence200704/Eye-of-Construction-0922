@@ -20,6 +20,7 @@ const props = defineProps<{
   activeLevelIndex: number
   selectedPointId: string
   selectedSummary: string
+  selectedZoneKey: string
   selectedDevice: Device | null
   focusToken: number
 }>()
@@ -57,11 +58,22 @@ function pushUpdate(): void {
     activeLevelIndex: props.activeLevelIndex,
     selectedPointId: props.selectedPointId,
     selectedSummary: props.selectedSummary,
+    selectedZoneKey: props.selectedZoneKey,
   })
 }
 
+let pointerDownAt: { x: number; y: number } | null = null
+
 function onPointerDown(event: PointerEvent): void {
-  if (handle === null) return
+  pointerDownAt = { x: event.clientX, y: event.clientY }
+}
+
+function onPointerUp(event: PointerEvent): void {
+  const down = pointerDownAt
+  pointerDownAt = null
+  if (handle === null || down === null) return
+  // 只有几乎没移动的点击才拾取；拖动/平移交给 OrbitControls，不误选房间或设备。
+  if (Math.hypot(event.clientX - down.x, event.clientY - down.y) > 5) return
   const hit = handle.pick(event.clientX, event.clientY)
   if (hit !== null) emit('pick', hit)
 }
@@ -95,7 +107,7 @@ onMounted(async () => {
 })
 
 watch(
-  () => [props.model, props.scope, props.mode, props.activeLevelIndex, props.selectedPointId, props.selectedSummary],
+  () => [props.model, props.scope, props.mode, props.activeLevelIndex, props.selectedPointId, props.selectedSummary, props.selectedZoneKey],
   pushUpdate,
   { deep: false },
 )
@@ -115,7 +127,13 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="scene">
-    <div ref="host" class="canvas" @pointerdown="onPointerDown" />
+    <div
+      ref="host"
+      class="canvas"
+      @pointerdown="onPointerDown"
+      @pointerup="onPointerUp"
+      @pointercancel="pointerDownAt = null"
+    />
     <div v-if="state === 'ready'" class="scene-meta" aria-hidden="true">
       <span class="scene-meta__dot" />{{ scope.kind === 'campus' ? '校园总览' : '楼层剖面' }} · 档案示意
     </div>

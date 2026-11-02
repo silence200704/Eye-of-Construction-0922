@@ -1,0 +1,373 @@
+{
+  "capturedAt": "2026-10-30",
+  "head": "bab31e0a3ef555e17e6cdfbda7c9f7b470567bbc",
+  "branch": "codex/fullstack-competition",
+  "fileCount": 73,
+  "files": [
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/core/alerts/EventSession.ets",
+      "sha256": "e4cf913985247163da75581c3ebae52daa6e77a3a12a617390f9c97fc7b382d7",
+      "bytes": 6522
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/core/alerts/SoundCue.ets",
+      "sha256": "2752b02caa8ce692646f76d050b4a0214608fd43c85152bcbb8726bf61615fa9",
+      "bytes": 1702
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/core/field/CheckDraft.ets",
+      "sha256": "18a47fd4f0ca8309d8aa583ea55043cda0258e51995d189009cbf42212aaa1b4",
+      "bytes": 4022
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/core/field/OrderPolicy.ets",
+      "sha256": "d37cd646f98c9de69ce9ae7d6ec643684184d852df4546e81dcdc3344f2abe74",
+      "bytes": 555
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/core/field/TaskCommander.ets",
+      "sha256": "1ee48deffb2572326ef096e359d56882f51ccc0435b20c163240e8bc1ca38217",
+      "bytes": 7237
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/core/identity/authorization.ets",
+      "sha256": "79884ce3ae2872adf872e9ea768f98e5919efebb75da6788c399e0a9a680d37a",
+      "bytes": 408
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/core/identity/SessionGate.ets",
+      "sha256": "e122b75d0f322e4b965c02ecf892e4d4870b3699dcf593e2733a871d90136bdb",
+      "bytes": 218
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/core/identity/WorkspaceController.ets",
+      "sha256": "350f653f506d295d1ac91cd166dd9d8b76e90a06116fb9e2c2551abcea4398d2",
+      "bytes": 14220
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/core/media/PhotoReader.ets",
+      "sha256": "f39528daa52190b44da32ecb226bd2bf21ac350fa796624326a3022290bc771b",
+      "bytes": 3500
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/core/media/PhotoSelector.ets",
+      "sha256": "ab31823423590f023fdb06d709b87f9a1c89add947d8813c38fb3815ddd219d0",
+      "bytes": 4701
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/core/media/PreviewFiles.ets",
+      "sha256": "af5c73abd0ea1e785127f0617850ae1327d0be566ca0f5930c0a0488a3a78f39",
+      "bytes": 1459
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/core/monitoring/InsightPaging.ets",
+      "sha256": "854a58626deeac0d13568e3c2d5edae433f817dd1bebe4c6f4fc3333c6c7ab70",
+      "bytes": 779
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/core/monitoring/Selectors.ets",
+      "sha256": "7f7dc8d4d1589981963c072e6019c04c6b11d5d2e784406f507b50951819fcdf",
+      "bytes": 2749
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/core/network/ApiError.ets",
+      "sha256": "97e2b4fa95eaaa8065d4a7b4cd032c8fad66919186b3b8ef308102cbfe02361b",
+      "bytes": 395
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/core/network/BackendClient.ets",
+      "sha256": "e9031a62bd76b6b110d2da078c716f9d9c1efc0627d8c4d9ec04843ff1ba2188",
+      "bytes": 4653
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/core/network/Endpoint.ets",
+      "sha256": "cc4794dbf19cf506e960c9655878663f02a3629773050e4640f2b0396a95f6eb",
+      "bytes": 702
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/core/report/Handling.ets",
+      "sha256": "ff9331d7771474b798fa9dec1cad093e9b5b45db56d29fcdb0d627d82bccb9cc",
+      "bytes": 3233
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/core/report/ReportDraft.ets",
+      "sha256": "685b49f1e4cd7f9030889df2f87c9af65a6bc5439dd27804ddab6dbe70cd8900",
+      "bytes": 3686
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/core/report/ReportLease.ets",
+      "sha256": "5bcd0b49e8f16cde0e11103c856b1ea460679d230e72bd5312726b98ffbb26f8",
+      "bytes": 2511
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/core/report/ReportSession.ets",
+      "sha256": "2486c03e65ee232888f23fac4e04c2a479d932fb283127a0241ca1b1e78cbd51",
+      "bytes": 12243
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/core/report/ReportView.ets",
+      "sha256": "9b5205b71ca6d07f5712cdbc335bec989dcd3f67fb670d0bcd03b8a7e5d9129c",
+      "bytes": 1301
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/core/storage/AppearancePreferences.ets",
+      "sha256": "e2e12185e0d59a83c704fddc7fa60b9860ca113bd7da68e078abe10719d54a9d",
+      "bytes": 819
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/core/storage/ConnectionPreferences.ets",
+      "sha256": "641891a89e4ea57291c7b00a0a1d24ebb7eb8e35826f218700992f0c7fdb4268",
+      "bytes": 1122
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/data/models/Http.ets",
+      "sha256": "2f9081b28476bf1a4f1a5724c5a0a889e58a39ef08712323ef41f5d6b3b521cd",
+      "bytes": 749
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/data/models/Identity.ets",
+      "sha256": "7f4be5a44c01db1d774a7d4d65a584e2e58241a9b973b69616af93e38d67f67b",
+      "bytes": 329
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/data/models/Inspection.ets",
+      "sha256": "4c2e9a318f1283c118651f3c731c4c2c128da020ce5b691620352e01c8b9e1b3",
+      "bytes": 729
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/data/models/Monitoring.ets",
+      "sha256": "900e86f912a0fc4c5bb699a522802d9f30e8a539b2a910b061c6285f79a8a062",
+      "bytes": 1844
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/data/models/online/Insights.ets",
+      "sha256": "bc76c7dcfe9f65780b3f29798400c830bca938b1289adb45d8a150fcae3118af",
+      "bytes": 518
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/data/models/Reports.ets",
+      "sha256": "605aab08d9bdc0ea5c94653c44009829d5f709a9958ea90b8547ea937e1cd56f",
+      "bytes": 2656
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/data/models/Tasks.ets",
+      "sha256": "7cff986cd1ab5697be2960681bc64c44bdcfceb062931d369b2fec271b06fe61",
+      "bytes": 1684
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/data/models/Workspace.ets",
+      "sha256": "340c38945f9787696b74bc3436d68213af05237a702e0c17b0618245643f2596",
+      "bytes": 2411
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/data/repositories/WorkspaceRepository.ets",
+      "sha256": "aecae9a8118d38f1484010df45603f8e846e28b676c55bb169b8c67b4fe708ed",
+      "bytes": 2309
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/entryability/EntryAbility.ets",
+      "sha256": "3a22655ae5e27238452a4cb1913f3648a2257711d3e6d84b442063d421c34827",
+      "bytes": 1140
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/features/alerts/EventDetail.ets",
+      "sha256": "c25b2135299d225be476a5bb112feb6a45418fdfc66b8dd5213a97ceda6be5f3",
+      "bytes": 8049
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/features/alerts/SignalPreview.ets",
+      "sha256": "4d33845598a16382f63950739e4a77953a381144b0e1c811b287b6efdbb237bb",
+      "bytes": 2223
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/features/monitoring/MonitoringPage.ets",
+      "sha256": "6dc6769d8fba488fc78deee3d97d6e679cb63e7a2aa02de18636f30214a0b3ed",
+      "bytes": 7999
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/features/monitoring/PointDetail.ets",
+      "sha256": "14c6fcb34be9e13cd379024f5a342139979855372bad2e9b7edd23dfa6ee3fb2",
+      "bytes": 4507
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/features/monitoring/ScopePicker.ets",
+      "sha256": "7ecaf83561ab831017b37cf58ea759e36fde33def08f07905d384ddeebcd3886",
+      "bytes": 1912
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/features/profile/IdentityTile.ets",
+      "sha256": "e1a23794581df3b08554022ea68b039f2f9e6b8c71dfd052dc8056f7766d0bd2",
+      "bytes": 1744
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/features/profile/ProfilePage.ets",
+      "sha256": "5309c281b46f479c3c18ebad384a79e6c85bfe49da579e3c2bef47453917a49a",
+      "bytes": 6609
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/features/reports/HandlingFields.ets",
+      "sha256": "be06a4f6c6ae2f6bff699ece9f0e60076b8ee42138415b1d6cc37c19b4efba6b",
+      "bytes": 2883
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/features/reports/IssuesPage.ets",
+      "sha256": "c9314fce3fe47c0f703e1a5ff2921d1e92feef263360a9965d29bf5ba2108518",
+      "bytes": 4410
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/features/reports/PhotoCards.ets",
+      "sha256": "d046ec7c1175a4fb30915f3391a1bdb4e476d7b588769b287a9fc6a6ac94f6ff",
+      "bytes": 4097
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/features/reports/ReportPage.ets",
+      "sha256": "ebc3001f3ff757b04d9fbb2c500e6ed747b91c90c561a8d19febf5b6e2b5cc5c",
+      "bytes": 7749
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/features/reports/SavedPhotos.ets",
+      "sha256": "8d8b96b21a26f992e64594d0a6657bf01928a5a1421671a566bdb0edb76d2d48",
+      "bytes": 2649
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/features/statistics/CountCard.ets",
+      "sha256": "cedbbb39df01e40c2648597681b45ab65bc4c1c6081f098bbeab42fcf4a7bba7",
+      "bytes": 2562
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/features/statistics/StatisticsPage.ets",
+      "sha256": "41388caa369c76ad8df975cb48ad17564929d97f4ea0d60d46b58d0e07f8a2dd",
+      "bytes": 4683
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/features/tasks/CheckEditor.ets",
+      "sha256": "351d0a864e889ff3db6cc34e5958f546f410b6bdf54b2c9004e53a8d890b6a04",
+      "bytes": 8897
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/features/tasks/CheckInForm.ets",
+      "sha256": "19533b9d2f57a12cc8d873263908cf61d5898d2190fc005f6773f7c059e3a9b3",
+      "bytes": 2861
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/features/tasks/ChecklistForm.ets",
+      "sha256": "b392fc922ce5addf0094cc77133e1829aebc3e7a0303720201925a13b5fb9755",
+      "bytes": 2683
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/features/tasks/OrderDetail.ets",
+      "sha256": "dcfdedf65abb0279b70e3262e65038b69ad1f32ed572b217eed81e27dddc50af",
+      "bytes": 4945
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/features/tasks/TaskDetail.ets",
+      "sha256": "1fb241c67c2db0bed62745d740352f0b3456e091715058693f8180ec18f613df",
+      "bytes": 6185
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/features/tasks/TaskFilters.ets",
+      "sha256": "4aa4c7eb82a7ed64b9a305729e6f7f35706863a61a4b90fcfd83b26964cbae84",
+      "bytes": 2029
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/features/tasks/TasksPage.ets",
+      "sha256": "6d0361a7da16cbcad1a9aaab387cc6fc79f8c1d7614d7f39e26ba3dad00b7baf",
+      "bytes": 5320
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/features/workbench/WorkbenchPage.ets",
+      "sha256": "e09670957ef941d2d488f4b6314011a13c9033488a972b79da3bc3a2f334e5a0",
+      "bytes": 4024
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/pages/Index.ets",
+      "sha256": "29ec5c8edb28a7d5b4a39e12d4c2170dde39d5ce1ddcb11eb930ebd3cb7ce464",
+      "bytes": 11275
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/shared/components/AppCard.ets",
+      "sha256": "4b74cda7e73ac595bf56c6fd398b1d72540f6cef0bad74539e5bc09ed153a97d",
+      "bytes": 460
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/shared/components/ConnectionState.ets",
+      "sha256": "f300bf00cbef806f1402948b44c27a29e947b1ae8a16506f353ecb15f655976f",
+      "bytes": 1938
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/shared/components/MetricTile.ets",
+      "sha256": "aac43a7bfa548bd09556a055dd75a1625a38a1e74e4919c5362f17f71403402e",
+      "bytes": 1471
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/shared/format/display.ets",
+      "sha256": "9f45fe07f3359b8c99c2ce691ecfd324be9f2a7b874f3c18008c2c50b3b2c07c",
+      "bytes": 4214
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/shared/layout/ReadingLayout.ets",
+      "sha256": "7ef403d3a6e76e695b6669766f7710a35a68d87c21e316a853bc70e03bc51344",
+      "bytes": 471
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/shared/playful/ActionTile.ets",
+      "sha256": "67275b9a6c57219f4427eca6f4205be750e9f4fe4c06ba34c3150feeb601a049",
+      "bytes": 1524
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/shared/playful/BottomDock.ets",
+      "sha256": "52848c0b095a88ff3c64bca057bc8f2a5d22861035d4261c885b9bfcb2a0b90d",
+      "bytes": 1819
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/shared/playful/EmptyBuddy.ets",
+      "sha256": "52133f654c0d37bb78625b5406b4330fa22a3b35d79a59e0a9a4590572c3013a",
+      "bytes": 796
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/shared/playful/Mascot.ets",
+      "sha256": "f13020d057c98a0793f9b8c0d8601739d2bc56d5ef8545f1574179de14edae63",
+      "bytes": 1447
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/shared/playful/PageHeading.ets",
+      "sha256": "4bd5e514e3dba19538bb0f66f5e152fbfb9f9e114789e76bc8b4051884097b9e",
+      "bytes": 856
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/shared/playful/PageStage.ets",
+      "sha256": "a02a2b6a37c369694e694e2e14dba33894cccbc2b732dca487a4f89abcb8a1bd",
+      "bytes": 729
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/shared/playful/PlayButton.ets",
+      "sha256": "55c90e937bffe9e3ba6f5145ce1a37091d4a01e3df5b70f04e192ea0314453d0",
+      "bytes": 1489
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/shared/playful/StoryHero.ets",
+      "sha256": "4b2a79aedeadca7181011bf8dc5039907580ba35413aa14f5399184a2c6dd443",
+      "bytes": 3141
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/shared/state/AppState.ets",
+      "sha256": "adc194b927ed2e01d4363347df11ea9b0fdc7b72adaf929a67f3cc1c44550743",
+      "bytes": 912
+    },
+    {
+      "path": "mobile/openharmony/entry/src/main/ets/shared/theme/Theme.ets",
+      "sha256": "d08cd0cf9b5717ded872ac2db41b8da5aacf95130717b5f044c2c8645fc2fd78",
+      "bytes": 711
+    },
+    {
+      "path": "mobile/openharmony/AppScope/app.json5",
+      "sha256": "fa0d7d1266ee9f1c0702dc8db6d6c22be7365508aa118c065ea6a7f8c27a3350",
+      "bytes": 270
+    },
+    {
+      "path": "mobile/openharmony/AppScope/resources/base/profile/configuration.json",
+      "sha256": "030553f7227dba5b1a716269b94da8441389de0bc5d3304e63ca850e14704edc",
+      "bytes": 65
+    }
+  ]
+}

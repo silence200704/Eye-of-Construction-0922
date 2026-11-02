@@ -1,0 +1,16 @@
+{
+  "connectWallClockMsIncludingUiAutomation": 20591.2,
+  "monitorReadyMsIncludingObservePolling": 4935.4,
+  "nextPageMs": 2902.3,
+  "page1Label": "第 1 / 25 页 · 每页20处",
+  "page2Label": [
+    "第 2 / 25 页 · 每页20处"
+  ],
+  "memory": [
+    "VmSize:\t 4244032 kB",
+    "VmHWM:\t  311372 kB",
+    "VmRSS:\t  298304 kB"
+  ],
+  "pid": "10455",
+  "note": "Derived from the same measured run; HDC layout dumps inflate wall clock."
+}

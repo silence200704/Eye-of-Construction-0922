@@ -1,0 +1,25 @@
+{
+  "attempts": [
+    {
+      "command": "Emulator.exe -instance \"Pura 90\" -rotation left",
+      "reported": "Scenario simulation success",
+      "result": "screen remained 1320x2856"
+    },
+    {
+      "command": "after unlocking rotation lock and repeating",
+      "reported": "Scenario simulation success",
+      "result": "screen remained 1320x2856"
+    },
+    {
+      "command": "rotation on launcher (app backgrounded)",
+      "reported": "Scenario simulation success",
+      "result": "screen remained 1320x2856"
+    }
+  ],
+  "conclusion": "环境/工具未能产生横屏或宽窗；App 宽窗与横屏体验本轮未验证。",
+  "screenshots": [
+    "page/rotation-screen.png",
+    "page/rotation-launcher.png",
+    "page/rotation-after-unlock.png"
+  ]
+}

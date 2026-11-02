@@ -1,0 +1,120 @@
+{
+  "week": {
+    "ms": 408.9,
+    "totalEvents": 57,
+    "openEvents": 46,
+    "recordCount": 5006,
+    "byPointTotal": 500,
+    "nonZero": 47,
+    "top": [
+      {
+        "id": "pnt_stress_0000",
+        "label": "压力测点 001",
+        "count": 5
+      },
+      {
+        "id": "pnt_stress_0001",
+        "label": "压力测点 002",
+        "count": 4
+      },
+      {
+        "id": "pnt_stress_0002",
+        "label": "压力测点 003",
+        "count": 3
+      },
+      {
+        "id": "pnt_stress_0003",
+        "label": "压力测点 004",
+        "count": 2
+      },
+      {
+        "id": "pnt_d462d6c50005437ca6b39878165eeada",
+        "label": "模拟crack监测站",
+        "count": 1
+      },
+      {
+        "id": "pnt_e319729b18c046949dbcd6b0dae5f6b3",
+        "label": "模拟vibration监测站",
+        "count": 1
+      }
+    ],
+    "tail": [
+      {
+        "id": "pnt_stress_0042",
+        "label": "压力测点 043",
+        "count": 1
+      },
+      {
+        "id": "pnt_stress_0043",
+        "label": "压力测点 044",
+        "count": 1
+      },
+      {
+        "id": "pnt_stress_0044",
+        "label": "压力测点 045",
+        "count": 1
+      }
+    ]
+  },
+  "month": {
+    "ms": 218.2,
+    "totalEvents": 57,
+    "openEvents": 46,
+    "recordCount": 5006,
+    "byPointTotal": 500,
+    "nonZero": 47,
+    "top": [
+      {
+        "id": "pnt_stress_0000",
+        "label": "压力测点 001",
+        "count": 5
+      },
+      {
+        "id": "pnt_stress_0001",
+        "label": "压力测点 002",
+        "count": 4
+      },
+      {
+        "id": "pnt_stress_0002",
+        "label": "压力测点 003",
+        "count": 3
+      },
+      {
+        "id": "pnt_stress_0003",
+        "label": "压力测点 004",
+        "count": 2
+      },
+      {
+        "id": "pnt_d462d6c50005437ca6b39878165eeada",
+        "label": "模拟crack监测站",
+        "count": 1
+      },
+      {
+        "id": "pnt_e319729b18c046949dbcd6b0dae5f6b3",
+        "label": "模拟vibration监测站",
+        "count": 1
+      }
+    ],
+    "tail": [
+      {
+        "id": "pnt_stress_0042",
+        "label": "压力测点 043",
+        "count": 1
+      },
+      {
+        "id": "pnt_stress_0043",
+        "label": "压力测点 044",
+        "count": 1
+      },
+      {
+        "id": "pnt_stress_0044",
+        "label": "压力测点 045",
+        "count": 1
+      }
+    ]
+  },
+  "mobileRecords": {
+    "ms": 167.8,
+    "rows": 2492
+  }
+}

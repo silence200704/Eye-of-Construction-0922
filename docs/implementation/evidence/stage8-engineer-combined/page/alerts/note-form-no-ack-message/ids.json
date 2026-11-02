@@ -1,0 +1,104 @@
+[
+  {
+    "id": "",
+    "text": "预警处置",
+    "bounds": "[0,137][1320,332]",
+    "type": "TitleBar"
+  },
+  {
+    "id": "__NavdestinationField__BackButton__Back__",
+    "text": "",
+    "bounds": "[56,164][196,304]",
+    "type": "BackButton"
+  },
+  {
+    "id": "__NavdestinationField__Text__MainTitle__",
+    "text": "预警处置",
+    "bounds": "[224,193][504,275]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "ALERT / 预警手账",
+    "bounds": "[63,402][438,451]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "把异常，认真接住",
+    "bounds": "[63,476][792,583]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "确认、排查与恢复，各有记录",
+    "bounds": "[63,607][655,660]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "E20261029-002",
+    "bounds": "[130,804][750,898]",
+    "type": "Text"
+  },
+  {
+    "id": "alarm-status",
+    "text": "黄色关注 · 处理中",
+    "bounds": "[130,940][693,1022]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "模拟vibration监测站",
+    "bounds": "[130,1064][667,1134]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "首次 2026/10/29 上午11:53:37\n最近 2026/10/29 上午11:33:37",
+    "bounds": "[130,1176][759,1282]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "规则 FINISH-vibration-RULE · 模拟监测触发",
+    "bounds": "[130,1324][1039,1377]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "确认人：演示学校安全管理人员",
+    "bounds": "[130,1419][817,1476]",
+    "type": "Text"
+  },
+  {
+    "id": "alarm-note-open",
+    "text": "",
+    "bounds": "[63,1606][1257,1781]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "收起现场记录",
+    "bounds": "[123,1661][1197,1727]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "记录现场排查与措施",
+    "bounds": "[130,1911][760,1993]",
+    "type": "Text"
+  },
+  {
+    "id": "alarm-note-kind",
+    "text": "现场排查",
+    "bounds": "[130,2035][532,2210]",
+    "type": "Select"
+  },
+  {
+    "id": "alarm-field-note",
+    "text": "",
+    "bounds": "[130,2252][1190,2758]",
+    "type": "TextArea"
+  }
+]

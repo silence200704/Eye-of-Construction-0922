@@ -1,0 +1,86 @@
+{
+  "period": "week",
+  "startDate": "2026-10-23",
+  "endDate": "2026-10-29",
+  "timeZone": "Asia/Shanghai",
+  "source": "simulation",
+  "totalEvents": 2,
+  "recordCount": 3,
+  "openEvents": 2,
+  "trend": [
+    {
+      "date": "2026-10-23",
+      "count": 0
+    },
+    {
+      "date": "2026-10-24",
+      "count": 0
+    },
+    {
+      "date": "2026-10-25",
+      "count": 0
+    },
+    {
+      "date": "2026-10-26",
+      "count": 0
+    },
+    {
+      "date": "2026-10-27",
+      "count": 0
+    },
+    {
+      "date": "2026-10-28",
+      "count": 0
+    },
+    {
+      "date": "2026-10-29",
+      "count": 2
+    }
+  ],
+  "byBuilding": [
+    {
+      "id": "bld_e47e9bff5a0740f8b7a1f8a89cded28b",
+      "label": "小瞳守护教学楼",
+      "count": 2
+    },
+    {
+      "id": "bld_d0ae9e7d7fba45b7afb4e98f1beaa9f9",
+      "label": "安静小院（空态验收）",
+      "count": 0
+    }
+  ],
+  "byPoint": [
+    {
+      "id": "pnt_d462d6c50005437ca6b39878165eeada",
+      "label": "模拟crack监测站",
+      "count": 1
+    },
+    {
+      "id": "pnt_973e47e0a6464aa7b810c518862bdee5",
+      "label": "模拟tilt监测站",
+      "count": 0
+    },
+    {
+      "id": "pnt_e319729b18c046949dbcd6b0dae5f6b3",
+      "label": "模拟vibration监测站",
+      "count": 1
+    }
+  ],
+  "sensorTypes": [
+    {
+      "id": "crack",
+      "label": "crack",
+      "count": 1
+    },
+    {
+      "id": "tilt",
+      "label": "tilt",
+      "count": 1
+    },
+    {
+      "id": "vibration",
+      "label": "vibration",
+      "count": 1
+    }
+  ]
+}

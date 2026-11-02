@@ -1,0 +1,100 @@
+{
+  "task": {
+    "id": "plan_2c5d14b175334a1fa5bba587f0985c19@2026-10-30T02:00:00+00:00",
+    "taskNo": "TK-20261030-002",
+    "planId": "plan_2c5d14b175334a1fa5bba587f0985c19",
+    "buildingId": "bld_e47e9bff5a0740f8b7a1f8a89cded28b",
+    "planSnapshot": {
+      "planCode": "PLAN-20261030-002",
+      "planName": "统一复验巡检·标签",
+      "executorRole": "inspector",
+      "buildingId": "bld_e47e9bff5a0740f8b7a1f8a89cded28b",
+      "floorIds": [
+        "flr_1b43b55d5f9749c883429913855d3ce2"
+      ],
+      "pointIds": [
+        "pnt_d462d6c50005437ca6b39878165eeada"
+      ],
+      "checklist": [
+        {
+          "key": "wall",
+          "label": "墙面与结构外观",
+          "required": true,
+          "hint": "查看裂缝、起鼓与松动"
+        }
+      ]
+    },
+    "plannedAt": "2026-10-30T02:00:00+00:00",
+    "dueAt": "2026-10-30T15:59:59+00:00",
+    "status": "pending",
+    "results": [
+      {
+        "pointId": "pnt_d462d6c50005437ca6b39878165eeada",
+        "status": "pending",
+        "checkedAt": null,
+        "method": null,
+        "labelRead": "",
+        "labelExpected": "",
+        "labelVersion": null,
+        "fallbackReason": "",
+        "attempts": [],
+        "checklist": [
+          {
+            "key": "wall",
+            "label": "墙面与结构外观",
+            "result": null,
+            "note": ""
+          }
+        ],
+        "abnormalHandling": {
+          "linkedIssueId": null,
+          "reason": ""
+        },
+        "issueIds": []
+      }
+    ],
+    "issueIds": [],
+    "createdAt": "2026-10-30T03:49:54.251335+00:00",
+    "createdBy": "演示学校安全管理人员",
+    "updatedAt": "2026-10-30T03:49:54.251335+00:00",
+    "updatedBy": "演示学校安全管理人员",
+    "rev": 1
+  },
+  "point": {
+    "id": "pnt_d462d6c50005437ca6b39878165eeada",
+    "code": "FINISH-crack",
+    "name": "模拟crack监测站",
+    "buildingId": "bld_e47e9bff5a0740f8b7a1f8a89cded28b",
+    "floorId": "flr_1b43b55d5f9749c883429913855d3ce2",
+    "zoneId": "",
+    "type": "crack",
+    "metric": "crack_width",
+    "coord": {
+      "x": 0.4,
+      "y": 0.4
+    },
+    "nfc": {
+      "code": "TAG-UNIFIED-CRACK",
+      "version": 2,
+      "boundAt": "2026-10-30T03:49:54.167931+00:00",
+      "boundBy": "演示学校安全管理人员",
+      "remark": "换绑标签，历史打卡保留当时编号与版本"
+    },
+    "planVersion": 1,
+    "locationHistory": [],
+    "owner": "",
+    "backupPerson": "",
+    "installDate": "",
+    "dataSource": "demo",
+    "remark": "",
+    "status": "active",
+    "archiveReason": "",
+    "archivedAt": null,
+    "archivedBy": "",
+    "createdAt": "2026-10-29T03:51:23.180573+00:00",
+    "createdBy": "演示学校安全管理人员",
+    "updatedAt": "2026-10-30T03:49:54.167931+00:00",
+    "updatedBy": "演示学校安全管理人员",
+    "rev": 2
+  }
+}

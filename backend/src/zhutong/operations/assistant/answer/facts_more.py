@@ -22,13 +22,6 @@ from .facts import (
     queried_at,
 )
 
-ACTION_TEXT = {
-    "pending": "待学校安全管理人员确认；确认后进入处理中",
-    "handling": "处理中：可转问题、登记处置；恢复待确认后由安全管理人员关闭",
-    "recovering": "恢复待确认：需连续有效恢复复测与处置依据，才允许关闭",
-    "closed": "已关闭",
-}
-
 
 def _event_rows(session: Session, workspace: Workspace, open_only: bool) -> list[AlarmEvent]:
     rows = session.scalars(select(AlarmEvent).where(AlarmEvent.dataset_id == workspace.dataset_id))

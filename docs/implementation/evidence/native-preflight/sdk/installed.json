@@ -1,0 +1,57 @@
+{
+  "installedDirectory": "D:\\DevEco\\OpenHarmonySdk\\20",
+  "components": {
+    "ets/oh-uni-package.json": {
+      "apiVersion": "20",
+      "displayName": "Ets",
+      "meta": {
+        "metaVersion": "3.0.0"
+      },
+      "path": "ets",
+      "releaseType": "Beta1",
+      "version": "6.0.0.47"
+    },
+    "js/oh-uni-package.json": {
+      "apiVersion": "20",
+      "displayName": "Js",
+      "meta": {
+        "metaVersion": "3.0.0"
+      },
+      "path": "js",
+      "releaseType": "Beta1",
+      "version": "6.0.0.47"
+    },
+    "native/oh-uni-package.json": {
+      "apiVersion": "20",
+      "displayName": "Native",
+      "meta": {
+        "metaVersion": "3.0.0"
+      },
+      "path": "native",
+      "releaseType": "Beta1",
+      "version": "6.0.0.47"
+    },
+    "previewer/oh-uni-package.json": {
+      "apiVersion": "20",
+      "displayName": "Previewer",
+      "meta": {
+        "metaVersion": "3.0.0"
+      },
+      "path": "previewer",
+      "releaseType": "Beta1",
+      "version": "6.0.0.47"
+    },
+    "toolchains/oh-uni-package.json": {
+      "apiVersion": "20",
+      "displayName": "Toolchains",
+      "meta": {
+        "metaVersion": "3.0.0"
+      },
+      "path": "toolchains",
+      "releaseType": "Beta1",
+      "version": "6.0.0.47"
+    }
+  },
+  "source": "Official OpenHarmony 6.0 public SDK archive; whole archive SHA-256 verified",
+  "notice": "Archive metadata says Beta1 despite official 6.0 Release page label; retained without modification."
+}

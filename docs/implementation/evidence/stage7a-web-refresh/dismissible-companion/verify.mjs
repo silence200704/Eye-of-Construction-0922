@@ -1,0 +1,55 @@
+import assert from 'node:assert/strict'
+import { mkdir, writeFile } from 'node:fs/promises'
+import { pathToFileURL } from 'node:url'
+const {chromium}=await import(pathToFileURL(process.cwd()+'/backend/.runtime-ui-refresh/browser/node_modules/playwright/index.mjs'))
+const base=process.argv[2]??'http://127.0.0.1:5180'
+const output='docs/implementation/evidence/stage7a-web-refresh/dismissible-companion'
+await mkdir(output,{recursive:true})
+const browser=await chromium.launch({channel:'chrome',headless:true})
+const context=await browser.newContext({viewport:{width:1440,height:1000}})
+const page=await context.newPage()
+const errors=[],checks=[]
+page.on('pageerror',e=>errors.push(String(e)))
+await page.goto(base+'/#/reports',{waitUntil:'networkidle'})
+const card=page.getByRole('region',{name:'小瞳引导卡',exact:true})
+await card.waitFor()
+await page.screenshot({path:output+'/card-visible.png',animations:'disabled'})
+const close=card.getByRole('button',{name:'关闭小瞳引导卡',exact:true})
+await close.focus();await close.press('Enter')
+await card.waitFor({state:'hidden'})
+assert.equal(await page.locator('#assistant-panel').count(),0)
+const restore=page.getByRole('button',{name:'显示小瞳引导卡',exact:true})
+assert.equal(await restore.evaluate(el=>el===document.activeElement),true)
+checks.push('Close by keyboard hides only the card and focuses restore')
+await page.reload({waitUntil:'networkidle'})
+await restore.waitFor();assert.equal(await card.count(),0)
+checks.push('Dismissal survives reload')
+await page.locator('.side').getByRole('link',{name:'监测分析',exact:true}).click()
+await page.waitForURL(url=>url.hash==='#/monitor')
+assert.equal(await card.count(),0);checks.push('Dismissal survives navigation')
+await page.screenshot({path:output+'/card-dismissed.png',animations:'disabled'})
+await restore.click();await card.waitFor()
+assert.equal(await card.getByRole('button',{name:'找小瞳聊聊',exact:true}).evaluate(el=>el===document.activeElement),true)
+checks.push('Restore shows card and focuses actual assistant entry')
+await page.reload({waitUntil:'networkidle'});await card.waitFor();checks.push('Restored state survives reload')
+await card.getByRole('button',{name:'找小瞳聊聊',exact:true}).click()
+await page.locator('#assistant-panel').waitFor();checks.push('Existing assistant entry still opens panel')
+await page.getByRole('button',{name:'关闭问筑瞳',exact:true}).click()
+await page.getByRole('button',{name:'收起或展开侧边导航'}).click()
+assert.equal(await card.isVisible(),false)
+await page.getByRole('button',{name:'收起或展开侧边导航'}).click();await card.waitFor();checks.push('Sidebar collapse and expand preserve card state')
+await context.close()
+const blocked=await browser.newContext({viewport:{width:1440,height:1000}})
+await blocked.addInitScript(()=>{
+ const get=Storage.prototype.getItem,set=Storage.prototype.setItem
+ Storage.prototype.getItem=function(key){if(key==='zhutong-ui-companion-dismissed')throw new DOMException('Blocked','SecurityError');return get.call(this,key)}
+ Storage.prototype.setItem=function(key,value){if(key==='zhutong-ui-companion-dismissed')throw new DOMException('Blocked','SecurityError');return set.call(this,key,value)}
+})
+const bp=await blocked.newPage();bp.on('pageerror',e=>errors.push(String(e)))
+await bp.goto(base+'/#/reports',{waitUntil:'networkidle'})
+await bp.getByRole('button',{name:'关闭小瞳引导卡',exact:true}).click()
+await bp.getByRole('button',{name:'显示小瞳引导卡',exact:true}).waitFor()
+checks.push('Card remains dismissible when preference storage is blocked')
+await blocked.close();await browser.close();assert.equal(errors.length,0)
+await writeFile(output+'/verification.json',JSON.stringify({base,checks,errors,preferenceKey:'zhutong-ui-companion-dismissed',scope:'Browser display preference only; no business data or assistant sessions modified.'},null,2))
+console.log(JSON.stringify({base,checks:checks.length,errors},null,2))

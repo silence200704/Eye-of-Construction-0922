@@ -3,6 +3,7 @@ import { ArchiveSnapshot, Workspace } from '../models/Workspace';
 import { AlarmEvent, MonitorRecord } from '../models/Monitoring';
 import { InspectionTask, WorkOrder } from '../models/Tasks';
 import { IssueRecord } from '../models/Reports';
+import { MaintenanceTask } from '../models/business/Maintenance';
 import { ApiError } from '../../core/network/ApiError';
 
 export interface WorkspaceRead {
@@ -38,6 +39,7 @@ export async function readWorkspace(read: WorkspaceRead): Promise<Workspace> {
   const orders = await rows<WorkOrder>(read, '/work-orders', data.epoch);
   const issues = await rows<IssueRecord>(read, '/issues', data.epoch);
   const supplementableIds = await rows<string>(read, '/issues/supplement-targets', data.epoch);
+  const maintenance = await rows<MaintenanceTask>(read, '/maintenance/tasks', data.epoch);
   return { epoch: data.epoch, buildings: data.buildings, floors: data.floors, points: data.points,
-    devices: data.devices, records, events, tasks, orders, issues, supplementableIds };
+    devices: data.devices, records, events, tasks, orders, issues, supplementableIds, maintenance };
 }

@@ -1,0 +1,9 @@
+{
+  "package": "com.huawei.hmos.screenreader",
+  "installed": true,
+  "enabled": false,
+  "observed": "Settings → 关怀和无障碍 → 屏幕朗读 toggles; system asks 是否开启屏幕朗读？ / 开启 (N 秒).",
+  "decision": "Not accepted on user behalf; no actual speech/focus order evidence.",
+  "priorEvidence": "docs/implementation/evidence/stage8-engineer-combined/page/screenreader/screen.png (08-emulator-combined)",
+  "conclusion": "Real screen reader unverified; user must authorize on device."
+}

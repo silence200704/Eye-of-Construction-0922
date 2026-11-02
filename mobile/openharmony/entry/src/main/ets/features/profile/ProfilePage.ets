@@ -24,6 +24,9 @@ export struct ProfilePage {
   onRefresh: () => void = () => {};
   onMotion: (enabled: boolean) => void = () => {};
   onOffline: () => void = () => {};
+  @Prop dataset: string = 'demo-main';
+  onDataset: (id: string) => void = () => {};
+  onDemo: () => void = () => {};
 
   aboutToAppear(): void { this.syncAddress(); }
 
@@ -82,7 +85,7 @@ export struct ProfilePage {
   identities() {
     AppCard() {
       Row({ space: 12 }) {
-        Mascot({ art: $rawfile('playful/characters/guide.svg'), dimension: 66 });
+        Mascot({ art: $rawfile('playful/characters/xiaotong.png'), dimension: 66 });
         Column({ space: 5 }) {
           Text('今天，由谁来守护？').fontSize(19).fontWeight(FontWeight.Bold).fontColor(Theme.text);
           Text(this.state.user ? `当前：${this.state.user.roleLabel}` : '连接后选择演示身份')
@@ -111,6 +114,20 @@ export struct ProfilePage {
       }.width('100%');
     }
   }
+  @Builder
+  businessGuide() {
+    AppCard({ color: Theme.soft }) {
+      Text('不同身份，接续同一份守护').fontSize(19).fontWeight(FontWeight.Bold).fontColor(Theme.text);
+      Text('安全管理：审核、建单、派单、验收、复查、预警确认与关闭。').fontSize(14).fontColor(Theme.secondary);
+      Text('巡检人员：执行指定巡检任务、到点、清单、异常上报及本人补证。').fontSize(14).fontColor(Theme.secondary);
+      Text('维修人员：接本人派单、登记维修、提交完工、处理验收退回。').fontSize(14).fontColor(Theme.secondary);
+      Text('物业值班：现场排查、保养；说明原因后代接，实际接单人提交完工。').fontSize(14).fontColor(Theme.secondary);
+      Text('设备管理：设备监测、保养执行及指定角色的检查任务。').fontSize(14).fontColor(Theme.secondary);
+      PlayButton({ title: this.dataset === 'demo-main' ? '当前：主业务集 / 切换比赛演示集' : '当前：比赛演示集 / 切换主业务集', secondary: true,
+        available: !this.state.busy, onAction: () => this.onDataset(this.dataset === 'demo-main' ? 'demo-showcase' : 'demo-main') });
+      PlayButton({ title: '比赛演示准备与进度', secondary: true, onAction: this.onDemo });
+    }
+  }
 
   build() {
     PageStage() {
@@ -123,13 +140,13 @@ export struct ProfilePage {
       }.width('100%');
       this.connection();
       this.identities();
-      this.preferences();
+      this.preferences(); this.businessGuide();
       PlayButton({ title: '离线随身包 · 任务与现场笔记', secondary: true, controlId: 'open-offline', onAction: this.onOffline });
       PlayButton({ title: '刷新当前授权范围', secondary: true,
         available: !this.state.busy && !!this.state.baseUrl, onAction: this.onRefresh, controlId: 'refresh-workspace' });
       Text(this.state.mode === 'ready' ? `最近读取 ${timeText(this.state.loadedAt)}` : '尚未读取服务端业务数据')
         .fontSize(11).fontColor(Theme.secondary);
-      Text('筑瞳原生 App 0.8.0 · 硬件输入模拟\n在线监测、预警、巡检、上报与工单；完整离线同步按后续阶段提供。')
+      Text('筑瞳原生 App 0.9.0 · 硬件输入模拟\n审核、派单、维修、验收与复查；离线草稿和同步结果分别显示。')
         .fontSize(10).fontColor(Theme.secondary);
     }
   }

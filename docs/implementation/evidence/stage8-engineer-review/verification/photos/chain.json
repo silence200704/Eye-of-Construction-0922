@@ -1,0 +1,291 @@
+{
+  "issue": {
+    "id": "iss_a4d02452cb714ff0acc1571a42ae5b69",
+    "issueNo": "ISS-20261029-001",
+    "source": "report",
+    "submissionKey": "review-photo-issue",
+    "pointId": "pnt_d462d6c50005437ca6b39878165eeada",
+    "buildingId": "bld_e47e9bff5a0740f8b7a1f8a89cded28b",
+    "floorId": "flr_1b43b55d5f9749c883429913855d3ce2",
+    "zoneId": "",
+    "eventId": null,
+    "taskId": null,
+    "maintenanceTaskId": null,
+    "anomalyType": "模拟裂缝观察",
+    "description": "比赛模拟：裂缝观测点现场照片，用于核对原生已提交照片回读，非真实校园隐患。",
+    "photos": [
+      "att_7c237212970b47f8a352de974bdb3c25"
+    ],
+    "status": "pending_review",
+    "reviewAction": null,
+    "reviewCategory": "",
+    "reviewedAt": null,
+    "reviewedBy": "",
+    "reviewNote": "",
+    "duplicateOf": null,
+    "linkedEventId": null,
+    "linkedFrom": [],
+    "workOrderIds": [],
+    "rechecks": [],
+    "timeline": [
+      {
+        "at": "2026-10-29T06:20:06.008148+00:00",
+        "by": "演示巡检人员",
+        "byRole": "inspector",
+        "action": "提交问题",
+        "detail": "来源：report；比赛模拟：裂缝观测点现场照片，用于核对原生已提交照片回读，非真实校园隐患。"
+      }
+    ],
+    "createdAt": "2026-10-29T06:20:06.008148+00:00",
+    "createdBy": "演示巡检人员",
+    "updatedAt": "2026-10-29T06:20:06.008148+00:00",
+    "updatedBy": "演示巡检人员",
+    "rev": 1
+  },
+  "order": {
+    "id": "wo_628896dd4d1847e09ff59b5633f6a41f",
+    "orderNo": "WO-20261029-001",
+    "origin": "manual",
+    "issueId": null,
+    "eventId": null,
+    "pointId": "pnt_d462d6c50005437ca6b39878165eeada",
+    "title": "原生照片回读验收工单",
+    "status": "verified",
+    "assignee": "演示维修人员",
+    "assigneeId": "demo-repair",
+    "assignedBy": "演示学校安全管理人员",
+    "assignedAt": "2026-10-29T06:20:06.072597+00:00",
+    "dueAt": null,
+    "acceptedById": "demo-repair",
+    "measures": "模拟复紧固定件并完成外观检查。",
+    "materials": "",
+    "photos": [
+      "att_5d02d763f18c4aec9ac02943da2df375",
+      "att_fcbb79c4874740dea5103c483b1d7d1c",
+      "att_d0b90aa8b71247d6969f476fd48b431f"
+    ],
+    "submittedAt": "2026-10-29T06:20:06.215581+00:00",
+    "reviews": [
+      {
+        "at": "2026-10-29T06:20:06.267906+00:00",
+        "by": "演示学校安全管理人员",
+        "byRole": "safety",
+        "action": "verify",
+        "result": "pass",
+        "note": "模拟验收通过。"
+      }
+    ],
+    "timeline": [
+      {
+        "at": "2026-10-29T06:20:06.045997+00:00",
+        "by": "演示学校安全管理人员",
+        "byRole": "safety",
+        "action": "创建工单",
+        "detail": "比赛模拟，用于核对维修前/后/验收标签。"
+      },
+      {
+        "at": "2026-10-29T06:20:06.072597+00:00",
+        "by": "演示学校安全管理人员",
+        "byRole": "safety",
+        "action": "派工",
+        "detail": "指定维修人验收模拟"
+      },
+      {
+        "at": "2026-10-29T06:20:06.108172+00:00",
+        "by": "演示维修人员",
+        "byRole": "repair",
+        "action": "接单处理",
+        "detail": ""
+      },
+      {
+        "at": "2026-10-29T06:20:06.215581+00:00",
+        "by": "演示维修人员",
+        "byRole": "repair",
+        "action": "提交待验收",
+        "detail": ""
+      },
+      {
+        "at": "2026-10-29T06:20:06.267906+00:00",
+        "by": "演示学校安全管理人员",
+        "byRole": "safety",
+        "action": "验收通过",
+        "detail": "模拟验收通过。"
+      }
+    ],
+    "createdAt": "2026-10-29T06:20:06.045997+00:00",
+    "createdBy": "演示学校安全管理人员",
+    "updatedAt": "2026-10-29T06:20:06.267906+00:00",
+    "updatedBy": "演示学校安全管理人员",
+    "rev": 5
+  },
+  "files": {
+    "scene": {
+      "path": "C:\\Users\\Lenovo\\Desktop\\demo\\docs\\implementation\\evidence\\stage8-engineer-review\\assets\\issue-scene.jpg",
+      "bytes": 28791,
+      "sha256": "275567c7fd85b941083bcfe9aadd167ec8e85b7aa6d1abbea66b2fec0d8b13dd"
+    },
+    "before": {
+      "path": "C:\\Users\\Lenovo\\Desktop\\demo\\docs\\implementation\\evidence\\stage8-engineer-review\\assets\\repair-before.jpg",
+      "bytes": 30819,
+      "sha256": "72671b6d4846d2b8b379e76d12ad26271171d8dadc0341c619118728bd2193dc"
+    },
+    "after": {
+      "path": "C:\\Users\\Lenovo\\Desktop\\demo\\docs\\implementation\\evidence\\stage8-engineer-review\\assets\\repair-after.jpg",
+      "bytes": 30990,
+      "sha256": "2791ad37d05d0e8ae2f4dc51fe7d2c2ca8c2de58dee30d306e51c32fa6730e0c"
+    },
+    "acceptance": {
+      "path": "C:\\Users\\Lenovo\\Desktop\\demo\\docs\\implementation\\evidence\\stage8-engineer-review\\assets\\acceptance.jpg",
+      "bytes": 28914,
+      "sha256": "2cf2893b69e728f0c8b692628f8ff08fec5794d813950f530b4ca3b316a5613c"
+    }
+  },
+  "media": {
+    "scene": {
+      "id": "d6d6fd068aa94b5b8325ce1d4ca9485c",
+      "fileName": "issue-scene.jpg",
+      "mimeType": "image/jpeg",
+      "size": 28791,
+      "sha256": "275567c7fd85b941083bcfe9aadd167ec8e85b7aa6d1abbea66b2fec0d8b13dd",
+      "width": 900,
+      "height": 640,
+      "pointId": "pnt_d462d6c50005437ca6b39878165eeada",
+      "origin": "demo_generated",
+      "capturedAt": null,
+      "uploadedAt": "2026-10-29T06:20:05.986971+00:00",
+      "uploadedBy": "demo-inspector",
+      "contentUrl": "/api/v1/datasets/demo-main/media/d6d6fd068aa94b5b8325ce1d4ca9485c/content"
+    },
+    "before": {
+      "id": "69b03767832e47fab0a3fc94e1b16ff8",
+      "fileName": "repair-before.jpg",
+      "mimeType": "image/jpeg",
+      "size": 30819,
+      "sha256": "72671b6d4846d2b8b379e76d12ad26271171d8dadc0341c619118728bd2193dc",
+      "width": 900,
+      "height": 640,
+      "pointId": "pnt_d462d6c50005437ca6b39878165eeada",
+      "origin": "demo_generated",
+      "capturedAt": null,
+      "uploadedAt": "2026-10-29T06:20:06.152762+00:00",
+      "uploadedBy": "demo-repair",
+      "contentUrl": "/api/v1/datasets/demo-main/media/69b03767832e47fab0a3fc94e1b16ff8/content"
+    },
+    "after": {
+      "id": "1a55f83243c44da295b1be861fb8f16c",
+      "fileName": "repair-after.jpg",
+      "mimeType": "image/jpeg",
+      "size": 30990,
+      "sha256": "2791ad37d05d0e8ae2f4dc51fe7d2c2ca8c2de58dee30d306e51c32fa6730e0c",
+      "width": 900,
+      "height": 640,
+      "pointId": "pnt_d462d6c50005437ca6b39878165eeada",
+      "origin": "demo_generated",
+      "capturedAt": null,
+      "uploadedAt": "2026-10-29T06:20:06.202598+00:00",
+      "uploadedBy": "demo-repair",
+      "contentUrl": "/api/v1/datasets/demo-main/media/1a55f83243c44da295b1be861fb8f16c/content"
+    },
+    "acceptance": {
+      "id": "bfb02e55456f429384dba9291da65919",
+      "fileName": "acceptance.jpg",
+      "mimeType": "image/jpeg",
+      "size": 28914,
+      "sha256": "2cf2893b69e728f0c8b692628f8ff08fec5794d813950f530b4ca3b316a5613c",
+      "width": 900,
+      "height": 640,
+      "pointId": "pnt_d462d6c50005437ca6b39878165eeada",
+      "origin": "demo_generated",
+      "capturedAt": null,
+      "uploadedAt": "2026-10-29T06:20:06.252931+00:00",
+      "uploadedBy": "demo-safety",
+      "contentUrl": "/api/v1/datasets/demo-main/media/bfb02e55456f429384dba9291da65919/content"
+    }
+  },
+  "attachments": [
+    {
+      "id": "att_5d02d763f18c4aec9ac02943da2df375",
+      "issueId": null,
+      "workOrderId": "wo_628896dd4d1847e09ff59b5633f6a41f",
+      "maintenanceTaskId": null,
+      "kind": "before",
+      "draftId": "review-before",
+      "mediaId": "69b03767832e47fab0a3fc94e1b16ff8",
+      "fileName": "repair-before.jpg",
+      "mimeType": "image/jpeg",
+      "size": 30819,
+      "sha256": "72671b6d4846d2b8b379e76d12ad26271171d8dadc0341c619118728bd2193dc",
+      "width": 900,
+      "height": 640,
+      "uploadedAt": "2026-10-29T06:20:06.152762+00:00",
+      "uploadedBy": "demo-repair",
+      "capturedAt": null,
+      "contentUrl": "/api/v1/datasets/demo-main/media/69b03767832e47fab0a3fc94e1b16ff8/content",
+      "thumbUrl": "/api/v1/datasets/demo-main/media/69b03767832e47fab0a3fc94e1b16ff8/content",
+      "rev": 1
+    },
+    {
+      "id": "att_fcbb79c4874740dea5103c483b1d7d1c",
+      "issueId": null,
+      "workOrderId": "wo_628896dd4d1847e09ff59b5633f6a41f",
+      "maintenanceTaskId": null,
+      "kind": "after",
+      "draftId": "review-after",
+      "mediaId": "1a55f83243c44da295b1be861fb8f16c",
+      "fileName": "repair-after.jpg",
+      "mimeType": "image/jpeg",
+      "size": 30990,
+      "sha256": "2791ad37d05d0e8ae2f4dc51fe7d2c2ca8c2de58dee30d306e51c32fa6730e0c",
+      "width": 900,
+      "height": 640,
+      "uploadedAt": "2026-10-29T06:20:06.202598+00:00",
+      "uploadedBy": "demo-repair",
+      "capturedAt": null,
+      "contentUrl": "/api/v1/datasets/demo-main/media/1a55f83243c44da295b1be861fb8f16c/content",
+      "thumbUrl": "/api/v1/datasets/demo-main/media/1a55f83243c44da295b1be861fb8f16c/content",
+      "rev": 1
+    },
+    {
+      "id": "att_d0b90aa8b71247d6969f476fd48b431f",
+      "issueId": null,
+      "workOrderId": "wo_628896dd4d1847e09ff59b5633f6a41f",
+      "maintenanceTaskId": null,
+      "kind": "acceptance",
+      "draftId": "review-acceptance",
+      "mediaId": "bfb02e55456f429384dba9291da65919",
+      "fileName": "acceptance.jpg",
+      "mimeType": "image/jpeg",
+      "size": 28914,
+      "sha256": "2cf2893b69e728f0c8b692628f8ff08fec5794d813950f530b4ca3b316a5613c",
+      "width": 900,
+      "height": 640,
+      "uploadedAt": "2026-10-29T06:20:06.252931+00:00",
+      "uploadedBy": "demo-safety",
+      "capturedAt": null,
+      "contentUrl": "/api/v1/datasets/demo-main/media/bfb02e55456f429384dba9291da65919/content",
+      "thumbUrl": "/api/v1/datasets/demo-main/media/bfb02e55456f429384dba9291da65919/content",
+      "rev": 1
+    },
+    {
+      "id": "att_7c237212970b47f8a352de974bdb3c25",
+      "issueId": "iss_a4d02452cb714ff0acc1571a42ae5b69",
+      "workOrderId": null,
+      "maintenanceTaskId": null,
+      "kind": "scene",
+      "draftId": "review-scene",
+      "mediaId": "d6d6fd068aa94b5b8325ce1d4ca9485c",
+      "fileName": "issue-scene.jpg",
+      "mimeType": "image/jpeg",
+      "size": 28791,
+      "sha256": "275567c7fd85b941083bcfe9aadd167ec8e85b7aa6d1abbea66b2fec0d8b13dd",
+      "width": 900,
+      "height": 640,
+      "uploadedAt": "2026-10-29T06:20:05.986971+00:00",
+      "uploadedBy": "demo-inspector",
+      "capturedAt": null,
+      "contentUrl": "/api/v1/datasets/demo-main/media/d6d6fd068aa94b5b8325ce1d4ca9485c/content",
+      "thumbUrl": "/api/v1/datasets/demo-main/media/d6d6fd068aa94b5b8325ce1d4ca9485c/content",
+      "rev": 1
+    }
+  ]
+}

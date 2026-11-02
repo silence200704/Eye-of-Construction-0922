@@ -1,0 +1,17 @@
+
+> zhutong-demo@0.3.0 test
+> vitest run
+
+
+ RUN  v5.0.1 C:/Users/Lenovo/Desktop/demo
+
+
+ Test Files  124 passed (124)
+      Tests  1168 passed (1168)
+   Start at  17:47:04
+   Duration  8.28s (transform 61%, import 20%, tests 10%, setup 8%)
+
+  Transform  transforming modules took 109.61s · 61% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+

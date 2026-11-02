@@ -1,0 +1,315 @@
+{
+  "week": {
+    "period": "week",
+    "startDate": "2026-10-23",
+    "endDate": "2026-10-29",
+    "timeZone": "Asia/Shanghai",
+    "source": "simulation",
+    "totalEvents": 2,
+    "recordCount": 6,
+    "openEvents": 1,
+    "trend": [
+      {
+        "date": "2026-10-23",
+        "count": 0
+      },
+      {
+        "date": "2026-10-24",
+        "count": 0
+      },
+      {
+        "date": "2026-10-25",
+        "count": 0
+      },
+      {
+        "date": "2026-10-26",
+        "count": 0
+      },
+      {
+        "date": "2026-10-27",
+        "count": 0
+      },
+      {
+        "date": "2026-10-28",
+        "count": 0
+      },
+      {
+        "date": "2026-10-29",
+        "count": 2
+      }
+    ],
+    "byBuilding": [
+      {
+        "id": "bld_e47e9bff5a0740f8b7a1f8a89cded28b",
+        "label": "小瞳守护教学楼",
+        "count": 2
+      },
+      {
+        "id": "bld_d0ae9e7d7fba45b7afb4e98f1beaa9f9",
+        "label": "安静小院（空态验收）",
+        "count": 0
+      }
+    ],
+    "byPoint": [
+      {
+        "id": "pnt_d462d6c50005437ca6b39878165eeada",
+        "label": "模拟crack监测站",
+        "count": 1
+      },
+      {
+        "id": "pnt_973e47e0a6464aa7b810c518862bdee5",
+        "label": "模拟tilt监测站",
+        "count": 0
+      },
+      {
+        "id": "pnt_e319729b18c046949dbcd6b0dae5f6b3",
+        "label": "模拟vibration监测站",
+        "count": 1
+      }
+    ],
+    "sensorTypes": [
+      {
+        "id": "crack",
+        "label": "crack",
+        "count": 1
+      },
+      {
+        "id": "tilt",
+        "label": "tilt",
+        "count": 1
+      },
+      {
+        "id": "vibration",
+        "label": "vibration",
+        "count": 1
+      }
+    ]
+  },
+  "month": {
+    "period": "month",
+    "startDate": "2026-09-30",
+    "endDate": "2026-10-29",
+    "timeZone": "Asia/Shanghai",
+    "source": "simulation",
+    "totalEvents": 2,
+    "recordCount": 6,
+    "openEvents": 1,
+    "trend": [
+      {
+        "date": "2026-09-30",
+        "count": 0
+      },
+      {
+        "date": "2026-10-01",
+        "count": 0
+      },
+      {
+        "date": "2026-10-02",
+        "count": 0
+      },
+      {
+        "date": "2026-10-03",
+        "count": 0
+      },
+      {
+        "date": "2026-10-04",
+        "count": 0
+      },
+      {
+        "date": "2026-10-05",
+        "count": 0
+      },
+      {
+        "date": "2026-10-06",
+        "count": 0
+      },
+      {
+        "date": "2026-10-07",
+        "count": 0
+      },
+      {
+        "date": "2026-10-08",
+        "count": 0
+      },
+      {
+        "date": "2026-10-09",
+        "count": 0
+      },
+      {
+        "date": "2026-10-10",
+        "count": 0
+      },
+      {
+        "date": "2026-10-11",
+        "count": 0
+      },
+      {
+        "date": "2026-10-12",
+        "count": 0
+      },
+      {
+        "date": "2026-10-13",
+        "count": 0
+      },
+      {
+        "date": "2026-10-14",
+        "count": 0
+      },
+      {
+        "date": "2026-10-15",
+        "count": 0
+      },
+      {
+        "date": "2026-10-16",
+        "count": 0
+      },
+      {
+        "date": "2026-10-17",
+        "count": 0
+      },
+      {
+        "date": "2026-10-18",
+        "count": 0
+      },
+      {
+        "date": "2026-10-19",
+        "count": 0
+      },
+      {
+        "date": "2026-10-20",
+        "count": 0
+      },
+      {
+        "date": "2026-10-21",
+        "count": 0
+      },
+      {
+        "date": "2026-10-22",
+        "count": 0
+      },
+      {
+        "date": "2026-10-23",
+        "count": 0
+      },
+      {
+        "date": "2026-10-24",
+        "count": 0
+      },
+      {
+        "date": "2026-10-25",
+        "count": 0
+      },
+      {
+        "date": "2026-10-26",
+        "count": 0
+      },
+      {
+        "date": "2026-10-27",
+        "count": 0
+      },
+      {
+        "date": "2026-10-28",
+        "count": 0
+      },
+      {
+        "date": "2026-10-29",
+        "count": 2
+      }
+    ],
+    "byBuilding": [
+      {
+        "id": "bld_e47e9bff5a0740f8b7a1f8a89cded28b",
+        "label": "小瞳守护教学楼",
+        "count": 2
+      },
+      {
+        "id": "bld_d0ae9e7d7fba45b7afb4e98f1beaa9f9",
+        "label": "安静小院（空态验收）",
+        "count": 0
+      }
+    ],
+    "byPoint": [
+      {
+        "id": "pnt_d462d6c50005437ca6b39878165eeada",
+        "label": "模拟crack监测站",
+        "count": 1
+      },
+      {
+        "id": "pnt_973e47e0a6464aa7b810c518862bdee5",
+        "label": "模拟tilt监测站",
+        "count": 0
+      },
+      {
+        "id": "pnt_e319729b18c046949dbcd6b0dae5f6b3",
+        "label": "模拟vibration监测站",
+        "count": 1
+      }
+    ],
+    "sensorTypes": [
+      {
+        "id": "crack",
+        "label": "crack",
+        "count": 1
+      },
+      {
+        "id": "tilt",
+        "label": "tilt",
+        "count": 1
+      },
+      {
+        "id": "vibration",
+        "label": "vibration",
+        "count": 1
+      }
+    ]
+  },
+  "weekQuiet": {
+    "period": "week",
+    "startDate": "2026-10-23",
+    "endDate": "2026-10-29",
+    "timeZone": "Asia/Shanghai",
+    "source": "simulation",
+    "totalEvents": 0,
+    "recordCount": 0,
+    "openEvents": 0,
+    "trend": [
+      {
+        "date": "2026-10-23",
+        "count": 0
+      },
+      {
+        "date": "2026-10-24",
+        "count": 0
+      },
+      {
+        "date": "2026-10-25",
+        "count": 0
+      },
+      {
+        "date": "2026-10-26",
+        "count": 0
+      },
+      {
+        "date": "2026-10-27",
+        "count": 0
+      },
+      {
+        "date": "2026-10-28",
+        "count": 0
+      },
+      {
+        "date": "2026-10-29",
+        "count": 0
+      }
+    ],
+    "byBuilding": [
+      {
+        "id": "bld_d0ae9e7d7fba45b7afb4e98f1beaa9f9",
+        "label": "安静小院（空态验收）",
+        "count": 0
+      }
+    ],
+    "byPoint": [],
+    "sensorTypes": []
+  }
+}

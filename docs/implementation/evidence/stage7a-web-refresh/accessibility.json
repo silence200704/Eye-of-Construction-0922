@@ -1,0 +1,62 @@
+[
+  {
+    "path": "/",
+    "violations": []
+  },
+  {
+    "path": "/monitor",
+    "violations": []
+  },
+  {
+    "path": "/alarms",
+    "violations": []
+  },
+  {
+    "path": "/inspection",
+    "violations": []
+  },
+  {
+    "path": "/issues",
+    "violations": []
+  },
+  {
+    "path": "/knowledge",
+    "violations": []
+  },
+  {
+    "path": "/settings",
+    "violations": []
+  },
+  {
+    "path": "/dashboard",
+    "violations": []
+  },
+  {
+    "path": "/maintenance",
+    "violations": []
+  },
+  {
+    "path": "/reports",
+    "violations": []
+  },
+  {
+    "path": "/campus",
+    "violations": []
+  },
+  {
+    "path": "/archive",
+    "violations": []
+  },
+  {
+    "path": "/trend",
+    "violations": []
+  },
+  {
+    "path": "/media",
+    "violations": []
+  },
+  {
+    "path": "/standards",
+    "violations": []
+  }
+]

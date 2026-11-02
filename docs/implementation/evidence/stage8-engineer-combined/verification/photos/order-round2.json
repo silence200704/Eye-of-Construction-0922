@@ -1,0 +1,35 @@
+{
+  "orderId": "wo_628896dd4d1847e09ff59b5633f6a41f",
+  "round2": [
+    {
+      "index": 0,
+      "expected": "维修前照片",
+      "labels": [
+        "维修前照片"
+      ],
+      "feedback": [],
+      "preview": true,
+      "bounds": "[130,1359][1190,2129]"
+    },
+    {
+      "index": 1,
+      "expected": "维修后照片",
+      "labels": [
+        "维修后照片"
+      ],
+      "feedback": [],
+      "preview": true,
+      "bounds": "[130,1358][1190,2128]"
+    },
+    {
+      "index": 2,
+      "expected": "验收照片",
+      "labels": [
+        "验收照片"
+      ],
+      "feedback": [],
+      "preview": true,
+      "bounds": "[130,1358][1190,2128]"
+    }
+  ]
+}

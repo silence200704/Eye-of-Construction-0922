@@ -9,6 +9,11 @@ import { AppCard } from '../../shared/components/AppCard';
 import { PlayButton } from '../../shared/playful/PlayButton';
 import { label, timeText } from '../../shared/format/display';
 import { SignalPreview } from './SignalPreview';
+import { BusinessStore } from '../../core/business/BusinessStore';
+import { scopeKey } from '../../core/offline/OfflineModels';
+import { IssueRecord } from '../../data/models/Reports';
+
+interface EventDraft { kind: string; note: string; basis: string; noRepairNote: string; }
 
 @Component
 export struct EventDetail {
@@ -16,15 +21,38 @@ export struct EventDetail {
   @Prop state: AppState;
   @Prop eventId: string;
   @Prop command: EventView;
-  @State kind: string = 'investigation';
-  @State note: string = '';
-  @State basis: string = '';
-  @State noRepairNote: string = '';
+  store: BusinessStore | undefined = undefined;
+  private restoring: boolean = true;
+  private active: boolean = false;
+  @State @Watch('persist') kind: string = 'investigation';
+  @State @Watch('persist') note: string = '';
+  @State @Watch('persist') basis: string = '';
+  @State @Watch('persist') noRepairNote: string = '';
   @State showNote: boolean = false;
   @State showClose: boolean = false;
   onWrite: (write: EventWrite) => void = () => {};
   onRetry: () => void = () => {};
   onReload: () => void = () => {};
+  onIssue: (id: string) => void = () => {};
+  onReport: () => void = () => {};
+  private scope(): string { return this.state.user ? scopeKey({ baseUrl: this.state.baseUrl, user: this.state.user, workspace: this.state.workspace }) : ''; }
+  aboutToAppear(): void { this.active = true; void this.restoreDraft(); }
+  aboutToDisappear(): void { this.active = false; }
+  async restoreDraft(): Promise<void> {
+    try {
+      const raw = await this.store?.form(this.scope(), `event:${this.eventId}`);
+      if (!raw || !this.active) return;
+      const saved = JSON.parse(raw) as EventDraft;
+      this.kind = saved.kind; this.note = saved.note; this.basis = saved.basis; this.noRepairNote = saved.noRepairNote;
+    } catch (_) { this.getUIContext().getPromptAction().showToast({ message: '预警草稿暂不可读取，请保留数据。' }); }
+    finally { this.restoring = false; }
+  }
+  persist(): void {
+    if (!this.active || this.restoring) return;
+    const data: EventDraft = { kind: this.kind, note: this.note, basis: this.basis, noRepairNote: this.noRepairNote };
+    void this.store?.saveForm(this.scope(), `event:${this.eventId}`, JSON.stringify(data)).catch(() => {
+      this.getUIContext().getPromptAction().showToast({ message: '本地草稿保存失败，请勿离开。' }); });
+  }
   event(): AlarmEvent | undefined { return this.state.workspace.events.find((row) => row.id === this.eventId); }
   locked(): boolean { return this.command.eventId === this.eventId && ['sending', 'unknown'].includes(this.command.phase); }
   @Builder
@@ -97,6 +125,10 @@ export struct EventDetail {
       if (this.showClose) { this.closeForm(); }
     }
     PlayButton({ title: '刷新当前预警', secondary: true, available: !this.locked(), controlId: 'alarm-reload', onAction: this.onReload });
+    if (this.event()!.status !== 'closed') { PlayButton({ title: '记录关联问题，安排后续处置', secondary: true, onAction: this.onReport }); }
+    ForEach(this.state.workspace.issues.filter((row) => row.eventId === this.eventId || row.linkedEventId === this.eventId), (issue: IssueRecord) => {
+      PlayButton({ title: `关联问题 ${issue.issueNo} · ${label(issue.status)}`, secondary: true, onAction: () => this.onIssue(issue.id) });
+    });
   }
   build() {
     PageStage() {

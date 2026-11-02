@@ -173,3 +173,7 @@ S8-06模拟器在线闭环自验满足，阶段8整体仍在进行中；真机�
 
 后续用户明确“不用验证，继续开始”：现已直接进入[阶段9研发](09-offline-sync.md)，以上“未进入9”仅描述之前批次。
 阶段7A/8未验项继续保留，不伪改为通过；离线随身包首批见[阶段9报告](../../reports/mobile/offline/01-local-pack.md)。
+
+2026-11-01：按用户完整App业务计划补齐审核、派单、维修返工、验收、复查、保养和双端刷新，版本0.9.0-dev。
+软件实现完成，SDK构建、签名与模拟器覆盖安装/启动已通过，统一原生界面验收仍待工程师执行。
+见[本批完成表](../../reports/mobile/business/01-completion.md)、[身份操作表](../../reports/mobile/business/02-role-guide.md)与[统一验收](../../prompts/mobile/business/01-unified-acceptance.md)。历史未验证项保留。

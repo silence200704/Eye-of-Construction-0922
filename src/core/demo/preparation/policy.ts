@@ -8,7 +8,6 @@ export const PREPARATION_TARGETS = [
   { id: P_VIB, deviceId: D_VIB, code: 'B03-F2-VIB01', metric: 'vibration' },
   { id: P_TH, deviceId: D_TH, code: 'B03-F2-TH01', metric: 'temp_humidity' },
 ] as const
-export const PREPARATION_CAPABILITIES: Capability[] = ['sampling', 'media', 'inspection']
 export const SAMPLE_WINDOW_MS = 30 * 60_000
 export const INSPECTION_PLAN_MARK = '小瞳按需准备：待办演示，不自动签到或填写结果'
 

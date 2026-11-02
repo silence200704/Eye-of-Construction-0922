@@ -1,0 +1,64 @@
+{
+  "recordHttp": 200,
+  "newEvents": [
+    {
+      "id": "evt_6c1b6742e8b44a2cb618ea67cdd2c4bf",
+      "eventNo": "E20261030-001",
+      "pointId": "pnt_e319729b18c046949dbcd6b0dae5f6b3",
+      "ruleId": "rule_finish_vibration_rule",
+      "ruleCode": "FINISH-vibration-RULE",
+      "level": "red",
+      "peakLevel": "red",
+      "status": "pending",
+      "unit": "m/s²",
+      "openedAt": "2026-10-30T11:09:27.035107+00:00",
+      "openedBy": "演示学校安全管理人员",
+      "lastTriggerAt": "2026-10-30T11:09:26.989426+00:00",
+      "lastTriggerValue": 0.13,
+      "evidences": [
+        {
+          "recordId": "rec_648f81c3c5604f43b6881fe495d2dc21",
+          "recordNo": "R20261030-004",
+          "sampleTime": "2026-10-30T11:09:26.989426+00:00",
+          "level": "red",
+          "triggerValue": 0.13,
+          "baselineValue": null,
+          "ruleCode": "FINISH-vibration-RULE",
+          "ruleVersion": "V1.0",
+          "thresholds": {
+            "yellow": 0.03,
+            "orange": 0.08,
+            "red": 0.12
+          },
+          "basis": "固定统计窗口动态加速度有效值（绝对判定）",
+          "reason": "判定值 0.13 m/s² 达到红色紧急核查门槛",
+          "addedAt": "2026-10-30T11:09:27.035107+00:00",
+          "addedBy": "演示学校安全管理人员",
+          "addedByRole": "学校安全管理人员"
+        }
+      ],
+      "supersededEvidences": [],
+      "upgrades": [],
+      "timeline": [
+        {
+          "at": "2026-10-30T11:09:27.035107+00:00",
+          "by": "演示学校安全管理人员",
+          "action": "生成红色紧急核查事件",
+          "detail": "R20261030-004 触发值 0.13 m/s²；规则 FINISH-vibration-RULE V1.0"
+        }
+      ],
+      "acknowledgedAt": null,
+      "acknowledgedBy": "",
+      "closedAt": null,
+      "closedBy": "",
+      "closeBasis": "",
+      "note": "",
+      "createdAt": "2026-10-30T11:09:27.035107+00:00",
+      "createdBy": "演示学校安全管理人员",
+      "updatedAt": "2026-10-30T11:09:27.035107+00:00",
+      "updatedBy": "演示学校安全管理人员",
+      "rev": 1
+    }
+  ],
+  "priorEvents": 2
+}

@@ -1,0 +1,170 @@
+[
+  {
+    "id": "",
+    "text": "MONITOR / 监测小站",
+    "bounds": "[63,206][511,255]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "把变化，看清楚",
+    "bounds": "[63,280][701,387]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "三类监测 · 硬件输入模拟",
+    "bounds": "[63,411][566,464]",
+    "type": "Text"
+  },
+  {
+    "id": "scope-building",
+    "text": "全部楼栋",
+    "bounds": "[63,541][1257,716]",
+    "type": "Select"
+  },
+  {
+    "id": "monitor-statistics",
+    "text": "",
+    "bounds": "[63,779][1257,954]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "看看本周 / 本月守护统计",
+    "bounds": "[123,834][1197,900]",
+    "type": "Text"
+  },
+  {
+    "id": "filter-all",
+    "text": "全部",
+    "bounds": "[154,1017][386,1185]",
+    "type": "Button"
+  },
+  {
+    "id": "filter-crack",
+    "text": "裂缝",
+    "bounds": "[414,1017][646,1185]",
+    "type": "Button"
+  },
+  {
+    "id": "filter-tilt",
+    "text": "倾角",
+    "bounds": "[674,1017][906,1185]",
+    "type": "Button"
+  },
+  {
+    "id": "filter-vibration",
+    "text": "振动",
+    "bounds": "[934,1017][1166,1185]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "当前可见 500 个测点",
+    "bounds": "[63,1248][517,1305]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "裂缝 · FINISH-crack",
+    "bounds": "[312,1486][1190,1535]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "模拟crack监测站",
+    "bounds": "[130,1628][651,1710]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "小瞳守护教学楼 · 1层",
+    "bounds": "[130,1752][568,1805]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "0.52 mm",
+    "bounds": "[130,1847][446,1941]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "历史采样，非实时数据 · 硬件输入模拟",
+    "bounds": "[130,1983][846,2032]",
+    "type": "Text"
+  },
+  {
+    "id": "reading-note-pnt_d462d6c50005437ca6b39878165eeada",
+    "text": "",
+    "bounds": "[130,2074][1190,2249]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "这条读数怎么看？＋",
+    "bounds": "[190,2129][1130,2195]",
+    "type": "Text"
+  },
+  {
+    "id": "point-pnt_d462d6c50005437ca6b39878165eeada",
+    "text": "",
+    "bounds": "[130,2291][1190,2444]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "打开这处测点",
+    "bounds": "[190,2346][1130,2412]",
+    "type": "Text"
+  },
+  {
+    "id": "tab-0",
+    "text": "",
+    "bounds": "[68,2493][348,2695]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "工作台",
+    "bounds": "[82,2615][334,2664]",
+    "type": "Text"
+  },
+  {
+    "id": "tab-1",
+    "text": "",
+    "bounds": "[369,2493][650,2695]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "监测",
+    "bounds": "[383,2615][635,2664]",
+    "type": "Text"
+  },
+  {
+    "id": "tab-2",
+    "text": "",
+    "bounds": "[671,2493][951,2695]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "任务",
+    "bounds": "[685,2615][937,2664]",
+    "type": "Text"
+  },
+  {
+    "id": "tab-3",
+    "text": "",
+    "bounds": "[972,2493][1253,2695]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "我的",
+    "bounds": "[986,2615][1238,2664]",
+    "type": "Text"
+  }
+]

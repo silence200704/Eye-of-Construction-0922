@@ -2,8 +2,8 @@
   "app": {
     "bundleName": "org.zhutong.mobile",
     "vendor": "zhutong",
-    "versionCode": 1000000,
-    "versionName": "0.8.0-dev",
+    "versionCode": 1000001,
+    "versionName": "0.9.0-dev",
     "icon": "$media:layered_image",
     "label": "$string:app_name",
     "configuration": "$profile:configuration"

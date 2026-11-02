@@ -2,7 +2,7 @@
 
 ## 基本信息
 
-- 阶段：7 / 小瞳业务问答、知识解释、证据与会话；状态：**复审返修完成，保持待审核**，不进入阶段 8。
+- 阶段：7 / 小瞳业务问答、知识解释、证据与会话；状态：**2026-10-25最终复核通过**，见[独立复核](stage7/04-final-acceptance.md)；下一阶段为7A，本轮未进入阶段8。
 - 审核依据：`reports/stage7/02-rereview.md`、`prompts/07-assistant-rereview-fix.md`；
   上一轮基线 `76f78a1`（代码）/`1e6c8a5`（文档）。
 - 三轮修复 HEAD：`2579f1f`（RR1—RR7）、`9d1cb8f`（媒体所有权与显式空关系、结构拆分）；
@@ -20,7 +20,7 @@
 - 全量回归：后端 **266 passed、覆盖率 88.86%**，前端 **1165 passed / 122 files**；Ruff 248 文件、
   typecheck、build、tooling 5、结构门禁通过。
 - 严格断外网：业务 44/44、FAQ 20/20、冻结 57/60 完成，出站尝试 0 条。
-- 容器按 `2579f1f` 重建：迁移 0013、API healthy、业务表计数不变、10 个媒体 SHA 全同。
+- 容器按 `9d1cb8f` 重建：迁移 0013、API healthy、业务表计数不变、10 个媒体 SHA 全同；独立复核已核对容器内3个修改文件与源码SHA一致。
 - 宽屏 1440×900、窄屏 390×844 的真实截图与 DOM 快照已补；视频恢复页面显示 3 帧与区域结果。
 - 说明：复审独立实测为 263 passed / 1 failed；上一版自报 264 全过是错的，原因是本机结构门禁在报告后未再跑。
   `9d1cb8f` 修复后实测 266 passed、结构 2/2；本报告只引用修复后命令结果。
@@ -137,4 +137,4 @@
   - `verification/{questions.json,per-question.md,knowledge-paths.json,knowledge-paths.md,restore-after-restart.json,backup-restore.json,offline-process.json,container-rebuild.json}`
   - `page/interaction-evidence.md` 与宽窄屏 `.txt/.png`
   - `runtime/http-smoke.json`；原审核失败证据仍保留在 `evidence/stage7-review/`。
-- 阶段状态保持“待审核”；复审通过前不进入阶段 8。
+- 阶段状态已由最终复核更新为“通过”；接续阶段7A，本轮未实施阶段8。此前待审核记录保留为历史。

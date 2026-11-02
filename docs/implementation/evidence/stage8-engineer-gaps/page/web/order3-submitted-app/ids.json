@@ -1,0 +1,86 @@
+[
+  {
+    "id": "",
+    "text": "记录现场发现",
+    "bounds": "[0,137][1320,332]",
+    "type": "TitleBar"
+  },
+  {
+    "id": "__NavdestinationField__BackButton__Back__",
+    "text": "",
+    "bounds": "[56,164][196,304]",
+    "type": "BackButton"
+  },
+  {
+    "id": "__NavdestinationField__Text__MainTitle__",
+    "text": "记录现场发现",
+    "bounds": "[224,193][644,275]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "FIELD STORY / 现场记录",
+    "bounds": "[63,402][588,451]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "把维修，认真交接好",
+    "bounds": "[63,476][883,583]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "文字 + 照片，让后续处理更清楚",
+    "bounds": "[63,607][706,660]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "工单现场办理",
+    "bounds": "[130,804][446,866]",
+    "type": "Text"
+  },
+  {
+    "id": "report-target",
+    "text": "模拟crack监测站",
+    "bounds": "[130,908][737,1002]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "只办理当前工单，提交完工后由安全管理人员验收。",
+    "bounds": "[130,1044][1097,1093]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "这份记录，已经送达",
+    "bounds": "[130,1290][760,1372]",
+    "type": "Text"
+  },
+  {
+    "id": "report-feedback",
+    "text": "工单 WO-20261030-003 已由服务端保存；完工提交不等于验收通过。",
+    "bounds": "[130,1414][1184,1528]",
+    "type": "Text"
+  },
+  {
+    "id": "report-success",
+    "text": "工单 WO-20261030-003 · 待验收 · 0 张照片",
+    "bounds": "[130,1570][1188,1632]",
+    "type": "Text"
+  },
+  {
+    "id": "report-done",
+    "text": "",
+    "bounds": "[130,1674][1190,1849]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "返回工单，查看进度",
+    "bounds": "[190,1729][1130,1795]",
+    "type": "Text"
+  }
+]

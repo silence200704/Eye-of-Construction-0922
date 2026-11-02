@@ -1,6 +1,6 @@
 """保养计划与执行判定，与前端 core/maintenance/plan.ts 同口径。"""
 
-from .schedule import next_due_date, valid_day
+from .schedule import valid_day
 
 
 def validate_plan(draft: dict) -> list[str]:
@@ -47,7 +47,3 @@ def validate_completion(task: dict, answers: list[dict], measures: str, next_due
         raise ValueError("必须填写维护措施，否则验收与复查没有依据")
     if not valid_day(next_due):
         raise ValueError("下次保养日期不是合法日期（需形如 2026-10-25，且日历上真实存在）")
-
-
-def next_due_for(cycle: dict, from_day: str) -> str | None:
-    return next_due_date(cycle, from_day)

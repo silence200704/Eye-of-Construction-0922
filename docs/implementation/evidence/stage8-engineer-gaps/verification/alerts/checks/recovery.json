@@ -1,0 +1,12 @@
+{
+  "eventId": "evt_6c1b6742e8b44a2cb618ea67cdd2c4bf",
+  "status": "recovering",
+  "rev": 5,
+  "timeline": [
+    "生成红色紧急核查事件",
+    "确认事件，转入处理中",
+    "现场排查",
+    "处置措施",
+    "进入恢复待确认"
+  ]
+}

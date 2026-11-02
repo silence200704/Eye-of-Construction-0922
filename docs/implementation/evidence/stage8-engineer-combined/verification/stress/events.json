@@ -1,0 +1,20 @@
+{
+  "method": "Direct SQL fixture in independent stress DB; proves read/pagination only, not business writes.",
+  "countsPerPoint": {
+    "0": 5,
+    "1": 4,
+    "2": 3,
+    "3": 2,
+    "4": 1
+  },
+  "defaultCount": 1,
+  "nonZeroPoints": 45,
+  "expectedPages": 3,
+  "totals": {
+    "points": 500,
+    "records": 5006,
+    "events": 57,
+    "openEvents": 46,
+    "activePoints": 46
+  }
+}

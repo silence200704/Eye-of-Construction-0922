@@ -1,0 +1,98 @@
+[
+  {
+    "id": "",
+    "text": "维修手账",
+    "bounds": "[0,137][1320,332]",
+    "type": "TitleBar"
+  },
+  {
+    "id": "__NavdestinationField__BackButton__Back__",
+    "text": "",
+    "bounds": "[56,164][196,304]",
+    "type": "BackButton"
+  },
+  {
+    "id": "__NavdestinationField__Text__MainTitle__",
+    "text": "维修手账",
+    "bounds": "[224,193][504,275]",
+    "type": "Text"
+  },
+  {
+    "id": "order-reload",
+    "text": "",
+    "bounds": "[63,332][1257,354]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "已提交的现场证据",
+    "bounds": "[130,484][662,562]",
+    "type": "Text"
+  },
+  {
+    "id": "saved-photo-0",
+    "text": "",
+    "bounds": "[130,604][1190,779]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "查看第 1 张照片",
+    "bounds": "[190,659][1130,725]",
+    "type": "Text"
+  },
+  {
+    "id": "saved-photo-1",
+    "text": "",
+    "bounds": "[130,821][1190,996]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "查看第 2 张照片",
+    "bounds": "[190,876][1130,942]",
+    "type": "Text"
+  },
+  {
+    "id": "saved-photo-2",
+    "text": "",
+    "bounds": "[130,1038][1190,1213]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "查看第 3 张照片",
+    "bounds": "[190,1093][1130,1159]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "维修后照片",
+    "bounds": "[130,1255][393,1317]",
+    "type": "Text"
+  },
+  {
+    "id": "saved-photo-preview",
+    "text": "",
+    "bounds": "[130,1359][1190,2129]",
+    "type": "Image"
+  },
+  {
+    "id": "",
+    "text": "验收通过",
+    "bounds": "[130,2326][382,2400]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "模拟验收通过。",
+    "bounds": "[130,2442][474,2499]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "演示学校安全管理人员 · 2026/10/29 下午2:20:06",
+    "bounds": "[130,2541][1055,2590]",
+    "type": "Text"
+  }
+]

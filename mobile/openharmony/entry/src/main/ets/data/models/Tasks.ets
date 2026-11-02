@@ -62,6 +62,10 @@ export interface WorkOrder {
   orderNo: string;
   title: string;
   issueId: string | null;
+  eventId?: string | null;
+  origin?: string;
+  assignedBy?: string;
+  assignedAt?: string | null;
   pointId: string | null;
   status: string;
   assignee: string;

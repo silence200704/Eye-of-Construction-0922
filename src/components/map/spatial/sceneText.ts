@@ -13,12 +13,15 @@ export interface LabelOptions {
   height: number
   color?: string
   background?: string
+  /** 例如图书馆匾额使用宋体；一般数据标签保持页面系统字体 */
+  fontFamily?: string
 }
 
 const CACHE = new Map<string, THREE.Texture>()
 
 function textureOf(options: LabelOptions): THREE.Texture {
-  const key = `${options.text}|${options.color ?? ''}|${options.background ?? ''}`
+  const family = options.fontFamily ?? 'system-ui, "Microsoft YaHei", sans-serif'
+  const key = `${options.text}|${options.color ?? ''}|${options.background ?? ''}|${family}`
   const cached = CACHE.get(key)
   if (cached !== undefined) return cached
 
@@ -27,7 +30,7 @@ function textureOf(options: LabelOptions): THREE.Texture {
   const canvas = document.createElement('canvas')
   const ctx = canvas.getContext('2d')
   if (ctx === null) throw new Error('本机浏览器不支持画布，无法生成 3D 标签')
-  ctx.font = `600 ${font}px system-ui, "Microsoft YaHei", sans-serif`
+  ctx.font = `600 ${font}px ${family}`
   const width = Math.ceil(ctx.measureText(options.text).width) + pad * 2
   const height = font + pad * 2
   canvas.width = width
@@ -43,7 +46,7 @@ function textureOf(options: LabelOptions): THREE.Texture {
     paint.lineWidth = 2
     paint.strokeRect(1, 1, width - 2, height - 2)
   }
-  paint.font = `600 ${font}px system-ui, "Microsoft YaHei", sans-serif`
+  paint.font = `600 ${font}px ${family}`
   paint.fillStyle = options.color ?? '#16232a'
   paint.textBaseline = 'middle'
   paint.fillText(options.text, pad, height / 2)

@@ -20,19 +20,26 @@ export interface NavWorkspace {
 export const NAV_GROUPS: NavGroup[] = [
   {
     key: 'campus', label: '看现场', items: [
-      { to: '/dashboard', label: '校园态势', d: 'M4 13h4v7H4zM10 8h4v12h-4zM16 5h4v15h-4z' },
+      { to: '/', label: '校园总览', d: 'M3 11l9-8 9 8M5 10v10h14V10' },
+      { to: '/dashboard', label: '传感器驾驶舱', d: 'M4 19V5M4 19h16M7 16l3-5 3 2 4-6' },
       { to: '/campus', label: '校园地图', d: 'M9 3 3 5.5v15L9 18l6 3 6-2.5v-15L15 6zM9 3v15M15 6v15' },
+      { to: '/archive', label: '建筑与设备', d: 'M4 7l8-4 8 4-8 4-8-4zM4 12l8 4 8-4M4 17l8 4 8-4' },
     ],
   },
   {
     key: 'monitor', label: '查数据', items: [
-      { to: '/monitor', label: '监测分析', d: 'M3 17l4-6 4 3 3-5 4 4h3M3 21h18' },
+      { to: '/monitor', label: '监测数据', d: 'M3 17l4-6 4 3 3-5 4 4h3M3 21h18' },
+      { to: '/trend', label: '监测趋势', d: 'M4 19V5M4 19h16M7 15l4-5 3 3 5-7' },
+      { to: '/media', label: '影像对比', d: 'M4 5h16v14H4zM8 13l3-3 3 3 2-2 3 4M8 9h.01' },
     ],
   },
   {
     key: 'operations', label: '办事务', items: [
-      { to: '/alarms', label: '异常处置', d: 'M12 3l9 16H3zM12 9v5M12 17h.01' },
-      { to: '/inspection', label: '现场任务', d: 'M9 11l2 2 4-4M5 4h14v16H5zM9 3v3M15 3v3' },
+      { to: '/alarms', label: '预警中心', d: 'M12 3l9 16H3zM12 9v5M12 17h.01' },
+      { to: '/issues', label: '问题与工单', d: 'M5 4h14v16H5zM9 3v3M15 3v3M8 11h8M8 15h5' },
+      { to: '/standards', label: '预警标准', d: 'M4 6h16M7 12h10M10 18h4M4 6v12M20 6v12' },
+      { to: '/inspection', label: '点检巡检', d: 'M9 11l2 2 4-4M5 4h14v16H5zM9 3v3M15 3v3' },
+      { to: '/maintenance', label: '设备保养', d: 'M14 7a4 4 0 0 0-5 5l-6 6 3 3 6-6a4 4 0 0 0 5-5l-2 2-2-2z' },
     ],
   },
   {

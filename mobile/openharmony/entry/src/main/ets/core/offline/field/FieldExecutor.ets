@@ -48,7 +48,10 @@ export class FieldExecutor {
       await this.options.queue.update(row);
       if (row.photos.some((photo) => !photo.mediaId)) {
         row.phase = 'uploading'; await this.options.queue.update(row);
-        await uploadBusinessPhotos(row.photos, { access, current: this.options.access, files: this.options.files,
+        const payload = JSON.parse(row.write.body) as Record<string, string>;
+        const pointId = payload['pointId'] || access.workspace.orders.find((item) => item.id === row.write.targetId)?.pointId ||
+          access.workspace.maintenance?.find((item) => item.id === row.write.targetId)?.snapshot.pointId || '';
+        await uploadBusinessPhotos(row.photos, { access, current: this.options.access, files: this.options.files, pointId,
           save: async () => this.options.queue.update(row) });
         const prepared = await this.options.queue.prepare(row.id, row.scope); if (!prepared) return; row = prepared;
       }

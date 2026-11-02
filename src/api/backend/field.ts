@@ -295,15 +295,6 @@ export interface ReportExport {
   to: string
 }
 
-export interface EventReportData {
-  eventId: string
-  eventNo: string
-  title: string
-  closed: boolean
-  sections: { title: string; question: string; rows: { label: string; value: string }[] }[]
-  timeline: { at: string; by: string; action: string; detail: string }[]
-}
-
 export async function fetchIndicators(
   params: Record<string, string>,
 ): Promise<{ indicators: ReportIndicator[] }> {
@@ -315,8 +306,4 @@ export async function fetchReportExport(
   params: Record<string, string>,
 ): Promise<ReportExport> {
   return read<ReportExport>('/reports/export', { kind, ...params })
-}
-
-export async function fetchEventReport(eventId: string): Promise<EventReportData> {
-  return read<EventReportData>(`/reports/events/${eventId}`)
 }

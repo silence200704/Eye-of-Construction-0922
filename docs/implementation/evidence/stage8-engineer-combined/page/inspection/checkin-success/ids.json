@@ -1,0 +1,146 @@
+[
+  {
+    "id": "",
+    "text": "巡检手账",
+    "bounds": "[0,137][1320,332]",
+    "type": "TitleBar"
+  },
+  {
+    "id": "__NavdestinationField__BackButton__Back__",
+    "text": "",
+    "bounds": "[56,164][196,304]",
+    "type": "BackButton"
+  },
+  {
+    "id": "__NavdestinationField__Text__MainTitle__",
+    "text": "巡检手账",
+    "bounds": "[224,193][504,275]",
+    "type": "Text"
+  },
+  {
+    "id": "task-point-pnt_d462d6c50005437ca6b39878165eeada",
+    "text": "",
+    "bounds": "[63,332][1257,504]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "1",
+    "bounds": "[116,349][154,423]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "模拟crack监测站",
+    "bounds": "[189,332][577,384]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "已到点，待检查",
+    "bounds": "[189,402][484,451]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "当前",
+    "bounds": "[1119,362][1204,411]",
+    "type": "Text"
+  },
+  {
+    "id": "inspection-arrived",
+    "text": "到点核对通过，接下来填写检查清单。",
+    "bounds": "[63,567][897,624]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "② 一项一项，认真查看",
+    "bounds": "[63,687][782,769]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "按任务生成时的清单填写；未作答的必填项不能提交。",
+    "bounds": "[63,825][1072,874]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "必答 · 墙面与结构外观",
+    "bounds": "[130,997][728,1067]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "查看裂缝、起鼓与松动",
+    "bounds": "[130,1109][551,1158]",
+    "type": "Text"
+  },
+  {
+    "id": "answer-wall-ok",
+    "text": "正常",
+    "bounds": "[130,1200][646,1368]",
+    "type": "Button"
+  },
+  {
+    "id": "answer-wall-abnormal",
+    "text": "异常",
+    "bounds": "[674,1200][1190,1368]",
+    "type": "Button"
+  },
+  {
+    "id": "answer-wall-note",
+    "text": "",
+    "bounds": "[130,1410][1190,1690]",
+    "type": "TextArea"
+  },
+  {
+    "id": "inspection-feedback",
+    "text": "人工兜底核对通过（标签 TAG-UNIFIED-CRACK v2）",
+    "bounds": "[63,1820][1215,1877]",
+    "type": "Text"
+  },
+  {
+    "id": "inspection-complete",
+    "text": "",
+    "bounds": "[63,1940][1257,2115]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "③ 提交本测点检查",
+    "bounds": "[123,1995][1197,2061]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "本测点到点记录",
+    "bounds": "[130,2245][571,2319]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "通过 · 人工核对",
+    "bounds": "[130,2361][475,2418]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "人工兜底核对通过（标签 TAG-UNIFIED-CRACK v2）",
+    "bounds": "[130,2460][1118,2509]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "2026/10/30 上午11:50:45",
+    "bounds": "[130,2551][575,2596]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "人工原因：NFC标签损坏，已人工核对点位与外观。",
+    "bounds": "[130,2638][1094,2687]",
+    "type": "Text"
+  }
+]

@@ -1,0 +1,146 @@
+[
+  {
+    "id": "identity-demo-property",
+    "text": "",
+    "bounds": "[130,137][1190,311]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "物业值班人员",
+    "bounds": "[371,145][1047,234]",
+    "type": "Text"
+  },
+  {
+    "id": "identity-demo-device",
+    "text": "",
+    "bounds": "[130,353][1190,597]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "设备管理人员",
+    "bounds": "[371,431][1047,520]",
+    "type": "Text"
+  },
+  {
+    "id": "identity-demo-inspector",
+    "text": "",
+    "bounds": "[130,639][1190,883]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "巡检人员",
+    "bounds": "[371,717][1047,806]",
+    "type": "Text"
+  },
+  {
+    "id": "identity-demo-repair",
+    "text": "",
+    "bounds": "[130,925][1190,1169]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "维修人员",
+    "bounds": "[371,1003][1047,1092]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "只切换身份，不用账号密码。权限与可见范围由服务端核验。",
+    "bounds": "[130,1211][1135,1341]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "轻动效",
+    "bounds": "[130,1538][389,1639]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "安静模式，所有操作照常可用",
+    "bounds": "[130,1657][922,1728]",
+    "type": "Text"
+  },
+  {
+    "id": "motion-toggle",
+    "text": "",
+    "bounds": "[1058,1598][1184,1668]",
+    "type": "Toggle"
+  },
+  {
+    "id": "refresh-workspace",
+    "text": "",
+    "bounds": "[63,1857][1257,2050]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "刷新当前授权范围",
+    "bounds": "[123,1906][1197,2001]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "最近读取 2026/10/30 上午11:36:12",
+    "bounds": "[63,2113][946,2178]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "筑瞳原生 App 0.8.0 · 硬件输入模拟\n在线监测、预警、巡检、上报与工单；完整离线同步按后续阶段提供。",
+    "bounds": "[63,2241][1231,2418]",
+    "type": "Text"
+  },
+  {
+    "id": "tab-0",
+    "text": "",
+    "bounds": "[68,2471][348,2695]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "工作台",
+    "bounds": "[82,2593][334,2664]",
+    "type": "Text"
+  },
+  {
+    "id": "tab-1",
+    "text": "",
+    "bounds": "[369,2471][650,2695]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "监测",
+    "bounds": "[383,2593][635,2664]",
+    "type": "Text"
+  },
+  {
+    "id": "tab-2",
+    "text": "",
+    "bounds": "[671,2471][951,2695]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "任务",
+    "bounds": "[685,2593][937,2664]",
+    "type": "Text"
+  },
+  {
+    "id": "tab-3",
+    "text": "",
+    "bounds": "[972,2471][1253,2695]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "我的",
+    "bounds": "[986,2593][1238,2664]",
+    "type": "Text"
+  }
+]

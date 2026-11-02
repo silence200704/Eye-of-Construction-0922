@@ -1,7 +1,5 @@
 """工单状态机与事件关闭处置依据，与前端 core/inspection/workOrderFlow.ts 同口径。"""
 
-from ...operations.identity_types import ROLES
-
 NEXT_STATUSES = {
     "created": {"assigned"},
     "assigned": {"repairing"},
@@ -13,10 +11,6 @@ NEXT_STATUSES = {
 
 REPAIR_ROLES = {"repair", "property"}
 VERIFY_ROLE = "safety"
-
-
-def role_label(role: str) -> str:
-    return ROLES.get(role, role)
 
 
 def is_assigned_to(order: dict, actor: dict) -> bool:

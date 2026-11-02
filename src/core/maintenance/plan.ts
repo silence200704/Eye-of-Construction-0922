@@ -85,15 +85,6 @@ export function maintenanceKeyOf(planId: string, plannedAt: string): string {
   return `${planId}@${plannedAt}`
 }
 
-/**
- * 任务编号前缀用的自然日键（YYYYMMDD）。
- * **按本地时间取日**：执行时刻按本地时间存成 ISO 串，直接切前 10 位拿到的是 UTC 日期，
- * 东八区凌晨（例如 02:00）会算成前一天，编号与截止时刻都会跟着错一天。
- */
-export function maintenanceDayKey(plannedAt: string): string {
-  return localDayKey(new Date(plannedAt)).replace(/-/g, '')
-}
-
 /** 计划快照：把"当时按什么要求保养"固定下来。 */
 export function maintenanceSnapshotOf(input: {
   plan: MaintenancePlan

@@ -1,0 +1,32 @@
+[
+  {
+    "role": "property",
+    "identityId": "demo-property",
+    "currentLabel": "当前：物业值班人员",
+    "nativeUiVerified": true
+  },
+  {
+    "role": "device",
+    "identityId": "demo-device",
+    "currentLabel": "当前：设备管理人员",
+    "nativeUiVerified": true
+  },
+  {
+    "role": "inspector",
+    "identityId": "demo-inspector",
+    "currentLabel": "当前：巡检人员",
+    "nativeUiVerified": true
+  },
+  {
+    "role": "repair",
+    "identityId": "demo-repair",
+    "currentLabel": "当前：维修人员",
+    "nativeUiVerified": true
+  },
+  {
+    "role": "safety",
+    "identityId": "demo-safety",
+    "currentLabel": "当前：学校安全管理人员",
+    "nativeUiVerified": true
+  }
+]

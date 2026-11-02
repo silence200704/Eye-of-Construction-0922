@@ -1,0 +1,28 @@
+{
+  "tablesEqual": true,
+  "mediaEqual": true,
+  "tables": 40,
+  "media": 4,
+  "businessSha": {
+    "count": 1,
+    "sha256": "68ce9b27439ac82eda75f681d3b1ee674aaadbb26b64f5b3ce77b345ba1c80cb"
+  },
+  "mediaList": {
+    "media/files/1a/1a55f83243c44da295b1be861fb8f16c": {
+      "sha256": "2791ad37d05d0e8ae2f4dc51fe7d2c2ca8c2de58dee30d306e51c32fa6730e0c",
+      "bytes": 30990
+    },
+    "media/files/69/69b03767832e47fab0a3fc94e1b16ff8": {
+      "sha256": "72671b6d4846d2b8b379e76d12ad26271171d8dadc0341c619118728bd2193dc",
+      "bytes": 30819
+    },
+    "media/files/bf/bfb02e55456f429384dba9291da65919": {
+      "sha256": "2cf2893b69e728f0c8b692628f8ff08fec5794d813950f530b4ca3b316a5613c",
+      "bytes": 28914
+    },
+    "media/files/d6/d6d6fd068aa94b5b8325ce1d4ca9485c": {
+      "sha256": "275567c7fd85b941083bcfe9aadd167ec8e85b7aa6d1abbea66b2fec0d8b13dd",
+      "bytes": 28791
+    }
+  }
+}

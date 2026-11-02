@@ -4,6 +4,29 @@ import { test } from 'node:test'
 import ts from 'typescript'
 
 const FILES = [
+  'src/App.vue',
+  'src/components/AppShell.vue',
+  'src/components/ui/AppButton.vue',
+  'src/components/ui/AppModal.vue',
+  'src/components/ui/EmptyState.vue',
+  'src/components/ui/SectionCard.vue',
+  'src/components/shell/FeatureLinks.vue',
+  'src/components/shell/NavGroups.vue',
+  'src/components/shell/PageStage.vue',
+  'src/components/shell/QuickNavigation.vue',
+  'src/components/shell/RouteProgress.vue',
+  'src/components/shell/CompanionCard.vue',
+  'src/components/visual/UiGlyph.vue',
+  'src/components/visual/CampusBackdrop.vue',
+  'src/components/visual/CampusScene.vue',
+  'src/components/visual/WorkspaceWelcome.vue',
+  'src/components/visual/WorkspaceIntro.vue',
+  'src/components/visual/QuickActions.vue',
+  'src/core/useForm.ts',
+  'src/core/ui/navigationActivity.ts',
+  'src/directives/edgeLight.ts',
+  'src/views/OverviewView.vue',
+  'src/views/dashboard/DashboardView.vue',
   'src/api/knowledge/client.ts',
   'src/api/knowledge/types.ts',
   'src/views/knowledge/KnowledgeView.vue',
@@ -43,6 +66,11 @@ const FILES = [
   'src/assistant/linkage/compose.ts',
   'src/views/media/MediaView.vue',
   'src/components/assistant/AskAnswer.vue',
+  'src/components/assistant/AskComposer.vue',
+  'src/components/assistant/AssistantPanel.vue',
+  'src/components/assistant/presentation/AssistantHeader.vue',
+  'src/components/assistant/presentation/AssistantWelcome.vue',
+  'src/components/assistant/presentation/composerKeys.ts',
   'src/components/assistant/presentation/AnswerSources.vue',
   'src/components/media/MediaSourcePanel.vue',
   'src/components/media/MediaComparePanel.vue',
@@ -59,7 +87,7 @@ function lineCount(source) {
   return source.split(/\r?\n/).length
 }
 
-test('阶段 5—7 实际改动的 TS/Vue 函数不超过 80 行、参数不超过 5 个', () => {
+test('阶段 5—7A 实际改动的 TS/Vue 函数不超过 80 行、参数不超过 5 个', () => {
   const problems = []
   for (const file of FILES) {
     const source = sourceOf(file)
@@ -92,7 +120,8 @@ test('阶段 5—7 实际改动的 TS/Vue 函数不超过 80 行、参数不超�
       ts.forEachChild(node, visit)
     }
     visit(script)
-    if (lineCount(source) > 450) problems.push(`${file} fileLines=${lineCount(source)}`)
+    const fileLines = lineCount(readFileSync(file, 'utf8'))
+    if (fileLines > 450) problems.push(`${file} fileLines=${fileLines}`)
   }
   assert.deepEqual(problems, [])
 })

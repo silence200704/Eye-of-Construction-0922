@@ -5,7 +5,7 @@ const route = useRoute()
 const stage = ref<HTMLElement | null>(null)
 watch(() => route.path, async () => {
   await nextTick()
-  const content = stage.value?.parentElement
+  const content = stage.value?.closest<HTMLElement>('.content')
   if (content) content.scrollTop = 0
 })
 </script>

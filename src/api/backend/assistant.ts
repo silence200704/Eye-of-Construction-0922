@@ -133,10 +133,6 @@ export async function askServer(input: {
   return result.data
 }
 
-export function fetchSessions(): Promise<RemoteSession[]> {
-  return read<RemoteSession[]>('/assistant/sessions')
-}
-
 export function fetchSession(sessionId: string): Promise<RemoteSession> {
   return read<RemoteSession>(`/assistant/sessions/${encodeURIComponent(sessionId)}`)
 }

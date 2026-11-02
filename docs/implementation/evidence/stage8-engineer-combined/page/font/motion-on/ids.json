@@ -1,0 +1,74 @@
+[
+  {
+    "id": "identity-demo-property",
+    "text": "",
+    "bounds": "[130,137][1190,217]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "物业值班人员",
+    "bounds": "[371,137][1047,140]",
+    "type": "Text"
+  },
+  {
+    "id": "identity-demo-device",
+    "text": "",
+    "bounds": "[130,259][1190,503]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "设备管理人员",
+    "bounds": "[371,337][1047,426]",
+    "type": "Text"
+  },
+  {
+    "id": "identity-demo-inspector",
+    "text": "",
+    "bounds": "[130,545][1190,789]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "巡检人员",
+    "bounds": "[371,623][1047,712]",
+    "type": "Text"
+  },
+  {
+    "id": "identity-demo-repair",
+    "text": "",
+    "bounds": "[130,831][1190,1075]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "维修人员",
+    "bounds": "[371,909][1047,998]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "只切换身份，不用账号密码。权限与可见范围由服务端核验。",
+    "bounds": "[130,1117][1135,1247]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "轻动效",
+    "bounds": "[130,1444][389,1545]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "小瞳会轻轻动，按钮会回弹",
+    "bounds": "[130,1563][861,1634]",
+    "type": "Text"
+  },
+  {
+    "id": "motion-toggle",
+    "text": "",
+    "bounds": "[1058,1504][1184,1574]",
+    "type": "Toggle"
+  }
+]

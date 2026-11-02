@@ -1,0 +1,98 @@
+[
+  {
+    "id": "",
+    "text": "预警处置",
+    "bounds": "[0,137][1320,332]",
+    "type": "TitleBar"
+  },
+  {
+    "id": "__NavdestinationField__BackButton__Back__",
+    "text": "",
+    "bounds": "[56,164][196,304]",
+    "type": "BackButton"
+  },
+  {
+    "id": "__NavdestinationField__Text__MainTitle__",
+    "text": "预警处置",
+    "bounds": "[224,193][504,275]",
+    "type": "Text"
+  },
+  {
+    "id": "alarm-note-open",
+    "text": "",
+    "bounds": "[63,332][1257,462]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "登记排查 / 处置措施",
+    "bounds": "[123,342][1197,408]",
+    "type": "Text"
+  },
+  {
+    "id": "alarm-close-open",
+    "text": "",
+    "bounds": "[63,525][1257,700]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "收起恢复核查",
+    "bounds": "[123,580][1197,646]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "核对恢复依据，关闭当前预警",
+    "bounds": "[130,830][1040,912]",
+    "type": "Text"
+  },
+  {
+    "id": "alarm-close-basis",
+    "text": "",
+    "bounds": "[130,954][1190,1374]",
+    "type": "TextArea"
+  },
+  {
+    "id": "alarm-close-note",
+    "text": "",
+    "bounds": "[130,1416][1190,1836]",
+    "type": "TextArea"
+  },
+  {
+    "id": "alarm-close-save",
+    "text": "",
+    "bounds": "[130,1878][1190,2053]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "提交恢复依据并关闭预警",
+    "bounds": "[190,1933][1130,1999]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "服务端复核连续恢复记录、当前工单和权限；不满足时保留填写内容并提示原因。",
+    "bounds": "[130,2095][1177,2201]",
+    "type": "Text"
+  },
+  {
+    "id": "alarm-reload",
+    "text": "",
+    "bounds": "[63,2331][1257,2506]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "刷新当前预警",
+    "bounds": "[123,2386][1197,2452]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "声光模拟 · 仅本机预览",
+    "bounds": "[130,2636][833,2718]",
+    "type": "Text"
+  }
+]

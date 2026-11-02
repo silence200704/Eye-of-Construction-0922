@@ -66,23 +66,3 @@ def end_of_day(day: str) -> str:
     if target is None:
         raise ValueError("日期无效")
     return target.replace(hour=23, minute=59, second=59).astimezone(UTC).isoformat()
-
-
-def next_due_date(cycle: dict, from_day: str) -> str | None:
-    start = parse_day(from_day)
-    if start is None:
-        return None
-    step = max(1, int(cycle.get("interval", 1)))
-    unit = cycle.get("unit")
-    if unit == "day":
-        result = start + timedelta(days=step)
-    elif unit == "week":
-        result = start + timedelta(days=7 * step)
-    else:
-        wanted = start.day
-        result = start.replace(day=1)
-        month = result.month - 1 + step
-        result = result.replace(year=result.year + month // 12, month=month % 12 + 1)
-        last = (result.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)
-        result = result.replace(day=min(wanted, last.day))
-    return result.strftime("%Y-%m-%d")

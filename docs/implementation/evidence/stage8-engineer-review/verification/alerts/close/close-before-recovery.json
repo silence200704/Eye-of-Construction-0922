@@ -1,0 +1,17 @@
+{
+  "httpStatus": 409,
+  "response": {
+    "ok": false,
+    "error": {
+      "code": "STATE_CONFLICT",
+      "message": "仅“恢复待确认”状态可关闭；请先确认事件并等待数据回落到恢复阈值以下",
+      "retryable": false,
+      "details": {}
+    },
+    "meta": {
+      "requestId": "385807b8f60c4db59b34fca6a5096a69"
+    }
+  },
+  "eventStatus": "handling",
+  "rev": 3
+}

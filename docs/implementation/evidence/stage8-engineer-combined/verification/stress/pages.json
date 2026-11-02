@@ -1,0 +1,124 @@
+{
+  "p2": [
+    {
+      "label": "压力测点 019",
+      "count": 1
+    },
+    {
+      "label": "压力测点 020",
+      "count": 1
+    },
+    {
+      "label": "压力测点 021",
+      "count": 1
+    },
+    {
+      "label": "压力测点 022",
+      "count": 1
+    },
+    {
+      "label": "压力测点 023",
+      "count": 1
+    },
+    {
+      "label": "压力测点 024",
+      "count": 1
+    },
+    {
+      "label": "压力测点 025",
+      "count": 1
+    },
+    {
+      "label": "压力测点 026",
+      "count": 1
+    },
+    {
+      "label": "压力测点 027",
+      "count": 1
+    },
+    {
+      "label": "压力测点 028",
+      "count": 1
+    },
+    {
+      "label": "压力测点 029",
+      "count": 1
+    },
+    {
+      "label": "压力测点 030",
+      "count": 1
+    },
+    {
+      "label": "压力测点 031",
+      "count": 1
+    },
+    {
+      "label": "压力测点 032",
+      "count": 1
+    },
+    {
+      "label": "压力测点 033",
+      "count": 1
+    },
+    {
+      "label": "压力测点 034",
+      "count": 1
+    },
+    {
+      "label": "压力测点 035",
+      "count": 1
+    },
+    {
+      "label": "压力测点 036",
+      "count": 1
+    },
+    {
+      "label": "压力测点 037",
+      "count": 1
+    },
+    {
+      "label": "压力测点 038",
+      "count": 1
+    }
+  ],
+  "p3": [
+    {
+      "label": "压力测点 039",
+      "count": 1
+    },
+    {
+      "label": "压力测点 040",
+      "count": 1
+    },
+    {
+      "label": "压力测点 041",
+      "count": 1
+    },
+    {
+      "label": "压力测点 042",
+      "count": 1
+    },
+    {
+      "label": "压力测点 043",
+      "count": 1
+    },
+    {
+      "label": "压力测点 044",
+      "count": 1
+    },
+    {
+      "label": "压力测点 045",
+      "count": 1
+    }
+  ],
+  "footer2": "共47项 · 第2/3页 · 每页20项",
+  "footer3": "共47项 · 第3/3页 · 每页20项",
+  "state2": {
+    "previousEnabled": "true",
+    "nextEnabled": "true"
+  },
+  "state3": {
+    "previousEnabled": "true",
+    "nextEnabled": "false"
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "capturedAt": "2026-10-26T13:57:41.281348+08:00",
+  "bundleName": "org.zhutong.platformprobe",
+  "compileSdk": {
+    "runtimeOS": "OpenHarmony",
+    "api": 20,
+    "version": "6.0.0.47",
+    "releaseType": "Beta1"
+  },
+  "runtime": {
+    "imageLabel": "HarmonyOS 6.1.1(24)",
+    "core": "OpenHarmony-6.1.1.125",
+    "api": 24,
+    "device": "Pura 90 emulator",
+    "target": "127.0.0.1:5555"
+  },
+  "build": {
+    "task": "assembleApp --no-daemon",
+    "exitCode": 0,
+    "durationSeconds": 11.538,
+    "warningsPresent": true
+  },
+  "signing": {
+    "type": "debug",
+    "verified": true,
+    "fixture": "SDK public development fixture",
+    "profileExpiresAt": "2026-11-25T05:51:49+00:00",
+    "productionSigning": false
+  },
+  "installation": {
+    "exitCode": 0,
+    "response": "install bundle successfully",
+    "startResponse": "start ability successfully",
+    "signedHapSha256": "8aa593b51098370af18c3b35427f53b3db6bb8493e65564f14c223ef6e12fe1f"
+  },
+  "checks": {
+    "pngDecoded": 52,
+    "svgDecoded": 52,
+    "dimensionsMatch": 104,
+    "pngImageLoaded": true,
+    "svgImageLoaded": true,
+    "nativeCapabilities": 4,
+    "nativeCapabilitiesPassed": 4,
+    "rdbBeforeRestart": 1,
+    "rdbAfterRestart": 2
+  },
+  "ports": [
+    {
+      "url": "http://127.0.0.1:8080/",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:18000/api/v1/health/ready",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8000/",
+      "status": "unavailable",
+      "reason": "<urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>"
+    },
+    {
+      "url": "http://127.0.0.1:5173/",
+      "status": "unavailable",
+      "reason": "<urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>"
+    }
+  ],
+  "scope": {
+    "businessApiWritesIssued": false,
+    "identitySwitchTested": false,
+    "physicalDeviceTested": false,
+    "cameraPhotoPickerTested": false,
+    "navigationFontScaleTested": false,
+    "offlineBusinessQueueTested": false
+  },
+  "structure": {
+    "nativeCodeFiles": 8,
+    "maxNativeCodeFileLines": 95,
+    "pythonAstLimits": "passed",
+    "nonUiArktsAstLimits": "passed (14 functions; max22 lines/3 params)",
+    "uiReview": "manual; max22 lines/0 params",
+    "directoryFileLimit": 8
+  },
+  "sources": {
+    "mobile/platform-probe/.gitignore": "53b7c8441b7c95ccb7759fd7b1727275bd7b94e1b52bae8f3fa00f068cd0770d",
+    "mobile/platform-probe/build-profile.json5": "d3aaa3921136f991f452bbebadad6c7a240b970886e802c8b0b694ccaf6997c4",
+    "mobile/platform-probe/code-linter.json5": "f557c3bcdb40c64c986bffed9628310cc7a79fb7d2642c1c8b8d265fd92e25ad",
+    "mobile/platform-probe/hvigorfile.ts": "383227660c07fa9335caf3e65b8975c65fcbcc8b910ba84d0bc67b22afcd56cd",
+    "mobile/platform-probe/oh-package-lock.json5": "738d44a280f1bec5bbcac8cf183d8d02c87c856d45768a02dadd2feba404beef",
+    "mobile/platform-probe/oh-package.json5": "e551262ed52d5789b1edf30413320dd89297b8ab0f8eef140c9b8a8fb73527a0",
+    "mobile/platform-probe/README.md": "7872edfbf3b7dd481878966ca05c3aeecaf691171a93fd855be8f2c6d5e6ae26",
+    "mobile/platform-probe/AppScope/app.json5": "94c26dc3a8f9e3ceb9b5d98608b9de4f0565d712f7650ab607a27c6c348e6562",
+    "mobile/platform-probe/entry/build-profile.json5": "165c5e02e368cfae38401dbfc371a106ab3f5a8a1ed05078625c0f1c573476dc",
+    "mobile/platform-probe/entry/hvigorfile.ts": "67cc02aa9ccf2f3a2c58e7fee4b6e3a00ffb6128c11f76b7fec5f00ad2d63581",
+    "mobile/platform-probe/entry/obfuscation-rules.txt": "c7f48577fcd27a346883a1a527653eff132cab29666133a49e1ec4d372ec5a93",
+    "mobile/platform-probe/entry/oh-package.json5": "5721fda56a382803c6c18c8f86208fd5a5548d2fa5e045c9e0b52c48d9220e7c",
+    "mobile/platform-probe/hvigor/hvigor-config.json5": "3e722e194b9cb2427bf08b302c3eaae7e9c1bff5f13a620777dcc31442b700de",
+    "mobile/platform-probe/entry/src/main/module.json5": "9709555fd1a8bcd58dce59d702360f6b59ba3caf4d96c1d097dc2597fc8ec468",
+    "mobile/platform-probe/entry/src/main/resources/dark/element/color.json": "d6be6bfa9cfce320f6bb9b92dd09614db27e16bc2c9c90edf057bd682dc3ecbf",
+    "mobile/platform-probe/entry/src/main/resources/base/element/color.json": "40dce2e2f49200e562eaad66d43f3212f4371cafd2c83c558c2cb6401434ef52",
+    "mobile/platform-probe/entry/src/main/resources/base/element/float.json": "3ad317ad8b46b69683fce81f0e5b808dfde752594ec0334691917af7b5383a12",
+    "mobile/platform-probe/entry/src/main/resources/base/element/string.json": "81bbf40885bba06ac0693ce6de7a48cff51c0a01ff6c00cdb32ecda53709e3f3",
+    "mobile/platform-probe/entry/src/main/resources/base/media/background.png": "497edeafc51af043c73e72ee8c4fbac4663357ef1ba275c0289f31a366b26239",
+    "mobile/platform-probe/entry/src/main/resources/base/media/foreground.png": "57e549283f255505a649042f36a1d6793c307a69a94c9fa7e27a38af38ddbe8c",
+    "mobile/platform-probe/entry/src/main/resources/base/media/layered_image.json": "3d18dcd7ed9e7d3d2c54c20cb80a44eb4877c661131c68a46e20b6e19d0bb476",
+    "mobile/platform-probe/entry/src/main/resources/base/media/startIcon.png": "567c7c0c7a321ca180e010ad880f0f7519f6d351ac2b9665e2ee710e7cfe7778",
+    "mobile/platform-probe/entry/src/main/resources/base/profile/main_pages.json": "f21984fb1d5096f0db41314da0bb94c573e7ad018e5afae3044f8d5ff71b0bfc",
+    "mobile/platform-probe/entry/src/main/ets/entryability/EntryAbility.ets": "1ebb1a1ef81cfe5f94c8297dc15f78823a96c9e88032dde6b079b58b9af7fdab",
+    "mobile/platform-probe/entry/src/main/ets/pages/Index.ets": "144067d9957f144b0ca567761394b0cd9a739655f49c7d7aabf1590006e6e541",
+    "mobile/platform-probe/entry/src/main/ets/pages/probe/AssetProbe.ets": "cbf81ae43912d05285919e9c6e0627cddbb6ca49caf6f70304411c8771c58a9a",
+    "mobile/platform-probe/entry/src/main/ets/pages/probe/CapabilityProbe.ets": "4fad65a7c8796b80c0209a78caedfe31fd281fd9b6c61eab7f3255131447be2e",
+    "mobile/platform-probe/entry/src/main/ets/pages/probe/ProbeModels.ets": "0a7c1e277997c1ac938ba84465979ba3c2a7957bd9d2836faf663649e8a2f8e1",
+    "mobile/platform-probe/entry/src/main/ets/pages/probe/StorageProbe.ets": "d412d14f4c19b813eec902292a1c365abf24a081a3aeb4021b53a45db7ed9b79",
+    "mobile/platform-probe/AppScope/resources/base/element/string.json": "f91c910a558a436eec94790c3e5c1a7f3e80869d9c5862e893db67d1c4b3fe7c",
+    "mobile/platform-probe/AppScope/resources/base/media/background.png": "497edeafc51af043c73e72ee8c4fbac4663357ef1ba275c0289f31a366b26239",
+    "mobile/platform-probe/AppScope/resources/base/media/foreground.png": "61a796d5a9fc5853e9cd0f1e3e730896a6bcb94a34a37765c4d1959bf64dfa43",
+    "mobile/platform-probe/AppScope/resources/base/media/layered_image.json": "3d18dcd7ed9e7d3d2c54c20cb80a44eb4877c661131c68a46e20b6e19d0bb476"
+  },
+  "artifactMetadata": {
+    "bundleName": "org.zhutong.platformprobe",
+    "minAPIVersion": 20,
+    "targetAPIVersion": 20,
+    "deviceTypes": [
+      "default"
+    ],
+    "arkBytecodePresent": true
+  }
+}

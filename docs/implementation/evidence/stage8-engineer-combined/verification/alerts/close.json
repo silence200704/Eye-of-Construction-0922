@@ -1,0 +1,106 @@
+{
+  "eventId": "evt_6ba7dbe6d3a941048ced55df94195a72",
+  "feedback": [
+    "服务端已保存本次办理。"
+  ],
+  "event": {
+    "id": "evt_6ba7dbe6d3a941048ced55df94195a72",
+    "eventNo": "E20261029-002",
+    "pointId": "pnt_e319729b18c046949dbcd6b0dae5f6b3",
+    "ruleId": "rule_finish_vibration_rule",
+    "ruleCode": "FINISH-vibration-RULE",
+    "level": "yellow",
+    "peakLevel": "yellow",
+    "status": "closed",
+    "unit": "m/s²",
+    "openedAt": "2026-10-29T03:53:37.296623+00:00",
+    "openedBy": "演示学校安全管理人员",
+    "lastTriggerAt": "2026-10-29T03:33:37.263309+00:00",
+    "lastTriggerValue": 0.05,
+    "evidences": [
+      {
+        "recordId": "rec_fcbd3fc24fea4190bf9eb5cbf2e6bdc8",
+        "recordNo": "R20261029-003",
+        "sampleTime": "2026-10-29T03:33:37.263309+00:00",
+        "level": "yellow",
+        "triggerValue": 0.05,
+        "baselineValue": null,
+        "ruleCode": "FINISH-vibration-RULE",
+        "ruleVersion": "V1.0",
+        "thresholds": {
+          "yellow": 0.03,
+          "orange": 0.08,
+          "red": 0.12
+        },
+        "basis": "固定统计窗口动态加速度有效值（绝对判定）",
+        "reason": "判定值 0.05 m/s² 达到黄色关注门槛",
+        "addedAt": "2026-10-29T03:53:37.296623+00:00",
+        "addedBy": "演示学校安全管理人员",
+        "addedByRole": "学校安全管理人员"
+      }
+    ],
+    "supersededEvidences": [],
+    "upgrades": [],
+    "timeline": [
+      {
+        "at": "2026-10-29T03:53:37.296623+00:00",
+        "by": "演示学校安全管理人员",
+        "action": "生成黄色关注事件",
+        "detail": "R20261029-003 触发值 0.05 m/s²；规则 FINISH-vibration-RULE V1.0"
+      },
+      {
+        "at": "2026-10-30T03:44:22.558723+00:00",
+        "by": "演示学校安全管理人员",
+        "action": "确认事件，转入处理中",
+        "detail": "学校安全管理人员 确认"
+      },
+      {
+        "at": "2026-10-30T03:45:25.576291+00:00",
+        "by": "演示学校安全管理人员",
+        "action": "现场排查",
+        "detail": "比赛模拟现场排查：已核对振动测点读数与安装环境，安排后续复测。"
+      },
+      {
+        "at": "2026-10-30T03:45:47.437846+00:00",
+        "by": "演示学校安全管理人员",
+        "action": "进入恢复待确认",
+        "detail": "R20261030-003 连续低于恢复阈值，只改变数据状态，不自动关闭事件"
+      },
+      {
+        "at": "2026-10-30T03:46:50.221075+00:00",
+        "by": "演示学校安全管理人员",
+        "action": "关闭事件",
+        "detail": "事件 E20261029-002 授权关闭；复查结论：已核对三次模拟恢复复测及现场观察，确认恢复。；现场核查：模拟现场核查确认无需维修，继续观察并保留后续巡检安排。"
+      }
+    ],
+    "acknowledgedAt": "2026-10-30T03:44:22.558723+00:00",
+    "acknowledgedBy": "演示学校安全管理人员",
+    "closedAt": "2026-10-30T03:46:50.221075+00:00",
+    "closedBy": "演示学校安全管理人员",
+    "closeBasis": "已核对三次模拟恢复复测及现场观察，确认恢复。",
+    "note": "",
+    "createdAt": "2026-10-29T03:53:37.296623+00:00",
+    "createdBy": "演示学校安全管理人员",
+    "updatedAt": "2026-10-30T03:46:50.221075+00:00",
+    "updatedBy": "演示学校安全管理人员",
+    "rev": 5
+  },
+  "before": {
+    "events": 2,
+    "issues": 1,
+    "work_orders": 1,
+    "media_files": 4,
+    "attachments": 4,
+    "audits": 54,
+    "operation_receipts": 47
+  },
+  "after": {
+    "events": 2,
+    "issues": 1,
+    "work_orders": 1,
+    "media_files": 4,
+    "attachments": 4,
+    "audits": 55,
+    "operation_receipts": 48
+  }
+}

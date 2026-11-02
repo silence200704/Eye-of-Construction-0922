@@ -1,0 +1,25 @@
+{
+  "feedback": [
+    "暂时无法连接筑瞳服务，请检查服务地址与网络。"
+  ],
+  "retryVisible": false,
+  "sameCounts": true,
+  "before": {
+    "events": 3,
+    "issues": 1,
+    "work_orders": 2,
+    "media_files": 4,
+    "attachments": 4,
+    "audits": 75,
+    "operation_receipts": 66
+  },
+  "after": {
+    "events": 3,
+    "issues": 1,
+    "work_orders": 2,
+    "media_files": 4,
+    "attachments": 4,
+    "audits": 75,
+    "operation_receipts": 66
+  }
+}

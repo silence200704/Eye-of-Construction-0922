@@ -1,0 +1,86 @@
+[
+  {
+    "id": "",
+    "text": "记录现场发现",
+    "bounds": "[0,137][1320,332]",
+    "type": "TitleBar"
+  },
+  {
+    "id": "__NavdestinationField__BackButton__Back__",
+    "text": "",
+    "bounds": "[56,164][196,304]",
+    "type": "BackButton"
+  },
+  {
+    "id": "__NavdestinationField__Text__MainTitle__",
+    "text": "记录现场发现",
+    "bounds": "[224,193][644,275]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "FIELD STORY / 现场记录",
+    "bounds": "[63,402][588,451]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "把维修，认真交接好",
+    "bounds": "[63,476][883,583]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "文字 + 照片，让后续处理更清楚",
+    "bounds": "[63,607][706,660]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "工单现场办理",
+    "bounds": "[130,804][446,866]",
+    "type": "Text"
+  },
+  {
+    "id": "report-target",
+    "text": "模拟crack监测站",
+    "bounds": "[130,908][737,1002]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "只办理当前工单，提交完工后由安全管理人员验收。",
+    "bounds": "[130,1044][1097,1093]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "这次做了哪些维修？",
+    "bounds": "[130,1290][760,1372]",
+    "type": "Text"
+  },
+  {
+    "id": "handling-measures",
+    "text": "统一复验模拟维修：复紧固定件并检查外观。",
+    "bounds": "[130,1414][1190,1904]",
+    "type": "TextArea"
+  },
+  {
+    "id": "handling-materials",
+    "text": "",
+    "bounds": "[130,1946][1190,2135]",
+    "type": "TextInput"
+  },
+  {
+    "id": "",
+    "text": "办理说明 · 可选",
+    "bounds": "[130,2177][525,2243]",
+    "type": "Text"
+  },
+  {
+    "id": "handling-note",
+    "text": "",
+    "bounds": "[130,2285][1190,2635]",
+    "type": "TextArea"
+  }
+]

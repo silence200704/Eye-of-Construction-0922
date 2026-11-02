@@ -304,7 +304,7 @@ watch([range, buildingId, pointId], () => {
       <div class="export-rows">
         <div v-for="row in exportRows" :key="row.key" class="export-row">
           <span class="export-label">{{ row.label }}</span>
-          <select v-model="statusPicked[row.key]" class="ctl">
+          <select v-model="statusPicked[row.key]" class="ctl" :aria-label="`${row.label}状态筛选`">
             <option value="">全部状态</option>
             <option v-for="item in row.options" :key="item.key" :value="item.key">{{ item.name }}</option>
           </select>

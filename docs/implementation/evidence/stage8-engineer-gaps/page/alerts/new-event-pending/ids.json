@@ -1,0 +1,128 @@
+[
+  {
+    "id": "",
+    "text": "预警处置",
+    "bounds": "[0,137][1320,332]",
+    "type": "TitleBar"
+  },
+  {
+    "id": "__NavdestinationField__BackButton__Back__",
+    "text": "",
+    "bounds": "[56,164][196,304]",
+    "type": "BackButton"
+  },
+  {
+    "id": "__NavdestinationField__Text__MainTitle__",
+    "text": "预警处置",
+    "bounds": "[224,193][504,275]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "ALERT / 预警手账",
+    "bounds": "[63,402][438,451]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "把异常，认真接住",
+    "bounds": "[63,476][792,583]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "确认、排查与恢复，各有记录",
+    "bounds": "[63,607][655,660]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "E20261030-001",
+    "bounds": "[130,804][750,898]",
+    "type": "Text"
+  },
+  {
+    "id": "alarm-status",
+    "text": "红色紧急核查 · 待确认",
+    "bounds": "[130,940][833,1022]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "模拟vibration监测站",
+    "bounds": "[130,1064][667,1134]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "首次 2026/10/30 下午7:09:27\n最近 2026/10/30 下午7:09:26",
+    "bounds": "[130,1176][733,1282]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "规则 FINISH-vibration-RULE · 模拟监测触发",
+    "bounds": "[130,1324][1039,1377]",
+    "type": "Text"
+  },
+  {
+    "id": "alarm-acknowledge",
+    "text": "",
+    "bounds": "[63,1507][1257,1682]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "确认预警，开始跟进",
+    "bounds": "[123,1562][1197,1628]",
+    "type": "Text"
+  },
+  {
+    "id": "alarm-note-open",
+    "text": "",
+    "bounds": "[63,1745][1257,1920]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "登记排查 / 处置措施",
+    "bounds": "[123,1800][1197,1866]",
+    "type": "Text"
+  },
+  {
+    "id": "alarm-reload",
+    "text": "",
+    "bounds": "[63,1983][1257,2158]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "刷新当前预警",
+    "bounds": "[123,2038][1197,2104]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "声光模拟 · 仅本机预览",
+    "bounds": "[130,2288][833,2370]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "常亮色块 + 一次短音；不连接实体设备，停止预览不会确认或关闭事件。",
+    "bounds": "[130,2412][1182,2518]",
+    "type": "Text"
+  },
+  {
+    "id": "signal-preview",
+    "text": "",
+    "bounds": "[130,2560][1190,2735]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "预览一次模拟提示",
+    "bounds": "[190,2615][1130,2681]",
+    "type": "Text"
+  }
+]

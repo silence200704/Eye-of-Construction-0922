@@ -1,0 +1,92 @@
+[
+  {
+    "id": "",
+    "text": "现场发现",
+    "bounds": "[0,137][1320,332]",
+    "type": "TitleBar"
+  },
+  {
+    "id": "__NavdestinationField__BackButton__Back__",
+    "text": "",
+    "bounds": "[56,164][196,304]",
+    "type": "BackButton"
+  },
+  {
+    "id": "__NavdestinationField__Text__MainTitle__",
+    "text": "现场发现",
+    "bounds": "[224,193][504,275]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "ISS-20261029-001 · 模拟裂缝观察",
+    "bounds": "[130,375][1136,531]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "已关闭",
+    "bounds": "[130,573][267,626]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "比赛模拟：裂缝观测点现场照片，用于核对原生已提交照片回读，非真实校园隐患。",
+    "bounds": "[130,668][1160,782]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "关联照片 1 张 · 独立上报",
+    "bounds": "[130,824][599,873]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "审核反馈：统一复验：转维修并派指定人",
+    "bounds": "[130,915][950,968]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "已提交的现场证据",
+    "bounds": "[197,1077][729,1155]",
+    "type": "Text"
+  },
+  {
+    "id": "saved-photo-0",
+    "text": "",
+    "bounds": "[197,1197][1123,1372]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "查看第 1 张照片",
+    "bounds": "[257,1252][1063,1318]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "现场照片",
+    "bounds": "[197,1414][408,1476]",
+    "type": "Text"
+  },
+  {
+    "id": "saved-photo-preview",
+    "text": "",
+    "bounds": "[197,1518][1123,2288]",
+    "type": "Image"
+  },
+  {
+    "id": "issues-refresh",
+    "text": "",
+    "bounds": "[63,2485][1257,2660]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "刷新服务端进度",
+    "bounds": "[123,2540][1197,2606]",
+    "type": "Text"
+  }
+]

@@ -17,6 +17,9 @@ import AppButton from '@/components/ui/AppButton.vue'
 import { startApplication } from '@/core/app/startup'
 import { backendEnabled } from '@/api/http/runtime'
 import BackendAccess from '@/components/session/BackendAccess.vue'
+import { useBusinessRefresh } from '@/core/app/live/businessRefresh'
+
+const live = useBusinessRefresh()
 
 const archive = useArchiveStore()
 const records = useRecordsStore()
@@ -51,9 +54,10 @@ onMounted(() => { if (!backendEnabled) void boot() })
 
 <template>
   <BackendAccess v-if="backendEnabled" @authenticated="boot">
+    <div v-if="ready && live.message.value" class="live-message" role="status">{{ live.message.value }}</div>
     <AppShell v-if="ready" />
     <div v-else class="boot">
-      <EmptyState :title="error === '' ? '正在载入业务资料…' : '业务资料载入失败'" :sub="error">
+      <EmptyState :title="error === '' ? '正在载入业务资料…' : '业务资料载入失败'" :sub="error" :loading="error === ''">
         <AppButton v-if="error !== ''" variant="primary" @click="boot">重试</AppButton>
       </EmptyState>
     </div>
@@ -61,6 +65,7 @@ onMounted(() => { if (!backendEnabled) void boot() })
   <AppShell v-else-if="ready" />
   <div v-else class="boot">
     <EmptyState
+      :loading="error === ''"
       :title="error === '' ? '正在载入本地数据…' : '本地数据库打开失败'"
       :sub="error === '' ? '首次打开会载入示例校区，之后按上次状态恢复' : error"
     >
@@ -70,6 +75,8 @@ onMounted(() => { if (!backendEnabled) void boot() })
 </template>
 
 <style scoped>
+.live-message { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); z-index: 100;
+  max-width: min(90vw, 680px); padding: 10px 16px; border-radius: 16px; background: #fff6df; color: #765124; border: 1px solid #e7d5a9; }
 .boot {
   display: grid;
   place-items: center;

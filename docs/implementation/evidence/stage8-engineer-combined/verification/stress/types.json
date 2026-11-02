@@ -1,0 +1,19 @@
+{
+  "sensorTypes": [
+    {
+      "id": "crack",
+      "label": "crack",
+      "count": 167
+    },
+    {
+      "id": "tilt",
+      "label": "tilt",
+      "count": 167
+    },
+    {
+      "id": "vibration",
+      "label": "vibration",
+      "count": 166
+    }
+  ]
+}

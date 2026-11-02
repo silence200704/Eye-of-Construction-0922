@@ -1,0 +1,55 @@
+{
+  "checks": [
+    {
+      "value": "2026-04-31",
+      "input": [
+        "2024-02-29"
+      ],
+      "invalid": false,
+      "match": [
+        "匹配 0 条任务"
+      ]
+    },
+    {
+      "value": "2026-02-29",
+      "input": [
+        "2026-02-29"
+      ],
+      "invalid": true,
+      "match": [
+        "匹配 0 条任务"
+      ]
+    },
+    {
+      "value": "2024-02-29",
+      "input": [
+        "2024-02-29"
+      ],
+      "invalid": false,
+      "match": [
+        "匹配 0 条任务"
+      ]
+    },
+    {
+      "value": "2026-13-01",
+      "input": [
+        "2026-13-01"
+      ],
+      "invalid": true,
+      "match": [
+        "匹配 0 条任务"
+      ]
+    },
+    {
+      "value": "",
+      "input": [
+        ""
+      ],
+      "invalid": false,
+      "match": [
+        "匹配 0 条任务"
+      ]
+    }
+  ],
+  "note": "2026-04-31 invalid was also observed and captured before the 2026-02-29 check; the slider value labels were not used as font scale."
+}

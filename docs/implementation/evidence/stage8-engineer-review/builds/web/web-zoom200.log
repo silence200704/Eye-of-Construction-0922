@@ -1,0 +1,40 @@
+{
+  "equivalent": "1280 CSS px viewport at 200% browser zoom -> 640 CSS px",
+  "results": [
+    {
+      "path": "/",
+      "width": 640,
+      "docWidth": 640,
+      "visibleText": 1960,
+      "clipped": 0
+    },
+    {
+      "path": "/alarms",
+      "width": 640,
+      "docWidth": 640,
+      "visibleText": 789,
+      "clipped": 0
+    },
+    {
+      "path": "/issues",
+      "width": 640,
+      "docWidth": 640,
+      "visibleText": 598,
+      "clipped": 0
+    },
+    {
+      "path": "/monitor",
+      "width": 640,
+      "docWidth": 640,
+      "visibleText": 1362,
+      "clipped": 0
+    },
+    {
+      "path": "/reports",
+      "width": 640,
+      "docWidth": 640,
+      "visibleText": 857,
+      "clipped": 0
+    }
+  ]
+}

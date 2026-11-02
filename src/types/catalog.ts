@@ -60,9 +60,6 @@ export const POINT_TYPES: PointTypeDef[] = [
   { key: 'manual_check', name: '人工检查点', metric: 'inspection', desc: '仅建档与定位，供人工巡检与必查点使用，不产生数值记录' },
 ]
 
-/** 不产生数值记录的指标：人工检查点只做档案与定位。 */
-export const INSPECTION_METRIC: MetricKey = 'inspection'
-
 export interface MetricField {
   key: MetricValueKey
   label: string

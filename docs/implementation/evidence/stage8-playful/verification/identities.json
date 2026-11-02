@@ -1,0 +1,35 @@
+{
+  "capturedAt": "2026-10-26T14:10:29.818638+00:00",
+  "bundle": "org.zhutong.mobile",
+  "phase": "identities",
+  "result": {
+    "roles": [
+      {
+        "role": "property",
+        "currentLabel": "当前：物业值班人员",
+        "verified": true
+      },
+      {
+        "role": "device",
+        "currentLabel": "当前：设备管理人员",
+        "verified": true
+      },
+      {
+        "role": "inspector",
+        "currentLabel": "当前：巡检人员",
+        "verified": true
+      },
+      {
+        "role": "repair",
+        "currentLabel": "当前：维修人员",
+        "verified": true
+      },
+      {
+        "role": "safety",
+        "currentLabel": "当前：学校安全管理人员",
+        "verified": true
+      }
+    ],
+    "connectionAccordion": true
+  }
+}

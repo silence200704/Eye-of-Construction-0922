@@ -1,0 +1,146 @@
+[
+  {
+    "id": "",
+    "text": "巡检手账",
+    "bounds": "[0,137][1320,332]",
+    "type": "TitleBar"
+  },
+  {
+    "id": "__NavdestinationField__BackButton__Back__",
+    "text": "",
+    "bounds": "[56,164][196,304]",
+    "type": "BackButton"
+  },
+  {
+    "id": "__NavdestinationField__Text__MainTitle__",
+    "text": "巡检手账",
+    "bounds": "[224,193][504,275]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "FIELD NOTE / 巡检手账",
+    "bounds": "[63,402][566,451]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "带着清单，照看每一处",
+    "bounds": "[63,476][974,583]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "到点 → 检查 → 服务端保存",
+    "bounds": "[63,607][613,660]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "统一复验巡检",
+    "bounds": "[130,804][613,898]",
+    "type": "Text"
+  },
+  {
+    "id": "task-summary-status",
+    "text": "TK-20261030-001 · 待检查",
+    "bounds": "[130,940][739,997]",
+    "type": "Text"
+  },
+  {
+    "id": "task-progress",
+    "text": "已完成 0 / 1 处",
+    "bounds": "[130,1039][571,1117]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "截止 2026/10/30 下午11:59:59",
+    "bounds": "[130,1159][711,1208]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "执行身份：巡检人员",
+    "bounds": "[130,1250][509,1299]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "到点、完成检查与问题关闭分别核验；硬件输入使用显式模拟。",
+    "bounds": "[130,1341][1181,1439]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "选择本次照看的测点",
+    "bounds": "[63,1569][662,1647]",
+    "type": "Text"
+  },
+  {
+    "id": "task-point-pnt_d462d6c50005437ca6b39878165eeada",
+    "text": "",
+    "bounds": "[63,1710][1257,1945]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "1",
+    "bounds": "[116,1790][154,1864]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "模拟crack监测站",
+    "bounds": "[189,1763][577,1825]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "待到点",
+    "bounds": "[189,1843][316,1892]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "当前",
+    "bounds": "[1119,1803][1204,1852]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "① 先核对到点",
+    "bounds": "[130,2075][569,2157]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "模拟NFC不代表真实读卡或实际到场；人工签到必须说明原因。",
+    "bounds": "[130,2199][1178,2297]",
+    "type": "Text"
+  },
+  {
+    "id": "arrival-nfc",
+    "text": "模拟 NFC",
+    "bounds": "[130,2339][480,2507]",
+    "type": "Button"
+  },
+  {
+    "id": "arrival-manual",
+    "text": "人工签到",
+    "bounds": "[508,2339][844,2507]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "本次核对的标签编号",
+    "bounds": "[130,2577][540,2630]",
+    "type": "Text"
+  },
+  {
+    "id": "arrival-label",
+    "text": "",
+    "bounds": "[130,2672][1190,2758]",
+    "type": "TextInput"
+  }
+]

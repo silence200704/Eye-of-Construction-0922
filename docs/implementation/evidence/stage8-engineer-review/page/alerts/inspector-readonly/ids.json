@@ -1,0 +1,110 @@
+[
+  {
+    "id": "",
+    "text": "预警处置",
+    "bounds": "[0,137][1320,332]",
+    "type": "TitleBar"
+  },
+  {
+    "id": "__NavdestinationField__BackButton__Back__",
+    "text": "",
+    "bounds": "[56,164][196,304]",
+    "type": "BackButton"
+  },
+  {
+    "id": "__NavdestinationField__Text__MainTitle__",
+    "text": "预警处置",
+    "bounds": "[224,193][504,275]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "ALERT / 预警手账",
+    "bounds": "[63,402][438,451]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "把异常，认真接住",
+    "bounds": "[63,476][792,583]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "确认、排查与恢复，各有记录",
+    "bounds": "[63,607][655,660]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "E20261029-001",
+    "bounds": "[130,804][750,898]",
+    "type": "Text"
+  },
+  {
+    "id": "alarm-status",
+    "text": "红色紧急核查 · 待确认",
+    "bounds": "[130,940][833,1022]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "模拟crack监测站",
+    "bounds": "[130,1064][570,1134]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "首次 2026/10/29 上午11:52:19\n最近 2026/10/29 上午11:32:19",
+    "bounds": "[130,1176][759,1282]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "规则 FINISH-crack-RULE · 模拟监测触发",
+    "bounds": "[130,1324][964,1377]",
+    "type": "Text"
+  },
+  {
+    "id": "alarm-reload",
+    "text": "刷新当前预警",
+    "bounds": "[63,1507][1257,1682]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "声光模拟 · 仅本机预览",
+    "bounds": "[130,1812][833,1894]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "常亮色块 + 一次短音；不连接实体设备，停止预览不会确认或关闭事件。",
+    "bounds": "[130,1936][1182,2042]",
+    "type": "Text"
+  },
+  {
+    "id": "signal-preview",
+    "text": "预览一次模拟提示",
+    "bounds": "[130,2084][1190,2259]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "这次预警的处置足迹",
+    "bounds": "[130,2456][760,2538]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "生成红色紧急核查事件 · 演示学校安全管理人员",
+    "bounds": "[130,2580][1141,2712]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "R20261029-001 触发值 0.4 mm；规则 FINISH-crack-RULE V1.0",
+    "bounds": "[130,2754][1169,2758]",
+    "type": "Text"
+  }
+]

@@ -1,0 +1,173 @@
+{
+  "capturedAt": "2026-10-26T00:44:23.987028+08:00",
+  "studio": {
+    "path": "D:\\DevEco\\Studio",
+    "name": "DevEco Studio",
+    "version": "6.1.1.418",
+    "build": "243.24978.46.36.611418"
+  },
+  "bundledSdk": {
+    "apiVersion": "24",
+    "displayName": "HarmonyOS 6.1.1",
+    "path": "HarmonyOS-6.1.1",
+    "platformVersion": "6.1.1",
+    "releaseType": "Release",
+    "version": "6.1.1.125",
+    "stage": "Release"
+  },
+  "commonComponents": {
+    "ets": {
+      "apiVersion": "24",
+      "version": "6.1.1.125",
+      "releaseType": "Release"
+    },
+    "js": {
+      "apiVersion": "24",
+      "version": "6.1.1.125",
+      "releaseType": "Release"
+    },
+    "native": {
+      "apiVersion": "24",
+      "version": "6.1.1.125",
+      "releaseType": "Release"
+    },
+    "previewer": {
+      "apiVersion": "24",
+      "version": "6.1.1.125",
+      "releaseType": "Release"
+    },
+    "toolchains": {
+      "apiVersion": "24",
+      "version": "6.1.1.125",
+      "releaseType": "Release"
+    }
+  },
+  "packageMetadata": {
+    "ohpm": {
+      "name": "@ohos/ohpm",
+      "version": "6.1.2.285"
+    },
+    "hvigor": {
+      "name": "@ohos/hvigor",
+      "version": "6.24.5"
+    },
+    "hvigorPlugin": {
+      "name": "@ohos/hvigor-ohos-plugin",
+      "version": "6.24.5"
+    }
+  },
+  "versionCommands": [
+    {
+      "command": [
+        "D:\\DevEco\\Studio\\tools\\node\\node.exe",
+        "--version"
+      ],
+      "exitCode": 0,
+      "output": "v18.20.1"
+    },
+    {
+      "command": [
+        "D:\\DevEco\\Studio\\tools\\node\\node.exe",
+        "D:\\DevEco\\Studio\\tools\\ohpm\\bin\\pm-cli.js",
+        "--version"
+      ],
+      "exitCode": 0,
+      "output": "6.1.2.285"
+    },
+    {
+      "command": [
+        "D:\\DevEco\\Studio\\sdk\\default\\openharmony\\toolchains\\hdc.exe",
+        "-v"
+      ],
+      "exitCode": 0,
+      "output": "Ver: 3.2.0d"
+    },
+    {
+      "command": [
+        "D:\\DevEco\\Studio\\jbr\\bin\\java.exe",
+        "-version"
+      ],
+      "exitCode": 0,
+      "output": "openjdk version \"21.0.8\" 2025-07-15\nOpenJDK Runtime Environment JBR-21.0.8+1-1038.71-jcef (build 21.0.8+1-b1038.71)\nOpenJDK 64-Bit Server VM JBR-21.0.8+1-1038.71-jcef (build 21.0.8+1-b1038.71, mixed mode, sharing)"
+    }
+  ],
+  "configuredEmulatorDirectory": {
+    "path": "D:\\DevEco\\Emulator\\deployed",
+    "exists": true,
+    "entries": [
+      "lists.json",
+      "phone_config.json",
+      "privacy.json",
+      "Pura 90",
+      "Pura 90.ini",
+      "versionInfo.txt"
+    ]
+  },
+  "scope": "Metadata and version commands only; no device discovery daemon, download, license acceptance or system PATH edits.",
+  "readiness": {
+    "toolVersions": true,
+    "nativeBuild": "not_run",
+    "signingAndInstall": "not_run",
+    "targetOpenHarmonySdkAndDeviceCompatibility": "not_verified",
+    "currentSdkProduct": "HarmonyOS SDK with common OpenHarmony component directory; not proof of target OpenHarmony compatibility"
+  },
+  "device": {
+    "target": "127.0.0.1:5555",
+    "readings": {
+      "const.ohos.apiversion": {
+        "command": [
+          "D:\\DevEco\\Studio\\sdk\\default\\openharmony\\toolchains\\hdc.exe",
+          "-t",
+          "127.0.0.1:5555",
+          "shell",
+          "param",
+          "get",
+          "const.ohos.apiversion"
+        ],
+        "exitCode": 0,
+        "output": "24"
+      },
+      "const.ohos.fullname": {
+        "command": [
+          "D:\\DevEco\\Studio\\sdk\\default\\openharmony\\toolchains\\hdc.exe",
+          "-t",
+          "127.0.0.1:5555",
+          "shell",
+          "param",
+          "get",
+          "const.ohos.fullname"
+        ],
+        "exitCode": 0,
+        "output": "OpenHarmony-6.1.1.125"
+      },
+      "const.product.model": {
+        "command": [
+          "D:\\DevEco\\Studio\\sdk\\default\\openharmony\\toolchains\\hdc.exe",
+          "-t",
+          "127.0.0.1:5555",
+          "shell",
+          "param",
+          "get",
+          "const.product.model"
+        ],
+        "exitCode": 0,
+        "output": "emulator"
+      },
+      "const.product.software.version": {
+        "command": [
+          "D:\\DevEco\\Studio\\sdk\\default\\openharmony\\toolchains\\hdc.exe",
+          "-t",
+          "127.0.0.1:5555",
+          "shell",
+          "param",
+          "get",
+          "const.product.software.version"
+        ],
+        "exitCode": 0,
+        "output": "emulator 6.1.0.126(SP1DEVC00E120R4P11)"
+      }
+    },
+    "readOnlyParamQueriesPassed": true,
+    "scope": "Runtime system properties only; does not install or start an app."
+  }
+}

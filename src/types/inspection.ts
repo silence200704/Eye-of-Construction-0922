@@ -177,8 +177,6 @@ export const REVIEW_CATEGORIES: Record<ReviewAction, { key: string; name: string
   ],
 }
 
-export type ReviewCategory = string
-
 /** 工单状态：派工 → 接单 → 处理 → 提交待验收 → 验收通过 / 退回。 */
 export const WORK_ORDER_STATUSES = [
   { key: 'created', name: '待派工' },

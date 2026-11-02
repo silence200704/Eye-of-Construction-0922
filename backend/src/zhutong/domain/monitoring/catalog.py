@@ -51,16 +51,6 @@ CSV_VALUE_COLUMNS = [
     for field in METRICS[metric]["fields"]
 ]
 
-CSV_HEADER = [
-    "测点编号",
-    "采样时间",
-    *(column["label"] for column in CSV_VALUE_COLUMNS),
-    "单位",
-    "统计窗口",
-    "质量标记",
-    "备注",
-]
-
 CSV_QUALITY_TEXT = {"有效": "valid", "存疑": "suspect", "无效": "invalid"}
 
 POINT_TYPES = ("crack", "tilt", "vibration", "temp_humidity", "manual_check")

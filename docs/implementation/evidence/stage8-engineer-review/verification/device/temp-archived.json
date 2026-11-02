@@ -1,0 +1,41 @@
+{
+  "httpStatus": 200,
+  "body": {
+    "ok": true,
+    "data": {
+      "id": "dev_b9d8cd1f5655409b86bad630f8a37a07",
+      "code": "REVIEW-NO-TELEMETRY",
+      "name": "验收临时无遥测设备",
+      "pointId": "pnt_e319729b18c046949dbcd6b0dae5f6b3",
+      "model": "",
+      "serial": "",
+      "rangeMin": null,
+      "rangeMax": null,
+      "rangeText": "",
+      "unit": "m/s²",
+      "nodeId": "",
+      "gateway": "",
+      "mountPosition": "",
+      "direction": "",
+      "installDate": "",
+      "calibratedAt": "",
+      "health": "unknown",
+      "remark": "",
+      "status": "archived",
+      "archiveReason": "验收临时设备清理",
+      "archivedAt": "2026-10-29T06:19:08.367760+00:00",
+      "archivedBy": "演示学校安全管理人员",
+      "createdAt": "2026-10-29T06:18:48.657630+00:00",
+      "createdBy": "演示学校安全管理人员",
+      "updatedAt": "2026-10-29T06:19:08.367760+00:00",
+      "updatedBy": "演示学校安全管理人员",
+      "rev": 2
+    },
+    "rev": 2,
+    "replayed": false,
+    "meta": {
+      "requestId": "e28023357e2b4ae79b5e64c2b7557188",
+      "datasetEpoch": 1
+    }
+  }
+}

@@ -82,6 +82,32 @@ function levelGroup(
   const active = level.levelIndex === update.activeLevelIndex
   const offset = explodeOffset(update.mode, level.levelIndex)
   group.position.y = offset
+  // 选中层像抽屉一样从楼体里抽出；竖向展开模式不再横向抽出，避免两种动势打架。
+  const drawerOut = active && update.mode !== 'exploded' ? world.d * 0.55 + 2.5 : 0
+  group.position.z = drawerOut
+  group.userData.drawerTarget = drawerOut
+  if (drawerOut > 0) {
+    // 3D 抽屉前板：让"整层抽出"在空间里有一个明确的把手/层号，而不是只看到一个平移的楼板。
+    const frontY = level.y + 0.28
+    const frontZ = world.d / 2 + 0.1
+    const front = new THREE.Mesh(
+      new THREE.BoxGeometry(world.w * 0.82, 0.46, 0.18),
+      new THREE.MeshStandardMaterial({ color: 0x356f7a, roughness: 0.45, metalness: 0.12 }),
+    )
+    front.position.set(0, frontY, frontZ)
+    group.add(front)
+    const handle = new THREE.Mesh(
+      new THREE.BoxGeometry(world.w * 0.2, 0.08, 0.16),
+      new THREE.MeshStandardMaterial({ color: 0xd7b06a, roughness: 0.35, metalness: 0.45 }),
+    )
+    handle.position.set(0, frontY + 0.02, frontZ + 0.12)
+    group.add(handle)
+    const floorTag = labelSprite({ text: `F${level.floorNo}  ${level.name}`, height: 0.9, color: '#0b5762', background: '#ffffff' })
+    floorTag.position.set(0, frontY + 0.9, frontZ + 0.25)
+    floorTag.material.depthTest = false
+    floorTag.renderOrder = 22
+    group.add(floorTag)
+  }
 
   // 仅本层模式：其余层画成半透明的"幽灵楼板"而不是直接隐藏 ——
   // 整栋的体量还在，观众不会失去上下文的方位感（隔离用"变淡"而不是"删除"）。
@@ -114,12 +140,31 @@ function levelGroup(
         d: (zone.box.h / 700) * world.d,
       }
       const isCorridor = zone.kind === 'corridor'
-      group.add(zoneBlock(local, isCorridor ? 0xbdd8dd : zone.stairs ? 0xdce5d5 : 0xf5f5ed, level.y))
+      const zoneKey = `${level.floor?.id ?? `f${level.floorNo}`}:${zone.index}`
+      const selected = update.selectedZoneKey === zoneKey
+      const block = zoneBlock(local, selected ? 0xcfe9df : isCorridor ? 0xbdd8dd : zone.stairs ? 0xdce5d5 : 0xf5f5ed, level.y)
+      block.userData.zoneKey = zoneKey
+      block.userData.zoneLabel = zone.label
+      block.userData.buildingId = building.building.id
+      block.userData.floorId = level.floor?.id ?? ''
+      group.add(block)
       // 走廊两侧是敞开的，只给房间画墙；当前层用满高墙（贴墙的测点要有墙可贴）
-      if (!isCorridor) group.add(zoneWalls(local, level.y, wallHeight))
-      if (detail.zoneLabels) {
-        const label = labelSprite({ text: zone.label, height: 0.72, color: '#24434c', background: '#ffffff' })
+      if (!isCorridor) {
+        const walls = zoneWalls(local, level.y, wallHeight)
+        walls.userData.kind = 'zone'
+        walls.userData.zoneKey = zoneKey
+        walls.userData.zoneLabel = zone.label
+        walls.userData.buildingId = building.building.id
+        walls.userData.floorId = level.floor?.id ?? ''
+        group.add(walls)
+      }
+      // 房间名称默认全部隐藏；只有点中的那一间才出现。
+      if (detail.zoneLabels && selected) {
+        const label = labelSprite({ text: zone.label, height: 0.9, color: '#0b5762', background: '#ffffff' })
         label.position.set(local.x, level.y + wallHeight + 0.5, local.z)
+        // 房间名只在点击后出现，且不被上层楼板遮住。
+        label.material.depthTest = false
+        label.renderOrder = 20
         group.add(label)
       }
     }
@@ -141,14 +186,15 @@ function levelGroup(
     const color = marker.archived
       ? 0xb9c4c9
       : eventColor(marker.eventLevel) ?? MARKER_COLOR[marker.point.type] ?? 0x5a6b73
-    const { device, labelAt } = sensorMount(marker, level.y, world, color, marker.point.id === update.selectedPointId)
+    const selectedMarker = marker.point.id === update.selectedPointId
+    const { device, labelAt } = sensorMount(marker, level.y, world, color, selectedMarker)
     // 整组都算这个测点：点击墙面识别面、透视轮廓或拾取代理都能选中。
     device.userData.kind = 'marker'
     device.userData.pointId = marker.point.id
     device.userData.buildingId = building.building.id
     device.userData.floorId = level.floor?.id ?? ''
     group.add(device)
-    if (marker.point.id === update.selectedPointId) {
+    if (selectedMarker) {
       const halo = new THREE.Mesh(
         new THREE.SphereGeometry(1.05, 16, 12),
         new THREE.MeshBasicMaterial({ color: SELECTED, transparent: true, opacity: 0.16, depthWrite: false }),
@@ -163,8 +209,30 @@ function levelGroup(
       ring.position.y -= marker.mountHeight / 2.4
       ring.rotation.x = Math.PI / 2
       group.add(ring)
+
+      // 从墙面到地面的竖向定位线 + 落点环：先看高度，再看平面位置。
+      const mast = new THREE.Line(
+        new THREE.BufferGeometry().setFromPoints([
+          new THREE.Vector3(device.position.x, level.y + 0.03, device.position.z),
+          new THREE.Vector3(device.position.x, device.position.y, device.position.z),
+        ]),
+        new THREE.LineDashedMaterial({ color: SELECTED, dashSize: 0.14, gapSize: 0.09, transparent: true, opacity: 0.7, depthTest: false }),
+      )
+      mast.computeLineDistances()
+      mast.renderOrder = 18
+      group.add(mast)
+      const floorRing = new THREE.Mesh(
+        new THREE.RingGeometry(0.16, 0.24, 24),
+        new THREE.MeshBasicMaterial({ color: SELECTED, transparent: true, opacity: 0.78, side: THREE.DoubleSide, depthTest: false }),
+      )
+      floorRing.rotation.x = -Math.PI / 2
+      floorRing.position.set(device.position.x, level.y + 0.035, device.position.z)
+      floorRing.renderOrder = 19
+      group.add(floorRing)
     }
-    const code = detail.deviceLabels
+    // 只在当前层（或选中点）显示编号，避免整栋所有楼层一起漂字；
+    // 标签与引线不做深度遮挡，墙后/斜角也能顺着编号找到设备。
+    const code = detail.deviceLabels && (active || selectedMarker)
       ? labelSprite({
         text: marker.point.code,
         height: marker.point.id === update.selectedPointId ? 0.9 : 0.76,
@@ -174,11 +242,23 @@ function levelGroup(
       : null
     if (code !== null) {
       code.position.set(labelAt.x, labelAt.y, labelAt.z)
+      code.material.depthTest = false
+      code.renderOrder = 30
       code.userData.kind = 'marker'
       code.userData.pointId = marker.point.id
       code.userData.buildingId = building.building.id
       code.userData.floorId = level.floor?.id ?? ''
       group.add(code)
+
+      const leader = new THREE.Line(
+        new THREE.BufferGeometry().setFromPoints([
+          new THREE.Vector3(device.position.x, device.position.y + 0.3, device.position.z),
+          new THREE.Vector3(labelAt.x, labelAt.y - 0.3, labelAt.z),
+        ]),
+        new THREE.LineBasicMaterial({ color: selectedMarker ? SELECTED : 0x6d8f95, transparent: true, opacity: selectedMarker ? 0.9 : 0.55, depthTest: false }),
+      )
+      leader.renderOrder = 29
+      group.add(leader)
     }
 
     // 选中时在编号下面再挂一行**实时信息**（读数 + 采样时间），由上层从与事实卡同源的快照传入
@@ -199,8 +279,8 @@ function levelGroup(
  * 画一栋楼：**任何层级都用真实的逐层几何**（楼板 + 区域 + 隔墙 + 贴墙的测点）。
  *
  * 校园总览与单栋视图的区别只在"细节量"，不是"盒子还是模型"：
- * 校园总览要像 2D 校园图那样按 footprint 认出四栋在哪、各自长什么样，
- * 所以那里也照常画房间隔墙，只是用矮墙、不挂区域与测点文字，免得四栋一起变成一片字。
+ * 校园总览要像 2D 校园图那样按 footprint 认出每栋在哪、各自长什么样，
+ * 所以那里也照常画房间隔墙，只是用矮墙、不挂区域与测点文字，免得所有楼栋一起变成一片字。
  */
 
 export { levelGroup, levelVisible, explodeOffset }

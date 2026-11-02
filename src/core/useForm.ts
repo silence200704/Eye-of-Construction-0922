@@ -7,6 +7,7 @@ export function useFormModel(fields: () => FieldDef[]) {
   const model = ref<Record<string, unknown>>({})
   const errors = ref<Record<string, string>>({})
   const submitError = ref('')
+  const pending = ref(false)
 
   function reset(next: Record<string, unknown>): void {
     model.value = { ...next }
@@ -30,6 +31,8 @@ export function useFormModel(fields: () => FieldDef[]) {
    * 返回 true 表示提交成功。
    */
   async function run(action: () => Promise<void>): Promise<boolean> {
+    if (pending.value) return false
+    pending.value = true
     submitError.value = ''
     try {
       await action()
@@ -42,8 +45,10 @@ export function useFormModel(fields: () => FieldDef[]) {
         ? `${message}：${fields.map((item) => [item.field, item.message].filter(Boolean).join(' ')).join('；')}`
         : message
       return false
+    } finally {
+      pending.value = false
     }
   }
 
-  return { model, errors, submitError, reset, mergeIssues, run }
+  return { model, errors, submitError, pending, reset, mergeIssues, run }
 }

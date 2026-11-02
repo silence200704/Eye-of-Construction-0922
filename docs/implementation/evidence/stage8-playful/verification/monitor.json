@@ -1,0 +1,13 @@
+{
+  "capturedAt": "2026-10-26T14:09:18.396393+00:00",
+  "bundle": "org.zhutong.mobile",
+  "phase": "monitor",
+  "result": {
+    "tiltPoints": 1,
+    "tiltValue": "0.07 / 0°",
+    "record": "R20261018-009",
+    "backRetainsFilter": true,
+    "tiltHistoryHasNoUnrelatedCrackEvent": true,
+    "inlineReadingNotesExpandAndCollapse": true
+  }
+}

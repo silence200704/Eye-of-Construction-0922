@@ -1,0 +1,21 @@
+{
+  "date": "2026-10-25",
+  "tool": "mcp__codex_apps__exa_web_fetch_exa",
+  "items": [
+    {
+      "url": "https://bencho.dev/blocks/ai-chat-input",
+      "access": "MCP fetch succeeded",
+      "adaptation": "Multiline input card with grouped actions and send affordance; original Vue implementation without model or microphone controls."
+    },
+    {
+      "url": "https://ui.aceternity.com/components/card-hover-effect",
+      "access": "MCP fetch succeeded",
+      "adaptation": "Question cards use local edge-light directive, lift and press feedback; no external source copied."
+    },
+    {
+      "url": "https://ui.aceternity.com/components/placeholders-and-vanish-input",
+      "access": "MCP fetch succeeded",
+      "adaptation": "Input focus and submit affordance considered; vanish animation omitted to preserve immediate real dispatch."
+    }
+  ]
+}

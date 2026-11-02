@@ -1,0 +1,562 @@
+{
+  "base": "http://127.0.0.1:5184",
+  "errors": [],
+  "failures": [],
+  "interactions": [
+    {
+      "name": "Sidebar collapse/expand",
+      "passed": true
+    },
+    {
+      "name": "Skip link focuses content without corrupting hash route",
+      "passed": true
+    },
+    {
+      "name": "Ctrl K search, input focus, Enter navigates",
+      "passed": true
+    },
+    {
+      "name": "Escape closes search and restores focus",
+      "passed": true
+    },
+    {
+      "name": "Card rim follows pointer",
+      "passed": true
+    },
+    {
+      "name": "Record dialog validation, no successful writes",
+      "passed": true
+    },
+    {
+      "name": "Identity picker retains no-login workflow",
+      "passed": true
+    },
+    {
+      "name": "Assistant opens and closes without sending a new question",
+      "passed": true
+    },
+    {
+      "name": "Sensor title keyboard focus and independent trend action",
+      "passed": true
+    },
+    {
+      "name": "Insight card expansion uses real classified targets",
+      "passed": true
+    },
+    {
+      "name": "Reduced motion disables decorative hover work",
+      "passed": true
+    }
+  ],
+  "pages": [
+    {
+      "path": "/",
+      "width": 375,
+      "docWidth": 375,
+      "contentWidth": 365,
+      "contentScrollWidth": 365,
+      "overflows": []
+    },
+    {
+      "path": "/dashboard",
+      "width": 375,
+      "docWidth": 375,
+      "contentWidth": 365,
+      "contentScrollWidth": 365,
+      "overflows": []
+    },
+    {
+      "path": "/monitor",
+      "width": 375,
+      "docWidth": 375,
+      "contentWidth": 365,
+      "contentScrollWidth": 365,
+      "overflows": []
+    },
+    {
+      "path": "/alarms",
+      "width": 375,
+      "docWidth": 375,
+      "contentWidth": 365,
+      "contentScrollWidth": 365,
+      "overflows": []
+    },
+    {
+      "path": "/inspection",
+      "width": 375,
+      "docWidth": 375,
+      "contentWidth": 365,
+      "contentScrollWidth": 365,
+      "overflows": []
+    },
+    {
+      "path": "/issues",
+      "width": 375,
+      "docWidth": 375,
+      "contentWidth": 365,
+      "contentScrollWidth": 365,
+      "overflows": []
+    },
+    {
+      "path": "/maintenance",
+      "width": 375,
+      "docWidth": 375,
+      "contentWidth": 365,
+      "contentScrollWidth": 365,
+      "overflows": []
+    },
+    {
+      "path": "/knowledge",
+      "width": 375,
+      "docWidth": 375,
+      "contentWidth": 365,
+      "contentScrollWidth": 365,
+      "overflows": []
+    },
+    {
+      "path": "/settings",
+      "width": 375,
+      "docWidth": 375,
+      "contentWidth": 365,
+      "contentScrollWidth": 365,
+      "overflows": []
+    },
+    {
+      "path": "/reports",
+      "width": 375,
+      "docWidth": 375,
+      "contentWidth": 365,
+      "contentScrollWidth": 365,
+      "overflows": []
+    },
+    {
+      "path": "/campus",
+      "width": 375,
+      "docWidth": 375,
+      "contentWidth": 365,
+      "contentScrollWidth": 365,
+      "overflows": []
+    },
+    {
+      "path": "/archive",
+      "width": 375,
+      "docWidth": 375,
+      "contentWidth": 365,
+      "contentScrollWidth": 365,
+      "overflows": []
+    },
+    {
+      "path": "/trend",
+      "width": 375,
+      "docWidth": 375,
+      "contentWidth": 365,
+      "contentScrollWidth": 365,
+      "overflows": []
+    },
+    {
+      "path": "/media",
+      "width": 375,
+      "docWidth": 375,
+      "contentWidth": 365,
+      "contentScrollWidth": 365,
+      "overflows": []
+    },
+    {
+      "path": "/standards",
+      "width": 375,
+      "docWidth": 375,
+      "contentWidth": 365,
+      "contentScrollWidth": 365,
+      "overflows": []
+    },
+    {
+      "path": "/",
+      "width": 768,
+      "docWidth": 768,
+      "contentWidth": 758,
+      "contentScrollWidth": 758,
+      "overflows": []
+    },
+    {
+      "path": "/dashboard",
+      "width": 768,
+      "docWidth": 768,
+      "contentWidth": 758,
+      "contentScrollWidth": 758,
+      "overflows": []
+    },
+    {
+      "path": "/monitor",
+      "width": 768,
+      "docWidth": 768,
+      "contentWidth": 758,
+      "contentScrollWidth": 758,
+      "overflows": []
+    },
+    {
+      "path": "/alarms",
+      "width": 768,
+      "docWidth": 768,
+      "contentWidth": 758,
+      "contentScrollWidth": 758,
+      "overflows": []
+    },
+    {
+      "path": "/inspection",
+      "width": 768,
+      "docWidth": 768,
+      "contentWidth": 758,
+      "contentScrollWidth": 758,
+      "overflows": []
+    },
+    {
+      "path": "/issues",
+      "width": 768,
+      "docWidth": 768,
+      "contentWidth": 758,
+      "contentScrollWidth": 758,
+      "overflows": []
+    },
+    {
+      "path": "/maintenance",
+      "width": 768,
+      "docWidth": 768,
+      "contentWidth": 758,
+      "contentScrollWidth": 758,
+      "overflows": []
+    },
+    {
+      "path": "/knowledge",
+      "width": 768,
+      "docWidth": 768,
+      "contentWidth": 758,
+      "contentScrollWidth": 758,
+      "overflows": []
+    },
+    {
+      "path": "/settings",
+      "width": 768,
+      "docWidth": 768,
+      "contentWidth": 758,
+      "contentScrollWidth": 758,
+      "overflows": []
+    },
+    {
+      "path": "/reports",
+      "width": 768,
+      "docWidth": 768,
+      "contentWidth": 758,
+      "contentScrollWidth": 758,
+      "overflows": []
+    },
+    {
+      "path": "/campus",
+      "width": 768,
+      "docWidth": 768,
+      "contentWidth": 758,
+      "contentScrollWidth": 758,
+      "overflows": []
+    },
+    {
+      "path": "/archive",
+      "width": 768,
+      "docWidth": 768,
+      "contentWidth": 758,
+      "contentScrollWidth": 758,
+      "overflows": []
+    },
+    {
+      "path": "/trend",
+      "width": 768,
+      "docWidth": 768,
+      "contentWidth": 758,
+      "contentScrollWidth": 758,
+      "overflows": []
+    },
+    {
+      "path": "/media",
+      "width": 768,
+      "docWidth": 768,
+      "contentWidth": 758,
+      "contentScrollWidth": 758,
+      "overflows": []
+    },
+    {
+      "path": "/standards",
+      "width": 768,
+      "docWidth": 768,
+      "contentWidth": 758,
+      "contentScrollWidth": 758,
+      "overflows": []
+    },
+    {
+      "path": "/",
+      "width": 1280,
+      "docWidth": 1280,
+      "contentWidth": 1022,
+      "contentScrollWidth": 1022,
+      "overflows": []
+    },
+    {
+      "path": "/dashboard",
+      "width": 1280,
+      "docWidth": 1280,
+      "contentWidth": 1022,
+      "contentScrollWidth": 1022,
+      "overflows": []
+    },
+    {
+      "path": "/monitor",
+      "width": 1280,
+      "docWidth": 1280,
+      "contentWidth": 1022,
+      "contentScrollWidth": 1022,
+      "overflows": []
+    },
+    {
+      "path": "/alarms",
+      "width": 1280,
+      "docWidth": 1280,
+      "contentWidth": 1022,
+      "contentScrollWidth": 1022,
+      "overflows": []
+    },
+    {
+      "path": "/inspection",
+      "width": 1280,
+      "docWidth": 1280,
+      "contentWidth": 1022,
+      "contentScrollWidth": 1022,
+      "overflows": []
+    },
+    {
+      "path": "/issues",
+      "width": 1280,
+      "docWidth": 1280,
+      "contentWidth": 1022,
+      "contentScrollWidth": 1022,
+      "overflows": []
+    },
+    {
+      "path": "/maintenance",
+      "width": 1280,
+      "docWidth": 1280,
+      "contentWidth": 1022,
+      "contentScrollWidth": 1022,
+      "overflows": []
+    },
+    {
+      "path": "/knowledge",
+      "width": 1280,
+      "docWidth": 1280,
+      "contentWidth": 1022,
+      "contentScrollWidth": 1022,
+      "overflows": []
+    },
+    {
+      "path": "/settings",
+      "width": 1280,
+      "docWidth": 1280,
+      "contentWidth": 1022,
+      "contentScrollWidth": 1022,
+      "overflows": []
+    },
+    {
+      "path": "/reports",
+      "width": 1280,
+      "docWidth": 1280,
+      "contentWidth": 1022,
+      "contentScrollWidth": 1022,
+      "overflows": []
+    },
+    {
+      "path": "/campus",
+      "width": 1280,
+      "docWidth": 1280,
+      "contentWidth": 1022,
+      "contentScrollWidth": 1022,
+      "overflows": []
+    },
+    {
+      "path": "/archive",
+      "width": 1280,
+      "docWidth": 1280,
+      "contentWidth": 1022,
+      "contentScrollWidth": 1022,
+      "overflows": []
+    },
+    {
+      "path": "/trend",
+      "width": 1280,
+      "docWidth": 1280,
+      "contentWidth": 1022,
+      "contentScrollWidth": 1022,
+      "overflows": []
+    },
+    {
+      "path": "/media",
+      "width": 1280,
+      "docWidth": 1280,
+      "contentWidth": 1022,
+      "contentScrollWidth": 1022,
+      "overflows": []
+    },
+    {
+      "path": "/standards",
+      "width": 1280,
+      "docWidth": 1280,
+      "contentWidth": 1022,
+      "contentScrollWidth": 1022,
+      "overflows": []
+    },
+    {
+      "path": "/",
+      "width": 1920,
+      "docWidth": 1920,
+      "contentWidth": 1662,
+      "contentScrollWidth": 1662,
+      "overflows": []
+    },
+    {
+      "path": "/dashboard",
+      "width": 1920,
+      "docWidth": 1920,
+      "contentWidth": 1662,
+      "contentScrollWidth": 1662,
+      "overflows": []
+    },
+    {
+      "path": "/monitor",
+      "width": 1920,
+      "docWidth": 1920,
+      "contentWidth": 1662,
+      "contentScrollWidth": 1662,
+      "overflows": []
+    },
+    {
+      "path": "/alarms",
+      "width": 1920,
+      "docWidth": 1920,
+      "contentWidth": 1662,
+      "contentScrollWidth": 1662,
+      "overflows": []
+    },
+    {
+      "path": "/inspection",
+      "width": 1920,
+      "docWidth": 1920,
+      "contentWidth": 1662,
+      "contentScrollWidth": 1662,
+      "overflows": []
+    },
+    {
+      "path": "/issues",
+      "width": 1920,
+      "docWidth": 1920,
+      "contentWidth": 1662,
+      "contentScrollWidth": 1662,
+      "overflows": []
+    },
+    {
+      "path": "/maintenance",
+      "width": 1920,
+      "docWidth": 1920,
+      "contentWidth": 1662,
+      "contentScrollWidth": 1662,
+      "overflows": []
+    },
+    {
+      "path": "/knowledge",
+      "width": 1920,
+      "docWidth": 1920,
+      "contentWidth": 1662,
+      "contentScrollWidth": 1662,
+      "overflows": []
+    },
+    {
+      "path": "/settings",
+      "width": 1920,
+      "docWidth": 1920,
+      "contentWidth": 1662,
+      "contentScrollWidth": 1662,
+      "overflows": []
+    },
+    {
+      "path": "/reports",
+      "width": 1920,
+      "docWidth": 1920,
+      "contentWidth": 1662,
+      "contentScrollWidth": 1662,
+      "overflows": []
+    },
+    {
+      "path": "/campus",
+      "width": 1920,
+      "docWidth": 1920,
+      "contentWidth": 1662,
+      "contentScrollWidth": 1662,
+      "overflows": []
+    },
+    {
+      "path": "/archive",
+      "width": 1920,
+      "docWidth": 1920,
+      "contentWidth": 1662,
+      "contentScrollWidth": 1662,
+      "overflows": []
+    },
+    {
+      "path": "/trend",
+      "width": 1920,
+      "docWidth": 1920,
+      "contentWidth": 1662,
+      "contentScrollWidth": 1662,
+      "overflows": []
+    },
+    {
+      "path": "/media",
+      "width": 1920,
+      "docWidth": 1920,
+      "contentWidth": 1662,
+      "contentScrollWidth": 1662,
+      "overflows": []
+    },
+    {
+      "path": "/standards",
+      "width": 1920,
+      "docWidth": 1920,
+      "contentWidth": 1662,
+      "contentScrollWidth": 1662,
+      "overflows": []
+    }
+  ],
+  "writes": [
+    {
+      "method": "POST",
+      "path": "/api/v1/demo/identity"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/datasets/demo-main/notifications/escalate"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/datasets/demo-main/notifications/escalate"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/datasets/demo-main/notifications/escalate"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/datasets/demo-main/notifications/escalate"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/datasets/demo-main/notifications/escalate"
+    }
+  ],
+  "validBusinessWrites": [],
+  "outboundRequests": [],
+  "note": "Navigation/dialogs/invalid validation only. Auth sessions and automatic notification receipts may be created by normal page startup; no valid records/issues/orders/media writes submitted."
+}

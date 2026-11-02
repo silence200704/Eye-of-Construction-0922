@@ -1,0 +1,10 @@
+{
+  "capturedAt": "2026-10-26T14:11:05.068504+00:00",
+  "bundle": "org.zhutong.mobile",
+  "phase": "appearance",
+  "result": {
+    "quietModeOperatesTasks": true,
+    "persistedAfterProcessRestart": true,
+    "finalMotion": true
+  }
+}

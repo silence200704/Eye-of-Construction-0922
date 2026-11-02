@@ -95,7 +95,7 @@ export async function loadCampusScenario(): Promise<DemoScenarioResult> {
     return makeResult(key, true, message, { skipped: active.length })
   }
   await archive.loadSeed()
-  const message = '已重建示例校区：4 栋楼 / 8 个楼层 / 8 个测点 / 4 台设备 / 2 条基准 / 8 条监测记录'
+  const message = '已重建示例校区：5 栋楼 / 13 个楼层 / 9 个测点 / 4 台设备 / 2 条基准 / 8 条监测记录'
   await logScenario(key, '示例校区建档', message)
   return makeResult(key, true, message, { created: 1, anchors: ['B03 3号教学楼'] })
 }

@@ -1,0 +1,110 @@
+[
+  {
+    "id": "",
+    "text": "预警处置",
+    "bounds": "[0,137][1320,332]",
+    "type": "TitleBar"
+  },
+  {
+    "id": "__NavdestinationField__BackButton__Back__",
+    "text": "",
+    "bounds": "[56,164][196,304]",
+    "type": "BackButton"
+  },
+  {
+    "id": "__NavdestinationField__Text__MainTitle__",
+    "text": "预警处置",
+    "bounds": "[224,193][504,275]",
+    "type": "Text"
+  },
+  {
+    "id": "alarm-note-open",
+    "text": "",
+    "bounds": "[63,332][1257,462]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "收起现场记录",
+    "bounds": "[123,342][1197,408]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "记录现场排查与措施",
+    "bounds": "[130,592][760,674]",
+    "type": "Text"
+  },
+  {
+    "id": "alarm-note-kind",
+    "text": "现场排查",
+    "bounds": "[130,716][532,891]",
+    "type": "Select"
+  },
+  {
+    "id": "alarm-field-note",
+    "text": "比赛模拟现场排查：已核对振动测点读数与安装环境，安排后续复测。",
+    "bounds": "[130,933][1190,1493]",
+    "type": "TextArea"
+  },
+  {
+    "id": "alarm-note-feedback",
+    "text": "暂时无法连接筑瞳服务，请检查服务地址与网络。",
+    "bounds": "[130,1535][1181,1659]",
+    "type": "Text"
+  },
+  {
+    "id": "alarm-retry",
+    "text": "",
+    "bounds": "[130,1701][1190,1876]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "用原请求核验办理结果",
+    "bounds": "[190,1756][1130,1822]",
+    "type": "Text"
+  },
+  {
+    "id": "alarm-note-save",
+    "text": "",
+    "bounds": "[130,1918][1190,2093]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "保存这次现场记录",
+    "bounds": "[190,1973][1130,2039]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "保存说明不会改变监测判定、验收结果或关闭事件。",
+    "bounds": "[130,2135][1177,2188]",
+    "type": "Text"
+  },
+  {
+    "id": "alarm-reload",
+    "text": "",
+    "bounds": "[63,2318][1257,2493]",
+    "type": "Button"
+  },
+  {
+    "id": "",
+    "text": "刷新当前预警",
+    "bounds": "[123,2373][1197,2439]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "声光模拟 · 仅本机预览",
+    "bounds": "[130,2623][833,2705]",
+    "type": "Text"
+  },
+  {
+    "id": "",
+    "text": "常亮色块 + 一次短音；不连接实体设备，停止预览不会确认或关闭事件。",
+    "bounds": "[130,2747][1182,2758]",
+    "type": "Text"
+  }
+]

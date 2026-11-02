@@ -1,0 +1,95 @@
+{
+  "order": null,
+  "issue": {
+    "id": "iss_a4d02452cb714ff0acc1571a42ae5b69",
+    "issueNo": "ISS-20261029-001",
+    "source": "report",
+    "submissionKey": "review-photo-issue",
+    "pointId": "pnt_d462d6c50005437ca6b39878165eeada",
+    "buildingId": "bld_e47e9bff5a0740f8b7a1f8a89cded28b",
+    "floorId": "flr_1b43b55d5f9749c883429913855d3ce2",
+    "zoneId": "",
+    "eventId": null,
+    "taskId": null,
+    "maintenanceTaskId": null,
+    "anomalyType": "模拟裂缝观察",
+    "description": "比赛模拟：裂缝观测点现场照片，用于核对原生已提交照片回读，非真实校园隐患。",
+    "photos": [
+      "att_7c237212970b47f8a352de974bdb3c25"
+    ],
+    "status": "closed",
+    "reviewAction": "to_repair",
+    "reviewCategory": "equipment",
+    "reviewedAt": "2026-10-30T03:54:52.007990+00:00",
+    "reviewedBy": "演示学校安全管理人员",
+    "reviewNote": "统一复验：转维修并派指定人",
+    "duplicateOf": null,
+    "linkedEventId": null,
+    "linkedFrom": [],
+    "workOrderIds": [
+      "wo_7cc2cc1007ca42f69c96cef1d374fa6e"
+    ],
+    "rechecks": [
+      {
+        "subject": "统一复验复查",
+        "owner": "演示学校安全管理人员",
+        "dueDate": "2026-11-06",
+        "at": "2026-10-30T03:56:42.812177+00:00",
+        "by": "演示学校安全管理人员",
+        "outcome": "recovered",
+        "outcomeAt": "2026-10-30T03:56:42.825168+00:00",
+        "outcomeBy": "演示学校安全管理人员",
+        "outcomeNote": "统一复验：现场复查恢复，关闭问题"
+      }
+    ],
+    "timeline": [
+      {
+        "at": "2026-10-29T06:20:06.008148+00:00",
+        "by": "演示巡检人员",
+        "byRole": "inspector",
+        "action": "提交问题",
+        "detail": "来源：report；比赛模拟：裂缝观测点现场照片，用于核对原生已提交照片回读，非真实校园隐患。"
+      },
+      {
+        "at": "2026-10-30T03:54:52.007990+00:00",
+        "by": "演示学校安全管理人员",
+        "byRole": "safety",
+        "action": "审核：to_repair（equipment）",
+        "detail": "统一复验：转维修并派指定人"
+      },
+      {
+        "at": "2026-10-30T03:54:52.007990+00:00",
+        "by": "演示学校安全管理人员",
+        "byRole": "safety",
+        "action": "生成维修工单",
+        "detail": "WO-20261030-001 待派工"
+      },
+      {
+        "at": "2026-10-30T03:56:42.763631+00:00",
+        "by": "演示学校安全管理人员",
+        "byRole": "safety",
+        "action": "进入待复查",
+        "detail": "工单 WO-20261030-001 验收通过；事件关闭还需要恢复条件与处置依据"
+      },
+      {
+        "at": "2026-10-30T03:56:42.812177+00:00",
+        "by": "演示学校安全管理人员",
+        "byRole": "safety",
+        "action": "登记复查",
+        "detail": "复查事项：统一复验复查；责任人：演示学校安全管理人员；目标日期：2026-11-06"
+      },
+      {
+        "at": "2026-10-30T03:56:42.825168+00:00",
+        "by": "演示学校安全管理人员",
+        "byRole": "safety",
+        "action": "复查：recovered",
+        "detail": "统一复验：现场复查恢复，关闭问题"
+      }
+    ],
+    "createdAt": "2026-10-29T06:20:06.008148+00:00",
+    "createdBy": "演示巡检人员",
+    "updatedAt": "2026-10-30T03:56:42.825168+00:00",
+    "updatedBy": "演示学校安全管理人员",
+    "rev": 5
+  }
+}

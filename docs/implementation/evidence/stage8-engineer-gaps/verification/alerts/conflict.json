@@ -1,0 +1,25 @@
+{
+  "appFeedback": [
+    "对象已被其他操作修改，请刷新后重试"
+  ],
+  "retryVisible": false,
+  "before": {
+    "events": 3,
+    "issues": 1,
+    "work_orders": 2,
+    "media_files": 4,
+    "attachments": 4,
+    "audits": 76,
+    "operation_receipts": 67
+  },
+  "after": {
+    "events": 3,
+    "issues": 1,
+    "work_orders": 2,
+    "media_files": 4,
+    "attachments": 4,
+    "audits": 76,
+    "operation_receipts": 67
+  },
+  "sameCounts": true
+}

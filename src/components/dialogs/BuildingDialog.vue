@@ -18,7 +18,7 @@ const emit = defineEmits<{ close: []; saved: [id: string] }>()
 
 const archive = useArchiveStore()
 const fields = computed(() => buildingFields())
-const { model, errors, submitError, reset, mergeIssues, run } = useFormModel(() => fields.value)
+const { model, errors, submitError, pending, reset, mergeIssues, run } = useFormModel(() => fields.value)
 const footprint = ref<Footprint>({ x: 0.5, y: 0.5, w: 0.18, h: 0.16, rotate: 0 })
 
 function str(key: string): string {
@@ -175,7 +175,7 @@ async function submit(): Promise<void> {
 
     <template #footer>
       <AppButton @click="emit('close')">取消</AppButton>
-      <AppButton variant="primary" @click="submit">保存档案</AppButton>
+      <AppButton variant="primary" :loading="pending" @click="submit">保存档案</AppButton>
     </template>
   </AppModal>
 </template>

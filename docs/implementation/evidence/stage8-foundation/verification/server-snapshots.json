@@ -1,0 +1,1257 @@
+{
+  "capturedAt": "2026-10-26T10:06:28.016748+00:00",
+  "rows": [
+    {
+      "identityId": "demo-safety",
+      "role": "safety",
+      "buildingIds": null,
+      "epoch": 1,
+      "activePoints": 8,
+      "points": [
+        {
+          "id": "pnt_b01_f1_check01",
+          "code": "B01-F1-CHECK01",
+          "type": "manual_check",
+          "name": "一层走廊人工检查点"
+        },
+        {
+          "id": "pnt_b02_f1_check01",
+          "code": "B02-F1-CHECK01",
+          "type": "manual_check",
+          "name": "一层走廊人工检查点"
+        },
+        {
+          "id": "pnt_b03_f1_check01",
+          "code": "B03-F1-CHECK01",
+          "type": "manual_check",
+          "name": "一层走廊人工检查点"
+        },
+        {
+          "id": "pnt_b03_f2_crack01",
+          "code": "B03-F2-CRACK01",
+          "type": "crack",
+          "name": "二层走廊西墙裂缝测点"
+        },
+        {
+          "id": "pnt_b03_f2_th01",
+          "code": "B03-F2-TH01",
+          "type": "temp_humidity",
+          "name": "二层走廊温湿度辅助测点"
+        },
+        {
+          "id": "pnt_b03_f2_tilt01",
+          "code": "B03-F2-TILT01",
+          "type": "tilt",
+          "name": "二层走廊中柱倾角测点"
+        },
+        {
+          "id": "pnt_b03_f2_vib01",
+          "code": "B03-F2-VIB01",
+          "type": "vibration",
+          "name": "二层楼板振动测点"
+        },
+        {
+          "id": "pnt_b04_f1_check01",
+          "code": "B04-F1-CHECK01",
+          "type": "manual_check",
+          "name": "一层主馆区人工检查点"
+        }
+      ],
+      "events": [
+        {
+          "id": "evt_f92dbbbf8e5847e7a739bee286a849a5",
+          "eventNo": "E20261018-001",
+          "status": "handling",
+          "level": "orange"
+        },
+        {
+          "id": "evt_e424123e27954387a43ba7d212e32205",
+          "eventNo": "E20261018-002",
+          "status": "closed",
+          "level": "red"
+        }
+      ],
+      "records": [
+        {
+          "id": "rec_seed_01",
+          "pointId": "pnt_b03_f2_crack01",
+          "sampleTime": "2026-09-15T02:05:00.000Z",
+          "values": {
+            "width": 0.52
+          },
+          "unit": "mm"
+        },
+        {
+          "id": "rec_seed_02",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-09-16T01:45:00.000Z",
+          "values": {
+            "angleX": 0.04,
+            "angleY": -0.02
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_seed_07",
+          "pointId": "pnt_b03_f2_th01",
+          "sampleTime": "2026-09-16T06:00:00.000Z",
+          "values": {
+            "temperature": 24.6,
+            "humidity": 58.2
+          },
+          "unit": "℃ / %RH"
+        },
+        {
+          "id": "rec_seed_03",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-09-17T01:10:00.000Z",
+          "values": {
+            "angleX": 0.05,
+            "angleY": -0.02
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_seed_05",
+          "pointId": "pnt_b03_f2_vib01",
+          "sampleTime": "2026-09-17T07:10:00.000Z",
+          "values": {
+            "accelRms": 0.042,
+            "accelPeak": 0.15
+          },
+          "unit": "m/s²"
+        },
+        {
+          "id": "rec_seed_04",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-09-18T01:20:00.000Z",
+          "values": {
+            "angleX": 0.05,
+            "angleY": -0.03
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_seed_08",
+          "pointId": "pnt_b03_f2_th01",
+          "sampleTime": "2026-09-18T06:05:00.000Z",
+          "values": {
+            "temperature": 26.1,
+            "humidity": 61.5
+          },
+          "unit": "℃ / %RH"
+        },
+        {
+          "id": "rec_seed_06",
+          "pointId": "pnt_b03_f2_vib01",
+          "sampleTime": "2026-09-18T07:25:00.000Z",
+          "values": {
+            "accelRms": 0.061,
+            "accelPeak": 0.213
+          },
+          "unit": "m/s²"
+        },
+        {
+          "id": "rec_5c0b2db348934a4daaf4a5e01a13f977",
+          "pointId": "pnt_b03_f2_crack01",
+          "sampleTime": "2026-10-18T09:00:00.000Z",
+          "values": {
+            "width": 0.56
+          },
+          "unit": "mm"
+        },
+        {
+          "id": "rec_b51f12e088064c75b2f17ebd0bea37c0",
+          "pointId": "pnt_b03_f2_crack01",
+          "sampleTime": "2026-10-18T09:05:00+00:00",
+          "values": {
+            "width": 0.62
+          },
+          "unit": "mm"
+        },
+        {
+          "id": "rec_477f52ef6aaa453799a7c0dd6543849a",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-10-18T10:13:48.110889+00:00",
+          "values": {
+            "angleX": 0.12,
+            "angleY": 0.0
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_ce5c992e73494c64bbea2439dae21254",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-10-18T10:14:48.110889+00:00",
+          "values": {
+            "angleX": 0.22,
+            "angleY": 0.0
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_e0e4aad879e743d093f217deb23d0a40",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-10-18T10:15:48.110889+00:00",
+          "values": {
+            "angleX": 0.32,
+            "angleY": 0.0
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_4bf39921bb8a45f5933d22d7f85dbce3",
+          "pointId": "pnt_b03_f2_crack01",
+          "sampleTime": "2026-10-18T10:16:00.000Z",
+          "values": {
+            "width": 0.52
+          },
+          "unit": "mm"
+        },
+        {
+          "id": "rec_7a4611bb08dc4911b1df205027122597",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-10-18T10:16:48.110889+00:00",
+          "values": {
+            "angleX": 0.05,
+            "angleY": 0.0
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_887c64a29d7b44339b4da69f1fe6156a",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-10-18T10:17:48.110889+00:00",
+          "values": {
+            "angleX": 0.06,
+            "angleY": 0.0
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_4fb9a443c24e437f9095e771ff7ffe52",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-10-18T10:18:48.110889+00:00",
+          "values": {
+            "angleX": 0.07,
+            "angleY": 0.0
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_911e7fa917154440b25f3530790b1806",
+          "pointId": "pnt_b03_f2_crack01",
+          "sampleTime": "2026-10-18T10:21:44.857474+00:00",
+          "values": {
+            "width": 0.6
+          },
+          "unit": "mm"
+        }
+      ],
+      "tasks": [],
+      "orders": []
+    },
+    {
+      "identityId": "demo-property",
+      "role": "property",
+      "buildingIds": null,
+      "epoch": 1,
+      "activePoints": 8,
+      "points": [
+        {
+          "id": "pnt_b01_f1_check01",
+          "code": "B01-F1-CHECK01",
+          "type": "manual_check",
+          "name": "一层走廊人工检查点"
+        },
+        {
+          "id": "pnt_b02_f1_check01",
+          "code": "B02-F1-CHECK01",
+          "type": "manual_check",
+          "name": "一层走廊人工检查点"
+        },
+        {
+          "id": "pnt_b03_f1_check01",
+          "code": "B03-F1-CHECK01",
+          "type": "manual_check",
+          "name": "一层走廊人工检查点"
+        },
+        {
+          "id": "pnt_b03_f2_crack01",
+          "code": "B03-F2-CRACK01",
+          "type": "crack",
+          "name": "二层走廊西墙裂缝测点"
+        },
+        {
+          "id": "pnt_b03_f2_th01",
+          "code": "B03-F2-TH01",
+          "type": "temp_humidity",
+          "name": "二层走廊温湿度辅助测点"
+        },
+        {
+          "id": "pnt_b03_f2_tilt01",
+          "code": "B03-F2-TILT01",
+          "type": "tilt",
+          "name": "二层走廊中柱倾角测点"
+        },
+        {
+          "id": "pnt_b03_f2_vib01",
+          "code": "B03-F2-VIB01",
+          "type": "vibration",
+          "name": "二层楼板振动测点"
+        },
+        {
+          "id": "pnt_b04_f1_check01",
+          "code": "B04-F1-CHECK01",
+          "type": "manual_check",
+          "name": "一层主馆区人工检查点"
+        }
+      ],
+      "events": [
+        {
+          "id": "evt_f92dbbbf8e5847e7a739bee286a849a5",
+          "eventNo": "E20261018-001",
+          "status": "handling",
+          "level": "orange"
+        },
+        {
+          "id": "evt_e424123e27954387a43ba7d212e32205",
+          "eventNo": "E20261018-002",
+          "status": "closed",
+          "level": "red"
+        }
+      ],
+      "records": [
+        {
+          "id": "rec_seed_01",
+          "pointId": "pnt_b03_f2_crack01",
+          "sampleTime": "2026-09-15T02:05:00.000Z",
+          "values": {
+            "width": 0.52
+          },
+          "unit": "mm"
+        },
+        {
+          "id": "rec_seed_02",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-09-16T01:45:00.000Z",
+          "values": {
+            "angleX": 0.04,
+            "angleY": -0.02
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_seed_07",
+          "pointId": "pnt_b03_f2_th01",
+          "sampleTime": "2026-09-16T06:00:00.000Z",
+          "values": {
+            "temperature": 24.6,
+            "humidity": 58.2
+          },
+          "unit": "℃ / %RH"
+        },
+        {
+          "id": "rec_seed_03",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-09-17T01:10:00.000Z",
+          "values": {
+            "angleX": 0.05,
+            "angleY": -0.02
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_seed_05",
+          "pointId": "pnt_b03_f2_vib01",
+          "sampleTime": "2026-09-17T07:10:00.000Z",
+          "values": {
+            "accelRms": 0.042,
+            "accelPeak": 0.15
+          },
+          "unit": "m/s²"
+        },
+        {
+          "id": "rec_seed_04",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-09-18T01:20:00.000Z",
+          "values": {
+            "angleX": 0.05,
+            "angleY": -0.03
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_seed_08",
+          "pointId": "pnt_b03_f2_th01",
+          "sampleTime": "2026-09-18T06:05:00.000Z",
+          "values": {
+            "temperature": 26.1,
+            "humidity": 61.5
+          },
+          "unit": "℃ / %RH"
+        },
+        {
+          "id": "rec_seed_06",
+          "pointId": "pnt_b03_f2_vib01",
+          "sampleTime": "2026-09-18T07:25:00.000Z",
+          "values": {
+            "accelRms": 0.061,
+            "accelPeak": 0.213
+          },
+          "unit": "m/s²"
+        },
+        {
+          "id": "rec_5c0b2db348934a4daaf4a5e01a13f977",
+          "pointId": "pnt_b03_f2_crack01",
+          "sampleTime": "2026-10-18T09:00:00.000Z",
+          "values": {
+            "width": 0.56
+          },
+          "unit": "mm"
+        },
+        {
+          "id": "rec_b51f12e088064c75b2f17ebd0bea37c0",
+          "pointId": "pnt_b03_f2_crack01",
+          "sampleTime": "2026-10-18T09:05:00+00:00",
+          "values": {
+            "width": 0.62
+          },
+          "unit": "mm"
+        },
+        {
+          "id": "rec_477f52ef6aaa453799a7c0dd6543849a",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-10-18T10:13:48.110889+00:00",
+          "values": {
+            "angleX": 0.12,
+            "angleY": 0.0
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_ce5c992e73494c64bbea2439dae21254",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-10-18T10:14:48.110889+00:00",
+          "values": {
+            "angleX": 0.22,
+            "angleY": 0.0
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_e0e4aad879e743d093f217deb23d0a40",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-10-18T10:15:48.110889+00:00",
+          "values": {
+            "angleX": 0.32,
+            "angleY": 0.0
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_4bf39921bb8a45f5933d22d7f85dbce3",
+          "pointId": "pnt_b03_f2_crack01",
+          "sampleTime": "2026-10-18T10:16:00.000Z",
+          "values": {
+            "width": 0.52
+          },
+          "unit": "mm"
+        },
+        {
+          "id": "rec_7a4611bb08dc4911b1df205027122597",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-10-18T10:16:48.110889+00:00",
+          "values": {
+            "angleX": 0.05,
+            "angleY": 0.0
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_887c64a29d7b44339b4da69f1fe6156a",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-10-18T10:17:48.110889+00:00",
+          "values": {
+            "angleX": 0.06,
+            "angleY": 0.0
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_4fb9a443c24e437f9095e771ff7ffe52",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-10-18T10:18:48.110889+00:00",
+          "values": {
+            "angleX": 0.07,
+            "angleY": 0.0
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_911e7fa917154440b25f3530790b1806",
+          "pointId": "pnt_b03_f2_crack01",
+          "sampleTime": "2026-10-18T10:21:44.857474+00:00",
+          "values": {
+            "width": 0.6
+          },
+          "unit": "mm"
+        }
+      ],
+      "tasks": [],
+      "orders": []
+    },
+    {
+      "identityId": "demo-device",
+      "role": "device",
+      "buildingIds": null,
+      "epoch": 1,
+      "activePoints": 8,
+      "points": [
+        {
+          "id": "pnt_b01_f1_check01",
+          "code": "B01-F1-CHECK01",
+          "type": "manual_check",
+          "name": "一层走廊人工检查点"
+        },
+        {
+          "id": "pnt_b02_f1_check01",
+          "code": "B02-F1-CHECK01",
+          "type": "manual_check",
+          "name": "一层走廊人工检查点"
+        },
+        {
+          "id": "pnt_b03_f1_check01",
+          "code": "B03-F1-CHECK01",
+          "type": "manual_check",
+          "name": "一层走廊人工检查点"
+        },
+        {
+          "id": "pnt_b03_f2_crack01",
+          "code": "B03-F2-CRACK01",
+          "type": "crack",
+          "name": "二层走廊西墙裂缝测点"
+        },
+        {
+          "id": "pnt_b03_f2_th01",
+          "code": "B03-F2-TH01",
+          "type": "temp_humidity",
+          "name": "二层走廊温湿度辅助测点"
+        },
+        {
+          "id": "pnt_b03_f2_tilt01",
+          "code": "B03-F2-TILT01",
+          "type": "tilt",
+          "name": "二层走廊中柱倾角测点"
+        },
+        {
+          "id": "pnt_b03_f2_vib01",
+          "code": "B03-F2-VIB01",
+          "type": "vibration",
+          "name": "二层楼板振动测点"
+        },
+        {
+          "id": "pnt_b04_f1_check01",
+          "code": "B04-F1-CHECK01",
+          "type": "manual_check",
+          "name": "一层主馆区人工检查点"
+        }
+      ],
+      "events": [
+        {
+          "id": "evt_f92dbbbf8e5847e7a739bee286a849a5",
+          "eventNo": "E20261018-001",
+          "status": "handling",
+          "level": "orange"
+        },
+        {
+          "id": "evt_e424123e27954387a43ba7d212e32205",
+          "eventNo": "E20261018-002",
+          "status": "closed",
+          "level": "red"
+        }
+      ],
+      "records": [
+        {
+          "id": "rec_seed_01",
+          "pointId": "pnt_b03_f2_crack01",
+          "sampleTime": "2026-09-15T02:05:00.000Z",
+          "values": {
+            "width": 0.52
+          },
+          "unit": "mm"
+        },
+        {
+          "id": "rec_seed_02",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-09-16T01:45:00.000Z",
+          "values": {
+            "angleX": 0.04,
+            "angleY": -0.02
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_seed_07",
+          "pointId": "pnt_b03_f2_th01",
+          "sampleTime": "2026-09-16T06:00:00.000Z",
+          "values": {
+            "temperature": 24.6,
+            "humidity": 58.2
+          },
+          "unit": "℃ / %RH"
+        },
+        {
+          "id": "rec_seed_03",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-09-17T01:10:00.000Z",
+          "values": {
+            "angleX": 0.05,
+            "angleY": -0.02
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_seed_05",
+          "pointId": "pnt_b03_f2_vib01",
+          "sampleTime": "2026-09-17T07:10:00.000Z",
+          "values": {
+            "accelRms": 0.042,
+            "accelPeak": 0.15
+          },
+          "unit": "m/s²"
+        },
+        {
+          "id": "rec_seed_04",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-09-18T01:20:00.000Z",
+          "values": {
+            "angleX": 0.05,
+            "angleY": -0.03
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_seed_08",
+          "pointId": "pnt_b03_f2_th01",
+          "sampleTime": "2026-09-18T06:05:00.000Z",
+          "values": {
+            "temperature": 26.1,
+            "humidity": 61.5
+          },
+          "unit": "℃ / %RH"
+        },
+        {
+          "id": "rec_seed_06",
+          "pointId": "pnt_b03_f2_vib01",
+          "sampleTime": "2026-09-18T07:25:00.000Z",
+          "values": {
+            "accelRms": 0.061,
+            "accelPeak": 0.213
+          },
+          "unit": "m/s²"
+        },
+        {
+          "id": "rec_5c0b2db348934a4daaf4a5e01a13f977",
+          "pointId": "pnt_b03_f2_crack01",
+          "sampleTime": "2026-10-18T09:00:00.000Z",
+          "values": {
+            "width": 0.56
+          },
+          "unit": "mm"
+        },
+        {
+          "id": "rec_b51f12e088064c75b2f17ebd0bea37c0",
+          "pointId": "pnt_b03_f2_crack01",
+          "sampleTime": "2026-10-18T09:05:00+00:00",
+          "values": {
+            "width": 0.62
+          },
+          "unit": "mm"
+        },
+        {
+          "id": "rec_477f52ef6aaa453799a7c0dd6543849a",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-10-18T10:13:48.110889+00:00",
+          "values": {
+            "angleX": 0.12,
+            "angleY": 0.0
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_ce5c992e73494c64bbea2439dae21254",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-10-18T10:14:48.110889+00:00",
+          "values": {
+            "angleX": 0.22,
+            "angleY": 0.0
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_e0e4aad879e743d093f217deb23d0a40",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-10-18T10:15:48.110889+00:00",
+          "values": {
+            "angleX": 0.32,
+            "angleY": 0.0
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_4bf39921bb8a45f5933d22d7f85dbce3",
+          "pointId": "pnt_b03_f2_crack01",
+          "sampleTime": "2026-10-18T10:16:00.000Z",
+          "values": {
+            "width": 0.52
+          },
+          "unit": "mm"
+        },
+        {
+          "id": "rec_7a4611bb08dc4911b1df205027122597",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-10-18T10:16:48.110889+00:00",
+          "values": {
+            "angleX": 0.05,
+            "angleY": 0.0
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_887c64a29d7b44339b4da69f1fe6156a",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-10-18T10:17:48.110889+00:00",
+          "values": {
+            "angleX": 0.06,
+            "angleY": 0.0
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_4fb9a443c24e437f9095e771ff7ffe52",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-10-18T10:18:48.110889+00:00",
+          "values": {
+            "angleX": 0.07,
+            "angleY": 0.0
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_911e7fa917154440b25f3530790b1806",
+          "pointId": "pnt_b03_f2_crack01",
+          "sampleTime": "2026-10-18T10:21:44.857474+00:00",
+          "values": {
+            "width": 0.6
+          },
+          "unit": "mm"
+        }
+      ],
+      "tasks": [],
+      "orders": []
+    },
+    {
+      "identityId": "demo-inspector",
+      "role": "inspector",
+      "buildingIds": null,
+      "epoch": 1,
+      "activePoints": 8,
+      "points": [
+        {
+          "id": "pnt_b01_f1_check01",
+          "code": "B01-F1-CHECK01",
+          "type": "manual_check",
+          "name": "一层走廊人工检查点"
+        },
+        {
+          "id": "pnt_b02_f1_check01",
+          "code": "B02-F1-CHECK01",
+          "type": "manual_check",
+          "name": "一层走廊人工检查点"
+        },
+        {
+          "id": "pnt_b03_f1_check01",
+          "code": "B03-F1-CHECK01",
+          "type": "manual_check",
+          "name": "一层走廊人工检查点"
+        },
+        {
+          "id": "pnt_b03_f2_crack01",
+          "code": "B03-F2-CRACK01",
+          "type": "crack",
+          "name": "二层走廊西墙裂缝测点"
+        },
+        {
+          "id": "pnt_b03_f2_th01",
+          "code": "B03-F2-TH01",
+          "type": "temp_humidity",
+          "name": "二层走廊温湿度辅助测点"
+        },
+        {
+          "id": "pnt_b03_f2_tilt01",
+          "code": "B03-F2-TILT01",
+          "type": "tilt",
+          "name": "二层走廊中柱倾角测点"
+        },
+        {
+          "id": "pnt_b03_f2_vib01",
+          "code": "B03-F2-VIB01",
+          "type": "vibration",
+          "name": "二层楼板振动测点"
+        },
+        {
+          "id": "pnt_b04_f1_check01",
+          "code": "B04-F1-CHECK01",
+          "type": "manual_check",
+          "name": "一层主馆区人工检查点"
+        }
+      ],
+      "events": [
+        {
+          "id": "evt_f92dbbbf8e5847e7a739bee286a849a5",
+          "eventNo": "E20261018-001",
+          "status": "handling",
+          "level": "orange"
+        },
+        {
+          "id": "evt_e424123e27954387a43ba7d212e32205",
+          "eventNo": "E20261018-002",
+          "status": "closed",
+          "level": "red"
+        }
+      ],
+      "records": [
+        {
+          "id": "rec_seed_01",
+          "pointId": "pnt_b03_f2_crack01",
+          "sampleTime": "2026-09-15T02:05:00.000Z",
+          "values": {
+            "width": 0.52
+          },
+          "unit": "mm"
+        },
+        {
+          "id": "rec_seed_02",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-09-16T01:45:00.000Z",
+          "values": {
+            "angleX": 0.04,
+            "angleY": -0.02
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_seed_07",
+          "pointId": "pnt_b03_f2_th01",
+          "sampleTime": "2026-09-16T06:00:00.000Z",
+          "values": {
+            "temperature": 24.6,
+            "humidity": 58.2
+          },
+          "unit": "℃ / %RH"
+        },
+        {
+          "id": "rec_seed_03",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-09-17T01:10:00.000Z",
+          "values": {
+            "angleX": 0.05,
+            "angleY": -0.02
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_seed_05",
+          "pointId": "pnt_b03_f2_vib01",
+          "sampleTime": "2026-09-17T07:10:00.000Z",
+          "values": {
+            "accelRms": 0.042,
+            "accelPeak": 0.15
+          },
+          "unit": "m/s²"
+        },
+        {
+          "id": "rec_seed_04",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-09-18T01:20:00.000Z",
+          "values": {
+            "angleX": 0.05,
+            "angleY": -0.03
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_seed_08",
+          "pointId": "pnt_b03_f2_th01",
+          "sampleTime": "2026-09-18T06:05:00.000Z",
+          "values": {
+            "temperature": 26.1,
+            "humidity": 61.5
+          },
+          "unit": "℃ / %RH"
+        },
+        {
+          "id": "rec_seed_06",
+          "pointId": "pnt_b03_f2_vib01",
+          "sampleTime": "2026-09-18T07:25:00.000Z",
+          "values": {
+            "accelRms": 0.061,
+            "accelPeak": 0.213
+          },
+          "unit": "m/s²"
+        },
+        {
+          "id": "rec_5c0b2db348934a4daaf4a5e01a13f977",
+          "pointId": "pnt_b03_f2_crack01",
+          "sampleTime": "2026-10-18T09:00:00.000Z",
+          "values": {
+            "width": 0.56
+          },
+          "unit": "mm"
+        },
+        {
+          "id": "rec_b51f12e088064c75b2f17ebd0bea37c0",
+          "pointId": "pnt_b03_f2_crack01",
+          "sampleTime": "2026-10-18T09:05:00+00:00",
+          "values": {
+            "width": 0.62
+          },
+          "unit": "mm"
+        },
+        {
+          "id": "rec_477f52ef6aaa453799a7c0dd6543849a",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-10-18T10:13:48.110889+00:00",
+          "values": {
+            "angleX": 0.12,
+            "angleY": 0.0
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_ce5c992e73494c64bbea2439dae21254",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-10-18T10:14:48.110889+00:00",
+          "values": {
+            "angleX": 0.22,
+            "angleY": 0.0
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_e0e4aad879e743d093f217deb23d0a40",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-10-18T10:15:48.110889+00:00",
+          "values": {
+            "angleX": 0.32,
+            "angleY": 0.0
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_4bf39921bb8a45f5933d22d7f85dbce3",
+          "pointId": "pnt_b03_f2_crack01",
+          "sampleTime": "2026-10-18T10:16:00.000Z",
+          "values": {
+            "width": 0.52
+          },
+          "unit": "mm"
+        },
+        {
+          "id": "rec_7a4611bb08dc4911b1df205027122597",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-10-18T10:16:48.110889+00:00",
+          "values": {
+            "angleX": 0.05,
+            "angleY": 0.0
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_887c64a29d7b44339b4da69f1fe6156a",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-10-18T10:17:48.110889+00:00",
+          "values": {
+            "angleX": 0.06,
+            "angleY": 0.0
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_4fb9a443c24e437f9095e771ff7ffe52",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-10-18T10:18:48.110889+00:00",
+          "values": {
+            "angleX": 0.07,
+            "angleY": 0.0
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_911e7fa917154440b25f3530790b1806",
+          "pointId": "pnt_b03_f2_crack01",
+          "sampleTime": "2026-10-18T10:21:44.857474+00:00",
+          "values": {
+            "width": 0.6
+          },
+          "unit": "mm"
+        }
+      ],
+      "tasks": [],
+      "orders": []
+    },
+    {
+      "identityId": "demo-repair",
+      "role": "repair",
+      "buildingIds": null,
+      "epoch": 1,
+      "activePoints": 8,
+      "points": [
+        {
+          "id": "pnt_b01_f1_check01",
+          "code": "B01-F1-CHECK01",
+          "type": "manual_check",
+          "name": "一层走廊人工检查点"
+        },
+        {
+          "id": "pnt_b02_f1_check01",
+          "code": "B02-F1-CHECK01",
+          "type": "manual_check",
+          "name": "一层走廊人工检查点"
+        },
+        {
+          "id": "pnt_b03_f1_check01",
+          "code": "B03-F1-CHECK01",
+          "type": "manual_check",
+          "name": "一层走廊人工检查点"
+        },
+        {
+          "id": "pnt_b03_f2_crack01",
+          "code": "B03-F2-CRACK01",
+          "type": "crack",
+          "name": "二层走廊西墙裂缝测点"
+        },
+        {
+          "id": "pnt_b03_f2_th01",
+          "code": "B03-F2-TH01",
+          "type": "temp_humidity",
+          "name": "二层走廊温湿度辅助测点"
+        },
+        {
+          "id": "pnt_b03_f2_tilt01",
+          "code": "B03-F2-TILT01",
+          "type": "tilt",
+          "name": "二层走廊中柱倾角测点"
+        },
+        {
+          "id": "pnt_b03_f2_vib01",
+          "code": "B03-F2-VIB01",
+          "type": "vibration",
+          "name": "二层楼板振动测点"
+        },
+        {
+          "id": "pnt_b04_f1_check01",
+          "code": "B04-F1-CHECK01",
+          "type": "manual_check",
+          "name": "一层主馆区人工检查点"
+        }
+      ],
+      "events": [
+        {
+          "id": "evt_f92dbbbf8e5847e7a739bee286a849a5",
+          "eventNo": "E20261018-001",
+          "status": "handling",
+          "level": "orange"
+        },
+        {
+          "id": "evt_e424123e27954387a43ba7d212e32205",
+          "eventNo": "E20261018-002",
+          "status": "closed",
+          "level": "red"
+        }
+      ],
+      "records": [
+        {
+          "id": "rec_seed_01",
+          "pointId": "pnt_b03_f2_crack01",
+          "sampleTime": "2026-09-15T02:05:00.000Z",
+          "values": {
+            "width": 0.52
+          },
+          "unit": "mm"
+        },
+        {
+          "id": "rec_seed_02",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-09-16T01:45:00.000Z",
+          "values": {
+            "angleX": 0.04,
+            "angleY": -0.02
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_seed_07",
+          "pointId": "pnt_b03_f2_th01",
+          "sampleTime": "2026-09-16T06:00:00.000Z",
+          "values": {
+            "temperature": 24.6,
+            "humidity": 58.2
+          },
+          "unit": "℃ / %RH"
+        },
+        {
+          "id": "rec_seed_03",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-09-17T01:10:00.000Z",
+          "values": {
+            "angleX": 0.05,
+            "angleY": -0.02
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_seed_05",
+          "pointId": "pnt_b03_f2_vib01",
+          "sampleTime": "2026-09-17T07:10:00.000Z",
+          "values": {
+            "accelRms": 0.042,
+            "accelPeak": 0.15
+          },
+          "unit": "m/s²"
+        },
+        {
+          "id": "rec_seed_04",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-09-18T01:20:00.000Z",
+          "values": {
+            "angleX": 0.05,
+            "angleY": -0.03
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_seed_08",
+          "pointId": "pnt_b03_f2_th01",
+          "sampleTime": "2026-09-18T06:05:00.000Z",
+          "values": {
+            "temperature": 26.1,
+            "humidity": 61.5
+          },
+          "unit": "℃ / %RH"
+        },
+        {
+          "id": "rec_seed_06",
+          "pointId": "pnt_b03_f2_vib01",
+          "sampleTime": "2026-09-18T07:25:00.000Z",
+          "values": {
+            "accelRms": 0.061,
+            "accelPeak": 0.213
+          },
+          "unit": "m/s²"
+        },
+        {
+          "id": "rec_5c0b2db348934a4daaf4a5e01a13f977",
+          "pointId": "pnt_b03_f2_crack01",
+          "sampleTime": "2026-10-18T09:00:00.000Z",
+          "values": {
+            "width": 0.56
+          },
+          "unit": "mm"
+        },
+        {
+          "id": "rec_b51f12e088064c75b2f17ebd0bea37c0",
+          "pointId": "pnt_b03_f2_crack01",
+          "sampleTime": "2026-10-18T09:05:00+00:00",
+          "values": {
+            "width": 0.62
+          },
+          "unit": "mm"
+        },
+        {
+          "id": "rec_477f52ef6aaa453799a7c0dd6543849a",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-10-18T10:13:48.110889+00:00",
+          "values": {
+            "angleX": 0.12,
+            "angleY": 0.0
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_ce5c992e73494c64bbea2439dae21254",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-10-18T10:14:48.110889+00:00",
+          "values": {
+            "angleX": 0.22,
+            "angleY": 0.0
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_e0e4aad879e743d093f217deb23d0a40",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-10-18T10:15:48.110889+00:00",
+          "values": {
+            "angleX": 0.32,
+            "angleY": 0.0
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_4bf39921bb8a45f5933d22d7f85dbce3",
+          "pointId": "pnt_b03_f2_crack01",
+          "sampleTime": "2026-10-18T10:16:00.000Z",
+          "values": {
+            "width": 0.52
+          },
+          "unit": "mm"
+        },
+        {
+          "id": "rec_7a4611bb08dc4911b1df205027122597",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-10-18T10:16:48.110889+00:00",
+          "values": {
+            "angleX": 0.05,
+            "angleY": 0.0
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_887c64a29d7b44339b4da69f1fe6156a",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-10-18T10:17:48.110889+00:00",
+          "values": {
+            "angleX": 0.06,
+            "angleY": 0.0
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_4fb9a443c24e437f9095e771ff7ffe52",
+          "pointId": "pnt_b03_f2_tilt01",
+          "sampleTime": "2026-10-18T10:18:48.110889+00:00",
+          "values": {
+            "angleX": 0.07,
+            "angleY": 0.0
+          },
+          "unit": "°"
+        },
+        {
+          "id": "rec_911e7fa917154440b25f3530790b1806",
+          "pointId": "pnt_b03_f2_crack01",
+          "sampleTime": "2026-10-18T10:21:44.857474+00:00",
+          "values": {
+            "width": 0.6
+          },
+          "unit": "mm"
+        }
+      ],
+      "tasks": [],
+      "orders": []
+    }
+  ],
+  "authTokensExported": false,
+  "temporaryVerifierSessionsLoggedOut": true
+}

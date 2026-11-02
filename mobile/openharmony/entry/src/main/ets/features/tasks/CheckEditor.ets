@@ -1,3 +1,5 @@
+import { BusinessStore } from '../../core/business/BusinessStore';
+import { scopeKey } from '../../core/offline/OfflineModels';
 import { controlHeight } from '../../shared/layout/ReadingLayout';
 import { AppState } from '../../shared/state/AppState';
 import { InspectionTask } from '../../data/models/Tasks';
@@ -13,10 +15,12 @@ import { ChecklistForm } from './ChecklistForm';
 @Component
 export struct CheckEditor {
   @StorageProp('zhutong.fontScale') textScale: number = 1;
+  store: BusinessStore | undefined = undefined;
+  @State loadingDraft: boolean = false;
   @Prop state: AppState;
   @Prop task: InspectionTask;
   @Prop @Watch('switchPoint') pointId: string;
-  @State draft: CheckDraft = new CheckDraft();
+  @State @Watch('persist') draft: CheckDraft = new CheckDraft();
   @State localMessage: string = '';
   @State localColor: string = Theme.brand;
   private drafts: Map<string, CheckDraft> = new Map();
@@ -32,13 +36,30 @@ export struct CheckEditor {
 
   switchPoint(): void {
     if (this.selected) this.drafts.set(this.selected, this.draft.copy());
-    this.selected = this.pointId;
+    this.loadingDraft = true; this.selected = this.pointId;
     this.draft = this.drafts.get(this.pointId)?.copy() ?? new CheckDraft(this.task, this.pointId);
     this.localMessage = '';
+    void this.restoreDraft();
+  }
+  private scope(): string { return this.state.user ? scopeKey({ baseUrl: this.state.baseUrl, user: this.state.user, workspace: this.state.workspace }) : ''; }
+  persist(): void {
+    if (!this.active || this.loadingDraft || !this.pointId) return;
+    void this.store?.saveForm(this.scope(), `check:${this.task.id}:${this.pointId}`, JSON.stringify(this.draft)).catch(() => { this.localMessage = '本地草稿保存失败，请勿离开。'; });
+  }
+  async restoreDraft(): Promise<void> {
+    const id = this.pointId; this.loadingDraft = true;
+    try {
+      const raw = await this.store?.form(this.scope(), `check:${this.task.id}:${id}`);
+      if (!raw || !this.active || id !== this.pointId) return;
+      const saved = JSON.parse(raw) as CheckDraft, draft = new CheckDraft();
+      draft.rev = saved.rev; draft.method = saved.method; draft.labelRead = saved.labelRead; draft.fallbackReason = saved.fallbackReason;
+      draft.answers = saved.answers; draft.linkedIssueId = saved.linkedIssueId; draft.noIssueReason = saved.noIssueReason; this.draft = draft;
+    } catch (_) { this.localMessage = '本地草稿暂不可读取，请保留数据。'; }
+    finally { this.loadingDraft = false; }
   }
 
   locked(): boolean {
-    return this.state.command.phase === 'sending' || this.state.command.phase === 'unknown' ||
+    return this.loadingDraft || this.state.command.phase === 'sending' || this.state.command.phase === 'unknown' ||
       this.state.user?.role !== this.task.planSnapshot.executorRole;
   }
 
